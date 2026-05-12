@@ -1,0 +1,778 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Herança e Especificidade</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="35df6ce8-497f-8052-80f7-d76a8028ab18" class="page sans"><header><div class="page-header-icon undefined"><img class="icon notion-static-icon" src="https://www.notion.so/icons/snippet_blue.svg"/></div><h1 class="page-title" dir="auto">Herança e Especificidade</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><div style="display:contents" dir="auto"><p id="35df6ce8-497f-803c-a4ac-ec1bd261af63" class=""><strong>Herança</strong> e <strong>especificidade</strong> são conceitos importantes do CSS que explicam <strong>como os estilos são aplicados e qual regra vence quando há conflito</strong>.</p></div><div style="display:contents" dir="auto"><p id="35df6ce8-497f-8061-ab37-e4f5c6ad2f65" class="">Eles ajudam a entender por que um estilo funciona ou não.</p></div><div style="display:contents" dir="auto"><hr id="35df6ce8-497f-80ad-abe3-e0d01d2b487c"/></div><div style="display:contents" dir="auto"><h1 id="35df6ce8-497f-804a-9854-f2ed22ff26de" class="">🌱 HERANÇA</h1></div><div style="display:contents" dir="auto"><p id="35df6ce8-497f-80ae-8a2c-c8e093706377" class="">A <strong>herança</strong> acontece quando alguns elementos filhos recebem automaticamente estilos do elemento pai.</p></div><div style="display:contents" dir="auto"><p id="35df6ce8-497f-80b3-8eea-da17285e7370" class="">Exemplo:</p></div><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="35df6ce8-497f-809c-997a-f61ad46360c3" class="code code-wrap"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">body{
+  color:blue;
+  font-family:Arial;
+}</code></pre></div><div style="display:contents" dir="auto"><pre id="35df6ce8-497f-809a-8736-dfe9067b00ad" class="code code-wrap"><code class="language-html" style="white-space:pre-wrap;word-break:break-all">&lt;body&gt;
+&lt;p&gt;Texto&lt;/p&gt;
+&lt;/body&gt;</code></pre></div><div style="display:contents" dir="auto"><p id="35df6ce8-497f-8073-a60f-e755e30475b1" class="">➡ O <code>&lt;p&gt;</code> herda:</p></div><div style="display:contents" dir="auto"><ul id="35df6ce8-497f-80ff-8b7e-cde9633f7586" class="bulleted-list"><li style="list-style-type:disc"><code>color: blue</code></li></ul></div><div style="display:contents" dir="auto"><ul id="35df6ce8-497f-80b8-bc1b-f576d08397be" class="bulleted-list"><li style="list-style-type:disc"><code>font-family: Arial</code></li></ul></div><div style="display:contents" dir="auto"><hr id="35df6ce8-497f-80ab-a222-eab8c193e14d"/></div><div style="display:contents" dir="auto"><h1 id="35df6ce8-497f-80a8-8b02-f012a3b82ac8" class="">🔹 Propriedades que costumam herdar</h1></div><div style="display:contents" dir="auto"><p id="35df6ce8-497f-8000-8376-dc305cfec210" class="">Geralmente propriedades ligadas a texto:</p></div><div style="display:contents" dir="auto"><ul id="35df6ce8-497f-80eb-ab53-e2fdbd672b89" class="bulleted-list"><li style="list-style-type:disc"><code>color</code></li></ul></div><div style="display:contents" dir="auto"><ul id="35df6ce8-497f-808e-a183-f2feb054cc36" class="bulleted-list"><li style="list-style-type:disc"><code>font-family</code></li></ul></div><div style="display:contents" dir="auto"><ul id="35df6ce8-497f-800d-93ba-e988f661455a" class="bulleted-list"><li style="list-style-type:disc"><code>font-size</code></li></ul></div><div style="display:contents" dir="auto"><ul id="35df6ce8-497f-8079-a43b-d4406fe8253e" class="bulleted-list"><li style="list-style-type:disc"><code>line-height</code></li></ul></div><div style="display:contents" dir="auto"><ul id="35df6ce8-497f-8069-9e1d-fcf5e505445a" class="bulleted-list"><li style="list-style-type:disc"><code>text-align</code></li></ul></div><div style="display:contents" dir="auto"><ul id="35df6ce8-497f-80b4-926c-c0c476a2efbf" class="bulleted-list"><li style="list-style-type:disc"><code>visibility</code></li></ul></div><div style="display:contents" dir="auto"><hr id="35df6ce8-497f-806c-a60a-cec1e2e04cfc"/></div><div style="display:contents" dir="auto"><h1 id="35df6ce8-497f-80fc-8cde-e3e4912d4117" class="">🔹 Propriedades que NÃO herdam</h1></div><div style="display:contents" dir="auto"><p id="35df6ce8-497f-8097-a263-c6cda1098867" class="">Normalmente layout e caixa:</p></div><div style="display:contents" dir="auto"><ul id="35df6ce8-497f-8063-a457-f142c93a5b65" class="bulleted-list"><li style="list-style-type:disc"><code>margin</code></li></ul></div><div style="display:contents" dir="auto"><ul id="35df6ce8-497f-80b3-93d2-cb385f59f483" class="bulleted-list"><li style="list-style-type:disc"><code>padding</code></li></ul></div><div style="display:contents" dir="auto"><ul id="35df6ce8-497f-8047-90b8-c3cfbb0a5092" class="bulleted-list"><li style="list-style-type:disc"><code>border</code></li></ul></div><div style="display:contents" dir="auto"><ul id="35df6ce8-497f-8090-8af0-febee988f12f" class="bulleted-list"><li style="list-style-type:disc"><code>width</code></li></ul></div><div style="display:contents" dir="auto"><ul id="35df6ce8-497f-80c7-aa70-c5b6db1b1478" class="bulleted-list"><li style="list-style-type:disc"><code>height</code></li></ul></div><div style="display:contents" dir="auto"><ul id="35df6ce8-497f-809b-9462-dec723a97144" class="bulleted-list"><li style="list-style-type:disc"><code>background</code></li></ul></div><div style="display:contents" dir="auto"><hr id="35df6ce8-497f-80ee-b1b4-dc4f89245193"/></div><div style="display:contents" dir="auto"><h1 id="35df6ce8-497f-80c8-88e4-faf88ae57d7d" class="">🔹 Forçar Herança</h1></div><div style="display:contents" dir="auto"><pre id="35df6ce8-497f-8011-a43b-f0bb6288ed2a" class="code code-wrap"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">button{
+  color:inherit;
+}</code></pre></div><div style="display:contents" dir="auto"><p id="35df6ce8-497f-80e1-b667-f1fc36974aff" class="">➡ O botão herda a cor do pai.</p></div><div style="display:contents" dir="auto"><hr id="35df6ce8-497f-80f5-ba69-f99ba9b9fee4"/></div><div style="display:contents" dir="auto"><h1 id="35df6ce8-497f-80f9-8720-f9285d77604d" class="">🎯 ESPECIFICIDADE</h1></div><div style="display:contents" dir="auto"><p id="35df6ce8-497f-8062-8e9f-df9d7866b85a" class="">Especificidade define <strong>qual seletor tem prioridade</strong> quando dois estilos tentam alterar a mesma coisa.</p></div><div style="display:contents" dir="auto"><p id="35df6ce8-497f-80ee-96a8-da84009f407c" class="">Exemplo:</p></div><div style="display:contents" dir="auto"><pre id="35df6ce8-497f-8017-9ffb-d39cf6074af7" class="code code-wrap"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">p{
+  color:blue;
+}
+
+.texto{
+  color:red;
+}</code></pre></div><div style="display:contents" dir="auto"><pre id="35df6ce8-497f-80ac-bb00-c6ad6c3e0c26" class="code code-wrap"><code class="language-html" style="white-space:pre-wrap;word-break:break-all">&lt;p class=&quot;texto&quot;&gt;Olá&lt;/p&gt;</code></pre></div><div style="display:contents" dir="auto"><p id="35df6ce8-497f-8033-a209-eceb5fbcd73c" class="">➡ Resultado: <strong>vermelho</strong></p></div><div style="display:contents" dir="auto"><p id="35df6ce8-497f-800b-8101-c521ddbc19b5" class="">Porque <code>.classe</code> é mais forte que <code>tag</code>.</p></div><div style="display:contents" dir="auto"><hr id="35df6ce8-497f-80a6-bca9-dfae4ec9ec8c"/></div><div style="display:contents" dir="auto"><h1 id="35df6ce8-497f-807a-8f2c-fdd31603b125" class="">📊 Ordem de força (menor para maior)</h1></div><div style="display:contents" dir="ltr"><table id="35df6ce8-497f-800d-8186-e9386d2d093c" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="35df6ce8-497f-8027-9f2e-e3d9fbdd0d97"><th id="V]s{" class="simple-table-header-color simple-table-header">Tipo de seletor</th><th id="`WVk" class="simple-table-header-color simple-table-header">Força</th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="35df6ce8-497f-80c8-b63e-d366ad381a1c"><td id="V]s{" class=""><code>*</code> universal</td><td id="`WVk" class="">0</td></tr></div><div style="display:contents" dir="ltr"><tr id="35df6ce8-497f-8046-b457-ef1a72263395"><td id="V]s{" class="">tag (<code>p</code>)</td><td id="`WVk" class="">1</td></tr></div><div style="display:contents" dir="ltr"><tr id="35df6ce8-497f-8026-b155-de8ebe59a9cb"><td id="V]s{" class="">classe (<code>.box</code>)</td><td id="`WVk" class="">10</td></tr></div><div style="display:contents" dir="ltr"><tr id="35df6ce8-497f-80b4-be4d-eb882f64ce6e"><td id="V]s{" class="">atributo / pseudo-classe</td><td id="`WVk" class="">10</td></tr></div><div style="display:contents" dir="ltr"><tr id="35df6ce8-497f-80e0-87b7-da6c8e27878b"><td id="V]s{" class="">id (<code>#menu</code>)</td><td id="`WVk" class="">100</td></tr></div><div style="display:contents" dir="ltr"><tr id="35df6ce8-497f-8077-8f3e-dd090f24c361"><td id="V]s{" class="">inline (<code>style=&quot;&quot;</code>)</td><td id="`WVk" class="">1000</td></tr></div><div style="display:contents" dir="ltr"><tr id="35df6ce8-497f-80bf-ad8c-e36b7ffcfa6c"><td id="V]s{" class=""><code>!important</code></td><td id="`WVk" class="">máxima</td></tr></div></tbody></table></div><div style="display:contents" dir="auto"><hr id="35df6ce8-497f-80da-84b5-def08cf8ade8"/></div><div style="display:contents" dir="auto"><h1 id="35df6ce8-497f-8023-a78a-c4d5a41fb5f9" class="">🔹 Exemplos</h1></div><div style="display:contents" dir="auto"><h2 id="35df6ce8-497f-802f-9d70-cd331526c0b5" class="">Tag perde para classe</h2></div><div style="display:contents" dir="auto"><pre id="35df6ce8-497f-80ae-a654-c8a6b486fa5e" class="code code-wrap"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">p{ color:blue; }
+.texto{ color:red; }</code></pre></div><div style="display:contents" dir="auto"><p id="35df6ce8-497f-805c-b679-fedc12c70d9f" class="">➡ vence <code>.texto</code></p></div><div style="display:contents" dir="auto"><hr id="35df6ce8-497f-80c2-a9ce-d4738478915d"/></div><div style="display:contents" dir="auto"><h2 id="35df6ce8-497f-8065-bf89-e2e265eebe9b" class="">Classe perde para ID</h2></div><div style="display:contents" dir="auto"><pre id="35df6ce8-497f-8019-bae1-cbfda25b474a" class="code code-wrap"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">.texto{ color:blue; }
+#titulo{ color:red; }</code></pre></div><div style="display:contents" dir="auto"><p id="35df6ce8-497f-8057-a029-dd3b1d50ea3b" class="">➡ vence <code>#titulo</code></p></div><div style="display:contents" dir="auto"><hr id="35df6ce8-497f-8047-bd96-ce48d2d50382"/></div><div style="display:contents" dir="auto"><h2 id="35df6ce8-497f-80ce-a08a-c017c79b4a0a" class="">Inline style vence quase tudo</h2></div><div style="display:contents" dir="auto"><pre id="35df6ce8-497f-802e-9590-ee28b5aa4233" class="code code-wrap"><code class="language-html" style="white-space:pre-wrap;word-break:break-all">&lt;p style=&quot;color:green;&quot;&gt;</code></pre></div><div style="display:contents" dir="auto"><p id="35df6ce8-497f-8030-bd04-e78b7d92faf6" class="">➡ vence CSS externo comum.</p></div><div style="display:contents" dir="auto"><hr id="35df6ce8-497f-8098-9c77-e2a03c8f175b"/></div><div style="display:contents" dir="auto"><h1 id="35df6ce8-497f-80b8-8059-dfb51f2a0c51" class="">🔹 Empate de especificidade</h1></div><div style="display:contents" dir="auto"><p id="35df6ce8-497f-8076-913c-cce9fd92a42e" class="">Se dois seletores têm mesma força, vence o <strong>último escrito</strong>.</p></div><div style="display:contents" dir="auto"><pre id="35df6ce8-497f-80e0-a31a-d70afe970c4d" class="code code-wrap"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">p{
+ color:blue;
+}
+
+p{
+ color:red;
+}</code></pre></div><div style="display:contents" dir="auto"><p id="35df6ce8-497f-808a-8adf-ccc72b5ad7ef" class="">➡ vermelho</p></div><div style="display:contents" dir="auto"><hr id="35df6ce8-497f-8058-8fa4-c9f18ae3ac1a"/></div><div style="display:contents" dir="auto"><h1 id="35df6ce8-497f-8008-ad43-f6aedb1a4a88" class="">⚠️ <code>!important</code></h1></div><div style="display:contents" dir="auto"><p id="35df6ce8-497f-8048-9fd9-c92649c7438c" class="">Força prioridade máxima.</p></div><div style="display:contents" dir="auto"><pre id="35df6ce8-497f-809a-b6dd-d7675d6bd71f" class="code code-wrap"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">p{
+  color:red !important;
+}</code></pre></div><div style="display:contents" dir="auto"><p id="35df6ce8-497f-802c-bee1-d74f595be18b" class="">➡ Deve usar pouco, pois dificulta manutenção.</p></div><div style="display:contents" dir="auto"><hr id="35df6ce8-497f-80ea-98b9-dbf8e2e8332d"/></div><div style="display:contents" dir="auto"><h1 id="35df6ce8-497f-80a0-88f5-c137956e3fff" class="">🔥 Exemplo real</h1></div><div style="display:contents" dir="auto"><pre id="35df6ce8-497f-80d4-965c-e8d40fbd759f" class="code code-wrap"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">body{
+  color: #333;
+}
+
+.card{
+  color:blue;
+}
+
+#destaque{
+  color:red;
+}</code></pre></div><div style="display:contents" dir="auto"><pre id="35df6ce8-497f-8032-a92b-fec9fd3956d0" class="code code-wrap"><code class="language-html" style="white-space:pre-wrap;word-break:break-all">&lt;div class=&quot;card&quot; id=&quot;destaque&quot;&gt;
+ Texto
+&lt;/div&gt;</code></pre></div><div style="display:contents" dir="auto"><p id="35df6ce8-497f-802f-a6f3-e3c8d4e728fa" class="">➡ Cor final: <strong>vermelha</strong></p></div><div style="display:contents" dir="auto"><p id="35df6ce8-497f-8049-bd25-c9c8557454cd" class="">(ID vence classe)</p></div><div style="display:contents" dir="auto"><hr id="35df6ce8-497f-8037-af56-fcb0e2573b39"/></div><div style="display:contents" dir="auto"><h1 id="35df6ce8-497f-805b-9cf6-dcd0398f8aa3" class="">📌 Resumo rápido</h1></div><div style="display:contents" dir="ltr"><table id="35df6ce8-497f-808e-be31-e7f777122474" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="35df6ce8-497f-80f0-bfeb-fb86deb7fe00"><th id="m^zJ" class="simple-table-header-color simple-table-header">Conceito</th><th id="q^fs" class="simple-table-header-color simple-table-header">Significado</th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="35df6ce8-497f-8002-bd05-ff7ebbaf7f1f"><td id="m^zJ" class="">Herança</td><td id="q^fs" class="">filho recebe estilo do pai</td></tr></div><div style="display:contents" dir="ltr"><tr id="35df6ce8-497f-809e-8953-d9aa5753dd05"><td id="m^zJ" class="">Especificidade</td><td id="q^fs" class="">define qual regra vence</td></tr></div><div style="display:contents" dir="ltr"><tr id="35df6ce8-497f-803d-9867-f8600262dbaf"><td id="m^zJ" class="">Última regra</td><td id="q^fs" class="">desempate</td></tr></div><div style="display:contents" dir="ltr"><tr id="35df6ce8-497f-809e-a563-fb3a568c0753"><td id="m^zJ" class=""><code>!important</code></td><td id="q^fs" class="">prioridade máxima</td></tr></div></tbody></table></div><div style="display:contents" dir="auto"><hr id="35df6ce8-497f-803d-a8d5-e4d0e11e58a1"/></div><div style="display:contents" dir="auto"><h1 id="35df6ce8-497f-80a8-a94c-e4dd4297e101" class="">✅ Resumo Final</h1></div><div style="display:contents" dir="auto"><ul id="35df6ce8-497f-80bc-ad11-fcb36a6992bd" class="bulleted-list"><li style="list-style-type:disc"><strong>Herança</strong> passa alguns estilos do pai para o filho (principalmente textos).</li></ul></div><div style="display:contents" dir="auto"><ul id="35df6ce8-497f-80f0-bd90-fca3fc129d8e" class="bulleted-list"><li style="list-style-type:disc"><strong>Especificidade</strong> decide qual seletor ganha em conflitos.</li></ul></div><div style="display:contents" dir="auto"><h3 id="35df6ce8-497f-8041-9c36-d77aa69a0513" class="">Ordem prática:</h3></div><div style="display:contents" dir="auto"><p id="35df6ce8-497f-80e7-b3a8-ece3865d2c21" class=""><code>tag &lt; classe &lt; id &lt; inline &lt; !important</code></p></div></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>
