@@ -1,0 +1,803 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Estrutura do projeto</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="364f6ce8-497f-802b-8e34-cb0d9861dcf0" class="page sans"><header><div class="page-header-icon undefined"><img class="icon notion-static-icon" src="https://www.notion.so/icons/book_purple.svg"/></div><h1 class="page-title" dir="auto">Estrutura do projeto</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><div style="display:contents" dir="auto"><h1 id="364f6ce8-497f-8012-b893-e3bfae5a040d" class="">Estrutura de um projeto com Bootstrap</h1></div><div style="display:contents" dir="auto"><p id="364f6ce8-497f-803e-92f6-ec05da1510b0" class="">A estrutura de um projeto é a forma como os arquivos e pastas são organizados. Em projetos que utilizam o Bootstrap, essa organização ajuda na manutenção, leitura do código e desenvolvimento do site.</p></div><div style="display:contents" dir="auto"><hr id="364f6ce8-497f-8050-bc56-f3b264082ae6"/></div><div style="display:contents" dir="auto"><h1 id="364f6ce8-497f-8049-b4bc-f57053c2679c" class="">Estrutura básica</h1></div><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="364f6ce8-497f-8041-a7e0-e62afd85e8b5" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">projeto/
+│
+├── index.html
+├── paginas/
+│   ├── sobre.html
+│   └── contato.html
+│
+├── css/
+│   ├── bootstrap.min.css
+│   └── style.css
+│
+├── js/
+│   ├── bootstrap.bundle.min.js
+│   └── script.js
+│
+├── img/
+│
+├── fonts/
+│
+└── assets/</code></pre></div><div style="display:contents" dir="auto"><hr id="364f6ce8-497f-80e3-b531-f270f16241ab"/></div><div style="display:contents" dir="auto"><h1 id="364f6ce8-497f-8005-a07a-d346ac3688e3" class="">Explicação da estrutura</h1></div><div style="display:contents" dir="auto"><h2 id="364f6ce8-497f-807f-917d-c18ddd10da1f" class="">Pasta principal do projeto</h2></div><div style="display:contents" dir="auto"><pre id="364f6ce8-497f-8044-bc0b-e41576fe5bf4" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">projeto/</code></pre></div><div style="display:contents" dir="auto"><p id="364f6ce8-497f-80ad-a648-d018e8ba03e9" class="">É a raiz do projeto, onde todos os arquivos ficam organizados.</p></div><div style="display:contents" dir="auto"><hr id="364f6ce8-497f-803b-a91d-fe91e135c546"/></div><div style="display:contents" dir="auto"><h1 id="364f6ce8-497f-8082-86b0-c6dc9add077b" class="">Arquivos HTML</h1></div><div style="display:contents" dir="auto"><pre id="364f6ce8-497f-80a1-ac57-d0952ff1f91d" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">index.html</code></pre></div><div style="display:contents" dir="auto"><p id="364f6ce8-497f-803f-814a-c17c5486895a" class="">É a página principal do site.</p></div><div style="display:contents" dir="auto"><p id="364f6ce8-497f-8036-96c8-d169d166e0ec" class="">Outras páginas normalmente ficam em uma pasta separada:</p></div><div style="display:contents" dir="auto"><pre id="364f6ce8-497f-8020-9abb-d8be200b5e37" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">paginas/</code></pre></div><div style="display:contents" dir="auto"><p id="364f6ce8-497f-8018-9b77-e617d3b80c66" class="">Exemplos:</p></div><div style="display:contents" dir="auto"><ul id="364f6ce8-497f-80d3-910d-ca11fba8cb5b" class="bulleted-list"><li style="list-style-type:disc">sobre.html</li></ul></div><div style="display:contents" dir="auto"><ul id="364f6ce8-497f-801a-a5d2-d85ee720010a" class="bulleted-list"><li style="list-style-type:disc">contato.html</li></ul></div><div style="display:contents" dir="auto"><ul id="364f6ce8-497f-80f7-a886-c9a08e3d1002" class="bulleted-list"><li style="list-style-type:disc">serviços.html</li></ul></div><div style="display:contents" dir="auto"><p id="364f6ce8-497f-803f-8150-c5ff5b511460" class="">Isso evita deixar muitos arquivos soltos na raiz.</p></div><div style="display:contents" dir="auto"><hr id="364f6ce8-497f-803a-bc22-c502d0826930"/></div><div style="display:contents" dir="auto"><h1 id="364f6ce8-497f-80da-bd84-ed4516d742c4" class="">Pasta CSS</h1></div><div style="display:contents" dir="auto"><pre id="364f6ce8-497f-8053-85ad-fbd8ba1fdea6" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">css/</code></pre></div><div style="display:contents" dir="auto"><p id="364f6ce8-497f-80e3-9016-ea485350ad36" class="">Contém os arquivos de estilo.</p></div><div style="display:contents" dir="auto"><hr id="364f6ce8-497f-80f3-8d93-c817ecb755fe"/></div><div style="display:contents" dir="auto"><h2 id="364f6ce8-497f-80b1-a283-fbd8d7601b91" class="">bootstrap.min.css</h2></div><div style="display:contents" dir="auto"><p id="364f6ce8-497f-8099-8944-f3d0810cecff" class="">Arquivo original do Bootstrap.</p></div><div style="display:contents" dir="auto"><p id="364f6ce8-497f-808a-9c57-da5639d989e3" class="">Responsável pelos:</p></div><div style="display:contents" dir="auto"><ul id="364f6ce8-497f-8068-a233-ef84f1923e42" class="bulleted-list"><li style="list-style-type:disc">Componentes</li></ul></div><div style="display:contents" dir="auto"><ul id="364f6ce8-497f-8061-ab51-e0b4e757d3cb" class="bulleted-list"><li style="list-style-type:disc">Grid system</li></ul></div><div style="display:contents" dir="auto"><ul id="364f6ce8-497f-801e-be4d-e22383ad5229" class="bulleted-list"><li style="list-style-type:disc">Responsividade</li></ul></div><div style="display:contents" dir="auto"><ul id="364f6ce8-497f-8096-869d-eba43c3a9ea8" class="bulleted-list"><li style="list-style-type:disc">Classes utilitárias</li></ul></div><div style="display:contents" dir="auto"><hr id="364f6ce8-497f-80c5-bad8-e687017de1e5"/></div><div style="display:contents" dir="auto"><h2 id="364f6ce8-497f-806f-8d93-dc16b408a4d5" class="">style.css</h2></div><div style="display:contents" dir="auto"><p id="364f6ce8-497f-80c9-9d0b-ed6d6b3c7b40" class="">Arquivo de personalização do desenvolvedor.</p></div><div style="display:contents" dir="auto"><p id="364f6ce8-497f-800b-8e07-e746542b7c71" class="">Nele ficam:</p></div><div style="display:contents" dir="auto"><ul id="364f6ce8-497f-802a-893b-e64c6cf38d28" class="bulleted-list"><li style="list-style-type:disc">Cores próprias</li></ul></div><div style="display:contents" dir="auto"><ul id="364f6ce8-497f-8026-8cc4-fe3ff5b0ab57" class="bulleted-list"><li style="list-style-type:disc">Ajustes de layout</li></ul></div><div style="display:contents" dir="auto"><ul id="364f6ce8-497f-8076-a612-ffeb8bd039f6" class="bulleted-list"><li style="list-style-type:disc">Animações</li></ul></div><div style="display:contents" dir="auto"><ul id="364f6ce8-497f-805c-b54f-ffc8461818d7" class="bulleted-list"><li style="list-style-type:disc">Sobrescritas do Bootstrap</li></ul></div><div style="display:contents" dir="auto"><hr id="364f6ce8-497f-8041-8871-c11f6803f3bb"/></div><div style="display:contents" dir="auto"><h1 id="364f6ce8-497f-8002-bbc7-f9ab2a7179c2" class="">Pasta JavaScript</h1></div><div style="display:contents" dir="auto"><pre id="364f6ce8-497f-80a0-a1cf-f1b0e9e25f8c" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">js/</code></pre></div><div style="display:contents" dir="auto"><p id="364f6ce8-497f-80be-a716-f262696179f5" class="">Armazena scripts do projeto.</p></div><div style="display:contents" dir="auto"><hr id="364f6ce8-497f-80f3-b1ab-e94054110a0e"/></div><div style="display:contents" dir="auto"><h2 id="364f6ce8-497f-80ab-9a25-c7689ce4d152" class="">bootstrap.bundle.min.js</h2></div><div style="display:contents" dir="auto"><p id="364f6ce8-497f-80c5-b462-da83ceeb766b" class="">Arquivo JavaScript do Bootstrap.</p></div><div style="display:contents" dir="auto"><p id="364f6ce8-497f-80e1-b9a0-f0509d3f878c" class="">Controla:</p></div><div style="display:contents" dir="auto"><ul id="364f6ce8-497f-8034-b944-cec9e3d8fa1e" class="bulleted-list"><li style="list-style-type:disc">Dropdowns</li></ul></div><div style="display:contents" dir="auto"><ul id="364f6ce8-497f-80c7-a96f-c82d3cf9860f" class="bulleted-list"><li style="list-style-type:disc">Modais</li></ul></div><div style="display:contents" dir="auto"><ul id="364f6ce8-497f-8096-a430-ccda5d30e095" class="bulleted-list"><li style="list-style-type:disc">Menu responsivo</li></ul></div><div style="display:contents" dir="auto"><ul id="364f6ce8-497f-800e-bf18-ecf96cddf967" class="bulleted-list"><li style="list-style-type:disc">Carousel</li></ul></div><div style="display:contents" dir="auto"><ul id="364f6ce8-497f-807a-b9d7-db4e612bd7c9" class="bulleted-list"><li style="list-style-type:disc">Collapse</li></ul></div><div style="display:contents" dir="auto"><hr id="364f6ce8-497f-8025-a588-ca0b4487577d"/></div><div style="display:contents" dir="auto"><h2 id="364f6ce8-497f-8081-8035-d96dc9b881d6" class="">script.js</h2></div><div style="display:contents" dir="auto"><p id="364f6ce8-497f-801c-89d3-c96e2e76955f" class="">Arquivo JavaScript personalizado.</p></div><div style="display:contents" dir="auto"><p id="364f6ce8-497f-804b-bc96-c26799411563" class="">Usado para:</p></div><div style="display:contents" dir="auto"><ul id="364f6ce8-497f-801d-abd4-e75481a1d6df" class="bulleted-list"><li style="list-style-type:disc">Eventos</li></ul></div><div style="display:contents" dir="auto"><ul id="364f6ce8-497f-8026-8ca2-e6fb69464db2" class="bulleted-list"><li style="list-style-type:disc">Interações</li></ul></div><div style="display:contents" dir="auto"><ul id="364f6ce8-497f-8091-8a5d-c9eb3247b0fa" class="bulleted-list"><li style="list-style-type:disc">Manipulação do DOM</li></ul></div><div style="display:contents" dir="auto"><ul id="364f6ce8-497f-805b-a807-f176b4ace6ce" class="bulleted-list"><li style="list-style-type:disc">Funções próprias</li></ul></div><div style="display:contents" dir="auto"><hr id="364f6ce8-497f-8072-b8eb-d0e7556ac135"/></div><div style="display:contents" dir="auto"><h1 id="364f6ce8-497f-804d-8629-f2816999f7d5" class="">Pasta de imagens</h1></div><div style="display:contents" dir="auto"><pre id="364f6ce8-497f-802e-b4db-d8801db49636" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">img/</code></pre></div><div style="display:contents" dir="auto"><p id="364f6ce8-497f-8099-ab02-d2f23e67a6c7" class="">Organiza imagens do site:</p></div><div style="display:contents" dir="auto"><ul id="364f6ce8-497f-80f5-8a93-ddd0682675e2" class="bulleted-list"><li style="list-style-type:disc">Logos</li></ul></div><div style="display:contents" dir="auto"><ul id="364f6ce8-497f-80c6-b33d-da14aeb0086c" class="bulleted-list"><li style="list-style-type:disc">Fotos</li></ul></div><div style="display:contents" dir="auto"><ul id="364f6ce8-497f-80ea-b297-d7861ee44ad1" class="bulleted-list"><li style="list-style-type:disc">Ícones</li></ul></div><div style="display:contents" dir="auto"><ul id="364f6ce8-497f-8001-af7b-dd7db0e1f346" class="bulleted-list"><li style="list-style-type:disc">Backgrounds</li></ul></div><div style="display:contents" dir="auto"><ul id="364f6ce8-497f-8080-8293-c6a77217cdf9" class="bulleted-list"><li style="list-style-type:disc">Banners</li></ul></div><div style="display:contents" dir="auto"><hr id="364f6ce8-497f-80d1-8aa2-d41b9153e532"/></div><div style="display:contents" dir="auto"><h1 id="364f6ce8-497f-8098-8ae2-ffb985f9f36f" class="">Pasta de fontes</h1></div><div style="display:contents" dir="auto"><pre id="364f6ce8-497f-80ca-b828-c4a0f5bb65cb" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">fonts/</code></pre></div><div style="display:contents" dir="auto"><p id="364f6ce8-497f-8076-9e75-e06ca46c831e" class="">Usada para:</p></div><div style="display:contents" dir="auto"><ul id="364f6ce8-497f-80ec-ac94-de89ef5b1c84" class="bulleted-list"><li style="list-style-type:disc">Fontes personalizadas</li></ul></div><div style="display:contents" dir="auto"><ul id="364f6ce8-497f-8044-8625-ea6de78f791f" class="bulleted-list"><li style="list-style-type:disc">Ícones locais</li></ul></div><div style="display:contents" dir="auto"><ul id="364f6ce8-497f-800d-958e-e098fca7eb25" class="bulleted-list"><li style="list-style-type:disc">Tipografias baixadas</li></ul></div><div style="display:contents" dir="auto"><hr id="364f6ce8-497f-801a-b64c-c095287ae8d1"/></div><div style="display:contents" dir="auto"><h1 id="364f6ce8-497f-80e6-bf6b-c7cd45ddac1e" class="">Pasta assets</h1></div><div style="display:contents" dir="auto"><pre id="364f6ce8-497f-80bb-8435-f91e25559f14" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">assets/</code></pre></div><div style="display:contents" dir="auto"><p id="364f6ce8-497f-806b-b683-d8aaa646bd57" class="">Muitos desenvolvedores usam essa pasta para reunir recursos gerais do projeto.</p></div><div style="display:contents" dir="auto"><p id="364f6ce8-497f-8056-9343-fa91629b70c6" class="">Exemplo:</p></div><div style="display:contents" dir="auto"><pre id="364f6ce8-497f-80e1-823e-f9b9e581d9c7" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">assets/
+│
+├── css/
+├── js/
+├── img/
+└── fonts/</code></pre></div><div style="display:contents" dir="auto"><p id="364f6ce8-497f-80a8-9bb7-e2cdedb8d022" class="">Essa abordagem deixa o projeto ainda mais organizado.</p></div><div style="display:contents" dir="auto"><hr id="364f6ce8-497f-8057-b1c2-f158da710992"/></div><div style="display:contents" dir="auto"><h1 id="364f6ce8-497f-8012-8411-d1933b2dd46e" class="">Estrutura interna do HTML</h1></div><div style="display:contents" dir="auto"><p id="364f6ce8-497f-80cd-be51-f5ca28304e74" class="">Além das pastas, o HTML também segue uma estrutura padrão:</p></div><div style="display:contents" dir="auto"><pre id="364f6ce8-497f-8046-905b-dbffb9bf7481" class="code code-wrap"><code class="language-html" style="white-space:pre-wrap;word-break:break-all">&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;pt-br&quot;&gt;
+
+&lt;head&gt;
+&lt;meta charset=&quot;UTF-8&quot;&gt;
+
+&lt;meta name=&quot;viewport&quot;
+content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+
+&lt;link rel=&quot;stylesheet&quot;
+href=&quot;css/bootstrap.min.css&quot;&gt;
+
+&lt;link rel=&quot;stylesheet&quot;
+href=&quot;css/style.css&quot;&gt;
+
+&lt;title&gt;Projeto Bootstrap&lt;/title&gt;
+&lt;/head&gt;
+
+&lt;body&gt;
+
+&lt;div class=&quot;container&quot;&gt;
+&lt;h1 class=&quot;text-primary&quot;&gt;
+            Meu Projeto
+&lt;/h1&gt;
+&lt;/div&gt;
+
+&lt;script src=&quot;js/bootstrap.bundle.min.js&quot;&gt;&lt;/script&gt;
+
+&lt;script src=&quot;js/script.js&quot;&gt;&lt;/script&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;</code></pre></div><div style="display:contents" dir="auto"><hr id="364f6ce8-497f-80ed-989e-fc389a02ee65"/></div><div style="display:contents" dir="auto"><h1 id="364f6ce8-497f-8078-9bb4-ebf085ed6843" class="">Importância da organização</h1></div><div style="display:contents" dir="auto"><p id="364f6ce8-497f-804f-8302-c988407f3e6c" class="">Uma boa estrutura:</p></div><div style="display:contents" dir="auto"><ul id="364f6ce8-497f-80a0-98f1-c653b6be7073" class="bulleted-list"><li style="list-style-type:disc">Facilita manutenção</li></ul></div><div style="display:contents" dir="auto"><ul id="364f6ce8-497f-8002-9b93-e807fbfb1d70" class="bulleted-list"><li style="list-style-type:disc">Deixa o projeto mais profissional</li></ul></div><div style="display:contents" dir="auto"><ul id="364f6ce8-497f-80c9-9b05-dd1913fa557d" class="bulleted-list"><li style="list-style-type:disc">Evita arquivos bagunçados</li></ul></div><div style="display:contents" dir="auto"><ul id="364f6ce8-497f-804e-b385-f24d45edd1ca" class="bulleted-list"><li style="list-style-type:disc">Ajuda no trabalho em equipe</li></ul></div><div style="display:contents" dir="auto"><ul id="364f6ce8-497f-8079-9b92-fc89c31980a3" class="bulleted-list"><li style="list-style-type:disc">Melhora a escalabilidade do sistema</li></ul></div><div style="display:contents" dir="auto"><hr id="364f6ce8-497f-8068-b9dc-c3c479f2b750"/></div><div style="display:contents" dir="auto"><h1 id="364f6ce8-497f-8003-a52f-db3da03ce3e3" class="">Organização recomendada</h1></div><div style="display:contents" dir="auto"><h2 id="364f6ce8-497f-8022-bece-e28d4234ac2d" class="">Pequenos projetos</h2></div><div style="display:contents" dir="auto"><pre id="364f6ce8-497f-803a-9ef3-e30e7591dad8" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">css/
+js/
+img/</code></pre></div><div style="display:contents" dir="auto"><hr id="364f6ce8-497f-80fa-a69e-df79f099ca72"/></div><div style="display:contents" dir="auto"><h2 id="364f6ce8-497f-8017-8e1a-e81e0142c700" class="">Projetos maiores</h2></div><div style="display:contents" dir="auto"><pre id="364f6ce8-497f-8080-9e11-d52dd6d4d642" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">assets/
+components/
+pages/
+services/</code></pre></div><div style="display:contents" dir="auto"><p id="364f6ce8-497f-8041-b8f2-c83e7eb7c4b6" class="">Projetos grandes costumam separar:</p></div><div style="display:contents" dir="auto"><ul id="364f6ce8-497f-80fb-9f6e-c4f904de4640" class="bulleted-list"><li style="list-style-type:disc">Componentes</li></ul></div><div style="display:contents" dir="auto"><ul id="364f6ce8-497f-805a-9d42-d9f38874aa6c" class="bulleted-list"><li style="list-style-type:disc">Páginas</li></ul></div><div style="display:contents" dir="auto"><ul id="364f6ce8-497f-800d-8f02-c0c25e848ac6" class="bulleted-list"><li style="list-style-type:disc">APIs</li></ul></div><div style="display:contents" dir="auto"><ul id="364f6ce8-497f-8001-970a-e21051ae8114" class="bulleted-list"><li style="list-style-type:disc">Recursos visuais</li></ul></div><div style="display:contents" dir="auto"><ul id="364f6ce8-497f-807c-92df-ef0670a498a9" class="bulleted-list"><li style="list-style-type:disc">Scripts específicos</li></ul></div></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>
