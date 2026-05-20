@@ -1,0 +1,753 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Gestão de configuração X Implantação</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="366f6ce8-497f-80c8-866b-ec1ebb62ce08" class="page sans"><header><div class="page-header-icon undefined"><span class="icon">💻</span></div><h1 class="page-title" dir="auto">Gestão de configuração X Implantação</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><div style="display:contents" dir="auto"><h1 id="366f6ce8-497f-808c-a2e5-c060c49a590f" class="">Gestão de Configuração × Implantação</h1></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-8001-8ece-e62f48d7494d" class="">Embora estejam relacionadas dentro da Engenharia de Software, <strong>gestão de configuração</strong> e <strong>implantação</strong> possuem objetivos diferentes.</p></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-809d-8d19-e2bff27be9aa" class="">A gestão de configuração controla mudanças e versões do software, enquanto a implantação entrega o sistema ao ambiente de produção.</p></div><div style="display:contents" dir="auto"><hr id="366f6ce8-497f-80b7-8187-c8aa017c49f8"/></div><div style="display:contents" dir="auto"><h1 id="366f6ce8-497f-804f-8574-fd748e398c31" class="">Gestão de Configuração</h1></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-8085-9a4f-e7ce9d663f14" class="">A Gestão de Configuração de Software é responsável por controlar e organizar os artefatos do sistema ao longo do desenvolvimento.</p></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-8047-99b1-e3b8cb992382" class="">Ela garante:</p></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-804b-acf2-ea36a46431a7" class="bulleted-list"><li style="list-style-type:disc">controle de versões</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-80b0-ac19-ce95b07f5de1" class="bulleted-list"><li style="list-style-type:disc">rastreabilidade</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-803f-bf43-fb4ed597d0fb" class="bulleted-list"><li style="list-style-type:disc">integridade do software</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-80fa-ac1d-f3dcf3c74510" class="bulleted-list"><li style="list-style-type:disc">gerenciamento de mudanças</li></ul></div><div style="display:contents" dir="auto"><hr id="366f6ce8-497f-80e6-9f7a-f385ef6ce9db"/></div><div style="display:contents" dir="auto"><h2 id="366f6ce8-497f-805e-9ff7-eadc98bc3a2b" class="">Objetivos</h2></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-8016-8c06-db7a76e0f3f9" class="bulleted-list"><li style="list-style-type:disc">controlar alterações no sistema</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-80fd-9f95-ca6cb49d0494" class="bulleted-list"><li style="list-style-type:disc">evitar perda de código</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-8024-aae4-c592d0459d99" class="bulleted-list"><li style="list-style-type:disc">manter histórico de versões</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-80c7-a6fd-c30ea9b224a1" class="bulleted-list"><li style="list-style-type:disc">organizar artefatos</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-800f-a5b1-d2ada9ecb0d7" class="bulleted-list"><li style="list-style-type:disc">facilitar trabalho em equipe</li></ul></div><div style="display:contents" dir="auto"><hr id="366f6ce8-497f-8050-b288-cd895a84b50d"/></div><div style="display:contents" dir="auto"><h2 id="366f6ce8-497f-80c8-9332-d8982e7edf6e" class="">O que é controlado?</h2></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-8096-a703-cedf9340028c" class="bulleted-list"><li style="list-style-type:disc">código-fonte</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-80e7-ac76-c3d1e7ee1616" class="bulleted-list"><li style="list-style-type:disc">documentação</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-8051-8f9d-f2910b1f4c82" class="bulleted-list"><li style="list-style-type:disc">requisitos</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-8098-9722-e90766beec97" class="bulleted-list"><li style="list-style-type:disc">scripts</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-80ca-a60c-ca7e3be1ccbc" class="bulleted-list"><li style="list-style-type:disc">configurações</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-805f-b362-d799e65d6796" class="bulleted-list"><li style="list-style-type:disc">builds</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-802e-9c77-ee6b0323f706" class="bulleted-list"><li style="list-style-type:disc">versões</li></ul></div><div style="display:contents" dir="auto"><hr id="366f6ce8-497f-808f-8986-f73602a40861"/></div><div style="display:contents" dir="auto"><h2 id="366f6ce8-497f-8029-b733-ed83653121e0" class="">Principais atividades</h2></div><div style="display:contents" dir="auto"><h3 id="366f6ce8-497f-8057-b7e7-d65e86b76e7e" class="">Controle de versão</h3></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-80c7-9c72-fd6b50d902c0" class="">Gerenciar alterações no código.</p></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-8040-84c9-e58277ede49d" class="">Ferramenta principal:</p></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-800b-930c-f2603136b905" class="bulleted-list"><li style="list-style-type:disc"><a href="https://git-scm.com/?utm_source=chatgpt.com">Git</a></li></ul></div><div style="display:contents" dir="auto"><hr id="366f6ce8-497f-801a-bffd-e6443d1254b0"/></div><div style="display:contents" dir="auto"><h3 id="366f6ce8-497f-8043-ba83-e0aa42ad5f33" class="">Controle de mudanças</h3></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-8038-86e6-d570f666dd88" class="">Registrar:</p></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-80ec-aba0-dc03e7694426" class="bulleted-list"><li style="list-style-type:disc">quem alterou</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-8019-b584-cfbe0400fb84" class="bulleted-list"><li style="list-style-type:disc">quando alterou</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-80d8-8ff3-fb70128c6ba6" class="bulleted-list"><li style="list-style-type:disc">o que foi alterado</li></ul></div><div style="display:contents" dir="auto"><hr id="366f6ce8-497f-8089-b292-f87b9e63fffb"/></div><div style="display:contents" dir="auto"><h3 id="366f6ce8-497f-80fc-b0ff-f7d17de52003" class="">Baselines</h3></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-804a-8882-fcdff6ba7b7a" class="">Versões estáveis do sistema.</p></div><div style="display:contents" dir="auto"><hr id="366f6ce8-497f-8001-ab4b-f9ba78ed4007"/></div><div style="display:contents" dir="auto"><h3 id="366f6ce8-497f-807e-8b14-eb0db1cbc6a0" class="">Gerenciamento de branches</h3></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-80a0-9f54-ce886c2c1a46" class="">Exemplo:</p></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-8092-8fbe-e6fccf11d079" class="bulleted-list"><li style="list-style-type:disc">main</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-8048-9ed4-c28777a61a4c" class="bulleted-list"><li style="list-style-type:disc">develop</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-80d0-9b4c-f6ba23fed212" class="bulleted-list"><li style="list-style-type:disc">feature/login</li></ul></div><div style="display:contents" dir="auto"><hr id="366f6ce8-497f-8073-a325-d46aec916be3"/></div><div style="display:contents" dir="auto"><h2 id="366f6ce8-497f-806e-9f9e-d268dc4fa8dc" class="">Exemplo</h2></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-8041-af26-e4249b17b2eb" class="">Um desenvolvedor cria nova funcionalidade:</p></div><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="366f6ce8-497f-805a-aa1b-f5acd4edde11" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">feature/pagamentos</code></pre></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-809b-98a9-e672d8435802" class="">A gestão de configuração controla:</p></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-8051-81ae-f78535c02d20" class="bulleted-list"><li style="list-style-type:disc">alterações</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-806e-87aa-f555669723dd" class="bulleted-list"><li style="list-style-type:disc">merge</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-8075-a0ea-e56294987a3a" class="bulleted-list"><li style="list-style-type:disc">histórico</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-8097-ad43-e808c69757fe" class="bulleted-list"><li style="list-style-type:disc">conflitos</li></ul></div><div style="display:contents" dir="auto"><hr id="366f6ce8-497f-80e4-8143-e8423cb516f5"/></div><div style="display:contents" dir="auto"><h1 id="366f6ce8-497f-808b-af50-c0c7dbf88f34" class="">Implantação</h1></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-8001-b7d9-ddf1f8a871f5" class="">A Implantação de Software é o processo de disponibilizar o sistema para uso.</p></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-80f9-b538-ea8d57862f6f" class="">Ela ocorre após:</p></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-808c-a444-f557abe74767" class="bulleted-list"><li style="list-style-type:disc">desenvolvimento</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-80ca-ade4-eb3f16925b81" class="bulleted-list"><li style="list-style-type:disc">testes</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-805a-9ba7-d232e3200ebe" class="bulleted-list"><li style="list-style-type:disc">validações</li></ul></div><div style="display:contents" dir="auto"><hr id="366f6ce8-497f-804b-b2e3-f7635505457e"/></div><div style="display:contents" dir="auto"><h2 id="366f6ce8-497f-8039-972f-ec48ad4bd8b8" class="">Objetivos</h2></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-80d7-a5e9-c7fe3e637de6" class="bulleted-list"><li style="list-style-type:disc">publicar sistema</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-8065-8e42-fb6ee0364501" class="bulleted-list"><li style="list-style-type:disc">disponibilizar versão em produção</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-808d-a406-cb7b215f9c09" class="bulleted-list"><li style="list-style-type:disc">configurar ambiente</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-80ef-b810-f42d1d3bcb33" class="bulleted-list"><li style="list-style-type:disc">garantir funcionamento real</li></ul></div><div style="display:contents" dir="auto"><hr id="366f6ce8-497f-8023-89d0-ff101d667054"/></div><div style="display:contents" dir="auto"><h2 id="366f6ce8-497f-80ea-8c84-cff624985664" class="">O que envolve?</h2></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-808c-9437-ddb8873b55c4" class="bulleted-list"><li style="list-style-type:disc">deploy</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-8072-9665-ea28bbfbf9f6" class="bulleted-list"><li style="list-style-type:disc">servidores</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-808d-973f-c3f68541553d" class="bulleted-list"><li style="list-style-type:disc">containers</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-80b9-814b-f35577359a70" class="bulleted-list"><li style="list-style-type:disc">banco de dados</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-8082-b4e2-de6636aacbb5" class="bulleted-list"><li style="list-style-type:disc">cloud</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-8002-b280-f1027b732979" class="bulleted-list"><li style="list-style-type:disc">monitoramento</li></ul></div><div style="display:contents" dir="auto"><hr id="366f6ce8-497f-80f2-9769-f37db63e147b"/></div><div style="display:contents" dir="auto"><h2 id="366f6ce8-497f-8043-b05c-e290e3fa723e" class="">Ferramentas comuns</h2></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-8047-9d60-e77eff975622" class="bulleted-list"><li style="list-style-type:disc"><a href="https://www.docker.com/?utm_source=chatgpt.com">Docker</a></li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-80a8-b0f5-c07f6bfc9edb" class="bulleted-list"><li style="list-style-type:disc"><a href="https://kubernetes.io/?utm_source=chatgpt.com">Kubernetes</a></li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-8045-a135-d7f3b689fdcb" class="bulleted-list"><li style="list-style-type:disc"><a href="https://www.jenkins.io/?utm_source=chatgpt.com">Jenkins</a></li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-8000-ab04-d1445a62cca8" class="bulleted-list"><li style="list-style-type:disc"><a href="https://github.com/features/actions?utm_source=chatgpt.com">GitHub Actions</a></li></ul></div><div style="display:contents" dir="auto"><hr id="366f6ce8-497f-8058-ae49-f7fd42aefc2b"/></div><div style="display:contents" dir="auto"><h1 id="366f6ce8-497f-80c2-8763-d6cad24deb08" class="">Diferença Principal</h1></div><div style="display:contents" dir="ltr"><table id="366f6ce8-497f-808a-8602-ea18ce1c3310" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="366f6ce8-497f-8066-938b-f5ad10dce5f8"><th id="CfqO" class="simple-table-header-color simple-table-header">Gestão de Configuração</th><th id="SbPZ" class="simple-table-header-color simple-table-header">Implantação</th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="366f6ce8-497f-80ca-b71f-fa88535e47a5"><td id="CfqO" class="">Controla mudanças</td><td id="SbPZ" class="">Publica sistema</td></tr></div><div style="display:contents" dir="ltr"><tr id="366f6ce8-497f-8071-9a31-e25444417292"><td id="CfqO" class="">Organiza versões</td><td id="SbPZ" class="">Disponibiliza software</td></tr></div><div style="display:contents" dir="ltr"><tr id="366f6ce8-497f-802f-b7c2-d1d2525eb2ac"><td id="CfqO" class="">Atua durante desenvolvimento</td><td id="SbPZ" class="">Atua na entrega</td></tr></div><div style="display:contents" dir="ltr"><tr id="366f6ce8-497f-80f1-b20e-d017cebd513b"><td id="CfqO" class="">Foco em controle</td><td id="SbPZ" class="">Foco em execução</td></tr></div><div style="display:contents" dir="ltr"><tr id="366f6ce8-497f-803d-856f-c97d06d60d5d"><td id="CfqO" class="">Mantém integridade</td><td id="SbPZ" class="">Coloca sistema em produção</td></tr></div></tbody></table></div><div style="display:contents" dir="auto"><hr id="366f6ce8-497f-8066-96ed-db22e6bd9622"/></div><div style="display:contents" dir="auto"><h1 id="366f6ce8-497f-80dd-aa02-fecee1e32c6e" class="">Comparação Detalhada</h1></div><div style="display:contents" dir="ltr"><table id="366f6ce8-497f-8036-82be-dc5ac4e6e749" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="366f6ce8-497f-8024-ab60-dbf9a91ce571"><th id="@T|u" class="simple-table-header-color simple-table-header">Aspecto</th><th id="qHPE" class="simple-table-header-color simple-table-header">Gestão de Configuração</th><th id="Sayd" class="simple-table-header-color simple-table-header">Implantação</th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="366f6ce8-497f-803c-84a7-fdef7414fc18"><td id="@T|u" class="">Objetivo</td><td id="qHPE" class="">Controle de artefatos</td><td id="Sayd" class="">Disponibilizar sistema</td></tr></div><div style="display:contents" dir="ltr"><tr id="366f6ce8-497f-801d-9cfa-f0d55dcb1c99"><td id="@T|u" class="">Atua em</td><td id="qHPE" class="">Desenvolvimento</td><td id="Sayd" class="">Produção</td></tr></div><div style="display:contents" dir="ltr"><tr id="366f6ce8-497f-804d-a865-cc410bd51e4c"><td id="@T|u" class="">Ferramentas</td><td id="qHPE" class="">Git, GitHub</td><td id="Sayd" class="">Docker, Kubernetes</td></tr></div><div style="display:contents" dir="ltr"><tr id="366f6ce8-497f-808d-8770-ee526d3806de"><td id="@T|u" class="">Controle de versões</td><td id="qHPE" class="">Sim</td><td id="Sayd" class="">Não é foco principal</td></tr></div><div style="display:contents" dir="ltr"><tr id="366f6ce8-497f-80de-9a75-ec1bcd16c70c"><td id="@T|u" class="">Deploy</td><td id="qHPE" class="">Não</td><td id="Sayd" class="">Sim</td></tr></div><div style="display:contents" dir="ltr"><tr id="366f6ce8-497f-80d1-a61b-f13747c1e4c5"><td id="@T|u" class="">Histórico de alterações</td><td id="qHPE" class="">Sim</td><td id="Sayd" class="">Não</td></tr></div><div style="display:contents" dir="ltr"><tr id="366f6ce8-497f-80a1-bc63-fdb9256df21e"><td id="@T|u" class="">Ambientes</td><td id="qHPE" class="">Repositórios</td><td id="Sayd" class="">Servidores/cloud</td></tr></div></tbody></table></div><div style="display:contents" dir="auto"><hr id="366f6ce8-497f-80e8-b17d-cc3bd14f0f3b"/></div><div style="display:contents" dir="auto"><h1 id="366f6ce8-497f-8013-973b-dfc492e65c0b" class="">Relação Entre Elas</h1></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-8030-a761-f34c200cdc2b" class="">As duas áreas trabalham juntas.</p></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-80e5-92b5-de0bfde87c75" class="">Fluxo comum:</p></div><div style="display:contents" dir="auto"><pre id="366f6ce8-497f-8020-8b18-ec1161cbce5d" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Desenvolvimento
+↓
+Gestão de configuração
+↓
+Versionamento
+↓
+Build
+↓
+Implantação
+↓
+Produção</code></pre></div><div style="display:contents" dir="auto"><hr id="366f6ce8-497f-80ee-87ee-ce3f5f17d541"/></div><div style="display:contents" dir="auto"><h1 id="366f6ce8-497f-80ee-a517-d399bafd2599" class="">Exemplo Prático</h1></div><div style="display:contents" dir="auto"><h2 id="366f6ce8-497f-80b6-b668-c8974e1fc7a7" class="">Sistema de Delivery</h2></div><div style="display:contents" dir="auto"><h3 id="366f6ce8-497f-8044-9a02-c42684d18d3f" class="">Gestão de Configuração</h3></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-8016-84f8-d6bd4bbcf7e1" class="bulleted-list"><li style="list-style-type:disc">controlar versões do backend</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-8086-a30e-f7970b2f9fca" class="bulleted-list"><li style="list-style-type:disc">gerenciar branches</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-809b-9f40-e8d85a79b3cb" class="bulleted-list"><li style="list-style-type:disc">armazenar histórico de mudanças</li></ul></div><div style="display:contents" dir="auto"><h3 id="366f6ce8-497f-807f-a7f0-ebfda4d742ea" class="">Implantação</h3></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-8070-a293-e26dadbbec20" class="bulleted-list"><li style="list-style-type:disc">publicar API</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-8027-b07e-f787fa205cd6" class="bulleted-list"><li style="list-style-type:disc">configurar servidor</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-80dd-a64a-c3bc98e720d7" class="bulleted-list"><li style="list-style-type:disc">subir containers Docker</li></ul></div><div style="display:contents" dir="auto"><hr id="366f6ce8-497f-80bc-9ad0-d579f93caa2b"/></div><div style="display:contents" dir="auto"><h1 id="366f6ce8-497f-8099-b388-f66f68999bb3" class="">CI/CD e Relação Entre Ambas</h1></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-80a3-b810-df91e7d04fcb" class="">Na cultura DevOps, gestão de configuração e implantação ficam integradas.</p></div><div style="display:contents" dir="auto"><hr id="366f6ce8-497f-80dc-a9e4-dbf4a51bcc0e"/></div><div style="display:contents" dir="auto"><h2 id="366f6ce8-497f-805e-bbed-f85e23cd8f89" class="">CI — Continuous Integration</h2></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-8043-bd36-cc9a44ce193d" class="">Relacionada à:</p></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-8014-be0d-d81a20a8c094" class="bulleted-list"><li style="list-style-type:disc">versionamento</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-80c6-bf13-c3ed5102f5fb" class="bulleted-list"><li style="list-style-type:disc">integração de código</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-8082-aed4-d64cd704cd82" class="bulleted-list"><li style="list-style-type:disc">testes automáticos</li></ul></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-802a-9646-ce719bb55aee" class="">Mais ligada à gestão de configuração.</p></div><div style="display:contents" dir="auto"><hr id="366f6ce8-497f-8013-97d6-d8083e97cf6e"/></div><div style="display:contents" dir="auto"><h2 id="366f6ce8-497f-8040-b5df-e0575214fdf8" class="">CD — Continuous Deployment/Delivery</h2></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-8057-bc87-c6a3464e7098" class="">Relacionada à:</p></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-801c-af71-c329e82426d3" class="bulleted-list"><li style="list-style-type:disc">deploy automático</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-804e-b7d2-d2032dbe081c" class="bulleted-list"><li style="list-style-type:disc">publicação contínua</li></ul></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-8090-87b8-e16baa5f2df1" class="">Mais ligada à implantação.</p></div><div style="display:contents" dir="auto"><hr id="366f6ce8-497f-8036-ae0d-fadab6cba59e"/></div><div style="display:contents" dir="auto"><h1 id="366f6ce8-497f-8098-b0c6-c4e330222c03" class="">Resumo Geral</h1></div><div style="display:contents" dir="auto"><h2 id="366f6ce8-497f-8065-b4c4-ed6fe4ac118f" class="">Gestão de Configuração</h2></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-8082-9735-d920fe52f381" class="">Responsável por:</p></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-807e-8bd6-d89ac7a40cdc" class="bulleted-list"><li style="list-style-type:disc">controle de versões</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-8057-aac3-de263f9adb7a" class="bulleted-list"><li style="list-style-type:disc">organização de artefatos</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-8069-a31e-f40c3ca2c2cd" class="bulleted-list"><li style="list-style-type:disc">rastreabilidade</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-803d-b992-ea32da345548" class="bulleted-list"><li style="list-style-type:disc">gerenciamento de mudanças</li></ul></div><div style="display:contents" dir="auto"><hr id="366f6ce8-497f-804e-a7e2-f804b2925fbe"/></div><div style="display:contents" dir="auto"><h2 id="366f6ce8-497f-80df-b738-c39bbda23628" class="">Implantação</h2></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-80f5-8c95-e041fe9dfb87" class="">Responsável por:</p></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-80b4-b374-feffaed0668a" class="bulleted-list"><li style="list-style-type:disc">deploy</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-8073-a70e-f2c559e404ca" class="bulleted-list"><li style="list-style-type:disc">publicação</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-8000-8bf8-d24c5f899c2e" class="bulleted-list"><li style="list-style-type:disc">configuração de produção</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-8052-ae11-d78ecf0450b2" class="bulleted-list"><li style="list-style-type:disc">disponibilização do sistema</li></ul></div><div style="display:contents" dir="auto"><hr id="366f6ce8-497f-8024-b86f-d6ed1ce68c9a"/></div><div style="display:contents" dir="auto"><h1 id="366f6ce8-497f-80b9-a6b1-c2cbcedcf74d" class="">Resumo Final</h1></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-8099-b8c9-ea4f257150f4" class="">A principal diferença é:</p></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-80b6-9c89-d3f4be05dd76" class="bulleted-list"><li style="list-style-type:disc">a gestão de configuração controla e organiza o software durante o desenvolvimento;</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-808c-98de-e03f74935bf4" class="bulleted-list"><li style="list-style-type:disc">a implantação entrega e executa o software no ambiente real de uso.</li></ul></div></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>
