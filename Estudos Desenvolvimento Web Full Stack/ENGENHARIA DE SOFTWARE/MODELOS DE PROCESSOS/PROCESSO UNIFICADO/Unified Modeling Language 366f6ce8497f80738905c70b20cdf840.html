@@ -1,0 +1,763 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Unified Modeling Language</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="366f6ce8-497f-8073-8905-c70b20cdf840" class="page sans"><header><div class="page-header-icon undefined"><span class="icon">💻</span></div><h1 class="page-title" dir="auto">Unified Modeling Language</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><div style="display:contents" dir="auto"><h1 id="366f6ce8-497f-80a5-91cf-c398f997b64a" class="">Unified Modeling Language (UML)</h1></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-8003-9ce9-fa0a347e5f9e" class="">A <strong>UML (Unified Modeling Language)</strong> é uma linguagem padronizada usada para <strong>modelar sistemas de software</strong>.</p></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-80cf-b185-ffe7d8da65ad" class="">Ela permite representar visualmente:</p></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-8087-8911-fce67ce690d8" class="bulleted-list"><li style="list-style-type:disc">estrutura do sistema</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-80ac-8e29-d8ea8aa4f0af" class="bulleted-list"><li style="list-style-type:disc">comportamento</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-800f-9055-d2b27ca99e2b" class="bulleted-list"><li style="list-style-type:disc">interação entre componentes</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-80a9-8081-ee6bb6567fe7" class="bulleted-list"><li style="list-style-type:disc">arquitetura</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-80c2-b5a9-f176c3a5414b" class="bulleted-list"><li style="list-style-type:disc">regras de negócio</li></ul></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-80a1-a99c-e4684de505f2" class="">A UML não é uma linguagem de programação.</p></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-8013-9237-df6b03ef6b65" class="">Ela é uma <strong>linguagem de modelagem visual</strong>.</p></div><div style="display:contents" dir="auto"><hr id="366f6ce8-497f-8089-92c1-c4c61832c312"/></div><div style="display:contents" dir="auto"><h1 id="366f6ce8-497f-8054-9625-ce7b08ba105f" class="">Objetivo da UML</h1></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-808f-880a-d2799a5a914e" class="">A UML serve para:</p></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-8012-854a-e04b152f4fe6" class="bulleted-list"><li style="list-style-type:disc">visualizar sistemas</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-8079-8801-e7b622c2ad57" class="bulleted-list"><li style="list-style-type:disc">documentar projetos</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-8003-ac1a-e2233e8b696f" class="bulleted-list"><li style="list-style-type:disc">especificar requisitos</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-8056-bac6-fd1211016046" class="bulleted-list"><li style="list-style-type:disc">facilitar comunicação entre equipes</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-80f3-8a6d-ff662097dcd3" class="bulleted-list"><li style="list-style-type:disc">auxiliar no planejamento</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-8034-bcf6-fa60db32e89d" class="bulleted-list"><li style="list-style-type:disc">reduzir complexidade</li></ul></div><div style="display:contents" dir="auto"><hr id="366f6ce8-497f-804b-9965-e39d2c44895a"/></div><div style="display:contents" dir="auto"><h1 id="366f6ce8-497f-806e-be5d-c3710bc3e761" class="">Origem da UML</h1></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-80c4-ae6f-f45eed4178fb" class="">A UML surgiu nos anos 1990 pela união de métodos de modelagem criados por:</p></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-804a-bbf3-ca8e1a375f74" class="bulleted-list"><li style="list-style-type:disc">Grady Booch</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-803c-9c61-d4c075124e9b" class="bulleted-list"><li style="list-style-type:disc">James Rumbaugh</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-804a-8c2d-f413735deaa0" class="bulleted-list"><li style="list-style-type:disc">Ivar Jacobson</li></ul></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-80c0-b2bb-cebafed2d5a5" class="">Eles ficaram conhecidos como:</p></div><div style="display:contents" dir="auto"><blockquote id="366f6ce8-497f-80b3-9af0-f7912c9adfe7" class="">“Os Três Amigos da UML”.</blockquote></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-800b-a153-feb935d936ac" class="">A padronização foi feita pela:</p></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-809a-abfd-fe60c8c0de14" class="bulleted-list"><li style="list-style-type:disc">Object Management Group</li></ul></div><div style="display:contents" dir="auto"><hr id="366f6ce8-497f-8016-ae18-dbddcd27aed9"/></div><div style="display:contents" dir="auto"><h1 id="366f6ce8-497f-80d9-a74f-ea36c80a8d5b" class="">Principais características</h1></div><div style="display:contents" dir="auto"><h2 id="366f6ce8-497f-8013-a29d-ef2b0f450ba3" class="">1. Linguagem visual</h2></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-809a-8ae7-da8e6e8a14b8" class="">Usa diagramas gráficos.</p></div><div style="display:contents" dir="auto"><hr id="366f6ce8-497f-8025-9079-db2f92d470ab"/></div><div style="display:contents" dir="auto"><h2 id="366f6ce8-497f-804a-895a-c9d6c8500629" class="">2. Independente de linguagem</h2></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-80c1-8be4-e13998793460" class="">Pode ser usada com:</p></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-80be-80c8-c89a09e1eb95" class="bulleted-list"><li style="list-style-type:disc">Java</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-8097-a164-e8b1e5f5ab0e" class="bulleted-list"><li style="list-style-type:disc">Python</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-8028-96b6-ee0c4b02bb5b" class="bulleted-list"><li style="list-style-type:disc">C#</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-8010-8581-fe7db64a3dee" class="bulleted-list"><li style="list-style-type:disc">PHP</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-80f4-8c74-d7ed76c78d80" class="bulleted-list"><li style="list-style-type:disc">JavaScript</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-8034-8fcb-c94dc64cf9d0" class="bulleted-list"><li style="list-style-type:disc">etc.</li></ul></div><div style="display:contents" dir="auto"><hr id="366f6ce8-497f-80b9-a240-f3bd2e5d5636"/></div><div style="display:contents" dir="auto"><h2 id="366f6ce8-497f-8059-9a0a-ff543f920942" class="">3. Orientada a objetos</h2></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-80d7-b6ff-d5d6b16e49a6" class="">A UML foi criada principalmente para sistemas OO.</p></div><div style="display:contents" dir="auto"><hr id="366f6ce8-497f-80c2-a43e-e686b8b177d1"/></div><div style="display:contents" dir="auto"><h2 id="366f6ce8-497f-80c8-91c9-e71153d2e8b7" class="">4. Padronizada</h2></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-8063-a00b-d0d46a15d7c6" class="">Possui símbolos e regras universais.</p></div><div style="display:contents" dir="auto"><hr id="366f6ce8-497f-8027-ab57-cb9738aacf34"/></div><div style="display:contents" dir="auto"><h1 id="366f6ce8-497f-800e-b210-d2689a1157aa" class="">Importância da UML</h1></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-8038-b43b-decbeb6bc45e" class="">A UML ajuda:</p></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-80f8-867b-cd44615441e3" class="bulleted-list"><li style="list-style-type:disc">analistas</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-809a-ac55-cfe2bbe8c162" class="bulleted-list"><li style="list-style-type:disc">desenvolvedores</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-80e7-b072-c4469414305e" class="bulleted-list"><li style="list-style-type:disc">arquitetos</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-8056-8a43-f32cea635e7c" class="bulleted-list"><li style="list-style-type:disc">clientes</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-80d8-8c41-e845de91c275" class="bulleted-list"><li style="list-style-type:disc">gerentes</li></ul></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-8034-96d1-f5301a63f3e9" class="">Todos conseguem entender melhor o sistema.</p></div><div style="display:contents" dir="auto"><hr id="366f6ce8-497f-8067-828a-e198a8ff2471"/></div><div style="display:contents" dir="auto"><h1 id="366f6ce8-497f-80d7-9465-db856c3ffa6e" class="">Estrutura da UML</h1></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-803d-a248-f36da704424c" class="">A UML é baseada em <strong>diagramas</strong>.</p></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-8042-bebd-d5b1aed78d05" class="">Eles são divididos em:</p></div><div style="display:contents" dir="auto"><h2 id="366f6ce8-497f-804d-aec4-fdae66780673" class="">1. Diagramas Estruturais</h2></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-80e0-8caa-f3241b3d43ab" class="">Mostram a estrutura do sistema.</p></div><div style="display:contents" dir="auto"><h2 id="366f6ce8-497f-80c7-8c57-dbf87b91606f" class="">2. Diagramas Comportamentais</h2></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-8009-8b54-f3edcefd89e3" class="">Mostram o comportamento e interações.</p></div><div style="display:contents" dir="auto"><hr id="366f6ce8-497f-809b-a94f-f5d4194c3d61"/></div><div style="display:contents" dir="auto"><h1 id="366f6ce8-497f-8012-bf21-e890e6ff7af0" class="">Diagramas Estruturais</h1></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-8051-a6a9-d8bdabb2f056" class="">Os principais são:</p></div><div style="display:contents" dir="ltr"><table id="366f6ce8-497f-8012-bc41-f45a1bbf09bf" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="366f6ce8-497f-80c6-a7d5-e9162f7e2588"><th id="Val^" class="simple-table-header-color simple-table-header">Diagrama</th><th id="tpoc" class="simple-table-header-color simple-table-header">Função</th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="366f6ce8-497f-803f-8653-ca1e29583c68"><td id="Val^" class="">Classe</td><td id="tpoc" class="">Estrutura das classes</td></tr></div><div style="display:contents" dir="ltr"><tr id="366f6ce8-497f-8057-b189-d467bc3258ad"><td id="Val^" class="">Objeto</td><td id="tpoc" class="">Instâncias das classes</td></tr></div><div style="display:contents" dir="ltr"><tr id="366f6ce8-497f-80c8-bcea-fa3bf5bcb214"><td id="Val^" class="">Componentes</td><td id="tpoc" class="">Organização de módulos</td></tr></div><div style="display:contents" dir="ltr"><tr id="366f6ce8-497f-8063-a4e4-e367477694b4"><td id="Val^" class="">Implantação</td><td id="tpoc" class="">Infraestrutura física</td></tr></div><div style="display:contents" dir="ltr"><tr id="366f6ce8-497f-809c-906d-e6deb1874fd5"><td id="Val^" class="">Pacotes</td><td id="tpoc" class="">Organização do sistema</td></tr></div></tbody></table></div><div style="display:contents" dir="auto"><hr id="366f6ce8-497f-80e5-8393-c2bcee28d358"/></div><div style="display:contents" dir="auto"><h1 id="366f6ce8-497f-8007-b98d-e405b03e227d" class="">Diagramas Comportamentais</h1></div><div style="display:contents" dir="ltr"><table id="366f6ce8-497f-80e7-bab0-d07f84ec64f4" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="366f6ce8-497f-80c9-9893-c32425eabb2a"><th id="^iTk" class="simple-table-header-color simple-table-header">Diagrama</th><th id="P_Pm" class="simple-table-header-color simple-table-header">Função</th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="366f6ce8-497f-808c-bb2a-d1ea99655ef4"><td id="^iTk" class="">Caso de Uso</td><td id="P_Pm" class="">Funcionalidades do sistema</td></tr></div><div style="display:contents" dir="ltr"><tr id="366f6ce8-497f-8082-91e0-e0e175007df6"><td id="^iTk" class="">Sequência</td><td id="P_Pm" class="">Comunicação entre objetos</td></tr></div><div style="display:contents" dir="ltr"><tr id="366f6ce8-497f-805c-9841-d97e012e8b8a"><td id="^iTk" class="">Atividade</td><td id="P_Pm" class="">Fluxo de processos</td></tr></div><div style="display:contents" dir="ltr"><tr id="366f6ce8-497f-80d8-9422-ca976c9c309a"><td id="^iTk" class="">Estados</td><td id="P_Pm" class="">Mudanças de estado</td></tr></div><div style="display:contents" dir="ltr"><tr id="366f6ce8-497f-801f-b2c8-d26df5b54aeb"><td id="^iTk" class="">Comunicação</td><td id="P_Pm" class="">Troca de mensagens</td></tr></div></tbody></table></div><div style="display:contents" dir="auto"><hr id="366f6ce8-497f-80bc-aca6-e11b4f4958a8"/></div><div style="display:contents" dir="auto"><h1 id="366f6ce8-497f-803c-9cac-dfeb63c397eb" class="">Principais Diagramas UML</h1></div><div style="display:contents" dir="auto"><hr id="366f6ce8-497f-8024-81e8-c308d57e2232"/></div><div style="display:contents" dir="auto"><h1 id="366f6ce8-497f-802e-86a6-d3d1d73474bc" class="">1. Diagrama de Casos de Uso</h1></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-809d-9bb3-ff8f4476c95b" class="">É um dos mais importantes.</p></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-8088-bb71-eba5f4d8c139" class="">Mostra:</p></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-80f6-bd96-e6b375052a77" class="bulleted-list"><li style="list-style-type:disc">funcionalidades do sistema</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-8010-aa13-ce48d69dbe18" class="bulleted-list"><li style="list-style-type:disc">interação dos usuários</li></ul></div><div style="display:contents" dir="auto"><hr id="366f6ce8-497f-80c1-9a6a-eea74c859c3c"/></div><div style="display:contents" dir="auto"><h1 id="366f6ce8-497f-8070-9cb4-e438fcc49668" class="">Elementos principais</h1></div><div style="display:contents" dir="auto"><h2 id="366f6ce8-497f-806a-8aab-ce66b35766d1" class="">Ator</h2></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-802c-80bc-fc3febc488e2" class="">Representa quem interage com o sistema.</p></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-8078-9c26-fd4639a63104" class="">Pode ser:</p></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-80ec-9f11-ebd1c95ce98e" class="bulleted-list"><li style="list-style-type:disc">usuário</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-80dd-96ed-ced95d959c77" class="bulleted-list"><li style="list-style-type:disc">sistema externo</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-8086-b56e-cd902559a6f3" class="bulleted-list"><li style="list-style-type:disc">administrador</li></ul></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-80ab-af9e-fd093ccffff9" class="">Representado por:</p></div><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="366f6ce8-497f-80f6-b77d-eb7e1b11813d" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Boneco palito</code></pre></div><div style="display:contents" dir="auto"><hr id="366f6ce8-497f-80a7-a908-d36426e42146"/></div><div style="display:contents" dir="auto"><h2 id="366f6ce8-497f-8039-a5c2-c1972c02eca2" class="">Caso de uso</h2></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-80df-a6ad-e8facbec6786" class="">Representa uma funcionalidade.</p></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-8020-ab4a-c824b6aa2ccb" class="">Exemplos:</p></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-8028-9910-eb5df94d2788" class="bulleted-list"><li style="list-style-type:disc">Fazer login</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-80e6-8563-ff5c2323771c" class="bulleted-list"><li style="list-style-type:disc">Emitir relatório</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-804b-8b4f-e8f211e6629d" class="bulleted-list"><li style="list-style-type:disc">Realizar pagamento</li></ul></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-80df-b370-f7f9d58ec323" class="">Representado por:</p></div><div style="display:contents" dir="auto"><pre id="366f6ce8-497f-80bb-9ca7-eb455d470448" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Elipse</code></pre></div><div style="display:contents" dir="auto"><hr id="366f6ce8-497f-80b9-ad9f-c3d4ae838d2f"/></div><div style="display:contents" dir="auto"><h1 id="366f6ce8-497f-8073-a2fa-d8411a31dfd2" class="">Exemplo</h1></div><div style="display:contents" dir="auto"><pre id="366f6ce8-497f-805c-892b-e9d946c53a86" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Cliente -----&gt; (Realizar Compra)</code></pre></div><div style="display:contents" dir="auto"><hr id="366f6ce8-497f-80c2-b6c3-d7f1706bf2f7"/></div><div style="display:contents" dir="auto"><h1 id="366f6ce8-497f-805d-b379-ca0303ebd2df" class="">Objetivo</h1></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-80c8-aa7c-e4dd039cf6ef" class="bulleted-list"><li style="list-style-type:disc">entender requisitos</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-80df-a27d-e434d97f5655" class="bulleted-list"><li style="list-style-type:disc">identificar funcionalidades</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-80ba-aa5f-f05596bd9d6f" class="bulleted-list"><li style="list-style-type:disc">comunicação com cliente</li></ul></div><div style="display:contents" dir="auto"><hr id="366f6ce8-497f-804b-8ff4-dd4b960802d1"/></div><div style="display:contents" dir="auto"><h1 id="366f6ce8-497f-80ce-b216-c7bb0eda3292" class="">Vantagens</h1></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-8088-853d-cdc2a0ccb6cc" class="bulleted-list"><li style="list-style-type:disc">simples</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-80da-88db-d1e23e5d5ae8" class="bulleted-list"><li style="list-style-type:disc">fácil entendimento</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-8044-a002-fff1b993a42f" class="bulleted-list"><li style="list-style-type:disc">visão geral do sistema</li></ul></div><div style="display:contents" dir="auto"><hr id="366f6ce8-497f-80f0-b146-e915dbe340f0"/></div><div style="display:contents" dir="auto"><h1 id="366f6ce8-497f-8052-b7c7-d506065f0a42" class="">2. Diagrama de Classes</h1></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-8081-909a-d0ea4f64345e" class="">É o principal diagrama estrutural.</p></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-80ed-92a0-cf5fac094e6f" class="">Representa:</p></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-8086-a5f1-f6c40a6dbce1" class="bulleted-list"><li style="list-style-type:disc">classes</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-808b-a6ec-f1e51027bec0" class="bulleted-list"><li style="list-style-type:disc">atributos</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-8050-a09c-d89028d458dc" class="bulleted-list"><li style="list-style-type:disc">métodos</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-80f9-b7ba-c0bd1fd38ca2" class="bulleted-list"><li style="list-style-type:disc">relacionamentos</li></ul></div><div style="display:contents" dir="auto"><hr id="366f6ce8-497f-8084-8c19-faf6146ff79f"/></div><div style="display:contents" dir="auto"><h1 id="366f6ce8-497f-803a-a9f2-c320a4c6161f" class="">Estrutura da Classe</h1></div><div style="display:contents" dir="auto"><pre id="366f6ce8-497f-80d3-9553-d80ce7da1804" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">-------------------
+| Cliente         |
+-------------------
+| nome            |
+| cpf             |
+-------------------
+| comprar()       |
+| pagar()         |
+-------------------</code></pre></div><div style="display:contents" dir="auto"><hr id="366f6ce8-497f-8048-81b4-d83bd12b64d3"/></div><div style="display:contents" dir="auto"><h1 id="366f6ce8-497f-80d6-990b-d49cedee013f" class="">Relacionamentos</h1></div><div style="display:contents" dir="auto"><h2 id="366f6ce8-497f-80f0-abf3-fee653d378f9" class="">Associação</h2></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-80da-a72b-d11a15b58a9f" class="">Relacionamento comum.</p></div><div style="display:contents" dir="auto"><pre id="366f6ce8-497f-8040-9094-df8cf43bc3bb" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Cliente ---- Pedido</code></pre></div><div style="display:contents" dir="auto"><hr id="366f6ce8-497f-8009-b724-cc379719b58b"/></div><div style="display:contents" dir="auto"><h2 id="366f6ce8-497f-808a-9c90-f246eee9cf02" class="">Herança (Generalização)</h2></div><div style="display:contents" dir="auto"><pre id="366f6ce8-497f-80d8-8e0c-d93b37911e00" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Pessoa
+  ↑
+Cliente</code></pre></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-80cf-9f80-debfe44cc5a9" class="">Cliente herda características de Pessoa.</p></div><div style="display:contents" dir="auto"><hr id="366f6ce8-497f-800a-9d8b-ebec1f0b22b9"/></div><div style="display:contents" dir="auto"><h2 id="366f6ce8-497f-8042-977b-f6bf63a22ec0" class="">Agregação</h2></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-804a-88a7-df76891291ce" class="">Relacionamento “tem um”.</p></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-800c-81e8-fd03def977ba" class="">Exemplo:</p></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-80bc-8dca-c42b353fb369" class="bulleted-list"><li style="list-style-type:disc">Time tem jogadores.</li></ul></div><div style="display:contents" dir="auto"><hr id="366f6ce8-497f-80e5-abca-df2e8a0ef7f1"/></div><div style="display:contents" dir="auto"><h2 id="366f6ce8-497f-80f1-aa51-c40080a011e8" class="">Composição</h2></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-8071-bf85-fd2f984d87af" class="">Relacionamento forte.</p></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-80c2-ab99-e9c7b9af1b87" class="">Exemplo:</p></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-8064-a67f-c6555088fbe5" class="bulleted-list"><li style="list-style-type:disc">Pedido possui itens.</li></ul></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-80e1-b965-cf31a2b2dc43" class="">Se o pedido for destruído:</p></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-8091-88d5-f531c341d2d6" class="bulleted-list"><li style="list-style-type:disc">os itens também são.</li></ul></div><div style="display:contents" dir="auto"><hr id="366f6ce8-497f-8013-8808-ede1ddda7a1a"/></div><div style="display:contents" dir="auto"><h2 id="366f6ce8-497f-8025-b08a-f01e488a1781" class="">Dependência</h2></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-809f-80be-ddaa6d52bf5a" class="">Uma classe usa outra temporariamente.</p></div><div style="display:contents" dir="auto"><hr id="366f6ce8-497f-808a-8e0d-e0b0f7d6b1fd"/></div><div style="display:contents" dir="auto"><h1 id="366f6ce8-497f-80a0-bf77-fcf43032900b" class="">Multiplicidade</h1></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-804c-a972-f202ef94ff82" class="">Define quantidades.</p></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-8071-af91-f526d9e323fb" class="">Exemplo:</p></div><div style="display:contents" dir="auto"><pre id="366f6ce8-497f-801a-aff4-cf245e8ebf6c" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Cliente 1 ---- * Pedido</code></pre></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-80f1-a6de-daf06dd2c492" class="">Um cliente pode ter vários pedidos.</p></div><div style="display:contents" dir="auto"><hr id="366f6ce8-497f-8019-8d42-cf9d0483daf8"/></div><div style="display:contents" dir="auto"><h1 id="366f6ce8-497f-80e8-8208-e133745874bc" class="">3. Diagrama de Sequência</h1></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-808b-bf41-e579bd442faa" class="">Mostra a troca de mensagens entre objetos ao longo do tempo.</p></div><div style="display:contents" dir="auto"><hr id="366f6ce8-497f-80e4-bff8-dce894340195"/></div><div style="display:contents" dir="auto"><h1 id="366f6ce8-497f-80f3-a147-f54f85846aa0" class="">Objetivo</h1></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-80d4-881d-f28b18e7c70d" class="">Representar:</p></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-8045-bf0c-fe786df1bf7f" class="bulleted-list"><li style="list-style-type:disc">ordem das interações</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-8049-a2dd-f64367d97699" class="bulleted-list"><li style="list-style-type:disc">comunicação entre objetos</li></ul></div><div style="display:contents" dir="auto"><hr id="366f6ce8-497f-8005-a91a-f431091a4686"/></div><div style="display:contents" dir="auto"><h1 id="366f6ce8-497f-8057-877c-cde9bbf548c0" class="">Elementos</h1></div><div style="display:contents" dir="auto"><h2 id="366f6ce8-497f-8087-a6a5-d05181c5bdd1" class="">Linha de vida</h2></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-8009-817d-cbed997b7596" class="">Representa objeto ativo.</p></div><div style="display:contents" dir="auto"><h2 id="366f6ce8-497f-8067-add1-e1917e94cdee" class="">Mensagem</h2></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-8002-bcc3-f389838875bd" class="">Comunicação entre objetos.</p></div><div style="display:contents" dir="auto"><hr id="366f6ce8-497f-8018-b6d1-c1c7155c24b9"/></div><div style="display:contents" dir="auto"><h1 id="366f6ce8-497f-8030-bdf9-ec4223da1f00" class="">Exemplo</h1></div><div style="display:contents" dir="auto"><pre id="366f6ce8-497f-804c-bf31-fd661552253b" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Cliente → Sistema : login()
+Sistema → Banco : validar()
+Banco → Sistema : OK</code></pre></div><div style="display:contents" dir="auto"><hr id="366f6ce8-497f-8086-803f-dc93548c5138"/></div><div style="display:contents" dir="auto"><h1 id="366f6ce8-497f-8094-98f7-c002ffb44000" class="">Importância</h1></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-80a2-b257-e08112a6ebe2" class="">Muito usado para:</p></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-80e0-b72e-d7f05fb7b208" class="bulleted-list"><li style="list-style-type:disc">modelar regras de negócio</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-8097-b359-c51862ed4e3f" class="bulleted-list"><li style="list-style-type:disc">entender fluxo interno</li></ul></div><div style="display:contents" dir="auto"><hr id="366f6ce8-497f-8088-8d84-eef1f81b1812"/></div><div style="display:contents" dir="auto"><h1 id="366f6ce8-497f-80be-a0ba-f66b2d1c9814" class="">4. Diagrama de Atividades</h1></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-8070-ae0d-f9ff49e9e626" class="">Representa fluxo de processos.</p></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-80bc-b5a6-fac0fcc25fd8" class="">Parecido com fluxograma.</p></div><div style="display:contents" dir="auto"><hr id="366f6ce8-497f-8082-9f6d-c1aabde31b9f"/></div><div style="display:contents" dir="auto"><h1 id="366f6ce8-497f-8014-a11e-d89abccda44b" class="">Usos</h1></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-801e-9297-d0577d759166" class="bulleted-list"><li style="list-style-type:disc">processos de negócio</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-80b6-996b-c1434d0102cf" class="bulleted-list"><li style="list-style-type:disc">algoritmos</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-8046-913c-e7c1fc7088ca" class="bulleted-list"><li style="list-style-type:disc">regras operacionais</li></ul></div><div style="display:contents" dir="auto"><hr id="366f6ce8-497f-8016-aa3c-c206654a7bba"/></div><div style="display:contents" dir="auto"><h1 id="366f6ce8-497f-800d-be94-d582ed65b25c" class="">Elementos</h1></div><div style="display:contents" dir="ltr"><table id="366f6ce8-497f-803e-b721-dfd3d5f61f80" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="366f6ce8-497f-804d-b44c-d31cbb339641"><th id="k=cu" class="simple-table-header-color simple-table-header">Elemento</th><th id="Va\\" class="simple-table-header-color simple-table-header">Função</th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="366f6ce8-497f-805e-ae5a-d30b3b5ef39e"><td id="k=cu" class="">Início</td><td id="Va\\" class="">ponto inicial</td></tr></div><div style="display:contents" dir="ltr"><tr id="366f6ce8-497f-80f6-af87-ed0dbe0f6728"><td id="k=cu" class="">Atividade</td><td id="Va\\" class="">ação</td></tr></div><div style="display:contents" dir="ltr"><tr id="366f6ce8-497f-8075-a8ff-f274a9501a82"><td id="k=cu" class="">Decisão</td><td id="Va\\" class="">condição</td></tr></div><div style="display:contents" dir="ltr"><tr id="366f6ce8-497f-80e9-ac65-c75b0b99bbe1"><td id="k=cu" class="">Fim</td><td id="Va\\" class="">encerramento</td></tr></div></tbody></table></div><div style="display:contents" dir="auto"><hr id="366f6ce8-497f-8010-835b-e046fec3df08"/></div><div style="display:contents" dir="auto"><h1 id="366f6ce8-497f-803f-b4dd-c2fc5c46a7d4" class="">Exemplo</h1></div><div style="display:contents" dir="auto"><pre id="366f6ce8-497f-80c3-b1a1-c044b8ec3ab1" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Início
+   ↓
+Validar Login
+   ↓
+Senha correta?
+ ↙       ↘
+Sim       Não
+ ↓         ↓
+Entrar   Erro</code></pre></div><div style="display:contents" dir="auto"><hr id="366f6ce8-497f-8077-a14f-c659f4bed3e5"/></div><div style="display:contents" dir="auto"><h1 id="366f6ce8-497f-809c-9674-df7c947937fa" class="">5. Diagrama de Estados</h1></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-80be-9c4e-f4dbac327297" class="">Mostra os estados de um objeto.</p></div><div style="display:contents" dir="auto"><hr id="366f6ce8-497f-8099-9b18-de82c7b59ad6"/></div><div style="display:contents" dir="auto"><h1 id="366f6ce8-497f-8068-b9c5-cdf6f6ec9733" class="">Exemplo</h1></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-80a3-be39-f9bb3f3dfb6d" class="">Pedido:</p></div><div style="display:contents" dir="auto"><pre id="366f6ce8-497f-80d4-9ef3-fc3f672e737f" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Novo → Pago → Enviado → Entregue</code></pre></div><div style="display:contents" dir="auto"><hr id="366f6ce8-497f-805d-a188-c6aa42a5cdff"/></div><div style="display:contents" dir="auto"><h1 id="366f6ce8-497f-80c5-9188-f27e87c5a287" class="">Utilidade</h1></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-8036-aefb-dd0b79fb27b8" class="">Muito usado em:</p></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-8096-96d7-f4471c0af20c" class="bulleted-list"><li style="list-style-type:disc">sistemas embarcados</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-80bb-8bb4-e676a8d45b7b" class="bulleted-list"><li style="list-style-type:disc">jogos</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-801c-a758-dcb1b10e9719" class="bulleted-list"><li style="list-style-type:disc">controle de processos</li></ul></div><div style="display:contents" dir="auto"><hr id="366f6ce8-497f-80b8-9d99-df704213827c"/></div><div style="display:contents" dir="auto"><h1 id="366f6ce8-497f-802e-8815-e559b5318926" class="">6. Diagrama de Componentes</h1></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-80c3-83ba-f53abe6ca65e" class="">Mostra módulos do sistema.</p></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-80fd-a433-c1afe6ef8565" class="">Exemplo:</p></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-809f-a34b-edd9aac59a39" class="bulleted-list"><li style="list-style-type:disc">API</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-8096-977f-f922b5118708" class="bulleted-list"><li style="list-style-type:disc">Frontend</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-8089-918f-d30aa7f61163" class="bulleted-list"><li style="list-style-type:disc">Banco de dados</li></ul></div><div style="display:contents" dir="auto"><hr id="366f6ce8-497f-80ef-b706-dcee44d7422f"/></div><div style="display:contents" dir="auto"><h1 id="366f6ce8-497f-80ab-b966-f60724d7f6f6" class="">Objetivo</h1></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-80bc-bccc-cc57a65a147a" class="">Representar arquitetura lógica.</p></div><div style="display:contents" dir="auto"><hr id="366f6ce8-497f-80b1-bb87-fe6858545222"/></div><div style="display:contents" dir="auto"><h1 id="366f6ce8-497f-8065-a9f6-d9e6aceb6305" class="">7. Diagrama de Implantação</h1></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-804b-b16c-cd6fcfbc6ade" class="">Mostra infraestrutura física.</p></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-8080-a237-de104468cd47" class="">Representa:</p></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-806b-9ad6-c7e96dcb18a5" class="bulleted-list"><li style="list-style-type:disc">servidores</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-8022-9ef4-cf59e0f11413" class="bulleted-list"><li style="list-style-type:disc">dispositivos</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-80eb-9063-e5d8abef1afb" class="bulleted-list"><li style="list-style-type:disc">rede</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-8057-bb4c-c8550f25684b" class="bulleted-list"><li style="list-style-type:disc">banco de dados</li></ul></div><div style="display:contents" dir="auto"><hr id="366f6ce8-497f-8081-9e08-e11cd210bf6a"/></div><div style="display:contents" dir="auto"><h1 id="366f6ce8-497f-8034-ad74-dc011a5cb8e6" class="">Exemplo</h1></div><div style="display:contents" dir="auto"><pre id="366f6ce8-497f-807d-895b-cee6b254e553" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Cliente → Servidor Web → Banco de Dados</code></pre></div><div style="display:contents" dir="auto"><hr id="366f6ce8-497f-8093-84aa-fbacc78684f7"/></div><div style="display:contents" dir="auto"><h1 id="366f6ce8-497f-8064-8df8-ca7db605ba78" class="">Relacionamento entre Diagramas</h1></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-802e-ab9b-fdac27790de2" class="">Os diagramas se complementam.</p></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-80a4-bc4e-dbeb226be68d" class="">Exemplo:</p></div><div style="display:contents" dir="ltr"><table id="366f6ce8-497f-80ef-9da6-cbf89ff79996" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="366f6ce8-497f-8031-aaa7-c14d9a4223b1"><th id="hT{G" class="simple-table-header-color simple-table-header">Diagrama</th><th id="|Hb[" class="simple-table-header-color simple-table-header">Objetivo</th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="366f6ce8-497f-80ff-a615-cf0c805bfc99"><td id="hT{G" class="">Caso de Uso</td><td id="|Hb[" class="">O que o sistema faz</td></tr></div><div style="display:contents" dir="ltr"><tr id="366f6ce8-497f-80c9-90f9-cfc08ea7688a"><td id="hT{G" class="">Classe</td><td id="|Hb[" class="">Estrutura</td></tr></div><div style="display:contents" dir="ltr"><tr id="366f6ce8-497f-80db-ab61-fb4857c34af6"><td id="hT{G" class="">Sequência</td><td id="|Hb[" class="">Interações</td></tr></div><div style="display:contents" dir="ltr"><tr id="366f6ce8-497f-8092-9ab9-c8b56b011767"><td id="hT{G" class="">Atividade</td><td id="|Hb[" class="">Fluxo</td></tr></div><div style="display:contents" dir="ltr"><tr id="366f6ce8-497f-80bf-97f4-cf138c4b4bf3"><td id="hT{G" class="">Estados</td><td id="|Hb[" class="">Mudanças</td></tr></div><div style="display:contents" dir="ltr"><tr id="366f6ce8-497f-8028-87c9-d20e6f8ad92b"><td id="hT{G" class="">Implantação</td><td id="|Hb[" class="">Infraestrutura</td></tr></div></tbody></table></div><div style="display:contents" dir="auto"><hr id="366f6ce8-497f-805d-963f-f23c988bf872"/></div><div style="display:contents" dir="auto"><h1 id="366f6ce8-497f-809d-91cd-ced9f80e8d5f" class="">Benefícios da UML</h1></div><div style="display:contents" dir="auto"><h2 id="366f6ce8-497f-8049-96ef-f991f3520fbc" class="">Comunicação</h2></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-8059-ae1b-e4b49d8979b9" class="">Facilita entendimento da equipe.</p></div><div style="display:contents" dir="auto"><hr id="366f6ce8-497f-8032-a76b-f2a33f615764"/></div><div style="display:contents" dir="auto"><h2 id="366f6ce8-497f-808e-9cf4-e9cd9fefcca6" class="">Redução de erros</h2></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-80f6-831e-d2664bf288f4" class="">Ajuda a identificar problemas antes da implementação.</p></div><div style="display:contents" dir="auto"><hr id="366f6ce8-497f-80ca-b1c4-e299aef6e486"/></div><div style="display:contents" dir="auto"><h2 id="366f6ce8-497f-803c-8b43-d5b71e075303" class="">Documentação</h2></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-80c1-9a18-f28182ce1da5" class="">Cria documentação padronizada.</p></div><div style="display:contents" dir="auto"><hr id="366f6ce8-497f-80c7-8d77-c110ef6eec45"/></div><div style="display:contents" dir="auto"><h2 id="366f6ce8-497f-809e-a6af-e2494847e1aa" class="">Manutenção</h2></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-8031-b488-e0faaf9e85c8" class="">Facilita evolução do software.</p></div><div style="display:contents" dir="auto"><hr id="366f6ce8-497f-80e2-92d0-e72f7406b54d"/></div><div style="display:contents" dir="auto"><h1 id="366f6ce8-497f-80b5-a273-f4c159fbf1aa" class="">Desvantagens</h1></div><div style="display:contents" dir="auto"><h2 id="366f6ce8-497f-807f-bbfe-d109278227b5" class="">Pode gerar excesso de documentação</h2></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-8011-a1fb-e793ad911148" class="">Especialmente em projetos pequenos.</p></div><div style="display:contents" dir="auto"><hr id="366f6ce8-497f-8034-a2d0-e3e0e8cbba1c"/></div><div style="display:contents" dir="auto"><h2 id="366f6ce8-497f-801e-a607-ea0cb58660e3" class="">Complexidade</h2></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-804c-ab3c-f70a8cfa1ae8" class="">Diagramas grandes podem ficar difíceis.</p></div><div style="display:contents" dir="auto"><hr id="366f6ce8-497f-8019-84ec-c29cf9b11465"/></div><div style="display:contents" dir="auto"><h2 id="366f6ce8-497f-80b0-81dd-e195310e4535" class="">Tempo de modelagem</h2></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-800e-be2a-d4af472c3be2" class="">Pode aumentar custo inicial.</p></div><div style="display:contents" dir="auto"><hr id="366f6ce8-497f-80f1-bef4-faf660b40c1f"/></div><div style="display:contents" dir="auto"><h1 id="366f6ce8-497f-807f-8c3d-f20574b9f332" class="">UML e Engenharia de Software</h1></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-8076-9a36-d98bb082a559" class="">A UML é muito usada em:</p></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-804f-8b52-ff76fbb134ac" class="bulleted-list"><li style="list-style-type:disc">análise de requisitos</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-8068-9e7f-eab32c199048" class="bulleted-list"><li style="list-style-type:disc">projeto de software</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-80ab-9abe-d549712d2046" class="bulleted-list"><li style="list-style-type:disc">arquitetura</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-8009-92a8-ef0f5f406961" class="bulleted-list"><li style="list-style-type:disc">documentação</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-8053-a356-cd1cab470f22" class="bulleted-list"><li style="list-style-type:disc">manutenção</li></ul></div><div style="display:contents" dir="auto"><hr id="366f6ce8-497f-801a-aaa5-f5dd73fba3b3"/></div><div style="display:contents" dir="auto"><h1 id="366f6ce8-497f-80a0-8282-c389299115f6" class="">UML e Métodos Ágeis</h1></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-8029-ab37-c6928622ab0c" class="">Em metodologias ágeis:</p></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-8038-b9a4-eef695be3ce0" class="bulleted-list"><li style="list-style-type:disc">usa-se UML de forma mais leve</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-8064-a197-c40dc95d9bda" class="bulleted-list"><li style="list-style-type:disc">apenas diagramas necessários</li></ul></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-80f0-8a29-cf63bdbc3a3c" class="">Isso é chamado de:</p></div><div style="display:contents" dir="auto"><blockquote id="366f6ce8-497f-80ad-a9ed-e3f1a81cf56f" class="">“Modelagem suficiente”.</blockquote></div><div style="display:contents" dir="auto"><hr id="366f6ce8-497f-80fd-b317-dfdcdbaf4479"/></div><div style="display:contents" dir="auto"><h1 id="366f6ce8-497f-80a8-8567-f339c73b48c0" class="">Ferramentas UML</h1></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-8074-9faa-f39585fc95cb" class="">Algumas ferramentas populares:</p></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-80dd-8506-e6e9b938d730" class="bulleted-list"><li style="list-style-type:disc">StarUML</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-80de-b18f-e2d42e8f8577" class="bulleted-list"><li style="list-style-type:disc">Visual Paradigm</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-808c-b140-eb71885fd598" class="bulleted-list"><li style="list-style-type:disc">Enterprise Architect</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-80da-aa72-ee019f553d8a" class="bulleted-list"><li style="list-style-type:disc">Lucidchart</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-80a8-8927-c62d5162f04c" class="bulleted-list"><li style="list-style-type:disc">Draw.io</li></ul></div><div style="display:contents" dir="auto"><hr id="366f6ce8-497f-80c3-9116-ebf5d706f53e"/></div><div style="display:contents" dir="auto"><h1 id="366f6ce8-497f-805d-b776-dcc7d67c5c41" class="">Resumo Geral</h1></div><div style="display:contents" dir="auto"><h2 id="366f6ce8-497f-80b9-a54d-c50d44a0e661" class="">UML é:</h2></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-8045-a6c0-dabd34b001fa" class="bulleted-list"><li style="list-style-type:disc">uma linguagem visual</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-80ac-a78b-ef57a5d3e229" class="bulleted-list"><li style="list-style-type:disc">padronizada</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-8015-b934-daa3239af2b1" class="bulleted-list"><li style="list-style-type:disc">usada para modelar software</li></ul></div><div style="display:contents" dir="auto"><hr id="366f6ce8-497f-8011-ab9c-f9e390527acc"/></div><div style="display:contents" dir="auto"><h2 id="366f6ce8-497f-80dd-a31b-c6b729a3c897" class="">Objetivos:</h2></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-803b-b3ee-f4a8070a00b4" class="bulleted-list"><li style="list-style-type:disc">visualizar</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-80c7-8672-fa2eed335792" class="bulleted-list"><li style="list-style-type:disc">especificar</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-808b-8752-ef1fae0cdac1" class="bulleted-list"><li style="list-style-type:disc">documentar</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-806a-9ee6-d4f1fc9d145f" class="bulleted-list"><li style="list-style-type:disc">comunicar</li></ul></div><div style="display:contents" dir="auto"><hr id="366f6ce8-497f-8064-b9f8-e11324ac4749"/></div><div style="display:contents" dir="auto"><h2 id="366f6ce8-497f-80ff-a450-fa7522adb795" class="">Principais diagramas:</h2></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-8074-91be-f57c6649a9fc" class="bulleted-list"><li style="list-style-type:disc">Caso de Uso</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-80bc-8f80-c58dbc95686f" class="bulleted-list"><li style="list-style-type:disc">Classe</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-80f0-8aa2-e01f28a5884d" class="bulleted-list"><li style="list-style-type:disc">Sequência</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-800d-b013-fc6100460482" class="bulleted-list"><li style="list-style-type:disc">Atividade</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-8079-8f3e-d30e080c5245" class="bulleted-list"><li style="list-style-type:disc">Estados</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-8075-927d-dac2067158c4" class="bulleted-list"><li style="list-style-type:disc">Componentes</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-806a-a28e-d590f6bb12be" class="bulleted-list"><li style="list-style-type:disc">Implantação</li></ul></div><div style="display:contents" dir="auto"><hr id="366f6ce8-497f-807e-8a0a-f9f0d0860e15"/></div><div style="display:contents" dir="auto"><h1 id="366f6ce8-497f-803e-8505-d8b6b7f05c79" class="">Conceito-chave</h1></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-8096-ada1-e4af29ff1105" class="">A UML ajuda a transformar ideias abstratas sobre software em modelos visuais compreensíveis.</p></div></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

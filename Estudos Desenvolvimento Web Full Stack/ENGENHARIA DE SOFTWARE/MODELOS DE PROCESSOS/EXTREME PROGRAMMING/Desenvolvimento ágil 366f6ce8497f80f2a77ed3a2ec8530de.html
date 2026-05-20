@@ -1,0 +1,753 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Desenvolvimento ágil</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="366f6ce8-497f-80f2-a77e-d3a2ec8530de" class="page sans"><header><div class="page-header-icon undefined"><span class="icon">💻</span></div><h1 class="page-title" dir="auto">Desenvolvimento ágil</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><div style="display:contents" dir="auto"><h1 id="366f6ce8-497f-80b6-b1e6-eb1dfd7a6848" class="">Desenvolvimento Ágil de Software</h1></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-80cb-a219-c569e4851e69" class="">O <strong>desenvolvimento ágil de software</strong> é uma abordagem de desenvolvimento baseada em:</p></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-80ef-a3b6-f53ce4039e82" class="bulleted-list"><li style="list-style-type:disc">colaboração</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-801a-8b91-de99939accca" class="bulleted-list"><li style="list-style-type:disc">adaptação</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-8040-a089-fa8757d4c6f9" class="bulleted-list"><li style="list-style-type:disc">entregas rápidas</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-80f4-a792-e84137729a73" class="bulleted-list"><li style="list-style-type:disc">melhoria contínua</li></ul></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-8089-8f3a-eb499b239422" class="">Ao contrário dos modelos tradicionais, o desenvolvimento ágil busca:</p></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-80e4-9951-e9131dfbe8aa" class="bulleted-list"><li style="list-style-type:disc">responder rapidamente a mudanças</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-8086-bd16-edb2b13d936b" class="bulleted-list"><li style="list-style-type:disc">entregar valor continuamente</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-80ad-8000-c4632bc7dcc3" class="bulleted-list"><li style="list-style-type:disc">aproximar cliente e equipe</li></ul></div><div style="display:contents" dir="auto"><hr id="366f6ce8-497f-80ec-b788-e49cf47f7c67"/></div><div style="display:contents" dir="auto"><h1 id="366f6ce8-497f-80c5-9be0-d4fdd4d14e2f" class="">Objetivo do Desenvolvimento Ágil</h1></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-80af-936a-fcce1ac07fcd" class="">O principal objetivo é:</p></div><div style="display:contents" dir="auto"><blockquote id="366f6ce8-497f-8038-a768-d5d90d8b5145" class="">desenvolver software de forma rápida, flexível e com foco no cliente.</blockquote></div><div style="display:contents" dir="auto"><hr id="366f6ce8-497f-80df-b55c-ef324c94ad9b"/></div><div style="display:contents" dir="auto"><h1 id="366f6ce8-497f-80e2-b827-e2843078f067" class="">Surgimento do Desenvolvimento Ágil</h1></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-80d4-8b99-cf67c34bd8e1" class="">O movimento ágil surgiu como resposta aos problemas dos modelos tradicionais:</p></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-804b-866d-d3c3cf47e010" class="bulleted-list"><li style="list-style-type:disc">excesso de documentação</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-804a-a481-eea386821119" class="bulleted-list"><li style="list-style-type:disc">lentidão</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-80a7-9cf5-dab9ebe6aefd" class="bulleted-list"><li style="list-style-type:disc">dificuldade de adaptação</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-8087-b827-fc392a40e7f1" class="bulleted-list"><li style="list-style-type:disc">burocracia</li></ul></div><div style="display:contents" dir="auto"><hr id="366f6ce8-497f-8094-b1d7-f1fd1264c7de"/></div><div style="display:contents" dir="auto"><h1 id="366f6ce8-497f-8002-a68f-d9d055c1d52f" class="">Manifesto Ágil</h1></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-8053-8d5b-e5ceea21e64c" class="">Em 2001, um grupo de desenvolvedores criou o:</p></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-8077-9795-eb509e770603" class="bulleted-list"><li style="list-style-type:disc">Manifesto Ágil</li></ul></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-807f-814b-e58c38c505f7" class="">Ele define os princípios fundamentais da agilidade.</p></div><div style="display:contents" dir="auto"><hr id="366f6ce8-497f-80a9-84b7-cd00e35fc0c5"/></div><div style="display:contents" dir="auto"><h1 id="366f6ce8-497f-805c-84b9-d76bc2be050f" class="">Os 4 Valores do Manifesto Ágil</h1></div><div style="display:contents" dir="auto"><hr id="366f6ce8-497f-80e2-888f-ce13bc9da266"/></div><div style="display:contents" dir="auto"><h2 id="366f6ce8-497f-8039-bb26-daf9148917c3" class="">1. Indivíduos e interações</h2></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-80df-be19-fb9aa9d13b82" class="">Mais importantes que:</p></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-80a4-8e60-c2ff63404073" class="bulleted-list"><li style="list-style-type:disc">processos e ferramentas</li></ul></div><div style="display:contents" dir="auto"><hr id="366f6ce8-497f-808a-9553-c9b9a1b6073d"/></div><div style="display:contents" dir="auto"><h2 id="366f6ce8-497f-80ca-8548-f8e5cfd2daa0" class="">2. Software funcionando</h2></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-8069-a1be-cc4c93cbb69e" class="">Mais importante que:</p></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-80c0-8160-e5356c384ba4" class="bulleted-list"><li style="list-style-type:disc">documentação extensa</li></ul></div><div style="display:contents" dir="auto"><hr id="366f6ce8-497f-805a-93e5-f128c06526b9"/></div><div style="display:contents" dir="auto"><h2 id="366f6ce8-497f-808f-aea7-c5eca12bcc07" class="">3. Colaboração com o cliente</h2></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-80e4-94de-fd0a1fb6ac1f" class="">Mais importante que:</p></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-80b0-89d8-cea723bfb339" class="bulleted-list"><li style="list-style-type:disc">negociação de contratos</li></ul></div><div style="display:contents" dir="auto"><hr id="366f6ce8-497f-80d3-a4e9-f91b77b44b2f"/></div><div style="display:contents" dir="auto"><h2 id="366f6ce8-497f-8046-85e2-c6ade7d8d672" class="">4. Responder a mudanças</h2></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-8007-8bf0-f0e3453a70fa" class="">Mais importante que:</p></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-8028-9f52-cd4a03baacdc" class="bulleted-list"><li style="list-style-type:disc">seguir um plano rígido</li></ul></div><div style="display:contents" dir="auto"><hr id="366f6ce8-497f-8071-a38e-fc56ef605355"/></div><div style="display:contents" dir="auto"><h1 id="366f6ce8-497f-8020-80ea-e19e18b28c66" class="">Os 12 Princípios Ágeis</h1></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-8026-b24b-cc602213070a" class="">Os princípios enfatizam:</p></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-8098-ab3a-e99ad99fe90a" class="bulleted-list"><li style="list-style-type:disc">entregas frequentes</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-80fd-b2d9-c6737267a54b" class="bulleted-list"><li style="list-style-type:disc">simplicidade</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-80a8-9b72-eb93bc754f32" class="bulleted-list"><li style="list-style-type:disc">colaboração</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-8090-9a14-d36d3f25f90f" class="bulleted-list"><li style="list-style-type:disc">qualidade contínua</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-80ab-b120-fa42330a1698" class="bulleted-list"><li style="list-style-type:disc">adaptação constante</li></ul></div><div style="display:contents" dir="auto"><hr id="366f6ce8-497f-8028-babb-d7a96fde5cd0"/></div><div style="display:contents" dir="auto"><h1 id="366f6ce8-497f-8022-a61b-ee316fefe931" class="">Características do Desenvolvimento Ágil</h1></div><div style="display:contents" dir="auto"><hr id="366f6ce8-497f-80f5-9c7e-ef9047989bbc"/></div><div style="display:contents" dir="auto"><h1 id="366f6ce8-497f-8073-a143-f41a9edf0333" class="">1. Iterativo</h1></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-80fe-839f-dcac6d11cfb3" class="">O software é desenvolvido em ciclos curtos.</p></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-80a9-ac46-f63e989f48fc" class="">Cada ciclo:</p></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-8082-8ad6-f18b23fbaf48" class="bulleted-list"><li style="list-style-type:disc">planeja</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-801f-9fca-d0c721b562d7" class="bulleted-list"><li style="list-style-type:disc">desenvolve</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-80a6-b310-cc546c37c7a7" class="bulleted-list"><li style="list-style-type:disc">testa</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-8020-8584-f2bb857ba732" class="bulleted-list"><li style="list-style-type:disc">entrega</li></ul></div><div style="display:contents" dir="auto"><hr id="366f6ce8-497f-80bd-8ece-c8574ddfb119"/></div><div style="display:contents" dir="auto"><h1 id="366f6ce8-497f-8075-af50-fec1fe1d9669" class="">2. Incremental</h1></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-80ad-a830-e1bc0da3d386" class="">Cada entrega adiciona novas funcionalidades.</p></div><div style="display:contents" dir="auto"><hr id="366f6ce8-497f-8028-98a4-fccaffdcc842"/></div><div style="display:contents" dir="auto"><h1 id="366f6ce8-497f-8018-b4c4-eec80131fa7a" class="">3. Flexível</h1></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-801f-94f0-cd167fc002fa" class="">Mudanças são esperadas e aceitas.</p></div><div style="display:contents" dir="auto"><hr id="366f6ce8-497f-8055-a86d-e8ad829d4d4c"/></div><div style="display:contents" dir="auto"><h1 id="366f6ce8-497f-80e5-9654-e6ed3e2cfca8" class="">4. Colaborativo</h1></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-80c2-b679-c21c4ae61fb5" class="">Cliente participa ativamente.</p></div><div style="display:contents" dir="auto"><hr id="366f6ce8-497f-80f2-8d9d-c5ef89c5a753"/></div><div style="display:contents" dir="auto"><h1 id="366f6ce8-497f-807f-89c0-fe5580e63748" class="">5. Entregas frequentes</h1></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-8062-a583-df724b2752fa" class="">O sistema é entregue continuamente.</p></div><div style="display:contents" dir="auto"><hr id="366f6ce8-497f-8003-b27e-f2ff95ec3e28"/></div><div style="display:contents" dir="auto"><h1 id="366f6ce8-497f-80bd-94a8-d6cd0bb5cff9" class="">6. Foco em valor</h1></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-80dd-8f22-cf95d2b9c2f3" class="">Prioriza funcionalidades importantes.</p></div><div style="display:contents" dir="auto"><hr id="366f6ce8-497f-8042-9e7c-c991632a837d"/></div><div style="display:contents" dir="auto"><h1 id="366f6ce8-497f-80da-8b93-faa2576db06a" class="">Ciclo Ágil Simplificado</h1></div><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="366f6ce8-497f-8061-b378-ec50db5ee253" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Planejamento
+      ↓
+Desenvolvimento
+      ↓
+Testes
+      ↓
+Entrega
+      ↓
+Feedback
+      ↓
+Melhoria</code></pre></div><div style="display:contents" dir="auto"><hr id="366f6ce8-497f-80cf-893c-d56a97dc5cf7"/></div><div style="display:contents" dir="auto"><h1 id="366f6ce8-497f-8069-b658-cd8a18d591b7" class="">Principais Metodologias Ágeis</h1></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-8076-91a0-d035222255ab" class="">As mais conhecidas são:</p></div><div style="display:contents" dir="auto"><ol type="1" id="366f6ce8-497f-8070-9201-c7840f3d06dc" class="numbered-list" start="1"><li>Scrum</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="366f6ce8-497f-80dc-80c9-fe9ad6958ea1" class="numbered-list" start="2"><li>Extreme Programming (XP)</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="366f6ce8-497f-80f4-8ae9-ec0562aaabc7" class="numbered-list" start="3"><li>Kanban</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="366f6ce8-497f-8067-9ceb-fcf2535ae1fb" class="numbered-list" start="4"><li>Lean</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="366f6ce8-497f-8013-9415-c89cda718060" class="numbered-list" start="5"><li>Crystal</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="366f6ce8-497f-802f-b760-fb78ed6d5eac" class="numbered-list" start="6"><li>FDD</li></ol></div><div style="display:contents" dir="auto"><hr id="366f6ce8-497f-8085-a23e-f6384af275ff"/></div><div style="display:contents" dir="auto"><h1 id="366f6ce8-497f-80da-a346-cf5f6312c06c" class="">1. Scrum</h1></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-809c-b0bd-cf4a6b3ab1e5" class="">É a metodologia ágil mais popular.</p></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-809e-91b7-d22d921e867f" class="">Baseia-se em:</p></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-80ca-8ed0-f02afec50e02" class="bulleted-list"><li style="list-style-type:disc">sprints</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-80a6-99ab-f005bfee0dff" class="bulleted-list"><li style="list-style-type:disc">backlog</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-8027-b007-c4c77c9fdef5" class="bulleted-list"><li style="list-style-type:disc">entregas rápidas</li></ul></div><div style="display:contents" dir="auto"><hr id="366f6ce8-497f-8038-93b8-e0e8ae1b49ed"/></div><div style="display:contents" dir="auto"><h1 id="366f6ce8-497f-8024-91c9-d89a7300f42b" class="">Conceitos do Scrum</h1></div><div style="display:contents" dir="auto"><hr id="366f6ce8-497f-800e-b6d8-d2415dcdd968"/></div><div style="display:contents" dir="auto"><h2 id="366f6ce8-497f-801f-a327-d8192f59a57a" class="">Sprint</h2></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-809d-98ed-ca2a2a63639a" class="">Período curto de desenvolvimento.</p></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-80c1-a9e8-e5861675ffa1" class="">Normalmente:</p></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-802c-b9ab-d69b5227f700" class="bulleted-list"><li style="list-style-type:disc">1 a 4 semanas</li></ul></div><div style="display:contents" dir="auto"><hr id="366f6ce8-497f-804d-ba81-cb37727fdc13"/></div><div style="display:contents" dir="auto"><h2 id="366f6ce8-497f-8024-902f-e5d7ef44fcd8" class="">Product Backlog</h2></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-80a2-b5c6-d725c173e6da" class="">Lista de funcionalidades do produto.</p></div><div style="display:contents" dir="auto"><hr id="366f6ce8-497f-80f5-a880-eff84842b467"/></div><div style="display:contents" dir="auto"><h2 id="366f6ce8-497f-803e-8a07-db72a6825376" class="">Sprint Backlog</h2></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-80cc-9b62-e7731976f9a4" class="">Itens escolhidos para a sprint atual.</p></div><div style="display:contents" dir="auto"><hr id="366f6ce8-497f-80d9-bfc7-dae3082adac5"/></div><div style="display:contents" dir="auto"><h2 id="366f6ce8-497f-80be-8728-f252c90ad9c3" class="">Incremento</h2></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-8051-a1af-ee30f128c09c" class="">Parte funcional entregue ao final da sprint.</p></div><div style="display:contents" dir="auto"><hr id="366f6ce8-497f-80cd-ab09-eca9b795edbd"/></div><div style="display:contents" dir="auto"><h1 id="366f6ce8-497f-805c-a689-cf4b81c65da0" class="">Papéis no Scrum</h1></div><div style="display:contents" dir="auto"><hr id="366f6ce8-497f-80cc-9e55-e8b4ebcca075"/></div><div style="display:contents" dir="auto"><h2 id="366f6ce8-497f-807c-965f-c51acbf3e67c" class="">Product Owner (PO)</h2></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-80f5-9dd2-ecc85f9dd057" class="">Responsável pelo produto.</p></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-8067-b4f5-f48a22cefecd" class="">Define:</p></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-80f1-8ce3-dc39d29fecfe" class="bulleted-list"><li style="list-style-type:disc">prioridades</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-803c-9f31-c8a689ea66d3" class="bulleted-list"><li style="list-style-type:disc">requisitos</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-8037-9340-de8322c1f80c" class="bulleted-list"><li style="list-style-type:disc">valor de negócio</li></ul></div><div style="display:contents" dir="auto"><hr id="366f6ce8-497f-80f1-8e12-c82d5758c616"/></div><div style="display:contents" dir="auto"><h2 id="366f6ce8-497f-80d1-854e-d371f6a953da" class="">Scrum Master</h2></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-80c5-8bf6-e483198e7124" class="">Facilita o processo Scrum.</p></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-8072-9140-d83a356fa2a5" class="">Remove impedimentos.</p></div><div style="display:contents" dir="auto"><hr id="366f6ce8-497f-8067-9199-d6a7187c5f0e"/></div><div style="display:contents" dir="auto"><h2 id="366f6ce8-497f-80f4-8bbb-f176ba672a11" class="">Time de Desenvolvimento</h2></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-8012-83b7-dc1dc17677b1" class="">Equipe técnica responsável pelo sistema.</p></div><div style="display:contents" dir="auto"><hr id="366f6ce8-497f-80cd-9086-f23031188d1d"/></div><div style="display:contents" dir="auto"><h1 id="366f6ce8-497f-8036-9071-c962b03f12cf" class="">Eventos do Scrum</h1></div><div style="display:contents" dir="ltr"><table id="366f6ce8-497f-80f2-a349-e5517117e8d1" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="366f6ce8-497f-805b-9e67-ff09b46dc310"><th id="_ee?" class="simple-table-header-color simple-table-header">Evento</th><th id="YyCf" class="simple-table-header-color simple-table-header">Objetivo</th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="366f6ce8-497f-8044-85ce-e3bd74bbe75d"><td id="_ee?" class="">Sprint Planning</td><td id="YyCf" class="">Planejamento</td></tr></div><div style="display:contents" dir="ltr"><tr id="366f6ce8-497f-80f0-829b-fed7e489ae81"><td id="_ee?" class="">Daily Scrum</td><td id="YyCf" class="">Reunião diária</td></tr></div><div style="display:contents" dir="ltr"><tr id="366f6ce8-497f-80d2-b0ad-f810e0694992"><td id="_ee?" class="">Sprint Review</td><td id="YyCf" class="">Revisão da sprint</td></tr></div><div style="display:contents" dir="ltr"><tr id="366f6ce8-497f-80c6-9339-ee8f25847016"><td id="_ee?" class="">Sprint Retrospective</td><td id="YyCf" class="">Melhoria contínua</td></tr></div></tbody></table></div><div style="display:contents" dir="auto"><hr id="366f6ce8-497f-807a-a62d-ee8f45aff6a6"/></div><div style="display:contents" dir="auto"><h1 id="366f6ce8-497f-80b3-b3ab-c3c56bd811a6" class="">Vantagens do Scrum</h1></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-80ed-9867-f2f67f3ff321" class="bulleted-list"><li style="list-style-type:disc">organização</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-80cf-90e1-e96f06daaf60" class="bulleted-list"><li style="list-style-type:disc">entregas rápidas</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-801e-aed9-dea25008c168" class="bulleted-list"><li style="list-style-type:disc">transparência</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-8021-8619-d2476b07d438" class="bulleted-list"><li style="list-style-type:disc">adaptação</li></ul></div><div style="display:contents" dir="auto"><hr id="366f6ce8-497f-80f3-a573-ebc599eeef67"/></div><div style="display:contents" dir="auto"><h1 id="366f6ce8-497f-80d2-bafe-de57fb519102" class="">2. Extreme Programming (XP)</h1></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-8096-855c-edeee31630bb" class="">Foca:</p></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-8007-91a6-d7d2a0f0e078" class="bulleted-list"><li style="list-style-type:disc">qualidade do código</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-80b6-a5f3-ddb2c1ec151f" class="bulleted-list"><li style="list-style-type:disc">boas práticas</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-8084-970c-f4487a5a2e3b" class="bulleted-list"><li style="list-style-type:disc">feedback rápido</li></ul></div><div style="display:contents" dir="auto"><hr id="366f6ce8-497f-8000-945f-f7f43954a23c"/></div><div style="display:contents" dir="auto"><h1 id="366f6ce8-497f-80db-8dd0-ff76ceb1e808" class="">Práticas do XP</h1></div><div style="display:contents" dir="auto"><hr id="366f6ce8-497f-80b7-a95f-fa3a76e02090"/></div><div style="display:contents" dir="auto"><h2 id="366f6ce8-497f-8072-8cc7-f6fb063bc556" class="">Pair Programming</h2></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-8024-825c-dddeb2b3d157" class="">Dois programadores trabalham juntos.</p></div><div style="display:contents" dir="auto"><hr id="366f6ce8-497f-80e8-822c-d9c38e3115f1"/></div><div style="display:contents" dir="auto"><h2 id="366f6ce8-497f-8048-940d-ec6b567972de" class="">Test-Driven Development (TDD)</h2></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-80b8-b9b5-c4f827d71942" class="">Os testes são criados antes do código.</p></div><div style="display:contents" dir="auto"><hr id="366f6ce8-497f-80dc-8f7a-dfdb958ab551"/></div><div style="display:contents" dir="auto"><h2 id="366f6ce8-497f-8025-9e04-df9b185f367c" class="">Refatoração</h2></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-8099-86a9-c8735bba8a3d" class="">Melhoria contínua do código.</p></div><div style="display:contents" dir="auto"><hr id="366f6ce8-497f-8037-b509-dc025c189204"/></div><div style="display:contents" dir="auto"><h2 id="366f6ce8-497f-8070-abc4-c79e2cf4416b" class="">Integração contínua</h2></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-806c-b650-fde25a5e8146" class="">Código integrado frequentemente.</p></div><div style="display:contents" dir="auto"><hr id="366f6ce8-497f-8051-8716-e92e5f03f2a6"/></div><div style="display:contents" dir="auto"><h2 id="366f6ce8-497f-80d3-a7fa-cf72e0add2d7" class="">Pequenas entregas</h2></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-8064-aecd-d56e9b0c0afd" class="">Funcionalidades pequenas e rápidas.</p></div><div style="display:contents" dir="auto"><hr id="366f6ce8-497f-8011-a696-d11b5239de6f"/></div><div style="display:contents" dir="auto"><h1 id="366f6ce8-497f-8028-9f3d-f431ef5aa7c7" class="">Objetivo do XP</h1></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-80bb-93a9-ccc76f4e9e94" class="">Produzir software com:</p></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-80d8-9dcf-d6679a56ee17" class="bulleted-list"><li style="list-style-type:disc">alta qualidade</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-809a-a25a-d93fc5c6ca93" class="bulleted-list"><li style="list-style-type:disc">menos defeitos</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-804c-af3d-d747e73fd614" class="bulleted-list"><li style="list-style-type:disc">adaptação rápida</li></ul></div><div style="display:contents" dir="auto"><hr id="366f6ce8-497f-806f-afae-c473140892b4"/></div><div style="display:contents" dir="auto"><h1 id="366f6ce8-497f-805a-8f25-c5fb64baaf94" class="">3. Kanban</h1></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-8048-a3a9-dfe059810c8b" class="">Método visual de gerenciamento.</p></div><div style="display:contents" dir="auto"><hr id="366f6ce8-497f-809e-b33c-e13b089aff69"/></div><div style="display:contents" dir="auto"><h1 id="366f6ce8-497f-80db-acfa-cc53d2ca2c16" class="">Estrutura</h1></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-8096-a5a6-e34a71a888b3" class="">Quadro dividido em colunas:</p></div><div style="display:contents" dir="ltr"><table id="366f6ce8-497f-8014-a671-c9982ae49aa8" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="366f6ce8-497f-80d6-a26f-e108470eb6e4"><th id="CezF" class="simple-table-header-color simple-table-header">A Fazer</th><th id="xmsE" class="simple-table-header-color simple-table-header">Fazendo</th><th id="HDMg" class="simple-table-header-color simple-table-header">Testando</th><th id="~iX\" class="simple-table-header-color simple-table-header">Concluído</th></tr></div></thead><tbody></tbody></table></div><div style="display:contents" dir="auto"><hr id="366f6ce8-497f-801f-b2ab-f8c2d549050c"/></div><div style="display:contents" dir="auto"><h1 id="366f6ce8-497f-80db-b0ea-d4f759068f5b" class="">Objetivo</h1></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-80b2-af6b-f2b2da3206cf" class="">Visualizar:</p></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-8010-912d-e066045f5ff2" class="bulleted-list"><li style="list-style-type:disc">fluxo de trabalho</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-8016-ae34-ef3f751ad442" class="bulleted-list"><li style="list-style-type:disc">gargalos</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-80a7-95f3-fcf0a3cd39e9" class="bulleted-list"><li style="list-style-type:disc">progresso</li></ul></div><div style="display:contents" dir="auto"><hr id="366f6ce8-497f-8088-92f1-fc3a376d8830"/></div><div style="display:contents" dir="auto"><h1 id="366f6ce8-497f-80d0-beb3-e2296a34a060" class="">Características</h1></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-8077-a926-d392cced5132" class="bulleted-list"><li style="list-style-type:disc">fluxo contínuo</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-8061-990b-da740fb0273e" class="bulleted-list"><li style="list-style-type:disc">flexibilidade</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-8017-9c74-fb00dfa2d132" class="bulleted-list"><li style="list-style-type:disc">simplicidade</li></ul></div><div style="display:contents" dir="auto"><hr id="366f6ce8-497f-80c0-a6ef-f1aa813a61db"/></div><div style="display:contents" dir="auto"><h1 id="366f6ce8-497f-805c-a7bb-fc5d15fb3b8d" class="">WIP (Work In Progress)</h1></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-80fd-a157-fd1b62ab8177" class="">Limita quantidade de tarefas em andamento.</p></div><div style="display:contents" dir="auto"><hr id="366f6ce8-497f-80fb-ac74-d99ab7d7c038"/></div><div style="display:contents" dir="auto"><h1 id="366f6ce8-497f-8099-98af-f140a02e773b" class="">4. Lean Software Development</h1></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-801c-a7a5-cd0b0163f89a" class="">Baseado no Lean Manufacturing.</p></div><div style="display:contents" dir="auto"><hr id="366f6ce8-497f-809b-aa28-cea78579f099"/></div><div style="display:contents" dir="auto"><h1 id="366f6ce8-497f-8074-8e31-ceddf4cc487e" class="">Objetivos</h1></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-80f6-ab14-f5a8a0d9501a" class="bulleted-list"><li style="list-style-type:disc">eliminar desperdícios</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-801b-993d-ef7389b10322" class="bulleted-list"><li style="list-style-type:disc">aumentar valor</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-803c-9bb8-dcc8022a4c90" class="bulleted-list"><li style="list-style-type:disc">melhorar eficiência</li></ul></div><div style="display:contents" dir="auto"><hr id="366f6ce8-497f-80de-b40f-f18d3a933af2"/></div><div style="display:contents" dir="auto"><h1 id="366f6ce8-497f-803d-9185-e3353bb37237" class="">Exemplos de desperdícios</h1></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-8026-823b-f2721a74f0f1" class="bulleted-list"><li style="list-style-type:disc">documentação excessiva</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-8092-b9b8-fe69c2a7c639" class="bulleted-list"><li style="list-style-type:disc">retrabalho</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-801d-be4b-e70659d18558" class="bulleted-list"><li style="list-style-type:disc">funcionalidades inúteis</li></ul></div><div style="display:contents" dir="auto"><hr id="366f6ce8-497f-8009-840d-cea94ed4ebce"/></div><div style="display:contents" dir="auto"><h1 id="366f6ce8-497f-80c9-90e5-ce0bc80cf6e6" class="">Desenvolvimento Ágil x Tradicional</h1></div><div style="display:contents" dir="ltr"><table id="366f6ce8-497f-80b5-8651-f5defa5b4c02" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="366f6ce8-497f-80f3-8892-ebda7c99874f"><th id="?@ZO" class="simple-table-header-color simple-table-header">Tradicional</th><th id="p{mc" class="simple-table-header-color simple-table-header">Ágil</th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="366f6ce8-497f-80d1-acc9-c2fa76599790"><td id="?@ZO" class="">Planejamento rígido</td><td id="p{mc" class="">Planejamento adaptável</td></tr></div><div style="display:contents" dir="ltr"><tr id="366f6ce8-497f-804d-8a85-da16eff3feaa"><td id="?@ZO" class="">Entrega no final</td><td id="p{mc" class="">Entregas frequentes</td></tr></div><div style="display:contents" dir="ltr"><tr id="366f6ce8-497f-8015-a18d-d1bddf08e0f5"><td id="?@ZO" class="">Pouca participação do cliente</td><td id="p{mc" class="">Cliente participa continuamente</td></tr></div><div style="display:contents" dir="ltr"><tr id="366f6ce8-497f-804e-9912-f5fce6816081"><td id="?@ZO" class="">Mudanças difíceis</td><td id="p{mc" class="">Mudanças aceitas</td></tr></div><div style="display:contents" dir="ltr"><tr id="366f6ce8-497f-80a6-82dc-cecfb48507d2"><td id="?@ZO" class="">Documentação extensa</td><td id="p{mc" class="">Documentação essencial</td></tr></div></tbody></table></div><div style="display:contents" dir="auto"><hr id="366f6ce8-497f-80fe-8ade-e5f1eb849cfd"/></div><div style="display:contents" dir="auto"><h1 id="366f6ce8-497f-8036-99cd-db28416bdc72" class="">Benefícios do Desenvolvimento Ágil</h1></div><div style="display:contents" dir="auto"><hr id="366f6ce8-497f-8094-807e-ea250465178e"/></div><div style="display:contents" dir="auto"><h1 id="366f6ce8-497f-80fb-8dd6-cd5a62076bed" class="">1. Flexibilidade</h1></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-80dc-8ac4-cfd49963562b" class="">Mudanças podem ser incorporadas facilmente.</p></div><div style="display:contents" dir="auto"><hr id="366f6ce8-497f-80bd-941c-caba05cc99c4"/></div><div style="display:contents" dir="auto"><h1 id="366f6ce8-497f-8010-becf-f5b229b25023" class="">2. Feedback constante</h1></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-8064-a134-e9ddf25e2af1" class="">Cliente acompanha o projeto.</p></div><div style="display:contents" dir="auto"><hr id="366f6ce8-497f-80e3-9ea5-dec48a01f41c"/></div><div style="display:contents" dir="auto"><h1 id="366f6ce8-497f-805f-b208-d326dade0d9a" class="">3. Entregas rápidas</h1></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-8003-8252-e1354a0df12a" class="">Software funcional mais cedo.</p></div><div style="display:contents" dir="auto"><hr id="366f6ce8-497f-8016-a2e1-e82be816d3e5"/></div><div style="display:contents" dir="auto"><h1 id="366f6ce8-497f-8005-a0eb-c77a59a5a70d" class="">4. Maior qualidade</h1></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-8079-a9e8-fdd5d2c7a5be" class="">Testes frequentes.</p></div><div style="display:contents" dir="auto"><hr id="366f6ce8-497f-8015-891a-c9580d31cde4"/></div><div style="display:contents" dir="auto"><h1 id="366f6ce8-497f-8066-8298-e087f813ff2d" class="">5. Redução de riscos</h1></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-8065-8052-c0966a7640f5" class="">Problemas são detectados cedo.</p></div><div style="display:contents" dir="auto"><hr id="366f6ce8-497f-805b-abdd-e6759fcab66c"/></div><div style="display:contents" dir="auto"><h1 id="366f6ce8-497f-8070-b0bd-e62af0925efe" class="">6. Maior satisfação do cliente</h1></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-8077-b6fd-ece65623f3dc" class="">Cliente participa do processo.</p></div><div style="display:contents" dir="auto"><hr id="366f6ce8-497f-8088-b9a1-df45e5eb12bf"/></div><div style="display:contents" dir="auto"><h1 id="366f6ce8-497f-804c-8fd4-c31ce7a1d692" class="">Desvantagens</h1></div><div style="display:contents" dir="auto"><hr id="366f6ce8-497f-80e5-8e21-c53be5e88625"/></div><div style="display:contents" dir="auto"><h1 id="366f6ce8-497f-80ab-ba94-f63c0223afe2" class="">1. Menor previsibilidade</h1></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-8072-9cb3-e2f6a265f7d6" class="">Mudanças constantes dificultam estimativas.</p></div><div style="display:contents" dir="auto"><hr id="366f6ce8-497f-806c-b044-cf10d51d67a5"/></div><div style="display:contents" dir="auto"><h1 id="366f6ce8-497f-809f-a0f0-e302e37ddae9" class="">2. Dependência da equipe</h1></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-808b-bb60-ecce37552936" class="">Equipe precisa ser madura.</p></div><div style="display:contents" dir="auto"><hr id="366f6ce8-497f-80f2-9aa6-d4ab733fccb9"/></div><div style="display:contents" dir="auto"><h1 id="366f6ce8-497f-8097-abb0-c68d1438304f" class="">3. Pouca documentação</h1></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-80ba-b36c-fcb7025fa420" class="">Pode dificultar manutenção futura.</p></div><div style="display:contents" dir="auto"><hr id="366f6ce8-497f-80f4-8d34-ed1da8ae725c"/></div><div style="display:contents" dir="auto"><h1 id="366f6ce8-497f-8053-b2da-f79936eeb339" class="">4. Escopo variável</h1></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-809b-b15f-df21cfc486d6" class="">Projetos podem crescer descontroladamente.</p></div><div style="display:contents" dir="auto"><hr id="366f6ce8-497f-803a-af13-ccdcc1108eaf"/></div><div style="display:contents" dir="auto"><h1 id="366f6ce8-497f-801f-b245-fc447d86211c" class="">Conceitos Importantes</h1></div><div style="display:contents" dir="auto"><hr id="366f6ce8-497f-80e3-b523-cad71ba35689"/></div><div style="display:contents" dir="auto"><h1 id="366f6ce8-497f-80a9-b4d6-d0b16ce28dac" class="">Backlog</h1></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-8059-80f7-ed9c80b079a9" class="">Lista de tarefas ou requisitos.</p></div><div style="display:contents" dir="auto"><hr id="366f6ce8-497f-808c-b242-f7fba7cb5775"/></div><div style="display:contents" dir="auto"><h1 id="366f6ce8-497f-808a-8e77-e293445855c4" class="">User Story</h1></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-808a-ba73-d8204dbe24bd" class="">Descrição simples de funcionalidade.</p></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-805a-bb5c-cabd3315cbd2" class="">Exemplo:</p></div><div style="display:contents" dir="auto"><blockquote id="366f6ce8-497f-800e-a5bb-dda1766e4dec" class="">“Como cliente, quero fazer login para acessar minha conta.”</blockquote></div><div style="display:contents" dir="auto"><hr id="366f6ce8-497f-801e-8346-d16851a8fb1a"/></div><div style="display:contents" dir="auto"><h1 id="366f6ce8-497f-8043-b802-d69c1167a64d" class="">Sprint</h1></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-8070-a1e6-f5fbe0e2cf95" class="">Ciclo curto de desenvolvimento.</p></div><div style="display:contents" dir="auto"><hr id="366f6ce8-497f-804d-ac30-c10a0f6cd1cd"/></div><div style="display:contents" dir="auto"><h1 id="366f6ce8-497f-808b-a49a-d42a07f86960" class="">MVP (Minimum Viable Product)</h1></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-8002-b81f-ecffa7b2844a" class="">Versão mínima funcional do produto.</p></div><div style="display:contents" dir="auto"><hr id="366f6ce8-497f-808f-b614-de74c6f2e635"/></div><div style="display:contents" dir="auto"><h1 id="366f6ce8-497f-8033-95b9-d0ba0cf28eaa" class="">Burndown Chart</h1></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-80ce-ba01-f706b1031120" class="">Gráfico que mostra progresso da sprint.</p></div><div style="display:contents" dir="auto"><hr id="366f6ce8-497f-804f-8817-c62023f2bc4d"/></div><div style="display:contents" dir="auto"><h1 id="366f6ce8-497f-80fd-9a01-e9674bdf8a7d" class="">DevOps e Agilidade</h1></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-80c8-9dc8-cbd7a5e64eeb" class="">O desenvolvimento ágil se conecta muito ao:</p></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-80e5-a694-eca060020657" class="bulleted-list"><li style="list-style-type:disc">DevOps</li></ul></div><div style="display:contents" dir="auto"><hr id="366f6ce8-497f-8048-81ca-c17cd04e8b27"/></div><div style="display:contents" dir="auto"><h1 id="366f6ce8-497f-8079-b92b-e309a243d604" class="">DevOps</h1></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-8063-b7b4-c17ba2593876" class="">Integra:</p></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-8044-879e-c042f5c4c27b" class="bulleted-list"><li style="list-style-type:disc">desenvolvimento</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-80b5-8a01-cef19d3cbfa1" class="bulleted-list"><li style="list-style-type:disc">operações</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-8066-9049-fd068e0f7a9d" class="bulleted-list"><li style="list-style-type:disc">automação</li></ul></div><div style="display:contents" dir="auto"><hr id="366f6ce8-497f-808e-b0c1-dc910a573e72"/></div><div style="display:contents" dir="auto"><h1 id="366f6ce8-497f-80d3-bbb3-ee8e67ad93f7" class="">CI/CD</h1></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-807b-afb7-c8f9be5d0a32" class="">Muito usado em ambientes ágeis.</p></div><div style="display:contents" dir="auto"><h2 id="366f6ce8-497f-80c4-b88e-f7a7f3fd448c" class="">CI</h2></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-80c0-9f5a-f4d6f692a783" class="">Continuous Integration</p></div><div style="display:contents" dir="auto"><h2 id="366f6ce8-497f-806c-92e0-c6983ccfca0b" class="">CD</h2></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-8099-9f47-d966091b9e1f" class="">Continuous Delivery/Deployment</p></div><div style="display:contents" dir="auto"><hr id="366f6ce8-497f-802e-80df-cc7beabfaf8a"/></div><div style="display:contents" dir="auto"><h1 id="366f6ce8-497f-8021-891e-c31d1a48815c" class="">Ferramentas Ágeis</h1></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-8045-a488-e0f371dd92c5" class="">Algumas ferramentas populares:</p></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-8061-9f02-f2be9f651b04" class="bulleted-list"><li style="list-style-type:disc">Jira</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-80f2-b42e-d9a29f78b3cc" class="bulleted-list"><li style="list-style-type:disc">Trello</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-807f-98f3-e362d9bf0946" class="bulleted-list"><li style="list-style-type:disc">Azure DevOps</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-8079-afad-e340aedf5ce7" class="bulleted-list"><li style="list-style-type:disc">GitHub</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-800a-8792-d864167958de" class="bulleted-list"><li style="list-style-type:disc">GitLab</li></ul></div><div style="display:contents" dir="auto"><hr id="366f6ce8-497f-8013-b21f-de32b23e0e78"/></div><div style="display:contents" dir="auto"><h1 id="366f6ce8-497f-801b-a2ee-edebdb0c872b" class="">Quando usar desenvolvimento ágil</h1></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-80ad-b67b-ce273a34417c" class="">Ideal para:</p></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-8035-be33-d665661cc2ab" class="bulleted-list"><li style="list-style-type:disc">projetos dinâmicos</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-8072-a8e3-f9b971511543" class="bulleted-list"><li style="list-style-type:disc">startups</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-8031-a298-ca4d1ebfcde5" class="bulleted-list"><li style="list-style-type:disc">produtos digitais</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-8035-87f4-fff1089c39b3" class="bulleted-list"><li style="list-style-type:disc">sistemas com mudanças frequentes</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-80c3-9a46-c2a4e2386882" class="bulleted-list"><li style="list-style-type:disc">desenvolvimento contínuo</li></ul></div><div style="display:contents" dir="auto"><hr id="366f6ce8-497f-8089-be8f-ca28e190c876"/></div><div style="display:contents" dir="auto"><h1 id="366f6ce8-497f-809e-8b8d-e2b992756946" class="">Quando pode não ser ideal</h1></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-80f0-b471-f630ccc3940b" class="">Projetos:</p></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-8028-886c-fc1e9ad973cf" class="bulleted-list"><li style="list-style-type:disc">extremamente regulados</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-80d1-826b-faa767aabeff" class="bulleted-list"><li style="list-style-type:disc">críticos</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-806b-aaed-f38309bdccf5" class="bulleted-list"><li style="list-style-type:disc">com requisitos totalmente fixos</li></ul></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-80f6-a23e-dd2aff081459" class="">Exemplo:</p></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-800c-a5e9-e3c3e3d7b87e" class="bulleted-list"><li style="list-style-type:disc">software aeronáutico</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-8018-a543-de19807a06a0" class="bulleted-list"><li style="list-style-type:disc">sistemas militares</li></ul></div><div style="display:contents" dir="auto"><hr id="366f6ce8-497f-8025-9a3c-dbb7bed63b74"/></div><div style="display:contents" dir="auto"><h1 id="366f6ce8-497f-808d-95ce-e903bb64637d" class="">Resumo Geral</h1></div><div style="display:contents" dir="auto"><h2 id="366f6ce8-497f-800a-be8e-f3959efd469a" class="">Desenvolvimento ágil:</h2></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-80df-8383-d75cb8093489" class="bulleted-list"><li style="list-style-type:disc">é iterativo</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-8062-847a-fa4009ae129a" class="bulleted-list"><li style="list-style-type:disc">incremental</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-809f-9092-e622aab2da81" class="bulleted-list"><li style="list-style-type:disc">flexível</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-80a6-a2b4-eac221cfa946" class="bulleted-list"><li style="list-style-type:disc">colaborativo</li></ul></div><div style="display:contents" dir="auto"><hr id="366f6ce8-497f-80d1-9dbe-dd59ceecc660"/></div><div style="display:contents" dir="auto"><h1 id="366f6ce8-497f-8071-b612-d5f4fbad6e04" class="">Valores principais:</h1></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-80e0-b81d-c7e7ead0524d" class="bulleted-list"><li style="list-style-type:disc">pessoas</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-809f-98ac-d0175ec97170" class="bulleted-list"><li style="list-style-type:disc">software funcionando</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-8077-b8fc-fa190d4e01eb" class="bulleted-list"><li style="list-style-type:disc">colaboração</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-804d-8b85-e65e2f167c46" class="bulleted-list"><li style="list-style-type:disc">adaptação</li></ul></div><div style="display:contents" dir="auto"><hr id="366f6ce8-497f-80c0-a442-d2cf6766d566"/></div><div style="display:contents" dir="auto"><h1 id="366f6ce8-497f-808b-a440-e0a414f32195" class="">Principais metodologias:</h1></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-8078-b061-f8a374c13582" class="bulleted-list"><li style="list-style-type:disc">Scrum</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-8031-a92f-fad0b857b6ae" class="bulleted-list"><li style="list-style-type:disc">XP</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-8027-8ad5-fd25d130f0c6" class="bulleted-list"><li style="list-style-type:disc">Kanban</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-8067-9fdd-f49cb3f485ce" class="bulleted-list"><li style="list-style-type:disc">Lean</li></ul></div><div style="display:contents" dir="auto"><hr id="366f6ce8-497f-803c-9d01-c0165d5bb394"/></div><div style="display:contents" dir="auto"><h1 id="366f6ce8-497f-80b1-9a93-cc5077c6340c" class="">Benefícios:</h1></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-8007-bab7-f00c7a9a9634" class="bulleted-list"><li style="list-style-type:disc">rapidez</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-8071-a1dd-dd20f743de23" class="bulleted-list"><li style="list-style-type:disc">flexibilidade</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-8019-9f74-cf099a4ff4ce" class="bulleted-list"><li style="list-style-type:disc">qualidade</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-8061-8daa-fe8e02998ed3" class="bulleted-list"><li style="list-style-type:disc">feedback constante</li></ul></div><div style="display:contents" dir="auto"><hr id="366f6ce8-497f-8008-bf47-e9cb8b75a359"/></div><div style="display:contents" dir="auto"><h1 id="366f6ce8-497f-8067-b987-fb08aac061b1" class="">Conceito-chave</h1></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-809b-b7f9-dc86006ee1d7" class="">O desenvolvimento ágil busca entregar software funcional rapidamente, adaptando-se continuamente às mudanças e mantendo forte colaboração entre equipe e cliente.</p></div></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

@@ -1,0 +1,743 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Metodologia SCRUM</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="366f6ce8-497f-80d8-9bb1-c131cc2f7b6a" class="page sans"><header><div class="page-header-icon undefined"><span class="icon">💻</span></div><h1 class="page-title" dir="auto">Metodologia SCRUM</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><div style="display:contents" dir="auto"><h1 id="366f6ce8-497f-8010-b359-cec279460e71" class="">SCRUM</h1></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-804a-8023-d4f3ee5ee356" class="">Scrum é um framework ágil utilizado para gerenciamento e desenvolvimento de projetos, principalmente projetos de software.</p></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-8063-9110-e155275999d6" class="">Ele organiza o trabalho em ciclos curtos e iterativos chamados de <strong>Sprints</strong>, permitindo entregas frequentes, adaptação rápida e melhoria contínua.</p></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-8038-a9ae-c678452206dd" class="">O Scrum faz parte das metodologias ágeis baseadas no Manifesto Ágil.</p></div><div style="display:contents" dir="auto"><hr id="366f6ce8-497f-805c-a3ff-cf39240e4854"/></div><div style="display:contents" dir="auto"><h1 id="366f6ce8-497f-8094-925a-cff378d3a804" class="">Objetivos do Scrum</h1></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-8029-8467-f9d8eaf20961" class="bulleted-list"><li style="list-style-type:disc">Entregar valor rapidamente</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-80e4-8ce9-c1b4596bedda" class="bulleted-list"><li style="list-style-type:disc">Melhorar colaboração da equipe</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-80c8-a6ab-fb27ce61e608" class="bulleted-list"><li style="list-style-type:disc">Facilitar adaptação às mudanças</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-8077-a3d7-c0b4bba7ceac" class="bulleted-list"><li style="list-style-type:disc">Aumentar produtividade</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-80be-9221-c2ab668cbcfe" class="bulleted-list"><li style="list-style-type:disc">Reduzir riscos no projeto</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-80b6-99d5-c693d7c9a887" class="bulleted-list"><li style="list-style-type:disc">Garantir melhoria contínua</li></ul></div><div style="display:contents" dir="auto"><hr id="366f6ce8-497f-80ad-8942-fc95f089ee80"/></div><div style="display:contents" dir="auto"><h1 id="366f6ce8-497f-80e4-99a4-f7a640601350" class="">Características do Scrum</h1></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-8037-8a17-e15c8ce62daf" class="bulleted-list"><li style="list-style-type:disc">Trabalho em equipe</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-8020-a8aa-d91f78707c22" class="bulleted-list"><li style="list-style-type:disc">Desenvolvimento incremental</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-80ec-b29b-dc37fb9c31c0" class="bulleted-list"><li style="list-style-type:disc">Entregas frequentes</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-8071-89ef-e8bbe4a2bec7" class="bulleted-list"><li style="list-style-type:disc">Comunicação constante</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-8050-b889-da64736ac63e" class="bulleted-list"><li style="list-style-type:disc">Feedback contínuo</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-8025-bfb9-d4f376db4cd5" class="bulleted-list"><li style="list-style-type:disc">Flexibilidade</li></ul></div><div style="display:contents" dir="auto"><hr id="366f6ce8-497f-80b5-9e80-cd06f5537940"/></div><div style="display:contents" dir="auto"><h1 id="366f6ce8-497f-80ea-9e07-f2a507a64b9f" class="">Estrutura do Scrum</h1></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-804f-8a43-c0cc96cd8deb" class="">O Scrum é dividido em:</p></div><div style="display:contents" dir="auto"><ol type="1" id="366f6ce8-497f-801a-a9e0-fe31da6145aa" class="numbered-list" start="1"><li>Papéis (Roles)</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="366f6ce8-497f-80ce-b5d9-fb62d048d1e2" class="numbered-list" start="2"><li>Eventos (Cerimônias)</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="366f6ce8-497f-807b-a9e8-cbcce7482842" class="numbered-list" start="3"><li>Artefatos</li></ol></div><div style="display:contents" dir="auto"><hr id="366f6ce8-497f-8055-94e4-debdef846c31"/></div><div style="display:contents" dir="auto"><h1 id="366f6ce8-497f-8061-a4f0-d733894ad095" class="">Papéis do Scrum</h1></div><div style="display:contents" dir="auto"><h2 id="366f6ce8-497f-8012-b63a-e174319f6f57" class="">Product Owner (PO)</h2></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-802a-8edc-db1fc5458be5" class="">Responsável pelo produto e pelas prioridades.</p></div><div style="display:contents" dir="auto"><h3 id="366f6ce8-497f-80ed-9640-e68e4400e923" class="">Funções:</h3></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-809b-98a2-d720060c5770" class="bulleted-list"><li style="list-style-type:disc">Definir requisitos</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-80e2-b410-dd461e15fd13" class="bulleted-list"><li style="list-style-type:disc">Priorizar tarefas</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-80ba-b84a-f604e2c3665c" class="bulleted-list"><li style="list-style-type:disc">Maximizar valor do produto</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-805c-9484-e33ca268474a" class="bulleted-list"><li style="list-style-type:disc">Gerenciar o Product Backlog</li></ul></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-801a-b723-f6a63e884b6b" class="">O PO representa os interesses do cliente e do negócio.</p></div><div style="display:contents" dir="auto"><hr id="366f6ce8-497f-80bd-9fff-eff87c97a9a6"/></div><div style="display:contents" dir="auto"><h2 id="366f6ce8-497f-8030-87c2-c87f350c2ff5" class="">Scrum Master</h2></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-8012-898a-d7f11eed8661" class="">Responsável por garantir que o Scrum seja aplicado corretamente.</p></div><div style="display:contents" dir="auto"><h3 id="366f6ce8-497f-804e-aa8b-cfcd26e2091e" class="">Funções:</h3></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-805b-ac8e-c595c255ce02" class="bulleted-list"><li style="list-style-type:disc">Remover impedimentos</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-80cb-bcd6-de710a3e37fc" class="bulleted-list"><li style="list-style-type:disc">Facilitar reuniões</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-800b-aa18-e786cb42df14" class="bulleted-list"><li style="list-style-type:disc">Ajudar a equipe</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-80a2-8369-cdd8a4a6969f" class="bulleted-list"><li style="list-style-type:disc">Garantir boas práticas ágeis</li></ul></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-80ce-9a6d-d55b3b903de7" class="">Ele atua como líder facilitador.</p></div><div style="display:contents" dir="auto"><hr id="366f6ce8-497f-80fa-8255-cbe6f07355e1"/></div><div style="display:contents" dir="auto"><h2 id="366f6ce8-497f-80b5-921b-f77754decc86" class="">Time de Desenvolvimento</h2></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-808f-a0e9-e8257bff1dea" class="">Equipe responsável por construir o produto.</p></div><div style="display:contents" dir="auto"><h3 id="366f6ce8-497f-80a9-8ce6-c9599d53f77e" class="">Características:</h3></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-80cf-a98d-f318853de902" class="bulleted-list"><li style="list-style-type:disc">Multidisciplinar</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-803b-94c3-c2a5666180da" class="bulleted-list"><li style="list-style-type:disc">Auto-organizada</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-800a-a25e-da0d5f16ade0" class="bulleted-list"><li style="list-style-type:disc">Colaborativa</li></ul></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-80b5-958c-c10b59ae4d2c" class="">Pode incluir:</p></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-80d6-a766-fcf64f66af65" class="bulleted-list"><li style="list-style-type:disc">Programadores</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-8034-8bc0-e935092d82f5" class="bulleted-list"><li style="list-style-type:disc">Designers</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-80c8-8d27-c81b89e7e69c" class="bulleted-list"><li style="list-style-type:disc">Testadores</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-80a9-b009-d753d9dc1f81" class="bulleted-list"><li style="list-style-type:disc">Analistas</li></ul></div><div style="display:contents" dir="auto"><hr id="366f6ce8-497f-80da-b9a1-f2b853f8ac0b"/></div><div style="display:contents" dir="auto"><h1 id="366f6ce8-497f-8084-9e9c-da55dce60744" class="">Eventos do Scrum</h1></div><div style="display:contents" dir="auto"><h2 id="366f6ce8-497f-8031-adc1-c156141fcf70" class="">Sprint</h2></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-8099-8556-f77e2565a249" class="">É um ciclo de desenvolvimento com duração fixa.</p></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-8058-9da3-e68f4d168ee0" class="">Normalmente:</p></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-809b-a5c1-e00bb9dfbfe0" class="bulleted-list"><li style="list-style-type:disc">1 a 4 semanas</li></ul></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-801b-a831-cb7574d3e00c" class="">Ao final da Sprint, deve existir uma entrega funcional do sistema.</p></div><div style="display:contents" dir="auto"><hr id="366f6ce8-497f-80f7-b6a7-daf8981d4eb7"/></div><div style="display:contents" dir="auto"><h2 id="366f6ce8-497f-8089-b61b-cc215d3ef0a8" class="">Sprint Planning</h2></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-80d2-a67d-fbee1d1ad413" class="">Reunião de planejamento da Sprint.</p></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-8055-b30c-e3cf1b86107f" class="">Objetivos:</p></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-8068-bd36-d2450ca0ccbd" class="bulleted-list"><li style="list-style-type:disc">Definir o que será feito</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-8047-b7c7-de6fa2b0f199" class="bulleted-list"><li style="list-style-type:disc">Escolher tarefas do backlog</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-8066-94b5-c4aacce91516" class="bulleted-list"><li style="list-style-type:disc">Estimar esforço</li></ul></div><div style="display:contents" dir="auto"><hr id="366f6ce8-497f-8066-afd0-ffe14ae88687"/></div><div style="display:contents" dir="auto"><h2 id="366f6ce8-497f-80a8-8275-c32d9aba3bcb" class="">Daily Scrum</h2></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-805f-b993-dea94f97d36a" class="">Reunião diária e rápida.</p></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-8040-bffd-e6f1828e27bb" class="">Duração:</p></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-805c-99e6-d2ade27a8651" class="bulleted-list"><li style="list-style-type:disc">Aproximadamente 15 minutos</li></ul></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-8076-b5cc-c91364913382" class="">Cada membro responde:</p></div><div style="display:contents" dir="auto"><ol type="1" id="366f6ce8-497f-8018-ad0b-ddfac818c816" class="numbered-list" start="1"><li>O que fiz ontem?</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="366f6ce8-497f-8099-97e9-ce74cd53ea4a" class="numbered-list" start="2"><li>O que farei hoje?</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="366f6ce8-497f-8072-b532-f75634e062e1" class="numbered-list" start="3"><li>Existe algum impedimento?</li></ol></div><div style="display:contents" dir="auto"><hr id="366f6ce8-497f-80a2-8373-e17b835b4076"/></div><div style="display:contents" dir="auto"><h2 id="366f6ce8-497f-80ed-a5cf-f83ccbd18b25" class="">Sprint Review</h2></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-803d-99e6-fd72a3af7960" class="">Reunião ao final da Sprint para apresentar o resultado produzido.</p></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-804a-a0fd-e17d725c1f0e" class="">Objetivos:</p></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-807b-bd3b-f9c3b4831b58" class="bulleted-list"><li style="list-style-type:disc">Demonstrar funcionalidades</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-80d1-9c69-d35ed1aa05ab" class="bulleted-list"><li style="list-style-type:disc">Receber feedback</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-801d-927e-c88eae90bdb0" class="bulleted-list"><li style="list-style-type:disc">Validar entregas</li></ul></div><div style="display:contents" dir="auto"><hr id="366f6ce8-497f-8091-815b-d6d890ae08d6"/></div><div style="display:contents" dir="auto"><h2 id="366f6ce8-497f-8032-a739-c0ff05416eaa" class="">Sprint Retrospective</h2></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-8058-95a9-ec63cd3fa2e0" class="">Reunião de melhoria contínua.</p></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-80c9-8653-de81a0750808" class="">A equipe analisa:</p></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-8058-8bf6-ca3d2e05827f" class="bulleted-list"><li style="list-style-type:disc">O que funcionou bem</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-8084-98f7-c6d7d6772943" class="bulleted-list"><li style="list-style-type:disc">O que pode melhorar</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-8081-bb8a-d1ad8d637d2a" class="bulleted-list"><li style="list-style-type:disc">Quais ajustes fazer na próxima Sprint</li></ul></div><div style="display:contents" dir="auto"><hr id="366f6ce8-497f-8065-b691-c9d7be068398"/></div><div style="display:contents" dir="auto"><h1 id="366f6ce8-497f-8033-a22e-e3ec7f52d702" class="">Artefatos do Scrum</h1></div><div style="display:contents" dir="auto"><h2 id="366f6ce8-497f-8095-974f-f7a39aae5d25" class="">Product Backlog</h2></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-8013-9661-c31202d1633a" class="">Lista de todas as funcionalidades, melhorias e requisitos do produto.</p></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-80bf-96d9-ee03947f1d41" class="">Características:</p></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-801b-ad58-d9e92bff3164" class="bulleted-list"><li style="list-style-type:disc">Priorizado</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-8030-8154-dbe29c3130a1" class="bulleted-list"><li style="list-style-type:disc">Dinâmico</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-801f-b782-f4460acb31c1" class="bulleted-list"><li style="list-style-type:disc">Atualizado constantemente</li></ul></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-8007-aca7-e2d6c6baac4a" class="">Responsável:</p></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-801d-9de6-cac1f2eb28a5" class="bulleted-list"><li style="list-style-type:disc">Product Owner</li></ul></div><div style="display:contents" dir="auto"><hr id="366f6ce8-497f-801e-ace4-f301f389ef62"/></div><div style="display:contents" dir="auto"><h2 id="366f6ce8-497f-8063-82ac-fa378211dfd8" class="">Sprint Backlog</h2></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-80a1-a264-f324e94adbeb" class="">Conjunto de tarefas selecionadas para a Sprint atual.</p></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-804b-b0cb-c16e5e72e295" class="">Contém:</p></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-8031-9dd1-c603e2833957" class="bulleted-list"><li style="list-style-type:disc">Objetivos da Sprint</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-8072-97e3-ef1fbf44ddc4" class="bulleted-list"><li style="list-style-type:disc">Itens escolhidos</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-80d7-8517-d7fdba87a865" class="bulleted-list"><li style="list-style-type:disc">Plano de execução</li></ul></div><div style="display:contents" dir="auto"><hr id="366f6ce8-497f-80f7-b90c-c4b92c61d48b"/></div><div style="display:contents" dir="auto"><h2 id="366f6ce8-497f-80b9-b3a6-f43aeb24788a" class="">Incremento</h2></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-809e-a24a-daafd5e9c855" class="">Resultado produzido ao final da Sprint.</p></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-8030-9026-d87bba9fe9f2" class="">Deve ser:</p></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-803d-b0db-f8cf30cd91f5" class="bulleted-list"><li style="list-style-type:disc">Funcional</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-8039-9938-f9a6e1950311" class="bulleted-list"><li style="list-style-type:disc">Testado</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-80a9-8c73-d8d8d72c5809" class="bulleted-list"><li style="list-style-type:disc">Potencialmente utilizável</li></ul></div><div style="display:contents" dir="auto"><hr id="366f6ce8-497f-80b6-abd5-d5e89986d460"/></div><div style="display:contents" dir="auto"><h1 id="366f6ce8-497f-804a-94c3-d2e6b255da8b" class="">Conceitos Importantes</h1></div><div style="display:contents" dir="auto"><h2 id="366f6ce8-497f-8042-8aef-d039d35652e2" class="">Time-box</h2></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-8051-b89e-e57c5d474b30" class="">Cada evento possui tempo máximo definido.</p></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-80d1-928b-da1511875c93" class="">Exemplo:</p></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-803b-92d7-f429c0149059" class="bulleted-list"><li style="list-style-type:disc">Daily: 15 min</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-803a-a32e-c700d42bc202" class="bulleted-list"><li style="list-style-type:disc">Sprint: até 4 semanas</li></ul></div><div style="display:contents" dir="auto"><hr id="366f6ce8-497f-80dc-ba7f-cd6151074523"/></div><div style="display:contents" dir="auto"><h2 id="366f6ce8-497f-800e-b225-fd190e6bc451" class="">Definition of Done (DoD)</h2></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-804b-bb89-d654db0585f7" class="">Define quando uma tarefa está realmente concluída.</p></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-804f-a4ad-da1010a6d9c3" class="">Exemplo:</p></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-8054-ad75-fe2319991798" class="bulleted-list"><li style="list-style-type:disc">Código implementado</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-80c6-94ec-cea02c4e6fc2" class="bulleted-list"><li style="list-style-type:disc">Testado</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-8069-b910-f3b80921dfe7" class="bulleted-list"><li style="list-style-type:disc">Documentado</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-8042-b35c-e65278b86ddd" class="bulleted-list"><li style="list-style-type:disc">Aprovado</li></ul></div><div style="display:contents" dir="auto"><hr id="366f6ce8-497f-8047-b74d-e0c3267fc80e"/></div><div style="display:contents" dir="auto"><h2 id="366f6ce8-497f-80d6-8e0d-f65e7caecf7d" class="">Burndown Chart</h2></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-8073-a04b-fd06cce77f36" class="">Gráfico usado para acompanhar o progresso da Sprint.</p></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-80d6-be64-c7cbde876497" class="">Mostra:</p></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-80c1-8936-d4022a200fdd" class="bulleted-list"><li style="list-style-type:disc">Trabalho restante</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-8026-91a4-da1cce91fa12" class="bulleted-list"><li style="list-style-type:disc">Velocidade da equipe</li></ul></div><div style="display:contents" dir="auto"><hr id="366f6ce8-497f-8069-8ba6-f448c26896fb"/></div><div style="display:contents" dir="auto"><h1 id="366f6ce8-497f-80ca-9f01-d919e77fe825" class="">Vantagens do Scrum</h1></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-80e0-bc34-d2b92e36c269" class="bulleted-list"><li style="list-style-type:disc">Maior organização</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-803a-a253-d3e52e3780bd" class="bulleted-list"><li style="list-style-type:disc">Entregas rápidas</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-80e5-bddf-f90660ccb7b4" class="bulleted-list"><li style="list-style-type:disc">Melhor comunicação</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-8011-995d-d37c8b67fa0f" class="bulleted-list"><li style="list-style-type:disc">Flexibilidade para mudanças</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-80cb-861c-fc02f863d9b8" class="bulleted-list"><li style="list-style-type:disc">Feedback constante</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-80cf-91de-ec0ff413d8fc" class="bulleted-list"><li style="list-style-type:disc">Redução de riscos</li></ul></div><div style="display:contents" dir="auto"><hr id="366f6ce8-497f-8005-84bc-ed1894b4f6b2"/></div><div style="display:contents" dir="auto"><h1 id="366f6ce8-497f-8049-b641-daacbc6f16b2" class="">Desvantagens do Scrum</h1></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-804e-ad45-ddf9e50cf841" class="bulleted-list"><li style="list-style-type:disc">Exige equipe comprometida</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-80b9-a20d-f5dc6fb5281c" class="bulleted-list"><li style="list-style-type:disc">Pode gerar muitas reuniões</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-80f8-8a6b-eafb9f0f580a" class="bulleted-list"><li style="list-style-type:disc">Difícil em equipes desorganizadas</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-8016-ad8e-e40da1d59ef3" class="bulleted-list"><li style="list-style-type:disc">Requer adaptação cultural</li></ul></div><div style="display:contents" dir="auto"><hr id="366f6ce8-497f-8050-9c83-ccd931228806"/></div><div style="display:contents" dir="auto"><h1 id="366f6ce8-497f-80de-bbbd-f1ec7dbf6226" class="">Scrum x Cascata</h1></div><div style="display:contents" dir="ltr"><table id="366f6ce8-497f-8015-812f-d2297220bf66" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="366f6ce8-497f-801f-baba-e9349b34a237"><th id="XcHu" class="simple-table-header-color simple-table-header">Scrum</th><th id="yfUb" class="simple-table-header-color simple-table-header">Cascata</th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="366f6ce8-497f-806d-9b0f-d96eba41f4ad"><td id="XcHu" class="">Flexível</td><td id="yfUb" class="">Rígido</td></tr></div><div style="display:contents" dir="ltr"><tr id="366f6ce8-497f-80ce-8172-ce6ef1254beb"><td id="XcHu" class="">Iterativo</td><td id="yfUb" class="">Sequencial</td></tr></div><div style="display:contents" dir="ltr"><tr id="366f6ce8-497f-80be-b047-c638bebe4600"><td id="XcHu" class="">Mudanças são aceitas</td><td id="yfUb" class="">Mudanças são difíceis</td></tr></div><div style="display:contents" dir="ltr"><tr id="366f6ce8-497f-802f-a32b-f22aae470241"><td id="XcHu" class="">Entregas frequentes</td><td id="yfUb" class="">Entrega final única</td></tr></div><div style="display:contents" dir="ltr"><tr id="366f6ce8-497f-8007-b292-fa31cb1460ca"><td id="XcHu" class="">Feedback contínuo</td><td id="yfUb" class="">Feedback tardio</td></tr></div></tbody></table></div><div style="display:contents" dir="auto"><hr id="366f6ce8-497f-80f2-8d87-f4c59ab45f18"/></div><div style="display:contents" dir="auto"><h1 id="366f6ce8-497f-8064-87d4-f1dcc4f5433e" class="">Exemplo Prático</h1></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-8033-bab3-e239a4e9aafe" class="">Imagine o desenvolvimento de um aplicativo de delivery:</p></div><div style="display:contents" dir="auto"><h2 id="366f6ce8-497f-8068-ac08-c8065296d80b" class="">Product Backlog</h2></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-8010-abf3-e62af8310799" class="bulleted-list"><li style="list-style-type:disc">Login</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-8038-9f14-f7f32d49e10c" class="bulleted-list"><li style="list-style-type:disc">Cadastro</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-804a-b30e-f1da35524fe1" class="bulleted-list"><li style="list-style-type:disc">Carrinho</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-809e-8141-d908f8ee2369" class="bulleted-list"><li style="list-style-type:disc">Pagamento</li></ul></div><div style="display:contents" dir="auto"><h2 id="366f6ce8-497f-8059-b0b1-e7802042d62d" class="">Sprint 1</h2></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-8052-8cc6-f39b65836c0b" class="bulleted-list"><li style="list-style-type:disc">Tela de login</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-804c-9711-df151a1b4e7a" class="bulleted-list"><li style="list-style-type:disc">Cadastro de usuário</li></ul></div><div style="display:contents" dir="auto"><h2 id="366f6ce8-497f-805e-818e-c4d86f364809" class="">Sprint 2</h2></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-8017-aec1-ebf066174a16" class="bulleted-list"><li style="list-style-type:disc">Carrinho</li></ul></div><div style="display:contents" dir="auto"><ul id="366f6ce8-497f-80c7-ad1b-d9eaf4357d79" class="bulleted-list"><li style="list-style-type:disc">Listagem de produtos</li></ul></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-80d7-9c72-ffbee9f7ae46" class="">A cada Sprint, uma parte funcional é entregue.</p></div><div style="display:contents" dir="auto"><hr id="366f6ce8-497f-80e6-a9b6-fb6145b14673"/></div><div style="display:contents" dir="auto"><h1 id="366f6ce8-497f-80d2-9733-d94aa70bc530" class="">Resumo Final</h1></div><div style="display:contents" dir="auto"><p id="366f6ce8-497f-80ba-8460-e373bb88a11e" class="">O Scrum é um framework ágil baseado em ciclos curtos de desenvolvimento, colaboração constante e entregas incrementais. Ele organiza equipes através de papéis, eventos e artefatos para produzir software de forma rápida, flexível e com melhoria contínua.</p></div></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>
