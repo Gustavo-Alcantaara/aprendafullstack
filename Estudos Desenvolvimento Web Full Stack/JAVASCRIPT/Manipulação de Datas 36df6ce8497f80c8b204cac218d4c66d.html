@@ -1,0 +1,755 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Manipulação de Datas</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="36df6ce8-497f-80c8-b204-cac218d4c66d" class="page sans"><header><div class="page-header-icon undefined"><img class="icon notion-static-icon" src="https://www.notion.so/icons/command-line_yellow.svg"/></div><h1 class="page-title" dir="auto">Manipulação de Datas</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><div style="display:contents" dir="auto"><p id="36df6ce8-497f-80ef-ae59-e108472f5669" class="">Em JavaScript, a manipulação de datas é feita principalmente através do objeto:</p></div><div style="display:contents" dir="auto"><p id="36df6ce8-497f-80fb-a172-c8863a5ad102" class="">Com ele é possível:</p></div><div style="display:contents" dir="auto"><ul id="36df6ce8-497f-807e-98d1-d39e204c32dd" class="bulleted-list"><li style="list-style-type:disc">criar datas</li></ul></div><div style="display:contents" dir="auto"><ul id="36df6ce8-497f-8022-b632-f4351853ccab" class="bulleted-list"><li style="list-style-type:disc">pegar dia, mês e ano</li></ul></div><div style="display:contents" dir="auto"><ul id="36df6ce8-497f-80a9-8286-d977704f7c6c" class="bulleted-list"><li style="list-style-type:disc">trabalhar com horários</li></ul></div><div style="display:contents" dir="auto"><ul id="36df6ce8-497f-80c9-a48b-ca8cbbcfd7cd" class="bulleted-list"><li style="list-style-type:disc">calcular diferenças de tempo</li></ul></div><div style="display:contents" dir="auto"><ul id="36df6ce8-497f-80b3-9b07-e44e028c0d9d" class="bulleted-list"><li style="list-style-type:disc">formatar datas</li></ul></div><div style="display:contents" dir="auto"><h1 id="36df6ce8-497f-8028-bf40-dcee546056c3" class="">Criando datas</h1></div><div style="display:contents" dir="auto"><h2 id="36df6ce8-497f-80fd-a5c2-d6e2c4bf5c54" class="">Data atual</h2></div><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-jsx.min.js" integrity="sha512-m3JYEI6gx5fh9jF10FjGoMzVKcV2N6nchcDcqPCdI1L3R2WQV7br2XVNR8iTLb2daOMRl3zldbcfT40xU2ntVw==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="36df6ce8-497f-80ff-9253-e52fb4bc49aa" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const data = newDate();
+
+console.log(data);</code></pre></div><div style="display:contents" dir="auto"><hr id="36df6ce8-497f-8001-9351-d9d3087e9626"/></div><div style="display:contents" dir="auto"><h1 id="36df6ce8-497f-8075-ab84-c9f3c7c4a247" class="">Criando data específica</h1></div><div style="display:contents" dir="auto"><pre id="36df6ce8-497f-8064-970a-d8851594efae" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const data = newDate(2026,4,27);</code></pre></div><div style="display:contents" dir="auto"><p id="36df6ce8-497f-8021-8ba6-c7184b1fab8f" class="">⚠️ Os meses começam do zero:</p></div><div style="display:contents" dir="ltr"><table id="36df6ce8-497f-809e-8609-c306bc513092" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="36df6ce8-497f-8061-aafe-c8e69f876f59"><th id="~@=Q" class="simple-table-header-color simple-table-header">Número</th><th id="qijM" class="simple-table-header-color simple-table-header">Mês</th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="36df6ce8-497f-80a7-8412-dfda89eaf2ff"><td id="~@=Q" class="">0</td><td id="qijM" class="">Janeiro</td></tr></div><div style="display:contents" dir="ltr"><tr id="36df6ce8-497f-80ef-ab4e-d561a76a72ee"><td id="~@=Q" class="">1</td><td id="qijM" class="">Fevereiro</td></tr></div><div style="display:contents" dir="ltr"><tr id="36df6ce8-497f-80cf-914a-e2f5bb1d2009"><td id="~@=Q" class="">4</td><td id="qijM" class="">Maio</td></tr></div></tbody></table></div><div style="display:contents" dir="auto"><hr id="36df6ce8-497f-8000-81ff-cfb6a9398d60"/></div><div style="display:contents" dir="auto"><h1 id="36df6ce8-497f-8092-be9b-f353cbbdff79" class="">Criando por texto</h1></div><div style="display:contents" dir="auto"><pre id="36df6ce8-497f-80f7-9096-c826f1354cf4" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const data = newDate(&quot;2026-05-27&quot;);</code></pre></div><div style="display:contents" dir="auto"><hr id="36df6ce8-497f-8020-a6ce-e777a7a9cc3a"/></div><div style="display:contents" dir="auto"><h1 id="36df6ce8-497f-802c-b5bb-d2337b89b6d3" class="">Pegando informações da data</h1></div><div style="display:contents" dir="auto"><h2 id="36df6ce8-497f-809f-b945-c61c268ba2c2" class=""><code>getFullYear()</code></h2></div><div style="display:contents" dir="auto"><p id="36df6ce8-497f-809e-bb80-d557684cf6d0" class="">Retorna o ano:</p></div><div style="display:contents" dir="auto"><pre id="36df6ce8-497f-80b4-8040-fbce874f6fd6" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">console.log(data.getFullYear());</code></pre></div><div style="display:contents" dir="auto"><hr id="36df6ce8-497f-806e-a6d1-c6395860a5fb"/></div><div style="display:contents" dir="auto"><h2 id="36df6ce8-497f-8089-bd98-c58d0bbc4e84" class=""><code>getMonth()</code></h2></div><div style="display:contents" dir="auto"><p id="36df6ce8-497f-8041-b61f-caff02b9d3f3" class="">Retorna o mês:</p></div><div style="display:contents" dir="auto"><pre id="36df6ce8-497f-80b7-9659-e312b4ed57c3" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">console.log(data.getMonth());</code></pre></div><div style="display:contents" dir="auto"><p id="36df6ce8-497f-8071-b4a0-ce6f8c2094d9" class="">⚠️ Janeiro = <code>0</code></p></div><div style="display:contents" dir="auto"><hr id="36df6ce8-497f-80a6-93c5-cc21e24f1fb7"/></div><div style="display:contents" dir="auto"><h2 id="36df6ce8-497f-8060-947f-fdc591db0b48" class=""><code>getDate()</code></h2></div><div style="display:contents" dir="auto"><p id="36df6ce8-497f-80df-9ffb-fa6b5f8cfacb" class="">Retorna o dia do mês:</p></div><div style="display:contents" dir="auto"><pre id="36df6ce8-497f-8072-b71f-d1a45190934c" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">console.log(data.getDate());</code></pre></div><div style="display:contents" dir="auto"><hr id="36df6ce8-497f-8006-9d08-d2e7652b8018"/></div><div style="display:contents" dir="auto"><h2 id="36df6ce8-497f-8021-9916-d331d8ef12e2" class=""><code>getDay()</code></h2></div><div style="display:contents" dir="auto"><p id="36df6ce8-497f-807d-af39-ea7bb3c1e1de" class="">Retorna o dia da semana:</p></div><div style="display:contents" dir="ltr"><table id="36df6ce8-497f-80cc-b4dd-f7e132d1741b" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="36df6ce8-497f-8043-81c0-cb82381f25ed"><th id="zTKR" class="simple-table-header-color simple-table-header">Valor</th><th id="q`@;" class="simple-table-header-color simple-table-header">Dia</th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="36df6ce8-497f-8030-ab48-c1983d383c8c"><td id="zTKR" class="">0</td><td id="q`@;" class="">Domingo</td></tr></div><div style="display:contents" dir="ltr"><tr id="36df6ce8-497f-805d-9090-c0fb1e92147a"><td id="zTKR" class="">1</td><td id="q`@;" class="">Segunda</td></tr></div></tbody></table></div><div style="display:contents" dir="auto"><pre id="36df6ce8-497f-808a-b160-ce503a4b4316" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">console.log(data.getDay());</code></pre></div><div style="display:contents" dir="auto"><hr id="36df6ce8-497f-80ab-9533-e2f21adbb300"/></div><div style="display:contents" dir="auto"><h1 id="36df6ce8-497f-808d-bf31-eabdd3d89f05" class="">Trabalhando com horas</h1></div><div style="display:contents" dir="auto"><h2 id="36df6ce8-497f-80f9-9863-e49193dc523c" class="">Hora</h2></div><div style="display:contents" dir="auto"><pre id="36df6ce8-497f-80a9-9e75-c9236f6ec418" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">console.log(data.getHours());</code></pre></div><div style="display:contents" dir="auto"><hr id="36df6ce8-497f-8005-bdd8-e478e47d25bb"/></div><div style="display:contents" dir="auto"><h2 id="36df6ce8-497f-8041-9512-d1e54e08e005" class="">Minutos</h2></div><div style="display:contents" dir="auto"><pre id="36df6ce8-497f-8079-803b-d84b5c7ee037" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">console.log(data.getMinutes());</code></pre></div><div style="display:contents" dir="auto"><hr id="36df6ce8-497f-80de-8fad-ebba85998f48"/></div><div style="display:contents" dir="auto"><h2 id="36df6ce8-497f-808a-a380-f83ab9961c80" class="">Segundos</h2></div><div style="display:contents" dir="auto"><pre id="36df6ce8-497f-80c3-aaa1-c8a890283066" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">console.log(data.getSeconds());</code></pre></div><div style="display:contents" dir="auto"><hr id="36df6ce8-497f-80d7-9e1c-f5ce02b8454a"/></div><div style="display:contents" dir="auto"><h1 id="36df6ce8-497f-8072-ac4c-eb82578358c9" class="">Alterando datas</h1></div><div style="display:contents" dir="auto"><h2 id="36df6ce8-497f-8025-bc90-de4a14f5ab1f" class="">Alterar ano</h2></div><div style="display:contents" dir="auto"><pre id="36df6ce8-497f-80a2-92a3-cb2351b74c84" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">data.setFullYear(2030);</code></pre></div><div style="display:contents" dir="auto"><hr id="36df6ce8-497f-804b-8957-ca25901aa193"/></div><div style="display:contents" dir="auto"><h2 id="36df6ce8-497f-80f2-942d-c42385d29716" class="">Alterar mês</h2></div><div style="display:contents" dir="auto"><pre id="36df6ce8-497f-8001-b437-edcfe25b7dfa" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">data.setMonth(11);</code></pre></div><div style="display:contents" dir="auto"><hr id="36df6ce8-497f-8012-8415-d0de6dddd8c8"/></div><div style="display:contents" dir="auto"><h2 id="36df6ce8-497f-801d-9eae-dbb0ab130e1e" class="">Alterar dia</h2></div><div style="display:contents" dir="auto"><pre id="36df6ce8-497f-8050-8915-cce913113ea0" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">data.setDate(15);</code></pre></div><div style="display:contents" dir="auto"><hr id="36df6ce8-497f-8040-952b-e1bb1220df9a"/></div><div style="display:contents" dir="auto"><h1 id="36df6ce8-497f-8046-8439-f5605491efba" class="">Timestamp</h1></div><div style="display:contents" dir="auto"><p id="36df6ce8-497f-8051-a884-e3df8a7f1558" class="">Datas internamente funcionam como milissegundos desde:</p></div><div style="display:contents" dir="auto"><h2 id="36df6ce8-497f-802d-ae13-d047a619f95a" class="">Pegando timestamp</h2></div><div style="display:contents" dir="auto"><pre id="36df6ce8-497f-8088-8c34-e6dafcd0e5f7" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">console.log(Date.now());</code></pre></div><div style="display:contents" dir="auto"><hr id="36df6ce8-497f-805c-9d7d-d56968d92686"/></div><div style="display:contents" dir="auto"><h1 id="36df6ce8-497f-8043-adfd-e3569758de0c" class="">Diferença entre datas</h1></div><div style="display:contents" dir="auto"><pre id="36df6ce8-497f-80a3-bae5-c210644c6465" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const inicio = newDate();
+const fim = newDate();
+
+const diferenca = fim - inicio;
+
+console.log(diferenca);</code></pre></div><div style="display:contents" dir="auto"><p id="36df6ce8-497f-8053-b902-c1c401aed295" class="">Resultado em milissegundos.</p></div><div style="display:contents" dir="auto"><hr id="36df6ce8-497f-8098-8f1f-f0a5117c0500"/></div><div style="display:contents" dir="auto"><h1 id="36df6ce8-497f-8039-9d56-db73d3e89f44" class="">Convertendo milissegundos</h1></div><div style="display:contents" dir="auto"><h2 id="36df6ce8-497f-80bb-af79-c12236883b1a" class="">Segundos</h2></div><div style="display:contents" dir="auto"><pre id="36df6ce8-497f-80c2-98ae-e303689a7f34" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">milissegundos/1000</code></pre></div><div style="display:contents" dir="auto"><h2 id="36df6ce8-497f-803e-a47c-ff3427a47dc2" class="">Minutos</h2></div><div style="display:contents" dir="auto"><pre id="36df6ce8-497f-807b-9b19-e4d944307db1" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">milissegundos/1000/60</code></pre></div><div style="display:contents" dir="auto"><hr id="36df6ce8-497f-808e-ab32-dc0481e3e84c"/></div><div style="display:contents" dir="auto"><h1 id="36df6ce8-497f-8049-b5c7-f3a680bd968e" class="">Formatando datas</h1></div><div style="display:contents" dir="auto"><h2 id="36df6ce8-497f-80b8-a085-fdeb3b261930" class=""><code>toDateString()</code></h2></div><div style="display:contents" dir="auto"><pre id="36df6ce8-497f-80c2-9286-e76aa9f3c4d5" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">console.log(data.toDateString());</code></pre></div><div style="display:contents" dir="auto"><hr id="36df6ce8-497f-8093-bd53-e251dc9029fb"/></div><div style="display:contents" dir="auto"><h2 id="36df6ce8-497f-8005-8c90-eeaa17000c7b" class=""><code>toLocaleDateString()</code></h2></div><div style="display:contents" dir="auto"><p id="36df6ce8-497f-8038-92b0-d9ee1ee4cb38" class="">Formato regional:</p></div><div style="display:contents" dir="auto"><pre id="36df6ce8-497f-8056-9eb8-d94b96d25edc" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">console.log(data.toLocaleDateString(&quot;pt-BR&quot;));</code></pre></div><div style="display:contents" dir="auto"><hr id="36df6ce8-497f-80f9-a2c7-d7fd6d4d1c88"/></div><div style="display:contents" dir="auto"><h2 id="36df6ce8-497f-800f-bb83-eb941cb42166" class=""><code>toLocaleTimeString()</code></h2></div><div style="display:contents" dir="auto"><pre id="36df6ce8-497f-80c4-a423-f77114ae32de" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">console.log(data.toLocaleTimeString(&quot;pt-BR&quot;));</code></pre></div><div style="display:contents" dir="auto"><hr id="36df6ce8-497f-8045-bdba-c7d980bf0780"/></div><div style="display:contents" dir="auto"><h1 id="36df6ce8-497f-8077-ad2e-d5a2ca586510" class="">Formatando completo</h1></div><div style="display:contents" dir="auto"><pre id="36df6ce8-497f-80b5-8411-ff567e69fb18" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">console.log(
+data.toLocaleString(&quot;pt-BR&quot;)
+);</code></pre></div><div style="display:contents" dir="auto"><hr id="36df6ce8-497f-80eb-9101-ce718458e778"/></div><div style="display:contents" dir="auto"><h1 id="36df6ce8-497f-8084-b7b6-c065d44e1ce3" class="">Comparando datas</h1></div><div style="display:contents" dir="auto"><pre id="36df6ce8-497f-80aa-bba2-fc78de0ef3f2" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const d1 = newDate(&quot;2026-01-01&quot;);
+const d2 = newDate(&quot;2027-01-01&quot;);
+
+console.log(d1 &lt; d2);</code></pre></div><div style="display:contents" dir="auto"><p id="36df6ce8-497f-803a-946b-c0af345a3a7e" class="">Resultado:</p></div><div style="display:contents" dir="auto"><pre id="36df6ce8-497f-80cd-9a9d-f79b59e983f3" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">true</code></pre></div><div style="display:contents" dir="auto"><hr id="36df6ce8-497f-8088-b6d8-eb2e50baacea"/></div><div style="display:contents" dir="auto"><h1 id="36df6ce8-497f-804d-90dc-f8c2d17b44e3" class="">Cuidado com fusos horários</h1></div><div style="display:contents" dir="auto"><p id="36df6ce8-497f-806d-ac56-c85a482930a5" class="">Datas podem variar dependendo do:</p></div><div style="display:contents" dir="auto"><ul id="36df6ce8-497f-80df-ae11-f67e790cc28b" class="bulleted-list"><li style="list-style-type:disc">país</li></ul></div><div style="display:contents" dir="auto"><ul id="36df6ce8-497f-80d0-8d8e-f417e7e0e0bf" class="bulleted-list"><li style="list-style-type:disc">navegador</li></ul></div><div style="display:contents" dir="auto"><ul id="36df6ce8-497f-8051-9b57-e64aeadb63e5" class="bulleted-list"><li style="list-style-type:disc">timezone</li></ul></div><div style="display:contents" dir="auto"><p id="36df6ce8-497f-80be-a0c5-c966106a8f86" class="">Por isso muitas aplicações usam bibliotecas como:</p></div><div style="display:contents" dir="auto"><ul id="36df6ce8-497f-8048-ae1d-fb29d1382adc" class="bulleted-list"><li style="list-style-type:disc">Day.js</li></ul></div><div style="display:contents" dir="auto"><ul id="36df6ce8-497f-800b-b30e-eae41cf5b5cc" class="bulleted-list"><li style="list-style-type:disc">date-fns</li></ul></div><div style="display:contents" dir="auto"><hr id="36df6ce8-497f-80e9-bd64-d2129c10e85e"/></div><div style="display:contents" dir="auto"><h1 id="36df6ce8-497f-800c-9924-f09d782c5860" class="">UTC</h1></div><div style="display:contents" dir="auto"><p id="36df6ce8-497f-80d8-b046-feb566d2beb0" class="">JavaScript também possui métodos UTC:</p></div><div style="display:contents" dir="auto"><pre id="36df6ce8-497f-8054-b94a-eb36b0fcc74b" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">data.getUTCFullYear()</code></pre></div><div style="display:contents" dir="auto"><hr id="36df6ce8-497f-8059-a851-eebb5759f8ee"/></div><div style="display:contents" dir="auto"><h1 id="36df6ce8-497f-8095-b07a-e667b5714b5c" class="">ISO Date</h1></div><div style="display:contents" dir="auto"><p id="36df6ce8-497f-8022-9229-d2195cdfdc09" class="">Formato padrão muito usado em APIs:</p></div><div style="display:contents" dir="auto"><pre id="36df6ce8-497f-8099-bd84-fdf6c2953edc" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">console.log(data.toISOString());</code></pre></div><div style="display:contents" dir="auto"><p id="36df6ce8-497f-8050-bc01-e90b36bc3dcb" class="">Resultado:</p></div><div style="display:contents" dir="auto"><pre id="36df6ce8-497f-804c-92ec-f7a135f79849" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">2026-05-27T00:00:00.000Z</code></pre></div><div style="display:contents" dir="auto"><hr id="36df6ce8-497f-8015-8673-f0a834aefec9"/></div><div style="display:contents" dir="auto"><h1 id="36df6ce8-497f-8020-90a0-c92330cdb10f" class="">Resumindo</h1></div><div style="display:contents" dir="auto"><p id="36df6ce8-497f-80f0-b814-ef63e01a3180" class="">As funções nativas de datas permitem:</p></div><div style="display:contents" dir="auto"><ul id="36df6ce8-497f-807d-b795-e3fa99040185" class="bulleted-list"><li style="list-style-type:disc">criar datas</li></ul></div><div style="display:contents" dir="auto"><ul id="36df6ce8-497f-8085-9d3b-c20c90611dc8" class="bulleted-list"><li style="list-style-type:disc">formatar horários</li></ul></div><div style="display:contents" dir="auto"><ul id="36df6ce8-497f-8027-9082-f40cfa2ba151" class="bulleted-list"><li style="list-style-type:disc">comparar períodos</li></ul></div><div style="display:contents" dir="auto"><ul id="36df6ce8-497f-80d7-a257-e9c9f1544ade" class="bulleted-list"><li style="list-style-type:disc">calcular diferenças</li></ul></div><div style="display:contents" dir="auto"><ul id="36df6ce8-497f-80c4-9f95-e304d89a82d4" class="bulleted-list"><li style="list-style-type:disc">trabalhar com calendários e timestamps</li></ul></div><div style="display:contents" dir="auto"><p id="36df6ce8-497f-804a-b063-cfb78351433c" class="">Manipulação de datas é essencial em sistemas financeiros, agendas, autenticação, APIs e aplicações modernas feitas com React e Node.js.</p></div></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

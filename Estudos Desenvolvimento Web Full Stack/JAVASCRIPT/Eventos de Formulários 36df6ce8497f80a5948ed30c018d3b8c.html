@@ -1,0 +1,782 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Eventos de Formulários</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="36df6ce8-497f-80a5-948e-d30c018d3b8c" class="page sans"><header><div class="page-header-icon undefined"><img class="icon notion-static-icon" src="https://www.notion.so/icons/command-line_yellow.svg"/></div><h1 class="page-title" dir="auto">Eventos de Formulários</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><div style="display:contents" dir="auto"><p id="36df6ce8-497f-8053-aa3c-ef7050ed518a" class="">Em JavaScript, eventos de formulários permitem detectar e controlar interações do usuário com campos de entrada, botões e formulários HTML.</p></div><div style="display:contents" dir="auto"><p id="36df6ce8-497f-808f-a57b-cb67125830d0" class="">Eles são muito usados para:</p></div><div style="display:contents" dir="auto"><ul id="36df6ce8-497f-80a6-9b25-d9c25810aa4c" class="bulleted-list"><li style="list-style-type:disc">validação</li></ul></div><div style="display:contents" dir="auto"><ul id="36df6ce8-497f-80e9-841e-d88cf663caf3" class="bulleted-list"><li style="list-style-type:disc">login</li></ul></div><div style="display:contents" dir="auto"><ul id="36df6ce8-497f-803a-a00c-e20d6205534c" class="bulleted-list"><li style="list-style-type:disc">cadastro</li></ul></div><div style="display:contents" dir="auto"><ul id="36df6ce8-497f-80d4-bc16-e70df8ed650b" class="bulleted-list"><li style="list-style-type:disc">busca</li></ul></div><div style="display:contents" dir="auto"><ul id="36df6ce8-497f-80e0-8d8e-d01898c2d018" class="bulleted-list"><li style="list-style-type:disc">envio de dados</li></ul></div><div style="display:contents" dir="auto"><ul id="36df6ce8-497f-80f3-ae2a-ecc849b2c347" class="bulleted-list"><li style="list-style-type:disc">interfaces dinâmicas</li></ul></div><div style="display:contents" dir="auto"><hr id="36df6ce8-497f-808c-8e01-c4e188ac2fae"/></div><div style="display:contents" dir="auto"><h1 id="36df6ce8-497f-80bd-8477-dbe1b9611718" class=""><code>submit</code></h1></div><div style="display:contents" dir="auto"><p id="36df6ce8-497f-8034-99af-e39f577e7bc3" class="">Executa quando o formulário é enviado.</p></div><div style="display:contents" dir="auto"><h2 id="36df6ce8-497f-80bc-be35-ef4b02c0bea4" class="">HTML</h2></div><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="36df6ce8-497f-808a-921f-ef25dc8ca773" class="code code-wrap"><code class="language-html" style="white-space:pre-wrap;word-break:break-all">&lt;form id=&quot;formulario&quot;&gt;
+&lt;input type=&quot;text&quot; placeholder=&quot;Nome&quot;&gt;
+&lt;button type=&quot;submit&quot;&gt;Enviar&lt;/button&gt;
+&lt;/form&gt;</code></pre></div><div style="display:contents" dir="auto"><h2 id="36df6ce8-497f-8078-9cb4-e7c582eb6ca9" class="">JavaScript</h2></div><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-jsx.min.js" integrity="sha512-m3JYEI6gx5fh9jF10FjGoMzVKcV2N6nchcDcqPCdI1L3R2WQV7br2XVNR8iTLb2daOMRl3zldbcfT40xU2ntVw==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="36df6ce8-497f-80d0-9935-dc9f5d7e00fd" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const formulario = document.getElementById(&quot;formulario&quot;);
+
+formulario.addEventListener(&quot;submit&quot;,function(evento) {
+evento.preventDefault();
+
+console.log(&quot;Formulário enviado&quot;);
+});</code></pre></div><div style="display:contents" dir="auto"><hr id="36df6ce8-497f-80fb-a7d6-fe16eb200e9a"/></div><div style="display:contents" dir="auto"><h1 id="36df6ce8-497f-8091-bb86-f84c09183e8f" class=""><code>preventDefault()</code></h1></div><div style="display:contents" dir="auto"><p id="36df6ce8-497f-809a-b5ff-c4b7ebe60a65" class="">Impede o comportamento padrão do formulário.</p></div><div style="display:contents" dir="auto"><p id="36df6ce8-497f-8081-8545-dcca10fbd05e" class="">Sem isso, a página normalmente recarrega.</p></div><div style="display:contents" dir="auto"><pre id="36df6ce8-497f-8032-9f55-ebf78be3f5ff" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">evento.preventDefault();</code></pre></div><div style="display:contents" dir="auto"><hr id="36df6ce8-497f-800e-ac48-ebad5c64b9dc"/></div><div style="display:contents" dir="auto"><h1 id="36df6ce8-497f-800f-88af-e3f381bff7da" class="">Pegando valores dos campos</h1></div><div style="display:contents" dir="auto"><pre id="36df6ce8-497f-8025-a70f-d186af38c729" class="code code-wrap"><code class="language-html" style="white-space:pre-wrap;word-break:break-all">&lt;input type=&quot;text&quot;id=&quot;nome&quot;&gt;</code></pre></div><div style="display:contents" dir="auto"><pre id="36df6ce8-497f-8045-aeb5-d5b5423950a9" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const nome = document.getElementById(&quot;nome&quot;);
+
+console.log(nome.value);</code></pre></div><div style="display:contents" dir="auto"><hr id="36df6ce8-497f-8034-89c4-ff735834abf4"/></div><div style="display:contents" dir="auto"><h1 id="36df6ce8-497f-80d2-b637-f0ddb2b784fd" class=""><code>input</code></h1></div><div style="display:contents" dir="auto"><p id="36df6ce8-497f-800f-9d45-d94100b0e885" class="">Executa sempre que o valor muda:</p></div><div style="display:contents" dir="auto"><pre id="36df6ce8-497f-801f-8d76-dbfbcc195fdf" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">nome.addEventListener(&quot;input&quot;,function() {
+console.log(nome.value);
+});</code></pre></div><div style="display:contents" dir="auto"><p id="36df6ce8-497f-80af-9bcf-f25462f06515" class="">Muito usado para:</p></div><div style="display:contents" dir="auto"><ul id="36df6ce8-497f-8058-8f3f-c5e3032c6fba" class="bulleted-list"><li style="list-style-type:disc">busca em tempo real</li></ul></div><div style="display:contents" dir="auto"><ul id="36df6ce8-497f-80fc-8c34-c8ed82e8fde2" class="bulleted-list"><li style="list-style-type:disc">validações</li></ul></div><div style="display:contents" dir="auto"><ul id="36df6ce8-497f-80d2-a752-e13d21acb8df" class="bulleted-list"><li style="list-style-type:disc">autocomplete</li></ul></div><div style="display:contents" dir="auto"><hr id="36df6ce8-497f-801d-9899-e68e9f8d931f"/></div><div style="display:contents" dir="auto"><h1 id="36df6ce8-497f-8056-bde3-cee0c368fe44" class=""><code>change</code></h1></div><div style="display:contents" dir="auto"><p id="36df6ce8-497f-8075-8e47-c97ac5760a6e" class="">Executa quando o valor muda e o campo perde foco.</p></div><div style="display:contents" dir="auto"><pre id="36df6ce8-497f-801c-a256-c0d72d540d1b" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">nome.addEventListener(&quot;change&quot;,function() {
+console.log(&quot;Mudou&quot;);
+});</code></pre></div><div style="display:contents" dir="auto"><hr id="36df6ce8-497f-804c-8b03-fc1a21d8f21f"/></div><div style="display:contents" dir="auto"><h1 id="36df6ce8-497f-8026-b8f1-e5fa70e4d4e3" class="">Diferença entre <code>input</code> e <code>change</code></h1></div><div style="display:contents" dir="ltr"><table id="36df6ce8-497f-803a-908e-f6c2b22cfb25" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="36df6ce8-497f-80df-b7ee-ea3a1e004482"><th id="i&gt;uV" class="simple-table-header-color simple-table-header">Evento</th><th id="&gt;]\{" class="simple-table-header-color simple-table-header">Quando executa</th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="36df6ce8-497f-80ac-8765-d7f1fc12bc2c"><td id="i&gt;uV" class=""><code>input</code></td><td id="&gt;]\{" class="">Enquanto digita</td></tr></div><div style="display:contents" dir="ltr"><tr id="36df6ce8-497f-8032-b423-f6cebc632e5d"><td id="i&gt;uV" class=""><code>change</code></td><td id="&gt;]\{" class="">Após concluir alteração</td></tr></div></tbody></table></div><div style="display:contents" dir="auto"><hr id="36df6ce8-497f-8087-ae45-da654e43ffdf"/></div><div style="display:contents" dir="auto"><h1 id="36df6ce8-497f-8041-81bd-f615f19280cf" class=""><code>focus</code></h1></div><div style="display:contents" dir="auto"><p id="36df6ce8-497f-8092-a226-ccb68ea1e150" class="">Executa quando o campo recebe foco:</p></div><div style="display:contents" dir="auto"><pre id="36df6ce8-497f-80c7-825a-d62376d76fcb" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">nome.addEventListener(&quot;focus&quot;,function() {
+console.log(&quot;Campo ativo&quot;);
+});</code></pre></div><div style="display:contents" dir="auto"><hr id="36df6ce8-497f-80c7-a0ff-c69d09b954a9"/></div><div style="display:contents" dir="auto"><h1 id="36df6ce8-497f-8085-ac6e-d88d4f8448f5" class=""><code>blur</code></h1></div><div style="display:contents" dir="auto"><p id="36df6ce8-497f-80f4-8e47-c1575e9cb06e" class="">Executa quando o campo perde foco:</p></div><div style="display:contents" dir="auto"><pre id="36df6ce8-497f-8081-99b2-e9cc2aa383f4" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">nome.addEventListener(&quot;blur&quot;,function() {
+console.log(&quot;Saiu do campo&quot;);
+});</code></pre></div><div style="display:contents" dir="auto"><p id="36df6ce8-497f-800f-bbe7-c7c29de0798c" class="">Muito usado em validações.</p></div><div style="display:contents" dir="auto"><hr id="36df6ce8-497f-80b1-acce-f34a221cefbb"/></div><div style="display:contents" dir="auto"><h1 id="36df6ce8-497f-8008-8727-c648e17f9a45" class="">Exemplo de validação</h1></div><div style="display:contents" dir="auto"><pre id="36df6ce8-497f-8041-944c-f0894a4a99f5" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">nome.addEventListener(&quot;blur&quot;,function() {
+if (nome.value === &quot;&quot;) {
+console.log(&quot;Campo obrigatório&quot;);
+  }
+});</code></pre></div><div style="display:contents" dir="auto"><hr id="36df6ce8-497f-80d2-a69b-c7ec507d4e54"/></div><div style="display:contents" dir="auto"><h1 id="36df6ce8-497f-8092-9cd3-e771e6fdfa40" class=""><code>reset</code></h1></div><div style="display:contents" dir="auto"><p id="36df6ce8-497f-80e5-9f68-e2eedcbcdea4" class="">Executa quando o formulário é resetado:</p></div><div style="display:contents" dir="auto"><pre id="36df6ce8-497f-80bb-8be9-ebc387623d2e" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">formulario.addEventListener(&quot;reset&quot;,function() {
+console.log(&quot;Resetou&quot;);
+});</code></pre></div><div style="display:contents" dir="auto"><hr id="36df6ce8-497f-8088-a58e-d7476b77872a"/></div><div style="display:contents" dir="auto"><h1 id="36df6ce8-497f-809e-a393-d60a4133dc7b" class=""><code>select</code></h1></div><div style="display:contents" dir="auto"><p id="36df6ce8-497f-8011-a12a-e82b8bb0bf8b" class="">Executa quando texto é selecionado:</p></div><div style="display:contents" dir="auto"><pre id="36df6ce8-497f-803d-9e4b-f67443e5c164" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">nome.addEventListener(&quot;select&quot;,function() {
+console.log(&quot;Texto selecionado&quot;);
+});</code></pre></div><div style="display:contents" dir="auto"><hr id="36df6ce8-497f-8094-8f05-cbc0fbb5e499"/></div><div style="display:contents" dir="auto"><h1 id="36df6ce8-497f-8021-9dbe-dfd3e2136361" class="">Checkbox</h1></div><div style="display:contents" dir="auto"><pre id="36df6ce8-497f-80db-af10-e8c98ccd2296" class="code code-wrap"><code class="language-html" style="white-space:pre-wrap;word-break:break-all">&lt;input type=&quot;checkbox&quot; id=&quot;aceitar&quot;&gt;</code></pre></div><div style="display:contents" dir="auto"><pre id="36df6ce8-497f-80f4-9f28-e189da5bc637" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const aceitar = document.getElementById(&quot;aceitar&quot;);
+
+aceitar.addEventListener(&quot;change&quot;,function() {
+console.log(aceitar.checked);
+});</code></pre></div><div style="display:contents" dir="auto"><hr id="36df6ce8-497f-8078-9a00-d21dfcc3ed36"/></div><div style="display:contents" dir="auto"><h1 id="36df6ce8-497f-8080-9ad3-fd699e075a8c" class="">Radio buttons</h1></div><div style="display:contents" dir="auto"><pre id="36df6ce8-497f-80ef-a20e-e9b631eaa3b2" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">console.log(radio.checked);</code></pre></div><div style="display:contents" dir="auto"><hr id="36df6ce8-497f-80ab-93c9-e598ce500405"/></div><div style="display:contents" dir="auto"><h1 id="36df6ce8-497f-80ac-9be0-ee0b5a3842fe" class="">Select</h1></div><div style="display:contents" dir="auto"><pre id="36df6ce8-497f-80cc-b3a6-f8d10f5edbda" class="code code-wrap"><code class="language-html" style="white-space:pre-wrap;word-break:break-all">&lt;select id=&quot;cidade&quot;&gt;
+&lt;option&gt;Fortaleza&lt;/option&gt;
+&lt;option&gt;São Paulo&lt;/option&gt;
+&lt;/select&gt;</code></pre></div><div style="display:contents" dir="auto"><pre id="36df6ce8-497f-80f0-ae6f-e0acd261bf1e" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">cidade.addEventListener(&quot;change&quot;,function() {
+console.log(cidade.value);
+});</code></pre></div><div style="display:contents" dir="auto"><hr id="36df6ce8-497f-8034-9d9d-e16b712ec0cc"/></div><div style="display:contents" dir="auto"><h1 id="36df6ce8-497f-8097-b881-e212eb93f5da" class="">Trabalhando com múltiplos campos</h1></div><div style="display:contents" dir="auto"><pre id="36df6ce8-497f-80b2-926f-f8f20e93f74f" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const dados= {
+  nome:nome.value,
+  email:email.value
+};</code></pre></div><div style="display:contents" dir="auto"><hr id="36df6ce8-497f-80d8-984a-e77b65521fbf"/></div><div style="display:contents" dir="auto"><h1 id="36df6ce8-497f-80be-8c89-db122a1194f1" class="">FormData</h1></div><div style="display:contents" dir="auto"><p id="36df6ce8-497f-8036-bfba-eecd08160904" class="">Objeto moderno para capturar dados:</p></div><div style="display:contents" dir="auto"><pre id="36df6ce8-497f-8072-a166-f21f931d7b2c" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const dados=newFormData(formulario);</code></pre></div><div style="display:contents" dir="auto"><hr id="36df6ce8-497f-806e-99df-d594f3110bd8"/></div><div style="display:contents" dir="auto"><h1 id="36df6ce8-497f-8066-833e-d7d0eb8433e1" class="">Pegando valores do FormData</h1></div><div style="display:contents" dir="auto"><pre id="36df6ce8-497f-809d-a4b9-e9fd29f9eba5" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">console.log(dados.get(&quot;nome&quot;));</code></pre></div><div style="display:contents" dir="auto"><hr id="36df6ce8-497f-80e6-8520-cbf4df2a8451"/></div><div style="display:contents" dir="auto"><h1 id="36df6ce8-497f-80b9-957f-d2f79d3cdaec" class="">Validação HTML5</h1></div><div style="display:contents" dir="auto"><p id="36df6ce8-497f-8036-9d90-ff6544141643" class="">O próprio HTML possui validações:</p></div><div style="display:contents" dir="auto"><pre id="36df6ce8-497f-80f1-a762-de92e7a3ca88" class="code code-wrap"><code class="language-html" style="white-space:pre-wrap;word-break:break-all">&lt;input type=&quot;email&quot; required&gt;</code></pre></div><div style="display:contents" dir="auto"><hr id="36df6ce8-497f-80fb-9874-d3b6f5800ad3"/></div><div style="display:contents" dir="auto"><h1 id="36df6ce8-497f-8078-9cb2-d106a46a0ed2" class="">Verificando validade</h1></div><div style="display:contents" dir="auto"><pre id="36df6ce8-497f-803f-8f6b-f89b9019f0dc" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">console.log(formulario.checkValidity());</code></pre></div><div style="display:contents" dir="auto"><hr id="36df6ce8-497f-800f-8535-cef9ba2dd567"/></div><div style="display:contents" dir="auto"><h1 id="36df6ce8-497f-8089-9c2a-e9e17c162c52" class="">Eventos muito usados em formulários</h1></div><div style="display:contents" dir="ltr"><table id="36df6ce8-497f-806f-80d8-cd36d52f2ebc" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="36df6ce8-497f-8050-9d02-ed4b3f774317"><th id="Amg^" class="simple-table-header-color simple-table-header">Evento</th><th id="@l`c" class="simple-table-header-color simple-table-header">Uso</th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="36df6ce8-497f-80dd-abeb-e42741f16d2e"><td id="Amg^" class=""><code>submit</code></td><td id="@l`c" class="">Envio</td></tr></div><div style="display:contents" dir="ltr"><tr id="36df6ce8-497f-80a8-8764-f61656c94458"><td id="Amg^" class=""><code>input</code></td><td id="@l`c" class="">Digitação</td></tr></div><div style="display:contents" dir="ltr"><tr id="36df6ce8-497f-80c2-a8a6-f6f4b52a2e93"><td id="Amg^" class=""><code>change</code></td><td id="@l`c" class="">Alteração</td></tr></div><div style="display:contents" dir="ltr"><tr id="36df6ce8-497f-801c-9d4a-e1d60eecd206"><td id="Amg^" class=""><code>focus</code></td><td id="@l`c" class="">Campo ativo</td></tr></div><div style="display:contents" dir="ltr"><tr id="36df6ce8-497f-8031-9569-ccf3f8bba34a"><td id="Amg^" class=""><code>blur</code></td><td id="@l`c" class="">Validação</td></tr></div></tbody></table></div><div style="display:contents" dir="auto"><hr id="36df6ce8-497f-80a3-9a37-fdf2c0c967bc"/></div><div style="display:contents" dir="auto"><h1 id="36df6ce8-497f-80e8-9ff7-da12d01c0a6a" class="">Resumindo</h1></div><div style="display:contents" dir="auto"><p id="36df6ce8-497f-804b-89d9-f56eb6456cce" class="">Eventos de formulários permitem:</p></div><div style="display:contents" dir="auto"><ul id="36df6ce8-497f-80c9-b8c3-fcf31dd60261" class="bulleted-list"><li style="list-style-type:disc">capturar dados do usuário</li></ul></div><div style="display:contents" dir="auto"><ul id="36df6ce8-497f-80ac-bbad-ecb390a151d4" class="bulleted-list"><li style="list-style-type:disc">validar informações</li></ul></div><div style="display:contents" dir="auto"><ul id="36df6ce8-497f-801c-b387-ecaaa2413d7b" class="bulleted-list"><li style="list-style-type:disc">controlar envios</li></ul></div><div style="display:contents" dir="auto"><ul id="36df6ce8-497f-8073-8123-cdcd9eb39ee5" class="bulleted-list"><li style="list-style-type:disc">criar formulários dinâmicos</li></ul></div><div style="display:contents" dir="auto"><ul id="36df6ce8-497f-804d-9a6f-c3b6c91cd900" class="bulleted-list"><li style="list-style-type:disc">melhorar experiência do usuário</li></ul></div><div style="display:contents" dir="auto"><p id="36df6ce8-497f-8046-9bdc-c6ae183afb91" class="">Eles são essenciais em aplicações feitas com React, sistemas de login, cadastros e APIs modernas.</p></div></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>
