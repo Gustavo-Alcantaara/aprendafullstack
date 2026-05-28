@@ -1,0 +1,782 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Alinhamentos Grid</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="36ef6ce8-497f-80ee-816e-cb117f519ec4" class="page sans"><header><div class="page-header-icon undefined"><img class="icon notion-static-icon" src="https://www.notion.so/icons/book_purple.svg"/></div><h1 class="page-title" dir="auto">Alinhamentos Grid</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><div style="display:contents" dir="auto"><h1 id="36ef6ce8-497f-8072-b57d-ce8e1e1ea646" class="">Alinhamentos no Grid do Bootstrap</h1></div><div style="display:contents" dir="auto"><p id="36ef6ce8-497f-8087-aed1-d39a71582a58" class="">O sistema de Grid do Bootstrap utiliza o Flexbox internamente, permitindo alinhar elementos de forma simples e responsiva.</p></div><div style="display:contents" dir="auto"><p id="36ef6ce8-497f-80ba-86a0-e79adfa6f7f0" class="">Os alinhamentos no Grid controlam:</p></div><div style="display:contents" dir="auto"><ul id="36ef6ce8-497f-802b-a82e-f17e7e5934e9" class="bulleted-list"><li style="list-style-type:disc">Posição horizontal</li></ul></div><div style="display:contents" dir="auto"><ul id="36ef6ce8-497f-804b-8143-da36a9f485c8" class="bulleted-list"><li style="list-style-type:disc">Posição vertical</li></ul></div><div style="display:contents" dir="auto"><ul id="36ef6ce8-497f-8094-9a1c-e12439358eee" class="bulleted-list"><li style="list-style-type:disc">Distribuição das colunas</li></ul></div><div style="display:contents" dir="auto"><ul id="36ef6ce8-497f-8093-8889-f16c1487e897" class="bulleted-list"><li style="list-style-type:disc">Organização do layout</li></ul></div><div style="display:contents" dir="auto"><hr id="36ef6ce8-497f-801f-9d80-f5fa71883b53"/></div><div style="display:contents" dir="auto"><h1 id="36ef6ce8-497f-80a2-9194-fc960b641aeb" class="">Tipos de alinhamento</h1></div><div style="display:contents" dir="auto"><p id="36ef6ce8-497f-8023-af5e-dfa82d6036df" class="">Bootstrap possui dois grupos principais:</p></div><div style="display:contents" dir="ltr"><table id="36ef6ce8-497f-80d6-9c62-dc32bc58301c" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="36ef6ce8-497f-8029-ba88-f2a80296744b"><th id="ne[^" class="simple-table-header-color simple-table-header">Tipo</th><th id="BykS" class="simple-table-header-color simple-table-header">Classe</th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="36ef6ce8-497f-8017-90f0-d444f0b9057a"><td id="ne[^" class="">Horizontal</td><td id="BykS" class=""><code>justify-content-*</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="36ef6ce8-497f-803f-9eb2-e6238a6d82fd"><td id="ne[^" class="">Vertical</td><td id="BykS" class=""><code>align-items-*</code></td></tr></div></tbody></table></div><div style="display:contents" dir="auto"><hr id="36ef6ce8-497f-8022-a92b-dcf5aad105dc"/></div><div style="display:contents" dir="auto"><h1 id="36ef6ce8-497f-8033-bca5-ffc4f648bca8" class="">Alinhamento horizontal</h1></div><div style="display:contents" dir="auto"><p id="36ef6ce8-497f-8067-a241-ce54c9c5e50f" class="">Controla como as colunas ficam distribuídas na linha (<code>row</code>).</p></div><div style="display:contents" dir="auto"><hr id="36ef6ce8-497f-809e-b0ee-c5861d175511"/></div><div style="display:contents" dir="auto"><h1 id="36ef6ce8-497f-806b-afce-d2116636ae25" class="">Estrutura</h1></div><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="36ef6ce8-497f-800f-8fb3-d8a416efdea6" class="code code-wrap"><code class="language-html" style="white-space:pre-wrap;word-break:break-all">&lt;div class=&quot;row justify-content-*&quot;&gt;</code></pre></div><div style="display:contents" dir="auto"><hr id="36ef6ce8-497f-80d9-8c8c-e4fe6772b943"/></div><div style="display:contents" dir="auto"><h1 id="36ef6ce8-497f-8081-bd13-d8d60cfa48fd" class="">Classes horizontais</h1></div><div style="display:contents" dir="ltr"><table id="36ef6ce8-497f-8031-9582-f3c3297de3e4" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="36ef6ce8-497f-8055-b46d-d1b392b67926"><th id="{AZ^" class="simple-table-header-color simple-table-header">Classe</th><th id="tkat" class="simple-table-header-color simple-table-header">Função</th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="36ef6ce8-497f-802e-8622-e11c9dddc9f1"><td id="{AZ^" class=""><code>justify-content-start</code></td><td id="tkat" class="">Início</td></tr></div><div style="display:contents" dir="ltr"><tr id="36ef6ce8-497f-802a-826b-d6b1678e3734"><td id="{AZ^" class=""><code>justify-content-center</code></td><td id="tkat" class="">Centro</td></tr></div><div style="display:contents" dir="ltr"><tr id="36ef6ce8-497f-8021-a432-c4b9763bada5"><td id="{AZ^" class=""><code>justify-content-end</code></td><td id="tkat" class="">Final</td></tr></div><div style="display:contents" dir="ltr"><tr id="36ef6ce8-497f-8022-b3f4-d4814f858bfc"><td id="{AZ^" class=""><code>justify-content-between</code></td><td id="tkat" class="">Espaço entre</td></tr></div><div style="display:contents" dir="ltr"><tr id="36ef6ce8-497f-8074-b7cf-c783f0209923"><td id="{AZ^" class=""><code>justify-content-around</code></td><td id="tkat" class="">Espaço ao redor</td></tr></div><div style="display:contents" dir="ltr"><tr id="36ef6ce8-497f-8002-b485-feb57a1e4b6c"><td id="{AZ^" class=""><code>justify-content-evenly</code></td><td id="tkat" class="">Espaço igual</td></tr></div></tbody></table></div><div style="display:contents" dir="auto"><hr id="36ef6ce8-497f-8066-94e3-d6ed8efd8b1e"/></div><div style="display:contents" dir="auto"><h1 id="36ef6ce8-497f-8009-ac57-c58b8ab57c6f" class="">Centralizar colunas</h1></div><div style="display:contents" dir="auto"><pre id="36ef6ce8-497f-80ca-9633-c647f6a27a27" class="code code-wrap"><code class="language-html" style="white-space:pre-wrap;word-break:break-all">&lt;div class=&quot;row justify-content-center&quot;&gt;</code></pre></div><div style="display:contents" dir="auto"><hr id="36ef6ce8-497f-808c-847f-d62f9fac62c2"/></div><div style="display:contents" dir="auto"><h1 id="36ef6ce8-497f-8017-b782-fb44163497f5" class="">Exemplo</h1></div><div style="display:contents" dir="auto"><pre id="36ef6ce8-497f-80a0-ab42-d7ff0e0959d1" class="code code-wrap"><code class="language-html" style="white-space:pre-wrap;word-break:break-all">&lt;div class=&quot;row justify-content-center&quot;&gt;
+
+&lt;div class=&quot;col-4&quot;&gt;
+
+        Conteúdo
+
+&lt;/div&gt;
+
+&lt;/div&gt;</code></pre></div><div style="display:contents" dir="auto"><p id="36ef6ce8-497f-806f-badc-cde2e2603425" class="">A coluna ficará centralizada horizontalmente.</p></div><div style="display:contents" dir="auto"><hr id="36ef6ce8-497f-802c-87a0-cba183b6dbf0"/></div><div style="display:contents" dir="auto"><h1 id="36ef6ce8-497f-8043-8500-c293bf3b0934" class="">Alinhar à direita</h1></div><div style="display:contents" dir="auto"><pre id="36ef6ce8-497f-8013-8e27-cc2b3c55c8bb" class="code code-wrap"><code class="language-html" style="white-space:pre-wrap;word-break:break-all">&lt;div class=&quot;row justify-content-end&quot;&gt;</code></pre></div><div style="display:contents" dir="auto"><hr id="36ef6ce8-497f-8033-ac72-f6c8cde6b83c"/></div><div style="display:contents" dir="auto"><h1 id="36ef6ce8-497f-80e7-8cac-d4ca986faf66" class="">Espaço entre elementos</h1></div><div style="display:contents" dir="auto"><pre id="36ef6ce8-497f-809a-8374-e0228cdf87e3" class="code code-wrap"><code class="language-html" style="white-space:pre-wrap;word-break:break-all">&lt;div class=&quot;row justify-content-between&quot;&gt;</code></pre></div><div style="display:contents" dir="auto"><p id="36ef6ce8-497f-801b-a45e-e106ce3b6fad" class="">Resultado:</p></div><div style="display:contents" dir="auto"><ul id="36ef6ce8-497f-809f-8622-c7cd749e4f42" class="bulleted-list"><li style="list-style-type:disc">Um item fica à esquerda</li></ul></div><div style="display:contents" dir="auto"><ul id="36ef6ce8-497f-806f-959e-e30b2117d864" class="bulleted-list"><li style="list-style-type:disc">Outro à direita</li></ul></div><div style="display:contents" dir="auto"><hr id="36ef6ce8-497f-80b8-af12-de65377743be"/></div><div style="display:contents" dir="auto"><h1 id="36ef6ce8-497f-800c-8739-f606fa402de5" class="">Espaçamento uniforme</h1></div><div style="display:contents" dir="auto"><pre id="36ef6ce8-497f-8066-a3db-f8a57ced06c3" class="code code-wrap"><code class="language-html" style="white-space:pre-wrap;word-break:break-all">&lt;div class=&quot;row justify-content-evenly&quot;&gt;</code></pre></div><div style="display:contents" dir="auto"><p id="36ef6ce8-497f-80a5-b069-ecda295ec7b1" class="">Distribui espaços iguais.</p></div><div style="display:contents" dir="auto"><hr id="36ef6ce8-497f-8075-b67f-fa4759787280"/></div><div style="display:contents" dir="auto"><h1 id="36ef6ce8-497f-8007-bd40-e1aa8457a793" class="">Alinhamento vertical</h1></div><div style="display:contents" dir="auto"><p id="36ef6ce8-497f-804f-b84a-e99f8d734673" class="">Controla a posição vertical das colunas dentro da linha.</p></div><div style="display:contents" dir="auto"><hr id="36ef6ce8-497f-8096-ae59-f51c74e45da8"/></div><div style="display:contents" dir="auto"><h1 id="36ef6ce8-497f-80a9-b782-c6ae1987fe17" class="">Estrutura</h1></div><div style="display:contents" dir="auto"><pre id="36ef6ce8-497f-8059-b10e-c04fd1760ad3" class="code code-wrap"><code class="language-html" style="white-space:pre-wrap;word-break:break-all">&lt;div class=&quot;row align-items-*&quot;&gt;</code></pre></div><div style="display:contents" dir="auto"><hr id="36ef6ce8-497f-8042-9caa-e08e66d287ea"/></div><div style="display:contents" dir="auto"><h1 id="36ef6ce8-497f-80f2-a9fb-f8d13b6b60d2" class="">Classes verticais</h1></div><div style="display:contents" dir="ltr"><table id="36ef6ce8-497f-80cd-a267-fface7028d3e" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="36ef6ce8-497f-803c-80ff-efaaae38e95e"><th id="r&gt;Z@" class="simple-table-header-color simple-table-header">Classe</th><th id="`=Bl" class="simple-table-header-color simple-table-header">Função</th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="36ef6ce8-497f-8052-80d9-e28ebe185292"><td id="r&gt;Z@" class=""><code>align-items-start</code></td><td id="`=Bl" class="">Topo</td></tr></div><div style="display:contents" dir="ltr"><tr id="36ef6ce8-497f-80b6-bd3f-d4f8865abb39"><td id="r&gt;Z@" class=""><code>align-items-center</code></td><td id="`=Bl" class="">Centro</td></tr></div><div style="display:contents" dir="ltr"><tr id="36ef6ce8-497f-800d-9be2-c486a4fe3e97"><td id="r&gt;Z@" class=""><code>align-items-end</code></td><td id="`=Bl" class="">Final</td></tr></div><div style="display:contents" dir="ltr"><tr id="36ef6ce8-497f-8037-b6e4-e9795591ad16"><td id="r&gt;Z@" class=""><code>align-items-stretch</code></td><td id="`=Bl" class="">Estica</td></tr></div><div style="display:contents" dir="ltr"><tr id="36ef6ce8-497f-80d2-a064-cb6a5a1a309b"><td id="r&gt;Z@" class=""><code>align-items-baseline</code></td><td id="`=Bl" class="">Linha base</td></tr></div></tbody></table></div><div style="display:contents" dir="auto"><hr id="36ef6ce8-497f-8039-a51e-dab022216faf"/></div><div style="display:contents" dir="auto"><h1 id="36ef6ce8-497f-8077-9606-cea8c0b3b955" class="">Centralizar verticalmente</h1></div><div style="display:contents" dir="auto"><pre id="36ef6ce8-497f-804e-bb7a-c7685e8b98d2" class="code code-wrap"><code class="language-html" style="white-space:pre-wrap;word-break:break-all">&lt;div class=&quot;row align-items-center&quot;&gt;</code></pre></div><div style="display:contents" dir="auto"><hr id="36ef6ce8-497f-8084-a06d-f7c8bffec909"/></div><div style="display:contents" dir="auto"><h1 id="36ef6ce8-497f-8090-9f6f-dbd4ef98a159" class="">Exemplo</h1></div><div style="display:contents" dir="auto"><pre id="36ef6ce8-497f-809d-828f-edc2fea63693" class="code code-wrap"><code class="language-html" style="white-space:pre-wrap;word-break:break-all">&lt;div class=&quot;row
+            align-items-center&quot;
+style=&quot;height:200px;&quot;&gt;
+
+&lt;div class=&quot;col-4&quot;&gt;
+
+        Conteúdo
+
+&lt;/div&gt;
+
+&lt;/div&gt;</code></pre></div><div style="display:contents" dir="auto"><hr id="36ef6ce8-497f-80e1-97e3-f498f3e6dda8"/></div><div style="display:contents" dir="auto"><h1 id="36ef6ce8-497f-809d-88e0-db9679e63cda" class="">Alinhamento individual</h1></div><div style="display:contents" dir="auto"><p id="36ef6ce8-497f-803c-9f3f-efe986cfc90c" class="">Também é possível alinhar apenas uma coluna.</p></div><div style="display:contents" dir="auto"><hr id="36ef6ce8-497f-8003-adab-e39daf0b4720"/></div><div style="display:contents" dir="auto"><h1 id="36ef6ce8-497f-80d1-9e52-c72d1f65ed5f" class="">Estrutura</h1></div><div style="display:contents" dir="auto"><pre id="36ef6ce8-497f-8087-9771-c3d7f14ce5a6" class="code code-wrap"><code class="language-html" style="white-space:pre-wrap;word-break:break-all">&lt;div class=&quot;col align-self-*&quot;&gt;</code></pre></div><div style="display:contents" dir="auto"><hr id="36ef6ce8-497f-80b3-9c74-e91c7250a142"/></div><div style="display:contents" dir="auto"><h1 id="36ef6ce8-497f-8091-930b-cb36cd48d704" class="">Classes individuais</h1></div><div style="display:contents" dir="ltr"><table id="36ef6ce8-497f-805c-8295-f9bf12054794" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="36ef6ce8-497f-80eb-b2ba-f198d6004f7b"><th id="?jMj" class="simple-table-header-color simple-table-header">Classe</th><th id="`:;i" class="simple-table-header-color simple-table-header">Função</th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="36ef6ce8-497f-80df-86dc-e9e1b599bfc7"><td id="?jMj" class=""><code>align-self-start</code></td><td id="`:;i" class="">Topo</td></tr></div><div style="display:contents" dir="ltr"><tr id="36ef6ce8-497f-802c-a944-d1d66e00b4fd"><td id="?jMj" class=""><code>align-self-center</code></td><td id="`:;i" class="">Centro</td></tr></div><div style="display:contents" dir="ltr"><tr id="36ef6ce8-497f-8012-b0fc-ec8cd1df737f"><td id="?jMj" class=""><code>align-self-end</code></td><td id="`:;i" class="">Final</td></tr></div></tbody></table></div><div style="display:contents" dir="auto"><hr id="36ef6ce8-497f-80d1-93e4-d5f9023586e1"/></div><div style="display:contents" dir="auto"><h1 id="36ef6ce8-497f-80d6-912d-dade7c027469" class="">Exemplo</h1></div><div style="display:contents" dir="auto"><pre id="36ef6ce8-497f-80d2-96d3-f16ae6e5f0e6" class="code code-wrap"><code class="language-html" style="white-space:pre-wrap;word-break:break-all">&lt;div class=&quot;col align-self-end&quot;&gt;</code></pre></div><div style="display:contents" dir="auto"><hr id="36ef6ce8-497f-8079-b0d3-c1d70d56d8a6"/></div><div style="display:contents" dir="auto"><h1 id="36ef6ce8-497f-8067-a655-e9eea7944ddc" class="">Centralização completa</h1></div><div style="display:contents" dir="auto"><p id="36ef6ce8-497f-800b-ab97-ccc50efdbfbd" class="">Para centralizar horizontalmente e verticalmente:</p></div><div style="display:contents" dir="auto"><pre id="36ef6ce8-497f-8019-80b0-c7d75c1084a9" class="code code-wrap"><code class="language-html" style="white-space:pre-wrap;word-break:break-all">&lt;div class=&quot;row
+            justify-content-center
+            align-items-center&quot;&gt;</code></pre></div><div style="display:contents" dir="auto"><hr id="36ef6ce8-497f-806b-91ae-e72bfbe07764"/></div><div style="display:contents" dir="auto"><h1 id="36ef6ce8-497f-8084-b6cb-cbd714a6fb34" class="">Exemplo completo</h1></div><div style="display:contents" dir="auto"><pre id="36ef6ce8-497f-8029-a9cc-cb510a070c9a" class="code code-wrap"><code class="language-html" style="white-space:pre-wrap;word-break:break-all">&lt;div class=&quot;container&quot;&gt;
+
+&lt;div class=&quot;row
+                justify-content-center
+                align-items-center&quot;
+style=&quot;height:300px;&quot;&gt;
+
+&lt;div class=&quot;col-4&quot;&gt;
+
+&lt;div class=&quot;bg-primary text-light p-4&quot;&gt;
+
+                Conteúdo centralizado
+
+&lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;/div&gt;</code></pre></div><div style="display:contents" dir="auto"><hr id="36ef6ce8-497f-80b6-bc69-c340a8d78037"/></div><div style="display:contents" dir="auto"><h1 id="36ef6ce8-497f-805a-b5ed-de17ee092ec2" class="">Alinhamentos responsivos</h1></div><div style="display:contents" dir="auto"><p id="36ef6ce8-497f-8094-9aa8-e1fd909bfcdf" class="">Bootstrap permite alinhamentos por breakpoint.</p></div><div style="display:contents" dir="auto"><hr id="36ef6ce8-497f-809e-bb4a-d9436b7609ea"/></div><div style="display:contents" dir="auto"><h1 id="36ef6ce8-497f-80f5-b9b6-cb06171670bf" class="">Exemplo</h1></div><div style="display:contents" dir="auto"><pre id="36ef6ce8-497f-8023-969a-dea157369f7a" class="code code-wrap"><code class="language-html" style="white-space:pre-wrap;word-break:break-all">&lt;div class=&quot;row justify-content-md-center&quot;&gt;</code></pre></div><div style="display:contents" dir="auto"><p id="36ef6ce8-497f-8025-aff6-e6048ec0b2ff" class="">Significa:</p></div><div style="display:contents" dir="auto"><ul id="36ef6ce8-497f-8076-a0ca-e4a533be3697" class="bulleted-list"><li style="list-style-type:disc">Mobile → alinhamento padrão</li></ul></div><div style="display:contents" dir="auto"><ul id="36ef6ce8-497f-8093-acc5-c82521ca43e6" class="bulleted-list"><li style="list-style-type:disc">Médio para cima → centralizado</li></ul></div><div style="display:contents" dir="auto"><hr id="36ef6ce8-497f-8097-adc5-da07acf19139"/></div><div style="display:contents" dir="auto"><h1 id="36ef6ce8-497f-808a-9eef-ea33fa29c8b5" class="">Exemplos responsivos</h1></div><div style="display:contents" dir="ltr"><table id="36ef6ce8-497f-80dd-b947-ea927ab7e6d8" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="36ef6ce8-497f-807b-b2c2-d60899839ad4"><th id="`pf:" class="simple-table-header-color simple-table-header">Classe</th><th id="YNnE" class="simple-table-header-color simple-table-header">Função</th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="36ef6ce8-497f-80df-9408-cf1a9003741f"><td id="`pf:" class=""><code>justify-content-lg-center</code></td><td id="YNnE" class="">Centraliza em telas grandes</td></tr></div><div style="display:contents" dir="ltr"><tr id="36ef6ce8-497f-8051-a810-cac11a97c2f8"><td id="`pf:" class=""><code>align-items-md-center</code></td><td id="YNnE" class="">Centraliza verticalmente em telas médias</td></tr></div></tbody></table></div><div style="display:contents" dir="auto"><hr id="36ef6ce8-497f-8027-9603-e9ed2f82feea"/></div><div style="display:contents" dir="auto"><h1 id="36ef6ce8-497f-8008-9e1b-cf87fc70a1a7" class="">Ordem visual com alinhamento</h1></div><div style="display:contents" dir="auto"><p id="36ef6ce8-497f-8066-8ec1-ffe3050c29f6" class="">Pode combinar alinhamento com:</p></div><div style="display:contents" dir="auto"><ul id="36ef6ce8-497f-8095-bb35-ce796b7962a3" class="bulleted-list"><li style="list-style-type:disc"><code>order-*</code></li></ul></div><div style="display:contents" dir="auto"><ul id="36ef6ce8-497f-8087-8564-d2f65a376c75" class="bulleted-list"><li style="list-style-type:disc"><code>offset-*</code></li></ul></div><div style="display:contents" dir="auto"><ul id="36ef6ce8-497f-8042-861d-eb1b31f8a81f" class="bulleted-list"><li style="list-style-type:disc"><code>mx-auto</code></li></ul></div><div style="display:contents" dir="auto"><hr id="36ef6ce8-497f-80b3-8694-e14880305d79"/></div><div style="display:contents" dir="auto"><h1 id="36ef6ce8-497f-8026-890a-eb739e2bd452" class="">Exemplo com auto margin</h1></div><div style="display:contents" dir="auto"><pre id="36ef6ce8-497f-80f2-8f27-ca0dcbc4553f" class="code code-wrap"><code class="language-html" style="white-space:pre-wrap;word-break:break-all">&lt;div class=&quot;col-4 mx-auto&quot;&gt;</code></pre></div><div style="display:contents" dir="auto"><p id="36ef6ce8-497f-804d-b885-eb6cc2e27b47" class="">Centraliza automaticamente.</p></div><div style="display:contents" dir="auto"><hr id="36ef6ce8-497f-809e-a69b-c09f045bb622"/></div><div style="display:contents" dir="auto"><h1 id="36ef6ce8-497f-80b4-b8e6-f4b43d9bdbd8" class="">Classes importantes</h1></div><div style="display:contents" dir="ltr"><table id="36ef6ce8-497f-8000-b471-c2604831f99e" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="36ef6ce8-497f-808c-adb9-d234ec975255"><th id=";;o;" class="simple-table-header-color simple-table-header">Classe</th><th id="jFJ;" class="simple-table-header-color simple-table-header">Função</th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="36ef6ce8-497f-80a2-abf9-ee79a71f784d"><td id=";;o;" class=""><code>justify-content-center</code></td><td id="jFJ;" class="">Centro horizontal</td></tr></div><div style="display:contents" dir="ltr"><tr id="36ef6ce8-497f-801f-8ff5-f19011afdbf6"><td id=";;o;" class=""><code>justify-content-between</code></td><td id="jFJ;" class="">Espaço entre</td></tr></div><div style="display:contents" dir="ltr"><tr id="36ef6ce8-497f-808a-812d-dd92a88218b7"><td id=";;o;" class=""><code>align-items-center</code></td><td id="jFJ;" class="">Centro vertical</td></tr></div><div style="display:contents" dir="ltr"><tr id="36ef6ce8-497f-804c-8b6d-e31bae74e24c"><td id=";;o;" class=""><code>align-self-center</code></td><td id="jFJ;" class="">Centro individual</td></tr></div><div style="display:contents" dir="ltr"><tr id="36ef6ce8-497f-80ea-b716-c52ed6017beb"><td id=";;o;" class=""><code>mx-auto</code></td><td id="jFJ;" class="">Centralização automática</td></tr></div></tbody></table></div><div style="display:contents" dir="auto"><hr id="36ef6ce8-497f-8064-ba06-dafb08674f7c"/></div><div style="display:contents" dir="auto"><h1 id="36ef6ce8-497f-8039-992c-d80553562040" class="">Vantagens dos alinhamentos Grid</h1></div><div style="display:contents" dir="auto"><ul id="36ef6ce8-497f-8096-915c-f7692fdd8930" class="bulleted-list"><li style="list-style-type:disc">Layout flexível</li></ul></div><div style="display:contents" dir="auto"><ul id="36ef6ce8-497f-80af-a649-fa86fca13f46" class="bulleted-list"><li style="list-style-type:disc">Centralização fácil</li></ul></div><div style="display:contents" dir="auto"><ul id="36ef6ce8-497f-8018-8d40-ef63b5726582" class="bulleted-list"><li style="list-style-type:disc">Responsividade automática</li></ul></div><div style="display:contents" dir="auto"><ul id="36ef6ce8-497f-80c5-aff3-de9300730bfb" class="bulleted-list"><li style="list-style-type:disc">Menos CSS manual</li></ul></div><div style="display:contents" dir="auto"><ul id="36ef6ce8-497f-803e-bb21-f732c6a18b85" class="bulleted-list"><li style="list-style-type:disc">Compatibilidade com Flexbox</li></ul></div></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

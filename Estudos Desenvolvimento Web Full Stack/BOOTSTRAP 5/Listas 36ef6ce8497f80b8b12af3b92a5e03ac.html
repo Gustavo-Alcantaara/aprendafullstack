@@ -1,0 +1,811 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Listas</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="36ef6ce8-497f-80b8-b12a-f3b92a5e03ac" class="page sans"><header><div class="page-header-icon undefined"><img class="icon notion-static-icon" src="https://www.notion.so/icons/book_purple.svg"/></div><h1 class="page-title" dir="auto">Listas</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><div style="display:contents" dir="auto"><h1 id="36ef6ce8-497f-8039-abb6-cb1ec328acc1" class="">Listas no Bootstrap</h1></div><div style="display:contents" dir="auto"><p id="36ef6ce8-497f-8086-9261-c951ebeece30" class="">O Bootstrap possui várias classes e componentes para estilizar listas de forma moderna e responsiva.</p></div><div style="display:contents" dir="auto"><p id="36ef6ce8-497f-801d-8844-d98cf4dcdabf" class="">As listas podem ser usadas para:</p></div><div style="display:contents" dir="auto"><ul id="36ef6ce8-497f-808e-b5cd-cd97977ec628" class="bulleted-list"><li style="list-style-type:disc">Menus</li></ul></div><div style="display:contents" dir="auto"><ul id="36ef6ce8-497f-80e1-aef4-d8a7d6bb3a9c" class="bulleted-list"><li style="list-style-type:disc">Navegação</li></ul></div><div style="display:contents" dir="auto"><ul id="36ef6ce8-497f-80da-8967-c1368c953f6f" class="bulleted-list"><li style="list-style-type:disc">Cards</li></ul></div><div style="display:contents" dir="auto"><ul id="36ef6ce8-497f-8026-a4b3-df95c5860170" class="bulleted-list"><li style="list-style-type:disc">Grupos de itens</li></ul></div><div style="display:contents" dir="auto"><ul id="36ef6ce8-497f-8098-83f8-ccbe22b9f038" class="bulleted-list"><li style="list-style-type:disc">Informações organizadas</li></ul></div><div style="display:contents" dir="auto"><hr id="36ef6ce8-497f-80a3-bd14-ddd5ac22cc6e"/></div><div style="display:contents" dir="auto"><h1 id="36ef6ce8-497f-8099-84e8-e9a20810ca80" class="">Listas padrão</h1></div><div style="display:contents" dir="auto"><p id="36ef6ce8-497f-80af-b98a-ee4273790e92" class="">As listas HTML continuam funcionando normalmente.</p></div><div style="display:contents" dir="auto"><h2 id="36ef6ce8-497f-8022-a0bb-e22476161014" class="">Lista não ordenada</h2></div><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="36ef6ce8-497f-80a1-93bf-c154b4346b88" class="code code-wrap"><code class="language-html" style="white-space:pre-wrap;word-break:break-all">&lt;ul&gt;
+&lt;li&gt;Item 1&lt;/li&gt;
+&lt;li&gt;Item 2&lt;/li&gt;
+&lt;/ul&gt;</code></pre></div><div style="display:contents" dir="auto"><hr id="36ef6ce8-497f-8017-9cc3-d52c496c8261"/></div><div style="display:contents" dir="auto"><h1 id="36ef6ce8-497f-8084-951a-e4e904e5ce6e" class="">Remover estilo da lista</h1></div><div style="display:contents" dir="auto"><p id="36ef6ce8-497f-80b3-a264-cfe98ba08a53" class="">Bootstrap possui:</p></div><div style="display:contents" dir="auto"><pre id="36ef6ce8-497f-80fd-ad35-e63140e16326" class="code code-wrap"><code class="language-html" style="white-space:pre-wrap;word-break:break-all">&lt;ul class=&quot;list-unstyled&quot;&gt;</code></pre></div><div style="display:contents" dir="auto"><p id="36ef6ce8-497f-8029-a132-f323791a0376" class="">Remove:</p></div><div style="display:contents" dir="auto"><ul id="36ef6ce8-497f-808d-86f8-cf388999602a" class="bulleted-list"><li style="list-style-type:disc">Marcadores</li></ul></div><div style="display:contents" dir="auto"><ul id="36ef6ce8-497f-80a5-a3c6-ef8cf9a7cf5b" class="bulleted-list"><li style="list-style-type:disc">Espaçamento padrão</li></ul></div><div style="display:contents" dir="auto"><hr id="36ef6ce8-497f-808c-ae5b-ecc1c4fffacc"/></div><div style="display:contents" dir="auto"><h1 id="36ef6ce8-497f-8061-8f31-eca1861a4c02" class="">Exemplo</h1></div><div style="display:contents" dir="auto"><pre id="36ef6ce8-497f-8039-b64d-febf608d2675" class="code code-wrap"><code class="language-html" style="white-space:pre-wrap;word-break:break-all">&lt;ul class=&quot;list-unstyled&quot;&gt;
+
+&lt;li&gt;Home&lt;/li&gt;
+&lt;li&gt;Sobre&lt;/li&gt;
+&lt;li&gt;Contato&lt;/li&gt;
+
+&lt;/ul&gt;</code></pre></div><div style="display:contents" dir="auto"><hr id="36ef6ce8-497f-80be-acdc-e7b9a587631b"/></div><div style="display:contents" dir="auto"><h1 id="36ef6ce8-497f-8038-8dc8-e3aec230cca6" class="">Lista inline</h1></div><div style="display:contents" dir="auto"><p id="36ef6ce8-497f-80d8-baa6-ec05f92a619e" class="">Transforma os itens em linha.</p></div><div style="display:contents" dir="auto"><pre id="36ef6ce8-497f-807b-84cb-eecb50718bc7" class="code code-wrap"><code class="language-html" style="white-space:pre-wrap;word-break:break-all">&lt;ul class=&quot;list-inline&quot;&gt;
+
+&lt;li class=&quot;list-inline-item&quot;&gt;
+        Home
+&lt;/li&gt;
+
+&lt;li class=&quot;list-inline-item&quot;&gt;
+        Serviços
+&lt;/li&gt;
+
+&lt;/ul&gt;</code></pre></div><div style="display:contents" dir="auto"><p id="36ef6ce8-497f-80e0-87e8-d3e4b90327ca" class="">Muito usado em:</p></div><div style="display:contents" dir="auto"><ul id="36ef6ce8-497f-8009-8e48-fddbc01ee32d" class="bulleted-list"><li style="list-style-type:disc">Menus simples</li></ul></div><div style="display:contents" dir="auto"><ul id="36ef6ce8-497f-8010-b53c-edec8644e29a" class="bulleted-list"><li style="list-style-type:disc">Rodapés</li></ul></div><div style="display:contents" dir="auto"><ul id="36ef6ce8-497f-8002-be6c-fcd6abca11bc" class="bulleted-list"><li style="list-style-type:disc">Redes sociais</li></ul></div><div style="display:contents" dir="auto"><hr id="36ef6ce8-497f-80e1-860a-d377aa2f3635"/></div><div style="display:contents" dir="auto"><h1 id="36ef6ce8-497f-80f9-829e-e1616aab28e3" class="">List Group</h1></div><div style="display:contents" dir="auto"><p id="36ef6ce8-497f-8036-8d5b-dc37f62dfee0" class="">O Bootstrap possui o componente:</p></div><div style="display:contents" dir="auto"><pre id="36ef6ce8-497f-807e-9ff3-cff5ae4b83f6" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">list-group</code></pre></div><div style="display:contents" dir="auto"><p id="36ef6ce8-497f-80c3-b6bd-e41ebd922bd0" class="">Usado para listas estilizadas e interativas.</p></div><div style="display:contents" dir="auto"><hr id="36ef6ce8-497f-8045-8c20-c8b0606a773e"/></div><div style="display:contents" dir="auto"><h1 id="36ef6ce8-497f-8086-984a-ec1ed51b8f0f" class="">Estrutura básica</h1></div><div style="display:contents" dir="auto"><pre id="36ef6ce8-497f-80a9-9548-e136253c3d53" class="code code-wrap"><code class="language-html" style="white-space:pre-wrap;word-break:break-all">&lt;ul class=&quot;list-group&quot;&gt;
+
+&lt;li class=&quot;list-group-item&quot;&gt;
+        Item 1
+&lt;/li&gt;
+
+&lt;li class=&quot;list-group-item&quot;&gt;
+        Item 2
+&lt;/li&gt;
+
+&lt;/ul&gt;</code></pre></div><div style="display:contents" dir="auto"><hr id="36ef6ce8-497f-80eb-93c8-fe00634375b3"/></div><div style="display:contents" dir="auto"><h1 id="36ef6ce8-497f-80c8-a311-e5c6c974eefe" class="">Resultado</h1></div><div style="display:contents" dir="auto"><p id="36ef6ce8-497f-8081-9f8a-ec2dd2bbd699" class="">Cada item recebe:</p></div><div style="display:contents" dir="auto"><ul id="36ef6ce8-497f-8081-bb88-ceec02b19fe8" class="bulleted-list"><li style="list-style-type:disc">Borda</li></ul></div><div style="display:contents" dir="auto"><ul id="36ef6ce8-497f-8026-b051-e573c9f78b13" class="bulleted-list"><li style="list-style-type:disc">Padding</li></ul></div><div style="display:contents" dir="auto"><ul id="36ef6ce8-497f-8089-8284-f0b6b94a38b6" class="bulleted-list"><li style="list-style-type:disc">Organização visual</li></ul></div><div style="display:contents" dir="auto"><hr id="36ef6ce8-497f-80b1-94ae-e50549ef3cb1"/></div><div style="display:contents" dir="auto"><h1 id="36ef6ce8-497f-8089-acee-e4d1b7ae3e03" class="">Item ativo</h1></div><div style="display:contents" dir="auto"><pre id="36ef6ce8-497f-801a-ac41-d0497aba5c1c" class="code code-wrap"><code class="language-html" style="white-space:pre-wrap;word-break:break-all">&lt;li class=&quot;list-group-item active&quot;&gt;</code></pre></div><div style="display:contents" dir="auto"><hr id="36ef6ce8-497f-8051-a1b5-f701ec1160d1"/></div><div style="display:contents" dir="auto"><h1 id="36ef6ce8-497f-8041-b456-fb2e375ff4f7" class="">Item desabilitado</h1></div><div style="display:contents" dir="auto"><pre id="36ef6ce8-497f-80e9-a037-e72d376f882a" class="code code-wrap"><code class="language-html" style="white-space:pre-wrap;word-break:break-all">&lt;li class=&quot;list-group-item disabled&quot;&gt;</code></pre></div><div style="display:contents" dir="auto"><hr id="36ef6ce8-497f-80f7-81a6-d8a866f86df5"/></div><div style="display:contents" dir="auto"><h1 id="36ef6ce8-497f-8094-ae6a-c8be270aa7e2" class="">Cores nas listas</h1></div><div style="display:contents" dir="auto"><p id="36ef6ce8-497f-809a-9d90-c8070c15bca5" class="">Bootstrap permite aplicar cores.</p></div><div style="display:contents" dir="auto"><pre id="36ef6ce8-497f-8060-91ac-f8cedfcc3446" class="code code-wrap"><code class="language-html" style="white-space:pre-wrap;word-break:break-all">&lt;li class=&quot;list-group-item list-group-item-success&quot;&gt;</code></pre></div><div style="display:contents" dir="auto"><hr id="36ef6ce8-497f-80f9-8587-df4c9d79a04d"/></div><div style="display:contents" dir="auto"><h1 id="36ef6ce8-497f-8077-8883-e1f2a01d334f" class="">Principais cores</h1></div><div style="display:contents" dir="ltr"><table id="36ef6ce8-497f-800a-b1b6-ead4394efa63" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="36ef6ce8-497f-806e-8e28-c17b1a211365"><th id="Q}?S" class="simple-table-header-color simple-table-header">Classe</th><th id="W]?g" class="simple-table-header-color simple-table-header">Cor</th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="36ef6ce8-497f-8036-989c-caeab5af5de4"><td id="Q}?S" class=""><code>list-group-item-primary</code></td><td id="W]?g" class="">Azul</td></tr></div><div style="display:contents" dir="ltr"><tr id="36ef6ce8-497f-80a4-99b1-c6ab42a3439b"><td id="Q}?S" class=""><code>list-group-item-success</code></td><td id="W]?g" class="">Verde</td></tr></div><div style="display:contents" dir="ltr"><tr id="36ef6ce8-497f-8062-9a5f-f83f50a11ea6"><td id="Q}?S" class=""><code>list-group-item-danger</code></td><td id="W]?g" class="">Vermelho</td></tr></div><div style="display:contents" dir="ltr"><tr id="36ef6ce8-497f-80a4-9714-cc4aa4ee96fd"><td id="Q}?S" class=""><code>list-group-item-warning</code></td><td id="W]?g" class="">Amarelo</td></tr></div><div style="display:contents" dir="ltr"><tr id="36ef6ce8-497f-80f9-a4b7-ddd4487ab1d2"><td id="Q}?S" class=""><code>list-group-item-dark</code></td><td id="W]?g" class="">Escuro</td></tr></div></tbody></table></div><div style="display:contents" dir="auto"><hr id="36ef6ce8-497f-80b0-81a1-e350d081685e"/></div><div style="display:contents" dir="auto"><h1 id="36ef6ce8-497f-80c6-880f-fe1d4c177fef" class="">Listas clicáveis</h1></div><div style="display:contents" dir="auto"><p id="36ef6ce8-497f-8049-9a66-eee3e0b38fac" class="">Também é possível usar links.</p></div><div style="display:contents" dir="auto"><pre id="36ef6ce8-497f-802d-8fac-d3eb39090fc6" class="code code-wrap"><code class="language-html" style="white-space:pre-wrap;word-break:break-all">&lt;div class=&quot;list-group&quot;&gt;
+
+&lt;a href=&quot;#&quot;
+class=&quot;list-group-item list-group-item-action&quot;&gt;
+
+        Home
+
+&lt;/a&gt;
+
+&lt;/div&gt;</code></pre></div><div style="display:contents" dir="auto"><hr id="36ef6ce8-497f-8099-90ec-c695b2c2fff3"/></div><div style="display:contents" dir="auto"><h1 id="36ef6ce8-497f-8052-8684-ef37d09e2f7a" class="">list-group-item-action</h1></div><div style="display:contents" dir="auto"><p id="36ef6ce8-497f-805a-92c0-efbdd11e9992" class="">Adiciona:</p></div><div style="display:contents" dir="auto"><ul id="36ef6ce8-497f-80ae-8f04-f5e87166d1dd" class="bulleted-list"><li style="list-style-type:disc">Hover</li></ul></div><div style="display:contents" dir="auto"><ul id="36ef6ce8-497f-8001-9311-e4fd6f98c812" class="bulleted-list"><li style="list-style-type:disc">Clique</li></ul></div><div style="display:contents" dir="auto"><ul id="36ef6ce8-497f-80a6-bb0c-dc49dd4939fc" class="bulleted-list"><li style="list-style-type:disc">Feedback visual</li></ul></div><div style="display:contents" dir="auto"><hr id="36ef6ce8-497f-809d-aa77-cbddd72df20e"/></div><div style="display:contents" dir="auto"><h1 id="36ef6ce8-497f-8099-9fe0-f3f365010ff8" class="">Listas horizontais</h1></div><div style="display:contents" dir="auto"><pre id="36ef6ce8-497f-80b2-817f-e324b1cd66fc" class="code code-wrap"><code class="language-html" style="white-space:pre-wrap;word-break:break-all">&lt;ul class=&quot;list-group list-group-horizontal&quot;&gt;</code></pre></div><div style="display:contents" dir="auto"><p id="36ef6ce8-497f-8097-a079-f694b456c545" class="">Os itens ficam lado a lado.</p></div><div style="display:contents" dir="auto"><hr id="36ef6ce8-497f-8082-8403-f831c7d238bb"/></div><div style="display:contents" dir="auto"><h1 id="36ef6ce8-497f-8039-96f3-ccc7262554d4" class="">Responsividade horizontal</h1></div><div style="display:contents" dir="auto"><pre id="36ef6ce8-497f-8021-a717-d438a3d964b5" class="code code-wrap"><code class="language-html" style="white-space:pre-wrap;word-break:break-all">&lt;ul class=&quot;list-group list-group-horizontal-md&quot;&gt;</code></pre></div><div style="display:contents" dir="auto"><p id="36ef6ce8-497f-80ea-ad14-dd9ca1b357fb" class="">Horizontal apenas em telas médias ou maiores.</p></div><div style="display:contents" dir="auto"><hr id="36ef6ce8-497f-8079-8b31-cc0a94bc311b"/></div><div style="display:contents" dir="auto"><h1 id="36ef6ce8-497f-8030-806f-ec93eb03b02b" class="">Flush List</h1></div><div style="display:contents" dir="auto"><p id="36ef6ce8-497f-80c4-b1ff-ec78e34fbe43" class="">Remove bordas externas.</p></div><div style="display:contents" dir="auto"><pre id="36ef6ce8-497f-80f6-bdaf-ed310bd6ef1a" class="code code-wrap"><code class="language-html" style="white-space:pre-wrap;word-break:break-all">&lt;ul class=&quot;list-group list-group-flush&quot;&gt;</code></pre></div><div style="display:contents" dir="auto"><p id="36ef6ce8-497f-807e-b15c-d994ccb11b81" class="">Muito usado em:</p></div><div style="display:contents" dir="auto"><ul id="36ef6ce8-497f-80bb-9201-e51c4e2bc5eb" class="bulleted-list"><li style="list-style-type:disc">Cards</li></ul></div><div style="display:contents" dir="auto"><ul id="36ef6ce8-497f-80f5-8e52-fdb9d521bf16" class="bulleted-list"><li style="list-style-type:disc">Sidebars</li></ul></div><div style="display:contents" dir="auto"><hr id="36ef6ce8-497f-8014-9229-d7356287f946"/></div><div style="display:contents" dir="auto"><h1 id="36ef6ce8-497f-8065-b644-e0af63503543" class="">Listas com badges</h1></div><div style="display:contents" dir="auto"><pre id="36ef6ce8-497f-8076-8241-e5cbf737be1e" class="code code-wrap"><code class="language-html" style="white-space:pre-wrap;word-break:break-all">&lt;ul class=&quot;list-group&quot;&gt;
+
+&lt;li class=&quot;list-group-item d-flex justify-content-between&quot;&gt;
+
+        Mensagens
+
+&lt;span class=&quot;badge bg-primary&quot;&gt;
+            5
+&lt;/span&gt;
+
+&lt;/li&gt;
+
+&lt;/ul&gt;</code></pre></div><div style="display:contents" dir="auto"><hr id="36ef6ce8-497f-803f-be52-dea80cb6c14f"/></div><div style="display:contents" dir="auto"><h1 id="36ef6ce8-497f-808a-a635-c7c67f2bf189" class="">Exemplo completo</h1></div><div style="display:contents" dir="auto"><pre id="36ef6ce8-497f-800f-a9e8-e8a40d8d972d" class="code code-wrap"><code class="language-html" style="white-space:pre-wrap;word-break:break-all">&lt;div class=&quot;container&quot;&gt;
+
+&lt;ul class=&quot;list-group&quot;&gt;
+
+&lt;li class=&quot;list-group-item active&quot;&gt;
+            Dashboard
+&lt;/li&gt;
+
+&lt;li class=&quot;list-group-item&quot;&gt;
+            Usuários
+&lt;/li&gt;
+
+&lt;li class=&quot;list-group-item list-group-item-success&quot;&gt;
+            Configurações
+&lt;/li&gt;
+
+&lt;/ul&gt;
+
+&lt;/div&gt;</code></pre></div><div style="display:contents" dir="auto"><hr id="36ef6ce8-497f-801e-aa0a-c6c1ae45ac85"/></div><div style="display:contents" dir="auto"><h1 id="36ef6ce8-497f-8080-bd7a-dc22d053360e" class="">Classes importantes</h1></div><div style="display:contents" dir="ltr"><table id="36ef6ce8-497f-80f3-b1e6-d17e870548ae" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="36ef6ce8-497f-8055-ad7b-d6506625dd84"><th id="Lp`:" class="simple-table-header-color simple-table-header">Classe</th><th id="eZnm" class="simple-table-header-color simple-table-header">Função</th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="36ef6ce8-497f-8049-aade-d796657324d3"><td id="Lp`:" class=""><code>list-group</code></td><td id="eZnm" class="">Estrutura da lista</td></tr></div><div style="display:contents" dir="ltr"><tr id="36ef6ce8-497f-804f-8b77-e083de8524cc"><td id="Lp`:" class=""><code>list-group-item</code></td><td id="eZnm" class="">Item da lista</td></tr></div><div style="display:contents" dir="ltr"><tr id="36ef6ce8-497f-80ee-a903-d7b9e1494052"><td id="Lp`:" class=""><code>active</code></td><td id="eZnm" class="">Item ativo</td></tr></div><div style="display:contents" dir="ltr"><tr id="36ef6ce8-497f-809f-a63a-d1d8984539d2"><td id="Lp`:" class=""><code>disabled</code></td><td id="eZnm" class="">Desabilitado</td></tr></div><div style="display:contents" dir="ltr"><tr id="36ef6ce8-497f-80e9-8602-feabf3fda083"><td id="Lp`:" class=""><code>list-group-horizontal</code></td><td id="eZnm" class="">Horizontal</td></tr></div><div style="display:contents" dir="ltr"><tr id="36ef6ce8-497f-80b5-94b7-fe8986a8dea9"><td id="Lp`:" class=""><code>list-group-flush</code></td><td id="eZnm" class="">Sem borda externa</td></tr></div><div style="display:contents" dir="ltr"><tr id="36ef6ce8-497f-809d-ae3d-d428f38fb3a2"><td id="Lp`:" class=""><code>list-group-item-action</code></td><td id="eZnm" class="">Item clicável</td></tr></div></tbody></table></div><div style="display:contents" dir="auto"><hr id="36ef6ce8-497f-80e9-a8c7-d358e6cec705"/></div><div style="display:contents" dir="auto"><h1 id="36ef6ce8-497f-80a7-a811-e03bda27331d" class="">Vantagens das listas Bootstrap</h1></div><div style="display:contents" dir="auto"><ul id="36ef6ce8-497f-8020-a73f-d80abb139746" class="bulleted-list"><li style="list-style-type:disc">Layout moderno</li></ul></div><div style="display:contents" dir="auto"><ul id="36ef6ce8-497f-80d1-a456-e8bea750aa41" class="bulleted-list"><li style="list-style-type:disc">Fácil estilização</li></ul></div><div style="display:contents" dir="auto"><ul id="36ef6ce8-497f-807c-8ac6-ed75a55d1d5c" class="bulleted-list"><li style="list-style-type:disc">Responsividade</li></ul></div><div style="display:contents" dir="auto"><ul id="36ef6ce8-497f-80ff-ae35-e3c8bd27f0f5" class="bulleted-list"><li style="list-style-type:disc">Menos CSS manual</li></ul></div><div style="display:contents" dir="auto"><ul id="36ef6ce8-497f-804b-8ebf-f1dc7a2dd814" class="bulleted-list"><li style="list-style-type:disc">Organização visual melhorada</li></ul></div></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>
