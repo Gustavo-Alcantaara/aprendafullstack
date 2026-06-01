@@ -1,0 +1,803 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Arrays Multidimensionais</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="372f6ce8-497f-80fd-a8c5-c94e78a4b716" class="page sans"><header><div class="page-header-icon undefined"><img class="icon notion-static-icon" src="https://www.notion.so/icons/command-line_yellow.svg"/></div><h1 class="page-title" dir="auto">Arrays Multidimensionais</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><div style="display:contents" dir="auto"><p id="372f6ce8-497f-809e-ab41-ea855aca2c3f" class="">Em JavaScript, <strong>arrays multidimensionais</strong> são arrays que contêm outros arrays como elementos.</p></div><div style="display:contents" dir="auto"><p id="372f6ce8-497f-803d-aed0-d8d7ae705f1d" class="">Eles são muito usados para representar:</p></div><div style="display:contents" dir="auto"><ul id="372f6ce8-497f-80db-8a6e-f034dc0ba42f" class="bulleted-list"><li style="list-style-type:disc">tabelas</li></ul></div><div style="display:contents" dir="auto"><ul id="372f6ce8-497f-8065-bdba-fe2f4bf631bf" class="bulleted-list"><li style="list-style-type:disc">matrizes matemáticas</li></ul></div><div style="display:contents" dir="auto"><ul id="372f6ce8-497f-8049-ac3c-dd112da0f4fd" class="bulleted-list"><li style="list-style-type:disc">tabuleiros de jogos</li></ul></div><div style="display:contents" dir="auto"><ul id="372f6ce8-497f-80e9-a9a1-f30d58dc0723" class="bulleted-list"><li style="list-style-type:disc">planilhas</li></ul></div><div style="display:contents" dir="auto"><ul id="372f6ce8-497f-8071-b7b4-d27dffef7711" class="bulleted-list"><li style="list-style-type:disc">estruturas de dados mais complexas</li></ul></div><div style="display:contents" dir="auto"><hr id="372f6ce8-497f-80e6-ad3f-d870f7f26025"/></div><div style="display:contents" dir="auto"><h1 id="372f6ce8-497f-801f-8b3d-fbe622b0fa78" class="">Array bidimensional (2D)</h1></div><div style="display:contents" dir="auto"><p id="372f6ce8-497f-804e-9db8-cd0e17d690ab" class="">É o tipo mais comum.</p></div><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-jsx.min.js" integrity="sha512-m3JYEI6gx5fh9jF10FjGoMzVKcV2N6nchcDcqPCdI1L3R2WQV7br2XVNR8iTLb2daOMRl3zldbcfT40xU2ntVw==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="372f6ce8-497f-80c6-8070-f5b59bd55f70" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const matriz= [
+  [1,2,3],
+  [4,5,6],
+  [7,8,9]
+];</code></pre></div><div style="display:contents" dir="auto"><p id="372f6ce8-497f-805c-8a16-e328127b9a2c" class="">Visualmente:</p></div><div style="display:contents" dir="ltr"><table id="372f6ce8-497f-8034-b02a-c16e6dba6020" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="372f6ce8-497f-80e5-b667-ea41dec5e619"><th id="aTQi" class="simple-table-header-color simple-table-header"></th><th id="G?R]" class="simple-table-header-color simple-table-header"></th><th id="\icZ" class="simple-table-header-color simple-table-header"></th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="372f6ce8-497f-807d-bfc3-dc620a4df5b6"><td id="aTQi" class="">1</td><td id="G?R]" class="">2</td><td id="\icZ" class="">3</td></tr></div><div style="display:contents" dir="ltr"><tr id="372f6ce8-497f-80a8-bdf2-f9fc85979e2f"><td id="aTQi" class="">4</td><td id="G?R]" class="">5</td><td id="\icZ" class="">6</td></tr></div><div style="display:contents" dir="ltr"><tr id="372f6ce8-497f-8072-8bdc-d9ef55de6d61"><td id="aTQi" class="">7</td><td id="G?R]" class="">8</td><td id="\icZ" class="">9</td></tr></div></tbody></table></div><div style="display:contents" dir="auto"><hr id="372f6ce8-497f-80ec-a184-ebaf4a0e6d4f"/></div><div style="display:contents" dir="auto"><h1 id="372f6ce8-497f-80de-bbb0-fd21e13e7bbc" class="">Acessando elementos</h1></div><div style="display:contents" dir="auto"><p id="372f6ce8-497f-8008-8a37-f0db6f00d21d" class="">Primeiro informamos a linha e depois a coluna:</p></div><div style="display:contents" dir="auto"><pre id="372f6ce8-497f-8055-b2a8-c8a3a2ee4a58" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">console.log(matriz[0][0]);</code></pre></div><div style="display:contents" dir="auto"><p id="372f6ce8-497f-8023-858f-ca825c9d1406" class="">Resultado:</p></div><div style="display:contents" dir="auto"><pre id="372f6ce8-497f-8090-b93a-c980658562e3" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">1</code></pre></div><div style="display:contents" dir="auto"><hr id="372f6ce8-497f-8012-bac5-d339e9ce402e"/></div><div style="display:contents" dir="auto"><pre id="372f6ce8-497f-807b-8783-ec77eb684f6a" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">console.log(matriz[1][2]);</code></pre></div><div style="display:contents" dir="auto"><p id="372f6ce8-497f-8059-80ec-c7b89ac50cdd" class="">Resultado:</p></div><div style="display:contents" dir="auto"><pre id="372f6ce8-497f-800c-ae49-dc8fd1776692" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">6</code></pre></div><div style="display:contents" dir="auto"><hr id="372f6ce8-497f-807a-bf3d-f238f852c386"/></div><div style="display:contents" dir="auto"><h1 id="372f6ce8-497f-80c1-845d-f40f16e82c7b" class="">Entendendo os índices</h1></div><div style="display:contents" dir="auto"><pre id="372f6ce8-497f-80a7-bd98-efe5168c3629" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const matriz= [
+  [&quot;A&quot;,&quot;B&quot;,&quot;C&quot;],
+  [&quot;D&quot;,&quot;E&quot;,&quot;F&quot;]
+];</code></pre></div><div style="display:contents" dir="ltr"><table id="372f6ce8-497f-8079-a4ef-ee625f921812" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="372f6ce8-497f-8031-bb73-d3c2909bcf35"><th id="g=BS" class="simple-table-header-color simple-table-header">Índice</th><th id="Mkfu" class="simple-table-header-color simple-table-header">Conteúdo</th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="372f6ce8-497f-80bc-bbe1-dd5ab8151c9a"><td id="g=BS" class="">matriz[0]</td><td id="Mkfu" class="">[&quot;A&quot;, &quot;B&quot;, &quot;C&quot;]</td></tr></div><div style="display:contents" dir="ltr"><tr id="372f6ce8-497f-800f-b8c6-d45b113d9af7"><td id="g=BS" class="">matriz[1]</td><td id="Mkfu" class="">[&quot;D&quot;, &quot;E&quot;, &quot;F&quot;]</td></tr></div></tbody></table></div><div style="display:contents" dir="auto"><p id="372f6ce8-497f-8022-a146-fbb4810df96f" class="">Depois:</p></div><div style="display:contents" dir="auto"><pre id="372f6ce8-497f-80f0-9d0d-c6c77480ebda" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">matriz[0][1]</code></pre></div><div style="display:contents" dir="auto"><p id="372f6ce8-497f-8095-a28e-e92d4c118b3f" class="">Resultado:</p></div><div style="display:contents" dir="auto"><pre id="372f6ce8-497f-80cc-80a2-c2f6a0db8658" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">B</code></pre></div><div style="display:contents" dir="auto"><hr id="372f6ce8-497f-807b-a331-e5c5bf5931e1"/></div><div style="display:contents" dir="auto"><h1 id="372f6ce8-497f-8098-a0f8-c0d4efc7d2c7" class="">Alterando valores</h1></div><div style="display:contents" dir="auto"><pre id="372f6ce8-497f-808a-99c3-f110eab95368" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">matriz[1][1] = &quot;X&quot;;</code></pre></div><div style="display:contents" dir="auto"><p id="372f6ce8-497f-804b-a470-ebdf5fbc3a0d" class="">Resultado:</p></div><div style="display:contents" dir="auto"><pre id="372f6ce8-497f-8097-99c0-f2956a479843" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">[
+  [&quot;A&quot;,&quot;B&quot;,&quot;C&quot;],
+  [&quot;D&quot;,&quot;X&quot;,&quot;F&quot;]
+]</code></pre></div><div style="display:contents" dir="auto"><hr id="372f6ce8-497f-801e-ab41-cd6824464aec"/></div><div style="display:contents" dir="auto"><h1 id="372f6ce8-497f-804a-908c-e37ed1d0dc9a" class="">Percorrendo uma matriz</h1></div><div style="display:contents" dir="auto"><h2 id="372f6ce8-497f-8052-9eb5-cbc91977e96e" class="">Com dois loops <code>for</code></h2></div><div style="display:contents" dir="auto"><pre id="372f6ce8-497f-8068-bc6c-e9a8910f12ac" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const matriz = [
+  [1,2],
+  [3,4]
+];
+
+for (let i = 0; i &lt; matriz.length; i++) {
+
+for (let j = 0; j &lt; matriz[i].length; j++) {
+console.log(matriz[i][j]);
+  }
+
+}</code></pre></div><div style="display:contents" dir="auto"><p id="372f6ce8-497f-8089-8d02-fdb48e9e515b" class="">Resultado:</p></div><div style="display:contents" dir="auto"><pre id="372f6ce8-497f-80c9-bf24-f1c420db2cee" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">1
+2
+3
+4</code></pre></div><div style="display:contents" dir="auto"><hr id="372f6ce8-497f-806e-a14d-cb6ead6e5843"/></div><div style="display:contents" dir="auto"><h1 id="372f6ce8-497f-80ba-b8ed-cf7cc36bb59b" class="">Usando <code>for...of</code></h1></div><div style="display:contents" dir="auto"><pre id="372f6ce8-497f-80aa-a960-c0dc03c340a5" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">for (const linhaofmatriz) {
+
+for (const valoroflinha) {
+console.log(valor);
+  }
+
+}</code></pre></div><div style="display:contents" dir="auto"><hr id="372f6ce8-497f-8019-b025-e7ded54e030b"/></div><div style="display:contents" dir="auto"><h1 id="372f6ce8-497f-8004-a4f6-e0f547f44abc" class="">Adicionando linhas</h1></div><div style="display:contents" dir="auto"><pre id="372f6ce8-497f-808a-bd9b-d6b1b8b91bcf" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">matriz.push([10,11,12]);</code></pre></div><div style="display:contents" dir="auto"><p id="372f6ce8-497f-8078-9156-f1196318926c" class="">Resultado:</p></div><div style="display:contents" dir="auto"><pre id="372f6ce8-497f-803b-a3a1-ee5e55c05220" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">[
+  [1,2,3],
+  [4,5,6],
+  [10,11,12]
+]</code></pre></div><div style="display:contents" dir="auto"><hr id="372f6ce8-497f-8009-a457-e573ce954819"/></div><div style="display:contents" dir="auto"><h1 id="372f6ce8-497f-80cf-ae4e-cc4e6259afdf" class="">Adicionando colunas</h1></div><div style="display:contents" dir="auto"><pre id="372f6ce8-497f-80bd-9f4e-ee998bcc3183" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">matriz[0].push(4);</code></pre></div><div style="display:contents" dir="auto"><p id="372f6ce8-497f-80d2-bf9b-cc2e8a4d69b2" class="">Resultado:</p></div><div style="display:contents" dir="auto"><pre id="372f6ce8-497f-8046-8bd2-c70cf838667b" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">[1,2,3,4]</code></pre></div><div style="display:contents" dir="auto"><hr id="372f6ce8-497f-80bf-8ea1-c0080944da15"/></div><div style="display:contents" dir="auto"><h1 id="372f6ce8-497f-8041-a03f-fa705943d9bb" class="">Exemplo prático: tabela de notas</h1></div><div style="display:contents" dir="auto"><pre id="372f6ce8-497f-8036-ae2e-cf1e1edc45bb" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const notas= [
+  [&quot;João&quot;, 8],
+  [&quot;Maria&quot;, 10],
+  [&quot;Carlos&quot;, 7]
+];</code></pre></div><div style="display:contents" dir="auto"><p id="372f6ce8-497f-8081-8301-db68e0dcc706" class="">Acessando:</p></div><div style="display:contents" dir="auto"><pre id="372f6ce8-497f-8098-9057-e68411cef70d" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">console.log(notas[1][0]);</code></pre></div><div style="display:contents" dir="auto"><p id="372f6ce8-497f-80cf-ba8f-daf5b2130d3a" class="">Resultado:</p></div><div style="display:contents" dir="auto"><pre id="372f6ce8-497f-80f6-9a2a-d3e68684cb5a" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Maria</code></pre></div><div style="display:contents" dir="auto"><hr id="372f6ce8-497f-8058-a710-e04f53d58a45"/></div><div style="display:contents" dir="auto"><h1 id="372f6ce8-497f-8041-8cfc-fd39ecbd0221" class="">Exemplo prático: jogo da velha</h1></div><div style="display:contents" dir="auto"><pre id="372f6ce8-497f-8024-b44e-ee5c4fe0e7f6" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const tabuleiro= [
+  [&quot;X&quot;,&quot;O&quot;,&quot;X&quot;],
+  [&quot;O&quot;,&quot;X&quot;,&quot;O&quot;],
+  [&quot; &quot;,&quot; &quot;,&quot;X&quot;]
+];</code></pre></div><div style="display:contents" dir="auto"><p id="372f6ce8-497f-8027-a6a0-d1b2d0dc8718" class="">A posição central:</p></div><div style="display:contents" dir="auto"><pre id="372f6ce8-497f-80f5-86d5-e08b1b75b94d" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">console.log(tabuleiro[1][1]);</code></pre></div><div style="display:contents" dir="auto"><p id="372f6ce8-497f-80a1-a627-c73692796628" class="">Resultado:</p></div><div style="display:contents" dir="auto"><pre id="372f6ce8-497f-8020-8f05-ddb60a8c093d" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">X</code></pre></div><div style="display:contents" dir="auto"><hr id="372f6ce8-497f-80ce-8b5c-f92cd548fd93"/></div><div style="display:contents" dir="auto"><h1 id="372f6ce8-497f-8092-9ddf-ecdf00830877" class="">Arrays tridimensionais (3D)</h1></div><div style="display:contents" dir="auto"><p id="372f6ce8-497f-80c9-b16f-c6accc6bbc61" class="">Também podem existir arrays dentro de arrays dentro de arrays.</p></div><div style="display:contents" dir="auto"><pre id="372f6ce8-497f-8089-b61f-d2c81cf5d590" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const cubo= [
+  [
+    [1,2],
+    [3,4]
+  ],
+  [
+    [5,6],
+    [7,8]
+  ]
+];</code></pre></div><div style="display:contents" dir="auto"><p id="372f6ce8-497f-8070-94a3-f697dc9f7d9a" class="">Acessando:</p></div><div style="display:contents" dir="auto"><pre id="372f6ce8-497f-805d-9f7b-eac60016ab61" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">console.log(cubo[1][0][1]);</code></pre></div><div style="display:contents" dir="auto"><p id="372f6ce8-497f-8034-bba6-f63660c7c34c" class="">Resultado:</p></div><div style="display:contents" dir="auto"><pre id="372f6ce8-497f-805a-a882-f27980d72f16" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">6</code></pre></div><div style="display:contents" dir="auto"><hr id="372f6ce8-497f-8005-a8c0-ec43dda6d4e7"/></div><div style="display:contents" dir="auto"><h1 id="372f6ce8-497f-8039-9198-cd9c3b8861bc" class="">Método <code>flat()</code></h1></div><div style="display:contents" dir="auto"><p id="372f6ce8-497f-80fc-9a19-df1dee1e7e35" class="">Transforma arrays multidimensionais em uma dimensão.</p></div><div style="display:contents" dir="auto"><pre id="372f6ce8-497f-80f4-9738-fff54856d385" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const numeros= [
+  [1,2],
+  [3,4]
+];
+
+console.log(numeros.flat());</code></pre></div><div style="display:contents" dir="auto"><p id="372f6ce8-497f-800a-be2e-c2ee207a899e" class="">Resultado:</p></div><div style="display:contents" dir="auto"><pre id="372f6ce8-497f-804b-b238-e5e8a9177d67" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">[1,2,3,4]</code></pre></div><div style="display:contents" dir="auto"><hr id="372f6ce8-497f-8010-bd66-fd1facb6229c"/></div><div style="display:contents" dir="auto"><h1 id="372f6ce8-497f-8030-a64e-e85c6c5fd1e4" class="">Profundidade do <code>flat()</code></h1></div><div style="display:contents" dir="auto"><pre id="372f6ce8-497f-8053-8aca-e27d97eebce0" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const dados= [
+  [1, [2,3]]
+];
+
+console.log(dados.flat(2));</code></pre></div><div style="display:contents" dir="auto"><p id="372f6ce8-497f-80a9-9e5c-f629b553273f" class="">Resultado:</p></div><div style="display:contents" dir="auto"><pre id="372f6ce8-497f-8038-b8fc-c77b2a0c8ee4" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">[1,2,3]</code></pre></div><div style="display:contents" dir="auto"><hr id="372f6ce8-497f-80e5-9a81-cdfb9bffe3b3"/></div><div style="display:contents" dir="auto"><h1 id="372f6ce8-497f-808d-8a26-c1935e754abf" class="">Quando usar arrays multidimensionais?</h1></div><div style="display:contents" dir="auto"><p id="372f6ce8-497f-80f7-af53-e69fd82caba2" class="">São ideais para representar:</p></div><div style="display:contents" dir="auto"><ul id="372f6ce8-497f-8050-8efd-da8feda5c856" class="bulleted-list"><li style="list-style-type:disc">matrizes matemáticas</li></ul></div><div style="display:contents" dir="auto"><ul id="372f6ce8-497f-80cf-8802-e52b8775950b" class="bulleted-list"><li style="list-style-type:disc">mapas de jogos</li></ul></div><div style="display:contents" dir="auto"><ul id="372f6ce8-497f-80c1-b6b2-c95066df7641" class="bulleted-list"><li style="list-style-type:disc">planilhas</li></ul></div><div style="display:contents" dir="auto"><ul id="372f6ce8-497f-808a-a946-f6330fa397f8" class="bulleted-list"><li style="list-style-type:disc">calendários</li></ul></div><div style="display:contents" dir="auto"><ul id="372f6ce8-497f-809e-b935-f1d25276efd1" class="bulleted-list"><li style="list-style-type:disc">tabelas de dados</li></ul></div><div style="display:contents" dir="auto"><ul id="372f6ce8-497f-8058-aa86-ce5790d452d3" class="bulleted-list"><li style="list-style-type:disc">assentos de cinema</li></ul></div><div style="display:contents" dir="auto"><ul id="372f6ce8-497f-8073-a4af-cf2da8a996a0" class="bulleted-list"><li style="list-style-type:disc">tabuleiros</li></ul></div><div style="display:contents" dir="auto"><hr id="372f6ce8-497f-8004-af54-db4d9817df07"/></div><div style="display:contents" dir="auto"><h1 id="372f6ce8-497f-8016-a8b7-fc2695d68c17" class="">Resumindo</h1></div><div style="display:contents" dir="auto"><p id="372f6ce8-497f-80ba-bd17-fc4414d9bae7" class="">Arrays multidimensionais são arrays que armazenam outros arrays.</p></div><div style="display:contents" dir="auto"><p id="372f6ce8-497f-80e7-81fc-c667b01c84ee" class="">Conceitos principais:</p></div><div style="display:contents" dir="auto"><ul id="372f6ce8-497f-8072-939f-e9e6f0ab62d9" class="bulleted-list"><li style="list-style-type:disc"><code>matriz[linha][coluna]</code></li></ul></div><div style="display:contents" dir="auto"><ul id="372f6ce8-497f-80e7-9784-e895d5590a71" class="bulleted-list"><li style="list-style-type:disc">podem ter 2, 3 ou mais dimensões</li></ul></div><div style="display:contents" dir="auto"><ul id="372f6ce8-497f-8030-8597-d1483af6f32e" class="bulleted-list"><li style="list-style-type:disc">são ótimos para representar tabelas e estruturas organizadas</li></ul></div><div style="display:contents" dir="auto"><ul id="372f6ce8-497f-80ff-a47c-d9b0779be17b" class="bulleted-list"><li style="list-style-type:disc">podem ser percorridos com loops aninhados</li></ul></div><div style="display:contents" dir="auto"><ul id="372f6ce8-497f-80a7-a59a-dce6b20f94be" class="bulleted-list"><li style="list-style-type:disc">o método <code>flat()</code> ajuda a transformar uma matriz em um array simples</li></ul></div><div style="display:contents" dir="auto"><p id="372f6ce8-497f-8060-91d1-f0943d85d939" class="">Eles aparecem com frequência em algoritmos, jogos, sistemas de gestão e aplicações desenvolvidas com Node.js e React.</p></div></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

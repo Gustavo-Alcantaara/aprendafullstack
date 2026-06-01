@@ -1,0 +1,788 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Arrays</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="372f6ce8-497f-80fe-82d2-efdad89286c5" class="page sans"><header><div class="page-header-icon undefined"><img class="icon notion-static-icon" src="https://www.notion.so/icons/command-line_yellow.svg"/></div><h1 class="page-title" dir="auto">Arrays</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><div style="display:contents" dir="auto"><p id="372f6ce8-497f-80a8-8e4d-ca64e7dad32d" class="">Em JavaScript, um <strong>array</strong> é uma estrutura de dados usada para armazenar vários valores em uma única variável.</p></div><div style="display:contents" dir="auto"><p id="372f6ce8-497f-806b-a2c6-f9b04d8d9229" class="">Em vez de criar várias variáveis:</p></div><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-jsx.min.js" integrity="sha512-m3JYEI6gx5fh9jF10FjGoMzVKcV2N6nchcDcqPCdI1L3R2WQV7br2XVNR8iTLb2daOMRl3zldbcfT40xU2ntVw==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="372f6ce8-497f-8073-a186-cfa0538ce7da" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">let fruta1 = &quot;Maçã&quot;;
+let fruta2 = &quot;Banana&quot;;
+let fruta3 = &quot;Uva&quot;;</code></pre></div><div style="display:contents" dir="auto"><p id="372f6ce8-497f-803a-ac06-d062039d245a" class="">Podemos usar um array:</p></div><div style="display:contents" dir="auto"><pre id="372f6ce8-497f-809b-a78a-d97780cb6f03" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">let frutas = [&quot;Maçã&quot;,&quot;Banana&quot;,&quot;Uva&quot;];</code></pre></div><div style="display:contents" dir="auto"><hr id="372f6ce8-497f-809d-9b5f-c4c3d7a38f2a"/></div><div style="display:contents" dir="auto"><h1 id="372f6ce8-497f-80d1-96e6-f7599063b80a" class="">Características dos Arrays</h1></div><div style="display:contents" dir="auto"><ul id="372f6ce8-497f-8079-a0b1-fb02a7d9c16e" class="bulleted-list"><li style="list-style-type:disc">Armazenam múltiplos valores</li></ul></div><div style="display:contents" dir="auto"><ul id="372f6ce8-497f-80fc-b9fd-cf4313e9cbb3" class="bulleted-list"><li style="list-style-type:disc">Mantêm a ordem dos elementos</li></ul></div><div style="display:contents" dir="auto"><ul id="372f6ce8-497f-8089-b960-d9e8c7faec74" class="bulleted-list"><li style="list-style-type:disc">São indexados a partir do zero</li></ul></div><div style="display:contents" dir="auto"><ul id="372f6ce8-497f-802c-a87c-db087e673224" class="bulleted-list"><li style="list-style-type:disc">Podem armazenar diferentes tipos de dados</li></ul></div><div style="display:contents" dir="auto"><p id="372f6ce8-497f-800a-a93c-e4a24333ee63" class="">Exemplo:</p></div><div style="display:contents" dir="auto"><pre id="372f6ce8-497f-8030-8960-e7a371d170de" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">let dados= [
+&quot;Gustavo&quot;,
+21,
+true,
+null
+];</code></pre></div><div style="display:contents" dir="auto"><hr id="372f6ce8-497f-8094-a0aa-d9633dfa1748"/></div><div style="display:contents" dir="auto"><h1 id="372f6ce8-497f-80c3-8559-f63b39a5bff6" class="">Índices</h1></div><div style="display:contents" dir="auto"><p id="372f6ce8-497f-803d-8ecd-dfa48d6f89bf" class="">Os elementos possuem posições numéricas:</p></div><div style="display:contents" dir="auto"><pre id="372f6ce8-497f-80ce-a34e-e53a3d0f6cec" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">let frutas = [&quot;Maçã&quot;,&quot;Banana&quot;,&quot;Uva&quot;];</code></pre></div><div style="display:contents" dir="ltr"><table id="372f6ce8-497f-8009-93d3-cd37ec05ac71" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="372f6ce8-497f-8052-9bcc-e1661a11db9a"><th id="|;^S" class="simple-table-header-color simple-table-header">Índice</th><th id="UDrs" class="simple-table-header-color simple-table-header">Valor</th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="372f6ce8-497f-8051-a33d-ee4567377c5b"><td id="|;^S" class="">0</td><td id="UDrs" class="">Maçã</td></tr></div><div style="display:contents" dir="ltr"><tr id="372f6ce8-497f-80d7-b588-e7303951fbf9"><td id="|;^S" class="">1</td><td id="UDrs" class="">Banana</td></tr></div><div style="display:contents" dir="ltr"><tr id="372f6ce8-497f-8006-98c3-e3a61142bbfe"><td id="|;^S" class="">2</td><td id="UDrs" class="">Uva</td></tr></div></tbody></table></div><div style="display:contents" dir="auto"><p id="372f6ce8-497f-8025-b2f5-dc63e56ae646" class="">Acessando:</p></div><div style="display:contents" dir="auto"><pre id="372f6ce8-497f-80ae-849c-ff481c16b4e0" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">console.log(frutas[0]);</code></pre></div><div style="display:contents" dir="auto"><p id="372f6ce8-497f-807f-a179-e56b94d81d8f" class="">Resultado:</p></div><div style="display:contents" dir="auto"><pre id="372f6ce8-497f-8023-bbf3-c6ee49b53a7d" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">Maçã</code></pre></div><div style="display:contents" dir="auto"><hr id="372f6ce8-497f-808f-be09-c64e69b67181"/></div><div style="display:contents" dir="auto"><h1 id="372f6ce8-497f-8021-b647-f4830f450986" class="">Alterando valores</h1></div><div style="display:contents" dir="auto"><pre id="372f6ce8-497f-8086-b8c2-df4b91861f81" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">frutas[1] = &quot;Laranja&quot;;</code></pre></div><div style="display:contents" dir="auto"><p id="372f6ce8-497f-8033-9e0a-e9710aabf4ad" class="">Resultado:</p></div><div style="display:contents" dir="auto"><pre id="372f6ce8-497f-805f-a83d-de9236280b3c" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">[&quot;Maçã&quot;,&quot;Laranja&quot;,&quot;Uva&quot;]</code></pre></div><div style="display:contents" dir="auto"><hr id="372f6ce8-497f-80a7-8f03-ce8f522ca322"/></div><div style="display:contents" dir="auto"><h1 id="372f6ce8-497f-807f-adf0-ce5e38679777" class="">Tamanho do array</h1></div><div style="display:contents" dir="auto"><p id="372f6ce8-497f-80f3-bda9-d0eb06aeea51" class="">Usamos a propriedade:</p></div><div style="display:contents" dir="auto"><pre id="372f6ce8-497f-805d-b5b6-cdd726f3d0ef" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">frutas.length</code></pre></div><div style="display:contents" dir="auto"><p id="372f6ce8-497f-8018-8f96-fe59e2109471" class="">Exemplo:</p></div><div style="display:contents" dir="auto"><pre id="372f6ce8-497f-8071-9010-f2087b926703" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">console.log(frutas.length);</code></pre></div><div style="display:contents" dir="auto"><p id="372f6ce8-497f-801d-891e-db1ff9e46493" class="">Resultado:</p></div><div style="display:contents" dir="auto"><pre id="372f6ce8-497f-807c-b9a2-d3da61f0ba91" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">3</code></pre></div><div style="display:contents" dir="auto"><hr id="372f6ce8-497f-80f5-9e63-e448936c1525"/></div><div style="display:contents" dir="auto"><h1 id="372f6ce8-497f-8065-acaa-d4e718206e0d" class="">Adicionando elementos</h1></div><div style="display:contents" dir="auto"><h2 id="372f6ce8-497f-8080-80f3-f66391c32173" class=""><code>push()</code></h2></div><div style="display:contents" dir="auto"><p id="372f6ce8-497f-80c8-b02a-d3deade34769" class="">Adiciona ao final:</p></div><div style="display:contents" dir="auto"><pre id="372f6ce8-497f-804d-a8d1-e95bb9588a2f" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">frutas.push(&quot;Morango&quot;);</code></pre></div><div style="display:contents" dir="auto"><p id="372f6ce8-497f-803f-a687-f8141c2fe89b" class="">Resultado:</p></div><div style="display:contents" dir="auto"><pre id="372f6ce8-497f-807b-9ac8-ea66fe176725" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">[&quot;Maçã&quot;,&quot;Banana&quot;,&quot;Uva&quot;,&quot;Morango&quot;]</code></pre></div><div style="display:contents" dir="auto"><hr id="372f6ce8-497f-809e-abec-d444fa049ce0"/></div><div style="display:contents" dir="auto"><h2 id="372f6ce8-497f-8029-a61c-e9d48aa2bde2" class=""><code>unshift()</code></h2></div><div style="display:contents" dir="auto"><p id="372f6ce8-497f-80bd-a765-c2e2bb51209e" class="">Adiciona no início:</p></div><div style="display:contents" dir="auto"><pre id="372f6ce8-497f-80d3-8a49-ff736a5df538" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">frutas.unshift(&quot;Abacaxi&quot;);</code></pre></div><div style="display:contents" dir="auto"><hr id="372f6ce8-497f-8012-a703-d26ba5c4e4c9"/></div><div style="display:contents" dir="auto"><h1 id="372f6ce8-497f-8087-99ef-d83d06f3b0ad" class="">Removendo elementos</h1></div><div style="display:contents" dir="auto"><h2 id="372f6ce8-497f-8043-a72f-e54c5b5e5222" class=""><code>pop()</code></h2></div><div style="display:contents" dir="auto"><p id="372f6ce8-497f-805d-860c-c30187a787e2" class="">Remove o último:</p></div><div style="display:contents" dir="auto"><pre id="372f6ce8-497f-8022-ae18-f8288740fa20" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">frutas.pop();</code></pre></div><div style="display:contents" dir="auto"><hr id="372f6ce8-497f-80d9-a487-e30ca5cd5f52"/></div><div style="display:contents" dir="auto"><h2 id="372f6ce8-497f-8011-8880-dacc2473f8fa" class=""><code>shift()</code></h2></div><div style="display:contents" dir="auto"><p id="372f6ce8-497f-80cc-9b29-e4abf52f81f7" class="">Remove o primeiro:</p></div><div style="display:contents" dir="auto"><pre id="372f6ce8-497f-8056-93a5-c909bafa772c" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">frutas.shift();</code></pre></div><div style="display:contents" dir="auto"><hr id="372f6ce8-497f-80db-b50c-cbf141cd2240"/></div><div style="display:contents" dir="auto"><h1 id="372f6ce8-497f-80ab-b2df-e3b2ecca689c" class="">Encontrando posição</h1></div><div style="display:contents" dir="auto"><h2 id="372f6ce8-497f-80b7-b93a-ca3526a6a622" class=""><code>indexOf()</code></h2></div><div style="display:contents" dir="auto"><pre id="372f6ce8-497f-8093-8ab8-d1d93a30b728" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">let frutas = [&quot;Maçã&quot;,&quot;Banana&quot;,&quot;Uva&quot;];
+
+console.log(frutas.indexOf(&quot;Banana&quot;));</code></pre></div><div style="display:contents" dir="auto"><p id="372f6ce8-497f-8031-8c69-ea10a0ae3107" class="">Resultado:</p></div><div style="display:contents" dir="auto"><pre id="372f6ce8-497f-8088-8103-f6964a6b0d8f" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">1</code></pre></div><div style="display:contents" dir="auto"><hr id="372f6ce8-497f-80c8-94cc-ee3fb9ce32da"/></div><div style="display:contents" dir="auto"><h1 id="372f6ce8-497f-80e3-9d07-f9520ff4d790" class="">Verificando existência</h1></div><div style="display:contents" dir="auto"><h2 id="372f6ce8-497f-8060-833e-db7dfec8a348" class=""><code>includes()</code></h2></div><div style="display:contents" dir="auto"><pre id="372f6ce8-497f-80e8-9f7d-de2f91ada392" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">console.log(
+frutas.includes(&quot;Uva&quot;)
+);</code></pre></div><div style="display:contents" dir="auto"><p id="372f6ce8-497f-8092-844e-ec6f8fc2039b" class="">Resultado:</p></div><div style="display:contents" dir="auto"><pre id="372f6ce8-497f-80cc-9afa-dc83e5e51427" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">true</code></pre></div><div style="display:contents" dir="auto"><hr id="372f6ce8-497f-80e0-9b17-d5e2f4445cf0"/></div><div style="display:contents" dir="auto"><h1 id="372f6ce8-497f-80cf-9f98-c102b2b4c663" class="">Percorrendo arrays</h1></div><div style="display:contents" dir="auto"><h2 id="372f6ce8-497f-8055-9709-d81bdfacceab" class=""><code>for</code></h2></div><div style="display:contents" dir="auto"><pre id="372f6ce8-497f-8020-8ebc-d67a28f877fb" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">for (let i = 0; i &lt; frutas.length; i++) {
+console.log(frutas[i]);
+}</code></pre></div><div style="display:contents" dir="auto"><hr id="372f6ce8-497f-800d-8173-c6137b952fce"/></div><div style="display:contents" dir="auto"><h2 id="372f6ce8-497f-803e-96d2-e4f9b3e494a9" class=""><code>for...of</code></h2></div><div style="display:contents" dir="auto"><pre id="372f6ce8-497f-8072-9ec6-c1ffa2da6081" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">for (const fruta of frutas) {
+console.log(fruta);
+}</code></pre></div><div style="display:contents" dir="auto"><hr id="372f6ce8-497f-8034-aadf-f48a57334a97"/></div><div style="display:contents" dir="auto"><h2 id="372f6ce8-497f-8049-9bbd-fdfbcfb66711" class=""><code>forEach()</code></h2></div><div style="display:contents" dir="auto"><pre id="372f6ce8-497f-8044-a480-e4a614bcf65e" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">frutas.forEach(function(fruta) {
+console.log(fruta);
+});</code></pre></div><div style="display:contents" dir="auto"><p id="372f6ce8-497f-80cb-ba0f-e1614a238ce7" class="">Arrow Function:</p></div><div style="display:contents" dir="auto"><pre id="372f6ce8-497f-80c9-ba8c-f6e98c160067" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">frutas.forEach(fruta =&gt; {
+console.log(fruta);
+});</code></pre></div><div style="display:contents" dir="auto"><hr id="372f6ce8-497f-80b8-a71e-c9e348d1dd80"/></div><div style="display:contents" dir="auto"><h1 id="372f6ce8-497f-800c-9ccf-d4aeaa20e1c0" class="">Transformando arrays</h1></div><div style="display:contents" dir="auto"><h2 id="372f6ce8-497f-8041-8dce-c43badb532bc" class=""><code>map()</code></h2></div><div style="display:contents" dir="auto"><p id="372f6ce8-497f-8043-92f0-f0016a43e0b5" class="">Cria um novo array:</p></div><div style="display:contents" dir="auto"><pre id="372f6ce8-497f-801c-b68d-de82c91ea232" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const numeros= [1,2,3];
+
+const dobrados=numeros.map(numero =&gt; {
+return numero*2;
+});</code></pre></div><div style="display:contents" dir="auto"><p id="372f6ce8-497f-8007-8bd8-c32d83f938ab" class="">Resultado:</p></div><div style="display:contents" dir="auto"><pre id="372f6ce8-497f-80a4-b243-c16b7fc6ceb3" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">[2,4,6]</code></pre></div><div style="display:contents" dir="auto"><hr id="372f6ce8-497f-80e0-a6c9-c1dd9e629f06"/></div><div style="display:contents" dir="auto"><h1 id="372f6ce8-497f-80a4-b68f-e7ecb1a0647d" class="">Filtrando elementos</h1></div><div style="display:contents" dir="auto"><h2 id="372f6ce8-497f-80b8-afe0-de29cf617e44" class=""><code>filter()</code></h2></div><div style="display:contents" dir="auto"><pre id="372f6ce8-497f-8017-95de-efbbca47bb98" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const numeros = [10,20,30,40];
+
+const maiores = numeros.filter(numero =&gt; {
+return numero &gt; 20;
+});</code></pre></div><div style="display:contents" dir="auto"><p id="372f6ce8-497f-80f6-b975-c66c944d3954" class="">Resultado:</p></div><div style="display:contents" dir="auto"><pre id="372f6ce8-497f-806c-ad9f-c09bb8061b69" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">[30,40]</code></pre></div><div style="display:contents" dir="auto"><hr id="372f6ce8-497f-806a-bfdb-d93f9e759e3b"/></div><div style="display:contents" dir="auto"><h1 id="372f6ce8-497f-80ce-baba-c838e34a2b38" class="">Encontrando elemento</h1></div><div style="display:contents" dir="auto"><h2 id="372f6ce8-497f-80ed-86f5-f06079e8e9d2" class=""><code>find()</code></h2></div><div style="display:contents" dir="auto"><pre id="372f6ce8-497f-80bf-8479-eedf19a435af" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const numeros = [10,20,30];
+
+const resultado = numeros.find(numero =&gt; {
+return numero &gt; 15;
+});</code></pre></div><div style="display:contents" dir="auto"><p id="372f6ce8-497f-80bc-9689-d5c12d608dec" class="">Resultado:</p></div><div style="display:contents" dir="auto"><pre id="372f6ce8-497f-80de-9ed1-ce71d8a3ad81" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">20</code></pre></div><div style="display:contents" dir="auto"><hr id="372f6ce8-497f-80ec-ad78-def8a00f8c13"/></div><div style="display:contents" dir="auto"><h1 id="372f6ce8-497f-8064-ab45-c60eb13a482b" class="">Unindo arrays</h1></div><div style="display:contents" dir="auto"><h2 id="372f6ce8-497f-802c-ac33-e14b50d34b26" class=""><code>concat()</code></h2></div><div style="display:contents" dir="auto"><pre id="372f6ce8-497f-80bd-aabe-c9fa523ec442" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const a = [1,2];
+const b = [3,4];
+
+const resultado = a.concat(b);</code></pre></div><div style="display:contents" dir="auto"><p id="372f6ce8-497f-80ab-b3c7-fa7b35605189" class="">Resultado:</p></div><div style="display:contents" dir="auto"><pre id="372f6ce8-497f-801f-ab53-ed08698f8fe0" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">[1,2,3,4]</code></pre></div><div style="display:contents" dir="auto"><hr id="372f6ce8-497f-8078-8849-e92148448dd9"/></div><div style="display:contents" dir="auto"><h1 id="372f6ce8-497f-8044-abd2-cfaa533d30e3" class="">Convertendo para string</h1></div><div style="display:contents" dir="auto"><h2 id="372f6ce8-497f-8000-93a8-e1d73685efd9" class=""><code>join()</code></h2></div><div style="display:contents" dir="auto"><pre id="372f6ce8-497f-8088-b1d6-fac885c58cbb" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const nomes= [&quot;Ana&quot;,&quot;Carlos&quot;,&quot;João&quot;];
+
+console.log(nomes.join(&quot;, &quot;));</code></pre></div><div style="display:contents" dir="auto"><p id="372f6ce8-497f-8079-804c-d18c3d116263" class="">Resultado:</p></div><div style="display:contents" dir="auto"><pre id="372f6ce8-497f-8028-b590-f8fb3e0c59fc" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Ana, Carlos, João</code></pre></div><div style="display:contents" dir="auto"><hr id="372f6ce8-497f-80a0-a94c-cdb1a177c498"/></div><div style="display:contents" dir="auto"><h1 id="372f6ce8-497f-8027-b914-c6e57ae645f1" class="">Copiando parte do array</h1></div><div style="display:contents" dir="auto"><h2 id="372f6ce8-497f-806c-90a2-e2869a92c294" class=""><code>slice()</code></h2></div><div style="display:contents" dir="auto"><pre id="372f6ce8-497f-800b-bc1b-d0eab4809754" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const numeros = [1,2,3,4,5];
+
+console.log(numeros.slice(1,4));</code></pre></div><div style="display:contents" dir="auto"><p id="372f6ce8-497f-802f-b22c-de45f5508f9e" class="">Resultado:</p></div><div style="display:contents" dir="auto"><pre id="372f6ce8-497f-8057-9bee-c87fe315cbc7" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">[2,3,4]</code></pre></div><div style="display:contents" dir="auto"><hr id="372f6ce8-497f-8086-b95a-d3aeaa77b95c"/></div><div style="display:contents" dir="auto"><h1 id="372f6ce8-497f-8028-8ebf-f963ceeebf0c" class="">Removendo ou inserindo elementos</h1></div><div style="display:contents" dir="auto"><h2 id="372f6ce8-497f-8029-bd63-fa7ae8092cb1" class=""><code>splice()</code></h2></div><div style="display:contents" dir="auto"><pre id="372f6ce8-497f-8081-aad4-dc7327a94936" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const frutas = [&quot;Maçã&quot;,&quot;Banana&quot;,&quot;Uva&quot;];
+
+frutas.splice(1,1);</code></pre></div><div style="display:contents" dir="auto"><p id="372f6ce8-497f-8017-b3fa-fd9f446921fa" class="">Resultado:</p></div><div style="display:contents" dir="auto"><pre id="372f6ce8-497f-806d-a671-d4f144bfa60e" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">[&quot;Maçã&quot;,&quot;Uva&quot;]</code></pre></div><div style="display:contents" dir="auto"><hr id="372f6ce8-497f-80d3-bf2e-e718183ca06c"/></div><div style="display:contents" dir="auto"><h1 id="372f6ce8-497f-80f6-b9e8-ddfdbe1cc2f4" class="">Arrays multidimensionais</h1></div><div style="display:contents" dir="auto"><p id="372f6ce8-497f-801d-a96c-e92c2ff139a6" class="">Array dentro de array:</p></div><div style="display:contents" dir="auto"><pre id="372f6ce8-497f-8002-840a-c671ede3dc6d" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const matriz = [
+  [1,2],
+  [3,4]
+];</code></pre></div><div style="display:contents" dir="auto"><p id="372f6ce8-497f-8046-a166-cd66cf5afb1d" class="">Acessando:</p></div><div style="display:contents" dir="auto"><pre id="372f6ce8-497f-80e8-812c-d1b0fedd1526" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">console.log(matriz[0][1]);</code></pre></div><div style="display:contents" dir="auto"><p id="372f6ce8-497f-800e-9aeb-fcbab2d20088" class="">Resultado:</p></div><div style="display:contents" dir="auto"><pre id="372f6ce8-497f-80ab-9ae2-d8dd9c3ae970" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">2</code></pre></div><div style="display:contents" dir="auto"><hr id="372f6ce8-497f-80a1-8a06-d24569b9d901"/></div><div style="display:contents" dir="auto"><h1 id="372f6ce8-497f-80b8-ac50-ec30b92d911c" class="">Spread Operator</h1></div><div style="display:contents" dir="auto"><p id="372f6ce8-497f-8044-bae4-ef27b3c0beea" class="">Copiando arrays:</p></div><div style="display:contents" dir="auto"><pre id="372f6ce8-497f-8028-aa86-f242115d737b" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const numeros= [1,2,3];
+
+const copia = [...numeros];</code></pre></div><div style="display:contents" dir="auto"><p id="372f6ce8-497f-8052-9d67-d1c5921a9492" class="">Juntando arrays:</p></div><div style="display:contents" dir="auto"><pre id="372f6ce8-497f-806f-8366-cbc5ec2af8f2" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const resultado = [...a, ...b];</code></pre></div><div style="display:contents" dir="auto"><hr id="372f6ce8-497f-80a6-ad75-c871fb63562c"/></div><div style="display:contents" dir="auto"><h1 id="372f6ce8-497f-8083-a75e-d1282e74cb21" class="">Resumindo</h1></div><div style="display:contents" dir="auto"><p id="372f6ce8-497f-804b-aced-e5fedc032921" class="">Arrays são fundamentais para armazenar e manipular coleções de dados. Os métodos mais importantes para começar são:</p></div><div style="display:contents" dir="auto"><ul id="372f6ce8-497f-8073-a5fe-c17a4e07a64d" class="bulleted-list"><li style="list-style-type:disc"><code>push()</code> → adiciona no final</li></ul></div><div style="display:contents" dir="auto"><ul id="372f6ce8-497f-80f0-8d5f-e3948b9c554f" class="bulleted-list"><li style="list-style-type:disc"><code>pop()</code> → remove do final</li></ul></div><div style="display:contents" dir="auto"><ul id="372f6ce8-497f-80df-854d-fc78d471d5dc" class="bulleted-list"><li style="list-style-type:disc"><code>shift()</code> → remove do início</li></ul></div><div style="display:contents" dir="auto"><ul id="372f6ce8-497f-80f2-bb0f-c8f532b2bf68" class="bulleted-list"><li style="list-style-type:disc"><code>unshift()</code> → adiciona no início</li></ul></div><div style="display:contents" dir="auto"><ul id="372f6ce8-497f-8046-aee8-f6bf8c44843d" class="bulleted-list"><li style="list-style-type:disc"><code>forEach()</code> → percorre elementos</li></ul></div><div style="display:contents" dir="auto"><ul id="372f6ce8-497f-8082-8f71-c3a61473d9a0" class="bulleted-list"><li style="list-style-type:disc"><code>map()</code> → transforma elementos</li></ul></div><div style="display:contents" dir="auto"><ul id="372f6ce8-497f-8073-9ada-e48a4b25fdf9" class="bulleted-list"><li style="list-style-type:disc"><code>filter()</code> → filtra elementos</li></ul></div><div style="display:contents" dir="auto"><ul id="372f6ce8-497f-804c-b601-c1a0cd7439d2" class="bulleted-list"><li style="list-style-type:disc"><code>find()</code> → encontra elemento</li></ul></div><div style="display:contents" dir="auto"><ul id="372f6ce8-497f-8096-80aa-f69d0fd889ff" class="bulleted-list"><li style="list-style-type:disc"><code>includes()</code> → verifica existência</li></ul></div><div style="display:contents" dir="auto"><p id="372f6ce8-497f-80b7-b771-f611b671f03c" class="">Arrays são uma das estruturas mais utilizadas no desenvolvimento web moderno com React, Node.js e APIs em geral.</p></div></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>
