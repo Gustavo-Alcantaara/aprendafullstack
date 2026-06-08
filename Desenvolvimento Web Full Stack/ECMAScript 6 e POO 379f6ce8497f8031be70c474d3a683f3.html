@@ -1,0 +1,805 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>ECMAScript 6 e POO</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="379f6ce8-497f-8031-be70-c474d3a683f3" class="page sans"><header><div class="page-header-icon undefined"><img class="icon notion-static-icon" src="https://app.notion.com/icons/command-line_yellow.svg"/></div><h1 class="page-title" dir="auto">ECMAScript 6 e POO</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><div style="display:contents" dir="auto"><p id="379f6ce8-497f-80de-bf4e-c47c9687bc22" class="">O <strong>ECMAScript 6 (ES6)</strong>, também chamado de <strong>ECMAScript 2015 (ES2015)</strong>, foi uma das maiores atualizações da linguagem JavaScript. Ele trouxe diversos recursos que tornaram o código mais moderno, legível e fácil de manter.</p></div><div style="display:contents" dir="auto"><h2 id="379f6ce8-497f-80b7-be69-cf15560fcf3a" class="">O que é ECMAScript?</h2></div><div style="display:contents" dir="auto"><p id="379f6ce8-497f-80fb-a76f-e2cdc4982368" class="">ECMAScript é a especificação que define como o JavaScript deve funcionar. Em outras palavras:</p></div><div style="display:contents" dir="auto"><ul id="379f6ce8-497f-80db-bc30-cc39d08a5252" class="bulleted-list"><li style="list-style-type:disc"><strong>ECMAScript</strong> = padrão da linguagem.</li></ul></div><div style="display:contents" dir="auto"><ul id="379f6ce8-497f-80d7-9f29-e2ebdcd9e002" class="bulleted-list"><li style="list-style-type:disc"><strong>JavaScript</strong> = implementação desse padrão nos navegadores e ambientes como Node.js.</li></ul></div><div style="display:contents" dir="auto"><hr id="379f6ce8-497f-8002-b03a-da5b2e8cb4c4"/></div><div style="display:contents" dir="auto"><h1 id="379f6ce8-497f-80bd-925b-f54466820211" class="">Principais novidades do ES6</h1></div><div style="display:contents" dir="auto"><h2 id="379f6ce8-497f-80f5-ab50-cae5abfcf3df" class="">1. <code>let</code> e <code>const</code></h2></div><div style="display:contents" dir="auto"><p id="379f6ce8-497f-80b4-95c8-fd1f16326362" class="">Antes do ES6, as variáveis eram declaradas apenas com <code>var</code>.</p></div><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-jsx.min.js" integrity="sha512-m3JYEI6gx5fh9jF10FjGoMzVKcV2N6nchcDcqPCdI1L3R2WQV7br2XVNR8iTLb2daOMRl3zldbcfT40xU2ntVw==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="379f6ce8-497f-8046-b9bd-c5a68287ec64" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const nome = &quot;Gusta&quot;;
+let idade = 21;</code></pre></div><div style="display:contents" dir="auto"><h3 id="379f6ce8-497f-802e-b6c1-f901c753c965" class=""><code>let</code></h3></div><div style="display:contents" dir="auto"><p id="379f6ce8-497f-8031-8db0-c7428aa4e983" class="">Permite alterar o valor:</p></div><div style="display:contents" dir="auto"><pre id="379f6ce8-497f-80c3-9e44-c52d7ced5abc" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">let contador = 1;
+contador = 2;</code></pre></div><div style="display:contents" dir="auto"><h3 id="379f6ce8-497f-8072-a42f-f8522aebb5c2" class=""><code>const</code></h3></div><div style="display:contents" dir="auto"><p id="379f6ce8-497f-8072-aa75-ddf3d175e7c3" class="">Não permite reatribuição:</p></div><div style="display:contents" dir="auto"><pre id="379f6ce8-497f-803f-92af-f20da75515b2" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const PI = 3.14;
+
+// Erro
+PI = 3.1415;</code></pre></div><div style="display:contents" dir="auto"><hr id="379f6ce8-497f-80c2-acf9-e15cdde8e2df"/></div><div style="display:contents" dir="auto"><h2 id="379f6ce8-497f-805a-bae5-d62ee47baafc" class="">2. Arrow Functions</h2></div><div style="display:contents" dir="auto"><p id="379f6ce8-497f-8003-ad5b-e4fa19d1e242" class="">Uma forma mais curta de escrever funções.</p></div><div style="display:contents" dir="auto"><h3 id="379f6ce8-497f-80c2-b677-fcbeb7e4bcc8" class="">Antes</h3></div><div style="display:contents" dir="auto"><pre id="379f6ce8-497f-80ed-b5c8-f2741a17c1fe" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">function soma(a,b) {
+return a + b;
+}</code></pre></div><div style="display:contents" dir="auto"><h3 id="379f6ce8-497f-80a7-acbc-d3910b28f0b8" class="">ES6</h3></div><div style="display:contents" dir="auto"><pre id="379f6ce8-497f-8018-9e22-e736f8329211" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const soma = (a,b) =&gt; a + b;</code></pre></div><div style="display:contents" dir="auto"><p id="379f6ce8-497f-80b9-93ed-c153c5a59efa" class="">Outro exemplo:</p></div><div style="display:contents" dir="auto"><pre id="379f6ce8-497f-80b4-9af0-ccd3bde2ba9d" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const saudacao = nome =&gt; `Olá,${nome}!`;</code></pre></div><div style="display:contents" dir="auto"><hr id="379f6ce8-497f-800b-9be9-efbd9a92990c"/></div><div style="display:contents" dir="auto"><h2 id="379f6ce8-497f-80a8-b64b-ce07dfbbdfaa" class="">3. Template Strings</h2></div><div style="display:contents" dir="auto"><p id="379f6ce8-497f-806e-b190-c32db8df68d8" class="">Permitem interpolar variáveis diretamente em strings usando crases (<code>`</code>).</p></div><div style="display:contents" dir="auto"><h3 id="379f6ce8-497f-80eb-a505-dd69f3c0d4ae" class="">Antes</h3></div><div style="display:contents" dir="auto"><pre id="379f6ce8-497f-80de-936c-c29217226ecf" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">let nome = &quot;Gusta&quot;;
+
+console.log(&quot;Olá, &quot;+nome);</code></pre></div><div style="display:contents" dir="auto"><h3 id="379f6ce8-497f-8086-a631-e70fee74ed49" class="">ES6</h3></div><div style="display:contents" dir="auto"><pre id="379f6ce8-497f-807a-91c3-e8cd159a807b" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">let nome = &quot;Gusta&quot;;
+
+console.log(`Olá,${nome}`);</code></pre></div><div style="display:contents" dir="auto"><p id="379f6ce8-497f-80c4-8345-ed64440b2775" class="">Também permitem múltiplas linhas:</p></div><div style="display:contents" dir="auto"><pre id="379f6ce8-497f-80ee-845e-dfc092faab07" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">let texto=`
+Linha 1
+Linha 2
+Linha 3
+`;</code></pre></div><div style="display:contents" dir="auto"><hr id="379f6ce8-497f-80f9-b4dd-e55768e24b6e"/></div><div style="display:contents" dir="auto"><h2 id="379f6ce8-497f-8012-9d09-f8a261ca853b" class="">4. Destructuring</h2></div><div style="display:contents" dir="auto"><p id="379f6ce8-497f-80cb-bc61-cb526df87359" class="">Permite extrair valores de objetos e arrays.</p></div><div style="display:contents" dir="auto"><h3 id="379f6ce8-497f-8070-a061-d164a0cb2cae" class="">Objetos</h3></div><div style="display:contents" dir="auto"><pre id="379f6ce8-497f-80ba-83a1-ef75b397f09b" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const pessoa = {
+    nome:&quot;Gusta&quot;,
+    idade:21
+};
+
+const { nome, idade }=pessoa;
+
+console.log(nome);</code></pre></div><div style="display:contents" dir="auto"><h3 id="379f6ce8-497f-805a-97ff-c0c1a08079ba" class="">Arrays</h3></div><div style="display:contents" dir="auto"><pre id="379f6ce8-497f-80ca-b4f3-def5efabcbaf" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const numeros= [10,20,30];
+
+const [a,b,c]=numeros;</code></pre></div><div style="display:contents" dir="auto"><hr id="379f6ce8-497f-808e-92f5-e2371712abae"/></div><div style="display:contents" dir="auto"><h2 id="379f6ce8-497f-8036-b819-f95743caf3fa" class="">5. Parâmetros Padrão</h2></div><div style="display:contents" dir="auto"><p id="379f6ce8-497f-80b5-8838-e90ae39c403f" class="">Defina valores padrão para parâmetros.</p></div><div style="display:contents" dir="auto"><pre id="379f6ce8-497f-8083-99aa-f443b792afb4" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">function saudar(nome = &quot;Visitante&quot;) {
+console.log(`Olá,${nome}`);
+}
+
+saudar();</code></pre></div><div style="display:contents" dir="auto"><p id="379f6ce8-497f-80ce-80d8-e88265280f87" class="">Resultado:</p></div><div style="display:contents" dir="auto"><pre id="379f6ce8-497f-8083-9c11-cc87bc9ed83c" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Olá,Visitante</code></pre></div><div style="display:contents" dir="auto"><hr id="379f6ce8-497f-8067-91ec-db3d7ff180ce"/></div><div style="display:contents" dir="auto"><h2 id="379f6ce8-497f-80f9-8005-caf99fb173ea" class="">6. Operador Spread (<code>...</code>)</h2></div><div style="display:contents" dir="auto"><p id="379f6ce8-497f-80ad-9745-c5349213a7fd" class="">Espalha os elementos de um array ou objeto.</p></div><div style="display:contents" dir="auto"><h3 id="379f6ce8-497f-80a2-b22f-f099d4d85206" class="">Arrays</h3></div><div style="display:contents" dir="auto"><pre id="379f6ce8-497f-80b8-9e18-f9ee4627127e" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const lista1 = [1,2,3];
+const lista2 = [...lista1,4,5];
+
+console.log(lista2);</code></pre></div><div style="display:contents" dir="auto"><p id="379f6ce8-497f-8061-89e7-eb2f197f55f9" class="">Resultado:</p></div><div style="display:contents" dir="auto"><pre id="379f6ce8-497f-805e-ad74-f56bf07f3e5d" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">[1,2,3,4,5]</code></pre></div><div style="display:contents" dir="auto"><h3 id="379f6ce8-497f-8037-aed0-e38ad83c63d6" class="">Objetos</h3></div><div style="display:contents" dir="auto"><pre id="379f6ce8-497f-8042-913d-fb9d10effd1b" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const pessoa = {
+    nome:&quot;Gusta&quot;
+};
+
+const usuario = {
+    ...pessoa,
+    idade:21
+};</code></pre></div><div style="display:contents" dir="auto"><hr id="379f6ce8-497f-8046-b30b-ecca8b9893e5"/></div><div style="display:contents" dir="auto"><h2 id="379f6ce8-497f-80ba-b17d-e4de3f82fad6" class="">7. Rest Parameters</h2></div><div style="display:contents" dir="auto"><p id="379f6ce8-497f-80b3-b5b8-c2117493164b" class="">Recebe vários argumentos em um único array.</p></div><div style="display:contents" dir="auto"><pre id="379f6ce8-497f-80dc-9158-db86315f2f79" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">function somar(...numeros) {
+return numeros.reduce((total,n) =&gt; total + n,0);
+}
+
+console.log(somar(1,2,3,4));</code></pre></div><div style="display:contents" dir="auto"><p id="379f6ce8-497f-80ee-99cc-d413419107c6" class="">Resultado:</p></div><div style="display:contents" dir="auto"><pre id="379f6ce8-497f-8036-b201-fbd50c373520" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">10</code></pre></div><div style="display:contents" dir="auto"><hr id="379f6ce8-497f-8071-a641-e0b61e2182f4"/></div><div style="display:contents" dir="auto"><h2 id="379f6ce8-497f-8018-bb1c-c6a6b95891bb" class="">8. Classes</h2></div><div style="display:contents" dir="auto"><p id="379f6ce8-497f-80ee-8207-e01531d696bb" class="">Introduziu uma sintaxe mais organizada para Programação Orientada a Objetos.</p></div><div style="display:contents" dir="auto"><pre id="379f6ce8-497f-80da-96cd-d24f9aa8883d" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">class Pessoa {
+    constructor(nome) {
+this.nome = nome;
+    }
+
+    apresentar() {
+console.log(`Meu nome é${this.nome}`);
+    }
+}
+
+const pessoa = newPessoa(&quot;Gusta&quot;);
+pessoa.apresentar();</code></pre></div><div style="display:contents" dir="auto"><hr id="379f6ce8-497f-809a-9af4-d351e7e0eafe"/></div><div style="display:contents" dir="auto"><h2 id="379f6ce8-497f-802d-80f0-cc42187d90ce" class="">9. Módulos</h2></div><div style="display:contents" dir="auto"><p id="379f6ce8-497f-8091-8112-d989c9f3504f" class="">Permitem dividir o código em arquivos.</p></div><div style="display:contents" dir="auto"><h3 id="379f6ce8-497f-805a-99cc-f1e79d111bad" class="">Exportando</h3></div><div style="display:contents" dir="auto"><pre id="379f6ce8-497f-8021-9918-c538aad0ac37" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">export function soma(a,b) {
+return a + b;
+}</code></pre></div><div style="display:contents" dir="auto"><h3 id="379f6ce8-497f-8007-ad61-ca1ebe007021" class="">Importando</h3></div><div style="display:contents" dir="auto"><pre id="379f6ce8-497f-8052-abee-f6e6ef8245cc" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">import {soma }from&quot;./matematica.js&quot;;</code></pre></div><div style="display:contents" dir="auto"><hr id="379f6ce8-497f-8034-927a-d1069ee3a7bf"/></div><div style="display:contents" dir="auto"><h2 id="379f6ce8-497f-8026-8a56-df1f6fb01341" class="">10. Promises</h2></div><div style="display:contents" dir="auto"><p id="379f6ce8-497f-8083-94ec-f53d9c27e9bd" class="">Facilitam o trabalho com operações assíncronas.</p></div><div style="display:contents" dir="auto"><pre id="379f6ce8-497f-80f2-8af1-c78a402dab6f" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const promessa = newPromise((resolve,reject) =&gt; {
+resolve(&quot;Sucesso!&quot;);
+});
+
+promessa.then(resultado =&gt; {
+console.log(resultado);
+});</code></pre></div><div style="display:contents" dir="auto"><p id="379f6ce8-497f-8041-9ed1-f3fb01be356d" class="">As Promises serviram de base para o <code>async/await</code>, que surgiu em versões posteriores.</p></div><div style="display:contents" dir="auto"><hr id="379f6ce8-497f-809d-8b85-f406083c5d87"/></div><div style="display:contents" dir="auto"><h1 id="379f6ce8-497f-8022-8a8f-f6ee75f2facd" class="">Por que o ES6 foi tão importante?</h1></div><div style="display:contents" dir="auto"><p id="379f6ce8-497f-80ec-bfe2-ed6a95884f1e" class="">Antes do ES6, muitos recursos precisavam ser implementados manualmente ou com bibliotecas externas. Com ele, o JavaScript ganhou:</p></div><div style="display:contents" dir="auto"><ul id="379f6ce8-497f-80e5-b428-c8866047d1dc" class="bulleted-list"><li style="list-style-type:disc">Código mais limpo.</li></ul></div><div style="display:contents" dir="auto"><ul id="379f6ce8-497f-807b-9974-eda8bdda70d5" class="bulleted-list"><li style="list-style-type:disc">Melhor organização.</li></ul></div><div style="display:contents" dir="auto"><ul id="379f6ce8-497f-8093-938c-ea1712225103" class="bulleted-list"><li style="list-style-type:disc">Mais produtividade.</li></ul></div><div style="display:contents" dir="auto"><ul id="379f6ce8-497f-8062-b6f4-f5989d33ec6f" class="bulleted-list"><li style="list-style-type:disc">Recursos modernos para aplicações web.</li></ul></div><div style="display:contents" dir="auto"><ul id="379f6ce8-497f-80e0-875b-d4f5a9cb9102" class="bulleted-list"><li style="list-style-type:disc">Base para frameworks como React, Angular e Vue.js.</li></ul></div><div style="display:contents" dir="auto"><p id="379f6ce8-497f-8052-b401-f6c320a103a1" class="">Se você está estudando JavaScript, os recursos mais importantes para dominar primeiro são: <strong>let/const, template strings, arrow functions, destructuring, spread/rest, módulos e classes</strong>, pois eles aparecem em praticamente todos os projetos modernos.</p></div><div style="display:contents" dir="auto"><p id="379f6ce8-497f-8096-96cd-e238a3ccf493" class="">
+</p></div></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>
