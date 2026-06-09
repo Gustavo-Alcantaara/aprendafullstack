@@ -1,0 +1,830 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Arrow Functions</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="37af6ce8-497f-8065-b813-c6b8f3024601" class="page sans"><header><div class="page-header-icon undefined"><img class="icon notion-static-icon" src="https://app.notion.com/icons/command-line_yellow.svg"/></div><h1 class="page-title" dir="auto">Arrow Functions</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><div style="display:contents" dir="auto"><h1 id="37af6ce8-497f-80c7-82dc-fa16d116dec9" class="">Arrow Functions</h1></div><div style="display:contents" dir="auto"><p id="37af6ce8-497f-8031-948b-fa20eb53661a" class="">As <strong>Arrow Functions</strong> (funções de seta) são uma forma mais curta e moderna de declarar funções em JavaScript. Elas foram introduzidas no <strong>ECMAScript 6 (ES6)</strong> com o objetivo de tornar o código mais simples, legível e expressivo, especialmente em callbacks e operações com arrays.</p></div><div style="display:contents" dir="auto"><p id="37af6ce8-497f-80e7-b335-e3b75215e0b8" class="">O nome &quot;Arrow Function&quot; vem do operador <code><strong>=&gt;</strong></code>, que lembra uma seta.</p></div><div style="display:contents" dir="auto"><hr id="37af6ce8-497f-805a-ab60-e878a95ac5c8"/></div><div style="display:contents" dir="auto"><h1 id="37af6ce8-497f-808f-80ee-c7725d1a04d1" class="">Sintaxe Básica</h1></div><div style="display:contents" dir="auto"><p id="37af6ce8-497f-804d-92ff-ee7922debdaa" class="">Uma função tradicional pode ser escrita assim:</p></div><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-jsx.min.js" integrity="sha512-m3JYEI6gx5fh9jF10FjGoMzVKcV2N6nchcDcqPCdI1L3R2WQV7br2XVNR8iTLb2daOMRl3zldbcfT40xU2ntVw==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="37af6ce8-497f-80fe-8ba2-d631b7fd7aaa" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">function somar(a, b) {
+    return a + b;
+}</code></pre></div><div style="display:contents" dir="auto"><p id="37af6ce8-497f-80ec-bc19-c8e2383f2af2" class="">Utilizando Arrow Function:</p></div><div style="display:contents" dir="auto"><pre id="37af6ce8-497f-80f6-a9e2-ff8a5d593740" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const somar = (a, b) =&gt; {
+    return a + b;
+};</code></pre></div><div style="display:contents" dir="auto"><p id="37af6ce8-497f-8042-9ebd-e579bcd04519" class="">Ambas produzem o mesmo resultado:</p></div><div style="display:contents" dir="auto"><pre id="37af6ce8-497f-807f-841c-c799080b2ffa" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">console.log(somar(5, 3));</code></pre></div><div style="display:contents" dir="auto"><p id="37af6ce8-497f-8028-88a4-fe73a5059d70" class="">Resultado:</p></div><div style="display:contents" dir="auto"><pre id="37af6ce8-497f-80e7-afa6-e9eef7b4a129" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">8</code></pre></div><div style="display:contents" dir="auto"><hr id="37af6ce8-497f-80a8-9720-d81f47dfc622"/></div><div style="display:contents" dir="auto"><h1 id="37af6ce8-497f-808f-aad4-cb7614111751" class="">Simplificando Ainda Mais</h1></div><div style="display:contents" dir="auto"><p id="37af6ce8-497f-8086-8bc0-f4cceba63e18" class="">Quando a função possui apenas uma instrução e essa instrução retorna um valor, podemos omitir as chaves e o <code>return</code>.</p></div><div style="display:contents" dir="auto"><pre id="37af6ce8-497f-8018-8a59-d037e872d607" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const somar = (a, b) =&gt; a + b;</code></pre></div><div style="display:contents" dir="auto"><p id="37af6ce8-497f-8048-b1e5-e6eaee04230f" class="">O JavaScript realiza o retorno automaticamente.</p></div><div style="display:contents" dir="auto"><pre id="37af6ce8-497f-808d-9938-fa3c1bbdf533" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">console.log(somar(5, 3));</code></pre></div><div style="display:contents" dir="auto"><p id="37af6ce8-497f-8089-b17b-dbea8f76413d" class="">Resultado:</p></div><div style="display:contents" dir="auto"><pre id="37af6ce8-497f-8056-8ec6-c1fda79e6c65" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">8</code></pre></div><div style="display:contents" dir="auto"><p id="37af6ce8-497f-8063-8db4-f46fde03c3bc" class="">Esse comportamento é chamado de <strong>retorno implícito</strong>.</p></div><div style="display:contents" dir="auto"><hr id="37af6ce8-497f-80db-b126-ec33a4b30beb"/></div><div style="display:contents" dir="auto"><h1 id="37af6ce8-497f-8069-8b07-dfd9cfd71dd7" class="">Arrow Function Sem Parâmetros</h1></div><div style="display:contents" dir="auto"><p id="37af6ce8-497f-8094-81d8-d1e8405cb3f3" class="">Quando a função não recebe parâmetros, os parênteses são obrigatórios.</p></div><div style="display:contents" dir="auto"><pre id="37af6ce8-497f-80c1-8aa2-dfd9f060466e" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const saudacao = () =&gt; {
+    console.log(&quot;Olá!&quot;);
+};
+
+saudacao();</code></pre></div><div style="display:contents" dir="auto"><p id="37af6ce8-497f-80cd-a4c2-e2254b04f361" class="">Resultado:</p></div><div style="display:contents" dir="auto"><pre id="37af6ce8-497f-8018-ba86-c43e7105e98b" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Olá!</code></pre></div><div style="display:contents" dir="auto"><hr id="37af6ce8-497f-80e5-8be2-e75e13af8f4b"/></div><div style="display:contents" dir="auto"><h1 id="37af6ce8-497f-802b-bf0b-e851d525e7ac" class="">Arrow Function com Apenas Um Parâmetro</h1></div><div style="display:contents" dir="auto"><p id="37af6ce8-497f-80d0-b3f2-e8a766f1fc02" class="">Se houver apenas um parâmetro, os parênteses podem ser omitidos.</p></div><div style="display:contents" dir="auto"><pre id="37af6ce8-497f-80b4-ada2-ed969dc8fef0" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const dobrar = numero =&gt; numero * 2;
+
+console.log(dobrar(5));</code></pre></div><div style="display:contents" dir="auto"><p id="37af6ce8-497f-80bc-bd47-ef8e4b8e4d67" class="">Resultado:</p></div><div style="display:contents" dir="auto"><pre id="37af6ce8-497f-806c-9dc0-d1949954f9bb" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">10</code></pre></div><div style="display:contents" dir="auto"><p id="37af6ce8-497f-80f5-865c-d8bb5db45ef1" class="">Embora seja válido, muitos desenvolvedores preferem manter os parênteses por questão de consistência.</p></div><div style="display:contents" dir="auto"><pre id="37af6ce8-497f-8086-9972-c860abd6926a" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const dobrar = (numero) =&gt; numero * 2;</code></pre></div><div style="display:contents" dir="auto"><hr id="37af6ce8-497f-801c-a576-e65cdc3668eb"/></div><div style="display:contents" dir="auto"><h1 id="37af6ce8-497f-8032-8dee-dc0560dfe7a1" class="">Retornando Objetos</h1></div><div style="display:contents" dir="auto"><p id="37af6ce8-497f-8087-82ee-f1f06566dfe6" class="">Um detalhe importante é que objetos devem ser envolvidos por parênteses quando retornados implicitamente.</p></div><div style="display:contents" dir="auto"><p id="37af6ce8-497f-8061-9267-e4505cc103f6" class="">❌ Incorreto:</p></div><div style="display:contents" dir="auto"><pre id="37af6ce8-497f-8095-bdae-db4119003011" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const criarUsuario = () =&gt; {
+    nome: &quot;Gustavo&quot;;
+};</code></pre></div><div style="display:contents" dir="auto"><p id="37af6ce8-497f-80b0-9129-e8239a8056f4" class="">O JavaScript interpreta as chaves como um bloco de código.</p></div><div style="display:contents" dir="auto"><p id="37af6ce8-497f-80e9-85e9-d3939e9de634" class="">✅ Correto:</p></div><div style="display:contents" dir="auto"><pre id="37af6ce8-497f-80e3-b43d-d9909d21b2c4" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const criarUsuario = () =&gt; ({
+    nome: &quot;Gustavo&quot;
+});</code></pre></div><div style="display:contents" dir="auto"><p id="37af6ce8-497f-8031-a744-ecb2375a6a9b" class="">Resultado:</p></div><div style="display:contents" dir="auto"><pre id="37af6ce8-497f-8003-afe7-d289bbf085ac" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">{
+    nome: &quot;Gustavo&quot;
+}</code></pre></div><div style="display:contents" dir="auto"><hr id="37af6ce8-497f-8056-b44e-e286d893c597"/></div><div style="display:contents" dir="auto"><h1 id="37af6ce8-497f-80c3-bdc4-e486cec406dc" class="">Arrow Functions em Callbacks</h1></div><div style="display:contents" dir="auto"><p id="37af6ce8-497f-8051-94f0-d4fd45a36838" class="">Um dos usos mais comuns das Arrow Functions é em funções de callback.</p></div><div style="display:contents" dir="auto"><h3 id="37af6ce8-497f-80d5-ac65-f23c41957937" class="">Antes do ES6</h3></div><div style="display:contents" dir="auto"><pre id="37af6ce8-497f-8037-9b93-c88b14be05a3" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const numeros = [1, 2, 3, 4];
+
+numeros.forEach(function(numero) {
+    console.log(numero);
+});</code></pre></div><div style="display:contents" dir="auto"><h3 id="37af6ce8-497f-808a-9a0e-ed582c2a7345" class="">Com Arrow Function</h3></div><div style="display:contents" dir="auto"><pre id="37af6ce8-497f-8098-8a2f-d446620c1bcd" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const numeros = [1, 2, 3, 4];
+
+numeros.forEach(numero =&gt; {
+    console.log(numero);
+});</code></pre></div><div style="display:contents" dir="auto"><p id="37af6ce8-497f-80d7-8a00-d96ba6875881" class="">O código fica mais compacto e fácil de ler.</p></div><div style="display:contents" dir="auto"><hr id="37af6ce8-497f-8043-b7fb-dd24891ec0fc"/></div><div style="display:contents" dir="auto"><h1 id="37af6ce8-497f-80c8-9906-d360c30fc856" class="">Uso com Métodos de Arrays</h1></div><div style="display:contents" dir="auto"><p id="37af6ce8-497f-803e-9b88-d88f46395131" class="">Arrow Functions são amplamente utilizadas com métodos como <code>map()</code>, <code>filter()</code> e <code>reduce()</code>.</p></div><div style="display:contents" dir="auto"><h2 id="37af6ce8-497f-809c-8d62-cb0347b7aeab" class="">map()</h2></div><div style="display:contents" dir="auto"><pre id="37af6ce8-497f-8077-91fb-d9a8d94fe8bd" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const numeros = [1, 2, 3, 4];
+
+const dobrados = numeros.map(numero =&gt; numero * 2);
+
+console.log(dobrados);</code></pre></div><div style="display:contents" dir="auto"><p id="37af6ce8-497f-803c-853c-e0b9524062a6" class="">Resultado:</p></div><div style="display:contents" dir="auto"><pre id="37af6ce8-497f-8077-ac54-f36d2df738a4" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">[2, 4, 6, 8]</code></pre></div><div style="display:contents" dir="auto"><hr id="37af6ce8-497f-806e-bcd0-d89065a0d69d"/></div><div style="display:contents" dir="auto"><h2 id="37af6ce8-497f-80e5-b203-fde1d0d2f45c" class="">filter()</h2></div><div style="display:contents" dir="auto"><pre id="37af6ce8-497f-80cd-a3e4-ca852be7ddfb" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const numeros = [1, 2, 3, 4, 5, 6];
+
+const pares = numeros.filter(numero =&gt; numero % 2 === 0);
+
+console.log(pares);</code></pre></div><div style="display:contents" dir="auto"><p id="37af6ce8-497f-80f2-b53f-d1428bb80f04" class="">Resultado:</p></div><div style="display:contents" dir="auto"><pre id="37af6ce8-497f-80b4-a98b-ea82bd8a66a0" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">[2, 4, 6]</code></pre></div><div style="display:contents" dir="auto"><hr id="37af6ce8-497f-8046-b67f-fa3d101c5e7d"/></div><div style="display:contents" dir="auto"><h2 id="37af6ce8-497f-8049-840d-e6caff3b5318" class="">reduce()</h2></div><div style="display:contents" dir="auto"><pre id="37af6ce8-497f-806a-b895-ed151591e6ef" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const numeros = [1, 2, 3, 4];
+
+const soma = numeros.reduce(
+    (total, numero) =&gt; total + numero,
+    0
+);
+
+console.log(soma);</code></pre></div><div style="display:contents" dir="auto"><p id="37af6ce8-497f-805f-8574-f8f0302a054f" class="">Resultado:</p></div><div style="display:contents" dir="auto"><pre id="37af6ce8-497f-800e-b0e1-ecad8c9f53cf" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">10</code></pre></div><div style="display:contents" dir="auto"><hr id="37af6ce8-497f-8003-a39b-e4629a177542"/></div><div style="display:contents" dir="auto"><h1 id="37af6ce8-497f-8022-a271-c8ed392ddbcf" class="">A Grande Diferença: O Comportamento do <code>this</code></h1></div><div style="display:contents" dir="auto"><p id="37af6ce8-497f-80da-a8b9-f71cd4a38856" class="">A principal diferença entre uma função tradicional e uma Arrow Function está no tratamento da palavra-chave <code><strong>this</strong></code>.</p></div><div style="display:contents" dir="auto"><h2 id="37af6ce8-497f-800c-a304-f931bf71b483" class="">Função Tradicional</h2></div><div style="display:contents" dir="auto"><pre id="37af6ce8-497f-8096-8708-c4355f8ca0a7" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const pessoa = {
+    nome: &quot;Gustavo&quot;,
+
+    mostrarNome: function() {
+        console.log(this.nome);
+    }
+};
+
+pessoa.mostrarNome();</code></pre></div><div style="display:contents" dir="auto"><p id="37af6ce8-497f-80ee-a737-d3e02075e1da" class="">Resultado:</p></div><div style="display:contents" dir="auto"><pre id="37af6ce8-497f-80cb-939a-f8ce94c36ce6" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Gustavo</code></pre></div><div style="display:contents" dir="auto"><p id="37af6ce8-497f-8026-ba76-cd6e25210868" class="">Nesse caso, <code>this</code> se refere ao objeto <code>pessoa</code>.</p></div><div style="display:contents" dir="auto"><hr id="37af6ce8-497f-8063-a212-f38455140efa"/></div><div style="display:contents" dir="auto"><h2 id="37af6ce8-497f-805e-a6c4-d7bb9acf51d2" class="">Problema em Callbacks</h2></div><div style="display:contents" dir="auto"><pre id="37af6ce8-497f-80c6-8633-cdedb7214f64" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const pessoa = {
+    nome: &quot;Gustavo&quot;,
+
+    mostrarNome: function() {
+        setTimeout(function() {
+            console.log(this.nome);
+        }, 1000);
+    }
+};
+
+pessoa.mostrarNome();</code></pre></div><div style="display:contents" dir="auto"><p id="37af6ce8-497f-802a-a05c-c4db81d84836" class="">Resultado:</p></div><div style="display:contents" dir="auto"><pre id="37af6ce8-497f-80e0-b2dd-e866709593bd" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">undefined</code></pre></div><div style="display:contents" dir="auto"><p id="37af6ce8-497f-806d-84e7-ddbfae5e3261" class="">A função passada para <code>setTimeout</code> cria seu próprio contexto e perde a referência ao objeto.</p></div><div style="display:contents" dir="auto"><hr id="37af6ce8-497f-8019-a869-ef84a6e6a6ee"/></div><div style="display:contents" dir="auto"><h2 id="37af6ce8-497f-80fe-a610-d1391d5c449f" class="">Solução com Arrow Function</h2></div><div style="display:contents" dir="auto"><pre id="37af6ce8-497f-80e5-a462-edb2cf125713" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const pessoa = {
+    nome: &quot;Gustavo&quot;,
+
+    mostrarNome: function() {
+        setTimeout(() =&gt; {
+            console.log(this.nome);
+        }, 1000);
+    }
+};
+
+pessoa.mostrarNome();</code></pre></div><div style="display:contents" dir="auto"><p id="37af6ce8-497f-8054-9046-f136fa6d7dd7" class="">Resultado:</p></div><div style="display:contents" dir="auto"><pre id="37af6ce8-497f-8084-9508-eba9cd932adc" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Gustavo</code></pre></div><div style="display:contents" dir="auto"><p id="37af6ce8-497f-804c-ba78-c1ef23b78b0e" class="">A Arrow Function <strong>não cria seu próprio </strong><code><strong>this</strong></code>. Ela herda o <code>this</code> do escopo onde foi criada.</p></div><div style="display:contents" dir="auto"><p id="37af6ce8-497f-8021-b051-d20125d10c00" class="">Esse comportamento é chamado de <strong>escopo léxico do </strong><code><strong>this</strong></code>.</p></div><div style="display:contents" dir="auto"><hr id="37af6ce8-497f-809f-b8cb-dd7018ea9a73"/></div><div style="display:contents" dir="auto"><h1 id="37af6ce8-497f-80bf-bdcd-dc7b13997140" class="">Limitações das Arrow Functions</h1></div><div style="display:contents" dir="auto"><p id="37af6ce8-497f-804f-9c02-cbbfd46921ac" class="">Apesar de muito úteis, elas não substituem completamente as funções tradicionais.</p></div><div style="display:contents" dir="auto"><h2 id="37af6ce8-497f-801f-a512-d2f82ee8f12c" class="">Não podem ser usadas como construtoras</h2></div><div style="display:contents" dir="auto"><p id="37af6ce8-497f-80cf-ade6-f286ecb65d52" class="">❌</p></div><div style="display:contents" dir="auto"><pre id="37af6ce8-497f-805a-bffc-c3d933044b9c" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const Pessoa = (nome) =&gt; {
+    this.nome = nome;
+};
+
+const p = new Pessoa(&quot;Gustavo&quot;);</code></pre></div><div style="display:contents" dir="auto"><p id="37af6ce8-497f-80d3-aee1-f9b330c891a2" class="">Resultado:</p></div><div style="display:contents" dir="auto"><pre id="37af6ce8-497f-8095-8dbe-e6d35a82ce69" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">TypeError</code></pre></div><div style="display:contents" dir="auto"><p id="37af6ce8-497f-8059-9279-fb9da1d8650a" class="">Arrow Functions não funcionam com o operador <code>new</code>.</p></div><div style="display:contents" dir="auto"><hr id="37af6ce8-497f-804e-99fd-ce6b076603ea"/></div><div style="display:contents" dir="auto"><h2 id="37af6ce8-497f-8030-9e75-eef5d52582c8" class="">Não possuem objeto <code>arguments</code></h2></div><div style="display:contents" dir="auto"><p id="37af6ce8-497f-80ba-a00a-e90591e2c280" class="">Funções tradicionais possuem um objeto chamado <code>arguments</code>.</p></div><div style="display:contents" dir="auto"><pre id="37af6ce8-497f-80f4-89a6-dae3220812a5" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">function exemplo() {
+    console.log(arguments);
+}</code></pre></div><div style="display:contents" dir="auto"><p id="37af6ce8-497f-80c6-b3e3-f2df7039e154" class="">Arrow Functions não possuem esse objeto.</p></div><div style="display:contents" dir="auto"><pre id="37af6ce8-497f-80b5-b046-d7b2346093a9" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const exemplo = () =&gt; {
+    console.log(arguments);
+};</code></pre></div><div style="display:contents" dir="auto"><p id="37af6ce8-497f-80e6-a630-da3bcf7d9ddd" class="">Isso gera erro em muitos contextos.</p></div><div style="display:contents" dir="auto"><p id="37af6ce8-497f-800a-b306-c24f31d4fc87" class="">Quando precisar receber quantidade variável de argumentos, utilize o operador <strong>rest</strong>:</p></div><div style="display:contents" dir="auto"><pre id="37af6ce8-497f-8054-855b-f25d3b5dc9bd" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const exemplo = (...args) =&gt; {
+    console.log(args);
+};</code></pre></div><div style="display:contents" dir="auto"><hr id="37af6ce8-497f-8070-a3e9-e16d3c921abe"/></div><div style="display:contents" dir="auto"><h1 id="37af6ce8-497f-8009-a23a-fd09767e1957" class="">Quando Utilizar Arrow Functions</h1></div><div style="display:contents" dir="auto"><p id="37af6ce8-497f-80cd-af91-f7483764526f" class="">São excelentes para:</p></div><div style="display:contents" dir="auto"><ul id="37af6ce8-497f-8035-bc3b-fcc58722c32d" class="bulleted-list"><li style="list-style-type:disc">Callbacks.</li></ul></div><div style="display:contents" dir="auto"><ul id="37af6ce8-497f-80e7-bbd7-e4c3a618e80a" class="bulleted-list"><li style="list-style-type:disc">Eventos.</li></ul></div><div style="display:contents" dir="auto"><ul id="37af6ce8-497f-8039-8671-ea5619294e10" class="bulleted-list"><li style="list-style-type:disc">Métodos de arrays (<code>map</code>, <code>filter</code>, <code>reduce</code>).</li></ul></div><div style="display:contents" dir="auto"><ul id="37af6ce8-497f-801c-a504-e91c135acf46" class="bulleted-list"><li style="list-style-type:disc">Funções curtas.</li></ul></div><div style="display:contents" dir="auto"><ul id="37af6ce8-497f-80ba-a23c-c98b1a132708" class="bulleted-list"><li style="list-style-type:disc">Operações matemáticas simples.</li></ul></div><div style="display:contents" dir="auto"><ul id="37af6ce8-497f-805f-b1a2-c474658026ef" class="bulleted-list"><li style="list-style-type:disc">Situações em que você deseja herdar o <code>this</code> do contexto externo.</li></ul></div><div style="display:contents" dir="auto"><p id="37af6ce8-497f-805c-ac68-f1e9dd572a18" class="">Exemplo:</p></div><div style="display:contents" dir="auto"><pre id="37af6ce8-497f-80e7-b9e0-f4cbef84df28" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const calcularImposto = valor =&gt; valor * 0.1;</code></pre></div><div style="display:contents" dir="auto"><hr id="37af6ce8-497f-801b-a8b3-f62fff57076c"/></div><div style="display:contents" dir="auto"><h1 id="37af6ce8-497f-8035-b300-dbc054808853" class="">Quando Evitar Arrow Functions</h1></div><div style="display:contents" dir="auto"><p id="37af6ce8-497f-805a-aeb4-fbcf0f52e4b0" class="">Em alguns casos, funções tradicionais são mais adequadas:</p></div><div style="display:contents" dir="auto"><h3 id="37af6ce8-497f-8049-95b5-d92ce1605721" class="">Métodos de objetos que dependem do próprio <code>this</code></h3></div><div style="display:contents" dir="auto"><pre id="37af6ce8-497f-80b5-8edc-d330791d8f90" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const pessoa = {
+    nome: &quot;Gustavo&quot;,
+
+    mostrarNome() {
+        console.log(this.nome);
+    }
+};</code></pre></div><div style="display:contents" dir="auto"><h3 id="37af6ce8-497f-802b-a4ab-fd22e7615d3c" class="">Funções construtoras</h3></div><div style="display:contents" dir="auto"><pre id="37af6ce8-497f-8065-9e54-f02f7b99b7c1" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">function Pessoa(nome) {
+    this.nome = nome;
+}</code></pre></div><div style="display:contents" dir="auto"><h3 id="37af6ce8-497f-80df-85c3-c0c11b02e277" class="">Quando precisar do objeto <code>arguments</code></h3></div><div style="display:contents" dir="auto"><pre id="37af6ce8-497f-8001-8b19-d52da842be4b" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">function exemplo() {
+    console.log(arguments);
+}</code></pre></div><div style="display:contents" dir="auto"><hr id="37af6ce8-497f-8031-9cad-f85ad4b8d6c7"/></div><div style="display:contents" dir="auto"><h1 id="37af6ce8-497f-80c1-883d-fa74a285b9ff" class="">Vantagens das Arrow Functions</h1></div><div style="display:contents" dir="auto"><ul id="37af6ce8-497f-8050-bf3d-d7cb07a64624" class="bulleted-list"><li style="list-style-type:disc">Sintaxe mais curta e moderna.</li></ul></div><div style="display:contents" dir="auto"><ul id="37af6ce8-497f-80f8-b675-d56206108739" class="bulleted-list"><li style="list-style-type:disc">Código mais limpo e legível.</li></ul></div><div style="display:contents" dir="auto"><ul id="37af6ce8-497f-8040-9d3c-d13bb4eba000" class="bulleted-list"><li style="list-style-type:disc">Retorno implícito em funções simples.</li></ul></div><div style="display:contents" dir="auto"><ul id="37af6ce8-497f-802a-b79b-c77eff110428" class="bulleted-list"><li style="list-style-type:disc">Melhor integração com métodos de arrays.</li></ul></div><div style="display:contents" dir="auto"><ul id="37af6ce8-497f-80c2-851f-cdd1e38fd2b3" class="bulleted-list"><li style="list-style-type:disc">Herança automática do <code>this</code>.</li></ul></div><div style="display:contents" dir="auto"><ul id="37af6ce8-497f-8019-9b9d-eecf15502b3e" class="bulleted-list"><li style="list-style-type:disc">Muito utilizadas em frameworks modernos como React, Vue e Angular.</li></ul></div><div style="display:contents" dir="auto"><hr id="37af6ce8-497f-80aa-86b2-f2d297b57541"/></div><div style="display:contents" dir="auto"><h1 id="37af6ce8-497f-801b-8b1a-c367e5a82e72" class="">Resumo</h1></div><div style="display:contents" dir="auto"><p id="37af6ce8-497f-804e-bf54-dd241ccabccb" class="">As <strong>Arrow Functions</strong> são uma forma moderna de criar funções em JavaScript utilizando a sintaxe <code>=&gt;</code>. Introduzidas no ECMAScript 6, elas reduzem a quantidade de código necessária para declarar funções e possuem um comportamento especial em relação ao <code>this</code>, herdando-o do escopo externo. São amplamente utilizadas em callbacks, manipulação de arrays e desenvolvimento moderno com JavaScript, mas não devem substituir completamente as funções tradicionais, especialmente em construtores e métodos que dependem de seu próprio contexto.</p></div></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>
