@@ -1,0 +1,781 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Ordenação por Seleção</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="37bf6ce8-497f-8050-99a4-e47fdec9a494" class="page sans"><header><div class="page-header-icon undefined"><img class="icon notion-static-icon" src="https://app.notion.com/icons/gear_blue.svg"/></div><h1 class="page-title" dir="auto">Ordenação por Seleção</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><div style="display:contents" dir="auto"><h1 id="37bf6ce8-497f-802e-8a09-eebd080367d4" class="">Ordenação por Seleção (Selection Sort)</h1></div><div style="display:contents" dir="auto"><h2 id="37bf6ce8-497f-80d6-a480-c60517c24366" class="">O que é a Ordenação por Seleção?</h2></div><div style="display:contents" dir="auto"><p id="37bf6ce8-497f-806c-b71e-d8fd9ef0ec71" class="">A <strong>Ordenação por Seleção (Selection Sort)</strong> é um algoritmo de ordenação simples que organiza os elementos de uma lista encontrando repetidamente o menor elemento da parte não ordenada e colocando-o na posição correta.</p></div><div style="display:contents" dir="auto"><p id="37bf6ce8-497f-80b7-9ef1-e6ef069566f0" class="">A ideia é semelhante ao que fazemos ao organizar cartas de baralho na mão: procuramos a menor carta e a colocamos na primeira posição, depois procuramos a segunda menor e a colocamos na segunda posição, e assim sucessivamente.</p></div><div style="display:contents" dir="auto"><p id="37bf6ce8-497f-800b-b98a-c4f7abc362a9" class="">Embora não seja um algoritmo muito eficiente para grandes volumes de dados, ele é bastante utilizado no ensino de algoritmos porque ajuda a compreender os conceitos fundamentais de ordenação.</p></div><div style="display:contents" dir="auto"><hr id="37bf6ce8-497f-802e-891f-fa43cf145f3d"/></div><div style="display:contents" dir="auto"><h1 id="37bf6ce8-497f-8036-b57e-eacb1644b251" class="">Como o Selection Sort Funciona?</h1></div><div style="display:contents" dir="auto"><p id="37bf6ce8-497f-80b3-86b5-e8514472e8b8" class="">O algoritmo divide a lista em duas partes:</p></div><div style="display:contents" dir="auto"><ul id="37bf6ce8-497f-80cb-accb-ed28000955bd" class="bulleted-list"><li style="list-style-type:disc">Parte ordenada;</li></ul></div><div style="display:contents" dir="auto"><ul id="37bf6ce8-497f-80e2-b3c0-eff534b56f53" class="bulleted-list"><li style="list-style-type:disc">Parte não ordenada.</li></ul></div><div style="display:contents" dir="auto"><p id="37bf6ce8-497f-809e-bfbd-e10e5a22f297" class="">Inicialmente:</p></div><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="37bf6ce8-497f-8000-916f-d2e724274513" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">[64, 25, 12, 22, 11]
+ ↑
+ordenada: vazia</code></pre></div><div style="display:contents" dir="auto"><p id="37bf6ce8-497f-80cf-b078-d158e3ed89b8" class="">A cada iteração:</p></div><div style="display:contents" dir="auto"><ol type="1" id="37bf6ce8-497f-8015-a757-c918b40945a2" class="numbered-list" start="1"><li>Procura o menor elemento da parte não ordenada;</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="37bf6ce8-497f-8090-9818-f1fd4f04e743" class="numbered-list" start="2"><li>Troca esse elemento com a primeira posição disponível;</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="37bf6ce8-497f-8031-903c-f84dd8c42833" class="numbered-list" start="3"><li>Expande a parte ordenada.</li></ol></div><div style="display:contents" dir="auto"><hr id="37bf6ce8-497f-8033-a99b-eb17c6a09006"/></div><div style="display:contents" dir="auto"><h1 id="37bf6ce8-497f-8064-94ee-c34201e1b58d" class="">Exemplo Passo a Passo</h1></div><div style="display:contents" dir="auto"><p id="37bf6ce8-497f-80fc-8c13-ceadcbbea886" class="">Vamos ordenar:</p></div><div style="display:contents" dir="auto"><pre id="37bf6ce8-497f-80bb-aa94-cc6352eabedd" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">[64, 25, 12, 22, 11]</code></pre></div><div style="display:contents" dir="auto"><hr id="37bf6ce8-497f-80f4-a594-e459040283fe"/></div><div style="display:contents" dir="auto"><h2 id="37bf6ce8-497f-8081-b900-fca54c44d281" class="">Primeira Passagem</h2></div><div style="display:contents" dir="auto"><p id="37bf6ce8-497f-8079-85f3-d37ea64b3548" class="">Procuramos o menor valor:</p></div><div style="display:contents" dir="auto"><pre id="37bf6ce8-497f-8084-852d-fc660dd6b4fe" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">64, 25, 12, 22, 11
+                ↑
+              menor</code></pre></div><div style="display:contents" dir="auto"><p id="37bf6ce8-497f-8073-8261-fda2fb024145" class="">O menor valor é:</p></div><div style="display:contents" dir="auto"><pre id="37bf6ce8-497f-8075-9e16-cde0dc3b6da3" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">11</code></pre></div><div style="display:contents" dir="auto"><p id="37bf6ce8-497f-80e2-8093-d564411ef6bb" class="">Trocamos com o primeiro elemento:</p></div><div style="display:contents" dir="auto"><pre id="37bf6ce8-497f-80ef-b8dd-dba194d05da3" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">[11, 25, 12, 22, 64]</code></pre></div><div style="display:contents" dir="auto"><p id="37bf6ce8-497f-8029-b0f7-e3200cb5e367" class="">Parte ordenada:</p></div><div style="display:contents" dir="auto"><pre id="37bf6ce8-497f-800e-b390-d288449b6f41" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">[11]</code></pre></div><div style="display:contents" dir="auto"><hr id="37bf6ce8-497f-80d3-b20b-ccc258341902"/></div><div style="display:contents" dir="auto"><h2 id="37bf6ce8-497f-809d-bf85-f45a28488f2c" class="">Segunda Passagem</h2></div><div style="display:contents" dir="auto"><p id="37bf6ce8-497f-8088-94c0-f20a519fd509" class="">Agora procuramos o menor valor a partir da posição 1:</p></div><div style="display:contents" dir="auto"><pre id="37bf6ce8-497f-804f-ad01-e4047e3e3fa3" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">[11, 25, 12, 22, 64]
+      ↑</code></pre></div><div style="display:contents" dir="auto"><p id="37bf6ce8-497f-80df-9903-ec26ec0abcee" class="">Menor valor:</p></div><div style="display:contents" dir="auto"><pre id="37bf6ce8-497f-8085-bff2-e74843bea819" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">12</code></pre></div><div style="display:contents" dir="auto"><p id="37bf6ce8-497f-805d-887d-d7df7018aaf5" class="">Troca:</p></div><div style="display:contents" dir="auto"><pre id="37bf6ce8-497f-80d7-99ed-ef7d785b4a8b" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">[11, 12, 25, 22, 64]</code></pre></div><div style="display:contents" dir="auto"><p id="37bf6ce8-497f-806c-b82e-caff966d6e59" class="">Parte ordenada:</p></div><div style="display:contents" dir="auto"><pre id="37bf6ce8-497f-8032-afdb-ec826f6fe64d" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">[11, 12]</code></pre></div><div style="display:contents" dir="auto"><hr id="37bf6ce8-497f-80ae-9f10-ec137864fd7c"/></div><div style="display:contents" dir="auto"><h2 id="37bf6ce8-497f-80db-90fa-e3a194367536" class="">Terceira Passagem</h2></div><div style="display:contents" dir="auto"><p id="37bf6ce8-497f-8081-9e1b-c79f68980b3e" class="">Procuramos o menor valor restante:</p></div><div style="display:contents" dir="auto"><pre id="37bf6ce8-497f-8071-af5c-cdc572d8f66b" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">[11, 12, 25, 22, 64]</code></pre></div><div style="display:contents" dir="auto"><p id="37bf6ce8-497f-80bf-9a90-e1c369832e8e" class="">Menor:</p></div><div style="display:contents" dir="auto"><pre id="37bf6ce8-497f-8087-8775-f0837fc49dcc" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">22</code></pre></div><div style="display:contents" dir="auto"><p id="37bf6ce8-497f-8081-b256-e00728593531" class="">Troca:</p></div><div style="display:contents" dir="auto"><pre id="37bf6ce8-497f-8093-bf64-f00d6954864f" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">[11, 12, 22, 25, 64]</code></pre></div><div style="display:contents" dir="auto"><hr id="37bf6ce8-497f-808e-bb60-d84ecd38b151"/></div><div style="display:contents" dir="auto"><h2 id="37bf6ce8-497f-8077-b767-e722a483cfe4" class="">Quarta Passagem</h2></div><div style="display:contents" dir="auto"><p id="37bf6ce8-497f-804f-8258-c9bfdfc4ea82" class="">Restam:</p></div><div style="display:contents" dir="auto"><pre id="37bf6ce8-497f-80e0-8702-f2eb68e1b5f9" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">25, 64</code></pre></div><div style="display:contents" dir="auto"><p id="37bf6ce8-497f-80c1-b22e-f6cd7c11f98e" class="">Já estão em ordem.</p></div><div style="display:contents" dir="auto"><p id="37bf6ce8-497f-8026-b270-fa1ecf654a0b" class="">Resultado final:</p></div><div style="display:contents" dir="auto"><pre id="37bf6ce8-497f-80d6-b4be-eb14147b5366" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">[11, 12, 22, 25, 64]</code></pre></div><div style="display:contents" dir="auto"><hr id="37bf6ce8-497f-8053-86f2-c9c470e79a42"/></div><div style="display:contents" dir="auto"><h1 id="37bf6ce8-497f-8005-8f17-c39d8149fcd7" class="">Visualizando o Processo</h1></div><div style="display:contents" dir="auto"><pre id="37bf6ce8-497f-80f5-87a9-ea03575cbeb0" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">64 25 12 22 11
+↓
+11 25 12 22 64
+↓
+11 12 25 22 64
+↓
+11 12 22 25 64
+↓
+11 12 22 25 64</code></pre></div><div style="display:contents" dir="auto"><hr id="37bf6ce8-497f-801b-af56-cbe7390eda18"/></div><div style="display:contents" dir="auto"><h1 id="37bf6ce8-497f-80bd-bf93-faf499d8c5fd" class="">Implementação em JavaScript</h1></div><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-jsx.min.js" integrity="sha512-m3JYEI6gx5fh9jF10FjGoMzVKcV2N6nchcDcqPCdI1L3R2WQV7br2XVNR8iTLb2daOMRl3zldbcfT40xU2ntVw==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="37bf6ce8-497f-8087-a231-dd5348acd25c" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">function selectionSort(vetor) {
+    let tamanho = vetor.length;
+
+    for (let i = 0; i &lt; tamanho - 1; i++) {
+
+        let menorIndice = i;
+
+        for (let j = i + 1; j &lt; tamanho; j++) {
+
+            if (vetor[j] &lt; vetor[menorIndice]) {
+                menorIndice = j;
+            }
+
+        }
+
+        let temp = vetor[i];
+        vetor[i] = vetor[menorIndice];
+        vetor[menorIndice] = temp;
+    }
+
+    return vetor;
+}</code></pre></div><div style="display:contents" dir="auto"><p id="37bf6ce8-497f-80d3-8621-d31c7f56ca07" class="">Utilizando:</p></div><div style="display:contents" dir="auto"><pre id="37bf6ce8-497f-80ef-b008-db2f0b5285e9" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">let numeros = [64, 25, 12, 22, 11];
+
+console.log(selectionSort(numeros));</code></pre></div><div style="display:contents" dir="auto"><p id="37bf6ce8-497f-8034-a3a9-df78376b40c4" class="">Resultado:</p></div><div style="display:contents" dir="auto"><pre id="37bf6ce8-497f-8025-af05-e7a6e0a0be9f" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">[11, 12, 22, 25, 64]</code></pre></div><div style="display:contents" dir="auto"><hr id="37bf6ce8-497f-80a7-94bc-d2817bf2d051"/></div><div style="display:contents" dir="auto"><h1 id="37bf6ce8-497f-80a8-a984-c3e6f538b93d" class="">Entendendo o Código</h1></div><div style="display:contents" dir="auto"><h2 id="37bf6ce8-497f-8064-a2c1-dc7f4bae034a" class="">Laço Externo</h2></div><div style="display:contents" dir="auto"><pre id="37bf6ce8-497f-80ea-a271-cc8c53326131" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">for (let i = 0; i &lt; tamanho - 1; i++)</code></pre></div><div style="display:contents" dir="auto"><p id="37bf6ce8-497f-8088-9b6b-e00725585e2e" class="">Percorre cada posição onde o próximo menor elemento será colocado.</p></div><div style="display:contents" dir="auto"><hr id="37bf6ce8-497f-8045-ad43-dbbfc0185f63"/></div><div style="display:contents" dir="auto"><h2 id="37bf6ce8-497f-808c-a7b7-f0f685a914c4" class="">Menor Índice</h2></div><div style="display:contents" dir="auto"><pre id="37bf6ce8-497f-802a-9811-ff22a8cf719e" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">let menorIndice = i;</code></pre></div><div style="display:contents" dir="auto"><p id="37bf6ce8-497f-80e0-b7eb-f655a0ac96d2" class="">Assumimos inicialmente que o menor valor é o elemento atual.</p></div><div style="display:contents" dir="auto"><hr id="37bf6ce8-497f-8086-b86d-c2b54cddfa13"/></div><div style="display:contents" dir="auto"><h2 id="37bf6ce8-497f-8022-b525-ff47e9792a20" class="">Laço Interno</h2></div><div style="display:contents" dir="auto"><pre id="37bf6ce8-497f-8019-98ae-c1b6b62281cb" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">for (let j = i + 1; j &lt; tamanho; j++)</code></pre></div><div style="display:contents" dir="auto"><p id="37bf6ce8-497f-801d-9b39-ece0d0372b5b" class="">Percorre a parte não ordenada procurando um valor menor.</p></div><div style="display:contents" dir="auto"><hr id="37bf6ce8-497f-80f8-9606-e44f190afc52"/></div><div style="display:contents" dir="auto"><h2 id="37bf6ce8-497f-8037-a5b5-c59a1d3e8b64" class="">Comparação</h2></div><div style="display:contents" dir="auto"><pre id="37bf6ce8-497f-8002-a168-dd94e4ccefe5" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">if (vetor[j] &lt; vetor[menorIndice])</code></pre></div><div style="display:contents" dir="auto"><p id="37bf6ce8-497f-8016-82fb-d23f5b36ba44" class="">Se encontrar um valor menor, atualiza a posição do menor elemento.</p></div><div style="display:contents" dir="auto"><hr id="37bf6ce8-497f-8027-a3a1-d4fc97240416"/></div><div style="display:contents" dir="auto"><h2 id="37bf6ce8-497f-8061-9464-e148e36de250" class="">Troca</h2></div><div style="display:contents" dir="auto"><pre id="37bf6ce8-497f-80f3-8d45-ea7d552f02bd" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">let temp = vetor[i];
+vetor[i] = vetor[menorIndice];
+vetor[menorIndice] = temp;</code></pre></div><div style="display:contents" dir="auto"><p id="37bf6ce8-497f-801a-a5e8-d618236d9299" class="">Move o menor elemento para sua posição correta.</p></div><div style="display:contents" dir="auto"><hr id="37bf6ce8-497f-80b6-bdc9-fe54fc199c8d"/></div><div style="display:contents" dir="auto"><h1 id="37bf6ce8-497f-8028-9ff4-c82ef4f7ad6e" class="">Complexidade Big O</h1></div><div style="display:contents" dir="auto"><h2 id="37bf6ce8-497f-80c1-8d89-e896a3dc50a9" class="">Número de Comparações</h2></div><div style="display:contents" dir="auto"><p id="37bf6ce8-497f-80aa-a267-e070fbefd0a9" class="">Para um vetor com <strong>n elementos</strong>, o algoritmo realiza aproximadamente:</p></div><div style="display:contents" dir="auto"><pre id="37bf6ce8-497f-808d-a800-e97c7ba7c7b4" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">(n - 1) + (n - 2) + (n - 3) + ...</code></pre></div><div style="display:contents" dir="auto"><p id="37bf6ce8-497f-801d-bc5e-d0e36393df51" class="">Essa soma resulta em:</p></div><div style="display:contents" dir="auto"><pre id="37bf6ce8-497f-80c2-9d9d-fecb50199d7d" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">n² / 2</code></pre></div><div style="display:contents" dir="auto"><p id="37bf6ce8-497f-807a-9881-e904ef96b6dd" class="">Portanto:</p></div><div style="display:contents" dir="auto"><h3 id="37bf6ce8-497f-8024-bfd5-c60c43f7957b" class="">Melhor Caso</h3></div><div style="display:contents" dir="auto"><pre id="37bf6ce8-497f-8087-81b5-fbe36afa1545" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">O(n²)</code></pre></div><div style="display:contents" dir="auto"><hr id="37bf6ce8-497f-80af-bcee-cc5a51d0ed06"/></div><div style="display:contents" dir="auto"><h3 id="37bf6ce8-497f-8015-8b7c-c0cc8a7d38ec" class="">Caso Médio</h3></div><div style="display:contents" dir="auto"><pre id="37bf6ce8-497f-80f6-ad05-e27171ecdbe4" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">O(n²)</code></pre></div><div style="display:contents" dir="auto"><hr id="37bf6ce8-497f-8050-9fab-f4c0a5a07185"/></div><div style="display:contents" dir="auto"><h3 id="37bf6ce8-497f-8040-9de7-cbdf7fed1c39" class="">Pior Caso</h3></div><div style="display:contents" dir="auto"><pre id="37bf6ce8-497f-80a1-a555-c87add8a0021" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">O(n²)</code></pre></div><div style="display:contents" dir="auto"><p id="37bf6ce8-497f-80a7-bf20-cae77c1bb305" class="">Diferente de alguns algoritmos, o Selection Sort sempre percorre praticamente todos os elementos.</p></div><div style="display:contents" dir="auto"><hr id="37bf6ce8-497f-806b-b44f-f484355840dc"/></div><div style="display:contents" dir="auto"><h1 id="37bf6ce8-497f-80f4-8cd5-e43bce1d0cc1" class="">Complexidade Espacial</h1></div><div style="display:contents" dir="auto"><p id="37bf6ce8-497f-8062-aba3-c31ab4c3202e" class="">O algoritmo utiliza apenas algumas variáveis auxiliares.</p></div><div style="display:contents" dir="auto"><pre id="37bf6ce8-497f-807a-a1cd-fc10c4cf6be1" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">O(1)</code></pre></div><div style="display:contents" dir="auto"><p id="37bf6ce8-497f-80ef-ac86-ee377557cee9" class="">Isso significa que ele consome uma quantidade constante de memória.</p></div><div style="display:contents" dir="auto"><hr id="37bf6ce8-497f-80ed-a700-fcf6789a0a1c"/></div><div style="display:contents" dir="auto"><h1 id="37bf6ce8-497f-80f3-ae18-c6d44b0650cb" class="">Vantagens do Selection Sort</h1></div><div style="display:contents" dir="auto"><h3 id="37bf6ce8-497f-8041-8037-f0b97657e32c" class="">Fácil de entender</h3></div><div style="display:contents" dir="auto"><p id="37bf6ce8-497f-8033-b0f3-cf9268af2d72" class="">Sua lógica é simples e didática.</p></div><div style="display:contents" dir="auto"><h3 id="37bf6ce8-497f-8074-ae9d-c459d6efb03c" class="">Pouca utilização de memória</h3></div><div style="display:contents" dir="auto"><p id="37bf6ce8-497f-806b-9678-ee37eb1beb52" class="">Opera diretamente sobre o vetor.</p></div><div style="display:contents" dir="auto"><h3 id="37bf6ce8-497f-808d-b641-d929af1d71d9" class="">Poucas trocas</h3></div><div style="display:contents" dir="auto"><p id="37bf6ce8-497f-8092-b137-fb7934ea11c8" class="">Enquanto outros algoritmos realizam muitas trocas, o Selection Sort troca apenas quando encontra o menor elemento.</p></div><div style="display:contents" dir="auto"><hr id="37bf6ce8-497f-8004-b309-e5054d539799"/></div><div style="display:contents" dir="auto"><h1 id="37bf6ce8-497f-80d2-ba2d-c3bd4d4271b3" class="">Desvantagens do Selection Sort</h1></div><div style="display:contents" dir="auto"><h3 id="37bf6ce8-497f-803a-a955-cfb4a3c058a0" class="">Lento para grandes conjuntos de dados</h3></div><div style="display:contents" dir="auto"><p id="37bf6ce8-497f-806f-b3e9-c41b44ace20c" class="">Sua complexidade:</p></div><div style="display:contents" dir="auto"><pre id="37bf6ce8-497f-8012-9e2b-fae9cebc6a72" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">O(n²)</code></pre></div><div style="display:contents" dir="auto"><p id="37bf6ce8-497f-805f-9a0b-d744420814e7" class="">torna-o ineficiente para listas muito grandes.</p></div><div style="display:contents" dir="auto"><hr id="37bf6ce8-497f-80a9-9ffc-cedbfce9652f"/></div><div style="display:contents" dir="auto"><h3 id="37bf6ce8-497f-801a-bfb1-ea36702dae6c" class="">Não aproveita listas parcialmente ordenadas</h3></div><div style="display:contents" dir="auto"><p id="37bf6ce8-497f-80b5-b234-ef696c857389" class="">Mesmo que o vetor esteja quase organizado, ele continua realizando praticamente a mesma quantidade de comparações.</p></div><div style="display:contents" dir="auto"><hr id="37bf6ce8-497f-80fa-8110-c51affd5d76f"/></div><div style="display:contents" dir="auto"><h1 id="37bf6ce8-497f-804c-bbed-ebc0044e613b" class="">Comparação com Outros Algoritmos</h1></div><div style="display:contents" dir="ltr"><table id="37bf6ce8-497f-8087-8403-f435220ead84" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="37bf6ce8-497f-80cc-aaf4-e8b9196bf2dd"><th id="lNvA" class="simple-table-header-color simple-table-header">Algoritmo</th><th id="FKjd" class="simple-table-header-color simple-table-header">Melhor Caso</th><th id="B@?w" class="simple-table-header-color simple-table-header">Caso Médio</th><th id="wIt;" class="simple-table-header-color simple-table-header">Pior Caso</th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="37bf6ce8-497f-806e-b1b9-e8033bde2c93"><td id="lNvA" class="">Selection Sort</td><td id="FKjd" class="">O(n²)</td><td id="B@?w" class="">O(n²)</td><td id="wIt;" class="">O(n²)</td></tr></div><div style="display:contents" dir="ltr"><tr id="37bf6ce8-497f-8065-ac02-dc3cbfc0a091"><td id="lNvA" class="">Bubble Sort</td><td id="FKjd" class="">O(n)</td><td id="B@?w" class="">O(n²)</td><td id="wIt;" class="">O(n²)</td></tr></div><div style="display:contents" dir="ltr"><tr id="37bf6ce8-497f-803e-b9b9-ee55f215215c"><td id="lNvA" class="">Insertion Sort</td><td id="FKjd" class="">O(n)</td><td id="B@?w" class="">O(n²)</td><td id="wIt;" class="">O(n²)</td></tr></div><div style="display:contents" dir="ltr"><tr id="37bf6ce8-497f-80d7-b2b5-fb6173529383"><td id="lNvA" class="">Merge Sort</td><td id="FKjd" class="">O(n log n)</td><td id="B@?w" class="">O(n log n)</td><td id="wIt;" class="">O(n log n)</td></tr></div><div style="display:contents" dir="ltr"><tr id="37bf6ce8-497f-8005-a783-e6f3d94fe690"><td id="lNvA" class="">Quick Sort</td><td id="FKjd" class="">O(n log n)</td><td id="B@?w" class="">O(n log n)</td><td id="wIt;" class="">O(n²)</td></tr></div></tbody></table></div><div style="display:contents" dir="auto"><p id="37bf6ce8-497f-8053-8d82-f03d47696c0d" class="">Por isso, na prática, algoritmos como <strong>Merge Sort</strong> e <strong>Quick Sort</strong> costumam ser preferidos para grandes volumes de dados.</p></div><div style="display:contents" dir="auto"><hr id="37bf6ce8-497f-8095-a456-f3d59d826fd1"/></div><div style="display:contents" dir="auto"><h1 id="37bf6ce8-497f-80c8-9b36-f9a51ccac72c" class="">Quando Utilizar o Selection Sort?</h1></div><div style="display:contents" dir="auto"><p id="37bf6ce8-497f-8020-8024-f7559b0b5e55" class="">O Selection Sort é mais indicado para:</p></div><div style="display:contents" dir="auto"><ul id="37bf6ce8-497f-808c-ae47-f13c65a541d9" class="bulleted-list"><li style="list-style-type:disc">Aprender conceitos de ordenação;</li></ul></div><div style="display:contents" dir="auto"><ul id="37bf6ce8-497f-801b-9c5a-f1a45f9deccc" class="bulleted-list"><li style="list-style-type:disc">Estudar análise de algoritmos;</li></ul></div><div style="display:contents" dir="auto"><ul id="37bf6ce8-497f-80eb-be9e-ef09329af602" class="bulleted-list"><li style="list-style-type:disc">Trabalhar com conjuntos pequenos de dados;</li></ul></div><div style="display:contents" dir="auto"><ul id="37bf6ce8-497f-809c-80c2-c13dd3e823a9" class="bulleted-list"><li style="list-style-type:disc">Situações onde o número de trocas precisa ser minimizado.</li></ul></div><div style="display:contents" dir="auto"><p id="37bf6ce8-497f-8088-aef8-d59882d90d6c" class="">Não é recomendado para aplicações que manipulam milhares ou milhões de registros.</p></div><div style="display:contents" dir="auto"><hr id="37bf6ce8-497f-8003-a2c3-dfcaf99098e6"/></div><div style="display:contents" dir="auto"><h1 id="37bf6ce8-497f-809d-9345-ca1306c165bb" class="">Resumo</h1></div><div style="display:contents" dir="auto"><p id="37bf6ce8-497f-80b2-85a4-c1dff545bb7e" class="">A <strong>Ordenação por Seleção (Selection Sort)</strong> é um algoritmo que organiza uma lista encontrando repetidamente o menor elemento da parte não ordenada e colocando-o na posição correta. Sua implementação é simples, utiliza pouca memória e realiza poucas trocas, mas possui complexidade <strong>O(n²)</strong> em praticamente todos os cenários, tornando-o inadequado para grandes conjuntos de dados. Apesar disso, é um dos algoritmos mais importantes para o aprendizado de lógica, ordenação e análise de desempenho de algoritmos.</p></div></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

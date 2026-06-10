@@ -1,0 +1,805 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Notação Big O</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="37bf6ce8-497f-8079-89a8-d01d15e03277" class="page sans"><header><div class="page-header-icon undefined"><img class="icon notion-static-icon" src="https://app.notion.com/icons/gear_blue.svg"/></div><h1 class="page-title" dir="auto">Notação Big O</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><div style="display:contents" dir="auto"><h1 id="37bf6ce8-497f-80da-aadf-fb2a832b71cf" class="">Notação Big O</h1></div><div style="display:contents" dir="auto"><h2 id="37bf6ce8-497f-8072-a8e6-ffd7311f6819" class="">O que é a Notação Big O?</h2></div><div style="display:contents" dir="auto"><p id="37bf6ce8-497f-8046-bd5b-cd4356f54a3e" class="">A <strong>Notação Big O</strong> é uma forma de medir a eficiência de um algoritmo. Ela descreve como o tempo de execução ou o consumo de memória de um algoritmo cresce à medida que a quantidade de dados processados aumenta.</p></div><div style="display:contents" dir="auto"><p id="37bf6ce8-497f-80a5-b2cd-e1ea4a197438" class="">Em vez de medir segundos ou milissegundos, a Big O analisa o comportamento do algoritmo em relação ao tamanho da entrada.</p></div><div style="display:contents" dir="auto"><p id="37bf6ce8-497f-80cc-bba1-e090b05bb9d5" class="">Por exemplo, imagine dois algoritmos que procuram um número em uma lista. Ambos podem ser rápidos para uma lista com 10 elementos, mas quando a lista possui 1 milhão de elementos, a diferença de desempenho pode ser enorme. A Notação Big O ajuda justamente a prever esse comportamento.</p></div><div style="display:contents" dir="auto"><hr id="37bf6ce8-497f-800d-88d4-fb709f4270d2"/></div><div style="display:contents" dir="auto"><h1 id="37bf6ce8-497f-80e8-953c-d56e3b9293e1" class="">Por que a Big O é importante?</h1></div><div style="display:contents" dir="auto"><p id="37bf6ce8-497f-807d-abdf-ce70b0b4edc0" class="">Ao desenvolver software, não basta que um algoritmo funcione; ele também deve ser eficiente.</p></div><div style="display:contents" dir="auto"><p id="37bf6ce8-497f-80c8-97c3-e920a57df071" class="">A Notação Big O permite:</p></div><div style="display:contents" dir="auto"><ul id="37bf6ce8-497f-8091-b12a-c8f9d746413b" class="bulleted-list"><li style="list-style-type:disc">Comparar algoritmos;</li></ul></div><div style="display:contents" dir="auto"><ul id="37bf6ce8-497f-803e-b7c1-f3c9133652bf" class="bulleted-list"><li style="list-style-type:disc">Escolher a solução mais eficiente;</li></ul></div><div style="display:contents" dir="auto"><ul id="37bf6ce8-497f-8034-900d-e77c1cb6d5fb" class="bulleted-list"><li style="list-style-type:disc">Identificar gargalos de desempenho;</li></ul></div><div style="display:contents" dir="auto"><ul id="37bf6ce8-497f-8012-90ad-ca74819a82ce" class="bulleted-list"><li style="list-style-type:disc">Projetar sistemas escaláveis;</li></ul></div><div style="display:contents" dir="auto"><ul id="37bf6ce8-497f-8028-9af8-e35be7d7567f" class="bulleted-list"><li style="list-style-type:disc">Entender o comportamento de estruturas de dados.</li></ul></div><div style="display:contents" dir="auto"><p id="37bf6ce8-497f-80fc-8655-e2559153fad8" class="">Ela é amplamente utilizada em entrevistas técnicas, estruturas de dados e desenvolvimento de software.</p></div><div style="display:contents" dir="auto"><hr id="37bf6ce8-497f-8054-ae2c-ee6a44838a62"/></div><div style="display:contents" dir="auto"><h1 id="37bf6ce8-497f-8031-bbe2-e6ce217097e9" class="">O que significa &quot;n&quot;?</h1></div><div style="display:contents" dir="auto"><p id="37bf6ce8-497f-8002-a43d-e7800def51e3" class="">Nas expressões da Big O, a letra <strong>n</strong> representa o tamanho da entrada.</p></div><div style="display:contents" dir="auto"><p id="37bf6ce8-497f-8017-be5b-d7cb5e331484" class="">Exemplos:</p></div><div style="display:contents" dir="auto"><ul id="37bf6ce8-497f-80de-9f48-d2797e2e848d" class="bulleted-list"><li style="list-style-type:disc">Quantidade de elementos de um vetor;</li></ul></div><div style="display:contents" dir="auto"><ul id="37bf6ce8-497f-80d5-b11d-f038dcda852c" class="bulleted-list"><li style="list-style-type:disc">Número de registros de um banco de dados;</li></ul></div><div style="display:contents" dir="auto"><ul id="37bf6ce8-497f-8009-a0e5-d3aa68cc474d" class="bulleted-list"><li style="list-style-type:disc">Quantidade de usuários processados;</li></ul></div><div style="display:contents" dir="auto"><ul id="37bf6ce8-497f-805e-87fa-cb154b09193c" class="bulleted-list"><li style="list-style-type:disc">Número de linhas de um arquivo.</li></ul></div><div style="display:contents" dir="auto"><p id="37bf6ce8-497f-80c9-8219-c5bda9c70ef2" class="">Quanto maior for o valor de <strong>n</strong>, mais importante se torna a eficiência do algoritmo.</p></div><div style="display:contents" dir="auto"><hr id="37bf6ce8-497f-80c1-87e6-cc6e34e5ab36"/></div><div style="display:contents" dir="auto"><h1 id="37bf6ce8-497f-8036-b93b-f03abb076c29" class="">Complexidade de Tempo e Complexidade de Espaço</h1></div><div style="display:contents" dir="auto"><h2 id="37bf6ce8-497f-80ef-8749-d3c3da39b9b3" class="">Complexidade de Tempo</h2></div><div style="display:contents" dir="auto"><p id="37bf6ce8-497f-80e7-9c0c-e72975499ffa" class="">Mede quantas operações um algoritmo realiza.</p></div><div style="display:contents" dir="auto"><p id="37bf6ce8-497f-805d-a72d-db92d25efaab" class="">Exemplo:</p></div><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-jsx.min.js" integrity="sha512-m3JYEI6gx5fh9jF10FjGoMzVKcV2N6nchcDcqPCdI1L3R2WQV7br2XVNR8iTLb2daOMRl3zldbcfT40xU2ntVw==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="37bf6ce8-497f-80c7-bf42-ffe13bed9367" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">for(let i = 0; i &lt; n; i++) {
+    console.log(i);
+}</code></pre></div><div style="display:contents" dir="auto"><p id="37bf6ce8-497f-80d6-8a40-ccb4983e116c" class="">O laço executa <code>n</code> vezes.</p></div><div style="display:contents" dir="auto"><p id="37bf6ce8-497f-8047-b449-da6eb239f812" class="">Complexidade:</p></div><div style="display:contents" dir="auto"><pre id="37bf6ce8-497f-807b-ac52-c4839d562082" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">O(n)</code></pre></div><div style="display:contents" dir="auto"><hr id="37bf6ce8-497f-80c6-b99d-c98f88bc5cd8"/></div><div style="display:contents" dir="auto"><h2 id="37bf6ce8-497f-80d9-9f25-e1a0c92b3354" class="">Complexidade de Espaço</h2></div><div style="display:contents" dir="auto"><p id="37bf6ce8-497f-80e8-8bb1-db18d2b86945" class="">Mede a quantidade de memória utilizada.</p></div><div style="display:contents" dir="auto"><p id="37bf6ce8-497f-8007-9432-ddeae1b60131" class="">Exemplo:</p></div><div style="display:contents" dir="auto"><pre id="37bf6ce8-497f-8071-9058-e23eddae9b83" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">let numeros = [];
+
+for(let i = 0; i &lt; n; i++) {
+    numeros.push(i);
+}</code></pre></div><div style="display:contents" dir="auto"><p id="37bf6ce8-497f-8001-badd-d117a2d6bf5a" class="">À medida que <code>n</code> cresce, o vetor também cresce.</p></div><div style="display:contents" dir="auto"><p id="37bf6ce8-497f-8050-a18f-ee04108426fa" class="">Complexidade espacial:</p></div><div style="display:contents" dir="auto"><pre id="37bf6ce8-497f-80e8-ad3d-d98341eba64b" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">O(n)</code></pre></div><div style="display:contents" dir="auto"><hr id="37bf6ce8-497f-80ae-be5c-c4c654b7a670"/></div><div style="display:contents" dir="auto"><h1 id="37bf6ce8-497f-804b-a0a1-f32dea2602db" class="">Principais Complexidades</h1></div><div style="display:contents" dir="auto"><h2 id="37bf6ce8-497f-8066-a22f-e0b8ebd58019" class="">O(1) — Constante</h2></div><div style="display:contents" dir="auto"><p id="37bf6ce8-497f-80b0-9dd0-f310d65764f5" class="">A melhor complexidade possível.</p></div><div style="display:contents" dir="auto"><p id="37bf6ce8-497f-80ae-8c31-f7023b95615c" class="">O tempo de execução não muda independentemente do tamanho da entrada.</p></div><div style="display:contents" dir="auto"><h3 id="37bf6ce8-497f-80fb-b5e6-e2341ee0b868" class="">Exemplo</h3></div><div style="display:contents" dir="auto"><pre id="37bf6ce8-497f-80a0-bd1a-ca0883279e25" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">let primeiro = vetor[0];</code></pre></div><div style="display:contents" dir="auto"><p id="37bf6ce8-497f-8091-bad7-c6f270269c17" class="">Não importa se o vetor possui:</p></div><div style="display:contents" dir="auto"><pre id="37bf6ce8-497f-80f1-b007-c12f156cca94" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">10 elementos
+100 elementos
+1.000.000 elementos</code></pre></div><div style="display:contents" dir="auto"><p id="37bf6ce8-497f-80db-b30b-fbc401ffc691" class="">A operação continua sendo apenas uma.</p></div><div style="display:contents" dir="auto"><p id="37bf6ce8-497f-8071-af45-ea37d00943f0" class="">Complexidade:</p></div><div style="display:contents" dir="auto"><pre id="37bf6ce8-497f-8037-b13b-d497d04127f0" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">O(1)</code></pre></div><div style="display:contents" dir="auto"><h3 id="37bf6ce8-497f-806b-b7f6-cd9dbe185edf" class="">Gráfico mental</h3></div><div style="display:contents" dir="auto"><pre id="37bf6ce8-497f-80d7-b70f-fd3828728ea9" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">n ↑
+
+|
+|
+|________
+         → tempo</code></pre></div><div style="display:contents" dir="auto"><p id="37bf6ce8-497f-8060-a928-dcc6c688d50f" class="">O crescimento é praticamente inexistente.</p></div><div style="display:contents" dir="auto"><hr id="37bf6ce8-497f-80d0-9e06-cee727a5e29d"/></div><div style="display:contents" dir="auto"><h2 id="37bf6ce8-497f-8070-95d3-f5c6bc2791cd" class="">O(log n) — Logarítmica</h2></div><div style="display:contents" dir="auto"><p id="37bf6ce8-497f-80ad-86a8-d06a4b1595cc" class="">O algoritmo reduz o problema pela metade a cada passo.</p></div><div style="display:contents" dir="auto"><h3 id="37bf6ce8-497f-803f-a081-d4533ee24d32" class="">Exemplo</h3></div><div style="display:contents" dir="auto"><p id="37bf6ce8-497f-8065-a9a9-f23b61c9152b" class="">Pesquisa Binária.</p></div><div style="display:contents" dir="auto"><pre id="37bf6ce8-497f-80c6-9c78-f43210184b41" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">1024
+512
+256
+128
+64
+32
+16
+8
+4
+2
+1</code></pre></div><div style="display:contents" dir="auto"><p id="37bf6ce8-497f-80aa-9ced-dc5390b7be1c" class="">Apenas 10 etapas.</p></div><div style="display:contents" dir="auto"><p id="37bf6ce8-497f-809e-ab70-fd69bcbc54c6" class="">Complexidade:</p></div><div style="display:contents" dir="auto"><pre id="37bf6ce8-497f-8096-ac43-da0b75430e2d" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">O(log n)</code></pre></div><div style="display:contents" dir="auto"><h3 id="37bf6ce8-497f-8099-9a2c-d0c4046ddba4" class="">Características</h3></div><div style="display:contents" dir="auto"><ul id="37bf6ce8-497f-80a8-bbe3-db510c019d08" class="bulleted-list"><li style="list-style-type:disc">Extremamente eficiente;</li></ul></div><div style="display:contents" dir="auto"><ul id="37bf6ce8-497f-803f-b77d-c023ffbc6e80" class="bulleted-list"><li style="list-style-type:disc">Excelente para grandes volumes de dados;</li></ul></div><div style="display:contents" dir="auto"><ul id="37bf6ce8-497f-80f6-85de-d459491b7e18" class="bulleted-list"><li style="list-style-type:disc">Muito utilizada em algoritmos de busca.</li></ul></div><div style="display:contents" dir="auto"><hr id="37bf6ce8-497f-8080-871f-ce1a0bb441b4"/></div><div style="display:contents" dir="auto"><h2 id="37bf6ce8-497f-80c8-bef9-c5ae3b7c5920" class="">O(n) — Linear</h2></div><div style="display:contents" dir="auto"><p id="37bf6ce8-497f-80e0-bb98-cd8708562ea0" class="">O tempo cresce proporcionalmente ao tamanho da entrada.</p></div><div style="display:contents" dir="auto"><h3 id="37bf6ce8-497f-8025-afa6-fe12bf6c9055" class="">Exemplo</h3></div><div style="display:contents" dir="auto"><pre id="37bf6ce8-497f-8030-9406-eab549e26be6" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">for(let i = 0; i &lt; vetor.length; i++) {
+    console.log(vetor[i]);
+}</code></pre></div><div style="display:contents" dir="auto"><p id="37bf6ce8-497f-80b6-8a1b-d2f5367d24f6" class="">Se houver:</p></div><div style="display:contents" dir="auto"><pre id="37bf6ce8-497f-8062-bb55-f244ebca6cc6" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">10 elementos → 10 operações
+100 elementos → 100 operações
+1000 elementos → 1000 operações</code></pre></div><div style="display:contents" dir="auto"><p id="37bf6ce8-497f-8092-97a6-dc9242975be9" class="">Complexidade:</p></div><div style="display:contents" dir="auto"><pre id="37bf6ce8-497f-8094-ab9b-caf224b4cf8c" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">O(n)</code></pre></div><div style="display:contents" dir="auto"><hr id="37bf6ce8-497f-804f-a0c8-e8760fe3df45"/></div><div style="display:contents" dir="auto"><h2 id="37bf6ce8-497f-8040-922c-e522bd192e72" class="">O(n log n)</h2></div><div style="display:contents" dir="auto"><p id="37bf6ce8-497f-8052-b98e-f0ed0f6570d9" class="">Muito comum em algoritmos de ordenação eficientes.</p></div><div style="display:contents" dir="auto"><h3 id="37bf6ce8-497f-8051-9cc3-cd3543504a59" class="">Exemplos</h3></div><div style="display:contents" dir="auto"><ul id="37bf6ce8-497f-80c7-932d-decd37eeca62" class="bulleted-list"><li style="list-style-type:disc">Merge Sort</li></ul></div><div style="display:contents" dir="auto"><ul id="37bf6ce8-497f-80c3-bbaa-d59cf9e5b572" class="bulleted-list"><li style="list-style-type:disc">Heap Sort</li></ul></div><div style="display:contents" dir="auto"><ul id="37bf6ce8-497f-801d-be6a-dd158459a62f" class="bulleted-list"><li style="list-style-type:disc">Quick Sort (caso médio)</li></ul></div><div style="display:contents" dir="auto"><p id="37bf6ce8-497f-80ad-a438-e9801c763234" class="">Se tivermos:</p></div><div style="display:contents" dir="auto"><pre id="37bf6ce8-497f-8036-ae60-d55db058d369" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">1000 elementos</code></pre></div><div style="display:contents" dir="auto"><p id="37bf6ce8-497f-8087-94be-fb06054677de" class="">O algoritmo executará aproximadamente:</p></div><div style="display:contents" dir="auto"><pre id="37bf6ce8-497f-8060-90ef-e655c3cf4112" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">1000 × log₂(1000)</code></pre></div><div style="display:contents" dir="auto"><p id="37bf6ce8-497f-806f-93d5-d5d88bbad80f" class="">operações.</p></div><div style="display:contents" dir="auto"><p id="37bf6ce8-497f-804b-84b8-f57a24d55fee" class="">É uma complexidade considerada muito boa.</p></div><div style="display:contents" dir="auto"><hr id="37bf6ce8-497f-80ae-bdd6-d88e3fe9c853"/></div><div style="display:contents" dir="auto"><h2 id="37bf6ce8-497f-800c-9b9e-ed14245a96ad" class="">O(n²) — Quadrática</h2></div><div style="display:contents" dir="auto"><p id="37bf6ce8-497f-8025-8f11-e1bd051012db" class="">O tempo cresce ao quadrado.</p></div><div style="display:contents" dir="auto"><p id="37bf6ce8-497f-8005-a24d-fb9ffd4d0fbe" class="">Geralmente aparece quando existe um laço dentro de outro.</p></div><div style="display:contents" dir="auto"><h3 id="37bf6ce8-497f-80f1-97bd-d3089540b200" class="">Exemplo</h3></div><div style="display:contents" dir="auto"><pre id="37bf6ce8-497f-80d9-a709-ca0dae659b1a" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">for(let i = 0; i &lt; n; i++) {
+    for(let j = 0; j &lt; n; j++) {
+        console.log(i, j);
+    }
+}</code></pre></div><div style="display:contents" dir="auto"><p id="37bf6ce8-497f-80af-a694-c3035abfa5a2" class="">Quantidade de operações:</p></div><div style="display:contents" dir="auto"><pre id="37bf6ce8-497f-80a3-9f81-d7f66ca35366" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">n × n</code></pre></div><div style="display:contents" dir="auto"><p id="37bf6ce8-497f-8044-a82d-f3796a86e230" class="">Complexidade:</p></div><div style="display:contents" dir="auto"><pre id="37bf6ce8-497f-80b6-b325-e4f0575f3500" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">O(n²)</code></pre></div><div style="display:contents" dir="auto"><h3 id="37bf6ce8-497f-80d2-b269-c76de24582f2" class="">Crescimento</h3></div><div style="display:contents" dir="ltr"><table id="37bf6ce8-497f-80e6-a8ea-da3bce6bf442" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="37bf6ce8-497f-80a4-9871-f2af1ba23303"><th id="~nL}" class="simple-table-header-color simple-table-header">n</th><th id="Z{QI" class="simple-table-header-color simple-table-header">Operações</th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="37bf6ce8-497f-8040-abca-d18c13ffcbd1"><td id="~nL}" class="">10</td><td id="Z{QI" class="">100</td></tr></div><div style="display:contents" dir="ltr"><tr id="37bf6ce8-497f-80a0-8b0b-f6db82185be6"><td id="~nL}" class="">100</td><td id="Z{QI" class="">10.000</td></tr></div><div style="display:contents" dir="ltr"><tr id="37bf6ce8-497f-80fe-875c-c47d1cdcc311"><td id="~nL}" class="">1000</td><td id="Z{QI" class="">1.000.000</td></tr></div></tbody></table></div><div style="display:contents" dir="auto"><p id="37bf6ce8-497f-8025-b047-d89f80b08295" class="">Perceba como o crescimento é rápido.</p></div><div style="display:contents" dir="auto"><hr id="37bf6ce8-497f-8073-8e82-fcb0f787e2df"/></div><div style="display:contents" dir="auto"><h2 id="37bf6ce8-497f-80ab-a0cf-ccd651b3aaf7" class="">O(n³) — Cúbica</h2></div><div style="display:contents" dir="auto"><p id="37bf6ce8-497f-800d-a0d4-d55ca58ac272" class="">Três laços aninhados.</p></div><div style="display:contents" dir="auto"><h3 id="37bf6ce8-497f-805f-b8eb-e5b95413c355" class="">Exemplo</h3></div><div style="display:contents" dir="auto"><pre id="37bf6ce8-497f-8053-a0d0-e330bb29f5f1" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">for(let i = 0; i &lt; n; i++) {
+    for(let j = 0; j &lt; n; j++) {
+        for(let k = 0; k &lt; n; k++) {
+            console.log(i, j, k);
+        }
+    }
+}</code></pre></div><div style="display:contents" dir="auto"><p id="37bf6ce8-497f-80e8-85be-c7c53bbda660" class="">Complexidade:</p></div><div style="display:contents" dir="auto"><pre id="37bf6ce8-497f-805e-900a-c9e913ba481d" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">O(n³)</code></pre></div><div style="display:contents" dir="auto"><p id="37bf6ce8-497f-80d0-9c56-fc0b1e4184b2" class="">Muito custosa para grandes conjuntos de dados.</p></div><div style="display:contents" dir="auto"><hr id="37bf6ce8-497f-80de-9606-ff7ed42290b9"/></div><div style="display:contents" dir="auto"><h2 id="37bf6ce8-497f-8007-8d6c-e1c1e661c5e8" class="">O(2ⁿ) — Exponencial</h2></div><div style="display:contents" dir="auto"><p id="37bf6ce8-497f-80cb-a6cd-f88fc5f94a4a" class="">Uma das piores complexidades.</p></div><div style="display:contents" dir="auto"><p id="37bf6ce8-497f-804a-8b1a-ecacc50dde4c" class="">Cada aumento em <code>n</code> praticamente dobra o trabalho.</p></div><div style="display:contents" dir="auto"><h3 id="37bf6ce8-497f-804c-b366-dac908705c42" class="">Exemplo</h3></div><div style="display:contents" dir="auto"><p id="37bf6ce8-497f-808b-a3d3-fec5158cdbf0" class="">Algoritmos recursivos ingênuos para calcular Fibonacci.</p></div><div style="display:contents" dir="auto"><pre id="37bf6ce8-497f-80f5-96a1-f67f75d97680" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">O(2ⁿ)</code></pre></div><div style="display:contents" dir="auto"><p id="37bf6ce8-497f-8000-8106-d81c0d95e7e2" class="">Cresce extremamente rápido.</p></div><div style="display:contents" dir="auto"><hr id="37bf6ce8-497f-80dc-b13d-e93406505ca8"/></div><div style="display:contents" dir="auto"><h2 id="37bf6ce8-497f-8075-8d8a-f5abf5e093c7" class="">O(n!)</h2></div><div style="display:contents" dir="auto"><p id="37bf6ce8-497f-80d4-8574-fefb5234d4f9" class="">Complexidade fatorial.</p></div><div style="display:contents" dir="auto"><p id="37bf6ce8-497f-809e-aaaa-cacb32717332" class="">Aparece em problemas que testam todas as combinações possíveis.</p></div><div style="display:contents" dir="auto"><h3 id="37bf6ce8-497f-8091-a70d-f400bc2a513b" class="">Exemplo</h3></div><div style="display:contents" dir="auto"><p id="37bf6ce8-497f-807e-aca3-c83643a4816a" class="">Problema do Caixeiro Viajante (solução por força bruta).</p></div><div style="display:contents" dir="auto"><pre id="37bf6ce8-497f-8088-8377-e8e587144553" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">O(n!)</code></pre></div><div style="display:contents" dir="auto"><p id="37bf6ce8-497f-8069-a2d6-cefcb7bc8b92" class="">É uma das complexidades mais caras existentes.</p></div><div style="display:contents" dir="auto"><hr id="37bf6ce8-497f-8007-804d-dbacf6083438"/></div><div style="display:contents" dir="auto"><h1 id="37bf6ce8-497f-8040-8e38-cbc33476bb69" class="">Ordem de Eficiência</h1></div><div style="display:contents" dir="auto"><p id="37bf6ce8-497f-801c-a9a8-e63ce636ad75" class="">Da melhor para a pior:</p></div><div style="display:contents" dir="auto"><pre id="37bf6ce8-497f-80fe-a668-eb414d1b4e66" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">O(1)
+↓
+O(log n)
+↓
+O(n)
+↓
+O(n log n)
+↓
+O(n²)
+↓
+O(n³)
+↓
+O(2ⁿ)
+↓
+O(n!)</code></pre></div><div style="display:contents" dir="auto"><p id="37bf6ce8-497f-80f6-b55d-f672ae219b67" class="">Quanto mais abaixo, pior o desempenho para grandes volumes de dados.</p></div><div style="display:contents" dir="auto"><hr id="37bf6ce8-497f-80ee-8d9d-e59dcdba3d87"/></div><div style="display:contents" dir="auto"><h1 id="37bf6ce8-497f-8009-81e8-c052513a44a2" class="">Regras para Calcular Big O</h1></div><div style="display:contents" dir="auto"><h2 id="37bf6ce8-497f-80b2-b313-fdcfdf5e3187" class="">Ignorar constantes</h2></div><div style="display:contents" dir="auto"><h3 id="37bf6ce8-497f-807f-a023-f38c72b9daaf" class="">Exemplo</h3></div><div style="display:contents" dir="auto"><pre id="37bf6ce8-497f-80f3-8f76-c28b3faa2ebe" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">for(let i = 0; i &lt; n; i++) {
+    console.log(i);
+}
+
+for(let i = 0; i &lt; n; i++) {
+    console.log(i);
+}</code></pre></div><div style="display:contents" dir="auto"><p id="37bf6ce8-497f-80ff-9911-c6fa3b94a284" class="">Operações:</p></div><div style="display:contents" dir="auto"><pre id="37bf6ce8-497f-8005-9412-f706142520ab" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">2n</code></pre></div><div style="display:contents" dir="auto"><p id="37bf6ce8-497f-801a-acd0-f9ec369e6a15" class="">Big O:</p></div><div style="display:contents" dir="auto"><pre id="37bf6ce8-497f-8091-b827-fcaf0a85d5f6" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">O(n)</code></pre></div><div style="display:contents" dir="auto"><p id="37bf6ce8-497f-807a-8a55-e3e180a2b873" class="">A constante 2 é ignorada.</p></div><div style="display:contents" dir="auto"><hr id="37bf6ce8-497f-8076-9665-f2273f2daf5d"/></div><div style="display:contents" dir="auto"><h2 id="37bf6ce8-497f-80bc-a798-f13d8830619a" class="">Considerar apenas o termo dominante</h2></div><div style="display:contents" dir="auto"><h3 id="37bf6ce8-497f-80ac-a05b-f10beb7861b5" class="">Exemplo</h3></div><div style="display:contents" dir="auto"><pre id="37bf6ce8-497f-8072-9169-c4f7c709111b" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">n² + n + 10</code></pre></div><div style="display:contents" dir="auto"><p id="37bf6ce8-497f-8066-861f-fb80561c2640" class="">Big O:</p></div><div style="display:contents" dir="auto"><pre id="37bf6ce8-497f-80dc-bc8e-cdf3ecc95e9b" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">O(n²)</code></pre></div><div style="display:contents" dir="auto"><p id="37bf6ce8-497f-8053-b878-dc952aaa269c" class="">O termo quadrático domina o crescimento.</p></div><div style="display:contents" dir="auto"><hr id="37bf6ce8-497f-8066-a6d3-f26432b7bff4"/></div><div style="display:contents" dir="auto"><h2 id="37bf6ce8-497f-8026-b7fc-e61f8edd8ea8" class="">Laços aninhados multiplicam</h2></div><div style="display:contents" dir="auto"><pre id="37bf6ce8-497f-804b-a1b7-c74e51884de8" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">for(let i = 0; i &lt; n; i++) {
+    for(let j = 0; j &lt; n; j++) {
+    }
+}</code></pre></div><div style="display:contents" dir="auto"><p id="37bf6ce8-497f-80ce-9bb1-d8da33ee06b6" class="">Resultado:</p></div><div style="display:contents" dir="auto"><pre id="37bf6ce8-497f-805b-857c-e86710ebe51e" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">O(n²)</code></pre></div><div style="display:contents" dir="auto"><hr id="37bf6ce8-497f-80f5-9c4a-fe9e7180a1e3"/></div><div style="display:contents" dir="auto"><h2 id="37bf6ce8-497f-8041-b825-f709c0a7ad55" class="">Laços separados somam</h2></div><div style="display:contents" dir="auto"><pre id="37bf6ce8-497f-8062-ab7b-c6406b951fc9" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">for(let i = 0; i &lt; n; i++) {}
+
+for(let j = 0; j &lt; n; j++) {}</code></pre></div><div style="display:contents" dir="auto"><p id="37bf6ce8-497f-800a-9afa-d7f98d5a6ed9" class="">Resultado:</p></div><div style="display:contents" dir="auto"><pre id="37bf6ce8-497f-800b-926b-c72e14897c86" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">O(2n)</code></pre></div><div style="display:contents" dir="auto"><p id="37bf6ce8-497f-80b5-b760-f0597b13f099" class="">Simplificando:</p></div><div style="display:contents" dir="auto"><pre id="37bf6ce8-497f-8067-8364-cadae7d0c6e4" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">O(n)</code></pre></div><div style="display:contents" dir="auto"><hr id="37bf6ce8-497f-80d1-89d0-f101a7739b6a"/></div><div style="display:contents" dir="auto"><h1 id="37bf6ce8-497f-8077-b0ad-d074e99f4ef9" class="">Big O e Estruturas de Dados</h1></div><div style="display:contents" dir="ltr"><table id="37bf6ce8-497f-80c0-94c4-f3cbeaab05bf" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="37bf6ce8-497f-8093-90d8-e48ceb96b6d9"><th id=":ZZ]" class="simple-table-header-color simple-table-header">Operação</th><th id="iDTl" class="simple-table-header-color simple-table-header">Array</th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="37bf6ce8-497f-80d2-a925-cd4a10fe14d1"><td id=":ZZ]" class="">Acesso por índice</td><td id="iDTl" class="">O(1)</td></tr></div><div style="display:contents" dir="ltr"><tr id="37bf6ce8-497f-8023-bdde-c274a454bd6b"><td id=":ZZ]" class="">Busca</td><td id="iDTl" class="">O(n)</td></tr></div><div style="display:contents" dir="ltr"><tr id="37bf6ce8-497f-801b-8b01-ed4bf417098b"><td id=":ZZ]" class="">Inserção no final</td><td id="iDTl" class="">O(1)</td></tr></div><div style="display:contents" dir="ltr"><tr id="37bf6ce8-497f-802a-8567-dc5ae2626056"><td id=":ZZ]" class="">Inserção no início</td><td id="iDTl" class="">O(n)</td></tr></div><div style="display:contents" dir="ltr"><tr id="37bf6ce8-497f-80b9-9deb-c13b4daf7847"><td id=":ZZ]" class="">Remoção no final</td><td id="iDTl" class="">O(1)</td></tr></div><div style="display:contents" dir="ltr"><tr id="37bf6ce8-497f-801c-81c6-d2ef8e3e521c"><td id=":ZZ]" class="">Remoção no início</td><td id="iDTl" class="">O(n)</td></tr></div></tbody></table></div><div style="display:contents" dir="auto"><p id="37bf6ce8-497f-8064-8ab7-ebb675ed8e3e" class="">Por isso algumas estruturas são melhores que outras dependendo da situação.</p></div><div style="display:contents" dir="auto"><hr id="37bf6ce8-497f-8019-a091-e8fb9643bf50"/></div><div style="display:contents" dir="auto"><h1 id="37bf6ce8-497f-8073-9645-fe4007fb6658" class="">Exemplo Prático</h1></div><div style="display:contents" dir="auto"><p id="37bf6ce8-497f-8051-b865-d1be7b4249be" class="">Imagine um sistema com 10 usuários.</p></div><div style="display:contents" dir="auto"><p id="37bf6ce8-497f-8048-bed9-e5d274bbbfc7" class="">Uma busca linear pode parecer rápida.</p></div><div style="display:contents" dir="auto"><p id="37bf6ce8-497f-8034-993d-eac00d011954" class="">Mas se o sistema crescer para:</p></div><div style="display:contents" dir="auto"><pre id="37bf6ce8-497f-80a6-9ba4-f327d3108cf0" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">10.000.000 usuários</code></pre></div><div style="display:contents" dir="auto"><p id="37bf6ce8-497f-8066-8618-cc3c9b545922" class="">Um algoritmo:</p></div><div style="display:contents" dir="auto"><pre id="37bf6ce8-497f-801f-8afd-e75b99e86398" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">O(n²)</code></pre></div><div style="display:contents" dir="auto"><p id="37bf6ce8-497f-8050-818a-f72afba6befd" class="">pode se tornar inviável.</p></div><div style="display:contents" dir="auto"><p id="37bf6ce8-497f-8014-9e1e-d6beb3f9c3a6" class="">Já um algoritmo:</p></div><div style="display:contents" dir="auto"><pre id="37bf6ce8-497f-805e-ac37-c8e034b7d7cf" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">O(log n)</code></pre></div><div style="display:contents" dir="auto"><p id="37bf6ce8-497f-80dc-b498-e53fe13c3aa9" class="">continuará extremamente eficiente.</p></div><div style="display:contents" dir="auto"><p id="37bf6ce8-497f-80da-93ab-e45a1f2e5bb8" class="">É justamente por isso que programadores estudam Big O: para garantir que seus sistemas continuem rápidos mesmo quando a quantidade de dados aumenta.</p></div><div style="display:contents" dir="auto"><hr id="37bf6ce8-497f-802d-8af2-ee1bb2f0dccb"/></div><div style="display:contents" dir="auto"><h1 id="37bf6ce8-497f-803b-b6b2-dfaff2dbb278" class="">Resumo</h1></div><div style="display:contents" dir="auto"><p id="37bf6ce8-497f-80d2-a773-cfb569576564" class="">A <strong>Notação Big O</strong> é uma forma de medir a eficiência de algoritmos analisando como seu tempo de execução ou consumo de memória cresce conforme o tamanho da entrada aumenta. Ela não mede tempo real, mas sim a taxa de crescimento do algoritmo. Compreender Big O é fundamental para comparar soluções, escolher estruturas de dados adequadas e desenvolver aplicações escaláveis e performáticas. Entre as complexidades mais importantes estão <strong>O(1)</strong>, <strong>O(log n)</strong>, <strong>O(n)</strong>, <strong>O(n log n)</strong> e <strong>O(n²)</strong>, que aparecem frequentemente no estudo de algoritmos e estruturas de dados.</p></div></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

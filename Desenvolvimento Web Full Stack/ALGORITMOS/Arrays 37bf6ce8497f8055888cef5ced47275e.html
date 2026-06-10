@@ -1,0 +1,803 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Arrays</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="37bf6ce8-497f-8055-888c-ef5ced47275e" class="page sans"><header><div class="page-header-icon undefined"><img class="icon notion-static-icon" src="https://app.notion.com/icons/gear_blue.svg"/></div><h1 class="page-title" dir="auto">Arrays</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><div style="display:contents" dir="auto"><h1 id="37bf6ce8-497f-8042-993a-fe6fb4973fcd" class="">Arrays</h1></div><div style="display:contents" dir="auto"><h2 id="37bf6ce8-497f-808c-b8c2-d092ec28831c" class="">O que são Arrays?</h2></div><div style="display:contents" dir="auto"><p id="37bf6ce8-497f-80a1-bbdb-fbbab3fa525b" class="">Um <strong>Array</strong> (vetor ou matriz unidimensional) é uma estrutura de dados utilizada para armazenar múltiplos valores em uma única variável.</p></div><div style="display:contents" dir="auto"><p id="37bf6ce8-497f-8025-94b6-e0994bdd1db3" class="">Em vez de criar várias variáveis para guardar informações relacionadas, podemos armazená-las em um único array e acessar cada elemento por meio de sua posição (índice).</p></div><div style="display:contents" dir="auto"><h3 id="37bf6ce8-497f-80b7-8ed1-e4d84c066479" class="">Sem Arrays</h3></div><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-jsx.min.js" integrity="sha512-m3JYEI6gx5fh9jF10FjGoMzVKcV2N6nchcDcqPCdI1L3R2WQV7br2XVNR8iTLb2daOMRl3zldbcfT40xU2ntVw==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="37bf6ce8-497f-803a-9906-e590a2eb9c38" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">let nome1 = &quot;João&quot;;
+let nome2 = &quot;Maria&quot;;
+let nome3 = &quot;Pedro&quot;;</code></pre></div><div style="display:contents" dir="auto"><h3 id="37bf6ce8-497f-804e-8d51-f20eca5edadf" class="">Com Array</h3></div><div style="display:contents" dir="auto"><pre id="37bf6ce8-497f-80b2-a69a-e690faaf20fc" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">let nomes = [&quot;João&quot;, &quot;Maria&quot;, &quot;Pedro&quot;];</code></pre></div><div style="display:contents" dir="auto"><p id="37bf6ce8-497f-8027-b160-ca13447476c1" class="">O segundo exemplo é mais organizado, fácil de manipular e escalável.</p></div><div style="display:contents" dir="auto"><hr id="37bf6ce8-497f-8012-a240-dc053c427863"/></div><div style="display:contents" dir="auto"><h1 id="37bf6ce8-497f-80d0-b552-e5b34eb4c3c9" class="">Por que utilizar Arrays?</h1></div><div style="display:contents" dir="auto"><p id="37bf6ce8-497f-8029-b9f3-d03f2ed29113" class="">Os arrays são utilizados para armazenar conjuntos de dados relacionados, como:</p></div><div style="display:contents" dir="auto"><ul id="37bf6ce8-497f-80d0-b586-e2e63f109c23" class="bulleted-list"><li style="list-style-type:disc">Lista de alunos;</li></ul></div><div style="display:contents" dir="auto"><ul id="37bf6ce8-497f-8032-aad3-ddbf23f63868" class="bulleted-list"><li style="list-style-type:disc">Produtos de uma loja;</li></ul></div><div style="display:contents" dir="auto"><ul id="37bf6ce8-497f-8033-b3ff-d6f4842536f9" class="bulleted-list"><li style="list-style-type:disc">Notas de uma prova;</li></ul></div><div style="display:contents" dir="auto"><ul id="37bf6ce8-497f-80e6-ae8d-ddf7d822f039" class="bulleted-list"><li style="list-style-type:disc">Mensagens de um chat;</li></ul></div><div style="display:contents" dir="auto"><ul id="37bf6ce8-497f-806f-ae2b-f37a5faba043" class="bulleted-list"><li style="list-style-type:disc">Números para cálculos;</li></ul></div><div style="display:contents" dir="auto"><ul id="37bf6ce8-497f-80a6-8ccb-f3c095eef5ce" class="bulleted-list"><li style="list-style-type:disc">Resultados de pesquisas.</li></ul></div><div style="display:contents" dir="auto"><p id="37bf6ce8-497f-8014-be18-d067f197da2e" class="">Praticamente todo sistema utiliza arrays de alguma forma.</p></div><div style="display:contents" dir="auto"><hr id="37bf6ce8-497f-803c-a142-eba0b2b085fe"/></div><div style="display:contents" dir="auto"><h1 id="37bf6ce8-497f-8049-9b63-c5f80c9ebaa2" class="">Estrutura de um Array</h1></div><div style="display:contents" dir="auto"><p id="37bf6ce8-497f-8032-ab80-c74a16365dd5" class="">Um array é formado por elementos armazenados em posições numeradas chamadas <strong>índices</strong>.</p></div><div style="display:contents" dir="auto"><p id="37bf6ce8-497f-8078-89d8-cc0e93a18db4" class="">Exemplo:</p></div><div style="display:contents" dir="auto"><pre id="37bf6ce8-497f-80c1-96a9-fbe1b3b441eb" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">let frutas = [&quot;Maçã&quot;, &quot;Banana&quot;, &quot;Laranja&quot;];</code></pre></div><div style="display:contents" dir="auto"><p id="37bf6ce8-497f-80b7-91bf-f6db1d10b3fe" class="">Representação:</p></div><div style="display:contents" dir="auto"><pre id="37bf6ce8-497f-8063-a21c-f4a666def19a" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Índice     Valor
+
+0          Maçã
+1          Banana
+2          Laranja</code></pre></div><div style="display:contents" dir="auto"><p id="37bf6ce8-497f-800b-8e56-cf14ecb469fd" class="">Observe que os índices começam em <strong>0</strong>, não em 1.</p></div><div style="display:contents" dir="auto"><hr id="37bf6ce8-497f-80ef-a9c0-fb82a780e274"/></div><div style="display:contents" dir="auto"><h1 id="37bf6ce8-497f-8030-bfb6-d716d0e70ed1" class="">Criando Arrays</h1></div><div style="display:contents" dir="auto"><h2 id="37bf6ce8-497f-80fc-9fd0-c347ebf9e682" class="">Utilizando colchetes</h2></div><div style="display:contents" dir="auto"><p id="37bf6ce8-497f-803a-a7a3-c742f716bef5" class="">A forma mais comum:</p></div><div style="display:contents" dir="auto"><pre id="37bf6ce8-497f-8002-8d8a-da9010029634" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">let numeros = [10, 20, 30, 40];</code></pre></div><div style="display:contents" dir="auto"><hr id="37bf6ce8-497f-805e-b261-d4d154bc5784"/></div><div style="display:contents" dir="auto"><h2 id="37bf6ce8-497f-800e-8926-fdd71c3742f1" class="">Array vazio</h2></div><div style="display:contents" dir="auto"><pre id="37bf6ce8-497f-80d6-b78a-f1410243ca9a" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">let lista = [];</code></pre></div><div style="display:contents" dir="auto"><hr id="37bf6ce8-497f-80ed-8717-c4bc341d59c5"/></div><div style="display:contents" dir="auto"><h2 id="37bf6ce8-497f-8074-8023-c93896663d66" class="">Utilizando o construtor Array</h2></div><div style="display:contents" dir="auto"><pre id="37bf6ce8-497f-8012-8818-d3c03b9978c3" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">let nomes = new Array(&quot;Ana&quot;, &quot;Carlos&quot;, &quot;Pedro&quot;);</code></pre></div><div style="display:contents" dir="auto"><p id="37bf6ce8-497f-803d-a3e9-f4ee1fcd93e5" class="">Embora funcione, a sintaxe com colchetes é a mais utilizada.</p></div><div style="display:contents" dir="auto"><hr id="37bf6ce8-497f-8008-98c4-f98e962a366a"/></div><div style="display:contents" dir="auto"><h1 id="37bf6ce8-497f-8016-9b2f-c3a64e089441" class="">Acessando Elementos</h1></div><div style="display:contents" dir="auto"><p id="37bf6ce8-497f-8098-8700-e856750a035e" class="">Para acessar um elemento, informamos seu índice.</p></div><div style="display:contents" dir="auto"><pre id="37bf6ce8-497f-80c9-a306-c6d228ee65f9" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">let cores = [&quot;Azul&quot;, &quot;Verde&quot;, &quot;Vermelho&quot;];
+
+console.log(cores[0]);</code></pre></div><div style="display:contents" dir="auto"><p id="37bf6ce8-497f-80d7-9eaf-d388606c9125" class="">Resultado:</p></div><div style="display:contents" dir="auto"><pre id="37bf6ce8-497f-80a4-8ef2-f5e54545770f" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Azul</code></pre></div><div style="display:contents" dir="auto"><hr id="37bf6ce8-497f-8084-ac77-cd968cf6190d"/></div><div style="display:contents" dir="auto"><pre id="37bf6ce8-497f-80ff-b999-f775a5467c5c" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">console.log(cores[2]);</code></pre></div><div style="display:contents" dir="auto"><p id="37bf6ce8-497f-80da-ad13-ded2a035f587" class="">Resultado:</p></div><div style="display:contents" dir="auto"><pre id="37bf6ce8-497f-80dd-9183-e8f628ede54f" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Vermelho</code></pre></div><div style="display:contents" dir="auto"><hr id="37bf6ce8-497f-8011-9d21-f3e235355c96"/></div><div style="display:contents" dir="auto"><h1 id="37bf6ce8-497f-806c-b788-ec1e3a4e214a" class="">Alterando Valores</h1></div><div style="display:contents" dir="auto"><p id="37bf6ce8-497f-8010-ab8f-ea6d85a755d2" class="">Podemos modificar qualquer posição.</p></div><div style="display:contents" dir="auto"><pre id="37bf6ce8-497f-806f-8bc7-e3357b64aa48" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">let frutas = [&quot;Maçã&quot;, &quot;Banana&quot;, &quot;Laranja&quot;];
+
+frutas[1] = &quot;Uva&quot;;
+
+console.log(frutas);</code></pre></div><div style="display:contents" dir="auto"><p id="37bf6ce8-497f-8058-a666-d1d1c4a66836" class="">Resultado:</p></div><div style="display:contents" dir="auto"><pre id="37bf6ce8-497f-80ea-9579-db31ccfeadb2" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">[&quot;Maçã&quot;, &quot;Uva&quot;, &quot;Laranja&quot;]</code></pre></div><div style="display:contents" dir="auto"><hr id="37bf6ce8-497f-8075-9962-cabd031508e5"/></div><div style="display:contents" dir="auto"><h1 id="37bf6ce8-497f-803e-98ec-dd1e33102aaf" class="">Descobrindo o Tamanho do Array</h1></div><div style="display:contents" dir="auto"><p id="37bf6ce8-497f-8051-9528-da6ff70552aa" class="">Utilizamos a propriedade <code>length</code>.</p></div><div style="display:contents" dir="auto"><pre id="37bf6ce8-497f-8035-86ae-e57943d28f8e" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">let numeros = [10, 20, 30, 40];
+
+console.log(numeros.length);</code></pre></div><div style="display:contents" dir="auto"><p id="37bf6ce8-497f-8023-92ca-f1f89d65a545" class="">Resultado:</p></div><div style="display:contents" dir="auto"><pre id="37bf6ce8-497f-806c-a090-eef09b1ce293" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">4</code></pre></div><div style="display:contents" dir="auto"><hr id="37bf6ce8-497f-8058-8621-eda33c5f1e84"/></div><div style="display:contents" dir="auto"><h1 id="37bf6ce8-497f-80a0-8698-cb4603195265" class="">Percorrendo Arrays</h1></div><div style="display:contents" dir="auto"><h2 id="37bf6ce8-497f-80de-b6db-d3641a5c0b00" class="">Utilizando for</h2></div><div style="display:contents" dir="auto"><pre id="37bf6ce8-497f-8009-8a3a-e1af1dfc88e2" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">let frutas = [&quot;Maçã&quot;, &quot;Banana&quot;, &quot;Laranja&quot;];
+
+for(let i = 0; i &lt; frutas.length; i++) {
+    console.log(frutas[i]);
+}</code></pre></div><div style="display:contents" dir="auto"><p id="37bf6ce8-497f-80aa-8080-dcea7f3e5972" class="">Resultado:</p></div><div style="display:contents" dir="auto"><pre id="37bf6ce8-497f-8012-a6f2-ddd1e5d989bb" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Maçã
+Banana
+Laranja</code></pre></div><div style="display:contents" dir="auto"><hr id="37bf6ce8-497f-80d4-a5e3-e697b4afbc7d"/></div><div style="display:contents" dir="auto"><h2 id="37bf6ce8-497f-804d-9a1b-ea64a9f2744b" class="">Utilizando for...of</h2></div><div style="display:contents" dir="auto"><pre id="37bf6ce8-497f-804a-8b26-f478cb76b261" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">for(let fruta of frutas) {
+    console.log(fruta);
+}</code></pre></div><div style="display:contents" dir="auto"><p id="37bf6ce8-497f-80fb-a4d2-cd9aa2d57eb0" class="">Resultado:</p></div><div style="display:contents" dir="auto"><pre id="37bf6ce8-497f-80fc-b32c-c55f68b33bda" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Maçã
+Banana
+Laranja</code></pre></div><div style="display:contents" dir="auto"><p id="37bf6ce8-497f-80a5-8a92-daa3e6927801" class="">O <code>for...of</code> é mais simples quando precisamos apenas dos valores.</p></div><div style="display:contents" dir="auto"><hr id="37bf6ce8-497f-8069-acf9-d69d15158dba"/></div><div style="display:contents" dir="auto"><h2 id="37bf6ce8-497f-8014-97aa-ce48b6db4d6e" class="">Utilizando forEach</h2></div><div style="display:contents" dir="auto"><pre id="37bf6ce8-497f-80e4-9e38-d80b82d11779" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">frutas.forEach(function(fruta) {
+    console.log(fruta);
+});</code></pre></div><div style="display:contents" dir="auto"><p id="37bf6ce8-497f-8036-92b9-e9c97b9f87f1" class="">Ou com Arrow Function:</p></div><div style="display:contents" dir="auto"><pre id="37bf6ce8-497f-8005-93ba-e37794995157" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">frutas.forEach(fruta =&gt; console.log(fruta));</code></pre></div><div style="display:contents" dir="auto"><hr id="37bf6ce8-497f-80be-a764-eef6bcb83030"/></div><div style="display:contents" dir="auto"><h1 id="37bf6ce8-497f-806d-b14a-cb8d8d5eef95" class="">Principais Métodos de Arrays</h1></div><div style="display:contents" dir="auto"><h2 id="37bf6ce8-497f-8064-b3f4-e486d0df3c3a" class="">push()</h2></div><div style="display:contents" dir="auto"><p id="37bf6ce8-497f-80f7-af4e-e421b8b38df8" class="">Adiciona um elemento ao final.</p></div><div style="display:contents" dir="auto"><pre id="37bf6ce8-497f-80a5-b792-ffbd9504f786" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">let numeros = [1, 2, 3];
+
+numeros.push(4);
+
+console.log(numeros);</code></pre></div><div style="display:contents" dir="auto"><p id="37bf6ce8-497f-8009-8f8e-ff8b76f86ad5" class="">Resultado:</p></div><div style="display:contents" dir="auto"><pre id="37bf6ce8-497f-809a-8a59-dc4ac116cc00" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">[1, 2, 3, 4]</code></pre></div><div style="display:contents" dir="auto"><hr id="37bf6ce8-497f-8002-b882-fde4f3cd98b8"/></div><div style="display:contents" dir="auto"><h2 id="37bf6ce8-497f-80cc-912e-dac971c84fb1" class="">pop()</h2></div><div style="display:contents" dir="auto"><p id="37bf6ce8-497f-8008-b63c-f21c933b23a2" class="">Remove o último elemento.</p></div><div style="display:contents" dir="auto"><pre id="37bf6ce8-497f-80cb-a35e-fed5f633a69e" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">numeros.pop();</code></pre></div><div style="display:contents" dir="auto"><p id="37bf6ce8-497f-8016-839b-ec5e3b86ce13" class="">Resultado:</p></div><div style="display:contents" dir="auto"><pre id="37bf6ce8-497f-800c-9cb8-f6a8aa81abb0" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">[1, 2, 3]</code></pre></div><div style="display:contents" dir="auto"><hr id="37bf6ce8-497f-80ea-b749-c99fcf071949"/></div><div style="display:contents" dir="auto"><h2 id="37bf6ce8-497f-8081-86a9-ffa5e211c7f7" class="">unshift()</h2></div><div style="display:contents" dir="auto"><p id="37bf6ce8-497f-80d8-be02-ec6213e005d0" class="">Adiciona no início.</p></div><div style="display:contents" dir="auto"><pre id="37bf6ce8-497f-80b2-9418-d77b12602bb5" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">numeros.unshift(0);</code></pre></div><div style="display:contents" dir="auto"><p id="37bf6ce8-497f-801c-bb85-d9f2aee7b542" class="">Resultado:</p></div><div style="display:contents" dir="auto"><pre id="37bf6ce8-497f-8095-9e59-ceedf922930c" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">[0, 1, 2, 3]</code></pre></div><div style="display:contents" dir="auto"><hr id="37bf6ce8-497f-8043-8a4d-c8d74342a3d2"/></div><div style="display:contents" dir="auto"><h2 id="37bf6ce8-497f-8024-b97c-d0d6709ab768" class="">shift()</h2></div><div style="display:contents" dir="auto"><p id="37bf6ce8-497f-803f-bffc-dc1d0b19573e" class="">Remove o primeiro elemento.</p></div><div style="display:contents" dir="auto"><pre id="37bf6ce8-497f-8097-b9cf-e17f7b03b961" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">numeros.shift();</code></pre></div><div style="display:contents" dir="auto"><p id="37bf6ce8-497f-8086-9a67-d3b7d1d9cae7" class="">Resultado:</p></div><div style="display:contents" dir="auto"><pre id="37bf6ce8-497f-80c4-ae60-f0aa9a7c0f8b" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">[1, 2, 3]</code></pre></div><div style="display:contents" dir="auto"><hr id="37bf6ce8-497f-80ce-af44-de0cbb2aeb5d"/></div><div style="display:contents" dir="auto"><h2 id="37bf6ce8-497f-802c-99dd-d1e705f5bcf3" class="">includes()</h2></div><div style="display:contents" dir="auto"><p id="37bf6ce8-497f-80b6-ba5f-c8ffb93458c0" class="">Verifica se um valor existe.</p></div><div style="display:contents" dir="auto"><pre id="37bf6ce8-497f-80a4-a41e-caac2fe2db4c" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">let nomes = [&quot;Ana&quot;, &quot;Carlos&quot;, &quot;Pedro&quot;];
+
+console.log(nomes.includes(&quot;Carlos&quot;));</code></pre></div><div style="display:contents" dir="auto"><p id="37bf6ce8-497f-80fc-9b3c-f68f73dcb74c" class="">Resultado:</p></div><div style="display:contents" dir="auto"><pre id="37bf6ce8-497f-8038-8c8f-c42361a56614" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">true</code></pre></div><div style="display:contents" dir="auto"><hr id="37bf6ce8-497f-8078-a78b-dc31106f2a77"/></div><div style="display:contents" dir="auto"><h2 id="37bf6ce8-497f-8029-807d-d745ab1b9f11" class="">indexOf()</h2></div><div style="display:contents" dir="auto"><p id="37bf6ce8-497f-8010-b7fe-fba370e5fd01" class="">Retorna a posição de um elemento.</p></div><div style="display:contents" dir="auto"><pre id="37bf6ce8-497f-807d-92e4-ccd18945c8df" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">console.log(nomes.indexOf(&quot;Pedro&quot;));</code></pre></div><div style="display:contents" dir="auto"><p id="37bf6ce8-497f-8082-8deb-eaae6a498ab5" class="">Resultado:</p></div><div style="display:contents" dir="auto"><pre id="37bf6ce8-497f-8092-89f2-cc43901e9ac3" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">2</code></pre></div><div style="display:contents" dir="auto"><p id="37bf6ce8-497f-80d4-b1a6-c011c1b09042" class="">Se não existir:</p></div><div style="display:contents" dir="auto"><pre id="37bf6ce8-497f-8068-be6b-c29aab887c62" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">-1</code></pre></div><div style="display:contents" dir="auto"><hr id="37bf6ce8-497f-80a5-847c-c7d83999e88d"/></div><div style="display:contents" dir="auto"><h2 id="37bf6ce8-497f-8038-bd69-df56b2af94fa" class="">join()</h2></div><div style="display:contents" dir="auto"><p id="37bf6ce8-497f-80fb-99b2-e47806c90f39" class="">Transforma um array em string.</p></div><div style="display:contents" dir="auto"><pre id="37bf6ce8-497f-8025-b0f6-f8f0dce24933" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">let letras = [&quot;A&quot;, &quot;B&quot;, &quot;C&quot;];
+
+console.log(letras.join(&quot;-&quot;));</code></pre></div><div style="display:contents" dir="auto"><p id="37bf6ce8-497f-8078-930f-fc6d2263e7e4" class="">Resultado:</p></div><div style="display:contents" dir="auto"><pre id="37bf6ce8-497f-8055-87d5-fa0b00026897" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">A-B-C</code></pre></div><div style="display:contents" dir="auto"><hr id="37bf6ce8-497f-8070-90b1-d8cf6cdbacab"/></div><div style="display:contents" dir="auto"><h2 id="37bf6ce8-497f-8024-a8a7-ca2c1969af65" class="">reverse()</h2></div><div style="display:contents" dir="auto"><p id="37bf6ce8-497f-8047-9428-ef4b9d186040" class="">Inverte a ordem.</p></div><div style="display:contents" dir="auto"><pre id="37bf6ce8-497f-80e4-a51f-deccee477625" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">let numeros = [1, 2, 3];
+
+numeros.reverse();
+
+console.log(numeros);</code></pre></div><div style="display:contents" dir="auto"><p id="37bf6ce8-497f-807c-8bc4-f249f7cb0dc6" class="">Resultado:</p></div><div style="display:contents" dir="auto"><pre id="37bf6ce8-497f-80ab-9136-e5587780d2ef" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">[3, 2, 1]</code></pre></div><div style="display:contents" dir="auto"><hr id="37bf6ce8-497f-8075-9e3f-e270132245b2"/></div><div style="display:contents" dir="auto"><h2 id="37bf6ce8-497f-8085-9a36-d6d0806f5247" class="">sort()</h2></div><div style="display:contents" dir="auto"><p id="37bf6ce8-497f-8066-b851-e1571ccf9b9f" class="">Ordena os elementos.</p></div><div style="display:contents" dir="auto"><pre id="37bf6ce8-497f-806e-82e7-fd368e7d49af" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">let nomes = [&quot;Carlos&quot;, &quot;Ana&quot;, &quot;Pedro&quot;];
+
+nomes.sort();
+
+console.log(nomes);</code></pre></div><div style="display:contents" dir="auto"><p id="37bf6ce8-497f-8009-ac5b-d68143e76998" class="">Resultado:</p></div><div style="display:contents" dir="auto"><pre id="37bf6ce8-497f-8068-bffb-f0928a35f6ca" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">[&quot;Ana&quot;, &quot;Carlos&quot;, &quot;Pedro&quot;]</code></pre></div><div style="display:contents" dir="auto"><hr id="37bf6ce8-497f-80c6-ad83-de131f7208da"/></div><div style="display:contents" dir="auto"><h1 id="37bf6ce8-497f-800c-ac6e-cc39fa1cb6b2" class="">Arrays de Números</h1></div><div style="display:contents" dir="auto"><pre id="37bf6ce8-497f-806a-a58a-fa128b776d65" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">let notas = [7.5, 8.0, 9.2, 6.8];</code></pre></div><div style="display:contents" dir="auto"><p id="37bf6ce8-497f-80ff-a790-e5b6c3220bed" class="">Podemos realizar cálculos:</p></div><div style="display:contents" dir="auto"><pre id="37bf6ce8-497f-8021-baa1-c8836513a5a8" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">let soma = 0;
+
+for(let nota of notas) {
+    soma += nota;
+}
+
+let media = soma / notas.length;
+
+console.log(media);</code></pre></div><div style="display:contents" dir="auto"><hr id="37bf6ce8-497f-80c2-b70d-c63b459cfbaa"/></div><div style="display:contents" dir="auto"><h1 id="37bf6ce8-497f-8029-a203-d728e73ad864" class="">Arrays de Objetos</h1></div><div style="display:contents" dir="auto"><p id="37bf6ce8-497f-8045-92c5-e7d146982a1b" class="">Muito comuns em aplicações reais.</p></div><div style="display:contents" dir="auto"><pre id="37bf6ce8-497f-8001-8a75-f3a8046aa851" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">let alunos = [
+    {nome: &quot;Ana&quot;, nota: 8},
+    {nome: &quot;Carlos&quot;, nota: 7},
+    {nome: &quot;Pedro&quot;, nota: 9}
+];</code></pre></div><div style="display:contents" dir="auto"><p id="37bf6ce8-497f-80a5-8047-cc0d6eacf03f" class="">Acessando:</p></div><div style="display:contents" dir="auto"><pre id="37bf6ce8-497f-80c3-8087-e6d84514fea5" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">console.log(alunos[0].nome);</code></pre></div><div style="display:contents" dir="auto"><p id="37bf6ce8-497f-806b-bad6-c5789a033aa2" class="">Resultado:</p></div><div style="display:contents" dir="auto"><pre id="37bf6ce8-497f-80b7-9260-e99b42764ed3" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Ana</code></pre></div><div style="display:contents" dir="auto"><hr id="37bf6ce8-497f-809b-8f6d-f29c98aaa439"/></div><div style="display:contents" dir="auto"><h1 id="37bf6ce8-497f-80a5-b8c6-f786d3ff0814" class="">Arrays Multidimensionais</h1></div><div style="display:contents" dir="auto"><p id="37bf6ce8-497f-8097-9f19-eb4c0958817a" class="">Um array pode conter outros arrays.</p></div><div style="display:contents" dir="auto"><pre id="37bf6ce8-497f-8035-a7f8-c8032cf50edf" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">let matriz = [
+    [1, 2, 3],
+    [4, 5, 6],
+    [7, 8, 9]
+];</code></pre></div><div style="display:contents" dir="auto"><p id="37bf6ce8-497f-8051-a9dc-de528bafb1d0" class="">Representação:</p></div><div style="display:contents" dir="auto"><pre id="37bf6ce8-497f-8004-9b78-fa2b3341e525" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">1 2 3
+4 5 6
+7 8 9</code></pre></div><div style="display:contents" dir="auto"><p id="37bf6ce8-497f-8074-a108-f51a7f015cbf" class="">Acessando:</p></div><div style="display:contents" dir="auto"><pre id="37bf6ce8-497f-8054-bff1-ca96bcd00f0c" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">console.log(matriz[1][2]);</code></pre></div><div style="display:contents" dir="auto"><p id="37bf6ce8-497f-8044-8d95-d452e61eebc5" class="">Resultado:</p></div><div style="display:contents" dir="auto"><pre id="37bf6ce8-497f-801a-ae61-cad752f7743d" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">6</code></pre></div><div style="display:contents" dir="auto"><hr id="37bf6ce8-497f-8088-8cbc-c0c49da04ee8"/></div><div style="display:contents" dir="auto"><h1 id="37bf6ce8-497f-8072-ab5d-f3b559940596" class="">Complexidade Big O em Arrays</h1></div><div style="display:contents" dir="ltr"><table id="37bf6ce8-497f-807c-ba8c-c05b7ea8f331" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="37bf6ce8-497f-80a7-9c56-e9ca0d39244b"><th id="SD`P" class="simple-table-header-color simple-table-header">Operação</th><th id="AX`?" class="simple-table-header-color simple-table-header">Complexidade</th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="37bf6ce8-497f-8002-97ca-c77aa63516e6"><td id="SD`P" class="">Acesso por índice</td><td id="AX`?" class="">O(1)</td></tr></div><div style="display:contents" dir="ltr"><tr id="37bf6ce8-497f-801f-8a1f-d3eeb875c530"><td id="SD`P" class="">Alteração por índice</td><td id="AX`?" class="">O(1)</td></tr></div><div style="display:contents" dir="ltr"><tr id="37bf6ce8-497f-80ab-b2fb-e6f1f7e847d4"><td id="SD`P" class="">Busca (<code>includes</code>)</td><td id="AX`?" class="">O(n)</td></tr></div><div style="display:contents" dir="ltr"><tr id="37bf6ce8-497f-80fb-9fe0-c17bb9220f2e"><td id="SD`P" class="">Inserção no final (<code>push</code>)</td><td id="AX`?" class="">O(1)</td></tr></div><div style="display:contents" dir="ltr"><tr id="37bf6ce8-497f-80f6-b323-ebcde1b4ef1f"><td id="SD`P" class="">Remoção no final (<code>pop</code>)</td><td id="AX`?" class="">O(1)</td></tr></div><div style="display:contents" dir="ltr"><tr id="37bf6ce8-497f-8086-8a12-e43e208899f3"><td id="SD`P" class="">Inserção no início (<code>unshift</code>)</td><td id="AX`?" class="">O(n)</td></tr></div><div style="display:contents" dir="ltr"><tr id="37bf6ce8-497f-80a9-8221-e03fca11b410"><td id="SD`P" class="">Remoção no início (<code>shift</code>)</td><td id="AX`?" class="">O(n)</td></tr></div></tbody></table></div><div style="display:contents" dir="auto"><hr id="37bf6ce8-497f-80cf-9ba7-edbdd28e6e49"/></div><div style="display:contents" dir="auto"><h1 id="37bf6ce8-497f-8061-81f3-deaea4839bfc" class="">Vantagens dos Arrays</h1></div><div style="display:contents" dir="auto"><ul id="37bf6ce8-497f-80c2-a2ef-c83e5e0e7599" class="bulleted-list"><li style="list-style-type:disc">Fáceis de utilizar;</li></ul></div><div style="display:contents" dir="auto"><ul id="37bf6ce8-497f-8037-9e83-e76c43760b9b" class="bulleted-list"><li style="list-style-type:disc">Permitem armazenar muitos dados;</li></ul></div><div style="display:contents" dir="auto"><ul id="37bf6ce8-497f-808c-8099-e480157bb47f" class="bulleted-list"><li style="list-style-type:disc">Acesso rápido por índice;</li></ul></div><div style="display:contents" dir="auto"><ul id="37bf6ce8-497f-80a5-bca2-e4786292862a" class="bulleted-list"><li style="list-style-type:disc">Amplamente suportados por linguagens de programação;</li></ul></div><div style="display:contents" dir="auto"><ul id="37bf6ce8-497f-8031-90d2-eac894d5d491" class="bulleted-list"><li style="list-style-type:disc">Possuem diversos métodos prontos.</li></ul></div><div style="display:contents" dir="auto"><hr id="37bf6ce8-497f-80dd-9eaa-d824425f75b4"/></div><div style="display:contents" dir="auto"><h1 id="37bf6ce8-497f-805c-a4c9-c51e58ab8520" class="">Desvantagens dos Arrays</h1></div><div style="display:contents" dir="auto"><ul id="37bf6ce8-497f-8035-bbab-f9f4926bd368" class="bulleted-list"><li style="list-style-type:disc">Buscas podem ser lentas em arrays grandes;</li></ul></div><div style="display:contents" dir="auto"><ul id="37bf6ce8-497f-803f-a3af-c5f8c68acb3b" class="bulleted-list"><li style="list-style-type:disc">Inserções e remoções no início são custosas;</li></ul></div><div style="display:contents" dir="auto"><ul id="37bf6ce8-497f-80f0-a124-fc78875a9442" class="bulleted-list"><li style="list-style-type:disc">Tamanho pode se tornar um problema em algumas linguagens;</li></ul></div><div style="display:contents" dir="auto"><ul id="37bf6ce8-497f-8019-b92e-d120e4ad3a35" class="bulleted-list"><li style="list-style-type:disc">Nem sempre são a melhor estrutura para grandes volumes de dados.</li></ul></div><div style="display:contents" dir="auto"><hr id="37bf6ce8-497f-80ca-8a8c-ddcf077663ac"/></div><div style="display:contents" dir="auto"><h1 id="37bf6ce8-497f-8032-9a28-d128a6b6c110" class="">Aplicações dos Arrays</h1></div><div style="display:contents" dir="auto"><p id="37bf6ce8-497f-8060-ba3e-c5eb6e2defc5" class="">Os arrays estão presentes em praticamente todos os sistemas:</p></div><div style="display:contents" dir="auto"><ul id="37bf6ce8-497f-8015-bb5b-dc32e0f0818b" class="bulleted-list"><li style="list-style-type:disc">Listas de usuários;</li></ul></div><div style="display:contents" dir="auto"><ul id="37bf6ce8-497f-80cc-b425-f8c20a3455ec" class="bulleted-list"><li style="list-style-type:disc">Carrinhos de compras;</li></ul></div><div style="display:contents" dir="auto"><ul id="37bf6ce8-497f-8060-914c-d94a1cb211bd" class="bulleted-list"><li style="list-style-type:disc">Catálogos de produtos;</li></ul></div><div style="display:contents" dir="auto"><ul id="37bf6ce8-497f-805b-a70c-dbee100d71a3" class="bulleted-list"><li style="list-style-type:disc">Jogos;</li></ul></div><div style="display:contents" dir="auto"><ul id="37bf6ce8-497f-808d-8433-fdae5b9c6a74" class="bulleted-list"><li style="list-style-type:disc">Sistemas bancários;</li></ul></div><div style="display:contents" dir="auto"><ul id="37bf6ce8-497f-8039-86fb-ebd92a71cb22" class="bulleted-list"><li style="list-style-type:disc">Redes sociais;</li></ul></div><div style="display:contents" dir="auto"><ul id="37bf6ce8-497f-80c0-a82e-fb92e24b660e" class="bulleted-list"><li style="list-style-type:disc">Bancos de dados em memória;</li></ul></div><div style="display:contents" dir="auto"><ul id="37bf6ce8-497f-809a-9719-e90d0871265c" class="bulleted-list"><li style="list-style-type:disc">Algoritmos de ordenação e busca.</li></ul></div><div style="display:contents" dir="auto"><hr id="37bf6ce8-497f-80f1-bf47-f66362459c84"/></div><div style="display:contents" dir="auto"><h1 id="37bf6ce8-497f-801c-94c3-f29e13ab8ff8" class="">Resumo</h1></div><div style="display:contents" dir="auto"><p id="37bf6ce8-497f-8031-b98d-ed3bd89fb7d4" class="">Os <strong>Arrays</strong> são estruturas de dados que permitem armazenar múltiplos valores em uma única variável, organizados por índices numéricos. Eles são uma das estruturas mais importantes da programação, servindo como base para algoritmos, estruturas de dados mais avançadas e aplicações do mundo real. Em JavaScript, os arrays oferecem diversos métodos que facilitam a manipulação, busca, ordenação e processamento de dados, tornando-os uma ferramenta indispensável para qualquer programador.</p></div></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>
