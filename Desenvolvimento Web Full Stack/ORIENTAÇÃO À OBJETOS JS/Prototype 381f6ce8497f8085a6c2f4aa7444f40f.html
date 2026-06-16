@@ -1,0 +1,807 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Prototype</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="381f6ce8-497f-8085-a6c2-f4aa7444f40f" class="page sans"><header><div class="page-header-icon undefined"><img class="icon notion-static-icon" src="https://app.notion.com/icons/command-line_yellow.svg"/></div><h1 class="page-title" dir="auto">Prototype</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><div style="display:contents" dir="auto"><h1 id="381f6ce8-497f-80d3-b63d-cd26e3df5044" class="">Prototype em JavaScript</h1></div><div style="display:contents" dir="auto"><p id="381f6ce8-497f-8098-9622-e3b992d5c34d" class="">O <strong>prototype</strong> é um dos conceitos mais importantes e, ao mesmo tempo, mais desafiadores da linguagem JavaScript. Ele é a base da <strong>herança prototipal</strong>, mecanismo utilizado pela linguagem para compartilhar propriedades e métodos entre objetos.</p></div><div style="display:contents" dir="auto"><p id="381f6ce8-497f-80b9-b4da-d54c5f006e44" class="">Para compreender profundamente a Orientação a Objetos em JavaScript, é essencial entender como os protótipos funcionam.</p></div><div style="display:contents" dir="auto"><hr id="381f6ce8-497f-8049-b03d-e6ad01d297c9"/></div><div style="display:contents" dir="auto"><h1 id="381f6ce8-497f-80d5-a790-e405b02a60b5" class="">O que é o <code>prototype</code>?</h1></div><div style="display:contents" dir="auto"><p id="381f6ce8-497f-80ec-a853-d119efda9ffa" class="">Em JavaScript, toda função possui automaticamente uma propriedade chamada <code>prototype</code>.</p></div><div style="display:contents" dir="auto"><p id="381f6ce8-497f-80be-900a-e280ca77ac4a" class="">Essa propriedade é um objeto utilizado como modelo para os objetos criados por meio do operador <code>new</code>.</p></div><div style="display:contents" dir="auto"><p id="381f6ce8-497f-80a1-9175-ee3ac09070e3" class="">Exemplo:</p></div><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-jsx.min.js" integrity="sha512-m3JYEI6gx5fh9jF10FjGoMzVKcV2N6nchcDcqPCdI1L3R2WQV7br2XVNR8iTLb2daOMRl3zldbcfT40xU2ntVw==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="381f6ce8-497f-8080-9592-db66d691a367" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">function Pessoa(nome) {
+    this.nome = nome;
+}
+
+console.log(Pessoa.prototype);</code></pre></div><div style="display:contents" dir="auto"><p id="381f6ce8-497f-8011-9d23-e3fb643d5a5f" class="">Resultado:</p></div><div style="display:contents" dir="auto"><pre id="381f6ce8-497f-800d-989d-e1467cc277d8" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">{
+    constructor: Pessoa
+}</code></pre></div><div style="display:contents" dir="auto"><p id="381f6ce8-497f-8027-8020-ed8edaa20a80" class="">Inicialmente, o objeto <code>prototype</code> contém apenas a propriedade <code>constructor</code>, que aponta para a própria função.</p></div><div style="display:contents" dir="auto"><hr id="381f6ce8-497f-80d0-9db9-f229b1aa31ef"/></div><div style="display:contents" dir="auto"><h1 id="381f6ce8-497f-8044-9a2a-c5b39c97c22b" class="">Entendendo a Herança Prototipal</h1></div><div style="display:contents" dir="auto"><p id="381f6ce8-497f-80e4-9d77-ceb4f7be1114" class="">Diferentemente de linguagens como Java ou C#, que utilizam herança baseada em classes, o JavaScript utiliza <strong>herança baseada em protótipos</strong>.</p></div><div style="display:contents" dir="auto"><p id="381f6ce8-497f-8023-a141-e37354cda8a2" class="">Isso significa que os objetos podem herdar características diretamente de outros objetos.</p></div><div style="display:contents" dir="auto"><p id="381f6ce8-497f-8057-bcaa-f449e75f4c8a" class="">Quando uma propriedade não é encontrada em um objeto, o JavaScript procura essa propriedade em seu protótipo.</p></div><div style="display:contents" dir="auto"><p id="381f6ce8-497f-80d4-b542-f15efc76372d" class="">Esse processo continua até que a propriedade seja encontrada ou a cadeia de protótipos termine.</p></div><div style="display:contents" dir="auto"><p id="381f6ce8-497f-8038-8fba-c7f8f416d723" class="">Esse mecanismo é chamado de:</p></div><div style="display:contents" dir="auto"><blockquote id="381f6ce8-497f-80df-8c8c-ce54531920c5" class=""><strong>Prototype Chain</strong> (cadeia de protótipos).</blockquote></div><div style="display:contents" dir="auto"><hr id="381f6ce8-497f-80a7-a182-cad88b58675d"/></div><div style="display:contents" dir="auto"><h1 id="381f6ce8-497f-80ab-b708-dda52a4256a6" class="">Criando Objetos com Funções Construtoras</h1></div><div style="display:contents" dir="auto"><p id="381f6ce8-497f-802e-8fb2-ef40a7750fb6" class="">Considere o exemplo:</p></div><div style="display:contents" dir="auto"><pre id="381f6ce8-497f-8040-8f68-ddbdb155631d" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">function Usuario(nome) {
+    this.nome = nome;
+}</code></pre></div><div style="display:contents" dir="auto"><p id="381f6ce8-497f-8040-9458-d9f51634162e" class="">Criando uma instância:</p></div><div style="display:contents" dir="auto"><pre id="381f6ce8-497f-8051-849f-cb25940c2ac5" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const usuario = new Usuario(&quot;Gustavo&quot;);</code></pre></div><div style="display:contents" dir="auto"><p id="381f6ce8-497f-808b-96bc-c838f3177260" class="">Internamente, o JavaScript cria uma ligação entre o objeto e <code>Usuario.prototype</code>.</p></div><div style="display:contents" dir="auto"><p id="381f6ce8-497f-8038-ba35-db55edd543fd" class="">Podemos representar essa relação da seguinte forma:</p></div><div style="display:contents" dir="auto"><pre id="381f6ce8-497f-80b1-b97d-fd4b832f5bef" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">usuario → Usuario.prototype → Object.prototype → null</code></pre></div><div style="display:contents" dir="auto"><hr id="381f6ce8-497f-8064-91c0-cb9a5dac63a3"/></div><div style="display:contents" dir="auto"><h1 id="381f6ce8-497f-8044-bb9f-de96335e146d" class="">Adicionando Métodos ao <code>prototype</code></h1></div><div style="display:contents" dir="auto"><p id="381f6ce8-497f-805f-b36f-e244fa7249ec" class="">Uma das principais utilidades do <code>prototype</code> é compartilhar métodos entre todas as instâncias.</p></div><div style="display:contents" dir="auto"><p id="381f6ce8-497f-8039-a4b7-d08768dbe1b8" class="">Exemplo:</p></div><div style="display:contents" dir="auto"><pre id="381f6ce8-497f-80e9-a97c-ed6aaaa14aa8" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">function Pessoa(nome) {
+    this.nome = nome;
+}
+
+Pessoa.prototype.apresentar = function() {
+    console.log(`Olá, meu nome é ${this.nome}`);
+};</code></pre></div><div style="display:contents" dir="auto"><p id="381f6ce8-497f-80aa-9efd-ec2da9ba6a78" class="">Uso:</p></div><div style="display:contents" dir="auto"><pre id="381f6ce8-497f-8096-bc2b-eeb19d67d1bc" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const pessoa1 = new Pessoa(&quot;Ana&quot;);
+const pessoa2 = new Pessoa(&quot;Carlos&quot;);
+
+pessoa1.apresentar();
+pessoa2.apresentar();</code></pre></div><div style="display:contents" dir="auto"><p id="381f6ce8-497f-80d8-b809-c17473c39a64" class="">Resultado:</p></div><div style="display:contents" dir="auto"><pre id="381f6ce8-497f-801d-b8c5-f86810cee42e" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Olá, meu nome é Ana
+Olá, meu nome é Carlos</code></pre></div><div style="display:contents" dir="auto"><p id="381f6ce8-497f-8044-bec6-d2af8ae49dbf" class="">O método <code>apresentar()</code> existe apenas uma vez na memória e é compartilhado por todas as instâncias.</p></div><div style="display:contents" dir="auto"><hr id="381f6ce8-497f-8086-ab9b-fffd492a3080"/></div><div style="display:contents" dir="auto"><h1 id="381f6ce8-497f-804e-810c-e3981d3fd09a" class="">Por que Utilizar o <code>prototype</code>?</h1></div><div style="display:contents" dir="auto"><p id="381f6ce8-497f-80bd-9008-df697a6159da" class="">Sem <code>prototype</code>, cada objeto criaria sua própria cópia dos métodos.</p></div><div style="display:contents" dir="auto"><p id="381f6ce8-497f-809d-b02e-fd312bdbd4ce" class="">Exemplo:</p></div><div style="display:contents" dir="auto"><pre id="381f6ce8-497f-80ad-a066-e8f2ab32797e" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">function Pessoa(nome) {
+    this.nome = nome;
+
+    this.apresentar = function() {
+        console.log(this.nome);
+    };
+}</code></pre></div><div style="display:contents" dir="auto"><p id="381f6ce8-497f-80de-8c79-d725bf1d4b8e" class="">Criando objetos:</p></div><div style="display:contents" dir="auto"><pre id="381f6ce8-497f-8002-8c2a-eb510f2d5880" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const p1 = new Pessoa(&quot;Ana&quot;);
+const p2 = new Pessoa(&quot;Carlos&quot;);</code></pre></div><div style="display:contents" dir="auto"><p id="381f6ce8-497f-8088-b9d1-c139977ebf9a" class="">Nesse caso:</p></div><div style="display:contents" dir="auto"><pre id="381f6ce8-497f-8063-a386-c8bbe9a3f672" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">p1.apresentar !== p2.apresentar</code></pre></div><div style="display:contents" dir="auto"><p id="381f6ce8-497f-80cf-80fc-e1e974aa5f3c" class="">Cada objeto possui uma função diferente.</p></div><div style="display:contents" dir="auto"><p id="381f6ce8-497f-80ca-bc52-d668eddc6e77" class="">Com <code>prototype</code>:</p></div><div style="display:contents" dir="auto"><pre id="381f6ce8-497f-8092-a4be-eed82538ecf5" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">p1.apresentar === p2.apresentar</code></pre></div><div style="display:contents" dir="auto"><p id="381f6ce8-497f-80b8-bb28-d964b12151c4" class="">Os métodos são compartilhados, reduzindo o consumo de memória.</p></div><div style="display:contents" dir="auto"><hr id="381f6ce8-497f-8023-967d-dab11fe3b16b"/></div><div style="display:contents" dir="auto"><h1 id="381f6ce8-497f-8025-8685-d3fc63828d02" class="">Como o JavaScript Procura Propriedades?</h1></div><div style="display:contents" dir="auto"><p id="381f6ce8-497f-80b2-8149-dbe46f6a2ca8" class="">Quando acessamos:</p></div><div style="display:contents" dir="auto"><pre id="381f6ce8-497f-80ab-90a2-f5d684a62bf6" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">pessoa1.apresentar();</code></pre></div><div style="display:contents" dir="auto"><p id="381f6ce8-497f-808a-9be7-cd118d713577" class="">O JavaScript segue esta ordem:</p></div><div style="display:contents" dir="auto"><ol type="1" id="381f6ce8-497f-8049-bbf4-f8e886304621" class="numbered-list" start="1"><li>Procura <code>apresentar</code> em <code>pessoa1</code>.</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="381f6ce8-497f-8041-956c-eed82335ad97" class="numbered-list" start="2"><li>Se não encontrar, procura em <code>Pessoa.prototype</code>.</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="381f6ce8-497f-8060-98aa-c3cbeaacee43" class="numbered-list" start="3"><li>Se ainda não encontrar, procura em <code>Object.prototype</code>.</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="381f6ce8-497f-80d0-b7c4-fdea4fe10fac" class="numbered-list" start="4"><li>Se não existir, retorna <code>undefined</code>.</li></ol></div><div style="display:contents" dir="auto"><p id="381f6ce8-497f-80d0-b66e-df986d1ffbe4" class="">Exemplo:</p></div><div style="display:contents" dir="auto"><pre id="381f6ce8-497f-80fb-9801-cd95331c6e85" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">console.log(pessoa1.toString());</code></pre></div><div style="display:contents" dir="auto"><p id="381f6ce8-497f-80e2-b72d-fd228bf21e6e" class="">Mesmo que <code>toString()</code> não tenha sido definido em <code>pessoa1</code>, ele existe em <code>Object.prototype</code>.</p></div><div style="display:contents" dir="auto"><hr id="381f6ce8-497f-80fe-94cc-f04759371a68"/></div><div style="display:contents" dir="auto"><h1 id="381f6ce8-497f-80ea-8ea6-fa3f9b8beac0" class="">A Propriedade Interna <code>[[Prototype]]</code></h1></div><div style="display:contents" dir="auto"><p id="381f6ce8-497f-80b3-86a0-f7448e096cf0" class="">Todo objeto possui uma referência interna para seu protótipo.</p></div><div style="display:contents" dir="auto"><p id="381f6ce8-497f-80ab-bfcc-eb930ae9036c" class="">Essa referência é conhecida como:</p></div><div style="display:contents" dir="auto"><pre id="381f6ce8-497f-80bf-8ff7-fb36b1e6a957" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">[[Prototype]]</code></pre></div><div style="display:contents" dir="auto"><p id="381f6ce8-497f-80ee-b99c-d6c191dfd638" class="">Embora seja interna, podemos acessá-la por meio de:</p></div><div style="display:contents" dir="auto"><pre id="381f6ce8-497f-8014-9720-e9614ea4287b" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">Object.getPrototypeOf(objeto);</code></pre></div><div style="display:contents" dir="auto"><p id="381f6ce8-497f-80c7-8a55-c5d9324a41c7" class="">Exemplo:</p></div><div style="display:contents" dir="auto"><pre id="381f6ce8-497f-800b-9dd9-e853797d5c97" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">console.log(
+    Object.getPrototypeOf(pessoa1)
+);</code></pre></div><div style="display:contents" dir="auto"><p id="381f6ce8-497f-80e8-959b-d1e14599c26b" class="">Resultado:</p></div><div style="display:contents" dir="auto"><pre id="381f6ce8-497f-809b-8054-ed2193286835" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">Pessoa.prototype</code></pre></div><div style="display:contents" dir="auto"><p id="381f6ce8-497f-80f0-a9a9-e33d736df8cb" class="">Também existe a propriedade <code>__proto__</code>, mas seu uso não é recomendado.</p></div><div style="display:contents" dir="auto"><pre id="381f6ce8-497f-803e-993d-fa6f4d65fd89" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">console.log(pessoa1.__proto__);</code></pre></div><div style="display:contents" dir="auto"><p id="381f6ce8-497f-80b9-a057-f1ba3235d3c1" class="">Prefira sempre:</p></div><div style="display:contents" dir="auto"><pre id="381f6ce8-497f-801a-ace0-fa80fce5fd8a" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">Object.getPrototypeOf(pessoa1);</code></pre></div><div style="display:contents" dir="auto"><hr id="381f6ce8-497f-800b-a75c-d800bee1ab81"/></div><div style="display:contents" dir="auto"><h1 id="381f6ce8-497f-80a6-917c-fe5e41d49fd8" class="">A Propriedade <code>constructor</code></h1></div><div style="display:contents" dir="auto"><p id="381f6ce8-497f-8064-bea4-e68ca14ff2c2" class="">Todo protótipo possui uma propriedade chamada <code>constructor</code>.</p></div><div style="display:contents" dir="auto"><p id="381f6ce8-497f-80af-89a4-eea2181b360d" class="">Exemplo:</p></div><div style="display:contents" dir="auto"><pre id="381f6ce8-497f-80ae-93d1-fe1f7723719b" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">console.log(Pessoa.prototype.constructor);</code></pre></div><div style="display:contents" dir="auto"><p id="381f6ce8-497f-80ad-8ff6-dcc40d1d3414" class="">Resultado:</p></div><div style="display:contents" dir="auto"><pre id="381f6ce8-497f-80a8-8b5a-ddf11f80b13a" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">[Function: Pessoa]</code></pre></div><div style="display:contents" dir="auto"><p id="381f6ce8-497f-80e0-b74e-d578e7df6910" class="">Essa propriedade aponta para a função construtora original.</p></div><div style="display:contents" dir="auto"><p id="381f6ce8-497f-809a-8d13-f0d73ee083ce" class="">Podemos utilizá-la para identificar quem criou um objeto.</p></div><div style="display:contents" dir="auto"><pre id="381f6ce8-497f-80cf-973e-ceb1db316885" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">console.log(
+    pessoa1.constructor === Pessoa
+);</code></pre></div><div style="display:contents" dir="auto"><p id="381f6ce8-497f-8088-b52c-d38f906c9713" class="">Resultado:</p></div><div style="display:contents" dir="auto"><pre id="381f6ce8-497f-8008-b8f2-c0c4aede552e" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">true</code></pre></div><div style="display:contents" dir="auto"><hr id="381f6ce8-497f-80c0-b581-cc9aedcadf36"/></div><div style="display:contents" dir="auto"><h1 id="381f6ce8-497f-80d2-8372-d04ba4de1f89" class="">Verificando a Cadeia de Protótipos</h1></div><div style="display:contents" dir="auto"><p id="381f6ce8-497f-8081-8a1d-e1c3cf890fa5" class="">O operador <code>instanceof</code> verifica se um objeto pertence a determinada cadeia de protótipos.</p></div><div style="display:contents" dir="auto"><pre id="381f6ce8-497f-803d-ae57-db03269689af" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">console.log(
+    pessoa1 instanceof Pessoa
+);</code></pre></div><div style="display:contents" dir="auto"><p id="381f6ce8-497f-8066-86a0-f79552cd74f7" class="">Resultado:</p></div><div style="display:contents" dir="auto"><pre id="381f6ce8-497f-8056-b258-c3396f7d3c1a" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">true</code></pre></div><div style="display:contents" dir="auto"><p id="381f6ce8-497f-8089-930c-c08cbc236922" class="">Internamente, o JavaScript verifica se:</p></div><div style="display:contents" dir="auto"><pre id="381f6ce8-497f-80d8-bc14-d98e48c71bff" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">Pessoa.prototype</code></pre></div><div style="display:contents" dir="auto"><p id="381f6ce8-497f-80bd-9aef-f562dcc43982" class="">faz parte da cadeia de protótipos do objeto.</p></div><div style="display:contents" dir="auto"><hr id="381f6ce8-497f-8080-8988-d31db5a90cc6"/></div><div style="display:contents" dir="auto"><h1 id="381f6ce8-497f-807e-a69f-ffe82b722e67" class="">Criando Herança com <code>prototype</code></h1></div><div style="display:contents" dir="auto"><p id="381f6ce8-497f-8023-b5d5-dc930029dc74" class="">Podemos conectar protótipos manualmente.</p></div><div style="display:contents" dir="auto"><pre id="381f6ce8-497f-8078-9aef-c323d6a13d4e" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">function Animal(nome) {
+    this.nome = nome;
+}
+
+Animal.prototype.emitirSom = function() {
+    console.log(&quot;Som genérico&quot;);
+};</code></pre></div><div style="display:contents" dir="auto"><pre id="381f6ce8-497f-8091-8805-c9028961d0cf" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">function Cachorro(nome) {
+    Animal.call(this, nome);
+}</code></pre></div><div style="display:contents" dir="auto"><p id="381f6ce8-497f-80ef-bfbb-e2c7124eb3c6" class="">Ligando os protótipos:</p></div><div style="display:contents" dir="auto"><pre id="381f6ce8-497f-800a-8ba2-ed7f33d772c9" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">Cachorro.prototype = Object.create(
+    Animal.prototype
+);
+
+Cachorro.prototype.constructor = Cachorro;</code></pre></div><div style="display:contents" dir="auto"><p id="381f6ce8-497f-80c8-9f3f-c9d67d78cdd5" class="">Sobrescrevendo métodos:</p></div><div style="display:contents" dir="auto"><pre id="381f6ce8-497f-800d-97e5-f8b0227854f0" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">Cachorro.prototype.emitirSom = function() {
+    console.log(&quot;Au au!&quot;);
+};</code></pre></div><div style="display:contents" dir="auto"><p id="381f6ce8-497f-8060-bc09-daabc1d984d2" class="">Uso:</p></div><div style="display:contents" dir="auto"><pre id="381f6ce8-497f-809d-ada1-d4cf14735ab8" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const dog = new Cachorro(&quot;Rex&quot;);
+
+dog.emitirSom();</code></pre></div><div style="display:contents" dir="auto"><p id="381f6ce8-497f-8011-af0f-d69c106da5e8" class="">Resultado:</p></div><div style="display:contents" dir="auto"><pre id="381f6ce8-497f-8035-aa1b-dc821532609e" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Au au!</code></pre></div><div style="display:contents" dir="auto"><hr id="381f6ce8-497f-804a-8f21-d400dd1a81cd"/></div><div style="display:contents" dir="auto"><h1 id="381f6ce8-497f-802a-a9b9-e591072cd360" class="">Classes e <code>prototype</code></h1></div><div style="display:contents" dir="auto"><p id="381f6ce8-497f-80fa-854f-de8eddbfc52f" class="">As classes introduzidas no ES6 utilizam protótipos internamente.</p></div><div style="display:contents" dir="auto"><p id="381f6ce8-497f-80f4-9d79-da779b0c4668" class="">Classe:</p></div><div style="display:contents" dir="auto"><pre id="381f6ce8-497f-808e-9d4e-d2b42e1020fe" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">class Pessoa {
+    constructor(nome) {
+        this.nome = nome;
+    }
+
+    apresentar() {
+        console.log(this.nome);
+    }
+}</code></pre></div><div style="display:contents" dir="auto"><p id="381f6ce8-497f-80aa-919d-d29fe05d8f7d" class="">Internamente, o método é armazenado em:</p></div><div style="display:contents" dir="auto"><pre id="381f6ce8-497f-80a7-b265-e437b954bea1" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">Pessoa.prototype.apresentar</code></pre></div><div style="display:contents" dir="auto"><p id="381f6ce8-497f-8052-992f-c4bf58ede254" class="">Ou seja, as classes são uma sintaxe mais moderna para trabalhar com protótipos.</p></div><div style="display:contents" dir="auto"><hr id="381f6ce8-497f-80ab-8a9d-d8d70f3b5468"/></div><div style="display:contents" dir="auto"><h1 id="381f6ce8-497f-802b-97e9-ebb5d104f4ca" class="">Métodos Importantes Relacionados ao <code>prototype</code></h1></div><div style="display:contents" dir="auto"><h2 id="381f6ce8-497f-804b-a255-f20cff432dc5" class=""><code>Object.create()</code></h2></div><div style="display:contents" dir="auto"><p id="381f6ce8-497f-8013-a21c-fe1710b7ab36" class="">Cria um objeto com um protótipo específico.</p></div><div style="display:contents" dir="auto"><pre id="381f6ce8-497f-8051-93f6-f4a95e3fdce9" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const animal = {
+    emitirSom() {
+        console.log(&quot;Som&quot;);
+    }
+};
+
+const cachorro = Object.create(animal);</code></pre></div><div style="display:contents" dir="auto"><hr id="381f6ce8-497f-8063-87c5-dc315726eb6e"/></div><div style="display:contents" dir="auto"><h2 id="381f6ce8-497f-805d-b066-eb2ca8f635fe" class=""><code>Object.getPrototypeOf()</code></h2></div><div style="display:contents" dir="auto"><p id="381f6ce8-497f-80a2-b97d-f5b40f547fa7" class="">Obtém o protótipo de um objeto.</p></div><div style="display:contents" dir="auto"><pre id="381f6ce8-497f-80ed-8d72-cafdb158556f" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">Object.getPrototypeOf(cachorro);</code></pre></div><div style="display:contents" dir="auto"><hr id="381f6ce8-497f-8098-b6a8-e45c5d7658b8"/></div><div style="display:contents" dir="auto"><h2 id="381f6ce8-497f-80b0-bcf7-e87e6337a327" class=""><code>Object.setPrototypeOf()</code></h2></div><div style="display:contents" dir="auto"><p id="381f6ce8-497f-802d-8406-ed3dba0d16f0" class="">Altera o protótipo de um objeto.</p></div><div style="display:contents" dir="auto"><pre id="381f6ce8-497f-8055-aec1-dc48d3f2c8f5" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">Object.setPrototypeOf(cachorro, animal);</code></pre></div><div style="display:contents" dir="auto"><p id="381f6ce8-497f-80a1-969b-f44b89a54747" class="">Seu uso deve ser evitado em aplicações críticas por questões de desempenho.</p></div><div style="display:contents" dir="auto"><hr id="381f6ce8-497f-80b3-962a-f47c1c0402cd"/></div><div style="display:contents" dir="auto"><h1 id="381f6ce8-497f-80dc-82f3-d1683706a31e" class="">Boas Práticas</h1></div><div style="display:contents" dir="auto"><ul id="381f6ce8-497f-80af-aa27-d718b05b01d8" class="bulleted-list"><li style="list-style-type:disc">Defina métodos compartilhados no <code>prototype</code>.</li></ul></div><div style="display:contents" dir="auto"><ul id="381f6ce8-497f-8045-b7be-d684d12da932" class="bulleted-list"><li style="list-style-type:disc">Utilize <code>Object.getPrototypeOf()</code> em vez de <code>__proto__</code>.</li></ul></div><div style="display:contents" dir="auto"><ul id="381f6ce8-497f-8070-8f89-d3ecb89cf5ca" class="bulleted-list"><li style="list-style-type:disc">Evite modificar <code>Object.prototype</code>.</li></ul></div><div style="display:contents" dir="auto"><ul id="381f6ce8-497f-8080-9311-c9c804eb9009" class="bulleted-list"><li style="list-style-type:disc">Prefira classes em projetos modernos.</li></ul></div><div style="display:contents" dir="auto"><ul id="381f6ce8-497f-80a4-90e1-d646f47f0b5c" class="bulleted-list"><li style="list-style-type:disc">Estude a cadeia de protótipos para compreender o funcionamento da linguagem.</li></ul></div><div style="display:contents" dir="auto"><hr id="381f6ce8-497f-80b5-b678-f3396bb7eaee"/></div><div style="display:contents" dir="auto"><h1 id="381f6ce8-497f-80f9-8a12-f9eb389b2400" class="">Erros Comuns</h1></div><div style="display:contents" dir="auto"><h2 id="381f6ce8-497f-8016-9a4f-e250b0203711" class="">Confundir <code>prototype</code> com <code>__proto__</code></h2></div><div style="display:contents" dir="auto"><ul id="381f6ce8-497f-80d9-b0de-df15b7534375" class="bulleted-list"><li style="list-style-type:disc"><code>prototype</code> pertence às funções.</li></ul></div><div style="display:contents" dir="auto"><ul id="381f6ce8-497f-807e-a469-df20436beff0" class="bulleted-list"><li style="list-style-type:disc"><code>__proto__</code> representa o protótipo de um objeto.</li></ul></div><div style="display:contents" dir="auto"><hr id="381f6ce8-497f-8080-ad45-d568840e70a3"/></div><div style="display:contents" dir="auto"><h2 id="381f6ce8-497f-8080-84a1-ddae0fabd59c" class="">Definir métodos dentro da função construtora</h2></div><div style="display:contents" dir="auto"><pre id="381f6ce8-497f-802f-8afa-d43401bcb207" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">function Pessoa(nome) {
+    this.apresentar = function() {};
+}</code></pre></div><div style="display:contents" dir="auto"><p id="381f6ce8-497f-80e6-8d6b-c7c774dfb26e" class="">Isso cria uma nova função para cada instância.</p></div><div style="display:contents" dir="auto"><hr id="381f6ce8-497f-80a2-bac4-ecf9789f3087"/></div><div style="display:contents" dir="auto"><h2 id="381f6ce8-497f-800a-9a2a-c72c4ad62fec" class="">Alterar <code>Object.prototype</code></h2></div><div style="display:contents" dir="auto"><p id="381f6ce8-497f-806e-8582-e3286dc487df" class="">Modificar o protótipo global pode gerar comportamentos inesperados.</p></div><div style="display:contents" dir="auto"><hr id="381f6ce8-497f-808f-8482-f84f5ae2f228"/></div><div style="display:contents" dir="auto"><h1 id="381f6ce8-497f-8036-9dae-c6966b1efe5b" class="">Resumo</h1></div><div style="display:contents" dir="auto"><p id="381f6ce8-497f-802c-81a2-f36a7db9e510" class="">O <strong>prototype</strong> é o mecanismo fundamental que permite a herança em JavaScript. Toda função possui uma propriedade <code>prototype</code>, utilizada como modelo para os objetos criados com <code>new</code>. Quando uma propriedade não é encontrada em um objeto, o JavaScript a procura em sua cadeia de protótipos, processo conhecido como <strong>Prototype Chain</strong>. Esse mecanismo permite compartilhar métodos entre instâncias, reduzir o consumo de memória e implementar herança prototipal. Embora as classes modernas simplifiquem a sintaxe, elas continuam utilizando protótipos internamente.</p></div></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>
