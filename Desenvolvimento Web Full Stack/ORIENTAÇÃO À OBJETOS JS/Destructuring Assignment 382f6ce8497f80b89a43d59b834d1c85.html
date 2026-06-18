@@ -1,0 +1,892 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Destructuring Assignment</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="382f6ce8-497f-80b8-9a43-d59b834d1c85" class="page sans"><header><div class="page-header-icon undefined"><img class="icon notion-static-icon" src="https://app.notion.com/icons/command-line_yellow.svg"/></div><h1 class="page-title" dir="auto">Destructuring Assignment</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><div style="display:contents" dir="auto"><h1 id="382f6ce8-497f-806e-9257-c0d447b8afdc" class="">Destructuring Assignment em JavaScript</h1></div><div style="display:contents" dir="auto"><p id="382f6ce8-497f-80a9-aa98-d1dbff8c42b9" class="">O <strong>Destructuring Assignment</strong> (atribuição por desestruturação) é um recurso introduzido no <strong>ECMAScript 6 (ES6)</strong> que permite extrair valores de <strong>arrays</strong> e <strong>propriedades de objetos</strong> de forma simples, concisa e legível.</p></div><div style="display:contents" dir="auto"><p id="382f6ce8-497f-80b3-8272-f5dd70b69e13" class="">Em vez de acessar cada valor individualmente, a desestruturação possibilita &quot;desmontar&quot; uma estrutura complexa e atribuir seus dados diretamente a variáveis.</p></div><div style="display:contents" dir="auto"><p id="382f6ce8-497f-80c8-b4bd-f5a2bbcff611" class="">Esse recurso é amplamente utilizado no desenvolvimento moderno com JavaScript, especialmente em bibliotecas e frameworks como React.</p></div><div style="display:contents" dir="auto"><hr id="382f6ce8-497f-8088-8a26-c9d468dee21c"/></div><div style="display:contents" dir="auto"><h1 id="382f6ce8-497f-8099-93ae-e32a4fde6564" class="">O que é Desestruturação?</h1></div><div style="display:contents" dir="auto"><p id="382f6ce8-497f-8009-9b97-dfb9e0a1f582" class="">Desestruturar significa separar os elementos de uma estrutura de dados e armazená-los em variáveis.</p></div><div style="display:contents" dir="auto"><p id="382f6ce8-497f-806e-a15e-fcded0c82c89" class="">Sem desestruturação:</p></div><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-jsx.min.js" integrity="sha512-m3JYEI6gx5fh9jF10FjGoMzVKcV2N6nchcDcqPCdI1L3R2WQV7br2XVNR8iTLb2daOMRl3zldbcfT40xU2ntVw==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="382f6ce8-497f-80db-8c03-f771d76a329f" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const usuario = {
+    nome: &quot;Gustavo&quot;,
+    idade: 21
+};
+
+const nome = usuario.nome;
+const idade = usuario.idade;</code></pre></div><div style="display:contents" dir="auto"><p id="382f6ce8-497f-805d-8e80-f2247c2cfbf7" class="">Com desestruturação:</p></div><div style="display:contents" dir="auto"><pre id="382f6ce8-497f-80cb-ba49-e4ce677142bd" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const usuario = {
+    nome: &quot;Gustavo&quot;,
+    idade: 21
+};
+
+const { nome, idade } = usuario;</code></pre></div><div style="display:contents" dir="auto"><p id="382f6ce8-497f-8085-a0d6-cc9d1519a084" class="">O resultado é o mesmo, mas com menos código.</p></div><div style="display:contents" dir="auto"><hr id="382f6ce8-497f-80be-9ee4-ea42a72323da"/></div><div style="display:contents" dir="auto"><h1 id="382f6ce8-497f-80aa-9504-eaa346da2508" class="">Desestruturação de Arrays</h1></div><div style="display:contents" dir="auto"><p id="382f6ce8-497f-8010-a5c2-c09c1b04a04a" class="">Na desestruturação de arrays, a atribuição é feita com base na <strong>posição dos elementos</strong>.</p></div><div style="display:contents" dir="auto"><h2 id="382f6ce8-497f-8013-8b49-faa61225bcbe" class="">Sintaxe Básica</h2></div><div style="display:contents" dir="auto"><pre id="382f6ce8-497f-80fe-bc77-c75f7690c3ec" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const [variavel1, variavel2] = array;</code></pre></div><div style="display:contents" dir="auto"><p id="382f6ce8-497f-80b1-92fc-ef6547c4333a" class="">Exemplo:</p></div><div style="display:contents" dir="auto"><pre id="382f6ce8-497f-8025-ac0f-e03a2b93dea3" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const cores = [&quot;azul&quot;, &quot;verde&quot;, &quot;vermelho&quot;];
+
+const [cor1, cor2, cor3] = cores;
+
+console.log(cor1);
+console.log(cor2);
+console.log(cor3);</code></pre></div><div style="display:contents" dir="auto"><p id="382f6ce8-497f-8002-a58f-e45c15ebe55d" class="">Resultado:</p></div><div style="display:contents" dir="auto"><pre id="382f6ce8-497f-8074-82f4-e5fcee41d9ff" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">azul
+verde
+vermelho</code></pre></div><div style="display:contents" dir="auto"><hr id="382f6ce8-497f-803b-a6ca-d560963dd73b"/></div><div style="display:contents" dir="auto"><h1 id="382f6ce8-497f-8039-8879-d1be64c264e9" class="">Ignorando Elementos</h1></div><div style="display:contents" dir="auto"><p id="382f6ce8-497f-8091-8e1a-f3c592491081" class="">É possível pular posições utilizando vírgulas.</p></div><div style="display:contents" dir="auto"><pre id="382f6ce8-497f-8080-80aa-c5e3e736574d" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const numeros = [10, 20, 30, 40];
+
+const [primeiro, , terceiro] = numeros;
+
+console.log(primeiro);
+console.log(terceiro);</code></pre></div><div style="display:contents" dir="auto"><p id="382f6ce8-497f-80b7-b989-e0d9a30999cf" class="">Resultado:</p></div><div style="display:contents" dir="auto"><pre id="382f6ce8-497f-80d0-94b7-c9451271be76" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">10
+30</code></pre></div><div style="display:contents" dir="auto"><hr id="382f6ce8-497f-8039-95e5-f6f3d8cfda03"/></div><div style="display:contents" dir="auto"><h1 id="382f6ce8-497f-80d1-9574-ce9a5a349803" class="">Valores Padrão</h1></div><div style="display:contents" dir="auto"><p id="382f6ce8-497f-80de-a417-e9706a5d75c9" class="">Se o valor não existir, podemos definir um valor padrão.</p></div><div style="display:contents" dir="auto"><pre id="382f6ce8-497f-8062-8311-ddecdaab1712" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const cores = [&quot;azul&quot;];
+
+const [cor1, cor2 = &quot;preto&quot;] = cores;
+
+console.log(cor2);</code></pre></div><div style="display:contents" dir="auto"><p id="382f6ce8-497f-80fe-8307-ecbe391651d2" class="">Resultado:</p></div><div style="display:contents" dir="auto"><pre id="382f6ce8-497f-807e-b867-c28d4ce81a39" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">preto</code></pre></div><div style="display:contents" dir="auto"><hr id="382f6ce8-497f-80ba-a268-e359cad20f2f"/></div><div style="display:contents" dir="auto"><h1 id="382f6ce8-497f-8097-8739-ec3164c6694f" class="">Operador Rest em Arrays</h1></div><div style="display:contents" dir="auto"><p id="382f6ce8-497f-800c-bd08-d334d930d1a4" class="">Podemos agrupar os elementos restantes.</p></div><div style="display:contents" dir="auto"><pre id="382f6ce8-497f-8083-81d8-d6edfc15f617" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const numeros = [1, 2, 3, 4, 5];
+
+const [primeiro, ...restantes] = numeros;
+
+console.log(primeiro);
+console.log(restantes);</code></pre></div><div style="display:contents" dir="auto"><p id="382f6ce8-497f-8030-a108-f0e143fdf511" class="">Resultado:</p></div><div style="display:contents" dir="auto"><pre id="382f6ce8-497f-8038-acdd-f694bd7b9b81" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">1
+[2, 3, 4, 5]</code></pre></div><div style="display:contents" dir="auto"><hr id="382f6ce8-497f-804a-8ab7-d79e7df4de45"/></div><div style="display:contents" dir="auto"><h1 id="382f6ce8-497f-809a-98ae-e0b44c306698" class="">Trocando Valores de Variáveis</h1></div><div style="display:contents" dir="auto"><p id="382f6ce8-497f-806d-993e-d3592f2bcde0" class="">A desestruturação facilita a troca de valores sem variáveis auxiliares.</p></div><div style="display:contents" dir="auto"><pre id="382f6ce8-497f-8071-87e1-f6916316b99a" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">let a = 10;
+let b = 20;
+
+[a, b] = [b, a];
+
+console.log(a);
+console.log(b);</code></pre></div><div style="display:contents" dir="auto"><p id="382f6ce8-497f-8091-a2d4-e81f572c8faf" class="">Resultado:</p></div><div style="display:contents" dir="auto"><pre id="382f6ce8-497f-80b3-9b1c-c11370ffd035" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">20
+10</code></pre></div><div style="display:contents" dir="auto"><hr id="382f6ce8-497f-808e-8a0d-d998be7ba126"/></div><div style="display:contents" dir="auto"><h1 id="382f6ce8-497f-8061-9277-c99cb116ea02" class="">Desestruturação de Objetos</h1></div><div style="display:contents" dir="auto"><p id="382f6ce8-497f-80c1-b0a9-e41b74bf58c2" class="">Na desestruturação de objetos, a atribuição é baseada no <strong>nome das propriedades</strong>, não na posição.</p></div><div style="display:contents" dir="auto"><h2 id="382f6ce8-497f-8064-8051-e6fd53f35211" class="">Sintaxe Básica</h2></div><div style="display:contents" dir="auto"><pre id="382f6ce8-497f-8051-a3d9-ff3d9961c366" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const { propriedade } = objeto;</code></pre></div><div style="display:contents" dir="auto"><p id="382f6ce8-497f-809a-a406-c532015eb1bf" class="">Exemplo:</p></div><div style="display:contents" dir="auto"><pre id="382f6ce8-497f-8007-b745-f0b54b8c95fc" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const usuario = {
+    nome: &quot;Gustavo&quot;,
+    idade: 21
+};
+
+const { nome, idade } = usuario;
+
+console.log(nome);
+console.log(idade);</code></pre></div><div style="display:contents" dir="auto"><p id="382f6ce8-497f-80b5-9b47-d50a6ef5d49c" class="">Resultado:</p></div><div style="display:contents" dir="auto"><pre id="382f6ce8-497f-8016-bcee-e1985b8dc85c" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Gustavo
+21</code></pre></div><div style="display:contents" dir="auto"><hr id="382f6ce8-497f-80d4-8f60-e969b5d3b695"/></div><div style="display:contents" dir="auto"><h1 id="382f6ce8-497f-8055-bc78-db184225f284" class="">Renomeando Variáveis</h1></div><div style="display:contents" dir="auto"><p id="382f6ce8-497f-80a2-a001-f9bf3f7fac36" class="">Podemos atribuir nomes diferentes às variáveis.</p></div><div style="display:contents" dir="auto"><pre id="382f6ce8-497f-80b0-92db-dd2dc8a072f5" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const usuario = {
+    nome: &quot;Gustavo&quot;,
+    idade: 21
+};
+
+const {
+    nome: nomeCompleto,
+    idade: anos
+} = usuario;
+
+console.log(nomeCompleto);
+console.log(anos);</code></pre></div><div style="display:contents" dir="auto"><p id="382f6ce8-497f-80ac-bf19-ce534ec513a6" class="">Resultado:</p></div><div style="display:contents" dir="auto"><pre id="382f6ce8-497f-806d-96ac-c1ba5ad70ebf" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Gustavo
+21</code></pre></div><div style="display:contents" dir="auto"><hr id="382f6ce8-497f-805c-8b11-c238be673e91"/></div><div style="display:contents" dir="auto"><h1 id="382f6ce8-497f-8009-8611-c90fc45cd295" class="">Valores Padrão em Objetos</h1></div><div style="display:contents" dir="auto"><pre id="382f6ce8-497f-805b-80b0-d042ea3cdd8b" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const usuario = {
+    nome: &quot;Gustavo&quot;
+};
+
+const {
+    nome,
+    cidade = &quot;Fortaleza&quot;
+} = usuario;
+
+console.log(cidade);</code></pre></div><div style="display:contents" dir="auto"><p id="382f6ce8-497f-800b-9f1d-e47d57f9d16e" class="">Resultado:</p></div><div style="display:contents" dir="auto"><pre id="382f6ce8-497f-8038-85af-d3ee32726130" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Fortaleza</code></pre></div><div style="display:contents" dir="auto"><hr id="382f6ce8-497f-809a-97f8-d91903e9093b"/></div><div style="display:contents" dir="auto"><h1 id="382f6ce8-497f-8097-9eea-eed89f70f432" class="">Operador Rest em Objetos</h1></div><div style="display:contents" dir="auto"><p id="382f6ce8-497f-808a-b499-d4d01935cedd" class="">Podemos agrupar as propriedades restantes.</p></div><div style="display:contents" dir="auto"><pre id="382f6ce8-497f-806e-b5e4-c9c795507481" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const usuario = {
+    nome: &quot;Gustavo&quot;,
+    idade: 21,
+    cidade: &quot;Fortaleza&quot;
+};
+
+const { nome, ...dados } = usuario;
+
+console.log(nome);
+console.log(dados);</code></pre></div><div style="display:contents" dir="auto"><p id="382f6ce8-497f-80ad-a02a-f8d8ffc5242b" class="">Resultado:</p></div><div style="display:contents" dir="auto"><pre id="382f6ce8-497f-808a-9c67-f45f3039b76d" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Gustavo
+{ idade: 21, cidade: &quot;Fortaleza&quot; }</code></pre></div><div style="display:contents" dir="auto"><hr id="382f6ce8-497f-8000-ae0c-cd2f3bf752d0"/></div><div style="display:contents" dir="auto"><h1 id="382f6ce8-497f-8053-9149-c3c07c79d898" class="">Desestruturação de Objetos Aninhados</h1></div><div style="display:contents" dir="auto"><p id="382f6ce8-497f-8050-8d05-e888a0edf393" class="">Objetos podem conter outros objetos.</p></div><div style="display:contents" dir="auto"><pre id="382f6ce8-497f-805b-a255-f8f923588500" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const usuario = {
+    nome: &quot;Gustavo&quot;,
+
+    endereco: {
+        cidade: &quot;Fortaleza&quot;,
+        estado: &quot;Ceará&quot;
+    }
+};</code></pre></div><div style="display:contents" dir="auto"><p id="382f6ce8-497f-802c-b9e8-f86e0b793c22" class="">Desestruturando:</p></div><div style="display:contents" dir="auto"><pre id="382f6ce8-497f-805b-84a5-c0bcd465f403" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const {
+    endereco: { cidade, estado }
+} = usuario;
+
+console.log(cidade);
+console.log(estado);</code></pre></div><div style="display:contents" dir="auto"><p id="382f6ce8-497f-8039-9103-d01410e4b0da" class="">Resultado:</p></div><div style="display:contents" dir="auto"><pre id="382f6ce8-497f-8058-be4a-fb39468dd51e" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Fortaleza
+Ceará</code></pre></div><div style="display:contents" dir="auto"><hr id="382f6ce8-497f-8062-99d7-ccf53319424d"/></div><div style="display:contents" dir="auto"><h2 id="382f6ce8-497f-80c2-9f12-d35782dcd66b" class="">Atenção</h2></div><div style="display:contents" dir="auto"><p id="382f6ce8-497f-802d-9fd3-c30a49887458" class="">Nesse caso, a variável <code>endereco</code> não é criada.</p></div><div style="display:contents" dir="auto"><pre id="382f6ce8-497f-808d-9f12-d25cf38f5358" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">console.log(endereco);</code></pre></div><div style="display:contents" dir="auto"><p id="382f6ce8-497f-8069-ae4b-c672d2fcf483" class="">Resultado:</p></div><div style="display:contents" dir="auto"><pre id="382f6ce8-497f-8098-bb72-e60e2bfa05b5" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">ReferenceError</code></pre></div><div style="display:contents" dir="auto"><p id="382f6ce8-497f-8087-975c-c791f75f6698" class="">Se precisar dela:</p></div><div style="display:contents" dir="auto"><pre id="382f6ce8-497f-800a-894c-fb350b774ed8" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const {
+    endereco,
+    endereco: { cidade }
+} = usuario;</code></pre></div><div style="display:contents" dir="auto"><hr id="382f6ce8-497f-8015-a38c-eb0c01a4aef8"/></div><div style="display:contents" dir="auto"><h1 id="382f6ce8-497f-80dd-b4c2-f8341f4f4654" class="">Desestruturação de Arrays Aninhados</h1></div><div style="display:contents" dir="auto"><pre id="382f6ce8-497f-8036-bbba-dcab93413fec" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const numeros = [10, [20, 30]];
+
+const [a, [b, c]] = numeros;
+
+console.log(a);
+console.log(b);
+console.log(c);</code></pre></div><div style="display:contents" dir="auto"><p id="382f6ce8-497f-80dc-9104-d0654c25481b" class="">Resultado:</p></div><div style="display:contents" dir="auto"><pre id="382f6ce8-497f-8064-af82-cec534bc311f" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">10
+20
+30</code></pre></div><div style="display:contents" dir="auto"><hr id="382f6ce8-497f-804e-a267-f6f64386c4b2"/></div><div style="display:contents" dir="auto"><h1 id="382f6ce8-497f-8040-8246-c68a36234bdf" class="">Desestruturação em Parâmetros de Funções</h1></div><div style="display:contents" dir="auto"><p id="382f6ce8-497f-8015-ab68-cde1936fcd38" class="">É possível desestruturar objetos diretamente nos parâmetros.</p></div><div style="display:contents" dir="auto"><pre id="382f6ce8-497f-80ca-aa8f-d60c89d14f30" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">function apresentar({ nome, idade }) {
+    console.log(
+        `${nome} tem ${idade} anos.`
+    );
+}</code></pre></div><div style="display:contents" dir="auto"><p id="382f6ce8-497f-803b-8bef-c643830a41ff" class="">Uso:</p></div><div style="display:contents" dir="auto"><pre id="382f6ce8-497f-8023-adec-c28f99ae004f" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const usuario = {
+    nome: &quot;Gustavo&quot;,
+    idade: 21
+};
+
+apresentar(usuario);</code></pre></div><div style="display:contents" dir="auto"><p id="382f6ce8-497f-80a5-92ab-c9dff4a10ecd" class="">Resultado:</p></div><div style="display:contents" dir="auto"><pre id="382f6ce8-497f-802b-ac65-ee5f8af94e33" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Gustavo tem 21 anos.</code></pre></div><div style="display:contents" dir="auto"><hr id="382f6ce8-497f-8096-bc0b-fe20e7c4a114"/></div><div style="display:contents" dir="auto"><h1 id="382f6ce8-497f-8049-bbd8-dee46ee2e634" class="">Valores Padrão em Parâmetros</h1></div><div style="display:contents" dir="auto"><pre id="382f6ce8-497f-8070-a4db-f2a9dd2238fc" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">function criarUsuario({
+    nome,
+    idade = 18
+}) {
+    return { nome, idade };
+}</code></pre></div><div style="display:contents" dir="auto"><p id="382f6ce8-497f-800e-8090-df4be1b38da5" class="">Uso:</p></div><div style="display:contents" dir="auto"><pre id="382f6ce8-497f-8096-b573-c23e188578f4" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">criarUsuario({ nome: &quot;Ana&quot; });</code></pre></div><div style="display:contents" dir="auto"><p id="382f6ce8-497f-80f4-8dc7-f73561a1c742" class="">Resultado:</p></div><div style="display:contents" dir="auto"><pre id="382f6ce8-497f-805a-ade8-d5f4c56e6141" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">{
+    nome: &quot;Ana&quot;,
+    idade: 18
+}</code></pre></div><div style="display:contents" dir="auto"><hr id="382f6ce8-497f-8084-b885-e6b05b23cec4"/></div><div style="display:contents" dir="auto"><h1 id="382f6ce8-497f-8039-87f7-c0553cdc69e4" class="">Desestruturação em Retorno de Funções</h1></div><div style="display:contents" dir="auto"><p id="382f6ce8-497f-800d-87df-c41ef7460d8e" class="">Quando uma função retorna um objeto:</p></div><div style="display:contents" dir="auto"><pre id="382f6ce8-497f-80b4-bc3d-fa284193d98c" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">function obterUsuario() {
+    return {
+        nome: &quot;Gustavo&quot;,
+        idade: 21
+    };
+}</code></pre></div><div style="display:contents" dir="auto"><p id="382f6ce8-497f-80e5-9f68-ce22a0438623" class="">Podemos fazer:</p></div><div style="display:contents" dir="auto"><pre id="382f6ce8-497f-80df-a1f4-c4574811a0ea" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const { nome, idade } = obterUsuario();</code></pre></div><div style="display:contents" dir="auto"><hr id="382f6ce8-497f-80dc-93e9-f43dc70fc119"/></div><div style="display:contents" dir="auto"><h1 id="382f6ce8-497f-8008-ae65-ed799d5b2f5e" class="">Combinando com Spread</h1></div><div style="display:contents" dir="auto"><p id="382f6ce8-497f-80a7-9f4b-e532a8521003" class="">A desestruturação é frequentemente utilizada junto com o operador Spread.</p></div><div style="display:contents" dir="auto"><pre id="382f6ce8-497f-802f-9983-f4352dc9dfb3" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const usuario = {
+    nome: &quot;Gustavo&quot;,
+    idade: 21,
+    cidade: &quot;Fortaleza&quot;
+};
+
+const usuarioAtualizado = {
+    ...usuario,
+    idade: 22
+};</code></pre></div><div style="display:contents" dir="auto"><hr id="382f6ce8-497f-80f1-b87e-fa9014cc8510"/></div><div style="display:contents" dir="auto"><h1 id="382f6ce8-497f-8081-8059-cef3f54f7599" class="">Desestruturação e Objetos Nulos</h1></div><div style="display:contents" dir="auto"><p id="382f6ce8-497f-804a-8f32-fda71ad1253c" class="">Tentar desestruturar <code>null</code> ou <code>undefined</code> gera erro.</p></div><div style="display:contents" dir="auto"><pre id="382f6ce8-497f-8084-ac87-ebd7fa1202bb" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const usuario = null;
+
+const { nome } = usuario;</code></pre></div><div style="display:contents" dir="auto"><p id="382f6ce8-497f-80de-aa2d-c6a799e5d6fc" class="">Resultado:</p></div><div style="display:contents" dir="auto"><pre id="382f6ce8-497f-801d-9f6f-e69525c047b2" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">TypeError</code></pre></div><div style="display:contents" dir="auto"><p id="382f6ce8-497f-80de-974b-d41106ca732e" class="">Uma solução é utilizar um valor padrão.</p></div><div style="display:contents" dir="auto"><pre id="382f6ce8-497f-8056-a1e1-e7d204b19c02" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const usuario = null;
+
+const { nome } = usuario || {};</code></pre></div><div style="display:contents" dir="auto"><hr id="382f6ce8-497f-802d-acd0-dca55f748205"/></div><div style="display:contents" dir="auto"><h1 id="382f6ce8-497f-8028-8fb2-e32a8a209847" class="">Vantagens do Destructuring Assignment</h1></div><div style="display:contents" dir="auto"><ul id="382f6ce8-497f-8074-adae-dedf545d27da" class="bulleted-list"><li style="list-style-type:disc">Reduz a quantidade de código.</li></ul></div><div style="display:contents" dir="auto"><ul id="382f6ce8-497f-80d0-92f9-eb810d2eaca0" class="bulleted-list"><li style="list-style-type:disc">Aumenta a legibilidade.</li></ul></div><div style="display:contents" dir="auto"><ul id="382f6ce8-497f-80b6-abc9-ce54b9cb1f7e" class="bulleted-list"><li style="list-style-type:disc">Facilita a manipulação de dados complexos.</li></ul></div><div style="display:contents" dir="auto"><ul id="382f6ce8-497f-80b7-ba86-e2d4b5eb0a1d" class="bulleted-list"><li style="list-style-type:disc">Simplifica parâmetros de funções.</li></ul></div><div style="display:contents" dir="auto"><ul id="382f6ce8-497f-8053-91a9-cddcea379c3f" class="bulleted-list"><li style="list-style-type:disc">Melhora a organização do código.</li></ul></div><div style="display:contents" dir="auto"><ul id="382f6ce8-497f-80d7-ba9e-c4401595ec3f" class="bulleted-list"><li style="list-style-type:disc">Evita repetições desnecessárias.</li></ul></div><div style="display:contents" dir="auto"><hr id="382f6ce8-497f-8081-a28a-fae654100889"/></div><div style="display:contents" dir="auto"><h1 id="382f6ce8-497f-8053-9314-e0b9712a23f1" class="">Erros Comuns</h1></div><div style="display:contents" dir="auto"><h2 id="382f6ce8-497f-80c9-b397-f50d69817db8" class="">Confundir arrays com objetos</h2></div><div style="display:contents" dir="auto"><p id="382f6ce8-497f-8073-a3f8-ccc450c00169" class="">Incorreto:</p></div><div style="display:contents" dir="auto"><pre id="382f6ce8-497f-8029-88e4-e370073748fc" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const usuario = {
+    nome: &quot;Gustavo&quot;
+};
+
+const [nome] = usuario;</code></pre></div><div style="display:contents" dir="auto"><hr id="382f6ce8-497f-8078-a7eb-fb38ec8d2102"/></div><div style="display:contents" dir="auto"><h2 id="382f6ce8-497f-808c-8788-cf30b7773995" class="">Utilizar nomes incorretos</h2></div><div style="display:contents" dir="auto"><pre id="382f6ce8-497f-8006-9182-e73e27080555" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const usuario = {
+    nome: &quot;Gustavo&quot;
+};
+
+const { Nome } = usuario;</code></pre></div><div style="display:contents" dir="auto"><p id="382f6ce8-497f-807b-acfd-c44da36317a8" class="">Resultado:</p></div><div style="display:contents" dir="auto"><pre id="382f6ce8-497f-8099-a481-fdd496beb43b" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">undefined</code></pre></div><div style="display:contents" dir="auto"><p id="382f6ce8-497f-806b-80a1-ce9e3025452d" class="">JavaScript diferencia letras maiúsculas e minúsculas.</p></div><div style="display:contents" dir="auto"><hr id="382f6ce8-497f-8067-a896-f0ebc1900f06"/></div><div style="display:contents" dir="auto"><h2 id="382f6ce8-497f-8032-9e41-dc991ef1a765" class="">Desestruturar valores inexistentes</h2></div><div style="display:contents" dir="auto"><pre id="382f6ce8-497f-8030-8257-e59f116baa0b" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const { cidade } = {};</code></pre></div><div style="display:contents" dir="auto"><p id="382f6ce8-497f-803c-9a2d-fc792f5ce26a" class="">O resultado será:</p></div><div style="display:contents" dir="auto"><pre id="382f6ce8-497f-805a-96f4-ff6fd6d3f240" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">undefined</code></pre></div><div style="display:contents" dir="auto"><hr id="382f6ce8-497f-809b-b717-cf2d868c1302"/></div><div style="display:contents" dir="auto"><h2 id="382f6ce8-497f-80ab-8b1c-df11086d0f1a" class="">Desestruturar <code>null</code> ou <code>undefined</code></h2></div><div style="display:contents" dir="auto"><p id="382f6ce8-497f-80f2-83d9-d794ed6b434c" class="">Sempre valide os dados antes da desestruturação.</p></div><div style="display:contents" dir="auto"><hr id="382f6ce8-497f-8026-8f04-d8e2ba21e6a1"/></div><div style="display:contents" dir="auto"><h1 id="382f6ce8-497f-8021-9054-d90be81cddfe" class="">Boas Práticas</h1></div><div style="display:contents" dir="auto"><ul id="382f6ce8-497f-80c3-b010-e923fe18c2f4" class="bulleted-list"><li style="list-style-type:disc">Utilize desestruturação para tornar o código mais legível.</li></ul></div><div style="display:contents" dir="auto"><ul id="382f6ce8-497f-80f4-b02a-e01b43437684" class="bulleted-list"><li style="list-style-type:disc">Evite desestruturar objetos excessivamente complexos.</li></ul></div><div style="display:contents" dir="auto"><ul id="382f6ce8-497f-808d-8e97-c8fe8c70b3b7" class="bulleted-list"><li style="list-style-type:disc">Use nomes claros ao renomear propriedades.</li></ul></div><div style="display:contents" dir="auto"><ul id="382f6ce8-497f-80fa-873e-e2dee252c5e2" class="bulleted-list"><li style="list-style-type:disc">Defina valores padrão quando necessário.</li></ul></div><div style="display:contents" dir="auto"><ul id="382f6ce8-497f-80ea-bb1f-ceb5aad0d687" class="bulleted-list"><li style="list-style-type:disc">Combine desestruturação com Rest e Spread para maior flexibilidade.</li></ul></div><div style="display:contents" dir="auto"><hr id="382f6ce8-497f-80d3-af4e-ea5cb7eaed30"/></div><div style="display:contents" dir="auto"><h1 id="382f6ce8-497f-80c1-bd6f-cdd84c24ce5c" class="">Resumo</h1></div><div style="display:contents" dir="auto"><p id="382f6ce8-497f-8005-8e99-f59764e77a3d" class="">O <strong>Destructuring Assignment</strong> é um recurso do ES6 que permite extrair dados de arrays e objetos de forma rápida e elegante. Na desestruturação de arrays, a atribuição é baseada na posição dos elementos; na desestruturação de objetos, ela depende do nome das propriedades. Esse recurso pode ser combinado com valores padrão, parâmetros de funções e os operadores Rest e Spread, tornando o código mais limpo, expressivo e fácil de manter.</p></div></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>
