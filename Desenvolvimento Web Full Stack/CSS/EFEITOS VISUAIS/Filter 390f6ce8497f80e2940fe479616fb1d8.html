@@ -1,0 +1,826 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Filter</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="390f6ce8-497f-80e2-940f-e479616fb1d8" class="page sans"><header><div class="page-header-icon undefined"><img class="icon notion-static-icon" src="https://app.notion.com/icons/snippet_blue.svg"/></div><h1 class="page-title" dir="auto">Filter</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><div style="display:contents" dir="auto"><h1 id="390f6ce8-497f-800f-af79-e76e9ec77e31" class=""><code>filter</code> no CSS</h1></div><div style="display:contents" dir="auto"><h2 id="390f6ce8-497f-8069-9cc7-dafe3c9722e4" class="">Introdução</h2></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-80c3-9859-d2f917bc15c1" class="">A propriedade <code><strong>filter</strong></code> permite aplicar efeitos gráficos a elementos HTML, como imagens, textos, vídeos e até elementos completos (<code>div</code>, <code>section</code>, <code>button</code>, etc.).</p></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-80d7-aec0-c439acc40678" class="">Com ela, é possível alterar a aparência de um elemento sem modificar sua imagem original. Os efeitos são aplicados em tempo real pelo navegador, tornando o <code>filter</code> uma ferramenta muito poderosa para criar interfaces modernas e interativas.</p></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-80d8-8b21-e7691dc4c533" class="">Alguns efeitos comuns são:</p></div><div style="display:contents" dir="auto"><ul id="390f6ce8-497f-8061-bf96-cc7c6cd4aa63" class="bulleted-list"><li style="list-style-type:disc">Desfoque (<code>blur</code>)</li></ul></div><div style="display:contents" dir="auto"><ul id="390f6ce8-497f-8084-a64d-c9d898edaf73" class="bulleted-list"><li style="list-style-type:disc">Brilho (<code>brightness</code>)</li></ul></div><div style="display:contents" dir="auto"><ul id="390f6ce8-497f-80f0-be83-c4e3eaac4216" class="bulleted-list"><li style="list-style-type:disc">Contraste (<code>contrast</code>)</li></ul></div><div style="display:contents" dir="auto"><ul id="390f6ce8-497f-8058-996e-e2cc55ce28d6" class="bulleted-list"><li style="list-style-type:disc">Escala de cinza (<code>grayscale</code>)</li></ul></div><div style="display:contents" dir="auto"><ul id="390f6ce8-497f-80ac-b790-d751781280a6" class="bulleted-list"><li style="list-style-type:disc">Rotação de matiz (<code>hue-rotate</code>)</li></ul></div><div style="display:contents" dir="auto"><ul id="390f6ce8-497f-8037-be06-f74a616c25bf" class="bulleted-list"><li style="list-style-type:disc">Inversão de cores (<code>invert</code>)</li></ul></div><div style="display:contents" dir="auto"><ul id="390f6ce8-497f-80ba-aba0-dabb92213140" class="bulleted-list"><li style="list-style-type:disc">Opacidade (<code>opacity</code>)</li></ul></div><div style="display:contents" dir="auto"><ul id="390f6ce8-497f-8014-91a7-d318def312de" class="bulleted-list"><li style="list-style-type:disc">Saturação (<code>saturate</code>)</li></ul></div><div style="display:contents" dir="auto"><ul id="390f6ce8-497f-808c-a0a8-c71e6a1b1936" class="bulleted-list"><li style="list-style-type:disc">Sépia (<code>sepia</code>)</li></ul></div><div style="display:contents" dir="auto"><ul id="390f6ce8-497f-80ec-ad9a-e7feefd25eb8" class="bulleted-list"><li style="list-style-type:disc">Sombra (<code>drop-shadow</code>)</li></ul></div><div style="display:contents" dir="auto"><hr id="390f6ce8-497f-803e-9c66-e9398da5d0ac"/></div><div style="display:contents" dir="auto"><h1 id="390f6ce8-497f-80bf-b2d3-e22420a47059" class="">Como funciona</h1></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-80f0-b9fc-c4955614b663" class="">O navegador renderiza normalmente o elemento e, em seguida, aplica uma ou mais funções de filtro sobre o resultado final.</p></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-8036-af29-ca964bf04886" class="">Fluxo simplificado:</p></div><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="390f6ce8-497f-8008-8136-da851bbbcc34" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Elemento Original
+        ↓
+Renderização
+        ↓
+Aplicação do filter
+        ↓
+Elemento exibido na tela</code></pre></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-80c7-b399-ee9fce3446fc" class="">Como o filtro é aplicado após a renderização, ele afeta <strong>todo o conteúdo</strong> do elemento, incluindo textos, imagens, bordas e sombras.</p></div><div style="display:contents" dir="auto"><hr id="390f6ce8-497f-80c1-8d03-d5bb9f4122a7"/></div><div style="display:contents" dir="auto"><h1 id="390f6ce8-497f-8071-94e7-fc45a1b6e88f" class="">Sintaxe</h1></div><div style="display:contents" dir="auto"><pre id="390f6ce8-497f-8061-9597-fc9cb0223761" class="code code-wrap"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">filter: função(valor);</code></pre></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-8095-b243-f56326d03f79" class="">Exemplo:</p></div><div style="display:contents" dir="auto"><pre id="390f6ce8-497f-8072-a67c-e1b7e9bc9243" class="code code-wrap"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">img{
+    filter: blur(5px);
+}</code></pre></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-80dc-8128-e7d894e778d1" class="">Também é possível combinar várias funções:</p></div><div style="display:contents" dir="auto"><pre id="390f6ce8-497f-809a-8480-f3fe32c488b0" class="code code-wrap"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">img{
+    filter: grayscale(100%) brightness(120%) contrast(110%);
+}</code></pre></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-8064-b8c1-c79031ebea50" class="">As funções são aplicadas da esquerda para a direita.</p></div><div style="display:contents" dir="auto"><hr id="390f6ce8-497f-80d2-8916-d54b47f26652"/></div><div style="display:contents" dir="auto"><h1 id="390f6ce8-497f-80b2-8781-c0aed5a47f99" class="">Funções do <code>filter</code></h1></div><div style="display:contents" dir="auto"><h2 id="390f6ce8-497f-8042-a82a-d6c5ab4d036c" class="">1. <code>blur()</code></h2></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-8001-946c-db6c3871cd0f" class="">Aplica um desfoque ao elemento.</p></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-8029-9581-e92f0ca7d5bb" class="">Sintaxe:</p></div><div style="display:contents" dir="auto"><pre id="390f6ce8-497f-8090-ab7c-da237af5b90a" class="code code-wrap"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">filter: blur(valor);</code></pre></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-8057-963e-e3e3e59f2c02" class="">Exemplo:</p></div><div style="display:contents" dir="auto"><pre id="390f6ce8-497f-809b-950d-e48a62b13afb" class="code code-wrap"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">filter: blur(5px);</code></pre></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-80f1-8497-fa0a04fc0ea5" class="">Quanto maior o valor:</p></div><div style="display:contents" dir="auto"><ul id="390f6ce8-497f-80fa-a411-d826796343cc" class="bulleted-list"><li style="list-style-type:disc">maior o desfoque;</li></ul></div><div style="display:contents" dir="auto"><ul id="390f6ce8-497f-80d7-85c1-e0a00d1e446a" class="bulleted-list"><li style="list-style-type:disc">menos nítido o elemento.</li></ul></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-80b5-aec4-e41eec3bbf1c" class="">Valores comuns:</p></div><div style="display:contents" dir="auto"><pre id="390f6ce8-497f-8077-b16c-d3833087f8c8" class="code code-wrap"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">blur(2px)
+blur(5px)
+blur(10px)
+blur(20px)</code></pre></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-8002-8aef-cb0cadf6e1e4" class="">Muito utilizado para:</p></div><div style="display:contents" dir="auto"><ul id="390f6ce8-497f-8016-be72-f0aa3131b503" class="bulleted-list"><li style="list-style-type:disc">fundos desfocados;</li></ul></div><div style="display:contents" dir="auto"><ul id="390f6ce8-497f-80d8-94d8-e96cb23e1725" class="bulleted-list"><li style="list-style-type:disc">efeito de vidro (<em>glassmorphism</em>);</li></ul></div><div style="display:contents" dir="auto"><ul id="390f6ce8-497f-8097-89dd-f90bc77279a5" class="bulleted-list"><li style="list-style-type:disc">carregamentos (<em>loading</em>);</li></ul></div><div style="display:contents" dir="auto"><ul id="390f6ce8-497f-8000-82ab-ec214ada739c" class="bulleted-list"><li style="list-style-type:disc">esconder temporariamente conteúdo.</li></ul></div><div style="display:contents" dir="auto"><hr id="390f6ce8-497f-80bb-8762-d5b444fb9037"/></div><div style="display:contents" dir="auto"><h2 id="390f6ce8-497f-802d-ac04-f08a7143935f" class="">2. <code>brightness()</code></h2></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-809c-895b-c77b1afc61a0" class="">Controla o brilho.</p></div><div style="display:contents" dir="auto"><pre id="390f6ce8-497f-80af-9704-eb54b1458d5a" class="code code-wrap"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">filter: brightness(150%);</code></pre></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-80dc-99c2-fac63790f3d9" class="">ou</p></div><div style="display:contents" dir="auto"><pre id="390f6ce8-497f-809f-b6d6-ed1598436254" class="code code-wrap"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">filter: brightness(1.5);</code></pre></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-80b4-9420-f9b52ce97647" class="">Valores:</p></div><div style="display:contents" dir="auto"><pre id="390f6ce8-497f-80d1-a9fd-e010afcf3658" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">0%   → completamente preto
+
+100% → brilho original
+
+200% → duas vezes mais brilho</code></pre></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-8095-b10b-ce61e27a41a4" class="">Exemplo:</p></div><div style="display:contents" dir="auto"><pre id="390f6ce8-497f-80d7-a5f3-f3b4f6956993" class="code code-wrap"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">img:hover{
+    filter: brightness(130%);
+}</code></pre></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-8061-87c7-c4b285cd491f" class="">Muito usado em efeitos de hover.</p></div><div style="display:contents" dir="auto"><hr id="390f6ce8-497f-801d-b093-f007a256910e"/></div><div style="display:contents" dir="auto"><h2 id="390f6ce8-497f-8072-b464-ec175446c007" class="">3. <code>contrast()</code></h2></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-800c-a3c6-f407901709c8" class="">Controla o contraste.</p></div><div style="display:contents" dir="auto"><pre id="390f6ce8-497f-807d-85de-c061712e2b1b" class="code code-wrap"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">filter: contrast(150%);</code></pre></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-80bc-a0fd-ea7af3dd512c" class="">Valores:</p></div><div style="display:contents" dir="auto"><pre id="390f6ce8-497f-80b6-b1a2-c477fd7bd16a" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">0% → sem contraste
+
+100% → original
+
+200% → contraste dobrado</code></pre></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-804e-82ac-cdfeec8a62ee" class="">Quanto maior o contraste:</p></div><div style="display:contents" dir="auto"><ul id="390f6ce8-497f-80a9-8ecf-ccaf1c6bf98a" class="bulleted-list"><li style="list-style-type:disc">pretos ficam mais escuros;</li></ul></div><div style="display:contents" dir="auto"><ul id="390f6ce8-497f-80aa-84d9-dc35bee57889" class="bulleted-list"><li style="list-style-type:disc">brancos mais claros.</li></ul></div><div style="display:contents" dir="auto"><hr id="390f6ce8-497f-8086-9957-fc301c70c082"/></div><div style="display:contents" dir="auto"><h2 id="390f6ce8-497f-80ba-a46a-d2f288f162f7" class="">4. <code>grayscale()</code></h2></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-80ef-95fc-ef9895cbbc16" class="">Converte a imagem para tons de cinza.</p></div><div style="display:contents" dir="auto"><pre id="390f6ce8-497f-80aa-8382-ee124860757a" class="code code-wrap"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">filter: grayscale(100%);</code></pre></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-8067-962c-f8aa4338091f" class="">Valores:</p></div><div style="display:contents" dir="auto"><pre id="390f6ce8-497f-80fd-bda6-cc26ad0f7207" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">0% → colorido
+
+100% → preto e branco</code></pre></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-8042-b24f-ef3a19886612" class="">Muito usado em galerias de imagens.</p></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-80e4-93dc-e01e41a95ba3" class="">Exemplo:</p></div><div style="display:contents" dir="auto"><pre id="390f6ce8-497f-8042-bb40-de48bfde5716" class="code code-wrap"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">img{
+    filter: grayscale(100%);
+}
+
+img:hover{
+    filter: grayscale(0%);
+}</code></pre></div><div style="display:contents" dir="auto"><hr id="390f6ce8-497f-80f3-9f0c-c993d2a68c72"/></div><div style="display:contents" dir="auto"><h2 id="390f6ce8-497f-80f4-957a-f8ec6b87f836" class="">5. <code>sepia()</code></h2></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-8005-9392-cf4962ff048d" class="">Aplica um efeito sépia.</p></div><div style="display:contents" dir="auto"><pre id="390f6ce8-497f-8050-818f-ea434e9c62d9" class="code code-wrap"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">filter: sepia(100%);</code></pre></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-80dc-9583-ec58de023d7f" class="">Resultado semelhante a fotografias antigas.</p></div><div style="display:contents" dir="auto"><hr id="390f6ce8-497f-80ad-ba7e-dfe63931d991"/></div><div style="display:contents" dir="auto"><h2 id="390f6ce8-497f-80e2-902f-dbbbfd527b86" class="">6. <code>invert()</code></h2></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-8017-8761-cc4792ef5a9e" class="">Inverte as cores.</p></div><div style="display:contents" dir="auto"><pre id="390f6ce8-497f-80a7-923f-eba1e83bc0d8" class="code code-wrap"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">filter: invert(100%);</code></pre></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-8044-ac78-c9c5053fe3d7" class="">Muito usado para:</p></div><div style="display:contents" dir="auto"><ul id="390f6ce8-497f-801c-ad54-d5f9b78bf904" class="bulleted-list"><li style="list-style-type:disc">ícones SVG;</li></ul></div><div style="display:contents" dir="auto"><ul id="390f6ce8-497f-808c-8324-fa53f2b50489" class="bulleted-list"><li style="list-style-type:disc">temas escuros;</li></ul></div><div style="display:contents" dir="auto"><ul id="390f6ce8-497f-8039-b963-cd1106534183" class="bulleted-list"><li style="list-style-type:disc">efeitos especiais.</li></ul></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-8082-a287-f7afbdf41ce4" class="">Exemplo:</p></div><div style="display:contents" dir="auto"><pre id="390f6ce8-497f-804a-876c-e6d0f873c2f0" class="code code-wrap"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">img{
+    filter: invert(1);
+}</code></pre></div><div style="display:contents" dir="auto"><hr id="390f6ce8-497f-8015-b1bc-ce1a4e41789b"/></div><div style="display:contents" dir="auto"><h2 id="390f6ce8-497f-80c0-8258-e43e786f4960" class="">7. <code>opacity()</code></h2></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-807c-890a-e2016d347614" class="">Controla a transparência usando <code>filter</code>.</p></div><div style="display:contents" dir="auto"><pre id="390f6ce8-497f-8015-a614-da3c64e0d3c1" class="code code-wrap"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">filter: opacity(50%);</code></pre></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-80d0-b44e-cb8c7d68337d" class="">Também aceita:</p></div><div style="display:contents" dir="auto"><pre id="390f6ce8-497f-8070-854f-c1078e49f398" class="code code-wrap"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">opacity(.5);</code></pre></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-80b9-8634-c54de20f0374" class=""><strong>Diferença para a propriedade </strong><code><strong>opacity</strong></code><strong>:</strong></p></div><div style="display:contents" dir="auto"><ul id="390f6ce8-497f-80c2-b246-fe54d9a6c411" class="bulleted-list"><li style="list-style-type:disc"><code>opacity</code> é uma propriedade CSS própria e costuma ser mais simples e eficiente para controlar transparência.</li></ul></div><div style="display:contents" dir="auto"><ul id="390f6ce8-497f-807d-a59d-df82ffc93de4" class="bulleted-list"><li style="list-style-type:disc"><code>filter: opacity()</code> faz parte da cadeia de filtros e pode ser útil quando você já está combinando outros efeitos em um único <code>filter</code>.</li></ul></div><div style="display:contents" dir="auto"><hr id="390f6ce8-497f-80e1-8ae3-d80c86db4587"/></div><div style="display:contents" dir="auto"><h2 id="390f6ce8-497f-80ba-b400-c34ee3ca83cb" class="">8. <code>saturate()</code></h2></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-8089-83d5-f09973c109aa" class="">Controla a intensidade das cores.</p></div><div style="display:contents" dir="auto"><pre id="390f6ce8-497f-80dd-a35a-cf1308b05fd3" class="code code-wrap"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">filter: saturate(200%);</code></pre></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-8037-919a-fd4f3fc4a6ab" class="">Valores:</p></div><div style="display:contents" dir="auto"><pre id="390f6ce8-497f-806f-a78c-c8089bacb3e2" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">0% → sem cor
+
+100% → original
+
+200% → cores mais intensas</code></pre></div><div style="display:contents" dir="auto"><hr id="390f6ce8-497f-806f-89e6-da2732bdc558"/></div><div style="display:contents" dir="auto"><h2 id="390f6ce8-497f-807b-b663-f1b30a31c6fc" class="">9. <code>hue-rotate()</code></h2></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-8086-b096-f4118038be34" class="">Rotaciona as cores no círculo cromático.</p></div><div style="display:contents" dir="auto"><pre id="390f6ce8-497f-802f-aef3-fa00760abf86" class="code code-wrap"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">filter: hue-rotate(90deg);</code></pre></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-80ac-964c-d450825e3d53" class="">Valores:</p></div><div style="display:contents" dir="auto"><pre id="390f6ce8-497f-80f2-b6fa-fc1ad798af8f" class="code code-wrap"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">0deg
+
+90deg
+
+180deg
+
+270deg
+
+360deg</code></pre></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-804e-b31d-c7f17ff44d58" class="">Muito usado em animações.</p></div><div style="display:contents" dir="auto"><hr id="390f6ce8-497f-8086-adfc-e2e798396f8d"/></div><div style="display:contents" dir="auto"><h2 id="390f6ce8-497f-8059-9da4-f07abf6afaaa" class="">10. <code>drop-shadow()</code></h2></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-8028-b2f9-c912e12834b1" class="">Adiciona uma sombra baseada na forma visível do elemento.</p></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-8088-ba44-c0662de6c5bf" class="">Sintaxe:</p></div><div style="display:contents" dir="auto"><pre id="390f6ce8-497f-80d6-b267-f1cbf10132d0" class="code code-wrap"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">filter: drop-shadow(5px 5px 10px black);</code></pre></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-80a2-9df2-e655ecd09208" class="">É semelhante ao <code>box-shadow</code>, mas com diferenças importantes.</p></div><div style="display:contents" dir="auto"><hr id="390f6ce8-497f-8091-9989-f31441522d42"/></div><div style="display:contents" dir="auto"><h1 id="390f6ce8-497f-80eb-b55c-e89a2b2f9bac" class=""><code>drop-shadow()</code> x <code>box-shadow</code></h1></div><div style="display:contents" dir="auto"><h3 id="390f6ce8-497f-802c-af2e-d0630175c5cf" class=""><code>box-shadow</code></h3></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-80fa-b5e0-c3e0bcaddcfa" class="">Baseia-se na caixa do elemento.</p></div><div style="display:contents" dir="auto"><pre id="390f6ce8-497f-80fc-8317-c3cd710b5dfa" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">+------------+
+|            |
+|   imagem   |
+|            |
++------------+
+
+████████████</code></pre></div><div style="display:contents" dir="auto"><hr id="390f6ce8-497f-80c8-804e-ea2065ef17a1"/></div><div style="display:contents" dir="auto"><h3 id="390f6ce8-497f-804a-8640-f60294e92d31" class=""><code>drop-shadow()</code></h3></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-8021-aa18-d516694927fe" class="">Baseia-se apenas na parte visível.</p></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-80a4-ac30-f932e4656830" class="">Ideal para:</p></div><div style="display:contents" dir="auto"><ul id="390f6ce8-497f-80d3-a5f7-fb6cfa2e5bd5" class="bulleted-list"><li style="list-style-type:disc">PNG transparente;</li></ul></div><div style="display:contents" dir="auto"><ul id="390f6ce8-497f-8098-a733-cf6f59f2cb18" class="bulleted-list"><li style="list-style-type:disc">SVG;</li></ul></div><div style="display:contents" dir="auto"><ul id="390f6ce8-497f-806a-9374-f302e5b6b593" class="bulleted-list"><li style="list-style-type:disc">ícones;</li></ul></div><div style="display:contents" dir="auto"><ul id="390f6ce8-497f-800f-ba22-e4621880953e" class="bulleted-list"><li style="list-style-type:disc">logotipos.</li></ul></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-8073-97af-d14d3371664c" class="">Exemplo:</p></div><div style="display:contents" dir="auto"><pre id="390f6ce8-497f-8068-9083-e67b236d435c" class="code code-wrap"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">img{
+    filter: drop-shadow(0 5px 10px rgba(0,0,0,.4));
+}</code></pre></div><div style="display:contents" dir="auto"><hr id="390f6ce8-497f-809e-b05e-db8b27bbb380"/></div><div style="display:contents" dir="auto"><h1 id="390f6ce8-497f-8004-9e18-e6996e08882d" class="">Combinando filtros</h1></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-80e4-8cd4-c76cc41c56ce" class="">Uma das maiores vantagens do <code>filter</code> é combinar vários efeitos.</p></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-806a-82a4-c207893ee9ae" class="">Exemplo:</p></div><div style="display:contents" dir="auto"><pre id="390f6ce8-497f-80b1-a794-ca5335979f58" class="code code-wrap"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">filter:
+brightness(120%)
+contrast(130%)
+saturate(150%);</code></pre></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-804c-81ff-d96dd4a94615" class="">Outro exemplo:</p></div><div style="display:contents" dir="auto"><pre id="390f6ce8-497f-8081-856b-fc92e8d903a1" class="code code-wrap"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">filter:
+blur(4px)
+grayscale(50%)
+brightness(120%);</code></pre></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-8080-a167-e2139c2f95b9" class="">Cada função é aplicada na ordem em que aparece.</p></div><div style="display:contents" dir="auto"><hr id="390f6ce8-497f-80da-936b-e2a6194a0af5"/></div><div style="display:contents" dir="auto"><h1 id="390f6ce8-497f-80c8-9a11-e2c7e63302f0" class="">Exemplos práticos</h1></div><div style="display:contents" dir="auto"><h2 id="390f6ce8-497f-800f-8bd0-f42cf59c107f" class="">Blur em uma imagem</h2></div><div style="display:contents" dir="auto"><pre id="390f6ce8-497f-80ec-9c4e-c7e90149e60c" class="code code-wrap"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">img{
+    filter: blur(4px);
+}</code></pre></div><div style="display:contents" dir="auto"><hr id="390f6ce8-497f-8067-9f9e-ed736cdb2088"/></div><div style="display:contents" dir="auto"><h2 id="390f6ce8-497f-800a-9b8b-ddb55f2d379d" class="">Hover com brilho</h2></div><div style="display:contents" dir="auto"><pre id="390f6ce8-497f-8006-a912-e2985e57951f" class="code code-wrap"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">img{
+    transition: .3s;
+}
+
+img:hover{
+    filter: brightness(130%);
+}</code></pre></div><div style="display:contents" dir="auto"><hr id="390f6ce8-497f-80da-a0b6-eb793e97127d"/></div><div style="display:contents" dir="auto"><h2 id="390f6ce8-497f-80f4-b643-cc16d394f4c3" class="">Galeria em preto e branco</h2></div><div style="display:contents" dir="auto"><pre id="390f6ce8-497f-80cc-abba-eb49f9647467" class="code code-wrap"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">img{
+    filter: grayscale(100%);
+    transition:.3s;
+}
+
+img:hover{
+    filter: grayscale(0%);
+}</code></pre></div><div style="display:contents" dir="auto"><hr id="390f6ce8-497f-808d-8a56-d83b963dcc71"/></div><div style="display:contents" dir="auto"><h2 id="390f6ce8-497f-804d-a3b4-c814a8c6804f" class="">Logo branca</h2></div><div style="display:contents" dir="auto"><pre id="390f6ce8-497f-80e1-8e84-c0dc728cdf02" class="code code-wrap"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">img{
+    filter: invert(100%);
+}</code></pre></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-80fb-9334-cb9e48fa9d38" class="">Muito usada em temas escuros.</p></div><div style="display:contents" dir="auto"><hr id="390f6ce8-497f-8073-af95-dc973a4b3142"/></div><div style="display:contents" dir="auto"><h2 id="390f6ce8-497f-80b3-aa4a-e7f6fd047b6c" class="">Glow</h2></div><div style="display:contents" dir="auto"><pre id="390f6ce8-497f-801e-8482-db02cd7394c1" class="code code-wrap"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">filter:
+drop-shadow(0 0 20px cyan);</code></pre></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-80c1-b594-da67f593e7a4" class="">Ideal para interfaces cyberpunk.</p></div><div style="display:contents" dir="auto"><hr id="390f6ce8-497f-80ae-a1df-dbb30d8d4a06"/></div><div style="display:contents" dir="auto"><h2 id="390f6ce8-497f-80f3-b0d4-ed720f7caaa7" class="">Glassmorphism</h2></div><div style="display:contents" dir="auto"><pre id="390f6ce8-497f-80d1-8ca2-f384caddbbf5" class="code code-wrap"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">backdrop-filter: blur(15px);</code></pre></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-8010-bad3-ce68ef13a186" class="">Embora pareça semelhante, <code><strong>backdrop-filter</strong></code> desfoca o que está atrás do elemento, enquanto <code>filter</code> desfoca o próprio elemento.</p></div><div style="display:contents" dir="auto"><hr id="390f6ce8-497f-80fa-b1fe-c0f61592b416"/></div><div style="display:contents" dir="auto"><h1 id="390f6ce8-497f-809e-8b2d-c6170df894e9" class="">Casos de uso</h1></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-800c-bd00-cea95d1e1b4d" class="">O <code>filter</code> é muito utilizado em:</p></div><div style="display:contents" dir="auto"><ul id="390f6ce8-497f-807b-be54-c5e82c9e02d1" class="bulleted-list"><li style="list-style-type:disc">galerias de imagens;</li></ul></div><div style="display:contents" dir="auto"><ul id="390f6ce8-497f-803f-b550-fae088f217b6" class="bulleted-list"><li style="list-style-type:disc">banners;</li></ul></div><div style="display:contents" dir="auto"><ul id="390f6ce8-497f-807d-ac02-fedefc5a1029" class="bulleted-list"><li style="list-style-type:disc">efeitos de hover;</li></ul></div><div style="display:contents" dir="auto"><ul id="390f6ce8-497f-806f-841b-f5eb043c3ee9" class="bulleted-list"><li style="list-style-type:disc">logotipos;</li></ul></div><div style="display:contents" dir="auto"><ul id="390f6ce8-497f-805c-9c04-c277649c5930" class="bulleted-list"><li style="list-style-type:disc">ícones;</li></ul></div><div style="display:contents" dir="auto"><ul id="390f6ce8-497f-805e-902a-eaba9d0c61ea" class="bulleted-list"><li style="list-style-type:disc">SVGs;</li></ul></div><div style="display:contents" dir="auto"><ul id="390f6ce8-497f-80d1-a5d9-d79f3fa71231" class="bulleted-list"><li style="list-style-type:disc">botões;</li></ul></div><div style="display:contents" dir="auto"><ul id="390f6ce8-497f-80bd-b6be-dc856fdbd4c2" class="bulleted-list"><li style="list-style-type:disc">cards;</li></ul></div><div style="display:contents" dir="auto"><ul id="390f6ce8-497f-8002-b1a4-f6a83bda50f9" class="bulleted-list"><li style="list-style-type:disc">interfaces futuristas;</li></ul></div><div style="display:contents" dir="auto"><ul id="390f6ce8-497f-804b-82a5-e57b3c8f9418" class="bulleted-list"><li style="list-style-type:disc">dashboards;</li></ul></div><div style="display:contents" dir="auto"><ul id="390f6ce8-497f-8075-b619-dca494ad450e" class="bulleted-list"><li style="list-style-type:disc">temas escuros.</li></ul></div><div style="display:contents" dir="auto"><hr id="390f6ce8-497f-8072-bb66-d8d9ae12ff2f"/></div><div style="display:contents" dir="auto"><h1 id="390f6ce8-497f-8097-9711-eb9b81b7b363" class="">Boas práticas</h1></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-8055-9c63-f2a2b3f849fc" class="">✔ Use filtros com moderação para não comprometer a legibilidade.</p></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-8086-b814-cef002d51bae" class="">✔ Prefira transições suaves:</p></div><div style="display:contents" dir="auto"><pre id="390f6ce8-497f-804f-82c2-f111b9c21375" class="code code-wrap"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">transition: filter .3s ease;</code></pre></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-8025-9871-f12f8073713b" class="">✔ Utilize <code>drop-shadow()</code> para imagens transparentes.</p></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-808c-89ff-c3fffdbd9fc8" class="">✔ Use <code>brightness()</code> em vez de trocar manualmente a imagem em efeitos de hover.</p></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-802c-b3d7-f65cd4878945" class="">✔ Combine filtros apenas quando necessário.</p></div><div style="display:contents" dir="auto"><hr id="390f6ce8-497f-803f-8fbd-e97617bafa0f"/></div><div style="display:contents" dir="auto"><h1 id="390f6ce8-497f-8047-a901-ddd8a5d37a36" class="">Erros comuns</h1></div><div style="display:contents" dir="auto"><h3 id="390f6ce8-497f-809e-a493-c30ff5c09083" class="">1. Blur exagerado</h3></div><div style="display:contents" dir="auto"><pre id="390f6ce8-497f-80fe-ae03-c14b310e9d98" class="code code-wrap"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">filter: blur(30px);</code></pre></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-80ea-8b62-c949c44d16e5" class="">Pode tornar o conteúdo ilegível.</p></div><div style="display:contents" dir="auto"><hr id="390f6ce8-497f-804f-befd-fd4eaf77dbfc"/></div><div style="display:contents" dir="auto"><h3 id="390f6ce8-497f-80ca-a43e-c163239ec473" class="">2. Saturação excessiva</h3></div><div style="display:contents" dir="auto"><pre id="390f6ce8-497f-800a-9c55-e8bbaf60b4e0" class="code code-wrap"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">filter: saturate(500%);</code></pre></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-80a0-ab60-e0e03351867c" class="">As cores ficam artificiais.</p></div><div style="display:contents" dir="auto"><hr id="390f6ce8-497f-80cb-9813-dd54bf82fe50"/></div><div style="display:contents" dir="auto"><h3 id="390f6ce8-497f-80af-b1b0-d3912d15ebfa" class="">3. Muitos filtros simultâneos</h3></div><div style="display:contents" dir="auto"><pre id="390f6ce8-497f-805b-a98b-ec77e560f125" class="code code-wrap"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">filter:
+blur(5px)
+brightness(150%)
+contrast(200%)
+sepia(100%)
+grayscale(80%)
+invert(100%);</code></pre></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-8093-ad4d-d6dad3b8ff50" class="">Além de produzir um resultado visual confuso, muitos filtros podem aumentar o custo de renderização.</p></div><div style="display:contents" dir="auto"><hr id="390f6ce8-497f-80f8-80d0-d39b35f1aada"/></div><div style="display:contents" dir="auto"><h1 id="390f6ce8-497f-80b2-82ac-fd5ca39648ec" class="">Desempenho (Performance)</h1></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-80ea-99bc-c0f43b2865ea" class="">Filtros são processados pelo navegador e podem exigir bastante da GPU, especialmente quando:</p></div><div style="display:contents" dir="auto"><ul id="390f6ce8-497f-8090-ba4b-dff9300fd8f8" class="bulleted-list"><li style="list-style-type:disc">o <code>blur()</code> possui valores altos;</li></ul></div><div style="display:contents" dir="auto"><ul id="390f6ce8-497f-8099-a104-fcd6b969f400" class="bulleted-list"><li style="list-style-type:disc">filtros são animados continuamente;</li></ul></div><div style="display:contents" dir="auto"><ul id="390f6ce8-497f-80a8-9783-c5b6e1ad35df" class="bulleted-list"><li style="list-style-type:disc">muitos elementos usam filtros ao mesmo tempo.</li></ul></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-80a5-8b07-fc6682968c93" class="">Em dispositivos mais simples, isso pode causar perda de desempenho. Sempre teste a interface em diferentes aparelhos.</p></div><div style="display:contents" dir="auto"><hr id="390f6ce8-497f-80f7-86a1-e47010c2a499"/></div><div style="display:contents" dir="auto"><h1 id="390f6ce8-497f-808b-b420-fa90247eaf29" class="">Compatibilidade</h1></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-80e9-a353-eb3e64ed4161" class="">A propriedade <code>filter</code> é suportada pelos principais navegadores modernos:</p></div><div style="display:contents" dir="auto"><ul id="390f6ce8-497f-8034-9487-d126d2638420" class="bulleted-list"><li style="list-style-type:disc">Google Chrome</li></ul></div><div style="display:contents" dir="auto"><ul id="390f6ce8-497f-8025-83b3-dd2ffbea4d59" class="bulleted-list"><li style="list-style-type:disc">Mozilla Firefox</li></ul></div><div style="display:contents" dir="auto"><ul id="390f6ce8-497f-80a6-8da4-cd5f9533005d" class="bulleted-list"><li style="list-style-type:disc">Microsoft Edge</li></ul></div><div style="display:contents" dir="auto"><ul id="390f6ce8-497f-802a-8316-ddc1e60dee58" class="bulleted-list"><li style="list-style-type:disc">Safari</li></ul></div><div style="display:contents" dir="auto"><ul id="390f6ce8-497f-8035-96ea-fcf6156f7419" class="bulleted-list"><li style="list-style-type:disc">Opera</li></ul></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-8040-8b35-e2bbcaae423a" class="">Em projetos muito antigos, era comum usar o prefixo <code>-webkit-filter</code>, mas hoje ele raramente é necessário.</p></div><div style="display:contents" dir="auto"><hr id="390f6ce8-497f-8084-8125-d8e3a0eaca80"/></div><div style="display:contents" dir="auto"><h1 id="390f6ce8-497f-8036-9dcd-ea3ca42e261e" class="">Propriedades relacionadas</h1></div><div style="display:contents" dir="auto"><ul id="390f6ce8-497f-804e-8dc2-cd54ec01ccab" class="bulleted-list"><li style="list-style-type:disc"><code>backdrop-filter</code> → aplica filtros ao conteúdo que está atrás do elemento.</li></ul></div><div style="display:contents" dir="auto"><ul id="390f6ce8-497f-80c1-a4df-d9b2b38b03f8" class="bulleted-list"><li style="list-style-type:disc"><code>box-shadow</code> → adiciona sombras à caixa do elemento.</li></ul></div><div style="display:contents" dir="auto"><ul id="390f6ce8-497f-807b-9fc7-ea2ae0ae1797" class="bulleted-list"><li style="list-style-type:disc"><code>text-shadow</code> → adiciona sombras ao texto.</li></ul></div><div style="display:contents" dir="auto"><ul id="390f6ce8-497f-8045-a2bf-ee6bc334e824" class="bulleted-list"><li style="list-style-type:disc"><code>opacity</code> → controla a transparência do elemento.</li></ul></div><div style="display:contents" dir="auto"><ul id="390f6ce8-497f-8055-99aa-d8f554f41302" class="bulleted-list"><li style="list-style-type:disc"><code>transform</code> → altera posição, rotação, escala e inclinação do elemento.</li></ul></div><div style="display:contents" dir="auto"><ul id="390f6ce8-497f-808e-9b7f-f2ce882ad4f7" class="bulleted-list"><li style="list-style-type:disc"><code>transition</code> → cria animações suaves ao alterar filtros e outras propriedades.</li></ul></div><div style="display:contents" dir="auto"><hr id="390f6ce8-497f-806c-abfc-fa91e81ce28d"/></div><div style="display:contents" dir="auto"><h1 id="390f6ce8-497f-8053-b90b-cc4014f91fcc" class="">Resumo</h1></div><div style="display:contents" dir="auto"><ul id="390f6ce8-497f-8079-8e80-d762961bca1e" class="bulleted-list"><li style="list-style-type:disc"><code>filter</code> aplica efeitos gráficos ao resultado renderizado de um elemento.</li></ul></div><div style="display:contents" dir="auto"><ul id="390f6ce8-497f-8099-af03-fd294af904c6" class="bulleted-list"><li style="list-style-type:disc">É composto por funções como <code>blur()</code>, <code>brightness()</code>, <code>contrast()</code>, <code>grayscale()</code>, <code>invert()</code>, <code>opacity()</code>, <code>saturate()</code>, <code>sepia()</code>, <code>hue-rotate()</code> e <code>drop-shadow()</code>.</li></ul></div><div style="display:contents" dir="auto"><ul id="390f6ce8-497f-80cc-9ba3-efe5cfbd61fc" class="bulleted-list"><li style="list-style-type:disc">É possível combinar várias funções em uma única propriedade.</li></ul></div><div style="display:contents" dir="auto"><ul id="390f6ce8-497f-80a4-98e2-c406e7d9da21" class="bulleted-list"><li style="list-style-type:disc"><code>drop-shadow()</code> cria sombras baseadas na forma visível do elemento, sendo ideal para imagens transparentes.</li></ul></div><div style="display:contents" dir="auto"><ul id="390f6ce8-497f-8025-a2c4-e1139a0545ef" class="bulleted-list"><li style="list-style-type:disc"><code>filter</code> é amplamente utilizado para criar efeitos visuais modernos, mas deve ser usado com equilíbrio para manter boa legibilidade e desempenho.</li></ul></div></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

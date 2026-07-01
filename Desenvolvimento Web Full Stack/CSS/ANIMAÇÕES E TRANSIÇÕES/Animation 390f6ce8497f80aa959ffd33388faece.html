@@ -1,0 +1,959 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Animation</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="390f6ce8-497f-80aa-959f-fd33388faece" class="page sans"><header><div class="page-header-icon undefined"><img class="icon notion-static-icon" src="https://app.notion.com/icons/snippet_blue.svg"/></div><h1 class="page-title" dir="auto">Animation</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><div style="display:contents" dir="auto"><h1 id="390f6ce8-497f-80c1-8602-d9cc3d8faf53" class=""><code>animation</code> no CSS</h1></div><div style="display:contents" dir="auto"><h2 id="390f6ce8-497f-8062-aa3d-d4afbe779431" class="">Introdução</h2></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-8040-ade2-e2e45ec4ca56" class="">A propriedade <code><strong>animation</strong></code> é utilizada para criar animações complexas em CSS, permitindo que um elemento passe por <strong>uma sequência de estados</strong> definidos pelo desenvolvedor.</p></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-80c7-8e11-d3153f388f9c" class="">Diferentemente da <code>transition</code>, que apenas anima a mudança entre dois estados (inicial e final), a <code>animation</code> pode conter <strong>várias etapas</strong>, repetir indefinidamente, iniciar automaticamente, alternar direções e controlar diversos aspectos da execução.</p></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-80f7-a9fe-f7127f3cb7e0" class="">Ela é amplamente utilizada para criar:</p></div><div style="display:contents" dir="auto"><ul id="390f6ce8-497f-8064-b07e-c7f797e0aee6" class="bulleted-list"><li style="list-style-type:disc">loaders;</li></ul></div><div style="display:contents" dir="auto"><ul id="390f6ce8-497f-80f6-b57d-fdd462a62520" class="bulleted-list"><li style="list-style-type:disc">elementos pulsando;</li></ul></div><div style="display:contents" dir="auto"><ul id="390f6ce8-497f-80c5-bde7-c326e020de84" class="bulleted-list"><li style="list-style-type:disc">menus animados;</li></ul></div><div style="display:contents" dir="auto"><ul id="390f6ce8-497f-8076-ae88-f5c91ae77e9f" class="bulleted-list"><li style="list-style-type:disc">banners;</li></ul></div><div style="display:contents" dir="auto"><ul id="390f6ce8-497f-803e-8944-dc2385ecee6f" class="bulleted-list"><li style="list-style-type:disc">efeitos de entrada e saída;</li></ul></div><div style="display:contents" dir="auto"><ul id="390f6ce8-497f-8047-a26f-c88ee56d820e" class="bulleted-list"><li style="list-style-type:disc">animações infinitas;</li></ul></div><div style="display:contents" dir="auto"><ul id="390f6ce8-497f-8027-b19b-fe30e1934d57" class="bulleted-list"><li style="list-style-type:disc">personagens;</li></ul></div><div style="display:contents" dir="auto"><ul id="390f6ce8-497f-80c8-81aa-edd935eb1b87" class="bulleted-list"><li style="list-style-type:disc">efeitos neon;</li></ul></div><div style="display:contents" dir="auto"><ul id="390f6ce8-497f-8041-9fbd-f1ee239109c8" class="bulleted-list"><li style="list-style-type:disc">interfaces interativas.</li></ul></div><div style="display:contents" dir="auto"><hr id="390f6ce8-497f-808e-85cd-cc7020c8a9d8"/></div><div style="display:contents" dir="auto"><h1 id="390f6ce8-497f-80d4-8044-e5e1651aa790" class="">Como funciona</h1></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-8028-826c-ccd305ba9061" class="">Uma animação CSS é composta por <strong>duas partes</strong>:</p></div><div style="display:contents" dir="auto"><ol type="1" id="390f6ce8-497f-80cd-b58b-eced70b26308" class="numbered-list" start="1"><li><code><strong>@keyframes</strong></code><div style="display:contents" dir="auto"><ul id="390f6ce8-497f-8003-b338-c236f6f2855d" class="bulleted-list"><li style="list-style-type:disc">Define o que acontecerá durante a animação.</li></ul></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="390f6ce8-497f-8078-ac59-d072cdfadbe5" class="numbered-list" start="2"><li><code><strong>animation</strong></code><div style="display:contents" dir="auto"><ul id="390f6ce8-497f-8022-b80f-cf4a0bb632d1" class="bulleted-list"><li style="list-style-type:disc">Diz como essa animação será executada.</li></ul></div></li></ol></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-8070-8291-df712695497e" class="">Fluxo:</p></div><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="390f6ce8-497f-809d-919f-f90e9572f464" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">@keyframes
+        ↓
+Define os movimentos
+        ↓
+animation
+        ↓
+Executa a animação</code></pre></div><div style="display:contents" dir="auto"><hr id="390f6ce8-497f-80bc-bfc7-d7d97b40a414"/></div><div style="display:contents" dir="auto"><h1 id="390f6ce8-497f-80e1-8d6d-f20c40f65d43" class="">O que são <code>@keyframes</code>?</h1></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-80c7-ae2f-cc84fdcc306b" class="">Os <strong>Keyframes</strong> (&quot;quadros-chave&quot;) definem os estados da animação ao longo do tempo.</p></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-8038-8fcb-fb54f592604c" class="">Sintaxe:</p></div><div style="display:contents" dir="auto"><pre id="390f6ce8-497f-800b-9903-db5655c67607" class="code code-wrap"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">@keyframes nome{
+
+}</code></pre></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-809d-82f2-efb582b1181b" class="">Exemplo:</p></div><div style="display:contents" dir="auto"><pre id="390f6ce8-497f-80ec-a50b-f3213eefa05e" class="code code-wrap"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">@keyframes aparecer{
+
+    from{
+
+        opacity:0;
+
+    }
+
+    to{
+
+        opacity:1;
+
+    }
+
+}</code></pre></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-807e-9639-ffba0aa6151b" class="">Essa animação faz o elemento aparecer suavemente.</p></div><div style="display:contents" dir="auto"><hr id="390f6ce8-497f-80c4-8ae1-fb6e6d124f41"/></div><div style="display:contents" dir="auto"><h2 id="390f6ce8-497f-803b-9d79-f4a39ff47500" class=""><code>from</code> e <code>to</code></h2></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-8042-b431-d81f15eadb8b" class="">São equivalentes a:</p></div><div style="display:contents" dir="auto"><pre id="390f6ce8-497f-804d-88a9-e21a8d2283bb" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">0%
+
+↓
+
+100%</code></pre></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-804c-9e78-f8a06aac0779" class="">Portanto:</p></div><div style="display:contents" dir="auto"><pre id="390f6ce8-497f-80a4-a4bc-cda42280c7c2" class="code code-wrap"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">from{
+
+}</code></pre></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-8063-bcce-cb3ca7706260" class="">é igual a:</p></div><div style="display:contents" dir="auto"><pre id="390f6ce8-497f-8091-9142-e0b08a03de7f" class="code code-wrap"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">0%{
+
+}</code></pre></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-808d-b463-ec4c9ed1cc60" class="">E:</p></div><div style="display:contents" dir="auto"><pre id="390f6ce8-497f-80c2-8f2e-f0cd141a1a79" class="code code-wrap"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">to{
+
+}</code></pre></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-8054-a202-c55e373159a2" class="">é igual a:</p></div><div style="display:contents" dir="auto"><pre id="390f6ce8-497f-8057-9d93-f4c8aa717859" class="code code-wrap"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">100%{
+
+}</code></pre></div><div style="display:contents" dir="auto"><hr id="390f6ce8-497f-8037-93d2-e4604d6c3bc9"/></div><div style="display:contents" dir="auto"><h1 id="390f6ce8-497f-80fc-aada-eb3a4152d481" class="">Usando porcentagens</h1></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-807d-9ecb-dc336f7c68c0" class="">Podemos criar várias etapas.</p></div><div style="display:contents" dir="auto"><pre id="390f6ce8-497f-80f7-96a1-ca92eebea992" class="code code-wrap"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">@keyframes mover{
+
+    0%{
+
+        transform:translateX(0);
+
+    }
+
+    50%{
+
+        transform:translateX(200px);
+
+    }
+
+    100%{
+
+        transform:translateX(0);
+
+    }
+
+}</code></pre></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-80cf-94f9-fa7c2d1e2600" class="">Resultado:</p></div><div style="display:contents" dir="auto"><pre id="390f6ce8-497f-8066-baf0-ff25cfa9f896" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Início
+
+↓
+
+Vai para direita
+
+↓
+
+Volta</code></pre></div><div style="display:contents" dir="auto"><hr id="390f6ce8-497f-809c-8c32-ddd591c3b5eb"/></div><div style="display:contents" dir="auto"><h1 id="390f6ce8-497f-8008-92b2-da26744e6651" class="">Aplicando a animação</h1></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-80b0-a49d-e40d9b7d9844" class="">Depois de criar os <code>@keyframes</code>:</p></div><div style="display:contents" dir="auto"><pre id="390f6ce8-497f-8066-8625-f35cab78e291" class="code code-wrap"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">.box{
+
+    animation:mover 2s;
+
+}</code></pre></div><div style="display:contents" dir="auto"><hr id="390f6ce8-497f-807c-a53d-e8f11dd434de"/></div><div style="display:contents" dir="auto"><h1 id="390f6ce8-497f-80da-a8aa-ebaa14d2833b" class="">Sintaxe completa</h1></div><div style="display:contents" dir="auto"><pre id="390f6ce8-497f-80e9-9a61-d2dc2371f882" class="code code-wrap"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">animation:
+
+name
+
+duration
+
+timing-function
+
+delay
+
+iteration-count
+
+direction
+
+fill-mode
+
+play-state;</code></pre></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-806a-b991-e538c803e564" class="">Nem todos são obrigatórios.</p></div><div style="display:contents" dir="auto"><hr id="390f6ce8-497f-80d4-b5eb-f97e93652e0d"/></div><div style="display:contents" dir="auto"><h1 id="390f6ce8-497f-8019-941d-da7bcd395721" class="">Componentes da animação</h1></div><div style="display:contents" dir="auto"><h2 id="390f6ce8-497f-804a-93a6-cd6d00f5c695" class="">1. <code>animation-name</code></h2></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-8002-9e14-fbe3dd6cca34" class="">Define qual animação será utilizada.</p></div><div style="display:contents" dir="auto"><pre id="390f6ce8-497f-80a7-a214-dc4b89a47e3e" class="code code-wrap"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">animation-name:mover;</code></pre></div><div style="display:contents" dir="auto"><hr id="390f6ce8-497f-8082-b5e5-caebf3f0ce12"/></div><div style="display:contents" dir="auto"><h2 id="390f6ce8-497f-8002-8c44-fae792fc61e6" class="">2. <code>animation-duration</code></h2></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-801c-8e66-f0f44a099179" class="">Define quanto tempo dura uma execução.</p></div><div style="display:contents" dir="auto"><pre id="390f6ce8-497f-800d-86cc-e506cfbc0aaa" class="code code-wrap"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">animation-duration:2s;</code></pre></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-8052-92b8-ff06d66fc1a6" class="">ou</p></div><div style="display:contents" dir="auto"><pre id="390f6ce8-497f-8084-b3d0-e6550b223435" class="code code-wrap"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">animation-duration:500ms;</code></pre></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-8065-be0a-f5db8208e978" class="">Sem duração:</p></div><div style="display:contents" dir="auto"><pre id="390f6ce8-497f-8099-be0f-cd87747f66b1" class="code code-wrap"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">animation-duration:0s;</code></pre></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-8011-bcb8-dffca3d68f7e" class="">Nada será animado.</p></div><div style="display:contents" dir="auto"><hr id="390f6ce8-497f-8055-ae1a-c63d048c3d6b"/></div><div style="display:contents" dir="auto"><h2 id="390f6ce8-497f-8086-8a2b-c5423c82c1b2" class="">3. <code>animation-timing-function</code></h2></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-8038-9e95-c7189aedffac" class="">Controla a velocidade.</p></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-8023-bd3d-df28a8392363" class="">Valores:</p></div><div style="display:contents" dir="auto"><pre id="390f6ce8-497f-8025-80e3-c253d5dd7a02" class="code code-wrap"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">ease</code></pre></div><div style="display:contents" dir="auto"><pre id="390f6ce8-497f-80c6-a4b6-c9ab4953e4dd" class="code code-wrap"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">linear</code></pre></div><div style="display:contents" dir="auto"><pre id="390f6ce8-497f-806d-8e14-cdc42b2f16aa" class="code code-wrap"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">ease-in</code></pre></div><div style="display:contents" dir="auto"><pre id="390f6ce8-497f-8067-b92b-d04192cd05f2" class="code code-wrap"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">ease-out</code></pre></div><div style="display:contents" dir="auto"><pre id="390f6ce8-497f-80c7-97ab-e58e99828bf5" class="code code-wrap"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">ease-in-out</code></pre></div><div style="display:contents" dir="auto"><pre id="390f6ce8-497f-80c3-9ba3-eb8aeb768fb3" class="code code-wrap"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">cubic-bezier(...)</code></pre></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-8070-baa7-f68b3deb8b6b" class="">Funciona exatamente como na <code>transition</code>.</p></div><div style="display:contents" dir="auto"><hr id="390f6ce8-497f-80f5-b49b-d41a7e0d1463"/></div><div style="display:contents" dir="auto"><h2 id="390f6ce8-497f-80af-854f-ecaa453679cd" class="">4. <code>animation-delay</code></h2></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-8028-a16e-da728e8c4665" class="">Tempo antes de iniciar.</p></div><div style="display:contents" dir="auto"><pre id="390f6ce8-497f-8018-99e1-f8e4385a395c" class="code code-wrap"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">animation-delay:2s;</code></pre></div><div style="display:contents" dir="auto"><hr id="390f6ce8-497f-8064-8a11-cf0efd87ce92"/></div><div style="display:contents" dir="auto"><h2 id="390f6ce8-497f-8057-910d-fa4b1b3a30eb" class="">5. <code>animation-iteration-count</code></h2></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-805a-ad5f-f56101899427" class="">Quantidade de repetições.</p></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-802e-a190-efdae2a12d74" class="">Uma vez:</p></div><div style="display:contents" dir="auto"><pre id="390f6ce8-497f-80ff-b33e-e352aca46ddc" class="code code-wrap"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">animation-iteration-count:1;</code></pre></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-80e6-92a3-c4004231fbc1" class="">Cinco vezes:</p></div><div style="display:contents" dir="auto"><pre id="390f6ce8-497f-8091-a964-eff3b7a322d7" class="code code-wrap"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">animation-iteration-count:5;</code></pre></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-80f2-8879-dc569a9ce747" class="">Infinitamente:</p></div><div style="display:contents" dir="auto"><pre id="390f6ce8-497f-803f-b455-e1c86deebb06" class="code code-wrap"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">animation-iteration-count:infinite;</code></pre></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-806f-a4b6-eaf364894e2e" class="">Muito utilizado em loaders.</p></div><div style="display:contents" dir="auto"><hr id="390f6ce8-497f-80d8-b813-dc92991eccea"/></div><div style="display:contents" dir="auto"><h2 id="390f6ce8-497f-8011-8a84-fd86e3a6c78a" class="">6. <code>animation-direction</code></h2></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-8010-a789-f970fb140646" class="">Controla a direção.</p></div><div style="display:contents" dir="auto"><h3 id="390f6ce8-497f-80e1-9a67-d9270f2ee5d9" class=""><code>normal</code></h3></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-800c-a98f-de41f6372f46" class="">Padrão.</p></div><div style="display:contents" dir="auto"><pre id="390f6ce8-497f-80c4-8535-e4b7eaf4b227" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">→</code></pre></div><div style="display:contents" dir="auto"><hr id="390f6ce8-497f-80a6-870e-fadddc2e47c3"/></div><div style="display:contents" dir="auto"><h3 id="390f6ce8-497f-807d-878f-d0eb8de8dc85" class=""><code>reverse</code></h3></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-8037-ab3c-f170e4694d46" class="">Executa ao contrário.</p></div><div style="display:contents" dir="auto"><pre id="390f6ce8-497f-8050-87af-dcd20e5dd42d" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">←</code></pre></div><div style="display:contents" dir="auto"><hr id="390f6ce8-497f-80cf-bda1-e3962a47bf66"/></div><div style="display:contents" dir="auto"><h3 id="390f6ce8-497f-8031-ab65-d3dd771990d8" class=""><code>alternate</code></h3></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-8018-81a3-cf3f051fb45c" class="">Vai e volta.</p></div><div style="display:contents" dir="auto"><pre id="390f6ce8-497f-8031-a350-ce1b9a23b5b9" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">→ ← → ←</code></pre></div><div style="display:contents" dir="auto"><hr id="390f6ce8-497f-806f-a370-e0847beb65b8"/></div><div style="display:contents" dir="auto"><h3 id="390f6ce8-497f-8070-a2b5-f3920696958f" class=""><code>alternate-reverse</code></h3></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-80c2-9863-fe363c38f202" class="">Começa voltando.</p></div><div style="display:contents" dir="auto"><pre id="390f6ce8-497f-8036-869c-dd9d36ac7aa8" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">← → ← →</code></pre></div><div style="display:contents" dir="auto"><hr id="390f6ce8-497f-809e-8bff-c78f59a1c9c4"/></div><div style="display:contents" dir="auto"><h2 id="390f6ce8-497f-8040-b042-cdd4ddc23851" class="">7. <code>animation-fill-mode</code></h2></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-8034-8999-f921b4518fc8" class="">Controla como o elemento fica antes e depois da animação.</p></div><div style="display:contents" dir="auto"><h3 id="390f6ce8-497f-80e4-a9de-cc4af79963b7" class=""><code>none</code></h3></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-803b-85d3-c7bfc041d60b" class="">Padrão.</p></div><div style="display:contents" dir="auto"><hr id="390f6ce8-497f-8035-9857-fb9e6e06c464"/></div><div style="display:contents" dir="auto"><h3 id="390f6ce8-497f-80fd-9ca4-e07deadc6147" class=""><code>forwards</code></h3></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-80de-b6cc-c8e2a895cec8" class="">Mantém o estado final.</p></div><div style="display:contents" dir="auto"><pre id="390f6ce8-497f-80ab-a9c2-d10cdcce1baa" class="code code-wrap"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">animation-fill-mode:forwards;</code></pre></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-8046-8ec4-efbcbec02994" class="">Muito usado em animações de entrada.</p></div><div style="display:contents" dir="auto"><hr id="390f6ce8-497f-809f-83af-c0acc2778e1d"/></div><div style="display:contents" dir="auto"><h3 id="390f6ce8-497f-8014-8448-ce2efd4711a9" class=""><code>backwards</code></h3></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-80e3-8024-cf28a9fed49e" class="">Aplica imediatamente o primeiro quadro durante o <code>delay</code>.</p></div><div style="display:contents" dir="auto"><hr id="390f6ce8-497f-80fa-ab49-c5b40acf1960"/></div><div style="display:contents" dir="auto"><h3 id="390f6ce8-497f-80de-8fba-f4baacf365ef" class=""><code>both</code></h3></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-803d-9b6f-fd33a806f02f" class="">Combina <code>forwards</code> e <code>backwards</code>.</p></div><div style="display:contents" dir="auto"><hr id="390f6ce8-497f-80b7-9add-fecc636d44bf"/></div><div style="display:contents" dir="auto"><h2 id="390f6ce8-497f-8049-b796-e9c8a99c1edc" class="">8. <code>animation-play-state</code></h2></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-80eb-a3be-d55f709b7389" class="">Controla a execução.</p></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-808c-933e-e88bcd424836" class="">Executando:</p></div><div style="display:contents" dir="auto"><pre id="390f6ce8-497f-806d-bf77-c8f538787434" class="code code-wrap"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">animation-play-state:running;</code></pre></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-80fa-acc7-fa72b7a3d133" class="">Pausada:</p></div><div style="display:contents" dir="auto"><pre id="390f6ce8-497f-8072-9724-f0b0de26d1af" class="code code-wrap"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">animation-play-state:paused;</code></pre></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-80f9-b5c5-c8c5e795883c" class="">Exemplo:</p></div><div style="display:contents" dir="auto"><pre id="390f6ce8-497f-8037-9790-f410ecbecf40" class="code code-wrap"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">.box:hover{
+
+    animation-play-state:paused;
+
+}</code></pre></div><div style="display:contents" dir="auto"><hr id="390f6ce8-497f-80b2-b298-dd5829e600e1"/></div><div style="display:contents" dir="auto"><h1 id="390f6ce8-497f-8042-9a19-c4293541f855" class="">Múltiplas animações</h1></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-80e1-9bd7-c6a92336dbae" class="">É possível executar várias animações simultaneamente.</p></div><div style="display:contents" dir="auto"><pre id="390f6ce8-497f-8020-b5ce-f8bf5d01566b" class="code code-wrap"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">animation:
+
+mover 2s linear,
+
+piscar 1s infinite;</code></pre></div><div style="display:contents" dir="auto"><hr id="390f6ce8-497f-80ca-b0e1-dd0d759ac341"/></div><div style="display:contents" dir="auto"><h1 id="390f6ce8-497f-804c-b1c2-d21821ccccad" class="">Exemplos práticos</h1></div><div style="display:contents" dir="auto"><h2 id="390f6ce8-497f-807d-9c9a-f2d198e3cf6e" class="">Fade In</h2></div><div style="display:contents" dir="auto"><pre id="390f6ce8-497f-800b-b32a-f567a828cbdf" class="code code-wrap"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">@keyframes aparecer{
+
+    from{
+
+        opacity:0;
+
+    }
+
+    to{
+
+        opacity:1;
+
+    }
+
+}
+
+.card{
+
+    animation:aparecer .5s;
+
+}</code></pre></div><div style="display:contents" dir="auto"><hr id="390f6ce8-497f-8016-bd34-ddaa740b263a"/></div><div style="display:contents" dir="auto"><h2 id="390f6ce8-497f-8011-995e-ee43efd5445b" class="">Movimento</h2></div><div style="display:contents" dir="auto"><pre id="390f6ce8-497f-8061-9fe8-ea02029973aa" class="code code-wrap"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">@keyframes mover{
+
+    from{
+
+        transform:translateX(0);
+
+    }
+
+    to{
+
+        transform:translateX(300px);
+
+    }
+
+}</code></pre></div><div style="display:contents" dir="auto"><hr id="390f6ce8-497f-80fd-8ffd-cd14dcbe4ebd"/></div><div style="display:contents" dir="auto"><h2 id="390f6ce8-497f-8093-8c65-e0707a827767" class="">Rotação</h2></div><div style="display:contents" dir="auto"><pre id="390f6ce8-497f-80f0-86e2-d01aaa4cfd56" class="code code-wrap"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">@keyframes girar{
+
+    from{
+
+        transform:rotate(0deg);
+
+    }
+
+    to{
+
+        transform:rotate(360deg);
+
+    }
+
+}
+
+.logo{
+
+    animation:girar 2s linear infinite;
+
+}</code></pre></div><div style="display:contents" dir="auto"><hr id="390f6ce8-497f-802b-9660-e7056d4e8ff4"/></div><div style="display:contents" dir="auto"><h2 id="390f6ce8-497f-80e4-80a8-f40f5d58e385" class="">Pulsar</h2></div><div style="display:contents" dir="auto"><pre id="390f6ce8-497f-80a2-b6e5-ea6bd08fecd2" class="code code-wrap"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">@keyframes pulse{
+
+0%{
+
+transform:scale(1);
+
+}
+
+50%{
+
+transform:scale(1.1);
+
+}
+
+100%{
+
+transform:scale(1);
+
+}
+
+}</code></pre></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-8081-a884-c87df1c0dd5d" class="">Aplicação:</p></div><div style="display:contents" dir="auto"><pre id="390f6ce8-497f-8019-ba62-d6b5fcf27a48" class="code code-wrap"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">button{
+
+animation:
+
+pulse
+
+1s
+
+infinite;
+
+}</code></pre></div><div style="display:contents" dir="auto"><hr id="390f6ce8-497f-80ce-be90-d553836af5e7"/></div><div style="display:contents" dir="auto"><h2 id="390f6ce8-497f-80ee-aed0-c1f8799c69ac" class="">Loader</h2></div><div style="display:contents" dir="auto"><pre id="390f6ce8-497f-80b0-9f0f-f195d8fa9fa2" class="code code-wrap"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">.loader{
+
+animation:
+
+girar
+
+1s
+
+linear
+
+infinite;
+
+}</code></pre></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-8088-a435-c21939c6c96f" class="">Muito utilizado em indicadores de carregamento.</p></div><div style="display:contents" dir="auto"><hr id="390f6ce8-497f-80e0-93b2-e0b3c23f0887"/></div><div style="display:contents" dir="auto"><h2 id="390f6ce8-497f-806e-85a9-c6d5c49c6023" class="">Bounce</h2></div><div style="display:contents" dir="auto"><pre id="390f6ce8-497f-801b-b1be-cfc45f3ac7f3" class="code code-wrap"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">@keyframes bounce{
+
+0%{
+
+transform:translateY(0);
+
+}
+
+50%{
+
+transform:translateY(-30px);
+
+}
+
+100%{
+
+transform:translateY(0);
+
+}
+
+}</code></pre></div><div style="display:contents" dir="auto"><hr id="390f6ce8-497f-8077-86ee-f9dbddc91cf2"/></div><div style="display:contents" dir="auto"><h1 id="390f6ce8-497f-8089-9773-db1c8aaa388a" class="">Propriedades que podem ser animadas</h1></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-8095-ad6d-c7b7ba46481c" class="">As mesmas propriedades compatíveis com <code>transition</code>.</p></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-804c-ba35-e1a864eb40e1" class="">Exemplos:</p></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-80bf-9876-dab9a6e6adbe" class="">✔ <code>opacity</code></p></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-80d0-b652-f88ee96fe176" class="">✔ <code>transform</code></p></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-8075-a99f-cbe10b5dcef1" class="">✔ <code>background-color</code></p></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-8000-8823-f88f3c900f3a" class="">✔ <code>color</code></p></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-80f4-9907-d999fcd798bd" class="">✔ <code>box-shadow</code></p></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-80d1-8372-e8c484edafbb" class="">✔ <code>filter</code></p></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-80e1-9a1f-e6e8b4606a62" class="">✔ <code>border-radius</code></p></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-8014-b242-f2eb64fc092c" class="">✔ <code>width</code></p></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-804b-bbe9-fbaa6d1908e2" class="">✔ <code>height</code></p></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-80c8-aa5e-e14bb7a4becd" class="">✔ <code>margin</code></p></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-805f-8485-ee30bf68df0f" class="">✔ <code>padding</code></p></div><div style="display:contents" dir="auto"><hr id="390f6ce8-497f-8096-9bf1-eed5c22a44f6"/></div><div style="display:contents" dir="auto"><h1 id="390f6ce8-497f-80fb-b185-cadaa8270d2a" class="">Propriedades que não podem ser animadas</h1></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-80e4-91fc-fd925fa33337" class="">Exemplos:</p></div><div style="display:contents" dir="auto"><pre id="390f6ce8-497f-80ac-a295-ff5f1d0a3572" class="code code-wrap"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">display</code></pre></div><div style="display:contents" dir="auto"><pre id="390f6ce8-497f-80b1-aad1-d4626a8303f6" class="code code-wrap"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">position</code></pre></div><div style="display:contents" dir="auto"><pre id="390f6ce8-497f-80a6-b6bf-f729122205ba" class="code code-wrap"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">float</code></pre></div><div style="display:contents" dir="auto"><pre id="390f6ce8-497f-8013-85e7-ffbd3ed1e955" class="code code-wrap"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">background-image</code></pre></div><div style="display:contents" dir="auto"><hr id="390f6ce8-497f-80ab-8e14-c3b5b9fd58e1"/></div><div style="display:contents" dir="auto"><h1 id="390f6ce8-497f-8091-86d7-efd63ef195f9" class=""><code>animation</code> x <code>transition</code></h1></div><div style="display:contents" dir="ltr"><table id="390f6ce8-497f-800e-b2be-e26486fdff0e" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="390f6ce8-497f-80d6-affc-f11c883b58cc"><th id="K?W&gt;" class="simple-table-header-color simple-table-header"><code>animation</code></th><th id="JBwD" class="simple-table-header-color simple-table-header"><code>transition</code></th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="390f6ce8-497f-80d4-bd76-c8c085768d32"><td id="K?W&gt;" class="">Pode iniciar automaticamente</td><td id="JBwD" class="">Precisa de uma mudança de estado</td></tr></div><div style="display:contents" dir="ltr"><tr id="390f6ce8-497f-8069-8c0d-e09d0a593c95"><td id="K?W&gt;" class="">Usa <code>@keyframes</code></td><td id="JBwD" class="">Não usa <code>@keyframes</code></td></tr></div><div style="display:contents" dir="ltr"><tr id="390f6ce8-497f-80dc-b765-edf4903d38c5"><td id="K?W&gt;" class="">Possui várias etapas</td><td id="JBwD" class="">Apenas estado inicial e final</td></tr></div><div style="display:contents" dir="ltr"><tr id="390f6ce8-497f-800a-b746-dee63b07ca94"><td id="K?W&gt;" class="">Pode repetir infinitamente</td><td id="JBwD" class="">Não repete sozinha</td></tr></div><div style="display:contents" dir="ltr"><tr id="390f6ce8-497f-8065-b90d-e88eb9e35b53"><td id="K?W&gt;" class="">Ideal para animações complexas</td><td id="JBwD" class="">Ideal para interações simples</td></tr></div></tbody></table></div><div style="display:contents" dir="auto"><hr id="390f6ce8-497f-80bf-9244-d58c472236a6"/></div><div style="display:contents" dir="auto"><h1 id="390f6ce8-497f-8002-a1b9-f0f16f15cf35" class="">Casos de uso</h1></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-80cb-9f76-d924e86cfbda" class="">A propriedade <code>animation</code> é muito utilizada em:</p></div><div style="display:contents" dir="auto"><ul id="390f6ce8-497f-8093-bce1-d9474c7e3ae8" class="bulleted-list"><li style="list-style-type:disc">loaders;</li></ul></div><div style="display:contents" dir="auto"><ul id="390f6ce8-497f-8069-9b66-c73e449b6534" class="bulleted-list"><li style="list-style-type:disc">logotipos girando;</li></ul></div><div style="display:contents" dir="auto"><ul id="390f6ce8-497f-8056-9263-f2fe1f6bdb01" class="bulleted-list"><li style="list-style-type:disc">banners;</li></ul></div><div style="display:contents" dir="auto"><ul id="390f6ce8-497f-80b8-8d3f-ee35de8b735d" class="bulleted-list"><li style="list-style-type:disc">efeitos de entrada;</li></ul></div><div style="display:contents" dir="auto"><ul id="390f6ce8-497f-8046-8629-f1487b326288" class="bulleted-list"><li style="list-style-type:disc">efeitos de saída;</li></ul></div><div style="display:contents" dir="auto"><ul id="390f6ce8-497f-8075-bc1d-fd253ab36679" class="bulleted-list"><li style="list-style-type:disc">menus;</li></ul></div><div style="display:contents" dir="auto"><ul id="390f6ce8-497f-807a-b3e8-fcebd9335580" class="bulleted-list"><li style="list-style-type:disc">cards;</li></ul></div><div style="display:contents" dir="auto"><ul id="390f6ce8-497f-808a-bf6a-c5c7d9de4453" class="bulleted-list"><li style="list-style-type:disc">botões;</li></ul></div><div style="display:contents" dir="auto"><ul id="390f6ce8-497f-8003-bec9-dcf4fe61704a" class="bulleted-list"><li style="list-style-type:disc">dashboards;</li></ul></div><div style="display:contents" dir="auto"><ul id="390f6ce8-497f-80e3-8c56-db8f064c51bf" class="bulleted-list"><li style="list-style-type:disc">jogos;</li></ul></div><div style="display:contents" dir="auto"><ul id="390f6ce8-497f-80a6-bd76-ecce55c960f6" class="bulleted-list"><li style="list-style-type:disc">interfaces futuristas.</li></ul></div><div style="display:contents" dir="auto"><hr id="390f6ce8-497f-801e-ba8d-cc24db3075d0"/></div><div style="display:contents" dir="auto"><h1 id="390f6ce8-497f-8010-a766-ee3a4c00bd0c" class="">Boas práticas</h1></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-80f6-9d3e-ef11cd0b3fec" class="">✔ Prefira animar <code>transform</code> e <code>opacity</code>, pois oferecem melhor desempenho.</p></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-8024-b201-ec0cbc92eedf" class="">✔ Utilize <code>linear</code> para rotações contínuas, como loaders.</p></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-801d-af78-edca64b288b0" class="">✔ Evite animações muito rápidas ou excessivamente longas, pois podem prejudicar a experiência do usuário.</p></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-8032-9275-fdef205e36e3" class="">✔ Considere usuários com sensibilidade a movimento. É uma boa prática desativar ou reduzir animações quando o sistema indicar a preferência por movimento reduzido (<code>prefers-reduced-motion</code>).</p></div><div style="display:contents" dir="auto"><hr id="390f6ce8-497f-8047-be8c-e062bc82d92e"/></div><div style="display:contents" dir="auto"><h1 id="390f6ce8-497f-8032-bae1-ed6a20473bf4" class="">Erros comuns</h1></div><div style="display:contents" dir="auto"><h3 id="390f6ce8-497f-80eb-8df6-d4ea634000c9" class="">1. Esquecer de definir <code>animation-duration</code></h3></div><div style="display:contents" dir="auto"><pre id="390f6ce8-497f-809b-97a0-c41d1b69bc55" class="code code-wrap"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">animation:mover;</code></pre></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-802b-937b-e41dc4696ef6" class="">Sem duração, a animação não será visível.</p></div><div style="display:contents" dir="auto"><hr id="390f6ce8-497f-8063-9655-f4a3b27fba73"/></div><div style="display:contents" dir="auto"><h3 id="390f6ce8-497f-807e-805f-fe11d03e897e" class="">2. Não criar os <code>@keyframes</code></h3></div><div style="display:contents" dir="auto"><pre id="390f6ce8-497f-8037-bcc1-de55c66daa12" class="code code-wrap"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">animation:mover 2s;</code></pre></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-807b-9937-e5aaf52904a8" class="">Se a animação <code>mover</code> não existir, nada acontecerá.</p></div><div style="display:contents" dir="auto"><hr id="390f6ce8-497f-80de-8ed5-e112b21b9097"/></div><div style="display:contents" dir="auto"><h3 id="390f6ce8-497f-802a-ab02-eb28c67995d2" class="">3. Animar propriedades que afetam o layout</h3></div><div style="display:contents" dir="auto"><pre id="390f6ce8-497f-8095-9176-dc3f5e514cdc" class="code code-wrap"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">width
+
+height
+
+margin
+
+left
+
+top</code></pre></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-806a-87ae-fe45d07e7e62" class="">Essas propriedades podem causar recálculos de layout. Sempre que possível, prefira:</p></div><div style="display:contents" dir="auto"><pre id="390f6ce8-497f-8035-b822-e2dbb70e1db8" class="code code-wrap"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">transform
+
+opacity</code></pre></div><div style="display:contents" dir="auto"><hr id="390f6ce8-497f-80c8-9d1d-dc111d02921e"/></div><div style="display:contents" dir="auto"><h3 id="390f6ce8-497f-807c-9431-fc1eba93a225" class="">4. Exagerar em animações infinitas</h3></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-8026-b902-f106f0d5357f" class="">Muitas animações contínuas podem distrair o usuário e aumentar o consumo de recursos.</p></div><div style="display:contents" dir="auto"><hr id="390f6ce8-497f-8094-8028-e908bc8604e2"/></div><div style="display:contents" dir="auto"><h1 id="390f6ce8-497f-8053-bc40-d9bcfa31ea56" class="">Desempenho (Performance)</h1></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-8023-a9ad-c66c11fb2883" class="">As animações mais eficientes utilizam:</p></div><div style="display:contents" dir="auto"><ul id="390f6ce8-497f-8033-9760-d96ce942f9dd" class="bulleted-list"><li style="list-style-type:disc"><code>transform</code></li></ul></div><div style="display:contents" dir="auto"><ul id="390f6ce8-497f-8078-ab03-d95c38350257" class="bulleted-list"><li style="list-style-type:disc"><code>opacity</code></li></ul></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-8005-8a62-ea83db88fba1" class="">Essas propriedades geralmente são aceleradas por hardware (GPU), proporcionando movimentos mais suaves.</p></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-8086-acda-d5c61df5da44" class="">Já animar propriedades como <code>width</code>, <code>height</code>, <code>margin</code>, <code>top</code> e <code>left</code> pode causar recálculos de layout e repinturas, impactando o desempenho.</p></div><div style="display:contents" dir="auto"><hr id="390f6ce8-497f-80b3-928b-cc6b8705eca6"/></div><div style="display:contents" dir="auto"><h1 id="390f6ce8-497f-80e2-8ac6-d6fdf90e9bc4" class="">Compatibilidade</h1></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-8014-848d-c3b060600868" class="">A propriedade <code>animation</code> é totalmente suportada pelos principais navegadores modernos:</p></div><div style="display:contents" dir="auto"><ul id="390f6ce8-497f-80bb-b082-e5a3dfcb1a5d" class="bulleted-list"><li style="list-style-type:disc">Google Chrome</li></ul></div><div style="display:contents" dir="auto"><ul id="390f6ce8-497f-80e9-96df-dd8ce4032f4c" class="bulleted-list"><li style="list-style-type:disc">Mozilla Firefox</li></ul></div><div style="display:contents" dir="auto"><ul id="390f6ce8-497f-80cf-95c2-c8063165acab" class="bulleted-list"><li style="list-style-type:disc">Microsoft Edge</li></ul></div><div style="display:contents" dir="auto"><ul id="390f6ce8-497f-802e-99f4-eff0e5f03249" class="bulleted-list"><li style="list-style-type:disc">Safari</li></ul></div><div style="display:contents" dir="auto"><ul id="390f6ce8-497f-8058-8e70-dd883450966f" class="bulleted-list"><li style="list-style-type:disc">Opera</li></ul></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-80a9-90f4-df37b633cf77" class="">Não é necessário utilizar prefixos nas versões atuais.</p></div><div style="display:contents" dir="auto"><hr id="390f6ce8-497f-809d-a869-da04f9acc93f"/></div><div style="display:contents" dir="auto"><h1 id="390f6ce8-497f-80c7-981f-d635b6c7e3f3" class="">Propriedades relacionadas</h1></div><div style="display:contents" dir="auto"><ul id="390f6ce8-497f-80bb-b6bb-f90bbdb5da26" class="bulleted-list"><li style="list-style-type:disc"><code>@keyframes</code> → define os quadros da animação.</li></ul></div><div style="display:contents" dir="auto"><ul id="390f6ce8-497f-8013-9ee9-fd37829e6449" class="bulleted-list"><li style="list-style-type:disc"><code>animation-name</code> → nome da animação.</li></ul></div><div style="display:contents" dir="auto"><ul id="390f6ce8-497f-8034-9cee-c9eeb28394d2" class="bulleted-list"><li style="list-style-type:disc"><code>animation-duration</code> → duração.</li></ul></div><div style="display:contents" dir="auto"><ul id="390f6ce8-497f-8055-9900-e392a07264d4" class="bulleted-list"><li style="list-style-type:disc"><code>animation-delay</code> → atraso antes do início.</li></ul></div><div style="display:contents" dir="auto"><ul id="390f6ce8-497f-80e7-bb47-d50c545ea39e" class="bulleted-list"><li style="list-style-type:disc"><code>animation-iteration-count</code> → número de repetições.</li></ul></div><div style="display:contents" dir="auto"><ul id="390f6ce8-497f-80ba-8a12-eb94e3f70a6a" class="bulleted-list"><li style="list-style-type:disc"><code>animation-direction</code> → direção da animação.</li></ul></div><div style="display:contents" dir="auto"><ul id="390f6ce8-497f-80ef-a26e-fccda6b807c3" class="bulleted-list"><li style="list-style-type:disc"><code>animation-fill-mode</code> → comportamento antes e depois da execução.</li></ul></div><div style="display:contents" dir="auto"><ul id="390f6ce8-497f-8005-9b39-d846ae8621e4" class="bulleted-list"><li style="list-style-type:disc"><code>animation-play-state</code> → pausa ou executa a animação.</li></ul></div><div style="display:contents" dir="auto"><ul id="390f6ce8-497f-8098-ab29-de5dc8386ece" class="bulleted-list"><li style="list-style-type:disc"><code>animation-timing-function</code> → curva de velocidade.</li></ul></div><div style="display:contents" dir="auto"><ul id="390f6ce8-497f-8098-92c4-c275b2ae2e60" class="bulleted-list"><li style="list-style-type:disc"><code>transition</code> → anima mudanças simples entre dois estados.</li></ul></div><div style="display:contents" dir="auto"><ul id="390f6ce8-497f-808e-a0e6-e8845d46eb59" class="bulleted-list"><li style="list-style-type:disc"><code>transform</code> → frequentemente utilizada para mover, girar e escalar elementos animados.</li></ul></div><div style="display:contents" dir="auto"><hr id="390f6ce8-497f-80fc-aa18-c74b68899228"/></div><div style="display:contents" dir="auto"><h1 id="390f6ce8-497f-80bc-9e7a-ed82b5fb69f1" class="">Resumo</h1></div><div style="display:contents" dir="auto"><ul id="390f6ce8-497f-80bf-b6c4-f2edb888257d" class="bulleted-list"><li style="list-style-type:disc"><code>animation</code> permite criar animações completas e independentes de interações do usuário.</li></ul></div><div style="display:contents" dir="auto"><ul id="390f6ce8-497f-8077-8031-cd07ab143e84" class="bulleted-list"><li style="list-style-type:disc">Ela funciona em conjunto com <code>@keyframes</code>, que definem os estados da animação ao longo do tempo.</li></ul></div><div style="display:contents" dir="auto"><ul id="390f6ce8-497f-802a-933a-ca67c77077f7" class="bulleted-list"><li style="list-style-type:disc">É composta por propriedades como <code>animation-name</code>, <code>animation-duration</code>, <code>animation-delay</code>, <code>animation-iteration-count</code>, <code>animation-direction</code>, <code>animation-fill-mode</code>, <code>animation-play-state</code> e <code>animation-timing-function</code>.</li></ul></div><div style="display:contents" dir="auto"><ul id="390f6ce8-497f-80df-a1a0-f3dbf3166206" class="bulleted-list"><li style="list-style-type:disc">Pode repetir indefinidamente, alternar direções e conter várias etapas, oferecendo muito mais flexibilidade do que <code>transition</code>.</li></ul></div><div style="display:contents" dir="auto"><ul id="390f6ce8-497f-8056-a6d6-cc4391f2259f" class="bulleted-list"><li style="list-style-type:disc">Para obter animações suaves e eficientes, prefira animar <code>transform</code> e <code>opacity</code>, evitando propriedades que exigem recálculos frequentes do layout.</li></ul></div></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

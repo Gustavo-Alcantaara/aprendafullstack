@@ -1,0 +1,832 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Backdrop-filter</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="390f6ce8-497f-8089-adc3-d86bd97daffb" class="page sans"><header><div class="page-header-icon undefined"><img class="icon notion-static-icon" src="https://app.notion.com/icons/snippet_blue.svg"/></div><h1 class="page-title" dir="auto">Backdrop-filter</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><div style="display:contents" dir="auto"><h1 id="390f6ce8-497f-8036-b042-c8ac86084667" class=""><code>backdrop-filter</code> no CSS</h1></div><div style="display:contents" dir="auto"><h2 id="390f6ce8-497f-80c7-a7f1-daffbef26a0a" class="">Introdução</h2></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-80bd-ba40-d718d20ed7bc" class="">A propriedade <code><strong>backdrop-filter</strong></code> permite aplicar efeitos visuais <strong>ao conteúdo que está atrás de um elemento</strong>, e não ao próprio elemento.</p></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-8091-8872-e4702d7536c9" class="">Essa é a principal diferença em relação ao <code>filter</code>:</p></div><div style="display:contents" dir="auto"><ul id="390f6ce8-497f-8099-a82e-cb69c1eebfc8" class="bulleted-list"><li style="list-style-type:disc"><code><strong>filter</strong></code> → modifica o próprio elemento.</li></ul></div><div style="display:contents" dir="auto"><ul id="390f6ce8-497f-8002-8f36-f610858a2572" class="bulleted-list"><li style="list-style-type:disc"><code><strong>backdrop-filter</strong></code> → modifica apenas o que está atrás dele.</li></ul></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-8003-b598-f45ca8b276cd" class="">Essa propriedade é muito utilizada para criar interfaces modernas com efeito de <strong>vidro fosco (Glassmorphism)</strong>, painéis translúcidos, menus, modais e barras de navegação.</p></div><div style="display:contents" dir="auto"><hr id="390f6ce8-497f-805c-99a8-d1f73e65fc51"/></div><div style="display:contents" dir="auto"><h1 id="390f6ce8-497f-8055-a163-c75a674484bf" class="">Como funciona</h1></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-80df-a437-d333361ace6b" class="">Imagine a seguinte estrutura:</p></div><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="390f6ce8-497f-80c8-b7ee-fdf99036b0ca" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Imagem de fundo
+        ↓
+---------------------
+|                   |
+|       Card        |
+|                   |
+---------------------</code></pre></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-8062-9764-d1bed3faa51f" class="">Sem <code>backdrop-filter</code>, o fundo aparece normalmente.</p></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-80ae-bf04-de33847b5307" class="">Com:</p></div><div style="display:contents" dir="auto"><pre id="390f6ce8-497f-80c8-9d81-c3cec1c869a2" class="code code-wrap"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">backdrop-filter: blur(10px);</code></pre></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-80cc-a442-e35dc927a6fb" class="">o navegador faz o seguinte:</p></div><div style="display:contents" dir="auto"><ol type="1" id="390f6ce8-497f-8028-a8e7-f71c93f6ab68" class="numbered-list" start="1"><li>Renderiza o fundo.</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="390f6ce8-497f-80ef-b7ac-f5b949efb874" class="numbered-list" start="2"><li>Captura a parte do fundo que está atrás do elemento.</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="390f6ce8-497f-8081-8120-c23ba29429e8" class="numbered-list" start="3"><li>Aplica o filtro nessa área.</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="390f6ce8-497f-80bd-acb2-db56b6a5e0e5" class="numbered-list" start="4"><li>Desenha o elemento por cima.</li></ol></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-80bb-88aa-f0364a9e11f7" class="">Visualmente:</p></div><div style="display:contents" dir="auto"><pre id="390f6ce8-497f-8037-bf6b-f018ec6b8320" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Antes
+
+██████████████████
+
+[ CARD ]
+
+Depois
+
+████▒▒▒▒████▒▒▒▒██
+
+[ CARD ]</code></pre></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-8022-9b16-eacc7a6d0c27" class="">O conteúdo atrás do card fica desfocado, enquanto o card permanece nítido.</p></div><div style="display:contents" dir="auto"><hr id="390f6ce8-497f-808f-bb3a-ee0ccf77c70c"/></div><div style="display:contents" dir="auto"><h1 id="390f6ce8-497f-80d4-aa54-e5ca18c5c6f1" class="">Sintaxe</h1></div><div style="display:contents" dir="auto"><pre id="390f6ce8-497f-80d7-b692-fb06288680c6" class="code code-wrap"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">backdrop-filter: função(valor);</code></pre></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-8095-942e-c49ffcee4bbb" class="">Exemplo:</p></div><div style="display:contents" dir="auto"><pre id="390f6ce8-497f-8071-84d8-fd82fe02e6cf" class="code code-wrap"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">.card{
+    backdrop-filter: blur(10px);
+}</code></pre></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-80b8-986a-df3a0f1070e7" class="">Também é possível combinar várias funções:</p></div><div style="display:contents" dir="auto"><pre id="390f6ce8-497f-8007-a605-e1c137f3fdde" class="code code-wrap"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">backdrop-filter:
+blur(10px)
+brightness(120%)
+contrast(90%);</code></pre></div><div style="display:contents" dir="auto"><hr id="390f6ce8-497f-8028-a65c-d26aee6850e7"/></div><div style="display:contents" dir="auto"><h1 id="390f6ce8-497f-8077-910e-e3574eb3dfbf" class="">Diferença entre <code>filter</code> e <code>backdrop-filter</code></h1></div><div style="display:contents" dir="auto"><h2 id="390f6ce8-497f-8085-87e9-d590f9172f01" class=""><code>filter</code></h2></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-80a9-8a6f-f9ec8ae7da67" class="">Aplica o efeito ao próprio elemento.</p></div><div style="display:contents" dir="auto"><pre id="390f6ce8-497f-80a9-a7a9-e691e7d20281" class="code code-wrap"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">img{
+    filter: blur(5px);
+}</code></pre></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-80d9-ad37-f36577c6e9d8" class="">Resultado:</p></div><div style="display:contents" dir="auto"><pre id="390f6ce8-497f-8026-a8bb-d94396e972d2" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Imagem borrada</code></pre></div><div style="display:contents" dir="auto"><hr id="390f6ce8-497f-8047-8de5-c6fb2e41f59d"/></div><div style="display:contents" dir="auto"><h2 id="390f6ce8-497f-80ff-9815-f99ce95bdc6f" class=""><code>backdrop-filter</code></h2></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-8000-a959-f80da60f3aff" class="">Aplica o efeito apenas ao fundo.</p></div><div style="display:contents" dir="auto"><pre id="390f6ce8-497f-8077-a9eb-ce29c3528bf7" class="code code-wrap"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">.card{
+    backdrop-filter: blur(10px);
+}</code></pre></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-8037-bcb3-d4748d1087f0" class="">Resultado:</p></div><div style="display:contents" dir="auto"><pre id="390f6ce8-497f-8020-9cf8-e1260b32ad57" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Imagem de fundo borrada
+
+Card continua normal</code></pre></div><div style="display:contents" dir="auto"><h3 id="390f6ce8-497f-8079-a396-c8c917abe94d" class="">Comparação</h3></div><div style="display:contents" dir="ltr"><table id="390f6ce8-497f-80e0-a4e9-f9a5d7469025" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="390f6ce8-497f-80f1-87ea-c319feffbdc2"><th id="Qw={" class="simple-table-header-color simple-table-header"><code>filter</code></th><th id="IH@V" class="simple-table-header-color simple-table-header"><code>backdrop-filter</code></th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="390f6ce8-497f-8092-9fc7-ffbd76340a12"><td id="Qw={" class="">Afeta o próprio elemento</td><td id="IH@V" class="">Afeta o conteúdo atrás do elemento</td></tr></div><div style="display:contents" dir="ltr"><tr id="390f6ce8-497f-8073-a01e-d50395ece32a"><td id="Qw={" class="">Imagens ficam borradas</td><td id="IH@V" class="">Fundo fica borrado</td></tr></div><div style="display:contents" dir="ltr"><tr id="390f6ce8-497f-8080-a576-c0e025810ee9"><td id="Qw={" class="">Texto do elemento também recebe o filtro</td><td id="IH@V" class="">Texto permanece nítido</td></tr></div><div style="display:contents" dir="ltr"><tr id="390f6ce8-497f-801d-940c-c531e3fc1544"><td id="Qw={" class="">Muito usado em imagens</td><td id="IH@V" class="">Muito usado em painéis e cards</td></tr></div></tbody></table></div><div style="display:contents" dir="auto"><hr id="390f6ce8-497f-80f2-850e-c555a5a0a8d1"/></div><div style="display:contents" dir="auto"><h1 id="390f6ce8-497f-80f1-b65c-c04953db71e9" class="">Importante: o elemento precisa ser transparente</h1></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-80de-972b-ccfec55b636d" class="">Esse é o erro mais comum.</p></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-8070-9edc-dbe31087ca9f" class="">Se o elemento tiver um fundo totalmente opaco, o efeito não aparecerá.</p></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-80df-a287-db5800411cc2" class="">Errado:</p></div><div style="display:contents" dir="auto"><pre id="390f6ce8-497f-803a-b519-d29264764337" class="code code-wrap"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">.card{
+    background: white;
+    backdrop-filter: blur(15px);
+}</code></pre></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-80a8-b654-db3cbe1fd941" class="">Como o fundo é totalmente branco, não há nada para enxergar atrás dele.</p></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-808d-8943-d88842f06050" class="">O correto é usar uma cor com transparência:</p></div><div style="display:contents" dir="auto"><pre id="390f6ce8-497f-80ec-bf22-f5b3dbbedf4a" class="code code-wrap"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">.card{
+    background: rgba(255,255,255,.2);
+    backdrop-filter: blur(15px);
+}</code></pre></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-806d-ad92-e2c66fa4fa9a" class="">Ou:</p></div><div style="display:contents" dir="auto"><pre id="390f6ce8-497f-80f4-97e6-e4a501af3323" class="code code-wrap"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">background: rgb(255 255 255 / 20%);</code></pre></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-8090-ac69-cf4376831bd9" class="">Assim, o fundo continua visível e pode receber o filtro.</p></div><div style="display:contents" dir="auto"><hr id="390f6ce8-497f-8076-bbbe-f8bf3bf4dbe6"/></div><div style="display:contents" dir="auto"><h1 id="390f6ce8-497f-80c3-ad2e-c248afe22354" class="">Funções disponíveis</h1></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-807b-9ddc-ddb11478ca4f" class="">O <code>backdrop-filter</code> utiliza praticamente as mesmas funções do <code>filter</code>.</p></div><div style="display:contents" dir="auto"><hr id="390f6ce8-497f-80fb-8367-f04840139726"/></div><div style="display:contents" dir="auto"><h2 id="390f6ce8-497f-8010-b378-f5d8b8faa3a9" class=""><code>blur()</code></h2></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-8043-8b6b-c070488ebde7" class="">Desfoca o fundo.</p></div><div style="display:contents" dir="auto"><pre id="390f6ce8-497f-80d6-8ac4-eb2fc7a175f2" class="code code-wrap"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">backdrop-filter: blur(10px);</code></pre></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-804c-b041-d8dcc927dc2b" class="">É a função mais utilizada.</p></div><div style="display:contents" dir="auto"><hr id="390f6ce8-497f-80cd-89f2-c76f4791cb73"/></div><div style="display:contents" dir="auto"><h2 id="390f6ce8-497f-8005-8400-f66f64c4b6ae" class=""><code>brightness()</code></h2></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-8030-9776-d2b5baeea18d" class="">Altera o brilho do fundo.</p></div><div style="display:contents" dir="auto"><pre id="390f6ce8-497f-803f-83df-e015c19bc886" class="code code-wrap"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">backdrop-filter: brightness(150%);</code></pre></div><div style="display:contents" dir="auto"><hr id="390f6ce8-497f-80fe-a731-d65ae311276e"/></div><div style="display:contents" dir="auto"><h2 id="390f6ce8-497f-80bb-a2e2-d8ae865a1c6c" class=""><code>contrast()</code></h2></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-8019-91db-c7a1ce8b099a" class="">Altera o contraste do fundo.</p></div><div style="display:contents" dir="auto"><pre id="390f6ce8-497f-80bb-8a0b-f32f6a21b4a6" class="code code-wrap"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">backdrop-filter: contrast(80%);</code></pre></div><div style="display:contents" dir="auto"><hr id="390f6ce8-497f-8097-b48e-c7bdbe9a3879"/></div><div style="display:contents" dir="auto"><h2 id="390f6ce8-497f-80d7-b917-fbe75edb91da" class=""><code>grayscale()</code></h2></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-80a1-a9e2-e1268524dee0" class="">Converte o fundo para tons de cinza.</p></div><div style="display:contents" dir="auto"><pre id="390f6ce8-497f-8096-8058-d84ed00de079" class="code code-wrap"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">backdrop-filter: grayscale(100%);</code></pre></div><div style="display:contents" dir="auto"><hr id="390f6ce8-497f-8090-92f6-df1f038120d5"/></div><div style="display:contents" dir="auto"><h2 id="390f6ce8-497f-804b-ab68-d931e4e5ed2e" class=""><code>invert()</code></h2></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-8051-a40a-e996f2744625" class="">Inverte as cores do fundo.</p></div><div style="display:contents" dir="auto"><pre id="390f6ce8-497f-80f6-82d7-d80a1de1ec19" class="code code-wrap"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">backdrop-filter: invert(100%);</code></pre></div><div style="display:contents" dir="auto"><hr id="390f6ce8-497f-8009-8be1-cd0679457f8f"/></div><div style="display:contents" dir="auto"><h2 id="390f6ce8-497f-80e1-b60f-e33e0feafcd1" class=""><code>sepia()</code></h2></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-80ea-928f-c58a992c9055" class="">Aplica efeito envelhecido.</p></div><div style="display:contents" dir="auto"><pre id="390f6ce8-497f-80ad-a7b7-ca01f8e05523" class="code code-wrap"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">backdrop-filter: sepia(100%);</code></pre></div><div style="display:contents" dir="auto"><hr id="390f6ce8-497f-8000-88e4-e585bcad2186"/></div><div style="display:contents" dir="auto"><h2 id="390f6ce8-497f-8034-81e9-e9ac83773351" class=""><code>saturate()</code></h2></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-807e-8248-d4f22cc714a2" class="">Aumenta ou reduz a intensidade das cores.</p></div><div style="display:contents" dir="auto"><pre id="390f6ce8-497f-8070-9081-e80e90b31c94" class="code code-wrap"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">backdrop-filter: saturate(180%);</code></pre></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-8073-987c-e44f111a5a23" class="">Muito usada junto com <code>blur()</code>.</p></div><div style="display:contents" dir="auto"><hr id="390f6ce8-497f-804c-a706-d67986c1d3a1"/></div><div style="display:contents" dir="auto"><h2 id="390f6ce8-497f-80a1-89f9-e70ea6606a1b" class=""><code>opacity()</code></h2></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-8005-be9d-e5b1eee157f3" class="">Controla a opacidade do fundo filtrado.</p></div><div style="display:contents" dir="auto"><pre id="390f6ce8-497f-80f6-b6d2-d7c85174dbdf" class="code code-wrap"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">backdrop-filter: opacity(50%);</code></pre></div><div style="display:contents" dir="auto"><hr id="390f6ce8-497f-8047-9fa1-ceb50b4df0bf"/></div><div style="display:contents" dir="auto"><h2 id="390f6ce8-497f-8001-8939-e6a1041dc803" class=""><code>hue-rotate()</code></h2></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-80be-91fb-eae72c9c321c" class="">Rotaciona as cores.</p></div><div style="display:contents" dir="auto"><pre id="390f6ce8-497f-8001-82a3-f9c6b78088a7" class="code code-wrap"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">backdrop-filter: hue-rotate(90deg);</code></pre></div><div style="display:contents" dir="auto"><hr id="390f6ce8-497f-808e-978a-c45817851752"/></div><div style="display:contents" dir="auto"><h1 id="390f6ce8-497f-801f-8bb7-c4bd83085572" class="">Combinando filtros</h1></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-801e-b0ad-ea863a461788" class="">É possível aplicar vários efeitos simultaneamente.</p></div><div style="display:contents" dir="auto"><pre id="390f6ce8-497f-806e-baf5-f9df47fdbb0e" class="code code-wrap"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">.card{
+    backdrop-filter:
+    blur(15px)
+    brightness(120%)
+    saturate(180%);
+}</code></pre></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-809b-886f-f223a85e1869" class="">Outro exemplo:</p></div><div style="display:contents" dir="auto"><pre id="390f6ce8-497f-80b3-bc12-d5636fa4cda8" class="code code-wrap"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">.card{
+    backdrop-filter:
+    blur(20px)
+    contrast(80%)
+    grayscale(20%);
+}</code></pre></div><div style="display:contents" dir="auto"><hr id="390f6ce8-497f-80d0-8454-d926b414a4ec"/></div><div style="display:contents" dir="auto"><h1 id="390f6ce8-497f-80ba-8a51-f939222f2a1b" class="">Exemplos práticos</h1></div><div style="display:contents" dir="auto"><h2 id="390f6ce8-497f-805a-a1a8-de722f51a909" class="">Card Glassmorphism</h2></div><div style="display:contents" dir="auto"><pre id="390f6ce8-497f-805e-b9d0-d072afc2e8c0" class="code code-wrap"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">.card{
+    width:300px;
+    padding:20px;
+
+    background:rgba(255,255,255,.15);
+
+    border:1px solid rgba(255,255,255,.3);
+
+    backdrop-filter:blur(15px);
+
+    border-radius:20px;
+}</code></pre></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-8081-95fb-cb0974690dd4" class="">Esse é o exemplo clássico do efeito de vidro fosco.</p></div><div style="display:contents" dir="auto"><hr id="390f6ce8-497f-8013-b45d-cfba8ed3954f"/></div><div style="display:contents" dir="auto"><h2 id="390f6ce8-497f-80b5-842b-f046108d76a2" class="">Navbar transparente</h2></div><div style="display:contents" dir="auto"><pre id="390f6ce8-497f-8072-9433-c9daddebd6b4" class="code code-wrap"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">header{
+
+    position:fixed;
+
+    width:100%;
+
+    background:rgba(20,20,20,.4);
+
+    backdrop-filter:blur(12px);
+}</code></pre></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-80ee-a011-ed73d6d28715" class="">Muito utilizada em sites modernos.</p></div><div style="display:contents" dir="auto"><hr id="390f6ce8-497f-809f-b480-d214d0c08c20"/></div><div style="display:contents" dir="auto"><h2 id="390f6ce8-497f-8011-82d9-f286126380bb" class="">Modal</h2></div><div style="display:contents" dir="auto"><pre id="390f6ce8-497f-8057-a3ae-e0147b24bf9c" class="code code-wrap"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">.modal{
+
+    background:rgba(255,255,255,.2);
+
+    backdrop-filter:blur(25px);
+
+}</code></pre></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-8041-b024-d6c44f966072" class="">Cria um efeito sofisticado sem esconder totalmente o conteúdo atrás.</p></div><div style="display:contents" dir="auto"><hr id="390f6ce8-497f-807b-afe9-eabcd397ed27"/></div><div style="display:contents" dir="auto"><h2 id="390f6ce8-497f-8043-b94d-fd42ff8479d0" class="">Painel lateral</h2></div><div style="display:contents" dir="auto"><pre id="390f6ce8-497f-804e-933c-d0ad1b0ad68f" class="code code-wrap"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">.sidebar{
+
+    background:rgba(0,0,0,.3);
+
+    backdrop-filter:blur(18px);
+
+}</code></pre></div><div style="display:contents" dir="auto"><hr id="390f6ce8-497f-80e8-865b-f26a0f53ddfd"/></div><div style="display:contents" dir="auto"><h1 id="390f6ce8-497f-80bc-9819-de0b40a6ce6a" class="">Glassmorphism</h1></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-8025-8943-c18d2f5c1b95" class="">O <code>backdrop-filter</code> é um dos pilares do estilo <strong>Glassmorphism</strong>, que busca simular vidro fosco.</p></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-80cc-8a33-c972850bab97" class="">Características comuns:</p></div><div style="display:contents" dir="auto"><ul id="390f6ce8-497f-806b-9915-ecb74182a4a3" class="bulleted-list"><li style="list-style-type:disc">fundo transparente;</li></ul></div><div style="display:contents" dir="auto"><ul id="390f6ce8-497f-8069-8131-ff509b61c8ec" class="bulleted-list"><li style="list-style-type:disc">desfoque;</li></ul></div><div style="display:contents" dir="auto"><ul id="390f6ce8-497f-808a-961b-e878131827c9" class="bulleted-list"><li style="list-style-type:disc">borda clara;</li></ul></div><div style="display:contents" dir="auto"><ul id="390f6ce8-497f-803e-94e4-e229dd917d99" class="bulleted-list"><li style="list-style-type:disc">sombras suaves;</li></ul></div><div style="display:contents" dir="auto"><ul id="390f6ce8-497f-80cc-838d-e1b95b613a0d" class="bulleted-list"><li style="list-style-type:disc">cantos arredondados.</li></ul></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-8017-a4a9-dd702e0cbcd3" class="">Exemplo:</p></div><div style="display:contents" dir="auto"><pre id="390f6ce8-497f-80a5-9bf1-ec6cd50ff2ee" class="code code-wrap"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">.card{
+
+    background:rgba(255,255,255,.12);
+
+    border:1px solid rgba(255,255,255,.2);
+
+    backdrop-filter:blur(20px);
+
+    box-shadow:
+    0 8px 30px rgba(0,0,0,.2);
+
+    border-radius:20px;
+}</code></pre></div><div style="display:contents" dir="auto"><hr id="390f6ce8-497f-8013-a9a0-f2af67801e87"/></div><div style="display:contents" dir="auto"><h1 id="390f6ce8-497f-8088-8648-ef459dfad194" class="">Casos de uso</h1></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-8007-89ba-d3a1090ade68" class="">O <code>backdrop-filter</code> é muito usado em:</p></div><div style="display:contents" dir="auto"><ul id="390f6ce8-497f-80fe-a386-dedbbabb5c46" class="bulleted-list"><li style="list-style-type:disc">menus;</li></ul></div><div style="display:contents" dir="auto"><ul id="390f6ce8-497f-80d4-9838-e7839ac9d172" class="bulleted-list"><li style="list-style-type:disc">barras de navegação;</li></ul></div><div style="display:contents" dir="auto"><ul id="390f6ce8-497f-80a8-8a0f-c9220909c827" class="bulleted-list"><li style="list-style-type:disc">modais;</li></ul></div><div style="display:contents" dir="auto"><ul id="390f6ce8-497f-8021-82b9-ddedeae0b4e3" class="bulleted-list"><li style="list-style-type:disc">pop-ups;</li></ul></div><div style="display:contents" dir="auto"><ul id="390f6ce8-497f-807b-86f8-d0d0b350388d" class="bulleted-list"><li style="list-style-type:disc">janelas flutuantes;</li></ul></div><div style="display:contents" dir="auto"><ul id="390f6ce8-497f-8007-8195-cd645a91ae5b" class="bulleted-list"><li style="list-style-type:disc">cards;</li></ul></div><div style="display:contents" dir="auto"><ul id="390f6ce8-497f-8063-b7e5-dff6f6d04373" class="bulleted-list"><li style="list-style-type:disc">painéis laterais;</li></ul></div><div style="display:contents" dir="auto"><ul id="390f6ce8-497f-800b-b549-ce368c63a835" class="bulleted-list"><li style="list-style-type:disc">dashboards;</li></ul></div><div style="display:contents" dir="auto"><ul id="390f6ce8-497f-8051-822c-e5dffede9cbd" class="bulleted-list"><li style="list-style-type:disc">interfaces futuristas;</li></ul></div><div style="display:contents" dir="auto"><ul id="390f6ce8-497f-80a6-9405-d53d1b6ea923" class="bulleted-list"><li style="list-style-type:disc">temas minimalistas.</li></ul></div><div style="display:contents" dir="auto"><hr id="390f6ce8-497f-8064-b659-c38a64c86fa8"/></div><div style="display:contents" dir="auto"><h1 id="390f6ce8-497f-80e7-9339-c95e20a15daa" class="">Boas práticas</h1></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-806f-8ef7-e4b9247b12c1" class="">✔ Sempre utilize um fundo com transparência (<code>rgba()</code>, <code>hsla()</code> ou <code>rgb()</code> com canal alfa).</p></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-8066-8525-ef00d1a42b10" class="">✔ Prefira valores de <code>blur()</code> entre <strong>8px e 20px</strong>, que costumam oferecer um bom equilíbrio entre estética e desempenho.</p></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-8018-a779-fdeb0c16bc14" class="">✔ Combine com <code>border-radius</code> e <code>box-shadow</code> para reforçar o efeito de vidro.</p></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-80a5-8a11-cad5311f5493" class="">✔ Garanta bom contraste entre o texto e o fundo desfocado para manter a legibilidade.</p></div><div style="display:contents" dir="auto"><hr id="390f6ce8-497f-803d-8eca-d6c34bfd6be4"/></div><div style="display:contents" dir="auto"><h1 id="390f6ce8-497f-808d-972e-fc7751ed223a" class="">Erros comuns</h1></div><div style="display:contents" dir="auto"><h3 id="390f6ce8-497f-8055-a0bb-c6cfd8b9ace5" class="">1. Fundo totalmente opaco</h3></div><div style="display:contents" dir="auto"><pre id="390f6ce8-497f-802a-be92-d6a88b59f6be" class="code code-wrap"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">background:white;
+
+backdrop-filter:blur(10px);</code></pre></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-8058-b2de-cbb68339f6f6" class="">O efeito praticamente não será percebido.</p></div><div style="display:contents" dir="auto"><hr id="390f6ce8-497f-805c-9a57-d68d2701eed5"/></div><div style="display:contents" dir="auto"><h3 id="390f6ce8-497f-8021-acb9-cd6ed67e448f" class="">2. Esquecer a transparência</h3></div><div style="display:contents" dir="auto"><pre id="390f6ce8-497f-807c-b7f5-d79ced2c30d7" class="code code-wrap"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">background:#ffffff;</code></pre></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-803f-961c-c04661f7e0dd" class="">Use:</p></div><div style="display:contents" dir="auto"><pre id="390f6ce8-497f-802e-97cd-c86caa165442" class="code code-wrap"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">background:rgba(255,255,255,.2);</code></pre></div><div style="display:contents" dir="auto"><hr id="390f6ce8-497f-80f2-b63f-d30fd1345b7d"/></div><div style="display:contents" dir="auto"><h3 id="390f6ce8-497f-8006-9ca2-e6e9e0f1b30e" class="">3. Blur exagerado</h3></div><div style="display:contents" dir="auto"><pre id="390f6ce8-497f-80cc-8bc1-e4f5fe002704" class="code code-wrap"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">backdrop-filter:blur(60px);</code></pre></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-80ee-9d59-c3293b1c37b1" class="">Além de pesar no desempenho, pode dificultar a leitura do conteúdo ao fundo.</p></div><div style="display:contents" dir="auto"><hr id="390f6ce8-497f-80df-a921-ecc8bd079382"/></div><div style="display:contents" dir="auto"><h1 id="390f6ce8-497f-80fd-a697-e72480b2bd96" class="">Desempenho (Performance)</h1></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-80c8-88ac-de35f877ca86" class="">O <code>backdrop-filter</code> é mais custoso que muitas outras propriedades CSS, pois o navegador precisa:</p></div><div style="display:contents" dir="auto"><ol type="1" id="390f6ce8-497f-8082-a75b-c767efe38ba9" class="numbered-list" start="1"><li>Renderizar o conteúdo de fundo.</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="390f6ce8-497f-805d-8b91-e4ef36d375e7" class="numbered-list" start="2"><li>Capturar a área atrás do elemento.</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="390f6ce8-497f-80ed-9bc7-e34e26f7399c" class="numbered-list" start="3"><li>Aplicar o filtro.</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="390f6ce8-497f-8090-af14-c4a8060671f1" class="numbered-list" start="4"><li>Renderizar novamente o elemento.</li></ol></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-80e4-9b27-dacb4a65cd90" class="">Isso pode impactar a fluidez em dispositivos mais simples, principalmente quando:</p></div><div style="display:contents" dir="auto"><ul id="390f6ce8-497f-80f2-b036-ee541740f60f" class="bulleted-list"><li style="list-style-type:disc">há muitos elementos com <code>backdrop-filter</code>;</li></ul></div><div style="display:contents" dir="auto"><ul id="390f6ce8-497f-80c5-9906-f9d0a6d5f005" class="bulleted-list"><li style="list-style-type:disc">o valor de <code>blur()</code> é muito alto;</li></ul></div><div style="display:contents" dir="auto"><ul id="390f6ce8-497f-8039-a8cc-e7992c99ec7f" class="bulleted-list"><li style="list-style-type:disc">o efeito é animado constantemente.</li></ul></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-805a-b6d7-edf8882ef8e2" class="">Sempre teste o desempenho em diferentes dispositivos.</p></div><div style="display:contents" dir="auto"><hr id="390f6ce8-497f-802e-93d8-e9254599fa53"/></div><div style="display:contents" dir="auto"><h1 id="390f6ce8-497f-803e-bbe5-cbe962eb1003" class="">Compatibilidade</h1></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-80b7-a519-ecc2961d9ca0" class="">Atualmente, o <code>backdrop-filter</code> é suportado pelos principais navegadores modernos, como:</p></div><div style="display:contents" dir="auto"><ul id="390f6ce8-497f-80e7-956b-f94c00afc30e" class="bulleted-list"><li style="list-style-type:disc">Google Chrome</li></ul></div><div style="display:contents" dir="auto"><ul id="390f6ce8-497f-80d7-b941-eda0401caec5" class="bulleted-list"><li style="list-style-type:disc">Microsoft Edge</li></ul></div><div style="display:contents" dir="auto"><ul id="390f6ce8-497f-80ce-8068-c6daebcd03bc" class="bulleted-list"><li style="list-style-type:disc">Safari</li></ul></div><div style="display:contents" dir="auto"><ul id="390f6ce8-497f-8028-b1e1-cea9804795ea" class="bulleted-list"><li style="list-style-type:disc">Opera</li></ul></div><div style="display:contents" dir="auto"><ul id="390f6ce8-497f-8033-bedf-c978c344a3c2" class="bulleted-list"><li style="list-style-type:disc">Mozilla Firefox (em versões recentes)</li></ul></div><div style="display:contents" dir="auto"><p id="390f6ce8-497f-80de-a427-d9e3d2eaea82" class="">Em navegadores antigos, o suporte era limitado ou exigia prefixos como <code>-webkit-backdrop-filter</code>. Hoje, o uso do prefixo raramente é necessário, mas é recomendável verificar o suporte caso seu projeto precise atender navegadores mais antigos.</p></div><div style="display:contents" dir="auto"><hr id="390f6ce8-497f-8051-8732-e75c5ead095a"/></div><div style="display:contents" dir="auto"><h1 id="390f6ce8-497f-805f-b2fa-ea1afdbd50d6" class="">Propriedades relacionadas</h1></div><div style="display:contents" dir="auto"><ul id="390f6ce8-497f-804b-a0d4-c2eb75b5dcf6" class="bulleted-list"><li style="list-style-type:disc"><code>filter</code> → aplica efeitos ao próprio elemento.</li></ul></div><div style="display:contents" dir="auto"><ul id="390f6ce8-497f-80aa-8fd3-d569c4cf3631" class="bulleted-list"><li style="list-style-type:disc"><code>box-shadow</code> → cria sombras ao redor da caixa do elemento.</li></ul></div><div style="display:contents" dir="auto"><ul id="390f6ce8-497f-808c-acfc-edbb2c67cbdf" class="bulleted-list"><li style="list-style-type:disc"><code>text-shadow</code> → cria sombras no texto.</li></ul></div><div style="display:contents" dir="auto"><ul id="390f6ce8-497f-80f9-95b9-c032408a5d87" class="bulleted-list"><li style="list-style-type:disc"><code>background</code> → define a cor, imagem ou gradiente de fundo.</li></ul></div><div style="display:contents" dir="auto"><ul id="390f6ce8-497f-8021-9a5f-d1ee6bdf996c" class="bulleted-list"><li style="list-style-type:disc"><code>opacity</code> → controla a transparência do elemento inteiro.</li></ul></div><div style="display:contents" dir="auto"><ul id="390f6ce8-497f-802e-aa46-c51c50013300" class="bulleted-list"><li style="list-style-type:disc"><code>border-radius</code> → arredonda os cantos e melhora o efeito de vidro.</li></ul></div><div style="display:contents" dir="auto"><hr id="390f6ce8-497f-8072-8a7c-dfc43407b4c7"/></div><div style="display:contents" dir="auto"><h1 id="390f6ce8-497f-80ca-ba89-edcfd795b588" class="">Resumo</h1></div><div style="display:contents" dir="auto"><ul id="390f6ce8-497f-80fc-bc95-dc6627483cb7" class="bulleted-list"><li style="list-style-type:disc"><code>backdrop-filter</code> aplica efeitos ao conteúdo que está <strong>atrás</strong> do elemento.</li></ul></div><div style="display:contents" dir="auto"><ul id="390f6ce8-497f-8044-805c-f01860bb5bc8" class="bulleted-list"><li style="list-style-type:disc">É ideal para criar efeitos de <strong>vidro fosco (Glassmorphism)</strong>.</li></ul></div><div style="display:contents" dir="auto"><ul id="390f6ce8-497f-8002-9abb-d4e884136b6a" class="bulleted-list"><li style="list-style-type:disc">O elemento precisa ter um <strong>fundo parcialmente transparente</strong> para que o efeito seja visível.</li></ul></div><div style="display:contents" dir="auto"><ul id="390f6ce8-497f-806d-a9c9-e53d499806f2" class="bulleted-list"><li style="list-style-type:disc">Aceita funções como <code>blur()</code>, <code>brightness()</code>, <code>contrast()</code>, <code>grayscale()</code>, <code>invert()</code>, <code>sepia()</code>, <code>saturate()</code>, <code>opacity()</code> e <code>hue-rotate()</code>.</li></ul></div><div style="display:contents" dir="auto"><ul id="390f6ce8-497f-80e9-8f1f-c694e64c5722" class="bulleted-list"><li style="list-style-type:disc">Pode combinar várias funções em uma única declaração.</li></ul></div><div style="display:contents" dir="auto"><ul id="390f6ce8-497f-8065-a784-e24d38a44ba4" class="bulleted-list"><li style="list-style-type:disc">Deve ser usado com cuidado, pois pode ter um custo maior de renderização, especialmente quando aplicado em muitos elementos ou com valores elevados de <code>blur()</code>.</li></ul></div></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>
