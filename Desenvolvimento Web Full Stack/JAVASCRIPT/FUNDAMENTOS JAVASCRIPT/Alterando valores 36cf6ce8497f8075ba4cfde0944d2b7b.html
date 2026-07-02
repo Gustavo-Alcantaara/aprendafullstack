@@ -1,4 +1,4 @@
-<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Alterando valores</title><style>
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Alterando valores</title><meta name="data-notion-page-icon" content="/icons/command-line_yellow.svg"/><link rel="icon" href="https://app.notion.com/icons/command-line_yellow.svg"/><style>
 /* cspell:disable-file */
 /* webkit printing magic: print all background colors */
 html {
@@ -88,7 +88,14 @@ h3 {
 	padding: 1rem;
 }
 
-figure {
+/* For default-background callouts, render the border outline. */
+.callout.block-color-default_background {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+figure,
+aside,
+details {
 	margin: 1.25em 0;
 	page-break-inside: avoid;
 }
@@ -184,7 +191,8 @@ img {
 	display: block;
 	font-size: 0.875rem;
 	line-height: 1.3;
-	padding: 0.125rem;
+	padding-inline: 0.125rem;
+	padding-block: 0.375rem;
 }
 
 .table_of_contents-indent-1 {
@@ -367,6 +375,17 @@ time {
 	margin-right: 0.5em;
 }
 
+/*
+ * Render emoji icons using a ::before pseudo-element to keep the glyph
+ * out of the DOM textContent traversal. This avoids double-rendering icons
+ * in callouts and page titles.
+ * NOTE(slim/html-export-pseudo-icons): I can't tagref this because it will
+ * flag as a duplicate tag after codegen.
+ */
+.icon[data-emoji]::before {
+	content: attr(data-emoji);
+}
+
 img.icon {
 	border-radius: 3px;
 }
@@ -440,8 +459,7 @@ td > time {
 }
 
 input[type="checkbox"] {
-	transform: scale(1.5);
-	margin-right: 0.6em;
+	margin-right: 0.4em;
 	vertical-align: middle;
 }
 
@@ -549,6 +567,12 @@ blockquote.quote-large {
 .bookmark-href {
 	font-size: 0.75em;
 	margin-top: 0.25em;
+}
+
+.tab {
+	margin: 1.25em 0;
+	padding-inline: 1rem;
+	border: 1px solid rgba(55, 53, 47, 0.09);
 }
 
 .sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
@@ -740,18 +764,18 @@ blockquote.quote-large {
 	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
 }
 	
-</style></head><body><article id="36cf6ce8-497f-8075-ba4c-fde0944d2b7b" class="page sans"><header><div class="page-header-icon undefined"><img class="icon notion-static-icon" src="https://app.notion.com/icons/command-line_yellow.svg"/></div><h1 class="page-title" dir="auto">Alterando valores</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><div style="display:contents" dir="auto"><p id="36cf6ce8-497f-808d-89e7-fa05b23dffc5" class="">Em JavaScript, é possível alterar o valor de variáveis dependendo da forma como elas foram declaradas.</p></div><div style="display:contents" dir="auto"><h2 id="36cf6ce8-497f-8056-9479-cb9f964a4bfd" class="">Alterando valores com <code>let</code></h2></div><div style="display:contents" dir="auto"><p id="36cf6ce8-497f-805b-91cf-d5e4275a71f7" class="">Variáveis criadas com <code>let</code> podem ter seus valores modificados:</p></div><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-jsx.min.js" integrity="sha512-m3JYEI6gx5fh9jF10FjGoMzVKcV2N6nchcDcqPCdI1L3R2WQV7br2XVNR8iTLb2daOMRl3zldbcfT40xU2ntVw==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="36cf6ce8-497f-8093-8def-ed1541dcea7e" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">let nome=&quot;Gustavo&quot;;
+</style><style>@import url('https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex-swap.min.css')</style></head><body><article id="36cf6ce8-497f-8075-ba4c-fde0944d2b7b" class="page sans" data-notion-page-icon="/icons/command-line_yellow.svg"><header><div class="page-header-icon undefined"><img class="icon notion-static-icon" src="https://app.notion.com/icons/command-line_yellow.svg"/></div><h1 class="page-title" dir="auto">Alterando valores</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><p id="36cf6ce8-497f-808d-89e7-fa05b23dffc5" class="" dir="auto">Em JavaScript, é possível alterar o valor de variáveis dependendo da forma como elas foram declaradas.</p><h2 id="36cf6ce8-497f-8056-9479-cb9f964a4bfd" style="display:inline-block" dir="auto">Alterando valores com <code>let</code></h2><p id="36cf6ce8-497f-805b-91cf-d5e4275a71f7" class="" dir="auto">Variáveis criadas com <code>let</code> podem ter seus valores modificados:</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-jsx.min.js" integrity="sha512-m3JYEI6gx5fh9jF10FjGoMzVKcV2N6nchcDcqPCdI1L3R2WQV7br2XVNR8iTLb2daOMRl3zldbcfT40xU2ntVw==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="36cf6ce8-497f-8093-8def-ed1541dcea7e" class="code code-wrap" data-notion-code-syntax="jsx"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">let nome=&quot;Gustavo&quot;;
 
 nome=&quot;Carlos&quot;;
 
-console.log(nome);</code></pre></div><div style="display:contents" dir="auto"><p id="36cf6ce8-497f-80bc-b2cc-c04e6b1f057f" class="">Resultado:</p></div><div style="display:contents" dir="auto"><pre id="36cf6ce8-497f-808d-974c-c3d8eac7b40c" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Carlos</code></pre></div><div style="display:contents" dir="auto"><hr id="36cf6ce8-497f-8053-91d9-cbb0ce6c8525"/></div><div style="display:contents" dir="auto"><h2 id="36cf6ce8-497f-80b7-a601-d8b29fa3622e" class="">Alterando números</h2></div><div style="display:contents" dir="auto"><pre id="36cf6ce8-497f-80ee-86fb-f3f1bed9f86d" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">let idade = 21;
+console.log(nome);</code></pre><p id="36cf6ce8-497f-80bc-b2cc-c04e6b1f057f" class="" dir="auto">Resultado:</p><pre id="36cf6ce8-497f-808d-974c-c3d8eac7b40c" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Carlos</code></pre><hr id="36cf6ce8-497f-8053-91d9-cbb0ce6c8525" dir="auto"/><h2 id="36cf6ce8-497f-80b7-a601-d8b29fa3622e" style="display:inline-block" dir="auto">Alterando números</h2><pre id="36cf6ce8-497f-80ee-86fb-f3f1bed9f86d" class="code code-wrap" data-notion-code-syntax="jsx"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">let idade = 21;
 
 idade = 22;
 
-console.log(idade);</code></pre></div><div style="display:contents" dir="auto"><hr id="36cf6ce8-497f-80b6-ab69-d14d8eaed929"/></div><div style="display:contents" dir="auto"><h2 id="36cf6ce8-497f-800c-bf33-d67dead4fae9" class="">Atualizando valores usando operações</h2></div><div style="display:contents" dir="auto"><p id="36cf6ce8-497f-8099-b664-eb16e45098a1" class="">Também é possível alterar o valor usando cálculos:</p></div><div style="display:contents" dir="auto"><pre id="36cf6ce8-497f-8050-b814-d2e3d1385916" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">let pontos = 10;
+console.log(idade);</code></pre><hr id="36cf6ce8-497f-80b6-ab69-d14d8eaed929" dir="auto"/><h2 id="36cf6ce8-497f-800c-bf33-d67dead4fae9" style="display:inline-block" dir="auto">Atualizando valores usando operações</h2><p id="36cf6ce8-497f-8099-b664-eb16e45098a1" class="" dir="auto">Também é possível alterar o valor usando cálculos:</p><pre id="36cf6ce8-497f-8050-b814-d2e3d1385916" class="code code-wrap" data-notion-code-syntax="jsx"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">let pontos = 10;
 
 pontos = pontos + 5;
 
-console.log(pontos);</code></pre></div><div style="display:contents" dir="auto"><p id="36cf6ce8-497f-805c-a0d2-c4ddcdcfa45e" class="">Resultado:</p></div><div style="display:contents" dir="auto"><pre id="36cf6ce8-497f-80c3-925a-fca6bbf9d938" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">15</code></pre></div><div style="display:contents" dir="auto"><p id="36cf6ce8-497f-80d6-9210-e54e2e905520" class="">Forma simplificada:</p></div><div style="display:contents" dir="auto"><pre id="36cf6ce8-497f-80ac-9606-ee648f3ec5cb" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">pontos += 5;</code></pre></div><div style="display:contents" dir="auto"><hr id="36cf6ce8-497f-80ae-b5a3-d0ad186d1b04"/></div><div style="display:contents" dir="auto"><h2 id="36cf6ce8-497f-802e-ab66-d4cb4ab560c3" class="">Variáveis <code>const</code></h2></div><div style="display:contents" dir="auto"><p id="36cf6ce8-497f-80ce-ad4b-e369faa344f9" class="">Variáveis criadas com <code>const</code> não podem receber outro valor:</p></div><div style="display:contents" dir="auto"><pre id="36cf6ce8-497f-8082-8964-db6e63fc731c" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const pi = 3.14;
+console.log(pontos);</code></pre><p id="36cf6ce8-497f-805c-a0d2-c4ddcdcfa45e" class="" dir="auto">Resultado:</p><pre id="36cf6ce8-497f-80c3-925a-fca6bbf9d938" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">15</code></pre><p id="36cf6ce8-497f-80d6-9210-e54e2e905520" class="" dir="auto">Forma simplificada:</p><pre id="36cf6ce8-497f-80ac-9606-ee648f3ec5cb" class="code code-wrap" data-notion-code-syntax="jsx"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">pontos += 5;</code></pre><hr id="36cf6ce8-497f-80ae-b5a3-d0ad186d1b04" dir="auto"/><h2 id="36cf6ce8-497f-802e-ab66-d4cb4ab560c3" style="display:inline-block" dir="auto">Variáveis <code>const</code></h2><p id="36cf6ce8-497f-80ce-ad4b-e369faa344f9" class="" dir="auto">Variáveis criadas com <code>const</code> não podem receber outro valor:</p><pre id="36cf6ce8-497f-8082-8964-db6e63fc731c" class="code code-wrap" data-notion-code-syntax="jsx"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const pi = 3.14;
 
-pi = 10;</code></pre></div><div style="display:contents" dir="auto"><p id="36cf6ce8-497f-809c-bfc4-df44ec637029" class="">Isso gera erro.</p></div><div style="display:contents" dir="auto"><hr id="36cf6ce8-497f-8074-81c1-c882d317c9ee"/></div><div style="display:contents" dir="auto"><h2 id="36cf6ce8-497f-80d9-9ab5-e4526721ec98" class="">Resumindo</h2></div><div style="display:contents" dir="auto"><ul id="36cf6ce8-497f-80da-b714-e33f4a7f914d" class="bulleted-list"><li style="list-style-type:disc"><code>let</code> → permite alteração de valor</li></ul></div><div style="display:contents" dir="auto"><ul id="36cf6ce8-497f-80e2-b163-e8b0ae286f8d" class="bulleted-list"><li style="list-style-type:disc"><code>const</code> → não permite reatribuição</li></ul></div><div style="display:contents" dir="auto"><ul id="36cf6ce8-497f-802e-b254-f76d1ef16c2d" class="bulleted-list"><li style="list-style-type:disc">Alterar valores é essencial para atualizar dados em programas, sistemas e aplicações web</li></ul></div></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>
+pi = 10;</code></pre><p id="36cf6ce8-497f-809c-bfc4-df44ec637029" class="" dir="auto">Isso gera erro.</p><hr id="36cf6ce8-497f-8074-81c1-c882d317c9ee" dir="auto"/><h2 id="36cf6ce8-497f-80d9-9ab5-e4526721ec98" style="display:inline-block" dir="auto">Resumindo</h2><ul id="36cf6ce8-497f-80da-b714-e33f4a7f914d" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><code>let</code> → permite alteração de valor</li></ul><ul id="36cf6ce8-497f-80e2-b163-e8b0ae286f8d" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><code>const</code> → não permite reatribuição</li></ul><ul id="36cf6ce8-497f-802e-b254-f76d1ef16c2d" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Alterar valores é essencial para atualizar dados em programas, sistemas e aplicações web</li></ul></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

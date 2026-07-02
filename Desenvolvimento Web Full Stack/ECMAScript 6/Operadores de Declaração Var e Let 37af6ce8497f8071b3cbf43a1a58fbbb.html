@@ -1,4 +1,4 @@
-<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Operadores de Declaração Var e Let</title><style>
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Operadores de Declaração Var e Let</title><meta name="data-notion-page-icon" content="/icons/command-line_yellow.svg"/><link rel="icon" href="https://app.notion.com/icons/command-line_yellow.svg"/><style>
 /* cspell:disable-file */
 /* webkit printing magic: print all background colors */
 html {
@@ -88,7 +88,14 @@ h3 {
 	padding: 1rem;
 }
 
-figure {
+/* For default-background callouts, render the border outline. */
+.callout.block-color-default_background {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+figure,
+aside,
+details {
 	margin: 1.25em 0;
 	page-break-inside: avoid;
 }
@@ -184,7 +191,8 @@ img {
 	display: block;
 	font-size: 0.875rem;
 	line-height: 1.3;
-	padding: 0.125rem;
+	padding-inline: 0.125rem;
+	padding-block: 0.375rem;
 }
 
 .table_of_contents-indent-1 {
@@ -367,6 +375,17 @@ time {
 	margin-right: 0.5em;
 }
 
+/*
+ * Render emoji icons using a ::before pseudo-element to keep the glyph
+ * out of the DOM textContent traversal. This avoids double-rendering icons
+ * in callouts and page titles.
+ * NOTE(slim/html-export-pseudo-icons): I can't tagref this because it will
+ * flag as a duplicate tag after codegen.
+ */
+.icon[data-emoji]::before {
+	content: attr(data-emoji);
+}
+
 img.icon {
 	border-radius: 3px;
 }
@@ -440,8 +459,7 @@ td > time {
 }
 
 input[type="checkbox"] {
-	transform: scale(1.5);
-	margin-right: 0.6em;
+	margin-right: 0.4em;
 	vertical-align: middle;
 }
 
@@ -549,6 +567,12 @@ blockquote.quote-large {
 .bookmark-href {
 	font-size: 0.75em;
 	margin-top: 0.25em;
+}
+
+.tab {
+	margin: 1.25em 0;
+	padding-inline: 1rem;
+	border: 1px solid rgba(55, 53, 47, 0.09);
 }
 
 .sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
@@ -740,26 +764,26 @@ blockquote.quote-large {
 	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
 }
 	
-</style></head><body><article id="37af6ce8-497f-8071-b3cb-f43a1a58fbbb" class="page sans"><header><div class="page-header-icon undefined"><img class="icon notion-static-icon" src="https://app.notion.com/icons/command-line_yellow.svg"/></div><h1 class="page-title" dir="auto">Operadores de Declaração Var e Let</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><div style="display:contents" dir="auto"><h2 id="37af6ce8-497f-803b-b37e-cdc52654f736" class="">Operadores de declaração de variáveis: <code>var</code> e <code>let</code></h2></div><div style="display:contents" dir="auto"><p id="37af6ce8-497f-802c-93f7-cb87715b1502" class="">Em JavaScript, as palavras-chave <code>var</code> e <code>let</code> são utilizadas para declarar variáveis, ou seja, espaços na memória destinados ao armazenamento de dados. Embora ambas tenham a mesma finalidade básica, existem diferenças importantes relacionadas ao escopo, à reutilização e ao comportamento durante a execução do código.</p></div><div style="display:contents" dir="auto"><h3 id="37af6ce8-497f-8023-bfbb-f9ea0adc9614" class=""><code>var</code></h3></div><div style="display:contents" dir="auto"><p id="37af6ce8-497f-806c-8e02-ebce7241b502" class="">A palavra-chave <code>var</code> foi a forma tradicional de declarar variáveis antes do ECMAScript 6 (ES6). Variáveis declaradas com <code>var</code> possuem <strong>escopo de função</strong>, o que significa que podem ser acessadas em qualquer parte da função onde foram declaradas.</p></div><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-jsx.min.js" integrity="sha512-m3JYEI6gx5fh9jF10FjGoMzVKcV2N6nchcDcqPCdI1L3R2WQV7br2XVNR8iTLb2daOMRl3zldbcfT40xU2ntVw==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="37af6ce8-497f-8028-ba12-f96a0a3175f5" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">var nome = &quot;Gustavo&quot;;
+</style><style>@import url('https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex-swap.min.css')</style></head><body><article id="37af6ce8-497f-8071-b3cb-f43a1a58fbbb" class="page sans" data-notion-page-icon="/icons/command-line_yellow.svg"><header><div class="page-header-icon undefined"><img class="icon notion-static-icon" src="https://app.notion.com/icons/command-line_yellow.svg"/></div><h1 class="page-title" dir="auto">Operadores de Declaração Var e Let</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><h2 id="37af6ce8-497f-803b-b37e-cdc52654f736" style="display:inline-block" dir="auto">Operadores de declaração de variáveis: <code>var</code> e <code>let</code></h2><p id="37af6ce8-497f-802c-93f7-cb87715b1502" class="" dir="auto">Em JavaScript, as palavras-chave <code>var</code> e <code>let</code> são utilizadas para declarar variáveis, ou seja, espaços na memória destinados ao armazenamento de dados. Embora ambas tenham a mesma finalidade básica, existem diferenças importantes relacionadas ao escopo, à reutilização e ao comportamento durante a execução do código.</p><h3 id="37af6ce8-497f-8023-bfbb-f9ea0adc9614" style="display:inline-block" dir="auto"><code>var</code></h3><p id="37af6ce8-497f-806c-8e02-ebce7241b502" class="" dir="auto">A palavra-chave <code>var</code> foi a forma tradicional de declarar variáveis antes do ECMAScript 6 (ES6). Variáveis declaradas com <code>var</code> possuem <strong>escopo de função</strong>, o que significa que podem ser acessadas em qualquer parte da função onde foram declaradas.</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-jsx.min.js" integrity="sha512-m3JYEI6gx5fh9jF10FjGoMzVKcV2N6nchcDcqPCdI1L3R2WQV7br2XVNR8iTLb2daOMRl3zldbcfT40xU2ntVw==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="37af6ce8-497f-8028-ba12-f96a0a3175f5" class="code code-wrap" data-notion-code-syntax="jsx"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">var nome = &quot;Gustavo&quot;;
 
 function exibirNome() {
     console.log(nome);
 }
 
-exibirNome();</code></pre></div><div style="display:contents" dir="auto"><p id="37af6ce8-497f-80bd-876c-d9d93b9d1554" class="">Uma característica do <code>var</code> é que ele permite a <strong>redeclaração</strong> da mesma variável sem gerar erro:</p></div><div style="display:contents" dir="auto"><pre id="37af6ce8-497f-8038-8dfb-cbd043b76eb7" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">var nome = &quot;Gustavo&quot;;
+exibirNome();</code></pre><p id="37af6ce8-497f-80bd-876c-d9d93b9d1554" class="" dir="auto">Uma característica do <code>var</code> é que ele permite a <strong>redeclaração</strong> da mesma variável sem gerar erro:</p><pre id="37af6ce8-497f-8038-8dfb-cbd043b76eb7" class="code code-wrap" data-notion-code-syntax="jsx"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">var nome = &quot;Gustavo&quot;;
 var nome = &quot;Carlos&quot;;
 
-console.log(nome);</code></pre></div><div style="display:contents" dir="auto"><p id="37af6ce8-497f-809b-aa55-da43ef8784d1" class="">Resultado:</p></div><div style="display:contents" dir="auto"><pre id="37af6ce8-497f-8069-8a21-cefc1a0990b6" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Carlos</code></pre></div><div style="display:contents" dir="auto"><p id="37af6ce8-497f-8049-9603-fc860a0d129c" class="">Além disso, variáveis declaradas com <code>var</code> sofrem <strong>hoisting</strong>, sendo movidas para o topo do escopo durante a execução. No entanto, apenas a declaração é movida, não a atribuição.</p></div><div style="display:contents" dir="auto"><pre id="37af6ce8-497f-805a-9534-c12c20ea332f" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">console.log(nome);
+console.log(nome);</code></pre><p id="37af6ce8-497f-809b-aa55-da43ef8784d1" class="" dir="auto">Resultado:</p><pre id="37af6ce8-497f-8069-8a21-cefc1a0990b6" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Carlos</code></pre><p id="37af6ce8-497f-8049-9603-fc860a0d129c" class="" dir="auto">Além disso, variáveis declaradas com <code>var</code> sofrem <strong>hoisting</strong>, sendo movidas para o topo do escopo durante a execução. No entanto, apenas a declaração é movida, não a atribuição.</p><pre id="37af6ce8-497f-805a-9534-c12c20ea332f" class="code code-wrap" data-notion-code-syntax="jsx"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">console.log(nome);
 
-var nome = &quot;Gustavo&quot;;</code></pre></div><div style="display:contents" dir="auto"><p id="37af6ce8-497f-80ad-bd51-c0a7b090079d" class="">Resultado:</p></div><div style="display:contents" dir="auto"><pre id="37af6ce8-497f-80c7-a78c-d4b39971fa54" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">undefined</code></pre></div><div style="display:contents" dir="auto"><hr id="37af6ce8-497f-8038-bdc7-fe13df66396c"/></div><div style="display:contents" dir="auto"><h3 id="37af6ce8-497f-8049-81a2-e46218f85256" class=""><code>let</code></h3></div><div style="display:contents" dir="auto"><p id="37af6ce8-497f-80c7-930a-fd6c8548f416" class="">Introduzido no ECMAScript 6, o <code>let</code> surgiu para corrigir algumas limitações do <code>var</code>. Variáveis declaradas com <code>let</code> possuem <strong>escopo de bloco</strong>, ou seja, só podem ser acessadas dentro das chaves (<code>{}</code>) onde foram criadas.</p></div><div style="display:contents" dir="auto"><pre id="37af6ce8-497f-80dc-bd57-d16a6da6b232" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">if (true) {
+var nome = &quot;Gustavo&quot;;</code></pre><p id="37af6ce8-497f-80ad-bd51-c0a7b090079d" class="" dir="auto">Resultado:</p><pre id="37af6ce8-497f-80c7-a78c-d4b39971fa54" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">undefined</code></pre><hr id="37af6ce8-497f-8038-bdc7-fe13df66396c" dir="auto"/><h3 id="37af6ce8-497f-8049-81a2-e46218f85256" style="display:inline-block" dir="auto"><code>let</code></h3><p id="37af6ce8-497f-80c7-930a-fd6c8548f416" class="" dir="auto">Introduzido no ECMAScript 6, o <code>let</code> surgiu para corrigir algumas limitações do <code>var</code>. Variáveis declaradas com <code>let</code> possuem <strong>escopo de bloco</strong>, ou seja, só podem ser acessadas dentro das chaves (<code>{}</code>) onde foram criadas.</p><pre id="37af6ce8-497f-80dc-bd57-d16a6da6b232" class="code code-wrap" data-notion-code-syntax="jsx"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">if (true) {
     let idade = 21;
     console.log(idade);
 }
 
 // Erro: idade não está definida fora do bloco
-console.log(idade);</code></pre></div><div style="display:contents" dir="auto"><p id="37af6ce8-497f-8075-a7e5-f146087943b3" class="">Diferentemente do <code>var</code>, o <code>let</code> não permite a redeclaração da mesma variável no mesmo escopo:</p></div><div style="display:contents" dir="auto"><pre id="37af6ce8-497f-80ed-b7b4-c4e258c305df" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">let nome = &quot;Gustavo&quot;;
-let nome = &quot;Carlos&quot;; // Erro</code></pre></div><div style="display:contents" dir="auto"><p id="37af6ce8-497f-8000-80e1-c20f22c98e0b" class="">No entanto, permite alterar o valor armazenado:</p></div><div style="display:contents" dir="auto"><pre id="37af6ce8-497f-80e2-9e5f-cad460167657" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">let nome = &quot;Gustavo&quot;;
+console.log(idade);</code></pre><p id="37af6ce8-497f-8075-a7e5-f146087943b3" class="" dir="auto">Diferentemente do <code>var</code>, o <code>let</code> não permite a redeclaração da mesma variável no mesmo escopo:</p><pre id="37af6ce8-497f-80ed-b7b4-c4e258c305df" class="code code-wrap" data-notion-code-syntax="jsx"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">let nome = &quot;Gustavo&quot;;
+let nome = &quot;Carlos&quot;; // Erro</code></pre><p id="37af6ce8-497f-8000-80e1-c20f22c98e0b" class="" dir="auto">No entanto, permite alterar o valor armazenado:</p><pre id="37af6ce8-497f-80e2-9e5f-cad460167657" class="code code-wrap" data-notion-code-syntax="jsx"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">let nome = &quot;Gustavo&quot;;
 
 nome = &quot;Carlos&quot;;
 
-console.log(nome);</code></pre></div><div style="display:contents" dir="auto"><p id="37af6ce8-497f-80e4-b9cb-d70cba7a0346" class="">Resultado:</p></div><div style="display:contents" dir="auto"><pre id="37af6ce8-497f-804e-9e33-d3b729f224ec" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Carlos</code></pre></div><div style="display:contents" dir="auto"><p id="37af6ce8-497f-8057-af28-e47197697463" class="">Outra vantagem é que o <code>let</code> evita muitos problemas relacionados ao hoisting, tornando o comportamento do código mais previsível.</p></div><div style="display:contents" dir="auto"><hr id="37af6ce8-497f-80fe-b857-fa7a5f9001bc"/></div><div style="display:contents" dir="auto"><h3 id="37af6ce8-497f-804e-bd7c-d9a532caba48" class="">Comparação entre <code>var</code> e <code>let</code></h3></div><div style="display:contents" dir="ltr"><table id="37af6ce8-497f-8028-9010-c69cfdd5ab4c" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="37af6ce8-497f-80d9-9fee-d4c6ccfd0820"><th id="G@Es" class="simple-table-header-color simple-table-header">Característica</th><th id="@Szc" class="simple-table-header-color simple-table-header"><code>var</code></th><th id="^?nc" class="simple-table-header-color simple-table-header"><code>let</code></th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="37af6ce8-497f-80b8-8f96-d04025d3dc35"><td id="G@Es" class="">Escopo</td><td id="@Szc" class="">Função</td><td id="^?nc" class="">Bloco</td></tr></div><div style="display:contents" dir="ltr"><tr id="37af6ce8-497f-80c9-bc9d-d8ec675f5689"><td id="G@Es" class="">Permite redeclaração</td><td id="@Szc" class="">Sim</td><td id="^?nc" class="">Não</td></tr></div><div style="display:contents" dir="ltr"><tr id="37af6ce8-497f-80cb-86ba-cb757fd65d36"><td id="G@Es" class="">Permite reatribuição</td><td id="@Szc" class="">Sim</td><td id="^?nc" class="">Sim</td></tr></div><div style="display:contents" dir="ltr"><tr id="37af6ce8-497f-80de-bb71-eb8bee096bc8"><td id="G@Es" class="">Sofre hoisting</td><td id="@Szc" class="">Sim</td><td id="^?nc" class="">Sim (com restrições)</td></tr></div><div style="display:contents" dir="ltr"><tr id="37af6ce8-497f-807e-b6b3-f1d57fbcbc0a"><td id="G@Es" class="">Introduzido em</td><td id="@Szc" class="">JavaScript antigo</td><td id="^?nc" class="">ECMAScript 6</td></tr></div></tbody></table></div><div style="display:contents" dir="auto"><h3 id="37af6ce8-497f-8099-acb0-d74b1176cdc0" class="">Conclusão</h3></div><div style="display:contents" dir="auto"><p id="37af6ce8-497f-806d-ae90-dee420a9d630" class="">Atualmente, o uso de <code>let</code> é recomendado na maioria dos casos por oferecer um controle maior sobre o escopo das variáveis e evitar comportamentos inesperados. O <code>var</code> ainda existe por questões de compatibilidade com códigos antigos, mas é cada vez menos utilizado em projetos modernos. Uma boa prática é utilizar <code><strong>let</strong></code><strong> para variáveis que terão seu valor alterado</strong> e <code><strong>const</strong></code><strong> para valores que não devem ser reatribuídos</strong>.</p></div></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>
+console.log(nome);</code></pre><p id="37af6ce8-497f-80e4-b9cb-d70cba7a0346" class="" dir="auto">Resultado:</p><pre id="37af6ce8-497f-804e-9e33-d3b729f224ec" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Carlos</code></pre><p id="37af6ce8-497f-8057-af28-e47197697463" class="" dir="auto">Outra vantagem é que o <code>let</code> evita muitos problemas relacionados ao hoisting, tornando o comportamento do código mais previsível.</p><hr id="37af6ce8-497f-80fe-b857-fa7a5f9001bc" dir="auto"/><h3 id="37af6ce8-497f-804e-bd7c-d9a532caba48" style="display:inline-block" dir="auto">Comparação entre <code>var</code> e <code>let</code></h3><table id="37af6ce8-497f-8028-9010-c69cfdd5ab4c" class="simple-table" dir="ltr"><thead class="simple-table-header"><tr id="37af6ce8-497f-80d9-9fee-d4c6ccfd0820" dir="ltr"><th id="G@Es" class="simple-table-header-color simple-table-header">Característica</th><th id="@Szc" class="simple-table-header-color simple-table-header"><code>var</code></th><th id="^?nc" class="simple-table-header-color simple-table-header"><code>let</code></th></tr></thead><tbody><tr id="37af6ce8-497f-80b8-8f96-d04025d3dc35" dir="ltr"><td id="G@Es" class="">Escopo</td><td id="@Szc" class="">Função</td><td id="^?nc" class="">Bloco</td></tr><tr id="37af6ce8-497f-80c9-bc9d-d8ec675f5689" dir="ltr"><td id="G@Es" class="">Permite redeclaração</td><td id="@Szc" class="">Sim</td><td id="^?nc" class="">Não</td></tr><tr id="37af6ce8-497f-80cb-86ba-cb757fd65d36" dir="ltr"><td id="G@Es" class="">Permite reatribuição</td><td id="@Szc" class="">Sim</td><td id="^?nc" class="">Sim</td></tr><tr id="37af6ce8-497f-80de-bb71-eb8bee096bc8" dir="ltr"><td id="G@Es" class="">Sofre hoisting</td><td id="@Szc" class="">Sim</td><td id="^?nc" class="">Sim (com restrições)</td></tr><tr id="37af6ce8-497f-807e-b6b3-f1d57fbcbc0a" dir="ltr"><td id="G@Es" class="">Introduzido em</td><td id="@Szc" class="">JavaScript antigo</td><td id="^?nc" class="">ECMAScript 6</td></tr></tbody></table><h3 id="37af6ce8-497f-8099-acb0-d74b1176cdc0" style="display:inline-block" dir="auto">Conclusão</h3><p id="37af6ce8-497f-806d-ae90-dee420a9d630" class="" dir="auto">Atualmente, o uso de <code>let</code> é recomendado na maioria dos casos por oferecer um controle maior sobre o escopo das variáveis e evitar comportamentos inesperados. O <code>var</code> ainda existe por questões de compatibilidade com códigos antigos, mas é cada vez menos utilizado em projetos modernos. Uma boa prática é utilizar <code><strong>let</strong></code><strong> para variáveis que terão seu valor alterado</strong> e <code><strong>const</strong></code><strong> para valores que não devem ser reatribuídos</strong>.</p></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

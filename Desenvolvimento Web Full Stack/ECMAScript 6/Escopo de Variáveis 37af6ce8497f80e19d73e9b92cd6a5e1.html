@@ -1,4 +1,4 @@
-<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Escopo de Variáveis</title><style>
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Escopo de Variáveis</title><meta name="data-notion-page-icon" content="/icons/command-line_yellow.svg"/><link rel="icon" href="https://app.notion.com/icons/command-line_yellow.svg"/><style>
 /* cspell:disable-file */
 /* webkit printing magic: print all background colors */
 html {
@@ -88,7 +88,14 @@ h3 {
 	padding: 1rem;
 }
 
-figure {
+/* For default-background callouts, render the border outline. */
+.callout.block-color-default_background {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+figure,
+aside,
+details {
 	margin: 1.25em 0;
 	page-break-inside: avoid;
 }
@@ -184,7 +191,8 @@ img {
 	display: block;
 	font-size: 0.875rem;
 	line-height: 1.3;
-	padding: 0.125rem;
+	padding-inline: 0.125rem;
+	padding-block: 0.375rem;
 }
 
 .table_of_contents-indent-1 {
@@ -367,6 +375,17 @@ time {
 	margin-right: 0.5em;
 }
 
+/*
+ * Render emoji icons using a ::before pseudo-element to keep the glyph
+ * out of the DOM textContent traversal. This avoids double-rendering icons
+ * in callouts and page titles.
+ * NOTE(slim/html-export-pseudo-icons): I can't tagref this because it will
+ * flag as a duplicate tag after codegen.
+ */
+.icon[data-emoji]::before {
+	content: attr(data-emoji);
+}
+
 img.icon {
 	border-radius: 3px;
 }
@@ -440,8 +459,7 @@ td > time {
 }
 
 input[type="checkbox"] {
-	transform: scale(1.5);
-	margin-right: 0.6em;
+	margin-right: 0.4em;
 	vertical-align: middle;
 }
 
@@ -549,6 +567,12 @@ blockquote.quote-large {
 .bookmark-href {
 	font-size: 0.75em;
 	margin-top: 0.25em;
+}
+
+.tab {
+	margin: 1.25em 0;
+	padding-inline: 1rem;
+	border: 1px solid rgba(55, 53, 47, 0.09);
 }
 
 .sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
@@ -740,35 +764,35 @@ blockquote.quote-large {
 	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
 }
 	
-</style></head><body><article id="37af6ce8-497f-80e1-9d73-e9b92cd6a5e1" class="page sans"><header><div class="page-header-icon undefined"><img class="icon notion-static-icon" src="https://app.notion.com/icons/command-line_yellow.svg"/></div><h1 class="page-title" dir="auto">Escopo de Variáveis</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><div style="display:contents" dir="auto"><h2 id="37af6ce8-497f-804b-ac22-fa2fcc6d421f" class="">Escopo de Variáveis</h2></div><div style="display:contents" dir="auto"><p id="37af6ce8-497f-8050-8f59-f3bde16c15fd" class="">O <strong>escopo de uma variável</strong> determina onde ela pode ser acessada dentro do código. Em JavaScript, o escopo define a visibilidade e a duração de uma variável, ajudando a organizar o código e evitar conflitos entre nomes de variáveis.</p></div><div style="display:contents" dir="auto"><h3 id="37af6ce8-497f-80c6-840c-c379fe7bb508" class="">Escopo Global</h3></div><div style="display:contents" dir="auto"><p id="37af6ce8-497f-8034-9eb3-f9f22d0ef220" class="">Uma variável declarada fora de funções ou blocos pode ser acessada de qualquer lugar do programa.</p></div><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-jsx.min.js" integrity="sha512-m3JYEI6gx5fh9jF10FjGoMzVKcV2N6nchcDcqPCdI1L3R2WQV7br2XVNR8iTLb2daOMRl3zldbcfT40xU2ntVw==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="37af6ce8-497f-803b-bb62-df46908166ee" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">let nome = &quot;Gustavo&quot;;
+</style><style>@import url('https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex-swap.min.css')</style></head><body><article id="37af6ce8-497f-80e1-9d73-e9b92cd6a5e1" class="page sans" data-notion-page-icon="/icons/command-line_yellow.svg"><header><div class="page-header-icon undefined"><img class="icon notion-static-icon" src="https://app.notion.com/icons/command-line_yellow.svg"/></div><h1 class="page-title" dir="auto">Escopo de Variáveis</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><h2 id="37af6ce8-497f-804b-ac22-fa2fcc6d421f" style="display:inline-block" dir="auto">Escopo de Variáveis</h2><p id="37af6ce8-497f-8050-8f59-f3bde16c15fd" class="" dir="auto">O <strong>escopo de uma variável</strong> determina onde ela pode ser acessada dentro do código. Em JavaScript, o escopo define a visibilidade e a duração de uma variável, ajudando a organizar o código e evitar conflitos entre nomes de variáveis.</p><h3 id="37af6ce8-497f-80c6-840c-c379fe7bb508" style="display:inline-block" dir="auto">Escopo Global</h3><p id="37af6ce8-497f-8034-9eb3-f9f22d0ef220" class="" dir="auto">Uma variável declarada fora de funções ou blocos pode ser acessada de qualquer lugar do programa.</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-jsx.min.js" integrity="sha512-m3JYEI6gx5fh9jF10FjGoMzVKcV2N6nchcDcqPCdI1L3R2WQV7br2XVNR8iTLb2daOMRl3zldbcfT40xU2ntVw==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="37af6ce8-497f-803b-bb62-df46908166ee" class="code code-wrap" data-notion-code-syntax="jsx"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">let nome = &quot;Gustavo&quot;;
 
 function mostrarNome() {
     console.log(nome);
 }
 
-mostrarNome(); // Gustavo</code></pre></div><div style="display:contents" dir="auto"><p id="37af6ce8-497f-80e7-b75b-ded315faa583" class="">Nesse caso, a variável <code>nome</code> possui escopo global.</p></div><div style="display:contents" dir="auto"><hr id="37af6ce8-497f-8015-9e24-ccf76bdafafd"/></div><div style="display:contents" dir="auto"><h3 id="37af6ce8-497f-80d8-b2c7-c7cde6a3bb65" class="">Escopo de Função</h3></div><div style="display:contents" dir="auto"><p id="37af6ce8-497f-8017-ab39-d1812f185e95" class="">Variáveis declaradas dentro de uma função só podem ser acessadas dentro dela.</p></div><div style="display:contents" dir="auto"><pre id="37af6ce8-497f-80af-8f9b-ed32de4f34dc" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">function saudacao() {
+mostrarNome(); // Gustavo</code></pre><p id="37af6ce8-497f-80e7-b75b-ded315faa583" class="" dir="auto">Nesse caso, a variável <code>nome</code> possui escopo global.</p><hr id="37af6ce8-497f-8015-9e24-ccf76bdafafd" dir="auto"/><h3 id="37af6ce8-497f-80d8-b2c7-c7cde6a3bb65" style="display:inline-block" dir="auto">Escopo de Função</h3><p id="37af6ce8-497f-8017-ab39-d1812f185e95" class="" dir="auto">Variáveis declaradas dentro de uma função só podem ser acessadas dentro dela.</p><pre id="37af6ce8-497f-80af-8f9b-ed32de4f34dc" class="code code-wrap" data-notion-code-syntax="jsx"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">function saudacao() {
     let mensagem = &quot;Olá!&quot;;
     console.log(mensagem);
 }
 
 saudacao();
-// console.log(mensagem); // Erro</code></pre></div><div style="display:contents" dir="auto"><p id="37af6ce8-497f-8014-830d-ca0fa096e999" class="">A variável <code>mensagem</code> existe apenas durante a execução da função.</p></div><div style="display:contents" dir="auto"><hr id="37af6ce8-497f-80b8-967c-f92af0d370a7"/></div><div style="display:contents" dir="auto"><h3 id="37af6ce8-497f-807a-a250-fe53ae38b7f4" class="">Escopo de Bloco</h3></div><div style="display:contents" dir="auto"><p id="37af6ce8-497f-8070-aac3-d8fda5b467ed" class="">Introduzido com o ECMAScript 6, o escopo de bloco permite que variáveis declaradas com <code>let</code> e <code>const</code> existam apenas dentro do bloco onde foram criadas.</p></div><div style="display:contents" dir="auto"><pre id="37af6ce8-497f-80ef-bf00-e5d76b716a6f" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">if (true) {
+// console.log(mensagem); // Erro</code></pre><p id="37af6ce8-497f-8014-830d-ca0fa096e999" class="" dir="auto">A variável <code>mensagem</code> existe apenas durante a execução da função.</p><hr id="37af6ce8-497f-80b8-967c-f92af0d370a7" dir="auto"/><h3 id="37af6ce8-497f-807a-a250-fe53ae38b7f4" style="display:inline-block" dir="auto">Escopo de Bloco</h3><p id="37af6ce8-497f-8070-aac3-d8fda5b467ed" class="" dir="auto">Introduzido com o ECMAScript 6, o escopo de bloco permite que variáveis declaradas com <code>let</code> e <code>const</code> existam apenas dentro do bloco onde foram criadas.</p><pre id="37af6ce8-497f-80ef-bf00-e5d76b716a6f" class="code code-wrap" data-notion-code-syntax="jsx"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">if (true) {
     let idade = 21;
     console.log(idade);
 }
 
-// console.log(idade); // Erro</code></pre></div><div style="display:contents" dir="auto"><p id="37af6ce8-497f-8083-9c1a-dc02601eafe2" class="">O bloco pode ser um <code>if</code>, <code>for</code>, <code>while</code>, <code>switch</code> ou qualquer trecho delimitado por <code>{}</code>.</p></div><div style="display:contents" dir="auto"><hr id="37af6ce8-497f-80d4-96f1-f5efaca6a672"/></div><div style="display:contents" dir="auto"><h3 id="37af6ce8-497f-80f1-afe7-d50622016da3" class="">Diferença entre <code>var</code> e <code>let</code></h3></div><div style="display:contents" dir="auto"><p id="37af6ce8-497f-8051-92ad-ee5eb27c9aa0" class="">A palavra-chave <code>var</code> não respeita o escopo de bloco, apenas o escopo de função.</p></div><div style="display:contents" dir="auto"><pre id="37af6ce8-497f-8023-b198-ce56b795ca0d" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">if (true) {
+// console.log(idade); // Erro</code></pre><p id="37af6ce8-497f-8083-9c1a-dc02601eafe2" class="" dir="auto">O bloco pode ser um <code>if</code>, <code>for</code>, <code>while</code>, <code>switch</code> ou qualquer trecho delimitado por <code>{}</code>.</p><hr id="37af6ce8-497f-80d4-96f1-f5efaca6a672" dir="auto"/><h3 id="37af6ce8-497f-80f1-afe7-d50622016da3" style="display:inline-block" dir="auto">Diferença entre <code>var</code> e <code>let</code></h3><p id="37af6ce8-497f-8051-92ad-ee5eb27c9aa0" class="" dir="auto">A palavra-chave <code>var</code> não respeita o escopo de bloco, apenas o escopo de função.</p><pre id="37af6ce8-497f-8023-b198-ce56b795ca0d" class="code code-wrap" data-notion-code-syntax="jsx"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">if (true) {
     var cidade = &quot;Fortaleza&quot;;
 }
 
-console.log(cidade); // Fortaleza</code></pre></div><div style="display:contents" dir="auto"><p id="37af6ce8-497f-80c5-8da5-d2a156e5c9c9" class="">Já com <code>let</code>:</p></div><div style="display:contents" dir="auto"><pre id="37af6ce8-497f-8050-8af8-e26fe1b63c03" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">if (true) {
+console.log(cidade); // Fortaleza</code></pre><p id="37af6ce8-497f-80c5-8da5-d2a156e5c9c9" class="" dir="auto">Já com <code>let</code>:</p><pre id="37af6ce8-497f-8050-8af8-e26fe1b63c03" class="code code-wrap" data-notion-code-syntax="jsx"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">if (true) {
     let cidade = &quot;Fortaleza&quot;;
 }
 
-console.log(cidade); // Erro</code></pre></div><div style="display:contents" dir="auto"><p id="37af6ce8-497f-8091-ac85-c64a52bec981" class="">Por esse motivo, <code>let</code> e <code>const</code> são geralmente preferidos em projetos modernos.</p></div><div style="display:contents" dir="auto"><hr id="37af6ce8-497f-80bf-bab3-ff8e40603661"/></div><div style="display:contents" dir="auto"><h3 id="37af6ce8-497f-807a-8587-e231767cfbaa" class="">Escopo Léxico</h3></div><div style="display:contents" dir="auto"><p id="37af6ce8-497f-80e8-b5eb-eac80e9413ac" class="">Funções em JavaScript podem acessar variáveis definidas em escopos externos.</p></div><div style="display:contents" dir="auto"><pre id="37af6ce8-497f-80d3-8fe7-dbfb1109bba4" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">let linguagem = &quot;JavaScript&quot;;
+console.log(cidade); // Erro</code></pre><p id="37af6ce8-497f-8091-ac85-c64a52bec981" class="" dir="auto">Por esse motivo, <code>let</code> e <code>const</code> são geralmente preferidos em projetos modernos.</p><hr id="37af6ce8-497f-80bf-bab3-ff8e40603661" dir="auto"/><h3 id="37af6ce8-497f-807a-8587-e231767cfbaa" style="display:inline-block" dir="auto">Escopo Léxico</h3><p id="37af6ce8-497f-80e8-b5eb-eac80e9413ac" class="" dir="auto">Funções em JavaScript podem acessar variáveis definidas em escopos externos.</p><pre id="37af6ce8-497f-80d3-8fe7-dbfb1109bba4" class="code code-wrap" data-notion-code-syntax="jsx"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">let linguagem = &quot;JavaScript&quot;;
 
 function exibir() {
     console.log(linguagem);
 }
 
-exibir(); // JavaScript</code></pre></div><div style="display:contents" dir="auto"><p id="37af6ce8-497f-80b0-83c3-dca720d80bf8" class="">A função procura a variável primeiro em seu próprio escopo e, caso não encontre, procura nos escopos superiores até chegar ao escopo global.</p></div><div style="display:contents" dir="auto"><hr id="37af6ce8-497f-80b2-9e2a-c5792832ff1a"/></div><div style="display:contents" dir="auto"><h3 id="37af6ce8-497f-80dd-9e83-e71e4f88d65d" class="">Resumo</h3></div><div style="display:contents" dir="auto"><p id="37af6ce8-497f-80b6-a2a7-cfdef65520bc" class="">O escopo controla onde uma variável pode ser utilizada. O JavaScript possui <strong>escopo global</strong>, <strong>escopo de função</strong> e <strong>escopo de bloco</strong>. Com a chegada do ECMAScript 6, as declarações <code>let</code> e <code>const</code> passaram a oferecer um controle mais seguro das variáveis por meio do escopo de bloco, reduzindo erros e tornando o código mais organizado e previsível.</p></div></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>
+exibir(); // JavaScript</code></pre><p id="37af6ce8-497f-80b0-83c3-dca720d80bf8" class="" dir="auto">A função procura a variável primeiro em seu próprio escopo e, caso não encontre, procura nos escopos superiores até chegar ao escopo global.</p><hr id="37af6ce8-497f-80b2-9e2a-c5792832ff1a" dir="auto"/><h3 id="37af6ce8-497f-80dd-9e83-e71e4f88d65d" style="display:inline-block" dir="auto">Resumo</h3><p id="37af6ce8-497f-80b6-a2a7-cfdef65520bc" class="" dir="auto">O escopo controla onde uma variável pode ser utilizada. O JavaScript possui <strong>escopo global</strong>, <strong>escopo de função</strong> e <strong>escopo de bloco</strong>. Com a chegada do ECMAScript 6, as declarações <code>let</code> e <code>const</code> passaram a oferecer um controle mais seguro das variáveis por meio do escopo de bloco, reduzindo erros e tornando o código mais organizado e previsível.</p></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

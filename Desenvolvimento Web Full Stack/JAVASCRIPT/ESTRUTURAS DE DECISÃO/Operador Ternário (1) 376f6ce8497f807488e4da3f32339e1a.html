@@ -1,4 +1,4 @@
-<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Operador Ternário (1)</title><style>
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Operador Ternário (1)</title><meta name="data-notion-page-icon" content="/icons/command-line_yellow.svg"/><link rel="icon" href="https://app.notion.com/icons/command-line_yellow.svg"/><style>
 /* cspell:disable-file */
 /* webkit printing magic: print all background colors */
 html {
@@ -88,7 +88,14 @@ h3 {
 	padding: 1rem;
 }
 
-figure {
+/* For default-background callouts, render the border outline. */
+.callout.block-color-default_background {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+figure,
+aside,
+details {
 	margin: 1.25em 0;
 	page-break-inside: avoid;
 }
@@ -184,7 +191,8 @@ img {
 	display: block;
 	font-size: 0.875rem;
 	line-height: 1.3;
-	padding: 0.125rem;
+	padding-inline: 0.125rem;
+	padding-block: 0.375rem;
 }
 
 .table_of_contents-indent-1 {
@@ -367,6 +375,17 @@ time {
 	margin-right: 0.5em;
 }
 
+/*
+ * Render emoji icons using a ::before pseudo-element to keep the glyph
+ * out of the DOM textContent traversal. This avoids double-rendering icons
+ * in callouts and page titles.
+ * NOTE(slim/html-export-pseudo-icons): I can't tagref this because it will
+ * flag as a duplicate tag after codegen.
+ */
+.icon[data-emoji]::before {
+	content: attr(data-emoji);
+}
+
 img.icon {
 	border-radius: 3px;
 }
@@ -440,8 +459,7 @@ td > time {
 }
 
 input[type="checkbox"] {
-	transform: scale(1.5);
-	margin-right: 0.6em;
+	margin-right: 0.4em;
 	vertical-align: middle;
 }
 
@@ -549,6 +567,12 @@ blockquote.quote-large {
 .bookmark-href {
 	font-size: 0.75em;
 	margin-top: 0.25em;
+}
+
+.tab {
+	margin: 1.25em 0;
+	padding-inline: 1rem;
+	border: 1px solid rgba(55, 53, 47, 0.09);
 }
 
 .sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
@@ -740,17 +764,17 @@ blockquote.quote-large {
 	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
 }
 	
-</style></head><body><article id="376f6ce8-497f-8074-88e4-da3f32339e1a" class="page sans"><header><div class="page-header-icon undefined"><img class="icon notion-static-icon" src="https://app.notion.com/icons/command-line_yellow.svg"/></div><h1 class="page-title" dir="auto">Operador Ternário (1)</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><div style="display:contents" dir="auto"><p id="376f6ce8-497f-80bb-87c4-ce0bf25afea2" class="">A estrutura é:</p></div><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-jsx.min.js" integrity="sha512-m3JYEI6gx5fh9jF10FjGoMzVKcV2N6nchcDcqPCdI1L3R2WQV7br2XVNR8iTLb2daOMRl3zldbcfT40xU2ntVw==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="376f6ce8-497f-8081-b9a7-e56ddf1642cf" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">condição ? valorSeVerdadeiro : valorSeFalso</code></pre></div><div style="display:contents" dir="auto"><hr id="376f6ce8-497f-80d9-8368-e95e3ff0ec23"/></div><div style="display:contents" dir="auto"><h2 id="376f6ce8-497f-808e-a872-e16776d805b0" class="">Exemplo básico</h2></div><div style="display:contents" dir="auto"><pre id="376f6ce8-497f-80fc-8911-df2cc116b9ca" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">let idade=18;
+</style><style>@import url('https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex-swap.min.css')</style></head><body><article id="376f6ce8-497f-8074-88e4-da3f32339e1a" class="page sans" data-notion-page-icon="/icons/command-line_yellow.svg"><header><div class="page-header-icon undefined"><img class="icon notion-static-icon" src="https://app.notion.com/icons/command-line_yellow.svg"/></div><h1 class="page-title" dir="auto">Operador Ternário (1)</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><p id="376f6ce8-497f-80bb-87c4-ce0bf25afea2" class="" dir="auto">A estrutura é:</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-jsx.min.js" integrity="sha512-m3JYEI6gx5fh9jF10FjGoMzVKcV2N6nchcDcqPCdI1L3R2WQV7br2XVNR8iTLb2daOMRl3zldbcfT40xU2ntVw==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="376f6ce8-497f-8081-b9a7-e56ddf1642cf" class="code code-wrap" data-notion-code-syntax="jsx"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">condição ? valorSeVerdadeiro : valorSeFalso</code></pre><hr id="376f6ce8-497f-80d9-8368-e95e3ff0ec23" dir="auto"/><h2 id="376f6ce8-497f-808e-a872-e16776d805b0" style="display:inline-block" dir="auto">Exemplo básico</h2><pre id="376f6ce8-497f-80fc-8911-df2cc116b9ca" class="code code-wrap" data-notion-code-syntax="jsx"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">let idade=18;
 
 let mensagem = idade &gt;= 18 ? &quot;Maior de idade&quot; : &quot;Menor de idade&quot;;
 
-console.log(mensagem);</code></pre></div><div style="display:contents" dir="auto"><p id="376f6ce8-497f-8088-b8eb-fa2c2407fa1a" class="">Resultado:</p></div><div style="display:contents" dir="auto"><pre id="376f6ce8-497f-8033-b234-c791e6985509" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Maior de idade</code></pre></div><div style="display:contents" dir="auto"><hr id="376f6ce8-497f-8061-af3e-e01d8bec56ff"/></div><div style="display:contents" dir="auto"><h2 id="376f6ce8-497f-8077-8ea8-f16225b64ffb" class="">Comparação com <code>if</code></h2></div><div style="display:contents" dir="auto"><h3 id="376f6ce8-497f-809e-9bb5-eeefc85df506" class="">Com <code>if</code></h3></div><div style="display:contents" dir="auto"><pre id="376f6ce8-497f-80d0-9688-c258261a472d" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">let resultado;
+console.log(mensagem);</code></pre><p id="376f6ce8-497f-8088-b8eb-fa2c2407fa1a" class="" dir="auto">Resultado:</p><pre id="376f6ce8-497f-8033-b234-c791e6985509" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Maior de idade</code></pre><hr id="376f6ce8-497f-8061-af3e-e01d8bec56ff" dir="auto"/><h2 id="376f6ce8-497f-8077-8ea8-f16225b64ffb" style="display:inline-block" dir="auto">Comparação com <code>if</code></h2><h3 id="376f6ce8-497f-809e-9bb5-eeefc85df506" style="display:inline-block" dir="auto">Com <code>if</code></h3><pre id="376f6ce8-497f-80d0-9688-c258261a472d" class="code code-wrap" data-notion-code-syntax="jsx"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">let resultado;
 
 if (nota&gt;=6) {
 resultado=&quot;Aprovado&quot;;
 }else {
 resultado=&quot;Reprovado&quot;;
-}</code></pre></div><div style="display:contents" dir="auto"><h3 id="376f6ce8-497f-80e6-a802-c9d62580c6a8" class="">Com ternário</h3></div><div style="display:contents" dir="auto"><pre id="376f6ce8-497f-80d4-8dcb-ee26613f7f85" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">let resultado = nota &gt;= 6 ? &quot;Aprovado&quot; : &quot;Reprovado&quot;;</code></pre></div><div style="display:contents" dir="auto"><hr id="376f6ce8-497f-8014-a1bb-d833f2b21538"/></div><div style="display:contents" dir="auto"><h2 id="376f6ce8-497f-80a9-9755-f9cc4fe55059" class="">Quando usar</h2></div><div style="display:contents" dir="auto"><p id="376f6ce8-497f-8023-bf09-eb9384a02669" class="">O operador ternário é muito usado para:</p></div><div style="display:contents" dir="auto"><ul id="376f6ce8-497f-80e1-88a8-c7a50fc1fdc3" class="bulleted-list"><li style="list-style-type:disc">Condições simples</li></ul></div><div style="display:contents" dir="auto"><ul id="376f6ce8-497f-8058-87e3-f401de8eb708" class="bulleted-list"><li style="list-style-type:disc">Retornos rápidos</li></ul></div><div style="display:contents" dir="auto"><ul id="376f6ce8-497f-8052-a94b-c1a1075a1c50" class="bulleted-list"><li style="list-style-type:disc">Renderização em frameworks como React</li></ul></div><div style="display:contents" dir="auto"><hr id="376f6ce8-497f-8034-bced-f98cd20b4000"/></div><div style="display:contents" dir="auto"><h2 id="376f6ce8-497f-807f-b5ac-cb998662057e" class="">Evite exagerar</h2></div><div style="display:contents" dir="auto"><p id="376f6ce8-497f-80d0-9a35-cec838f3c03f" class="">Ternários muito grandes podem deixar o código difícil de entender:</p></div><div style="display:contents" dir="auto"><pre id="376f6ce8-497f-80ae-be79-c5336e9bd649" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">let resultado=
+}</code></pre><h3 id="376f6ce8-497f-80e6-a802-c9d62580c6a8" style="display:inline-block" dir="auto">Com ternário</h3><pre id="376f6ce8-497f-80d4-8dcb-ee26613f7f85" class="code code-wrap" data-notion-code-syntax="jsx"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">let resultado = nota &gt;= 6 ? &quot;Aprovado&quot; : &quot;Reprovado&quot;;</code></pre><hr id="376f6ce8-497f-8014-a1bb-d833f2b21538" dir="auto"/><h2 id="376f6ce8-497f-80a9-9755-f9cc4fe55059" style="display:inline-block" dir="auto">Quando usar</h2><p id="376f6ce8-497f-8023-bf09-eb9384a02669" class="" dir="auto">O operador ternário é muito usado para:</p><ul id="376f6ce8-497f-80e1-88a8-c7a50fc1fdc3" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Condições simples</li></ul><ul id="376f6ce8-497f-8058-87e3-f401de8eb708" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Retornos rápidos</li></ul><ul id="376f6ce8-497f-8052-a94b-c1a1075a1c50" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Renderização em frameworks como React</li></ul><hr id="376f6ce8-497f-8034-bced-f98cd20b4000" dir="auto"/><h2 id="376f6ce8-497f-807f-b5ac-cb998662057e" style="display:inline-block" dir="auto">Evite exagerar</h2><p id="376f6ce8-497f-80d0-9a35-cec838f3c03f" class="" dir="auto">Ternários muito grandes podem deixar o código difícil de entender:</p><pre id="376f6ce8-497f-80ae-be79-c5336e9bd649" class="code code-wrap" data-notion-code-syntax="jsx"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">let resultado=
 nota &gt;= 9 ? &quot;Excelente&quot; :
 nota &gt;= 6 ? &quot;Aprovado&quot; :
-&quot;Reprovado&quot;;</code></pre></div><div style="display:contents" dir="auto"><p id="376f6ce8-497f-8047-8a91-ea6916e08a95" class="">Funciona, mas pode prejudicar a legibilidade.</p></div></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>
+&quot;Reprovado&quot;;</code></pre><p id="376f6ce8-497f-8047-8a91-ea6916e08a95" class="" dir="auto">Funciona, mas pode prejudicar a legibilidade.</p></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

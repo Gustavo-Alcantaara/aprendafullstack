@@ -1,4 +1,4 @@
-<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Input Group</title><style>
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Input Group</title><meta name="data-notion-page-icon" content="/icons/book_purple.svg"/><link rel="icon" href="https://app.notion.com/icons/book_purple.svg"/><style>
 /* cspell:disable-file */
 /* webkit printing magic: print all background colors */
 html {
@@ -88,7 +88,14 @@ h3 {
 	padding: 1rem;
 }
 
-figure {
+/* For default-background callouts, render the border outline. */
+.callout.block-color-default_background {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+figure,
+aside,
+details {
 	margin: 1.25em 0;
 	page-break-inside: avoid;
 }
@@ -184,7 +191,8 @@ img {
 	display: block;
 	font-size: 0.875rem;
 	line-height: 1.3;
-	padding: 0.125rem;
+	padding-inline: 0.125rem;
+	padding-block: 0.375rem;
 }
 
 .table_of_contents-indent-1 {
@@ -367,6 +375,17 @@ time {
 	margin-right: 0.5em;
 }
 
+/*
+ * Render emoji icons using a ::before pseudo-element to keep the glyph
+ * out of the DOM textContent traversal. This avoids double-rendering icons
+ * in callouts and page titles.
+ * NOTE(slim/html-export-pseudo-icons): I can't tagref this because it will
+ * flag as a duplicate tag after codegen.
+ */
+.icon[data-emoji]::before {
+	content: attr(data-emoji);
+}
+
 img.icon {
 	border-radius: 3px;
 }
@@ -440,8 +459,7 @@ td > time {
 }
 
 input[type="checkbox"] {
-	transform: scale(1.5);
-	margin-right: 0.6em;
+	margin-right: 0.4em;
 	vertical-align: middle;
 }
 
@@ -549,6 +567,12 @@ blockquote.quote-large {
 .bookmark-href {
 	font-size: 0.75em;
 	margin-top: 0.25em;
+}
+
+.tab {
+	margin: 1.25em 0;
+	padding-inline: 1rem;
+	border: 1px solid rgba(55, 53, 47, 0.09);
 }
 
 .sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
@@ -740,7 +764,7 @@ blockquote.quote-large {
 	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
 }
 	
-</style></head><body><article id="36ef6ce8-497f-80ed-a67d-de144932589d" class="page sans"><header><div class="page-header-icon undefined"><img class="icon notion-static-icon" src="https://app.notion.com/icons/book_purple.svg"/></div><h1 class="page-title" dir="auto">Input Group</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><div style="display:contents" dir="auto"><h1 id="36ef6ce8-497f-8088-bd2f-d85cbb886561" class="">Input Group no Bootstrap</h1></div><div style="display:contents" dir="auto"><p id="36ef6ce8-497f-80b3-9a96-d29b893b0499" class="">O <strong>Input Group</strong> do Bootstrap é um componente usado para combinar campos de formulário com:</p></div><div style="display:contents" dir="auto"><ul id="36ef6ce8-497f-802b-b9dd-d3599fef38c9" class="bulleted-list"><li style="list-style-type:disc">Textos</li></ul></div><div style="display:contents" dir="auto"><ul id="36ef6ce8-497f-80e7-8397-c26de5600080" class="bulleted-list"><li style="list-style-type:disc">Ícones</li></ul></div><div style="display:contents" dir="auto"><ul id="36ef6ce8-497f-80b0-8cb2-cb734a168e47" class="bulleted-list"><li style="list-style-type:disc">Botões</li></ul></div><div style="display:contents" dir="auto"><ul id="36ef6ce8-497f-8001-a7e3-c3e07c8aa4fe" class="bulleted-list"><li style="list-style-type:disc">Labels</li></ul></div><div style="display:contents" dir="auto"><ul id="36ef6ce8-497f-80fe-a837-c95b62427e4a" class="bulleted-list"><li style="list-style-type:disc">Prefixos e sufixos</li></ul></div><div style="display:contents" dir="auto"><p id="36ef6ce8-497f-80d2-a682-ce0a1d269965" class="">Ele é muito utilizado para melhorar a aparência e organização dos formulários.</p></div><div style="display:contents" dir="auto"><hr id="36ef6ce8-497f-806d-b907-dd4e86caf18a"/></div><div style="display:contents" dir="auto"><h1 id="36ef6ce8-497f-8098-a448-d17380da1297" class="">Classe principal</h1></div><div style="display:contents" dir="auto"><p id="36ef6ce8-497f-8026-b497-d2bd74b9a862" class="">A estrutura básica usa:</p></div><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="36ef6ce8-497f-8043-b7de-f85721c91ce9" class="code code-wrap"><code class="language-html" style="white-space:pre-wrap;word-break:break-all">&lt;div class=&quot;input-group&quot;&gt;</code></pre></div><div style="display:contents" dir="auto"><hr id="36ef6ce8-497f-80bd-b02b-ecd077135fb6"/></div><div style="display:contents" dir="auto"><h1 id="36ef6ce8-497f-8027-bb35-dd19b9cc47a8" class="">Exemplo simples</h1></div><div style="display:contents" dir="auto"><pre id="36ef6ce8-497f-800c-9e6c-f0860e1f528c" class="code code-wrap"><code class="language-html" style="white-space:pre-wrap;word-break:break-all">&lt;div class=&quot;input-group&quot;&gt;
+</style><style>@import url('https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex-swap.min.css')</style></head><body><article id="36ef6ce8-497f-80ed-a67d-de144932589d" class="page sans" data-notion-page-icon="/icons/book_purple.svg"><header><div class="page-header-icon undefined"><img class="icon notion-static-icon" src="https://app.notion.com/icons/book_purple.svg"/></div><h1 class="page-title" dir="auto">Input Group</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><h1 id="36ef6ce8-497f-8088-bd2f-d85cbb886561" style="display:inline-block" dir="auto">Input Group no Bootstrap</h1><p id="36ef6ce8-497f-80b3-9a96-d29b893b0499" class="" dir="auto">O <strong>Input Group</strong> do Bootstrap é um componente usado para combinar campos de formulário com:</p><ul id="36ef6ce8-497f-802b-b9dd-d3599fef38c9" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Textos</li></ul><ul id="36ef6ce8-497f-80e7-8397-c26de5600080" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Ícones</li></ul><ul id="36ef6ce8-497f-80b0-8cb2-cb734a168e47" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Botões</li></ul><ul id="36ef6ce8-497f-8001-a7e3-c3e07c8aa4fe" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Labels</li></ul><ul id="36ef6ce8-497f-80fe-a837-c95b62427e4a" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Prefixos e sufixos</li></ul><p id="36ef6ce8-497f-80d2-a682-ce0a1d269965" class="" dir="auto">Ele é muito utilizado para melhorar a aparência e organização dos formulários.</p><hr id="36ef6ce8-497f-806d-b907-dd4e86caf18a" dir="auto"/><h1 id="36ef6ce8-497f-8098-a448-d17380da1297" style="display:inline-block" dir="auto">Classe principal</h1><p id="36ef6ce8-497f-8026-b497-d2bd74b9a862" class="" dir="auto">A estrutura básica usa:</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="36ef6ce8-497f-8043-b7de-f85721c91ce9" class="code code-wrap" data-notion-code-syntax="html"><code class="language-html" style="white-space:pre-wrap;word-break:break-all">&lt;div class=&quot;input-group&quot;&gt;</code></pre><hr id="36ef6ce8-497f-80bd-b02b-ecd077135fb6" dir="auto"/><h1 id="36ef6ce8-497f-8027-bb35-dd19b9cc47a8" style="display:inline-block" dir="auto">Exemplo simples</h1><pre id="36ef6ce8-497f-800c-9e6c-f0860e1f528c" class="code code-wrap" data-notion-code-syntax="html"><code class="language-html" style="white-space:pre-wrap;word-break:break-all">&lt;div class=&quot;input-group&quot;&gt;
 
 &lt;span class=&quot;input-group-text&quot;&gt;
         @
@@ -749,7 +773,7 @@ blockquote.quote-large {
 &lt;input type=&quot;text&quot;
 class=&quot;form-control&quot;&gt;
 
-&lt;/div&gt;</code></pre></div><div style="display:contents" dir="auto"><hr id="36ef6ce8-497f-803c-a414-dda49ca23979"/></div><div style="display:contents" dir="auto"><h1 id="36ef6ce8-497f-8053-b469-f5f4ea87bbe1" class="">Resultado</h1></div><div style="display:contents" dir="auto"><p id="36ef6ce8-497f-80a1-8272-fb93fc2e3b59" class="">O símbolo <code>@</code> aparece integrado ao campo de texto.</p></div><div style="display:contents" dir="auto"><p id="36ef6ce8-497f-803c-84a3-c3f5efb066cd" class="">Muito usado para:</p></div><div style="display:contents" dir="auto"><ul id="36ef6ce8-497f-8073-823b-fbe2dd4d39ce" class="bulleted-list"><li style="list-style-type:disc">Usuário</li></ul></div><div style="display:contents" dir="auto"><ul id="36ef6ce8-497f-809f-918d-f3e68339c6f9" class="bulleted-list"><li style="list-style-type:disc">Email</li></ul></div><div style="display:contents" dir="auto"><ul id="36ef6ce8-497f-8099-bea4-dd4a2c26b584" class="bulleted-list"><li style="list-style-type:disc">Redes sociais</li></ul></div><div style="display:contents" dir="auto"><hr id="36ef6ce8-497f-804a-8ea9-fb5d4529d417"/></div><div style="display:contents" dir="auto"><h1 id="36ef6ce8-497f-80e3-9653-dd5a4c6945d1" class="">Classes principais</h1></div><div style="display:contents" dir="ltr"><table id="36ef6ce8-497f-8077-97be-e170fe220946" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="36ef6ce8-497f-8079-bbf7-d880b15a6268"><th id="xZvT" class="simple-table-header-color simple-table-header">Classe</th><th id="T_E~" class="simple-table-header-color simple-table-header">Função</th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="36ef6ce8-497f-80ea-9413-ec2e2aa6f756"><td id="xZvT" class=""><code>input-group</code></td><td id="T_E~" class="">Container do grupo</td></tr></div><div style="display:contents" dir="ltr"><tr id="36ef6ce8-497f-8092-9aaa-efbe9d52593b"><td id="xZvT" class=""><code>input-group-text</code></td><td id="T_E~" class="">Texto/ícone lateral</td></tr></div><div style="display:contents" dir="ltr"><tr id="36ef6ce8-497f-80bb-a0ea-ee24aa795a6e"><td id="xZvT" class=""><code>form-control</code></td><td id="T_E~" class="">Campo principal</td></tr></div></tbody></table></div><div style="display:contents" dir="auto"><hr id="36ef6ce8-497f-8028-bd94-e7584f44d65b"/></div><div style="display:contents" dir="auto"><h1 id="36ef6ce8-497f-8073-8f36-f64a71370e9d" class="">Texto antes do input</h1></div><div style="display:contents" dir="auto"><pre id="36ef6ce8-497f-8058-bcc6-f6daea0fb809" class="code code-wrap"><code class="language-html" style="white-space:pre-wrap;word-break:break-all">&lt;div class=&quot;input-group&quot;&gt;
+&lt;/div&gt;</code></pre><hr id="36ef6ce8-497f-803c-a414-dda49ca23979" dir="auto"/><h1 id="36ef6ce8-497f-8053-b469-f5f4ea87bbe1" style="display:inline-block" dir="auto">Resultado</h1><p id="36ef6ce8-497f-80a1-8272-fb93fc2e3b59" class="" dir="auto">O símbolo <code>@</code> aparece integrado ao campo de texto.</p><p id="36ef6ce8-497f-803c-84a3-c3f5efb066cd" class="" dir="auto">Muito usado para:</p><ul id="36ef6ce8-497f-8073-823b-fbe2dd4d39ce" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Usuário</li></ul><ul id="36ef6ce8-497f-809f-918d-f3e68339c6f9" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Email</li></ul><ul id="36ef6ce8-497f-8099-bea4-dd4a2c26b584" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Redes sociais</li></ul><hr id="36ef6ce8-497f-804a-8ea9-fb5d4529d417" dir="auto"/><h1 id="36ef6ce8-497f-80e3-9653-dd5a4c6945d1" style="display:inline-block" dir="auto">Classes principais</h1><table id="36ef6ce8-497f-8077-97be-e170fe220946" class="simple-table" dir="ltr"><thead class="simple-table-header"><tr id="36ef6ce8-497f-8079-bbf7-d880b15a6268" dir="ltr"><th id="xZvT" class="simple-table-header-color simple-table-header">Classe</th><th id="T_E~" class="simple-table-header-color simple-table-header">Função</th></tr></thead><tbody><tr id="36ef6ce8-497f-80ea-9413-ec2e2aa6f756" dir="ltr"><td id="xZvT" class=""><code>input-group</code></td><td id="T_E~" class="">Container do grupo</td></tr><tr id="36ef6ce8-497f-8092-9aaa-efbe9d52593b" dir="ltr"><td id="xZvT" class=""><code>input-group-text</code></td><td id="T_E~" class="">Texto/ícone lateral</td></tr><tr id="36ef6ce8-497f-80bb-a0ea-ee24aa795a6e" dir="ltr"><td id="xZvT" class=""><code>form-control</code></td><td id="T_E~" class="">Campo principal</td></tr></tbody></table><hr id="36ef6ce8-497f-8028-bd94-e7584f44d65b" dir="auto"/><h1 id="36ef6ce8-497f-8073-8f36-f64a71370e9d" style="display:inline-block" dir="auto">Texto antes do input</h1><pre id="36ef6ce8-497f-8058-bcc6-f6daea0fb809" class="code code-wrap" data-notion-code-syntax="html"><code class="language-html" style="white-space:pre-wrap;word-break:break-all">&lt;div class=&quot;input-group&quot;&gt;
 
 &lt;span class=&quot;input-group-text&quot;&gt;
         R$
@@ -758,7 +782,7 @@ class=&quot;form-control&quot;&gt;
 &lt;input type=&quot;text&quot;
 class=&quot;form-control&quot;&gt;
 
-&lt;/div&gt;</code></pre></div><div style="display:contents" dir="auto"><p id="36ef6ce8-497f-8067-b7d2-f6d22ff6c49d" class="">Muito usado em:</p></div><div style="display:contents" dir="auto"><ul id="36ef6ce8-497f-80db-9ccd-fde5e1072783" class="bulleted-list"><li style="list-style-type:disc">Valores</li></ul></div><div style="display:contents" dir="auto"><ul id="36ef6ce8-497f-80ee-9f15-d5408aa84108" class="bulleted-list"><li style="list-style-type:disc">Preços</li></ul></div><div style="display:contents" dir="auto"><ul id="36ef6ce8-497f-8011-8814-d4413fbda9aa" class="bulleted-list"><li style="list-style-type:disc">Dinheiro</li></ul></div><div style="display:contents" dir="auto"><hr id="36ef6ce8-497f-802e-ab01-f593d7beebf9"/></div><div style="display:contents" dir="auto"><h1 id="36ef6ce8-497f-8013-9da2-d7311d6d3124" class="">Texto depois do input</h1></div><div style="display:contents" dir="auto"><pre id="36ef6ce8-497f-80b2-98e1-c1d44db2896c" class="code code-wrap"><code class="language-html" style="white-space:pre-wrap;word-break:break-all">&lt;div class=&quot;input-group&quot;&gt;
+&lt;/div&gt;</code></pre><p id="36ef6ce8-497f-8067-b7d2-f6d22ff6c49d" class="" dir="auto">Muito usado em:</p><ul id="36ef6ce8-497f-80db-9ccd-fde5e1072783" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Valores</li></ul><ul id="36ef6ce8-497f-80ee-9f15-d5408aa84108" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Preços</li></ul><ul id="36ef6ce8-497f-8011-8814-d4413fbda9aa" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Dinheiro</li></ul><hr id="36ef6ce8-497f-802e-ab01-f593d7beebf9" dir="auto"/><h1 id="36ef6ce8-497f-8013-9da2-d7311d6d3124" style="display:inline-block" dir="auto">Texto depois do input</h1><pre id="36ef6ce8-497f-80b2-98e1-c1d44db2896c" class="code code-wrap" data-notion-code-syntax="html"><code class="language-html" style="white-space:pre-wrap;word-break:break-all">&lt;div class=&quot;input-group&quot;&gt;
 
 &lt;input type=&quot;text&quot;
 class=&quot;form-control&quot;&gt;
@@ -767,7 +791,7 @@ class=&quot;form-control&quot;&gt;
         .com
 &lt;/span&gt;
 
-&lt;/div&gt;</code></pre></div><div style="display:contents" dir="auto"><hr id="36ef6ce8-497f-805e-913c-e65b42be7ae9"/></div><div style="display:contents" dir="auto"><h1 id="36ef6ce8-497f-80a0-bb39-f07964a28f2a" class="">Input Group com botão</h1></div><div style="display:contents" dir="auto"><pre id="36ef6ce8-497f-8086-aad2-ece824703b10" class="code code-wrap"><code class="language-html" style="white-space:pre-wrap;word-break:break-all">&lt;div class=&quot;input-group&quot;&gt;
+&lt;/div&gt;</code></pre><hr id="36ef6ce8-497f-805e-913c-e65b42be7ae9" dir="auto"/><h1 id="36ef6ce8-497f-80a0-bb39-f07964a28f2a" style="display:inline-block" dir="auto">Input Group com botão</h1><pre id="36ef6ce8-497f-8086-aad2-ece824703b10" class="code code-wrap" data-notion-code-syntax="html"><code class="language-html" style="white-space:pre-wrap;word-break:break-all">&lt;div class=&quot;input-group&quot;&gt;
 
 &lt;input type=&quot;text&quot;
 class=&quot;form-control&quot;&gt;
@@ -778,7 +802,7 @@ class=&quot;form-control&quot;&gt;
 
 &lt;/button&gt;
 
-&lt;/div&gt;</code></pre></div><div style="display:contents" dir="auto"><p id="36ef6ce8-497f-8088-a14c-e45dfd5c4e2f" class="">Muito usado em:</p></div><div style="display:contents" dir="auto"><ul id="36ef6ce8-497f-809c-9b4b-e544e592d29a" class="bulleted-list"><li style="list-style-type:disc">Pesquisas</li></ul></div><div style="display:contents" dir="auto"><ul id="36ef6ce8-497f-80b0-8f4d-cbd1979b1e21" class="bulleted-list"><li style="list-style-type:disc">Login</li></ul></div><div style="display:contents" dir="auto"><ul id="36ef6ce8-497f-80d8-af42-e5344389104e" class="bulleted-list"><li style="list-style-type:disc">Filtros</li></ul></div><div style="display:contents" dir="auto"><hr id="36ef6ce8-497f-807d-82f8-ef0152b00ebe"/></div><div style="display:contents" dir="auto"><h1 id="36ef6ce8-497f-804d-9c61-e620c9b8c254" class="">Input Group com múltiplos elementos</h1></div><div style="display:contents" dir="auto"><pre id="36ef6ce8-497f-8067-8782-f1a5bbe52248" class="code code-wrap"><code class="language-html" style="white-space:pre-wrap;word-break:break-all">&lt;div class=&quot;input-group&quot;&gt;
+&lt;/div&gt;</code></pre><p id="36ef6ce8-497f-8088-a14c-e45dfd5c4e2f" class="" dir="auto">Muito usado em:</p><ul id="36ef6ce8-497f-809c-9b4b-e544e592d29a" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Pesquisas</li></ul><ul id="36ef6ce8-497f-80b0-8f4d-cbd1979b1e21" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Login</li></ul><ul id="36ef6ce8-497f-80d8-af42-e5344389104e" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Filtros</li></ul><hr id="36ef6ce8-497f-807d-82f8-ef0152b00ebe" dir="auto"/><h1 id="36ef6ce8-497f-804d-9c61-e620c9b8c254" style="display:inline-block" dir="auto">Input Group com múltiplos elementos</h1><pre id="36ef6ce8-497f-8067-8782-f1a5bbe52248" class="code code-wrap" data-notion-code-syntax="html"><code class="language-html" style="white-space:pre-wrap;word-break:break-all">&lt;div class=&quot;input-group&quot;&gt;
 
 &lt;span class=&quot;input-group-text&quot;&gt;
         Nome
@@ -794,7 +818,7 @@ class=&quot;form-control&quot;&gt;
 &lt;input type=&quot;text&quot;
 class=&quot;form-control&quot;&gt;
 
-&lt;/div&gt;</code></pre></div><div style="display:contents" dir="auto"><hr id="36ef6ce8-497f-80d1-a09c-cf004cded971"/></div><div style="display:contents" dir="auto"><h1 id="36ef6ce8-497f-80a7-8145-fe116638d2dd" class="">Checkbox dentro do Input Group</h1></div><div style="display:contents" dir="auto"><pre id="36ef6ce8-497f-80e3-8d16-e21a97217e1a" class="code code-wrap"><code class="language-html" style="white-space:pre-wrap;word-break:break-all">&lt;div class=&quot;input-group&quot;&gt;
+&lt;/div&gt;</code></pre><hr id="36ef6ce8-497f-80d1-a09c-cf004cded971" dir="auto"/><h1 id="36ef6ce8-497f-80a7-8145-fe116638d2dd" style="display:inline-block" dir="auto">Checkbox dentro do Input Group</h1><pre id="36ef6ce8-497f-80e3-8d16-e21a97217e1a" class="code code-wrap" data-notion-code-syntax="html"><code class="language-html" style="white-space:pre-wrap;word-break:break-all">&lt;div class=&quot;input-group&quot;&gt;
 
 &lt;div class=&quot;input-group-text&quot;&gt;
 
@@ -806,7 +830,7 @@ type=&quot;checkbox&quot;&gt;
 &lt;input type=&quot;text&quot;
 class=&quot;form-control&quot;&gt;
 
-&lt;/div&gt;</code></pre></div><div style="display:contents" dir="auto"><hr id="36ef6ce8-497f-80b9-ba04-c35809511ba2"/></div><div style="display:contents" dir="auto"><h1 id="36ef6ce8-497f-80cc-9d6d-c7ad0bb17005" class="">Radio Button</h1></div><div style="display:contents" dir="auto"><pre id="36ef6ce8-497f-80a9-9b57-dbf9a747fefa" class="code code-wrap"><code class="language-html" style="white-space:pre-wrap;word-break:break-all">&lt;div class=&quot;input-group&quot;&gt;
+&lt;/div&gt;</code></pre><hr id="36ef6ce8-497f-80b9-ba04-c35809511ba2" dir="auto"/><h1 id="36ef6ce8-497f-80cc-9d6d-c7ad0bb17005" style="display:inline-block" dir="auto">Radio Button</h1><pre id="36ef6ce8-497f-80a9-9b57-dbf9a747fefa" class="code code-wrap" data-notion-code-syntax="html"><code class="language-html" style="white-space:pre-wrap;word-break:break-all">&lt;div class=&quot;input-group&quot;&gt;
 
 &lt;div class=&quot;input-group-text&quot;&gt;
 
@@ -818,7 +842,7 @@ type=&quot;radio&quot;&gt;
 &lt;input type=&quot;text&quot;
 class=&quot;form-control&quot;&gt;
 
-&lt;/div&gt;</code></pre></div><div style="display:contents" dir="auto"><hr id="36ef6ce8-497f-8085-bc64-e35bafeeb016"/></div><div style="display:contents" dir="auto"><h1 id="36ef6ce8-497f-800c-a285-cc29a71ce356" class="">Tamanhos do Input Group</h1></div><div style="display:contents" dir="ltr"><table id="36ef6ce8-497f-803e-bb05-cfdc3d9bb4fc" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="36ef6ce8-497f-80a4-b7ff-e1ba4f8f79df"><th id="Y^Bo" class="simple-table-header-color simple-table-header">Classe</th><th id="Ypcb" class="simple-table-header-color simple-table-header">Tamanho</th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="36ef6ce8-497f-80e0-9a74-eba3267c7805"><td id="Y^Bo" class=""><code>input-group-sm</code></td><td id="Ypcb" class="">Pequeno</td></tr></div><div style="display:contents" dir="ltr"><tr id="36ef6ce8-497f-80c2-9f44-c0c9e24b6952"><td id="Y^Bo" class="">padrão</td><td id="Ypcb" class="">Médio</td></tr></div><div style="display:contents" dir="ltr"><tr id="36ef6ce8-497f-80dd-b3d1-fd4295ce8212"><td id="Y^Bo" class=""><code>input-group-lg</code></td><td id="Ypcb" class="">Grande</td></tr></div></tbody></table></div><div style="display:contents" dir="auto"><hr id="36ef6ce8-497f-8055-9e63-cc7c42811dc4"/></div><div style="display:contents" dir="auto"><h1 id="36ef6ce8-497f-804d-977f-c6fc62e01ae7" class="">Exemplo</h1></div><div style="display:contents" dir="auto"><pre id="36ef6ce8-497f-8063-8fa9-cadaae801c0c" class="code code-wrap"><code class="language-html" style="white-space:pre-wrap;word-break:break-all">&lt;div class=&quot;input-group input-group-lg&quot;&gt;</code></pre></div><div style="display:contents" dir="auto"><hr id="36ef6ce8-497f-8045-a3db-c5722a736233"/></div><div style="display:contents" dir="auto"><h1 id="36ef6ce8-497f-80a0-b1e4-ec57d7a9b4c4" class="">Input Group com textarea</h1></div><div style="display:contents" dir="auto"><pre id="36ef6ce8-497f-8042-b275-d205004f62e1" class="code code-wrap"><code class="language-html" style="white-space:pre-wrap;word-break:break-all">&lt;div class=&quot;input-group&quot;&gt;
+&lt;/div&gt;</code></pre><hr id="36ef6ce8-497f-8085-bc64-e35bafeeb016" dir="auto"/><h1 id="36ef6ce8-497f-800c-a285-cc29a71ce356" style="display:inline-block" dir="auto">Tamanhos do Input Group</h1><table id="36ef6ce8-497f-803e-bb05-cfdc3d9bb4fc" class="simple-table" dir="ltr"><thead class="simple-table-header"><tr id="36ef6ce8-497f-80a4-b7ff-e1ba4f8f79df" dir="ltr"><th id="Y^Bo" class="simple-table-header-color simple-table-header">Classe</th><th id="Ypcb" class="simple-table-header-color simple-table-header">Tamanho</th></tr></thead><tbody><tr id="36ef6ce8-497f-80e0-9a74-eba3267c7805" dir="ltr"><td id="Y^Bo" class=""><code>input-group-sm</code></td><td id="Ypcb" class="">Pequeno</td></tr><tr id="36ef6ce8-497f-80c2-9f44-c0c9e24b6952" dir="ltr"><td id="Y^Bo" class="">padrão</td><td id="Ypcb" class="">Médio</td></tr><tr id="36ef6ce8-497f-80dd-b3d1-fd4295ce8212" dir="ltr"><td id="Y^Bo" class=""><code>input-group-lg</code></td><td id="Ypcb" class="">Grande</td></tr></tbody></table><hr id="36ef6ce8-497f-8055-9e63-cc7c42811dc4" dir="auto"/><h1 id="36ef6ce8-497f-804d-977f-c6fc62e01ae7" style="display:inline-block" dir="auto">Exemplo</h1><pre id="36ef6ce8-497f-8063-8fa9-cadaae801c0c" class="code code-wrap" data-notion-code-syntax="html"><code class="language-html" style="white-space:pre-wrap;word-break:break-all">&lt;div class=&quot;input-group input-group-lg&quot;&gt;</code></pre><hr id="36ef6ce8-497f-8045-a3db-c5722a736233" dir="auto"/><h1 id="36ef6ce8-497f-80a0-b1e4-ec57d7a9b4c4" style="display:inline-block" dir="auto">Input Group com textarea</h1><pre id="36ef6ce8-497f-8042-b275-d205004f62e1" class="code code-wrap" data-notion-code-syntax="html"><code class="language-html" style="white-space:pre-wrap;word-break:break-all">&lt;div class=&quot;input-group&quot;&gt;
 
 &lt;span class=&quot;input-group-text&quot;&gt;
         Mensagem
@@ -826,7 +850,7 @@ class=&quot;form-control&quot;&gt;
 
 &lt;textarea class=&quot;form-control&quot;&gt;&lt;/textarea&gt;
 
-&lt;/div&gt;</code></pre></div><div style="display:contents" dir="auto"><hr id="36ef6ce8-497f-8050-beb2-e231a948e35d"/></div><div style="display:contents" dir="auto"><h1 id="36ef6ce8-497f-806f-92dd-e1f0137841b9" class="">Input Group com select</h1></div><div style="display:contents" dir="auto"><pre id="36ef6ce8-497f-807b-b3e3-c5938ed7b7cf" class="code code-wrap"><code class="language-html" style="white-space:pre-wrap;word-break:break-all">&lt;div class=&quot;input-group&quot;&gt;
+&lt;/div&gt;</code></pre><hr id="36ef6ce8-497f-8050-beb2-e231a948e35d" dir="auto"/><h1 id="36ef6ce8-497f-806f-92dd-e1f0137841b9" style="display:inline-block" dir="auto">Input Group com select</h1><pre id="36ef6ce8-497f-807b-b3e3-c5938ed7b7cf" class="code code-wrap" data-notion-code-syntax="html"><code class="language-html" style="white-space:pre-wrap;word-break:break-all">&lt;div class=&quot;input-group&quot;&gt;
 
 &lt;label class=&quot;input-group-text&quot;&gt;
 
@@ -841,7 +865,7 @@ class=&quot;form-control&quot;&gt;
 
 &lt;/select&gt;
 
-&lt;/div&gt;</code></pre></div><div style="display:contents" dir="auto"><hr id="36ef6ce8-497f-80b6-acca-f96f19d47991"/></div><div style="display:contents" dir="auto"><h1 id="36ef6ce8-497f-8093-a872-c9744ec9a738" class="">Exemplo completo</h1></div><div style="display:contents" dir="auto"><pre id="36ef6ce8-497f-80e7-a2e5-ff5fceb33056" class="code code-wrap"><code class="language-html" style="white-space:pre-wrap;word-break:break-all">&lt;div class=&quot;container&quot;&gt;
+&lt;/div&gt;</code></pre><hr id="36ef6ce8-497f-80b6-acca-f96f19d47991" dir="auto"/><h1 id="36ef6ce8-497f-8093-a872-c9744ec9a738" style="display:inline-block" dir="auto">Exemplo completo</h1><pre id="36ef6ce8-497f-80e7-a2e5-ff5fceb33056" class="code code-wrap" data-notion-code-syntax="html"><code class="language-html" style="white-space:pre-wrap;word-break:break-all">&lt;div class=&quot;container&quot;&gt;
 
 &lt;div class=&quot;input-group mb-3&quot;&gt;
 
@@ -869,4 +893,4 @@ placeholder=&quot;Pesquisar&quot;&gt;
 
 &lt;/div&gt;
 
-&lt;/div&gt;</code></pre></div><div style="display:contents" dir="auto"><hr id="36ef6ce8-497f-8064-b817-f3f712b5c2cd"/></div><div style="display:contents" dir="auto"><h1 id="36ef6ce8-497f-8068-971b-f43b329060ec" class="">Vantagens do Input Group</h1></div><div style="display:contents" dir="auto"><ul id="36ef6ce8-497f-809f-8ee8-d7415b3d1667" class="bulleted-list"><li style="list-style-type:disc">Melhor organização visual</li></ul></div><div style="display:contents" dir="auto"><ul id="36ef6ce8-497f-803c-8122-fd9a1d52117a" class="bulleted-list"><li style="list-style-type:disc">Interface mais moderna</li></ul></div><div style="display:contents" dir="auto"><ul id="36ef6ce8-497f-80df-bf98-c0076d1b9527" class="bulleted-list"><li style="list-style-type:disc">Integração com botões e ícones</li></ul></div><div style="display:contents" dir="auto"><ul id="36ef6ce8-497f-8064-ac46-ed2315cd28ec" class="bulleted-list"><li style="list-style-type:disc">Responsividade</li></ul></div><div style="display:contents" dir="auto"><ul id="36ef6ce8-497f-8033-87e8-d65e9c90da59" class="bulleted-list"><li style="list-style-type:disc">Menos CSS manual</li></ul></div></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>
+&lt;/div&gt;</code></pre><hr id="36ef6ce8-497f-8064-b817-f3f712b5c2cd" dir="auto"/><h1 id="36ef6ce8-497f-8068-971b-f43b329060ec" style="display:inline-block" dir="auto">Vantagens do Input Group</h1><ul id="36ef6ce8-497f-809f-8ee8-d7415b3d1667" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Melhor organização visual</li></ul><ul id="36ef6ce8-497f-803c-8122-fd9a1d52117a" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Interface mais moderna</li></ul><ul id="36ef6ce8-497f-80df-bf98-c0076d1b9527" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Integração com botões e ícones</li></ul><ul id="36ef6ce8-497f-8064-ac46-ed2315cd28ec" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Responsividade</li></ul><ul id="36ef6ce8-497f-8033-87e8-d65e9c90da59" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Menos CSS manual</li></ul></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

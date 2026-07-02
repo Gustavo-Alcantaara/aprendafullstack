@@ -1,4 +1,4 @@
-<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Mesclar - Linhas e Colunas</title><style>
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Mesclar - Linhas e Colunas</title><meta name="data-notion-page-icon" content="/icons/snippet_blue.svg"/><link rel="icon" href="https://app.notion.com/icons/snippet_blue.svg"/><style>
 /* cspell:disable-file */
 /* webkit printing magic: print all background colors */
 html {
@@ -88,7 +88,14 @@ h3 {
 	padding: 1rem;
 }
 
-figure {
+/* For default-background callouts, render the border outline. */
+.callout.block-color-default_background {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+figure,
+aside,
+details {
 	margin: 1.25em 0;
 	page-break-inside: avoid;
 }
@@ -184,7 +191,8 @@ img {
 	display: block;
 	font-size: 0.875rem;
 	line-height: 1.3;
-	padding: 0.125rem;
+	padding-inline: 0.125rem;
+	padding-block: 0.375rem;
 }
 
 .table_of_contents-indent-1 {
@@ -367,6 +375,17 @@ time {
 	margin-right: 0.5em;
 }
 
+/*
+ * Render emoji icons using a ::before pseudo-element to keep the glyph
+ * out of the DOM textContent traversal. This avoids double-rendering icons
+ * in callouts and page titles.
+ * NOTE(slim/html-export-pseudo-icons): I can't tagref this because it will
+ * flag as a duplicate tag after codegen.
+ */
+.icon[data-emoji]::before {
+	content: attr(data-emoji);
+}
+
 img.icon {
 	border-radius: 3px;
 }
@@ -440,8 +459,7 @@ td > time {
 }
 
 input[type="checkbox"] {
-	transform: scale(1.5);
-	margin-right: 0.6em;
+	margin-right: 0.4em;
 	vertical-align: middle;
 }
 
@@ -549,6 +567,12 @@ blockquote.quote-large {
 .bookmark-href {
 	font-size: 0.75em;
 	margin-top: 0.25em;
+}
+
+.tab {
+	margin: 1.25em 0;
+	padding-inline: 1rem;
+	border: 1px solid rgba(55, 53, 47, 0.09);
 }
 
 .sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
@@ -740,17 +764,17 @@ blockquote.quote-large {
 	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
 }
 	
-</style></head><body><article id="360f6ce8-497f-80ed-833b-d5614eee486f" class="page sans"><header><div class="page-header-icon undefined"><img class="icon notion-static-icon" src="https://app.notion.com/icons/snippet_blue.svg"/></div><h1 class="page-title" dir="auto">Mesclar - Linhas e Colunas</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><div style="display:contents" dir="auto"><p id="360f6ce8-497f-802c-8dc2-fa7ffb4c50c7" class="">No <strong>CSS Grid</strong>, mesclar linhas e colunas significa fazer um item <strong>ocupar mais de uma célula da grade</strong>, expandindo-se horizontalmente, verticalmente ou nos dois sentidos. Isso é muito usado em layouts como banners, cards maiores, galerias e dashboards.</p></div><div style="display:contents" dir="auto"><h2 id="360f6ce8-497f-8021-bdb6-e519bbc6d552" class="">Como funciona</h2></div><div style="display:contents" dir="auto"><p id="360f6ce8-497f-8028-9b70-eeb2eedd84b3" class="">Cada item pode ocupar:</p></div><div style="display:contents" dir="auto"><ul id="360f6ce8-497f-80e8-b2e5-e74b54da95a9" class="bulleted-list"><li style="list-style-type:disc">várias <strong>colunas</strong></li></ul></div><div style="display:contents" dir="auto"><ul id="360f6ce8-497f-80be-86c7-c1a2edbd3f4d" class="bulleted-list"><li style="list-style-type:disc">várias <strong>linhas</strong></li></ul></div><div style="display:contents" dir="auto"><ul id="360f6ce8-497f-80f4-943b-c65a3baa4121" class="bulleted-list"><li style="list-style-type:disc">ou ambas ao mesmo tempo</li></ul></div><div style="display:contents" dir="auto"><p id="360f6ce8-497f-808e-9e6c-d71858a06f5c" class="">Isso é controlado com:</p></div><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="360f6ce8-497f-8023-9369-dfbd6c8f648f" class="code code-wrap"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">grid-column
-grid-row</code></pre></div><div style="display:contents" dir="auto"><hr id="360f6ce8-497f-8010-be39-cb0f4274fdff"/></div><div style="display:contents" dir="auto"><h2 id="360f6ce8-497f-804e-a188-fcefd67a9d56" class="">Mesclar colunas</h2></div><div style="display:contents" dir="auto"><p id="360f6ce8-497f-803d-b3dd-f30a0d039277" class="">Faz o item ocupar mais de uma coluna.</p></div><div style="display:contents" dir="auto"><pre id="360f6ce8-497f-80f9-b3ec-de2b0e242601" class="code code-wrap"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">.item {
+</style><style>@import url('https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex-swap.min.css')</style></head><body><article id="360f6ce8-497f-80ed-833b-d5614eee486f" class="page sans" data-notion-page-icon="/icons/snippet_blue.svg"><header><div class="page-header-icon undefined"><img class="icon notion-static-icon" src="https://app.notion.com/icons/snippet_blue.svg"/></div><h1 class="page-title" dir="auto">Mesclar - Linhas e Colunas</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><p id="360f6ce8-497f-802c-8dc2-fa7ffb4c50c7" class="" dir="auto">No <strong>CSS Grid</strong>, mesclar linhas e colunas significa fazer um item <strong>ocupar mais de uma célula da grade</strong>, expandindo-se horizontalmente, verticalmente ou nos dois sentidos. Isso é muito usado em layouts como banners, cards maiores, galerias e dashboards.</p><h2 id="360f6ce8-497f-8021-bdb6-e519bbc6d552" style="display:inline-block" dir="auto">Como funciona</h2><p id="360f6ce8-497f-8028-9b70-eeb2eedd84b3" class="" dir="auto">Cada item pode ocupar:</p><ul id="360f6ce8-497f-80e8-b2e5-e74b54da95a9" class="bulleted-list" dir="auto"><li style="list-style-type:disc">várias <strong>colunas</strong></li></ul><ul id="360f6ce8-497f-80be-86c7-c1a2edbd3f4d" class="bulleted-list" dir="auto"><li style="list-style-type:disc">várias <strong>linhas</strong></li></ul><ul id="360f6ce8-497f-80f4-943b-c65a3baa4121" class="bulleted-list" dir="auto"><li style="list-style-type:disc">ou ambas ao mesmo tempo</li></ul><p id="360f6ce8-497f-808e-9e6c-d71858a06f5c" class="" dir="auto">Isso é controlado com:</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="360f6ce8-497f-8023-9369-dfbd6c8f648f" class="code code-wrap" data-notion-code-syntax="css"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">grid-column
+grid-row</code></pre><hr id="360f6ce8-497f-8010-be39-cb0f4274fdff" dir="auto"/><h2 id="360f6ce8-497f-804e-a188-fcefd67a9d56" style="display:inline-block" dir="auto">Mesclar colunas</h2><p id="360f6ce8-497f-803d-b3dd-f30a0d039277" class="" dir="auto">Faz o item ocupar mais de uma coluna.</p><pre id="360f6ce8-497f-80f9-b3ec-de2b0e242601" class="code code-wrap" data-notion-code-syntax="css"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">.item {
   grid-column:span2;
-}</code></pre></div><div style="display:contents" dir="auto"><p id="360f6ce8-497f-805c-8205-fc5ea290ce4b" class="">O item ocupa <strong>2 colunas</strong>.</p></div><div style="display:contents" dir="auto"><p id="360f6ce8-497f-806f-b140-f5984e8f4492" class="">Exemplo:</p></div><div style="display:contents" dir="auto"><pre id="360f6ce8-497f-800c-a4ab-f4ff31005d3a" class="code code-wrap"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">.item {
+}</code></pre><p id="360f6ce8-497f-805c-8205-fc5ea290ce4b" class="" dir="auto">O item ocupa <strong>2 colunas</strong>.</p><p id="360f6ce8-497f-806f-b140-f5984e8f4492" class="" dir="auto">Exemplo:</p><pre id="360f6ce8-497f-800c-a4ab-f4ff31005d3a" class="code code-wrap" data-notion-code-syntax="css"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">.item {
   grid-column:1/3;
-}</code></pre></div><div style="display:contents" dir="auto"><p id="360f6ce8-497f-8023-8708-c80de922d514" class="">Vai da linha de coluna <strong>1 até 3</strong>, ocupando 2 colunas.</p></div><div style="display:contents" dir="auto"><hr id="360f6ce8-497f-8049-8db8-fa347e23af20"/></div><div style="display:contents" dir="auto"><h2 id="360f6ce8-497f-8073-9b18-f45536022406" class="">Mesclar linhas</h2></div><div style="display:contents" dir="auto"><p id="360f6ce8-497f-80c0-985d-da5bb48cdcd1" class="">Faz o item ocupar várias linhas.</p></div><div style="display:contents" dir="auto"><pre id="360f6ce8-497f-8062-a6ff-c676cb1a388c" class="code code-wrap"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">.item {
+}</code></pre><p id="360f6ce8-497f-8023-8708-c80de922d514" class="" dir="auto">Vai da linha de coluna <strong>1 até 3</strong>, ocupando 2 colunas.</p><hr id="360f6ce8-497f-8049-8db8-fa347e23af20" dir="auto"/><h2 id="360f6ce8-497f-8073-9b18-f45536022406" style="display:inline-block" dir="auto">Mesclar linhas</h2><p id="360f6ce8-497f-80c0-985d-da5bb48cdcd1" class="" dir="auto">Faz o item ocupar várias linhas.</p><pre id="360f6ce8-497f-8062-a6ff-c676cb1a388c" class="code code-wrap" data-notion-code-syntax="css"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">.item {
   grid-row:span2;
-}</code></pre></div><div style="display:contents" dir="auto"><p id="360f6ce8-497f-80e8-9017-d571315a9a33" class="">Ocupa <strong>2 linhas</strong>.</p></div><div style="display:contents" dir="auto"><p id="360f6ce8-497f-8061-adf9-e7d4d8828284" class="">Ou:</p></div><div style="display:contents" dir="auto"><pre id="360f6ce8-497f-8010-a6b4-e0286d5898bd" class="code code-wrap"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">grid-row: 1 / 3;</code></pre></div><div style="display:contents" dir="auto"><p id="360f6ce8-497f-8003-8552-e8b8a99e18b5" class="">Vai da linha 1 até a 3.</p></div><div style="display:contents" dir="auto"><hr id="360f6ce8-497f-80f2-8911-f3b72a9b730a"/></div><div style="display:contents" dir="auto"><h2 id="360f6ce8-497f-8001-8b4d-f259d6423e6d" class="">Mesclar linhas e colunas ao mesmo tempo</h2></div><div style="display:contents" dir="auto"><pre id="360f6ce8-497f-8069-a34b-f04d5a7373a5" class="code code-wrap"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">.item {
+}</code></pre><p id="360f6ce8-497f-80e8-9017-d571315a9a33" class="" dir="auto">Ocupa <strong>2 linhas</strong>.</p><p id="360f6ce8-497f-8061-adf9-e7d4d8828284" class="" dir="auto">Ou:</p><pre id="360f6ce8-497f-8010-a6b4-e0286d5898bd" class="code code-wrap" data-notion-code-syntax="css"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">grid-row: 1 / 3;</code></pre><p id="360f6ce8-497f-8003-8552-e8b8a99e18b5" class="" dir="auto">Vai da linha 1 até a 3.</p><hr id="360f6ce8-497f-80f2-8911-f3b72a9b730a" dir="auto"/><h2 id="360f6ce8-497f-8001-8b4d-f259d6423e6d" style="display:inline-block" dir="auto">Mesclar linhas e colunas ao mesmo tempo</h2><pre id="360f6ce8-497f-8069-a34b-f04d5a7373a5" class="code code-wrap" data-notion-code-syntax="css"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">.item {
   grid-column:span2;
   grid-row:span2;
-}</code></pre></div><div style="display:contents" dir="auto"><p id="360f6ce8-497f-8099-8fd5-e5a9b7304188" class="">O item vira um bloco maior, ocupando:</p></div><div style="display:contents" dir="auto"><ul id="360f6ce8-497f-80dc-bcdc-d22af6a374f7" class="bulleted-list"><li style="list-style-type:disc">2 colunas</li></ul></div><div style="display:contents" dir="auto"><ul id="360f6ce8-497f-8078-b132-c06fd087cf22" class="bulleted-list"><li style="list-style-type:disc">2 linhas</li></ul></div><div style="display:contents" dir="auto"><hr id="360f6ce8-497f-8084-a8c9-d952988b4a04"/></div><div style="display:contents" dir="auto"><h2 id="360f6ce8-497f-80a3-ad96-fe414af0e590" class="">Exemplo prático</h2></div><div style="display:contents" dir="auto"><pre id="360f6ce8-497f-809a-a6de-f16f2259893c" class="code code-wrap"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">.container {
+}</code></pre><p id="360f6ce8-497f-8099-8fd5-e5a9b7304188" class="" dir="auto">O item vira um bloco maior, ocupando:</p><ul id="360f6ce8-497f-80dc-bcdc-d22af6a374f7" class="bulleted-list" dir="auto"><li style="list-style-type:disc">2 colunas</li></ul><ul id="360f6ce8-497f-8078-b132-c06fd087cf22" class="bulleted-list" dir="auto"><li style="list-style-type:disc">2 linhas</li></ul><hr id="360f6ce8-497f-8084-a8c9-d952988b4a04" dir="auto"/><h2 id="360f6ce8-497f-80a3-ad96-fe414af0e590" style="display:inline-block" dir="auto">Exemplo prático</h2><pre id="360f6ce8-497f-809a-a6de-f16f2259893c" class="code code-wrap" data-notion-code-syntax="css"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">.container {
   display:grid;
   grid-template-columns:repeat(3,1fr);
   gap:10px;
@@ -759,4 +783,4 @@ grid-row</code></pre></div><div style="display:contents" dir="auto"><hr id="360f
 .destaque {
   grid-column:span2;
   grid-row:span2;
-}</code></pre></div><div style="display:contents" dir="auto"><p id="360f6ce8-497f-80cc-92f5-ec99f3b24364" class="">Resultado:</p></div><div style="display:contents" dir="auto"><ul id="360f6ce8-497f-8044-8bb3-c381297da312" class="bulleted-list"><li style="list-style-type:disc">Grid com 3 colunas</li></ul></div><div style="display:contents" dir="auto"><ul id="360f6ce8-497f-80cb-8368-ff947d72ee17" class="bulleted-list"><li style="list-style-type:disc">O item <code>.destaque</code> ocupa espaço maior</li></ul></div><div style="display:contents" dir="auto"><hr id="360f6ce8-497f-80f9-b1c5-ca034fae78d8"/></div><div style="display:contents" dir="auto"><h2 id="360f6ce8-497f-80c8-966b-ec5bb235e267" class="">Linhas numeradas</h2></div><div style="display:contents" dir="auto"><p id="360f6ce8-497f-8048-a5d9-e4f9c556ff97" class="">O Grid usa linhas imaginárias numeradas:</p></div><div style="display:contents" dir="auto"><pre id="360f6ce8-497f-8067-a95c-d5f3ba7eafa1" class="code code-wrap"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">1 | col1 | 2 | col2 | 3 | col3 | 4</code></pre></div><div style="display:contents" dir="auto"><p id="360f6ce8-497f-80e3-8e39-fe57cc728348" class="">Então:</p></div><div style="display:contents" dir="auto"><pre id="360f6ce8-497f-806e-9bde-e4e732fa5e53" class="code code-wrap"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">grid-column: 2 / 4;</code></pre></div><div style="display:contents" dir="auto"><p id="360f6ce8-497f-809b-a85d-e67bc8289bfe" class="">Ocupa da linha 2 até a 4.</p></div><div style="display:contents" dir="auto"><hr id="360f6ce8-497f-8031-906a-f755d611766e"/></div><div style="display:contents" dir="auto"><h2 id="360f6ce8-497f-8034-87b3-d7461dc68971" class="">Uso comum</h2></div><div style="display:contents" dir="auto"><ul id="360f6ce8-497f-803f-acb5-e548dfbaa76c" class="bulleted-list"><li style="list-style-type:disc">Banner principal</li></ul></div><div style="display:contents" dir="auto"><ul id="360f6ce8-497f-80b1-8700-d3797a9df94a" class="bulleted-list"><li style="list-style-type:disc">Card em destaque</li></ul></div><div style="display:contents" dir="auto"><ul id="360f6ce8-497f-80ff-a143-ec96ecd4dfdb" class="bulleted-list"><li style="list-style-type:disc">Galeria de imagens</li></ul></div><div style="display:contents" dir="auto"><ul id="360f6ce8-497f-808c-b989-c159735830d5" class="bulleted-list"><li style="list-style-type:disc">Painéis administrativos</li></ul></div><div style="display:contents" dir="auto"><ul id="360f6ce8-497f-804d-85b7-e2ca4b61e80a" class="bulleted-list"><li style="list-style-type:disc">Layout de revistas/sites</li></ul></div><div style="display:contents" dir="auto"><hr id="360f6ce8-497f-8058-b188-feef97943728"/></div><div style="display:contents" dir="auto"><h2 id="360f6ce8-497f-8006-847e-e97d26dda39f" class="">Resumo final</h2></div><div style="display:contents" dir="auto"><p id="360f6ce8-497f-8093-a8f6-ca5914ea2b15" class="">Mesclar linhas e colunas no CSS Grid significa fazer um elemento ocupar várias células da grade. Isso é feito com <code>grid-column</code> e <code>grid-row</code>, usando <code>span</code> ou linhas numeradas. É um recurso poderoso para criar layouts modernos, organizados e visualmente dinâmicos.</p></div></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>
+}</code></pre><p id="360f6ce8-497f-80cc-92f5-ec99f3b24364" class="" dir="auto">Resultado:</p><ul id="360f6ce8-497f-8044-8bb3-c381297da312" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Grid com 3 colunas</li></ul><ul id="360f6ce8-497f-80cb-8368-ff947d72ee17" class="bulleted-list" dir="auto"><li style="list-style-type:disc">O item <code>.destaque</code> ocupa espaço maior</li></ul><hr id="360f6ce8-497f-80f9-b1c5-ca034fae78d8" dir="auto"/><h2 id="360f6ce8-497f-80c8-966b-ec5bb235e267" style="display:inline-block" dir="auto">Linhas numeradas</h2><p id="360f6ce8-497f-8048-a5d9-e4f9c556ff97" class="" dir="auto">O Grid usa linhas imaginárias numeradas:</p><pre id="360f6ce8-497f-8067-a95c-d5f3ba7eafa1" class="code code-wrap" data-notion-code-syntax="css"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">1 | col1 | 2 | col2 | 3 | col3 | 4</code></pre><p id="360f6ce8-497f-80e3-8e39-fe57cc728348" class="" dir="auto">Então:</p><pre id="360f6ce8-497f-806e-9bde-e4e732fa5e53" class="code code-wrap" data-notion-code-syntax="css"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">grid-column: 2 / 4;</code></pre><p id="360f6ce8-497f-809b-a85d-e67bc8289bfe" class="" dir="auto">Ocupa da linha 2 até a 4.</p><hr id="360f6ce8-497f-8031-906a-f755d611766e" dir="auto"/><h2 id="360f6ce8-497f-8034-87b3-d7461dc68971" style="display:inline-block" dir="auto">Uso comum</h2><ul id="360f6ce8-497f-803f-acb5-e548dfbaa76c" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Banner principal</li></ul><ul id="360f6ce8-497f-80b1-8700-d3797a9df94a" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Card em destaque</li></ul><ul id="360f6ce8-497f-80ff-a143-ec96ecd4dfdb" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Galeria de imagens</li></ul><ul id="360f6ce8-497f-808c-b989-c159735830d5" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Painéis administrativos</li></ul><ul id="360f6ce8-497f-804d-85b7-e2ca4b61e80a" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Layout de revistas/sites</li></ul><hr id="360f6ce8-497f-8058-b188-feef97943728" dir="auto"/><h2 id="360f6ce8-497f-8006-847e-e97d26dda39f" style="display:inline-block" dir="auto">Resumo final</h2><p id="360f6ce8-497f-8093-a8f6-ca5914ea2b15" class="" dir="auto">Mesclar linhas e colunas no CSS Grid significa fazer um elemento ocupar várias células da grade. Isso é feito com <code>grid-column</code> e <code>grid-row</code>, usando <code>span</code> ou linhas numeradas. É um recurso poderoso para criar layouts modernos, organizados e visualmente dinâmicos.</p></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

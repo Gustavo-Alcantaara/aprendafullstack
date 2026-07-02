@@ -1,4 +1,4 @@
-<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Do…while</title><style>
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Do…while</title><meta name="data-notion-page-icon" content="/icons/command-line_yellow.svg"/><link rel="icon" href="https://app.notion.com/icons/command-line_yellow.svg"/><style>
 /* cspell:disable-file */
 /* webkit printing magic: print all background colors */
 html {
@@ -88,7 +88,14 @@ h3 {
 	padding: 1rem;
 }
 
-figure {
+/* For default-background callouts, render the border outline. */
+.callout.block-color-default_background {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+figure,
+aside,
+details {
 	margin: 1.25em 0;
 	page-break-inside: avoid;
 }
@@ -184,7 +191,8 @@ img {
 	display: block;
 	font-size: 0.875rem;
 	line-height: 1.3;
-	padding: 0.125rem;
+	padding-inline: 0.125rem;
+	padding-block: 0.375rem;
 }
 
 .table_of_contents-indent-1 {
@@ -367,6 +375,17 @@ time {
 	margin-right: 0.5em;
 }
 
+/*
+ * Render emoji icons using a ::before pseudo-element to keep the glyph
+ * out of the DOM textContent traversal. This avoids double-rendering icons
+ * in callouts and page titles.
+ * NOTE(slim/html-export-pseudo-icons): I can't tagref this because it will
+ * flag as a duplicate tag after codegen.
+ */
+.icon[data-emoji]::before {
+	content: attr(data-emoji);
+}
+
 img.icon {
 	border-radius: 3px;
 }
@@ -440,8 +459,7 @@ td > time {
 }
 
 input[type="checkbox"] {
-	transform: scale(1.5);
-	margin-right: 0.6em;
+	margin-right: 0.4em;
 	vertical-align: middle;
 }
 
@@ -549,6 +567,12 @@ blockquote.quote-large {
 .bookmark-href {
 	font-size: 0.75em;
 	margin-top: 0.25em;
+}
+
+.tab {
+	margin: 1.25em 0;
+	padding-inline: 1rem;
+	border: 1px solid rgba(55, 53, 47, 0.09);
 }
 
 .sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
@@ -740,35 +764,35 @@ blockquote.quote-large {
 	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
 }
 	
-</style></head><body><article id="373f6ce8-497f-80cd-8b19-d3ce829e9ee6" class="page sans"><header><div class="page-header-icon undefined"><img class="icon notion-static-icon" src="https://app.notion.com/icons/command-line_yellow.svg"/></div><h1 class="page-title" dir="auto">Do…while</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><div style="display:contents" dir="auto"><h1 id="373f6ce8-497f-8042-ac09-e0423746a7de" class="">Estrutura <code>do...while</code> em JavaScript</h1></div><div style="display:contents" dir="auto"><p id="373f6ce8-497f-8027-9729-ca7aafbe0433" class="">A estrutura <code><strong>do...while</strong></code> é uma estrutura de repetição semelhante ao <code>while</code>, porém com uma diferença importante:</p></div><div style="display:contents" dir="auto"><p id="373f6ce8-497f-802b-bcc4-e0fa39bb0c58" class="">✅ O bloco de código é executado <strong>primeiro</strong> e a condição é verificada <strong>depois</strong>.</p></div><div style="display:contents" dir="auto"><p id="373f6ce8-497f-803d-991b-da8a871ae6ca" class="">Isso significa que o código será executado <strong>pelo menos uma vez</strong>, mesmo que a condição seja falsa.</p></div><div style="display:contents" dir="auto"><hr id="373f6ce8-497f-8081-a6a2-c037ea82a967"/></div><div style="display:contents" dir="auto"><h1 id="373f6ce8-497f-80e4-88e1-eb784b0e4887" class="">Sintaxe</h1></div><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-jsx.min.js" integrity="sha512-m3JYEI6gx5fh9jF10FjGoMzVKcV2N6nchcDcqPCdI1L3R2WQV7br2XVNR8iTLb2daOMRl3zldbcfT40xU2ntVw==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="373f6ce8-497f-80e2-90dd-ed7120a5a12f" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">do {
+</style><style>@import url('https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex-swap.min.css')</style></head><body><article id="373f6ce8-497f-80cd-8b19-d3ce829e9ee6" class="page sans" data-notion-page-icon="/icons/command-line_yellow.svg"><header><div class="page-header-icon undefined"><img class="icon notion-static-icon" src="https://app.notion.com/icons/command-line_yellow.svg"/></div><h1 class="page-title" dir="auto">Do…while</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><h1 id="373f6ce8-497f-8042-ac09-e0423746a7de" style="display:inline-block" dir="auto">Estrutura <code>do...while</code> em JavaScript</h1><p id="373f6ce8-497f-8027-9729-ca7aafbe0433" class="" dir="auto">A estrutura <code><strong>do...while</strong></code> é uma estrutura de repetição semelhante ao <code>while</code>, porém com uma diferença importante:</p><p id="373f6ce8-497f-802b-bcc4-e0fa39bb0c58" class="" dir="auto">✅ O bloco de código é executado <strong>primeiro</strong> e a condição é verificada <strong>depois</strong>.</p><p id="373f6ce8-497f-803d-991b-da8a871ae6ca" class="" dir="auto">Isso significa que o código será executado <strong>pelo menos uma vez</strong>, mesmo que a condição seja falsa.</p><hr id="373f6ce8-497f-8081-a6a2-c037ea82a967" dir="auto"/><h1 id="373f6ce8-497f-80e4-88e1-eb784b0e4887" style="display:inline-block" dir="auto">Sintaxe</h1><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-jsx.min.js" integrity="sha512-m3JYEI6gx5fh9jF10FjGoMzVKcV2N6nchcDcqPCdI1L3R2WQV7br2XVNR8iTLb2daOMRl3zldbcfT40xU2ntVw==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="373f6ce8-497f-80e2-90dd-ed7120a5a12f" class="code code-wrap" data-notion-code-syntax="jsx"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">do {
 // código a ser repetido
-}while (condicao);</code></pre></div><div style="display:contents" dir="auto"><p id="373f6ce8-497f-80ec-a88d-dc6a2a05aaa2" class="">Funcionamento:</p></div><div style="display:contents" dir="auto"><ol type="1" id="373f6ce8-497f-8049-a78c-c30b37e1536c" class="numbered-list" start="1"><li>Executa o bloco <code>do</code>.</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="373f6ce8-497f-802b-858c-f6defc0c671c" class="numbered-list" start="2"><li>Verifica a condição do <code>while</code>.</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="373f6ce8-497f-8096-bdc6-ec7c55f63d7b" class="numbered-list" start="3"><li>Se a condição for verdadeira, repete.</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="373f6ce8-497f-804c-836e-c88fc9ef5e44" class="numbered-list" start="4"><li>Se for falsa, encerra o loop.</li></ol></div><div style="display:contents" dir="auto"><hr id="373f6ce8-497f-8011-8fea-cb873e4caaa5"/></div><div style="display:contents" dir="auto"><h1 id="373f6ce8-497f-8003-b0cb-cc2b5a066cd9" class="">Exemplo básico</h1></div><div style="display:contents" dir="auto"><pre id="373f6ce8-497f-8032-a051-ec7716118df5" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">let contador = 1;
+}while (condicao);</code></pre><p id="373f6ce8-497f-80ec-a88d-dc6a2a05aaa2" class="" dir="auto">Funcionamento:</p><ol type="1" id="373f6ce8-497f-8049-a78c-c30b37e1536c" class="numbered-list" start="1" dir="auto"><li>Executa o bloco <code>do</code>.</li></ol><ol type="1" id="373f6ce8-497f-802b-858c-f6defc0c671c" class="numbered-list" start="2" dir="auto"><li>Verifica a condição do <code>while</code>.</li></ol><ol type="1" id="373f6ce8-497f-8096-bdc6-ec7c55f63d7b" class="numbered-list" start="3" dir="auto"><li>Se a condição for verdadeira, repete.</li></ol><ol type="1" id="373f6ce8-497f-804c-836e-c88fc9ef5e44" class="numbered-list" start="4" dir="auto"><li>Se for falsa, encerra o loop.</li></ol><hr id="373f6ce8-497f-8011-8fea-cb873e4caaa5" dir="auto"/><h1 id="373f6ce8-497f-8003-b0cb-cc2b5a066cd9" style="display:inline-block" dir="auto">Exemplo básico</h1><pre id="373f6ce8-497f-8032-a051-ec7716118df5" class="code code-wrap" data-notion-code-syntax="jsx"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">let contador = 1;
 
 do {
 console.log(contador);
 contador++;
-}while (contador &lt;= 5);</code></pre></div><div style="display:contents" dir="auto"><p id="373f6ce8-497f-8037-8719-d4b492410e75" class="">Resultado:</p></div><div style="display:contents" dir="auto"><pre id="373f6ce8-497f-8075-926d-ed05d506781b" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">1
+}while (contador &lt;= 5);</code></pre><p id="373f6ce8-497f-8037-8719-d4b492410e75" class="" dir="auto">Resultado:</p><pre id="373f6ce8-497f-8075-926d-ed05d506781b" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">1
 2
 3
 4
-5</code></pre></div><div style="display:contents" dir="auto"><hr id="373f6ce8-497f-802c-a1f6-ded87bb80b87"/></div><div style="display:contents" dir="auto"><h1 id="373f6ce8-497f-80fe-aea5-c58cce47b778" class="">Diferença para o <code>while</code></h1></div><div style="display:contents" dir="auto"><h2 id="373f6ce8-497f-80d7-b919-cafd978999ab" class="">While</h2></div><div style="display:contents" dir="auto"><pre id="373f6ce8-497f-8082-8553-d8f3a1e521ee" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">let contador = 10;
+5</code></pre><hr id="373f6ce8-497f-802c-a1f6-ded87bb80b87" dir="auto"/><h1 id="373f6ce8-497f-80fe-aea5-c58cce47b778" style="display:inline-block" dir="auto">Diferença para o <code>while</code></h1><h2 id="373f6ce8-497f-80d7-b919-cafd978999ab" style="display:inline-block" dir="auto">While</h2><pre id="373f6ce8-497f-8082-8553-d8f3a1e521ee" class="code code-wrap" data-notion-code-syntax="jsx"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">let contador = 10;
 
 while (contador &lt; 5) {
 console.log(contador);
-}</code></pre></div><div style="display:contents" dir="auto"><p id="373f6ce8-497f-80c0-a430-e3bfaa84a2f0" class="">Resultado:</p></div><div style="display:contents" dir="auto"><pre id="373f6ce8-497f-8071-a08a-dcab1a79b318" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">(nada acontece)</code></pre></div><div style="display:contents" dir="auto"><p id="373f6ce8-497f-8008-ba82-c35558dcf41a" class="">A condição é falsa logo no início.</p></div><div style="display:contents" dir="auto"><hr id="373f6ce8-497f-806b-a86e-c9a3881ed3ce"/></div><div style="display:contents" dir="auto"><h2 id="373f6ce8-497f-8089-9d96-e31a2cdc0049" class="">Do...While</h2></div><div style="display:contents" dir="auto"><pre id="373f6ce8-497f-8038-9524-d85e66612da6" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">let contador = 10;
+}</code></pre><p id="373f6ce8-497f-80c0-a430-e3bfaa84a2f0" class="" dir="auto">Resultado:</p><pre id="373f6ce8-497f-8071-a08a-dcab1a79b318" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">(nada acontece)</code></pre><p id="373f6ce8-497f-8008-ba82-c35558dcf41a" class="" dir="auto">A condição é falsa logo no início.</p><hr id="373f6ce8-497f-806b-a86e-c9a3881ed3ce" dir="auto"/><h2 id="373f6ce8-497f-8089-9d96-e31a2cdc0049" style="display:inline-block" dir="auto">Do...While</h2><pre id="373f6ce8-497f-8038-9524-d85e66612da6" class="code code-wrap" data-notion-code-syntax="jsx"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">let contador = 10;
 
 do {
 console.log(contador);
-}while (contador&lt;5);</code></pre></div><div style="display:contents" dir="auto"><p id="373f6ce8-497f-8095-be29-e3c2354605ae" class="">Resultado:</p></div><div style="display:contents" dir="auto"><pre id="373f6ce8-497f-8039-9699-cc95f1120ee9" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">10</code></pre></div><div style="display:contents" dir="auto"><p id="373f6ce8-497f-80ab-b6f1-f0c3293f562f" class="">Mesmo com a condição falsa, o bloco executa uma vez.</p></div><div style="display:contents" dir="auto"><hr id="373f6ce8-497f-8021-a68b-fa36e39322a8"/></div><div style="display:contents" dir="auto"><h1 id="373f6ce8-497f-80f3-8e24-d5c6d10043d8" class="">Exemplo com decremento</h1></div><div style="display:contents" dir="auto"><pre id="373f6ce8-497f-8022-94cc-d75a2820205c" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">let numero = 5;
+}while (contador&lt;5);</code></pre><p id="373f6ce8-497f-8095-be29-e3c2354605ae" class="" dir="auto">Resultado:</p><pre id="373f6ce8-497f-8039-9699-cc95f1120ee9" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">10</code></pre><p id="373f6ce8-497f-80ab-b6f1-f0c3293f562f" class="" dir="auto">Mesmo com a condição falsa, o bloco executa uma vez.</p><hr id="373f6ce8-497f-8021-a68b-fa36e39322a8" dir="auto"/><h1 id="373f6ce8-497f-80f3-8e24-d5c6d10043d8" style="display:inline-block" dir="auto">Exemplo com decremento</h1><pre id="373f6ce8-497f-8022-94cc-d75a2820205c" class="code code-wrap" data-notion-code-syntax="jsx"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">let numero = 5;
 
 do {
 console.log(numero);
 numero--;
-}while (numero &gt; 0);</code></pre></div><div style="display:contents" dir="auto"><p id="373f6ce8-497f-8092-b668-d8cb01cf1a88" class="">Resultado:</p></div><div style="display:contents" dir="auto"><pre id="373f6ce8-497f-80b5-8775-ff1193ad21f0" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">5
+}while (numero &gt; 0);</code></pre><p id="373f6ce8-497f-8092-b668-d8cb01cf1a88" class="" dir="auto">Resultado:</p><pre id="373f6ce8-497f-80b5-8775-ff1193ad21f0" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">5
 4
 3
 2
-1</code></pre></div><div style="display:contents" dir="auto"><hr id="373f6ce8-497f-80b3-af42-d420daf609cd"/></div><div style="display:contents" dir="auto"><h1 id="373f6ce8-497f-80a3-ad32-ccc6f23c1c86" class="">Utilizando <code>break</code></h1></div><div style="display:contents" dir="auto"><pre id="373f6ce8-497f-8049-87df-dbfab3717c51" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">let i = 1;
+1</code></pre><hr id="373f6ce8-497f-80b3-af42-d420daf609cd" dir="auto"/><h1 id="373f6ce8-497f-80a3-ad32-ccc6f23c1c86" style="display:inline-block" dir="auto">Utilizando <code>break</code></h1><pre id="373f6ce8-497f-8049-87df-dbfab3717c51" class="code code-wrap" data-notion-code-syntax="jsx"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">let i = 1;
 
 do {
 console.log(i);
@@ -779,9 +803,9 @@ break;
 
 i++;
 
-}while (i&lt;=5);</code></pre></div><div style="display:contents" dir="auto"><p id="373f6ce8-497f-80d3-bd80-f7d511d93727" class="">Resultado:</p></div><div style="display:contents" dir="auto"><pre id="373f6ce8-497f-80c8-a74d-da20db945184" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">1
+}while (i&lt;=5);</code></pre><p id="373f6ce8-497f-80d3-bd80-f7d511d93727" class="" dir="auto">Resultado:</p><pre id="373f6ce8-497f-80c8-a74d-da20db945184" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">1
 2
-3</code></pre></div><div style="display:contents" dir="auto"><hr id="373f6ce8-497f-804a-a90b-d5c441934d14"/></div><div style="display:contents" dir="auto"><h1 id="373f6ce8-497f-800a-85e3-f05b6b639b1b" class="">Utilizando <code>continue</code></h1></div><div style="display:contents" dir="auto"><pre id="373f6ce8-497f-80f8-ba1e-faac86f02674" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">let i = 0;
+3</code></pre><hr id="373f6ce8-497f-804a-a90b-d5c441934d14" dir="auto"/><h1 id="373f6ce8-497f-800a-85e3-f05b6b639b1b" style="display:inline-block" dir="auto">Utilizando <code>continue</code></h1><pre id="373f6ce8-497f-80f8-ba1e-faac86f02674" class="code code-wrap" data-notion-code-syntax="jsx"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">let i = 0;
 
 do {
 i++;
@@ -792,14 +816,14 @@ continue;
 
 console.log(i);
 
-}while (i&lt;5);</code></pre></div><div style="display:contents" dir="auto"><p id="373f6ce8-497f-8075-b38d-e00e11e66354" class="">Resultado:</p></div><div style="display:contents" dir="auto"><pre id="373f6ce8-497f-8083-9cfa-f6801b60b3aa" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">1
+}while (i&lt;5);</code></pre><p id="373f6ce8-497f-8075-b38d-e00e11e66354" class="" dir="auto">Resultado:</p><pre id="373f6ce8-497f-8083-9cfa-f6801b60b3aa" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">1
 2
 4
-5</code></pre></div><div style="display:contents" dir="auto"><hr id="373f6ce8-497f-8033-9d6b-f0cc33f542ee"/></div><div style="display:contents" dir="auto"><h1 id="373f6ce8-497f-8017-8c18-d9dfa67716f4" class="">Exemplo prático: menu</h1></div><div style="display:contents" dir="auto"><pre id="373f6ce8-497f-8072-a87a-fcb76d79846f" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">let opcao;
+5</code></pre><hr id="373f6ce8-497f-8033-9d6b-f0cc33f542ee" dir="auto"/><h1 id="373f6ce8-497f-8017-8c18-d9dfa67716f4" style="display:inline-block" dir="auto">Exemplo prático: menu</h1><pre id="373f6ce8-497f-8072-a87a-fcb76d79846f" class="code code-wrap" data-notion-code-syntax="jsx"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">let opcao;
 
 do {
 opcao = prompt(
 &quot;1 - Iniciar\n2 - Configurações\n0 - Sair&quot;
   );
 
-}while (opcao !== &quot;0&quot;);</code></pre></div><div style="display:contents" dir="auto"><p id="373f6ce8-497f-8017-a4ba-ed2919118b33" class="">O menu continuará aparecendo até o usuário escolher sair.</p></div><div style="display:contents" dir="auto"><hr id="373f6ce8-497f-80ef-a774-e455439d57d2"/></div><div style="display:contents" dir="auto"><h1 id="373f6ce8-497f-80de-a8cd-f07702fe1108" class="">Quando usar <code>do...while</code>?</h1></div><div style="display:contents" dir="auto"><p id="373f6ce8-497f-8001-8e9c-e78d39096438" class="">É útil quando a ação precisa ocorrer pelo menos uma vez, como:</p></div><div style="display:contents" dir="auto"><ul id="373f6ce8-497f-8005-acb1-e9626d56125c" class="bulleted-list"><li style="list-style-type:disc">Menus de sistemas</li></ul></div><div style="display:contents" dir="auto"><ul id="373f6ce8-497f-80e8-917a-f962edaad264" class="bulleted-list"><li style="list-style-type:disc">Validação de entrada</li></ul></div><div style="display:contents" dir="auto"><ul id="373f6ce8-497f-809e-a5c9-c653f60c421f" class="bulleted-list"><li style="list-style-type:disc">Jogos</li></ul></div><div style="display:contents" dir="auto"><ul id="373f6ce8-497f-8078-b5b8-c79275f492cb" class="bulleted-list"><li style="list-style-type:disc">Formulários</li></ul></div><div style="display:contents" dir="auto"><ul id="373f6ce8-497f-8044-9e59-f621903922a6" class="bulleted-list"><li style="list-style-type:disc">Solicitação de senha</li></ul></div><div style="display:contents" dir="auto"><hr id="373f6ce8-497f-8035-8c78-f6fdbd60fee5"/></div><div style="display:contents" dir="auto"><h1 id="373f6ce8-497f-80a2-a0d6-e50a564fad7f" class="">Comparação</h1></div><div style="display:contents" dir="ltr"><table id="373f6ce8-497f-804c-8bf1-f7ad54e0a4d5" class="simple-table"><thead class="simple-table-header"><div style="display:contents" dir="ltr"><tr id="373f6ce8-497f-807c-b092-cda94b562d91"><th id="f:i|" class="simple-table-header-color simple-table-header">Estrutura</th><th id="TIKP" class="simple-table-header-color simple-table-header">Verifica condição</th></tr></div></thead><tbody><div style="display:contents" dir="ltr"><tr id="373f6ce8-497f-80fb-b4e5-c1e8a8f436c1"><td id="f:i|" class=""><code>while</code></td><td id="TIKP" class="">Antes da execução</td></tr></div><div style="display:contents" dir="ltr"><tr id="373f6ce8-497f-80c2-a1f6-f552b1593edf"><td id="f:i|" class=""><code>do...while</code></td><td id="TIKP" class="">Depois da execução</td></tr></div></tbody></table></div><div style="display:contents" dir="auto"><hr id="373f6ce8-497f-8030-86ad-e9039d9cd158"/></div><div style="display:contents" dir="auto"><h1 id="373f6ce8-497f-807a-9152-ed5160fb8648" class="">Resumindo</h1></div><div style="display:contents" dir="auto"><p id="373f6ce8-497f-803c-af26-c24ae4b461b5" class="">A estrutura <code>do...while</code> executa um bloco de código e só depois verifica a condição de repetição.</p></div><div style="display:contents" dir="auto"><p id="373f6ce8-497f-803f-a46b-eaf87ed8e2a4" class="">Suas principais características são:</p></div><div style="display:contents" dir="auto"><ul id="373f6ce8-497f-80a2-923d-e6dc2636184d" class="bulleted-list"><li style="list-style-type:disc">Executa pelo menos uma vez.</li></ul></div><div style="display:contents" dir="auto"><ul id="373f6ce8-497f-80f6-b678-c5c60f89b394" class="bulleted-list"><li style="list-style-type:disc">A condição é testada no final.</li></ul></div><div style="display:contents" dir="auto"><ul id="373f6ce8-497f-801b-b947-e45fad51ff9a" class="bulleted-list"><li style="list-style-type:disc">Muito usada em menus e validações.</li></ul></div><div style="display:contents" dir="auto"><ul id="373f6ce8-497f-80cd-8636-d5c85ffcd6cb" class="bulleted-list"><li style="list-style-type:disc">Pode utilizar <code>break</code> e <code>continue</code>.</li></ul></div><div style="display:contents" dir="auto"><p id="373f6ce8-497f-807b-b299-c341a3c2962f" class="">É uma estrutura importante da linguagem JavaScript para situações em que a primeira execução é obrigatória.</p></div></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>
+}while (opcao !== &quot;0&quot;);</code></pre><p id="373f6ce8-497f-8017-a4ba-ed2919118b33" class="" dir="auto">O menu continuará aparecendo até o usuário escolher sair.</p><hr id="373f6ce8-497f-80ef-a774-e455439d57d2" dir="auto"/><h1 id="373f6ce8-497f-80de-a8cd-f07702fe1108" style="display:inline-block" dir="auto">Quando usar <code>do...while</code>?</h1><p id="373f6ce8-497f-8001-8e9c-e78d39096438" class="" dir="auto">É útil quando a ação precisa ocorrer pelo menos uma vez, como:</p><ul id="373f6ce8-497f-8005-acb1-e9626d56125c" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Menus de sistemas</li></ul><ul id="373f6ce8-497f-80e8-917a-f962edaad264" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Validação de entrada</li></ul><ul id="373f6ce8-497f-809e-a5c9-c653f60c421f" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Jogos</li></ul><ul id="373f6ce8-497f-8078-b5b8-c79275f492cb" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Formulários</li></ul><ul id="373f6ce8-497f-8044-9e59-f621903922a6" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Solicitação de senha</li></ul><hr id="373f6ce8-497f-8035-8c78-f6fdbd60fee5" dir="auto"/><h1 id="373f6ce8-497f-80a2-a0d6-e50a564fad7f" style="display:inline-block" dir="auto">Comparação</h1><table id="373f6ce8-497f-804c-8bf1-f7ad54e0a4d5" class="simple-table" dir="ltr"><thead class="simple-table-header"><tr id="373f6ce8-497f-807c-b092-cda94b562d91" dir="ltr"><th id="f:i|" class="simple-table-header-color simple-table-header">Estrutura</th><th id="TIKP" class="simple-table-header-color simple-table-header">Verifica condição</th></tr></thead><tbody><tr id="373f6ce8-497f-80fb-b4e5-c1e8a8f436c1" dir="ltr"><td id="f:i|" class=""><code>while</code></td><td id="TIKP" class="">Antes da execução</td></tr><tr id="373f6ce8-497f-80c2-a1f6-f552b1593edf" dir="ltr"><td id="f:i|" class=""><code>do...while</code></td><td id="TIKP" class="">Depois da execução</td></tr></tbody></table><hr id="373f6ce8-497f-8030-86ad-e9039d9cd158" dir="auto"/><h1 id="373f6ce8-497f-807a-9152-ed5160fb8648" style="display:inline-block" dir="auto">Resumindo</h1><p id="373f6ce8-497f-803c-af26-c24ae4b461b5" class="" dir="auto">A estrutura <code>do...while</code> executa um bloco de código e só depois verifica a condição de repetição.</p><p id="373f6ce8-497f-803f-a46b-eaf87ed8e2a4" class="" dir="auto">Suas principais características são:</p><ul id="373f6ce8-497f-80a2-923d-e6dc2636184d" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Executa pelo menos uma vez.</li></ul><ul id="373f6ce8-497f-80f6-b678-c5c60f89b394" class="bulleted-list" dir="auto"><li style="list-style-type:disc">A condição é testada no final.</li></ul><ul id="373f6ce8-497f-801b-b947-e45fad51ff9a" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Muito usada em menus e validações.</li></ul><ul id="373f6ce8-497f-80cd-8636-d5c85ffcd6cb" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Pode utilizar <code>break</code> e <code>continue</code>.</li></ul><p id="373f6ce8-497f-807b-b299-c341a3c2962f" class="" dir="auto">É uma estrutura importante da linguagem JavaScript para situações em que a primeira execução é obrigatória.</p></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

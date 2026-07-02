@@ -1,4 +1,4 @@
-<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Template Areas</title><style>
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Template Areas</title><meta name="data-notion-page-icon" content="/icons/snippet_blue.svg"/><link rel="icon" href="https://app.notion.com/icons/snippet_blue.svg"/><style>
 /* cspell:disable-file */
 /* webkit printing magic: print all background colors */
 html {
@@ -88,7 +88,14 @@ h3 {
 	padding: 1rem;
 }
 
-figure {
+/* For default-background callouts, render the border outline. */
+.callout.block-color-default_background {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+figure,
+aside,
+details {
 	margin: 1.25em 0;
 	page-break-inside: avoid;
 }
@@ -184,7 +191,8 @@ img {
 	display: block;
 	font-size: 0.875rem;
 	line-height: 1.3;
-	padding: 0.125rem;
+	padding-inline: 0.125rem;
+	padding-block: 0.375rem;
 }
 
 .table_of_contents-indent-1 {
@@ -367,6 +375,17 @@ time {
 	margin-right: 0.5em;
 }
 
+/*
+ * Render emoji icons using a ::before pseudo-element to keep the glyph
+ * out of the DOM textContent traversal. This avoids double-rendering icons
+ * in callouts and page titles.
+ * NOTE(slim/html-export-pseudo-icons): I can't tagref this because it will
+ * flag as a duplicate tag after codegen.
+ */
+.icon[data-emoji]::before {
+	content: attr(data-emoji);
+}
+
 img.icon {
 	border-radius: 3px;
 }
@@ -440,8 +459,7 @@ td > time {
 }
 
 input[type="checkbox"] {
-	transform: scale(1.5);
-	margin-right: 0.6em;
+	margin-right: 0.4em;
 	vertical-align: middle;
 }
 
@@ -549,6 +567,12 @@ blockquote.quote-large {
 .bookmark-href {
 	font-size: 0.75em;
 	margin-top: 0.25em;
+}
+
+.tab {
+	margin: 1.25em 0;
+	padding-inline: 1rem;
+	border: 1px solid rgba(55, 53, 47, 0.09);
 }
 
 .sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
@@ -740,19 +764,19 @@ blockquote.quote-large {
 	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
 }
 	
-</style></head><body><article id="360f6ce8-497f-809b-a53a-c0966b8ef54b" class="page sans"><header><div class="page-header-icon undefined"><img class="icon notion-static-icon" src="https://app.notion.com/icons/snippet_blue.svg"/></div><h1 class="page-title" dir="auto">Template Areas</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><div style="display:contents" dir="auto"><p id="360f6ce8-497f-8090-9abe-c9ea3385e298" class="">No <strong>CSS Grid</strong>, a propriedade <code><strong>grid-template-areas</strong></code> serve para <strong>desenhar visualmente o layout da página</strong>, nomeando regiões da grade. É uma das formas mais organizadas e intuitivas de montar estruturas como <strong>header, menu, conteúdo principal, sidebar e footer</strong>.</p></div><div style="display:contents" dir="auto"><p id="360f6ce8-497f-8039-b4f2-d571b07a7507" class="">Em vez de posicionar elementos por números de linhas e colunas, você escreve o layout como se fosse um mapa.</p></div><div style="display:contents" dir="auto"><hr id="360f6ce8-497f-80be-a255-f99025a739a5"/></div><div style="display:contents" dir="auto"><h1 id="360f6ce8-497f-802d-a660-d3bfa9a0b5f5" class="">Como funciona</h1></div><div style="display:contents" dir="auto"><p id="360f6ce8-497f-80c0-8f4a-f85c62f725af" class="">Cada texto entre aspas representa <strong>uma linha da grade</strong>, e cada palavra representa <strong>uma área</strong>.</p></div><div style="display:contents" dir="auto"><p id="360f6ce8-497f-80ca-b336-e585e56cb92f" class="">Exemplo:</p></div><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="360f6ce8-497f-80ff-9b54-d9ad15840a18" class="code code-wrap"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">.container {
+</style><style>@import url('https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex-swap.min.css')</style></head><body><article id="360f6ce8-497f-809b-a53a-c0966b8ef54b" class="page sans" data-notion-page-icon="/icons/snippet_blue.svg"><header><div class="page-header-icon undefined"><img class="icon notion-static-icon" src="https://app.notion.com/icons/snippet_blue.svg"/></div><h1 class="page-title" dir="auto">Template Areas</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><p id="360f6ce8-497f-8090-9abe-c9ea3385e298" class="" dir="auto">No <strong>CSS Grid</strong>, a propriedade <code><strong>grid-template-areas</strong></code> serve para <strong>desenhar visualmente o layout da página</strong>, nomeando regiões da grade. É uma das formas mais organizadas e intuitivas de montar estruturas como <strong>header, menu, conteúdo principal, sidebar e footer</strong>.</p><p id="360f6ce8-497f-8039-b4f2-d571b07a7507" class="" dir="auto">Em vez de posicionar elementos por números de linhas e colunas, você escreve o layout como se fosse um mapa.</p><hr id="360f6ce8-497f-80be-a255-f99025a739a5" dir="auto"/><h1 id="360f6ce8-497f-802d-a660-d3bfa9a0b5f5" style="display:inline-block" dir="auto">Como funciona</h1><p id="360f6ce8-497f-80c0-8f4a-f85c62f725af" class="" dir="auto">Cada texto entre aspas representa <strong>uma linha da grade</strong>, e cada palavra representa <strong>uma área</strong>.</p><p id="360f6ce8-497f-80ca-b336-e585e56cb92f" class="" dir="auto">Exemplo:</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="360f6ce8-497f-80ff-9b54-d9ad15840a18" class="code code-wrap" data-notion-code-syntax="css"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">.container {
   display:grid;
   grid-template-areas:
 &quot;header header&quot;
 &quot;menu main&quot;
 &quot;footer footer&quot;;
-}</code></pre></div><div style="display:contents" dir="auto"><p id="360f6ce8-497f-8051-aed3-c90f6fcb7e94" class="">Layout visual:</p></div><div style="display:contents" dir="auto"><pre id="360f6ce8-497f-806d-a211-e069be4aa09c" class="code code-wrap"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">header  header
+}</code></pre><p id="360f6ce8-497f-8051-aed3-c90f6fcb7e94" class="" dir="auto">Layout visual:</p><pre id="360f6ce8-497f-806d-a211-e069be4aa09c" class="code code-wrap" data-notion-code-syntax="css"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">header  header
 menu    main
-footer  footer</code></pre></div><div style="display:contents" dir="auto"><hr id="360f6ce8-497f-80f5-9568-ddfc025e1d79"/></div><div style="display:contents" dir="auto"><h1 id="360f6ce8-497f-80a9-b479-d32ce02c7b23" class="">Ligando os elementos</h1></div><div style="display:contents" dir="auto"><p id="360f6ce8-497f-80ac-9302-f8284dc20343" class="">Depois cada item recebe o nome da área:</p></div><div style="display:contents" dir="auto"><pre id="360f6ce8-497f-80a9-a7cb-f8a2263f9887" class="code code-wrap"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">.header { grid-area:header; }
+footer  footer</code></pre><hr id="360f6ce8-497f-80f5-9568-ddfc025e1d79" dir="auto"/><h1 id="360f6ce8-497f-80a9-b479-d32ce02c7b23" style="display:inline-block" dir="auto">Ligando os elementos</h1><p id="360f6ce8-497f-80ac-9302-f8284dc20343" class="" dir="auto">Depois cada item recebe o nome da área:</p><pre id="360f6ce8-497f-80a9-a7cb-f8a2263f9887" class="code code-wrap" data-notion-code-syntax="css"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">.header { grid-area:header; }
 .menu   { grid-area:menu; }
 .main   { grid-area:main; }
-.footer { grid-area:footer; }</code></pre></div><div style="display:contents" dir="auto"><p id="360f6ce8-497f-807d-b282-fcc5a057d937" class="">Assim, cada elemento vai automaticamente para sua posição.</p></div><div style="display:contents" dir="auto"><hr id="360f6ce8-497f-800e-b73e-d9a06a9992be"/></div><div style="display:contents" dir="auto"><h1 id="360f6ce8-497f-80c6-80fe-c249d7936bc2" class="">Definindo colunas e linhas</h1></div><div style="display:contents" dir="auto"><p id="360f6ce8-497f-8028-a651-e416c92aeea2" class="">Normalmente <code>grid-template-areas</code> é usado junto com:</p></div><div style="display:contents" dir="auto"><pre id="360f6ce8-497f-80ab-a87e-e0c3ae711792" class="code code-wrap"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">grid-template-columns
-grid-template-rows</code></pre></div><div style="display:contents" dir="auto"><p id="360f6ce8-497f-8055-b105-c500a1eb7eb1" class="">Exemplo:</p></div><div style="display:contents" dir="auto"><pre id="360f6ce8-497f-803b-97bc-cb0d88c420c3" class="code code-wrap"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">.container {
+.footer { grid-area:footer; }</code></pre><p id="360f6ce8-497f-807d-b282-fcc5a057d937" class="" dir="auto">Assim, cada elemento vai automaticamente para sua posição.</p><hr id="360f6ce8-497f-800e-b73e-d9a06a9992be" dir="auto"/><h1 id="360f6ce8-497f-80c6-80fe-c249d7936bc2" style="display:inline-block" dir="auto">Definindo colunas e linhas</h1><p id="360f6ce8-497f-8028-a651-e416c92aeea2" class="" dir="auto">Normalmente <code>grid-template-areas</code> é usado junto com:</p><pre id="360f6ce8-497f-80ab-a87e-e0c3ae711792" class="code code-wrap" data-notion-code-syntax="css"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">grid-template-columns
+grid-template-rows</code></pre><p id="360f6ce8-497f-8055-b105-c500a1eb7eb1" class="" dir="auto">Exemplo:</p><pre id="360f6ce8-497f-803b-97bc-cb0d88c420c3" class="code code-wrap" data-notion-code-syntax="css"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">.container {
   display:grid;
   grid-template-columns:200px1fr;
   grid-template-rows:80px1fr60px;
@@ -760,10 +784,10 @@ grid-template-rows</code></pre></div><div style="display:contents" dir="auto"><p
 &quot;header header&quot;
 &quot;menu main&quot;
 &quot;footer footer&quot;;
-}</code></pre></div><div style="display:contents" dir="auto"><hr id="360f6ce8-497f-801e-b05d-e84a5db320e9"/></div><div style="display:contents" dir="auto"><h1 id="360f6ce8-497f-8016-9f91-fac5d37c1737" class="">Mesclando áreas</h1></div><div style="display:contents" dir="auto"><p id="360f6ce8-497f-8077-a219-e9e7cb035874" class="">Quando o mesmo nome aparece lado a lado, a área ocupa várias colunas ou linhas.</p></div><div style="display:contents" dir="auto"><pre id="360f6ce8-497f-80b5-8606-d1c4dc522611" class="code code-wrap"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">&quot;header header&quot;</code></pre></div><div style="display:contents" dir="auto"><p id="360f6ce8-497f-80c5-a746-e415dc15ae90" class="">O <code>header</code> ocupa 2 colunas.</p></div><div style="display:contents" dir="auto"><hr id="360f6ce8-497f-8017-bf62-d9f4e9f02446"/></div><div style="display:contents" dir="auto"><h1 id="360f6ce8-497f-801c-859d-eede95036b2c" class="">Área vazia</h1></div><div style="display:contents" dir="auto"><p id="360f6ce8-497f-8014-8b3c-fed23c1fb64e" class="">Use <code>.</code> para espaço vazio:</p></div><div style="display:contents" dir="auto"><pre id="360f6ce8-497f-80ad-bad7-cb8b1027053c" class="code code-wrap"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">grid-template-areas:
+}</code></pre><hr id="360f6ce8-497f-801e-b05d-e84a5db320e9" dir="auto"/><h1 id="360f6ce8-497f-8016-9f91-fac5d37c1737" style="display:inline-block" dir="auto">Mesclando áreas</h1><p id="360f6ce8-497f-8077-a219-e9e7cb035874" class="" dir="auto">Quando o mesmo nome aparece lado a lado, a área ocupa várias colunas ou linhas.</p><pre id="360f6ce8-497f-80b5-8606-d1c4dc522611" class="code code-wrap" data-notion-code-syntax="css"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">&quot;header header&quot;</code></pre><p id="360f6ce8-497f-80c5-a746-e415dc15ae90" class="" dir="auto">O <code>header</code> ocupa 2 colunas.</p><hr id="360f6ce8-497f-8017-bf62-d9f4e9f02446" dir="auto"/><h1 id="360f6ce8-497f-801c-859d-eede95036b2c" style="display:inline-block" dir="auto">Área vazia</h1><p id="360f6ce8-497f-8014-8b3c-fed23c1fb64e" class="" dir="auto">Use <code>.</code> para espaço vazio:</p><pre id="360f6ce8-497f-80ad-bad7-cb8b1027053c" class="code code-wrap" data-notion-code-syntax="css"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">grid-template-areas:
 &quot;header header&quot;
 &quot;menu .&quot;
-&quot;footer footer&quot;;</code></pre></div><div style="display:contents" dir="auto"><p id="360f6ce8-497f-80af-a410-c17fcff473c9" class="">O ponto representa célula sem conteúdo.</p></div><div style="display:contents" dir="auto"><hr id="360f6ce8-497f-806b-8dd2-ca5559aa8ac0"/></div><div style="display:contents" dir="auto"><h1 id="360f6ce8-497f-802b-81db-fb1975db9639" class="">Exemplo completo</h1></div><div style="display:contents" dir="auto"><pre id="360f6ce8-497f-804a-aa1b-fc896132e6ff" class="code code-wrap"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">.container {
+&quot;footer footer&quot;;</code></pre><p id="360f6ce8-497f-80af-a410-c17fcff473c9" class="" dir="auto">O ponto representa célula sem conteúdo.</p><hr id="360f6ce8-497f-806b-8dd2-ca5559aa8ac0" dir="auto"/><h1 id="360f6ce8-497f-802b-81db-fb1975db9639" style="display:inline-block" dir="auto">Exemplo completo</h1><pre id="360f6ce8-497f-804a-aa1b-fc896132e6ff" class="code code-wrap" data-notion-code-syntax="css"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">.container {
   display:grid;
   grid-template-columns:1fr3fr;
   gap:10px;
@@ -777,7 +801,7 @@ grid-template-rows</code></pre></div><div style="display:contents" dir="auto"><p
 .topo      { grid-area:topo; }
 .lateral   { grid-area:lateral; }
 .conteudo  { grid-area:conteudo; }
-.rodape    { grid-area:rodape; }</code></pre></div><div style="display:contents" dir="auto"><hr id="360f6ce8-497f-80f6-8e2d-f651a55b7a34"/></div><div style="display:contents" dir="auto"><h1 id="360f6ce8-497f-809b-bb4f-e2dd500ba9f4" class="">Responsividade</h1></div><div style="display:contents" dir="auto"><p id="360f6ce8-497f-805e-bcde-d6523996075f" class="">Muito útil para mudar layout no mobile:</p></div><div style="display:contents" dir="auto"><pre id="360f6ce8-497f-806d-82e1-c185c36a791d" class="code code-wrap"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">@media (max-width:768px) {
+.rodape    { grid-area:rodape; }</code></pre><hr id="360f6ce8-497f-80f6-8e2d-f651a55b7a34" dir="auto"/><h1 id="360f6ce8-497f-809b-bb4f-e2dd500ba9f4" style="display:inline-block" dir="auto">Responsividade</h1><p id="360f6ce8-497f-805e-bcde-d6523996075f" class="" dir="auto">Muito útil para mudar layout no mobile:</p><pre id="360f6ce8-497f-806d-82e1-c185c36a791d" class="code code-wrap" data-notion-code-syntax="css"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">@media (max-width:768px) {
   .container {
     grid-template-areas:
 &quot;topo&quot;
@@ -785,4 +809,4 @@ grid-template-rows</code></pre></div><div style="display:contents" dir="auto"><p
 &quot;conteudo&quot;
 &quot;rodape&quot;;
   }
-}</code></pre></div><div style="display:contents" dir="auto"><hr id="360f6ce8-497f-80e8-a8eb-ee7434aa3fcf"/></div><div style="display:contents" dir="auto"><h1 id="360f6ce8-497f-803a-aab7-c408d93cca3c" class="">Vantagens</h1></div><div style="display:contents" dir="auto"><ul id="360f6ce8-497f-800e-b153-dda470cd85f0" class="bulleted-list"><li style="list-style-type:disc">Layout visual e fácil de entender</li></ul></div><div style="display:contents" dir="auto"><ul id="360f6ce8-497f-8073-bb5b-c4f5b129e981" class="bulleted-list"><li style="list-style-type:disc">Código limpo</li></ul></div><div style="display:contents" dir="auto"><ul id="360f6ce8-497f-801f-a5a6-d08683714bd6" class="bulleted-list"><li style="list-style-type:disc">Manutenção simples</li></ul></div><div style="display:contents" dir="auto"><ul id="360f6ce8-497f-80ea-9c1d-d45f364b1330" class="bulleted-list"><li style="list-style-type:disc">Excelente para páginas completas</li></ul></div><div style="display:contents" dir="auto"><ul id="360f6ce8-497f-80e1-ab90-dea6269d5837" class="bulleted-list"><li style="list-style-type:disc">Fácil adaptação responsiva</li></ul></div><div style="display:contents" dir="auto"><hr id="360f6ce8-497f-80d5-8807-e9c61a7ec171"/></div><div style="display:contents" dir="auto"><h1 id="360f6ce8-497f-803a-8b6a-d499494b2172" class="">Resumo final</h1></div><div style="display:contents" dir="auto"><p id="360f6ce8-497f-80b2-ae37-cad245b34f1e" class="">A propriedade <code><strong>grid-template-areas</strong></code> permite criar layouts no CSS Grid de forma visual, nomeando regiões da grade como <code>header</code>, <code>menu</code>, <code>main</code> e <code>footer</code>. Depois os elementos são ligados com <code>grid-area</code>. É uma das maneiras mais profissionais e organizadas de estruturar páginas modernas.</p></div></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>
+}</code></pre><hr id="360f6ce8-497f-80e8-a8eb-ee7434aa3fcf" dir="auto"/><h1 id="360f6ce8-497f-803a-aab7-c408d93cca3c" style="display:inline-block" dir="auto">Vantagens</h1><ul id="360f6ce8-497f-800e-b153-dda470cd85f0" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Layout visual e fácil de entender</li></ul><ul id="360f6ce8-497f-8073-bb5b-c4f5b129e981" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Código limpo</li></ul><ul id="360f6ce8-497f-801f-a5a6-d08683714bd6" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Manutenção simples</li></ul><ul id="360f6ce8-497f-80ea-9c1d-d45f364b1330" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Excelente para páginas completas</li></ul><ul id="360f6ce8-497f-80e1-ab90-dea6269d5837" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Fácil adaptação responsiva</li></ul><hr id="360f6ce8-497f-80d5-8807-e9c61a7ec171" dir="auto"/><h1 id="360f6ce8-497f-803a-8b6a-d499494b2172" style="display:inline-block" dir="auto">Resumo final</h1><p id="360f6ce8-497f-80b2-ae37-cad245b34f1e" class="" dir="auto">A propriedade <code><strong>grid-template-areas</strong></code> permite criar layouts no CSS Grid de forma visual, nomeando regiões da grade como <code>header</code>, <code>menu</code>, <code>main</code> e <code>footer</code>. Depois os elementos são ligados com <code>grid-area</code>. É uma das maneiras mais profissionais e organizadas de estruturar páginas modernas.</p></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

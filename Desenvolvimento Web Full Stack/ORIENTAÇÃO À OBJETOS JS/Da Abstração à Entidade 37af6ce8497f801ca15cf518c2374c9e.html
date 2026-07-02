@@ -1,4 +1,4 @@
-<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Da Abstração à Entidade</title><style>
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Da Abstração à Entidade</title><meta name="data-notion-page-icon" content="/icons/command-line_yellow.svg"/><link rel="icon" href="https://app.notion.com/icons/command-line_yellow.svg"/><style>
 /* cspell:disable-file */
 /* webkit printing magic: print all background colors */
 html {
@@ -88,7 +88,14 @@ h3 {
 	padding: 1rem;
 }
 
-figure {
+/* For default-background callouts, render the border outline. */
+.callout.block-color-default_background {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+figure,
+aside,
+details {
 	margin: 1.25em 0;
 	page-break-inside: avoid;
 }
@@ -184,7 +191,8 @@ img {
 	display: block;
 	font-size: 0.875rem;
 	line-height: 1.3;
-	padding: 0.125rem;
+	padding-inline: 0.125rem;
+	padding-block: 0.375rem;
 }
 
 .table_of_contents-indent-1 {
@@ -367,6 +375,17 @@ time {
 	margin-right: 0.5em;
 }
 
+/*
+ * Render emoji icons using a ::before pseudo-element to keep the glyph
+ * out of the DOM textContent traversal. This avoids double-rendering icons
+ * in callouts and page titles.
+ * NOTE(slim/html-export-pseudo-icons): I can't tagref this because it will
+ * flag as a duplicate tag after codegen.
+ */
+.icon[data-emoji]::before {
+	content: attr(data-emoji);
+}
+
 img.icon {
 	border-radius: 3px;
 }
@@ -440,8 +459,7 @@ td > time {
 }
 
 input[type="checkbox"] {
-	transform: scale(1.5);
-	margin-right: 0.6em;
+	margin-right: 0.4em;
 	vertical-align: middle;
 }
 
@@ -549,6 +567,12 @@ blockquote.quote-large {
 .bookmark-href {
 	font-size: 0.75em;
 	margin-top: 0.25em;
+}
+
+.tab {
+	margin: 1.25em 0;
+	padding-inline: 1rem;
+	border: 1px solid rgba(55, 53, 47, 0.09);
 }
 
 .sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
@@ -740,20 +764,20 @@ blockquote.quote-large {
 	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
 }
 	
-</style></head><body><article id="37af6ce8-497f-801c-a15c-f518c2374c9e" class="page sans"><header><div class="page-header-icon undefined"><img class="icon notion-static-icon" src="https://app.notion.com/icons/command-line_yellow.svg"/></div><h1 class="page-title" dir="auto">Da Abstração à Entidade</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><div style="display:contents" dir="auto"><h1 id="37af6ce8-497f-8031-ba94-c00e44538133" class="">Da Abstração à Entidade</h1></div><div style="display:contents" dir="auto"><p id="37af6ce8-497f-808e-b820-d9a5d003cddc" class="">Quando desenvolvemos um sistema utilizando Orientação a Objetos, geralmente seguimos um processo que começa na <strong>abstração</strong> e termina na criação de uma <strong>entidade</strong>. Esse processo consiste em observar um elemento do mundo real, identificar o que é importante nele e representá-lo através de uma classe ou objeto.</p></div><div style="display:contents" dir="auto"><h2 id="37af6ce8-497f-8027-93af-e45bba4f3635" class="">1. Abstração</h2></div><div style="display:contents" dir="auto"><p id="37af6ce8-497f-80d0-a849-e2e527376bac" class="">A abstração é o primeiro passo. Nela, analisamos um objeto ou conceito do mundo real e selecionamos apenas as informações relevantes para o sistema, ignorando detalhes desnecessários.</p></div><div style="display:contents" dir="auto"><p id="37af6ce8-497f-80bb-8394-f3a1f59e6f74" class="">Por exemplo, imagine que estamos desenvolvendo um sistema para uma escola e precisamos representar um aluno.</p></div><div style="display:contents" dir="auto"><p id="37af6ce8-497f-8060-9411-cd428c87c652" class="">No mundo real, um aluno possui inúmeras características:</p></div><div style="display:contents" dir="auto"><ul id="37af6ce8-497f-8036-a850-e1343d52cd2f" class="bulleted-list"><li style="list-style-type:disc">Altura</li></ul></div><div style="display:contents" dir="auto"><ul id="37af6ce8-497f-8034-8d95-eff3626857f6" class="bulleted-list"><li style="list-style-type:disc">Peso</li></ul></div><div style="display:contents" dir="auto"><ul id="37af6ce8-497f-80e2-b9da-c4aa73d342c3" class="bulleted-list"><li style="list-style-type:disc">Cor dos olhos</li></ul></div><div style="display:contents" dir="auto"><ul id="37af6ce8-497f-80e1-8e0d-c4808b34029f" class="bulleted-list"><li style="list-style-type:disc">Endereço</li></ul></div><div style="display:contents" dir="auto"><ul id="37af6ce8-497f-8005-b60f-e5f634e70299" class="bulleted-list"><li style="list-style-type:disc">Série</li></ul></div><div style="display:contents" dir="auto"><ul id="37af6ce8-497f-805d-9874-dc04d93f5d6f" class="bulleted-list"><li style="list-style-type:disc">Matrícula</li></ul></div><div style="display:contents" dir="auto"><ul id="37af6ce8-497f-80a5-9af6-ddd1f8b39ee4" class="bulleted-list"><li style="list-style-type:disc">Notas</li></ul></div><div style="display:contents" dir="auto"><ul id="37af6ce8-497f-80d6-a1f9-e657c94c5661" class="bulleted-list"><li style="list-style-type:disc">Turma</li></ul></div><div style="display:contents" dir="auto"><p id="37af6ce8-497f-80e0-b00e-dbfd7ff73f2d" class="">Nem todas essas informações serão importantes para o sistema. A abstração serve justamente para filtrar apenas o que será útil.</p></div><div style="display:contents" dir="auto"><hr id="37af6ce8-497f-8045-946f-ed4f139682e8"/></div><div style="display:contents" dir="auto"><h2 id="37af6ce8-497f-8009-9b8d-cf5c14918b94" class="">2. Identificação da Entidade</h2></div><div style="display:contents" dir="auto"><p id="37af6ce8-497f-80e1-a9b6-caa65267a66b" class="">Após abstrair as informações relevantes, definimos qual entidade será representada.</p></div><div style="display:contents" dir="auto"><p id="37af6ce8-497f-80e9-b22b-e2a1a2bf8c9e" class="">Neste caso:</p></div><div style="display:contents" dir="auto"><p id="37af6ce8-497f-80b2-8d3b-f2d218351a4e" class=""><strong>Entidade:</strong> Aluno</p></div><div style="display:contents" dir="auto"><p id="37af6ce8-497f-80fd-ba28-ebdacf37e850" class="">A entidade é o elemento principal que estamos modelando dentro do sistema.</p></div><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-jsx.min.js" integrity="sha512-m3JYEI6gx5fh9jF10FjGoMzVKcV2N6nchcDcqPCdI1L3R2WQV7br2XVNR8iTLb2daOMRl3zldbcfT40xU2ntVw==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="37af6ce8-497f-805d-921f-fd8cd59c6a2f" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">class Aluno {
+</style><style>@import url('https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex-swap.min.css')</style></head><body><article id="37af6ce8-497f-801c-a15c-f518c2374c9e" class="page sans" data-notion-page-icon="/icons/command-line_yellow.svg"><header><div class="page-header-icon undefined"><img class="icon notion-static-icon" src="https://app.notion.com/icons/command-line_yellow.svg"/></div><h1 class="page-title" dir="auto">Da Abstração à Entidade</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><h1 id="37af6ce8-497f-8031-ba94-c00e44538133" style="display:inline-block" dir="auto">Da Abstração à Entidade</h1><p id="37af6ce8-497f-808e-b820-d9a5d003cddc" class="" dir="auto">Quando desenvolvemos um sistema utilizando Orientação a Objetos, geralmente seguimos um processo que começa na <strong>abstração</strong> e termina na criação de uma <strong>entidade</strong>. Esse processo consiste em observar um elemento do mundo real, identificar o que é importante nele e representá-lo através de uma classe ou objeto.</p><h2 id="37af6ce8-497f-8027-93af-e45bba4f3635" style="display:inline-block" dir="auto">1. Abstração</h2><p id="37af6ce8-497f-80d0-a849-e2e527376bac" class="" dir="auto">A abstração é o primeiro passo. Nela, analisamos um objeto ou conceito do mundo real e selecionamos apenas as informações relevantes para o sistema, ignorando detalhes desnecessários.</p><p id="37af6ce8-497f-80bb-8394-f3a1f59e6f74" class="" dir="auto">Por exemplo, imagine que estamos desenvolvendo um sistema para uma escola e precisamos representar um aluno.</p><p id="37af6ce8-497f-8060-9411-cd428c87c652" class="" dir="auto">No mundo real, um aluno possui inúmeras características:</p><ul id="37af6ce8-497f-8036-a850-e1343d52cd2f" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Altura</li></ul><ul id="37af6ce8-497f-8034-8d95-eff3626857f6" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Peso</li></ul><ul id="37af6ce8-497f-80e2-b9da-c4aa73d342c3" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Cor dos olhos</li></ul><ul id="37af6ce8-497f-80e1-8e0d-c4808b34029f" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Endereço</li></ul><ul id="37af6ce8-497f-8005-b60f-e5f634e70299" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Série</li></ul><ul id="37af6ce8-497f-805d-9874-dc04d93f5d6f" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Matrícula</li></ul><ul id="37af6ce8-497f-80a5-9af6-ddd1f8b39ee4" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Notas</li></ul><ul id="37af6ce8-497f-80d6-a1f9-e657c94c5661" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Turma</li></ul><p id="37af6ce8-497f-80e0-b00e-dbfd7ff73f2d" class="" dir="auto">Nem todas essas informações serão importantes para o sistema. A abstração serve justamente para filtrar apenas o que será útil.</p><hr id="37af6ce8-497f-8045-946f-ed4f139682e8" dir="auto"/><h2 id="37af6ce8-497f-8009-9b8d-cf5c14918b94" style="display:inline-block" dir="auto">2. Identificação da Entidade</h2><p id="37af6ce8-497f-80e1-a9b6-caa65267a66b" class="" dir="auto">Após abstrair as informações relevantes, definimos qual entidade será representada.</p><p id="37af6ce8-497f-80e9-b22b-e2a1a2bf8c9e" class="" dir="auto">Neste caso:</p><p id="37af6ce8-497f-80b2-8d3b-f2d218351a4e" class="" dir="auto"><strong>Entidade:</strong> Aluno</p><p id="37af6ce8-497f-80fd-ba28-ebdacf37e850" class="" dir="auto">A entidade é o elemento principal que estamos modelando dentro do sistema.</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-jsx.min.js" integrity="sha512-m3JYEI6gx5fh9jF10FjGoMzVKcV2N6nchcDcqPCdI1L3R2WQV7br2XVNR8iTLb2daOMRl3zldbcfT40xU2ntVw==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="37af6ce8-497f-805d-921f-fd8cd59c6a2f" class="code code-wrap" data-notion-code-syntax="jsx"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">class Aluno {
 
-}</code></pre></div><div style="display:contents" dir="auto"><p id="37af6ce8-497f-80fa-a9a5-d045a5d498f9" class="">Nesse momento, sabemos apenas que existe uma entidade chamada Aluno.</p></div><div style="display:contents" dir="auto"><hr id="37af6ce8-497f-80b9-a039-eee147464ba0"/></div><div style="display:contents" dir="auto"><h2 id="37af6ce8-497f-805c-af91-d5ce1536f22b" class="">3. Definição da Identidade</h2></div><div style="display:contents" dir="auto"><p id="37af6ce8-497f-8057-8bca-fb8e6feb12cf" class="">Em seguida, precisamos definir como cada entidade será diferenciada das demais.</p></div><div style="display:contents" dir="auto"><p id="37af6ce8-497f-80ef-82d4-e13d967a341b" class="">Um aluno pode ser identificado por:</p></div><div style="display:contents" dir="auto"><ul id="37af6ce8-497f-8083-b6eb-ca64743a0d3c" class="bulleted-list"><li style="list-style-type:disc">Matrícula</li></ul></div><div style="display:contents" dir="auto"><ul id="37af6ce8-497f-8097-845e-e713faf2e203" class="bulleted-list"><li style="list-style-type:disc">CPF</li></ul></div><div style="display:contents" dir="auto"><ul id="37af6ce8-497f-803b-9aef-e955fec90e61" class="bulleted-list"><li style="list-style-type:disc">Código interno</li></ul></div><div style="display:contents" dir="auto"><p id="37af6ce8-497f-800b-9164-c5e20c27d1c2" class="">Exemplo:</p></div><div style="display:contents" dir="auto"><pre id="37af6ce8-497f-8099-a067-c14f926eaf1a" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">class Aluno {
+}</code></pre><p id="37af6ce8-497f-80fa-a9a5-d045a5d498f9" class="" dir="auto">Nesse momento, sabemos apenas que existe uma entidade chamada Aluno.</p><hr id="37af6ce8-497f-80b9-a039-eee147464ba0" dir="auto"/><h2 id="37af6ce8-497f-805c-af91-d5ce1536f22b" style="display:inline-block" dir="auto">3. Definição da Identidade</h2><p id="37af6ce8-497f-8057-8bca-fb8e6feb12cf" class="" dir="auto">Em seguida, precisamos definir como cada entidade será diferenciada das demais.</p><p id="37af6ce8-497f-80ef-82d4-e13d967a341b" class="" dir="auto">Um aluno pode ser identificado por:</p><ul id="37af6ce8-497f-8083-b6eb-ca64743a0d3c" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Matrícula</li></ul><ul id="37af6ce8-497f-8097-845e-e713faf2e203" class="bulleted-list" dir="auto"><li style="list-style-type:disc">CPF</li></ul><ul id="37af6ce8-497f-803b-9aef-e955fec90e61" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Código interno</li></ul><p id="37af6ce8-497f-800b-9164-c5e20c27d1c2" class="" dir="auto">Exemplo:</p><pre id="37af6ce8-497f-8099-a067-c14f926eaf1a" class="code code-wrap" data-notion-code-syntax="jsx"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">class Aluno {
     constructor(matricula) {
         this.matricula = matricula;
     }
-}</code></pre></div><div style="display:contents" dir="auto"><p id="37af6ce8-497f-806e-82f2-f7b996bfa865" class="">A matrícula passa a representar a identidade única de cada aluno.</p></div><div style="display:contents" dir="auto"><hr id="37af6ce8-497f-80b3-820b-d3dcdd30b180"/></div><div style="display:contents" dir="auto"><h2 id="37af6ce8-497f-80b0-b811-d38767c99347" class="">4. Definição das Características</h2></div><div style="display:contents" dir="auto"><p id="37af6ce8-497f-80ed-a307-ef233ac35e1f" class="">Agora adicionamos os atributos que descrevem a entidade.</p></div><div style="display:contents" dir="auto"><pre id="37af6ce8-497f-8024-b150-d6a8a8b97c20" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">class Aluno {
+}</code></pre><p id="37af6ce8-497f-806e-82f2-f7b996bfa865" class="" dir="auto">A matrícula passa a representar a identidade única de cada aluno.</p><hr id="37af6ce8-497f-80b3-820b-d3dcdd30b180" dir="auto"/><h2 id="37af6ce8-497f-80b0-b811-d38767c99347" style="display:inline-block" dir="auto">4. Definição das Características</h2><p id="37af6ce8-497f-80ed-a307-ef233ac35e1f" class="" dir="auto">Agora adicionamos os atributos que descrevem a entidade.</p><pre id="37af6ce8-497f-8024-b150-d6a8a8b97c20" class="code code-wrap" data-notion-code-syntax="jsx"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">class Aluno {
     constructor(matricula, nome, idade, turma) {
         this.matricula = matricula;
         this.nome = nome;
         this.idade = idade;
         this.turma = turma;
     }
-}</code></pre></div><div style="display:contents" dir="auto"><p id="37af6ce8-497f-8035-96ac-c6542a6bd694" class="">Características:</p></div><div style="display:contents" dir="auto"><ul id="37af6ce8-497f-80c7-b7ae-fa90ac41e641" class="bulleted-list"><li style="list-style-type:disc">nome</li></ul></div><div style="display:contents" dir="auto"><ul id="37af6ce8-497f-800d-a692-d44f4936f171" class="bulleted-list"><li style="list-style-type:disc">idade</li></ul></div><div style="display:contents" dir="auto"><ul id="37af6ce8-497f-80b3-9e4f-c1834fabb2e4" class="bulleted-list"><li style="list-style-type:disc">turma</li></ul></div><div style="display:contents" dir="auto"><p id="37af6ce8-497f-806e-9f94-ee45311a855c" class="">Esses atributos armazenam informações sobre o aluno.</p></div><div style="display:contents" dir="auto"><hr id="37af6ce8-497f-80d5-9433-c3514f974235"/></div><div style="display:contents" dir="auto"><h2 id="37af6ce8-497f-806a-94ba-f2f25e88f946" class="">5. Definição das Ações</h2></div><div style="display:contents" dir="auto"><p id="37af6ce8-497f-805b-a490-e0d09eb8d6e3" class="">Por fim, adicionamos os comportamentos que a entidade pode executar.</p></div><div style="display:contents" dir="auto"><pre id="37af6ce8-497f-80ce-9878-f60d75dfbcaf" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">class Aluno {
+}</code></pre><p id="37af6ce8-497f-8035-96ac-c6542a6bd694" class="" dir="auto">Características:</p><ul id="37af6ce8-497f-80c7-b7ae-fa90ac41e641" class="bulleted-list" dir="auto"><li style="list-style-type:disc">nome</li></ul><ul id="37af6ce8-497f-800d-a692-d44f4936f171" class="bulleted-list" dir="auto"><li style="list-style-type:disc">idade</li></ul><ul id="37af6ce8-497f-80b3-9e4f-c1834fabb2e4" class="bulleted-list" dir="auto"><li style="list-style-type:disc">turma</li></ul><p id="37af6ce8-497f-806e-9f94-ee45311a855c" class="" dir="auto">Esses atributos armazenam informações sobre o aluno.</p><hr id="37af6ce8-497f-80d5-9433-c3514f974235" dir="auto"/><h2 id="37af6ce8-497f-806a-94ba-f2f25e88f946" style="display:inline-block" dir="auto">5. Definição das Ações</h2><p id="37af6ce8-497f-805b-a490-e0d09eb8d6e3" class="" dir="auto">Por fim, adicionamos os comportamentos que a entidade pode executar.</p><pre id="37af6ce8-497f-80ce-9878-f60d75dfbcaf" class="code code-wrap" data-notion-code-syntax="jsx"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">class Aluno {
     constructor(matricula, nome, idade, turma) {
         this.matricula = matricula;
         this.nome = nome;
@@ -768,7 +792,7 @@ blockquote.quote-large {
     fazerProva() {
         console.log(`${this.nome} está realizando uma prova.`);
     }
-}</code></pre></div><div style="display:contents" dir="auto"><p id="37af6ce8-497f-80d1-bd03-c93170ab565d" class="">As ações representam aquilo que o objeto pode fazer.</p></div><div style="display:contents" dir="auto"><hr id="37af6ce8-497f-8072-8dcf-ee81d82d9bdc"/></div><div style="display:contents" dir="auto"><h2 id="37af6ce8-497f-807d-9072-e45113cdcf13" class="">Exemplo Completo</h2></div><div style="display:contents" dir="auto"><pre id="37af6ce8-497f-8004-a25e-fcc0799197bc" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">class Aluno {
+}</code></pre><p id="37af6ce8-497f-80d1-bd03-c93170ab565d" class="" dir="auto">As ações representam aquilo que o objeto pode fazer.</p><hr id="37af6ce8-497f-8072-8dcf-ee81d82d9bdc" dir="auto"/><h2 id="37af6ce8-497f-807d-9072-e45113cdcf13" style="display:inline-block" dir="auto">Exemplo Completo</h2><pre id="37af6ce8-497f-8004-a25e-fcc0799197bc" class="code code-wrap" data-notion-code-syntax="jsx"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">class Aluno {
     constructor(matricula, nome, idade, turma) {
         this.matricula = matricula; // identidade
         this.nome = nome;           // característica
@@ -783,14 +807,14 @@ blockquote.quote-large {
     fazerProva() {                 // ação
         console.log(`${this.nome} está fazendo uma prova.`);
     }
-}</code></pre></div><div style="display:contents" dir="auto"><pre id="37af6ce8-497f-80c5-b0cd-ef973f10ca3e" class="code code-wrap"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const aluno = new Aluno(
+}</code></pre><pre id="37af6ce8-497f-80c5-b0cd-ef973f10ca3e" class="code code-wrap" data-notion-code-syntax="jsx"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const aluno = new Aluno(
     &quot;2026001&quot;,
     &quot;Gustavo&quot;,
     21,
     &quot;ADS&quot;
 );
 
-aluno.estudar();</code></pre></div><div style="display:contents" dir="auto"><hr id="37af6ce8-497f-8010-8087-f859e717f51b"/></div><div style="display:contents" dir="auto"><h2 id="37af6ce8-497f-80fa-b9d7-db5d7c0f5ba4" class="">Fluxo da Abstração à Entidade</h2></div><div style="display:contents" dir="auto"><pre id="37af6ce8-497f-8067-abc7-f6f615973607" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Mundo Real
+aluno.estudar();</code></pre><hr id="37af6ce8-497f-8010-8087-f859e717f51b" dir="auto"/><h2 id="37af6ce8-497f-80fa-b9d7-db5d7c0f5ba4" style="display:inline-block" dir="auto">Fluxo da Abstração à Entidade</h2><pre id="37af6ce8-497f-8067-abc7-f6f615973607" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Mundo Real
      ↓
 Abstração
      ↓
@@ -802,4 +826,4 @@ Características
      ↓
 Ações
      ↓
-Classe/Objeto</code></pre></div><div style="display:contents" dir="auto"><h2 id="37af6ce8-497f-80f8-ac56-db24c9bec499" class="">Resumo</h2></div><div style="display:contents" dir="auto"><p id="37af6ce8-497f-8042-a72a-fda59aaf3780" class="">A criação de uma entidade em Orientação a Objetos começa pela <strong>abstração</strong>, onde identificamos apenas os aspectos importantes de um elemento do mundo real. Em seguida, definimos a <strong>entidade</strong>, sua <strong>identidade</strong>, suas <strong>características</strong> e suas <strong>ações</strong>. O resultado é uma classe capaz de representar esse elemento dentro do sistema de forma organizada e próxima da realidade.</p></div></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>
+Classe/Objeto</code></pre><h2 id="37af6ce8-497f-80f8-ac56-db24c9bec499" style="display:inline-block" dir="auto">Resumo</h2><p id="37af6ce8-497f-8042-a72a-fda59aaf3780" class="" dir="auto">A criação de uma entidade em Orientação a Objetos começa pela <strong>abstração</strong>, onde identificamos apenas os aspectos importantes de um elemento do mundo real. Em seguida, definimos a <strong>entidade</strong>, sua <strong>identidade</strong>, suas <strong>características</strong> e suas <strong>ações</strong>. O resultado é uma classe capaz de representar esse elemento dentro do sistema de forma organizada e próxima da realidade.</p></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>
