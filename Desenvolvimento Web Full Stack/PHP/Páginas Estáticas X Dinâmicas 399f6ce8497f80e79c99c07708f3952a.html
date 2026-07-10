@@ -1,0 +1,854 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Páginas Estáticas X Dinâmicas</title><meta name="data-notion-page-icon" content="/icons/elephant_purple.svg"/><link rel="icon" href="https://app.notion.com/icons/elephant_purple.svg"/><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+/* For default-background callouts, render the border outline. */
+.callout.block-color-default_background {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+figure,
+aside,
+details {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding-inline: 0.125rem;
+	padding-block: 0.375rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+/*
+ * Render emoji icons using a ::before pseudo-element to keep the glyph
+ * out of the DOM textContent traversal. This avoids double-rendering icons
+ * in callouts and page titles.
+ * NOTE(slim/html-export-pseudo-icons): I can't tagref this because it will
+ * flag as a duplicate tag after codegen.
+ */
+.icon[data-emoji]::before {
+	content: attr(data-emoji);
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	margin-right: 0.4em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.tab {
+	margin: 1.25em 0;
+	padding-inline: 1rem;
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style><style>@import url('https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex-swap.min.css')</style></head><body><article id="399f6ce8-497f-80e7-9c99-c07708f3952a" class="page sans" data-notion-page-icon="/icons/elephant_purple.svg"><header><div class="page-header-icon undefined"><img class="icon notion-static-icon" src="https://app.notion.com/icons/elephant_purple.svg"/></div><h1 class="page-title" dir="auto">Páginas Estáticas X Dinâmicas</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><h1 id="399f6ce8-497f-800e-931c-f181c87a39df" class="" dir="auto">Páginas Estáticas × Páginas Dinâmicas</h1><p id="399f6ce8-497f-8044-b535-d8c1472557c5" class="" dir="auto">Ao desenvolver um site, é importante entender a diferença entre <strong>páginas estáticas</strong> e <strong>páginas dinâmicas</strong>. Essa distinção ajuda a compreender por que linguagens como o PHP são tão importantes no desenvolvimento web.</p><p id="399f6ce8-497f-8052-8a41-dbde1bdd3a4e" class="" dir="auto">De forma simples:</p><ul id="399f6ce8-497f-80ad-a51f-d483bb9f4e84" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>Página estática:</strong> o conteúdo é sempre o mesmo para todos os visitantes.</li></ul><ul id="399f6ce8-497f-8098-b6e7-f15a31bbe774" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>Página dinâmica:</strong> o conteúdo pode mudar de acordo com o usuário, horário, banco de dados ou outras informações.</li></ul><hr id="399f6ce8-497f-8050-a456-ebd5abc63f83" dir="auto"/><h1 id="399f6ce8-497f-803d-aef5-ffbe63d8438a" class="" dir="auto">O que é uma página estática?</h1><p id="399f6ce8-497f-80c2-9f36-f2c354c82578" class="" dir="auto">Uma <strong>página estática</strong> é aquela cujo conteúdo permanece igual sempre que é acessada. O servidor apenas envia o arquivo ao navegador, sem realizar qualquer processamento.</p><p id="399f6ce8-497f-80cc-b745-fd8f857870d0" class="" dir="auto">Ela é normalmente construída apenas com:</p><ul id="399f6ce8-497f-807b-837e-d7cb77dc58e2" class="bulleted-list" dir="auto"><li style="list-style-type:disc">HTML</li></ul><ul id="399f6ce8-497f-80ff-90da-f0d2e06d4dba" class="bulleted-list" dir="auto"><li style="list-style-type:disc">CSS</li></ul><ul id="399f6ce8-497f-8061-a800-dd3ee101791d" class="bulleted-list" dir="auto"><li style="list-style-type:disc">JavaScript (para interações no navegador)</li></ul><h3 id="399f6ce8-497f-8003-bfc7-e496fe415bf1" class="" dir="auto">Exemplo</h3><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="399f6ce8-497f-8035-9bb3-e34fa4a0f8aa" class="code code-wrap" data-notion-code-syntax="html"><code class="language-html" style="white-space:pre-wrap;word-break:break-all">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+
+&lt;head&gt;
+    &lt;title&gt;Minha Empresa&lt;/title&gt;
+&lt;/head&gt;
+
+&lt;body&gt;
+
+    &lt;h1&gt;Ghostware&lt;/h1&gt;
+
+    &lt;p&gt;Logic Above Limits&lt;/p&gt;
+
+&lt;/body&gt;
+
+&lt;/html&gt;</code></pre><p id="399f6ce8-497f-802d-95b0-d58359eeb403" class="" dir="auto">Toda vez que alguém acessar essa página, verá exatamente o mesmo conteúdo.</p><hr id="399f6ce8-497f-80c8-a4fc-ec307261b6b3" dir="auto"/><h1 id="399f6ce8-497f-8079-a55a-d1452ed4a302" class="" dir="auto">Como funciona uma página estática?</h1><p id="399f6ce8-497f-8094-b4ac-eff2053dd4be" class="" dir="auto">O fluxo é bastante simples:</p><pre id="399f6ce8-497f-800d-a0d1-e25e117dbf84" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Usuário
+    │
+    ▼
+Navegador
+    │
+    ▼
+Servidor
+    │
+    ▼
+Arquivo HTML
+    │
+    ▼
+HTML enviado ao navegador</code></pre><p id="399f6ce8-497f-803f-9795-ee3cf084abdb" class="" dir="auto">Não há processamento nem acesso a banco de dados.</p><hr id="399f6ce8-497f-80f1-aeeb-ed47144dab4c" dir="auto"/><h1 id="399f6ce8-497f-80b6-b192-ff4c1ac59b07" class="" dir="auto">Vantagens das páginas estáticas</h1><ul id="399f6ce8-497f-8091-a0af-ea92ebf2318e" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Carregamento muito rápido.</li></ul><ul id="399f6ce8-497f-8097-8b5d-fb7e1596291c" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Menor consumo de recursos do servidor.</li></ul><ul id="399f6ce8-497f-8072-a1df-db5a25481e73" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Fácil hospedagem.</li></ul><ul id="399f6ce8-497f-8015-b168-f2e3e6355a1e" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Maior segurança, pois não há código sendo executado no servidor.</li></ul><ul id="399f6ce8-497f-8087-99d8-d09a6bcfebb9" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Simples de desenvolver para projetos pequenos.</li></ul><hr id="399f6ce8-497f-8063-be47-ea81bc1fe9ee" dir="auto"/><h1 id="399f6ce8-497f-8058-8a99-c31da92d44f9" class="" dir="auto">Desvantagens das páginas estáticas</h1><ul id="399f6ce8-497f-80c0-a74e-f9ccbb197971" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Todo o conteúdo deve ser alterado manualmente.</li></ul><ul id="399f6ce8-497f-80bc-a11e-fb0d22b148cd" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Não possuem login de usuários.</li></ul><ul id="399f6ce8-497f-809c-a9fd-fd3e320c7f07" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Não acessam banco de dados.</li></ul><ul id="399f6ce8-497f-804d-b657-f8d550417a87" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Não permitem personalização.</li></ul><ul id="399f6ce8-497f-8008-89b3-ebb19ac5d0c5" class="bulleted-list" dir="auto"><li style="list-style-type:disc">São pouco práticas para sites com muitas páginas.</li></ul><p id="399f6ce8-497f-80ca-84fd-fa49f3d0041d" class="" dir="auto">Imagine um site com <strong>500 produtos</strong>. Em uma página estática, seria necessário editar manualmente cada página sempre que um produto fosse alterado.</p><hr id="399f6ce8-497f-8050-a6f8-d2a93fc713d0" dir="auto"/><h1 id="399f6ce8-497f-80cd-b854-e787c5b13ce7" class="" dir="auto">O que é uma página dinâmica?</h1><p id="399f6ce8-497f-805a-a9d1-f869576704b2" class="" dir="auto">Uma <strong>página dinâmica</strong> é aquela cujo conteúdo é gerado no momento da requisição.</p><p id="399f6ce8-497f-8069-b7ab-d13b17126878" class="" dir="auto">O servidor executa um programa (como PHP), que pode:</p><ul id="399f6ce8-497f-802c-8a12-f86aaf051685" class="bulleted-list" dir="auto"><li style="list-style-type:disc">consultar um banco de dados;</li></ul><ul id="399f6ce8-497f-802a-b338-d7dc86473b52" class="bulleted-list" dir="auto"><li style="list-style-type:disc">verificar se o usuário está logado;</li></ul><ul id="399f6ce8-497f-80ec-b905-f8d0daebc9d0" class="bulleted-list" dir="auto"><li style="list-style-type:disc">realizar cálculos;</li></ul><ul id="399f6ce8-497f-80eb-8d08-dd6e7d9e7b5b" class="bulleted-list" dir="auto"><li style="list-style-type:disc">buscar informações externas;</li></ul><ul id="399f6ce8-497f-809d-9ae2-f54b5374b2c0" class="bulleted-list" dir="auto"><li style="list-style-type:disc">montar o HTML antes de enviá-lo ao navegador.</li></ul><hr id="399f6ce8-497f-80dd-91c6-c8d1297dae70" dir="auto"/><h1 id="399f6ce8-497f-808a-9020-f3ca63bbf06e" class="" dir="auto">Como funciona uma página dinâmica?</h1><pre id="399f6ce8-497f-8035-886a-c6929c7e7af2" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Usuário
+    │
+    ▼
+Navegador
+    │
+    ▼
+Servidor
+    │
+    ▼
+Arquivo PHP
+    │
+    ▼
+Executa o código
+    │
+    ▼
+Consulta banco de dados
+    │
+    ▼
+Gera HTML
+    │
+    ▼
+Envia HTML ao navegador</code></pre><p id="399f6ce8-497f-8032-8eaa-ca07e5037ec8" class="" dir="auto">O navegador continua recebendo apenas HTML. A diferença é que esse HTML foi gerado pelo PHP.</p><hr id="399f6ce8-497f-80b4-bae4-c2bfe76c9ca1" dir="auto"/><h1 id="399f6ce8-497f-80e8-9bcd-e18489fc1cea" class="" dir="auto">Exemplo de página dinâmica</h1><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markup-templating.min.js" integrity="sha512-+8BiRfWso6waiFDv6tEmWF8yfPGgxAtOYLDUB0rRISLwtpxkJ9lpPNUhxwWlikn3qSO+4RQyzDppi62o3ON/AA==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-php.min.js" integrity="sha512-plzrTi61ltEMFf84gTVO9IkvIMfBu07bnDuahvdlIclmFWzXJ9VcRsny9d45sxFZRv3jJg/MHNyuxnUYEMxMEg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="399f6ce8-497f-804b-86bd-caa5730e5f4a" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">&lt;?php
+
+$nome = &quot;Gustavo&quot;;
+
+?&gt;
+
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+
+&lt;body&gt;
+
+&lt;h1&gt;Bem-vindo, &lt;?= $nome ?&gt;!&lt;/h1&gt;
+
+&lt;/body&gt;
+
+&lt;/html&gt;</code></pre><p id="399f6ce8-497f-805b-b76a-e0b9ac2d977a" class="" dir="auto">Resultado enviado ao navegador:</p><pre id="399f6ce8-497f-80e6-85d3-d7ba95ac1464" class="code code-wrap" data-notion-code-syntax="html"><code class="language-html" style="white-space:pre-wrap;word-break:break-all">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+
+&lt;body&gt;
+
+&lt;h1&gt;Bem-vindo, Gustavo!&lt;/h1&gt;
+
+&lt;/body&gt;
+
+&lt;/html&gt;</code></pre><p id="399f6ce8-497f-8063-af1a-f74263900d5e" class="" dir="auto">Se outro usuário acessar a página:</p><pre id="399f6ce8-497f-80b6-adfa-f5be1a175eef" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">$nome = &quot;Maria&quot;;</code></pre><p id="399f6ce8-497f-807c-8c47-ca133ebc3645" class="" dir="auto">O navegador receberá:</p><pre id="399f6ce8-497f-805a-bfdd-e7223c3675cf" class="code code-wrap" data-notion-code-syntax="html"><code class="language-html" style="white-space:pre-wrap;word-break:break-all">&lt;h1&gt;Bem-vindo, Maria!&lt;/h1&gt;</code></pre><p id="399f6ce8-497f-803a-93c4-fe8a5197a9c3" class="" dir="auto">O mesmo arquivo PHP gera conteúdos diferentes dependendo dos dados disponíveis.</p><hr id="399f6ce8-497f-80a7-9d97-c88f2e8753a5" dir="auto"/><h1 id="399f6ce8-497f-80ce-a419-c08a8ab8c204" class="" dir="auto">Exemplo com banco de dados</h1><p id="399f6ce8-497f-8082-8ca3-f9549fe9ee54" class="" dir="auto">Imagine um e-commerce.</p><p id="399f6ce8-497f-806f-b554-da4ea35a901c" class="" dir="auto">O código PHP consulta o banco:</p><pre id="399f6ce8-497f-8041-8d99-f44829c1c28f" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Banco de Dados
+
+Produto:
+Notebook
+
+Preço:
+R$ 3.500</code></pre><p id="399f6ce8-497f-8026-90ca-e5f95a0a8bdf" class="" dir="auto">O PHP gera:</p><pre id="399f6ce8-497f-8063-b09d-d24677993be7" class="code code-wrap" data-notion-code-syntax="html"><code class="language-html" style="white-space:pre-wrap;word-break:break-all">&lt;h2&gt;Notebook&lt;/h2&gt;
+
+&lt;p&gt;R$ 3.500&lt;/p&gt;</code></pre><p id="399f6ce8-497f-80b1-848d-c43a108daac6" class="" dir="auto">Se o preço mudar para R$ 3.200 no banco, nenhuma alteração no código da página será necessária. O PHP exibirá automaticamente o novo valor.</p><hr id="399f6ce8-497f-807c-86fb-e01466019029" dir="auto"/><h1 id="399f6ce8-497f-8062-b5b2-f14c3c94f390" class="" dir="auto">Personalização</h1><p id="399f6ce8-497f-8020-9247-cdf899e5f484" class="" dir="auto">Uma das maiores vantagens das páginas dinâmicas é a personalização.</p><p id="399f6ce8-497f-806b-b25b-fa659f8df144" class="" dir="auto">Por exemplo:</p><pre id="399f6ce8-497f-80d4-bcb2-c4bdb90054c8" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">&lt;?php
+
+if ($usuarioLogado) {
+    echo &quot;Olá, Gustavo!&quot;;
+} else {
+    echo &quot;Faça login.&quot;;
+}
+?&gt;</code></pre><p id="399f6ce8-497f-80b1-be4b-d51d4e5239cd" class="" dir="auto">Cada usuário pode visualizar uma página diferente, mesmo acessando a mesma URL.</p><hr id="399f6ce8-497f-808c-a28b-c5b4cc6d7179" dir="auto"/><h1 id="399f6ce8-497f-80de-ba19-ffcf84ab2c93" class="" dir="auto">Exemplos de páginas estáticas</h1><ul id="399f6ce8-497f-807a-ae56-d588beac6351" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Portfólio simples.</li></ul><ul id="399f6ce8-497f-80a7-875a-e2e5129c8d02" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Página de apresentação.</li></ul><ul id="399f6ce8-497f-80f0-8a65-e2ba294af842" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Landing Page.</li></ul><ul id="399f6ce8-497f-8080-aee4-ca3c0b9b0571" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Página de contato.</li></ul><ul id="399f6ce8-497f-802c-8c97-d4677fd68c4f" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Currículo online.</li></ul><ul id="399f6ce8-497f-8077-bc8b-ca6bdce508b9" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Site institucional pequeno.</li></ul><hr id="399f6ce8-497f-8043-aa2c-c89219731686" dir="auto"/><h1 id="399f6ce8-497f-80f2-899f-dbacbcfd1265" class="" dir="auto">Exemplos de páginas dinâmicas</h1><ul id="399f6ce8-497f-80de-a2cf-df20bb74898d" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Loja virtual.</li></ul><ul id="399f6ce8-497f-80fe-aaa3-c46eea4f8746" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Rede social.</li></ul><ul id="399f6ce8-497f-8047-b4eb-e7086fc9511e" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Sistema escolar.</li></ul><ul id="399f6ce8-497f-8091-a34e-d63b84ea58d5" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Sistema bancário.</li></ul><ul id="399f6ce8-497f-80b8-a7c5-cb467e8c8054" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Portal de notícias.</li></ul><ul id="399f6ce8-497f-800a-b226-d623c1db57f6" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Plataforma de cursos.</li></ul><ul id="399f6ce8-497f-8047-addc-f51789a92d35" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Sistema de login.</li></ul><ul id="399f6ce8-497f-80cf-94f0-eb9a6f826bea" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Área administrativa.</li></ul><ul id="399f6ce8-497f-80a8-814c-e1ea6e759f5d" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Dashboard.</li></ul><ul id="399f6ce8-497f-806d-8af7-dd7f11c83093" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Fórum.</li></ul><hr id="399f6ce8-497f-8059-9d7d-cd9c43278ea6" dir="auto"/><h1 id="399f6ce8-497f-80fd-96d4-cfbc9971a139" class="" dir="auto">Comparação</h1><table id="399f6ce8-497f-80eb-b87d-ff1df951561a" class="simple-table" dir="ltr"><thead class="simple-table-header"><tr id="399f6ce8-497f-80ae-9c47-d6afe545abd8" dir="ltr"><th id="QMHo" class="simple-table-header-color simple-table-header">Característica</th><th id=";EkV" class="simple-table-header-color simple-table-header">Página Estática</th><th id="zEwk" class="simple-table-header-color simple-table-header">Página Dinâmica</th></tr></thead><tbody><tr id="399f6ce8-497f-8006-8ee2-c27e723c0d4e" dir="ltr"><td id="QMHo" class="">Conteúdo</td><td id=";EkV" class="">Sempre igual</td><td id="zEwk" class="">Pode mudar</td></tr><tr id="399f6ce8-497f-80e4-8821-ea49dda8f9a0" dir="ltr"><td id="QMHo" class="">Processamento no servidor</td><td id=";EkV" class="">Não</td><td id="zEwk" class="">Sim</td></tr><tr id="399f6ce8-497f-80c3-a807-e6f91ef7f107" dir="ltr"><td id="QMHo" class="">Usa PHP</td><td id=";EkV" class="">Não</td><td id="zEwk" class="">Sim</td></tr><tr id="399f6ce8-497f-8077-aba1-c57a2ae1b111" dir="ltr"><td id="QMHo" class="">Usa banco de dados</td><td id=";EkV" class="">Não</td><td id="zEwk" class="">Geralmente sim</td></tr><tr id="399f6ce8-497f-8056-a531-f0bb29ceb4ab" dir="ltr"><td id="QMHo" class="">Login de usuários</td><td id=";EkV" class="">Não</td><td id="zEwk" class="">Sim</td></tr><tr id="399f6ce8-497f-80a6-90f9-c557dea4f64e" dir="ltr"><td id="QMHo" class="">Personalização</td><td id=";EkV" class="">Não</td><td id="zEwk" class="">Sim</td></tr><tr id="399f6ce8-497f-807a-92ac-f24931c7d2ff" dir="ltr"><td id="QMHo" class="">Atualização de conteúdo</td><td id=";EkV" class="">Manual</td><td id="zEwk" class="">Automática</td></tr><tr id="399f6ce8-497f-804a-9cc0-f4052c619ca0" dir="ltr"><td id="QMHo" class="">Complexidade</td><td id=";EkV" class="">Baixa</td><td id="zEwk" class="">Média/Alta</td></tr></tbody></table><hr id="399f6ce8-497f-80c0-98ad-c36ce349e5ac" dir="auto"/><h1 id="399f6ce8-497f-8056-934c-fa5d4b932d1a" class="" dir="auto">Quando usar cada uma?</h1><h3 id="399f6ce8-497f-80e8-82b7-fb3b003d2045" class="" dir="auto">Utilize páginas estáticas quando:</h3><ul id="399f6ce8-497f-8094-9877-c4bfa12e2520" class="bulleted-list" dir="auto"><li style="list-style-type:disc">O conteúdo muda raramente.</li></ul><ul id="399f6ce8-497f-804f-815b-e72af989a3ca" class="bulleted-list" dir="auto"><li style="list-style-type:disc">O site é pequeno.</li></ul><ul id="399f6ce8-497f-80af-83d0-c4c5358876d5" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Não há necessidade de login.</li></ul><ul id="399f6ce8-497f-80b9-8330-d8fd13274eef" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Não existe interação com banco de dados.</li></ul><ul id="399f6ce8-497f-80fd-9724-f0a898c204ee" class="bulleted-list" dir="auto"><li style="list-style-type:disc">A prioridade é simplicidade e velocidade.</li></ul><hr id="399f6ce8-497f-8029-9145-e1e75694a787" dir="auto"/><h3 id="399f6ce8-497f-8010-afac-c9225edaa4ae" class="" dir="auto">Utilize páginas dinâmicas quando:</h3><ul id="399f6ce8-497f-80fe-b1bf-d5a99558ca39" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Há cadastro de usuários.</li></ul><ul id="399f6ce8-497f-80d3-9f6e-d768ee175ac0" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Existe autenticação (login).</li></ul><ul id="399f6ce8-497f-8027-9d46-e1d965e0580f" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Os dados vêm de um banco de dados.</li></ul><ul id="399f6ce8-497f-80f4-941f-cc975f63b539" class="bulleted-list" dir="auto"><li style="list-style-type:disc">O conteúdo muda frequentemente.</li></ul><ul id="399f6ce8-497f-8069-846f-dd872658f1f8" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Cada usuário pode visualizar informações diferentes.</li></ul><ul id="399f6ce8-497f-80e6-a86f-e15385a114d8" class="bulleted-list" dir="auto"><li style="list-style-type:disc">O sistema precisa de regras de negócio.</li></ul><hr id="399f6ce8-497f-808a-a657-cec26c72a61f" dir="auto"/><h1 id="399f6ce8-497f-8080-811b-f39ac67541fc" class="" dir="auto">Relação com o PHP</h1><p id="399f6ce8-497f-801a-bf98-e956c0d18d45" class="" dir="auto">O PHP foi criado justamente para transformar páginas estáticas em páginas dinâmicas.</p><p id="399f6ce8-497f-80e1-95d1-f847b016a270" class="" dir="auto">Antes do PHP, era comum criar um arquivo HTML diferente para cada situação. Com o PHP, basta um único arquivo que gera diferentes conteúdos conforme a necessidade.</p><p id="399f6ce8-497f-8005-9c96-d91f56318841" class="" dir="auto">Por exemplo, um único arquivo <code>produto.php</code> pode exibir centenas de produtos distintos apenas consultando o banco de dados, evitando duplicação de código e facilitando a manutenção.</p><hr id="399f6ce8-497f-809e-939d-df0f22912f1b" dir="auto"/><h1 id="399f6ce8-497f-802b-a17a-cea8e89b486e" class="" dir="auto">Resumo</h1><p id="399f6ce8-497f-80ef-8e4f-de79297855b5" class="" dir="auto">As <strong>páginas estáticas</strong> possuem conteúdo fixo e são ideais para sites simples, rápidos e com poucas alterações. Já as <strong>páginas dinâmicas</strong> têm o conteúdo gerado em tempo real pelo servidor, permitindo integração com bancos de dados, autenticação, personalização e atualização automática das informações. O PHP é uma das linguagens mais utilizadas para criar páginas dinâmicas, pois executa a lógica da aplicação no servidor e envia ao navegador apenas o HTML já processado, proporcionando uma experiência mais rica e interativa para o usuário.</p></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>
