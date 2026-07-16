@@ -1,0 +1,789 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Gerenciamento de riscos</title><meta name="data-notion-page-icon" content="/icons/lock_blue.svg"/><link rel="icon" href="https://app.notion.com/icons/lock_blue.svg"/><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+/* For default-background callouts, render the border outline. */
+.callout.block-color-default_background {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+figure,
+aside,
+details {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding-inline: 0.125rem;
+	padding-block: 0.375rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+/*
+ * Render emoji icons using a ::before pseudo-element to keep the glyph
+ * out of the DOM textContent traversal. This avoids double-rendering icons
+ * in callouts and page titles.
+ * NOTE(slim/html-export-pseudo-icons): I can't tagref this because it will
+ * flag as a duplicate tag after codegen.
+ */
+.icon[data-emoji]::before {
+	content: attr(data-emoji);
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	margin-right: 0.4em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.tab {
+	margin: 1.25em 0;
+	padding-inline: 1rem;
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style><style>@import url('https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex-swap.min.css')</style></head><body><article id="39ff6ce8-497f-80be-859e-e08b01d0454d" class="page sans" data-notion-page-icon="/icons/lock_blue.svg"><header><div class="page-header-icon undefined"><img class="icon notion-static-icon" src="https://app.notion.com/icons/lock_blue.svg"/></div><h1 class="page-title" dir="auto">Gerenciamento de riscos</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><h1 id="39ff6ce8-497f-8001-be44-f1d5fb89b05b" class="" dir="auto">Gerenciamento de Riscos para a Proteção de Dados</h1><p id="39ff6ce8-497f-80f2-bd01-c615877757b4" class="" dir="auto">O <strong>Gerenciamento de Riscos para a Proteção de Dados</strong> é o processo contínuo de identificar, analisar, avaliar, tratar e monitorar os riscos que podem comprometer a segurança dos dados de uma organização.</p><p id="39ff6ce8-497f-8088-88b7-e270283c494c" class="" dir="auto">Seu principal objetivo é reduzir a probabilidade de incidentes de segurança e minimizar seus impactos, garantindo que os dados permaneçam <strong>confidenciais</strong>, <strong>íntegros</strong> e <strong>disponíveis</strong>.</p><p id="39ff6ce8-497f-80d1-8344-d0f6bac7d268" class="" dir="auto">Em vez de tentar eliminar todos os riscos — o que é praticamente impossível — o gerenciamento de riscos busca entender quais ameaças são mais relevantes e definir medidas de proteção proporcionais ao risco.</p><hr id="39ff6ce8-497f-8017-9878-ddc136068d7b" dir="auto"/><h1 id="39ff6ce8-497f-80fa-a009-d7a5634d8128" class="" dir="auto">O que é Risco?</h1><p id="39ff6ce8-497f-80ec-a0f1-c6a9ab326209" class="" dir="auto">Na Segurança da Informação, <strong>risco</strong> é a possibilidade de uma ameaça explorar uma vulnerabilidade e causar danos a um ativo.</p><p id="39ff6ce8-497f-80c2-a21e-d7f59596929c" class="" dir="auto">Em outras palavras, o risco representa a chance de um evento prejudicial acontecer e o impacto que ele pode gerar.</p><h3 id="39ff6ce8-497f-8002-b220-f9ca934bc0ce" class="" dir="auto">Exemplo</h3><p id="39ff6ce8-497f-8078-ad55-d41b0b37350a" class="" dir="auto">Uma empresa possui um servidor com dados de clientes.</p><ul id="39ff6ce8-497f-807d-9b32-c84611281c19" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>Ativo:</strong> Servidor e banco de dados.</li></ul><ul id="39ff6ce8-497f-8011-8c4c-da78db919f0c" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>Ameaça:</strong> Ataque de ransomware.</li></ul><ul id="39ff6ce8-497f-8040-98f5-d1079477abbf" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>Vulnerabilidade:</strong> Sistema operacional desatualizado.</li></ul><ul id="39ff6ce8-497f-8040-87a0-e9e547a83c6e" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>Impacto:</strong> Perda temporária do acesso aos dados e interrupção dos serviços.</li></ul><p id="39ff6ce8-497f-801c-8cd0-e1f96e27761f" class="" dir="auto">O risco é justamente a possibilidade de esse ataque ocorrer e causar esses danos.</p><hr id="39ff6ce8-497f-80a4-9ad4-c2a0be5e69e7" dir="auto"/><h1 id="39ff6ce8-497f-80bc-99b5-c4ea74005295" class="" dir="auto">Por que gerenciar riscos?</h1><p id="39ff6ce8-497f-8034-bbc6-eb1baceafefc" class="" dir="auto">Nenhuma organização possui recursos ilimitados para proteger tudo com o mesmo nível de segurança.</p><p id="39ff6ce8-497f-8029-b20b-c02c1841871b" class="" dir="auto">O gerenciamento de riscos ajuda a responder perguntas como:</p><ul id="39ff6ce8-497f-80b5-a056-fb6099e5793f" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Quais informações são mais importantes?</li></ul><ul id="39ff6ce8-497f-80b4-ae92-c53e0c90524f" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Quais ativos são mais críticos?</li></ul><ul id="39ff6ce8-497f-8074-9792-f94a0167e82b" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Quais ameaças oferecem maior perigo?</li></ul><ul id="39ff6ce8-497f-803b-bda2-ef2771bfb5ca" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Quais vulnerabilidades precisam ser corrigidas primeiro?</li></ul><ul id="39ff6ce8-497f-80d5-9ed0-fc8ad639b3e6" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Onde investir em segurança?</li></ul><p id="39ff6ce8-497f-804d-8245-c18028fd29a7" class="" dir="auto">Assim, os recursos são direcionados para aquilo que realmente representa maior risco.</p><hr id="39ff6ce8-497f-808a-94d3-c23efaabe8f3" dir="auto"/><h1 id="39ff6ce8-497f-808b-bd6c-e6e1a6fb6056" class="" dir="auto">Objetivos do Gerenciamento de Riscos</h1><ul id="39ff6ce8-497f-8046-93e9-f0453ef1a776" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Proteger informações críticas.</li></ul><ul id="39ff6ce8-497f-807e-9235-d54fe49c8ab2" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Reduzir a probabilidade de incidentes.</li></ul><ul id="39ff6ce8-497f-80cb-88b5-e6863997f91b" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Minimizar impactos financeiros e operacionais.</li></ul><ul id="39ff6ce8-497f-8016-be6a-e7922f0f85d9" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Priorizar investimentos em segurança.</li></ul><ul id="39ff6ce8-497f-803a-9494-cc36dec76feb" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Cumprir requisitos legais e regulatórios.</li></ul><ul id="39ff6ce8-497f-806f-9cc7-fd51ea91b10f" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Apoiar a continuidade dos negócios.</li></ul><ul id="39ff6ce8-497f-80c1-acb8-d28144b19219" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Melhorar a tomada de decisões.</li></ul><hr id="39ff6ce8-497f-80ea-81c4-e4569ab4a0b7" dir="auto"/><h1 id="39ff6ce8-497f-8064-b4e5-f65879195cb8" class="" dir="auto">Conceitos Fundamentais</h1><p id="39ff6ce8-497f-80f4-b7d0-cd87a834cc09" class="" dir="auto">Antes de entender o processo de gerenciamento de riscos, é importante conhecer alguns conceitos.</p><h2 id="39ff6ce8-497f-8009-b63f-e2a9f04159b4" class="" dir="auto">Ativo</h2><p id="39ff6ce8-497f-80d0-a22a-f5734062803e" class="" dir="auto">É qualquer recurso que possui valor para a organização.</p><p id="39ff6ce8-497f-8037-811d-fc02314c2ac1" class="" dir="auto">Exemplos:</p><ul id="39ff6ce8-497f-80f9-bbed-fb15f8b09f96" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Banco de dados.</li></ul><ul id="39ff6ce8-497f-800e-bdd6-e6cbab33e94c" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Servidores.</li></ul><ul id="39ff6ce8-497f-80fd-94a1-d22eda401e31" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Computadores.</li></ul><ul id="39ff6ce8-497f-80dd-aa22-e0900af51b84" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Aplicações.</li></ul><ul id="39ff6ce8-497f-804e-9203-eabc3285f2dd" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Redes.</li></ul><ul id="39ff6ce8-497f-80f9-ae9b-e4300002e77f" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Documentos.</li></ul><ul id="39ff6ce8-497f-8000-b3ee-cc13b47177f3" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Informações.</li></ul><ul id="39ff6ce8-497f-8089-8753-d8821984fb11" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Pessoas.</li></ul><hr id="39ff6ce8-497f-80de-aadc-f5e439138de7" dir="auto"/><h2 id="39ff6ce8-497f-8043-9020-c2c28718fd8e" class="" dir="auto">Ameaça</h2><p id="39ff6ce8-497f-8056-823c-dd1576e20c10" class="" dir="auto">É qualquer evento, ação ou agente capaz de causar danos a um ativo.</p><p id="39ff6ce8-497f-80d4-946a-d31d84d0e0ac" class="" dir="auto">Exemplos:</p><ul id="39ff6ce8-497f-8091-a4d4-f91f8c267fe3" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Malware.</li></ul><ul id="39ff6ce8-497f-8095-bdbf-dfa9a898c955" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Phishing.</li></ul><ul id="39ff6ce8-497f-8056-8b75-f6944df000b0" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Incêndio.</li></ul><ul id="39ff6ce8-497f-80a9-99d4-ee680d90284f" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Enchente.</li></ul><ul id="39ff6ce8-497f-80ae-bff4-e16764a2b6ad" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Erro humano.</li></ul><ul id="39ff6ce8-497f-80a4-bfb3-fab73cc57779" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Roubo de equipamentos.</li></ul><ul id="39ff6ce8-497f-8089-94da-f90ae7f2f78f" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Ataques DDoS.</li></ul><hr id="39ff6ce8-497f-8046-b8e7-f888a5a9eef2" dir="auto"/><h2 id="39ff6ce8-497f-8071-8695-f35fdd898b78" class="" dir="auto">Vulnerabilidade</h2><p id="39ff6ce8-497f-8046-b827-d18790ae1374" class="" dir="auto">É uma fraqueza que pode ser explorada por uma ameaça.</p><p id="39ff6ce8-497f-8045-a5aa-db83567be797" class="" dir="auto">Exemplos:</p><ul id="39ff6ce8-497f-80d6-9528-d782c3997a9b" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Software desatualizado.</li></ul><ul id="39ff6ce8-497f-8009-97ca-d65ea6e242ec" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Senhas fracas.</li></ul><ul id="39ff6ce8-497f-80c3-966f-e53f3ae32f2d" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Configuração incorreta.</li></ul><ul id="39ff6ce8-497f-8002-a126-d82a42c9a6a8" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Falta de criptografia.</li></ul><ul id="39ff6ce8-497f-808f-9d97-cdc64e27b958" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Ausência de backup.</li></ul><hr id="39ff6ce8-497f-80e0-b31c-e2756a105d93" dir="auto"/><h2 id="39ff6ce8-497f-80ac-846b-d4e4a20e6f29" class="" dir="auto">Impacto</h2><p id="39ff6ce8-497f-8059-9f8a-f3d06f32a3ce" class="" dir="auto">Representa as consequências caso o risco se concretize.</p><p id="39ff6ce8-497f-80e7-9f3f-e67393c0d2e9" class="" dir="auto">Pode envolver:</p><ul id="39ff6ce8-497f-8043-8922-d86c5886579f" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Perdas financeiras.</li></ul><ul id="39ff6ce8-497f-8034-92e4-eb94741cdcc4" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Paralisação dos serviços.</li></ul><ul id="39ff6ce8-497f-804e-b2e3-fc2cd29f4b53" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Vazamento de dados.</li></ul><ul id="39ff6ce8-497f-80c0-b9e2-ce54b9648e5a" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Danos à reputação.</li></ul><ul id="39ff6ce8-497f-80f9-9f7e-c1ed77550748" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Multas.</li></ul><ul id="39ff6ce8-497f-80f9-b0c9-e64d28607f7c" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Processos judiciais.</li></ul><hr id="39ff6ce8-497f-808f-8927-f8c199dbbfc9" dir="auto"/><h2 id="39ff6ce8-497f-80a7-9c36-cd4e318a62e8" class="" dir="auto">Probabilidade</h2><p id="39ff6ce8-497f-80e6-80bb-d3e8d0e75bf8" class="" dir="auto">É a chance de um evento ocorrer.</p><p id="39ff6ce8-497f-8045-8d04-cece6c20636d" class="" dir="auto">Quanto maior a probabilidade e maior o impacto, maior será o risco.</p><hr id="39ff6ce8-497f-8081-a6d2-cda9c90392fd" dir="auto"/><h1 id="39ff6ce8-497f-8017-8f68-f4d60260ea7f" class="" dir="auto">Relação entre os elementos</h1><p id="39ff6ce8-497f-80ac-ba5e-d33321589869" class="" dir="auto">O risco surge da combinação desses fatores.</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="39ff6ce8-497f-8038-9c87-df20be8f05ab" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Ativo
+   ↓
+Possui Vulnerabilidades
+   ↓
+São exploradas por Ameaças
+   ↓
+Geram Impactos
+   ↓
+Resultam em um Risco</code></pre><hr id="39ff6ce8-497f-8096-8d71-d52e8724dc3b" dir="auto"/><h1 id="39ff6ce8-497f-8017-b1e6-f14d55bd5dc1" class="" dir="auto">O Processo de Gerenciamento de Riscos</h1><p id="39ff6ce8-497f-806f-ab14-d54c4785b8e1" class="" dir="auto">Embora existam diferentes metodologias, o processo geralmente segue estas etapas.</p><pre id="39ff6ce8-497f-80f8-863f-f1e722477c6b" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Estabelecer o contexto
+        ↓
+Identificar os ativos
+        ↓
+Identificar ameaças
+        ↓
+Identificar vulnerabilidades
+        ↓
+Analisar riscos
+        ↓
+Avaliar riscos
+        ↓
+Tratar os riscos
+        ↓
+Monitorar e revisar continuamente</code></pre><hr id="39ff6ce8-497f-80f3-849f-ea02f55399bc" dir="auto"/><h1 id="39ff6ce8-497f-8009-afa6-cb9dd58276b1" class="" dir="auto">1. Estabelecimento do Contexto</h1><p id="39ff6ce8-497f-80c9-a6f7-fce07d0ce718" class="" dir="auto">Antes de avaliar riscos, é necessário compreender:</p><ul id="39ff6ce8-497f-8061-9537-c8ae3cd8d92b" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Objetivos da organização.</li></ul><ul id="39ff6ce8-497f-80b9-9244-eb0497615154" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Processos de negócio.</li></ul><ul id="39ff6ce8-497f-8083-9c18-d887db4fe52a" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Ativos existentes.</li></ul><ul id="39ff6ce8-497f-802c-942f-e86e6846a04f" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Requisitos legais.</li></ul><ul id="39ff6ce8-497f-80c7-9911-e46e19612b4c" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Critérios para aceitar ou tratar riscos.</li></ul><p id="39ff6ce8-497f-80c2-ad88-edff7a64030a" class="" dir="auto">Essa etapa define o escopo da análise.</p><hr id="39ff6ce8-497f-808c-adc8-dc8c14858dee" dir="auto"/><h1 id="39ff6ce8-497f-8093-b66f-f6b5ba042682" class="" dir="auto">2. Identificação dos Ativos</h1><p id="39ff6ce8-497f-80fe-b710-c4923aab0dda" class="" dir="auto">Todos os ativos relevantes devem ser identificados.</p><p id="39ff6ce8-497f-803a-9a7c-f8c131643a45" class="" dir="auto">Exemplos:</p><ul id="39ff6ce8-497f-8027-bb7a-d41abc3693ee" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Servidores.</li></ul><ul id="39ff6ce8-497f-8066-9aa1-cf9034749904" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Bancos de dados.</li></ul><ul id="39ff6ce8-497f-802b-9cc3-dbdfb319bbe8" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Sistemas.</li></ul><ul id="39ff6ce8-497f-80f8-add0-e402faca49b2" class="bulleted-list" dir="auto"><li style="list-style-type:disc">APIs.</li></ul><ul id="39ff6ce8-497f-8010-8fbd-c144b3ea33a9" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Redes.</li></ul><ul id="39ff6ce8-497f-8094-9e14-fe638542289a" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Notebooks.</li></ul><ul id="39ff6ce8-497f-801c-ad4b-c1ca49c400e6" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Serviços em nuvem.</li></ul><ul id="39ff6ce8-497f-80b6-8215-c3b90eccf344" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Informações.</li></ul><p id="39ff6ce8-497f-8063-b45e-d13f7b7dd44a" class="" dir="auto">Sem saber quais ativos existem, não é possível protegê-los adequadamente.</p><hr id="39ff6ce8-497f-8079-bd1b-c4755e277f3b" dir="auto"/><h1 id="39ff6ce8-497f-806f-8214-d1b59cef7e42" class="" dir="auto">3. Identificação das Ameaças</h1><p id="39ff6ce8-497f-80cf-b65a-d0c5de929965" class="" dir="auto">Devem ser levantadas todas as ameaças capazes de afetar os ativos.</p><h2 id="39ff6ce8-497f-8090-a59c-fe4c5cf9fc28" class="" dir="auto">Ameaças Naturais</h2><ul id="39ff6ce8-497f-803f-ba6d-d120b8b516e1" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Enchentes.</li></ul><ul id="39ff6ce8-497f-8022-84d9-fb954eff11f4" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Incêndios.</li></ul><ul id="39ff6ce8-497f-80e6-b40e-ee673ceee85e" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Raios.</li></ul><ul id="39ff6ce8-497f-8036-8919-e1dd7992afca" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Terremotos.</li></ul><hr id="39ff6ce8-497f-80a3-a430-c62ece6c0976" dir="auto"/><h2 id="39ff6ce8-497f-8017-89b9-f9b732c34bcb" class="" dir="auto">Ameaças Humanas Não Intencionais</h2><ul id="39ff6ce8-497f-8013-84d8-ea0861817a21" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Exclusão acidental de arquivos.</li></ul><ul id="39ff6ce8-497f-8065-99be-ed250e42b5ab" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Configuração incorreta.</li></ul><ul id="39ff6ce8-497f-80e5-9351-cfe4fd4dbf00" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Erros operacionais.</li></ul><ul id="39ff6ce8-497f-80f0-8bb5-c96bde0ce2ef" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Perda de equipamentos.</li></ul><hr id="39ff6ce8-497f-8034-856f-d4cc1b05c50d" dir="auto"/><h2 id="39ff6ce8-497f-803b-bab1-f34536a9d226" class="" dir="auto">Ameaças Humanas Intencionais</h2><ul id="39ff6ce8-497f-80d7-9f53-c5c5d1ea1f69" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Hackers.</li></ul><ul id="39ff6ce8-497f-808e-8528-dcfc9f94de75" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Funcionários mal-intencionados.</li></ul><ul id="39ff6ce8-497f-80d2-9e92-eba29a49dd3d" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Fraudes.</li></ul><ul id="39ff6ce8-497f-804f-9a61-fb83326cded7" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Roubo de dados.</li></ul><ul id="39ff6ce8-497f-805a-90a5-c834020e64c2" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Espionagem.</li></ul><hr id="39ff6ce8-497f-80c3-84ec-e31e60ea39dc" dir="auto"/><h1 id="39ff6ce8-497f-8025-8435-e014ad255f18" class="" dir="auto">4. Identificação das Vulnerabilidades</h1><p id="39ff6ce8-497f-80b6-b22e-f4c929686bb1" class="" dir="auto">As vulnerabilidades são pontos fracos que facilitam a ação das ameaças.</p><p id="39ff6ce8-497f-8024-8abe-eed4ea1890a0" class="" dir="auto">Exemplos:</p><ul id="39ff6ce8-497f-803e-a647-dea7263112c5" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Senhas fracas.</li></ul><ul id="39ff6ce8-497f-80f0-8a65-c54e5acfc5bd" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Sistemas sem atualização.</li></ul><ul id="39ff6ce8-497f-80a3-8605-ed97d2c1ca02" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Ausência de MFA.</li></ul><ul id="39ff6ce8-497f-80da-8442-f60bcc293e11" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Firewall mal configurado.</li></ul><ul id="39ff6ce8-497f-8020-8da3-ce35355df4de" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Falta de backup.</li></ul><ul id="39ff6ce8-497f-8001-9c47-eafdcfc7dd14" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Serviços desnecessários ativos.</li></ul><hr id="39ff6ce8-497f-8001-84f6-ca06d4a83056" dir="auto"/><h1 id="39ff6ce8-497f-808b-814a-fe294566d9ce" class="" dir="auto">5. Análise de Riscos</h1><p id="39ff6ce8-497f-8051-adf4-fcf78174b8f4" class="" dir="auto">Nessa etapa são avaliados dois fatores principais:</p><h2 id="39ff6ce8-497f-8063-a8a0-fc36c1fa2897" class="" dir="auto">Probabilidade</h2><p id="39ff6ce8-497f-806d-b03d-cf141e866684" class="" dir="auto">Qual a chance de esse evento acontecer?</p><p id="39ff6ce8-497f-80bf-9627-ea8b4cf242af" class="" dir="auto">Pode ser classificada como:</p><ul id="39ff6ce8-497f-80e3-b3fc-cfa94cbab60c" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Muito baixa.</li></ul><ul id="39ff6ce8-497f-80f2-8415-f839288a6c0f" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Baixa.</li></ul><ul id="39ff6ce8-497f-8097-b53e-cf74edf44600" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Média.</li></ul><ul id="39ff6ce8-497f-80e6-aa97-fc88a525cf84" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Alta.</li></ul><ul id="39ff6ce8-497f-8076-a6a9-e07c545bb57d" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Muito alta.</li></ul><hr id="39ff6ce8-497f-80db-95e2-f8a6a7e003b9" dir="auto"/><h2 id="39ff6ce8-497f-80d3-a8e3-dc44b32fd2f9" class="" dir="auto">Impacto</h2><p id="39ff6ce8-497f-8090-85b4-e71b191ddd23" class="" dir="auto">Quais seriam as consequências?</p><p id="39ff6ce8-497f-80c5-8c67-d08fa6f342e8" class="" dir="auto">Pode ser:</p><ul id="39ff6ce8-497f-8021-b312-d4bd12b42c95" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Muito baixo.</li></ul><ul id="39ff6ce8-497f-806c-b5ba-fa5f34f021dd" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Baixo.</li></ul><ul id="39ff6ce8-497f-809f-9ff8-e960a8ee9f68" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Médio.</li></ul><ul id="39ff6ce8-497f-807b-8973-fbc7d2b4f06e" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Alto.</li></ul><ul id="39ff6ce8-497f-804b-a352-fc202b2f7292" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Muito alto.</li></ul><hr id="39ff6ce8-497f-8070-837f-e345e35b127a" dir="auto"/><h1 id="39ff6ce8-497f-80e3-9f80-da5a826d5961" class="" dir="auto">Matriz de Risco</h1><p id="39ff6ce8-497f-805f-8003-ca491fd9eb2d" class="" dir="auto">Uma forma comum de visualizar a prioridade dos riscos é combinar probabilidade e impacto.</p><table id="39ff6ce8-497f-801f-9620-ef7fea1cf3a6" class="simple-table" dir="ltr"><thead class="simple-table-header"><tr id="39ff6ce8-497f-805c-ab7a-d0d4c7f10de6" dir="ltr"><th id="?]LX" class="simple-table-header-color simple-table-header">Probabilidade</th><th id="dwEa" class="simple-table-header-color simple-table-header">Impacto</th><th id="?yQK" class="simple-table-header-color simple-table-header">Nível de risco</th></tr></thead><tbody><tr id="39ff6ce8-497f-8019-bff5-f0bb6915628e" dir="ltr"><td id="?]LX" class="">Baixa</td><td id="dwEa" class="">Baixo</td><td id="?yQK" class="">Baixo</td></tr><tr id="39ff6ce8-497f-807c-96e0-ff7fd57ed011" dir="ltr"><td id="?]LX" class="">Baixa</td><td id="dwEa" class="">Alto</td><td id="?yQK" class="">Médio</td></tr><tr id="39ff6ce8-497f-8088-ab59-d09f26255fab" dir="ltr"><td id="?]LX" class="">Alta</td><td id="dwEa" class="">Baixo</td><td id="?yQK" class="">Médio</td></tr><tr id="39ff6ce8-497f-801c-8b9b-c173e37c2364" dir="ltr"><td id="?]LX" class="">Alta</td><td id="dwEa" class="">Alto</td><td id="?yQK" class="">Crítico</td></tr></tbody></table><p id="39ff6ce8-497f-80c3-b026-ed3deb237fd2" class="" dir="auto">Essa matriz auxilia na definição das prioridades de tratamento.</p><hr id="39ff6ce8-497f-805e-83d7-c1d81eead86f" dir="auto"/><h1 id="39ff6ce8-497f-8062-9b3c-e7343c35f705" class="" dir="auto">6. Avaliação dos Riscos</h1><p id="39ff6ce8-497f-80d1-bb31-d67b87e43303" class="" dir="auto">Após a análise, a organização decide:</p><ul id="39ff6ce8-497f-80e5-962a-e9ef5050e1bf" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Quais riscos são aceitáveis.</li></ul><ul id="39ff6ce8-497f-80c6-8119-e1424be86f78" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Quais exigem tratamento imediato.</li></ul><ul id="39ff6ce8-497f-80bf-ae4e-d0a11b8cc1e7" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Quais podem ser monitorados.</li></ul><ul id="39ff6ce8-497f-801c-9441-f5a5c3dbc7f9" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Quais podem ser transferidos.</li></ul><hr id="39ff6ce8-497f-80d7-aaac-c55ef5f3d77f" dir="auto"/><h1 id="39ff6ce8-497f-8076-a408-f98b6ee7e467" class="" dir="auto">7. Tratamento dos Riscos</h1><p id="39ff6ce8-497f-8098-9afe-cc34b4fb6132" class="" dir="auto">Existem quatro estratégias principais.</p><h2 id="39ff6ce8-497f-8079-9507-cd43bfe5bc56" class="" dir="auto">Mitigar (Reduzir)</h2><p id="39ff6ce8-497f-808f-a2f5-f06f4a7cf50c" class="" dir="auto">Implementar controles para diminuir a probabilidade ou o impacto.</p><p id="39ff6ce8-497f-8074-8677-e7d772cc3d70" class="" dir="auto">Exemplos:</p><ul id="39ff6ce8-497f-8022-a9ce-ef3cae9e8096" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Firewall.</li></ul><ul id="39ff6ce8-497f-803a-8de0-cc59dafd3d81" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Criptografia.</li></ul><ul id="39ff6ce8-497f-809b-8691-e9537b2c664d" class="bulleted-list" dir="auto"><li style="list-style-type:disc">MFA.</li></ul><ul id="39ff6ce8-497f-80e1-aca9-dfaf73b5efee" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Atualizações.</li></ul><ul id="39ff6ce8-497f-8061-bab2-c892a47133f6" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Backups.</li></ul><hr id="39ff6ce8-497f-8077-9090-d013d495b2e7" dir="auto"/><h2 id="39ff6ce8-497f-806f-9e70-c38bfda167b7" class="" dir="auto">Evitar</h2><p id="39ff6ce8-497f-8039-9434-e5241b123e06" class="" dir="auto">Eliminar a atividade que gera o risco.</p><p id="39ff6ce8-497f-8021-9311-cfd8d5e4453c" class="" dir="auto">Exemplo:</p><p id="39ff6ce8-497f-8092-bd21-c47cf0a1b963" class="" dir="auto">Desativar um serviço desnecessário exposto à internet.</p><hr id="39ff6ce8-497f-809d-808d-c6fa7cd6907d" dir="auto"/><h2 id="39ff6ce8-497f-8082-8cbb-de81c420b6d9" class="" dir="auto">Transferir</h2><p id="39ff6ce8-497f-80f9-bd09-e6251665ce3d" class="" dir="auto">Passar parte do risco para terceiros.</p><p id="39ff6ce8-497f-808f-9913-c1f41f4f9459" class="" dir="auto">Exemplos:</p><ul id="39ff6ce8-497f-807b-8833-cae54420abeb" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Seguro cibernético.</li></ul><ul id="39ff6ce8-497f-8012-a2dd-d8819e003133" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Contratação de serviços especializados.</li></ul><p id="39ff6ce8-497f-801e-a1a4-fd7deeb3241b" class="" dir="auto">É importante lembrar que a responsabilidade pela proteção dos dados geralmente continua sendo da organização.</p><hr id="39ff6ce8-497f-8019-8509-ef15cebd36b2" dir="auto"/><h2 id="39ff6ce8-497f-8000-95e8-eb5aedb7f43a" class="" dir="auto">Aceitar</h2><p id="39ff6ce8-497f-80c2-8012-d8810dc3f5fc" class="" dir="auto">Alguns riscos são considerados aceitáveis quando o custo para eliminá-los é maior do que o impacto esperado.</p><p id="39ff6ce8-497f-8044-8466-cd902dffb644" class="" dir="auto">Esses riscos devem ser documentados e monitorados.</p><hr id="39ff6ce8-497f-8028-9f13-f7481b06a7ef" dir="auto"/><h1 id="39ff6ce8-497f-80a0-9ab7-c52607c7f1f2" class="" dir="auto">Monitoramento Contínuo</h1><p id="39ff6ce8-497f-8003-a766-e6ce90def418" class="" dir="auto">O gerenciamento de riscos não é um processo único.</p><p id="39ff6ce8-497f-80ae-9787-e3ba4ec90b12" class="" dir="auto">Novas ameaças surgem constantemente.</p><p id="39ff6ce8-497f-806d-b6cb-e32c2b4817f6" class="" dir="auto">Por isso, é necessário:</p><ul id="39ff6ce8-497f-80a8-90f4-fd005cfa4941" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Atualizar inventários.</li></ul><ul id="39ff6ce8-497f-80b9-8c9f-c8371787cf48" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Revisar vulnerabilidades.</li></ul><ul id="39ff6ce8-497f-8079-b005-c810950903e1" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Corrigir falhas.</li></ul><ul id="39ff6ce8-497f-805a-9f65-dd0e1825bf59" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Reavaliar riscos.</li></ul><ul id="39ff6ce8-497f-80d2-970b-ebea99e01647" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Monitorar incidentes.</li></ul><ul id="39ff6ce8-497f-8031-958f-df30418f4396" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Atualizar políticas de segurança.</li></ul><hr id="39ff6ce8-497f-8052-9a8e-d3ae0212008d" dir="auto"/><h1 id="39ff6ce8-497f-8004-a986-c991d86723e3" class="" dir="auto">Exemplo Prático</h1><p id="39ff6ce8-497f-8004-a91a-d8bac360946f" class="" dir="auto">Uma empresa possui um banco de dados de clientes.</p><p id="39ff6ce8-497f-801d-a795-e80b3977585f" class="" dir="auto"><strong>Ativo</strong></p><ul id="39ff6ce8-497f-80db-8f92-fb16e8b19958" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Banco de dados.</li></ul><p id="39ff6ce8-497f-8013-879e-e42b0220e04d" class="" dir="auto"><strong>Ameaça</strong></p><ul id="39ff6ce8-497f-80da-af28-e09dd63b663f" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Ransomware.</li></ul><p id="39ff6ce8-497f-80c3-a861-e821d4439a21" class="" dir="auto"><strong>Vulnerabilidade</strong></p><ul id="39ff6ce8-497f-8054-9c7c-dd5feda70096" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Sistema desatualizado.</li></ul><ul id="39ff6ce8-497f-8011-81e9-dcdd7bdabb36" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Ausência de MFA para administradores.</li></ul><p id="39ff6ce8-497f-8081-ad23-cc5ce7250c52" class="" dir="auto"><strong>Impacto</strong></p><ul id="39ff6ce8-497f-801b-8bc7-c096a568580d" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Paralisação do negócio.</li></ul><ul id="39ff6ce8-497f-80dd-9e48-ee0153f10f04" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Vazamento de dados.</li></ul><ul id="39ff6ce8-497f-805d-a287-ed65d9225f20" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Multas pela LGPD.</li></ul><ul id="39ff6ce8-497f-8043-a5c9-fa092398a649" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Perda de clientes.</li></ul><p id="39ff6ce8-497f-8007-8958-ffefa5927c78" class="" dir="auto"><strong>Tratamento</strong></p><ul id="39ff6ce8-497f-8011-acba-ef2589d37c34" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Atualizar sistemas.</li></ul><ul id="39ff6ce8-497f-80f0-8af7-ee153c4a620f" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Implantar MFA.</li></ul><ul id="39ff6ce8-497f-8001-a2c5-f6e47b024aaa" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Realizar backups offline.</li></ul><ul id="39ff6ce8-497f-8019-9538-e3e73ce24c58" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Monitorar acessos.</li></ul><ul id="39ff6ce8-497f-80ff-ba65-db1aba9e747d" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Treinar administradores.</li></ul><p id="39ff6ce8-497f-80a7-8263-f34d75136ca9" class="" dir="auto">O risco não desaparece completamente, mas é reduzido de forma significativa.</p><hr id="39ff6ce8-497f-8096-81be-cd2ff66e570c" dir="auto"/><h1 id="39ff6ce8-497f-80ad-89b1-d3ad819fbf77" class="" dir="auto">Ferramentas utilizadas</h1><p id="39ff6ce8-497f-80b3-a922-e8383e2b3d5c" class="" dir="auto">Algumas ferramentas e tecnologias ajudam na gestão de riscos.</p><ul id="39ff6ce8-497f-804c-aff0-fde47f95b38f" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Sistemas de Gestão de Vulnerabilidades.</li></ul><ul id="39ff6ce8-497f-80b7-9c31-d861ca8c6d25" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Scanners de vulnerabilidades.</li></ul><ul id="39ff6ce8-497f-807a-b211-caf6b42cbacd" class="bulleted-list" dir="auto"><li style="list-style-type:disc">SIEM (Security Information and Event Management).</li></ul><ul id="39ff6ce8-497f-8014-8625-f061470edd1d" class="bulleted-list" dir="auto"><li style="list-style-type:disc">EDR (Endpoint Detection and Response).</li></ul><ul id="39ff6ce8-497f-8094-9b20-f19ed6d22934" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Ferramentas de inventário de ativos.</li></ul><ul id="39ff6ce8-497f-8079-93f8-cabf8a7f3138" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Plataformas de GRC (Governança, Riscos e Conformidade).</li></ul><p id="39ff6ce8-497f-808c-b282-fe61e64be9bd" class="" dir="auto">Essas soluções auxiliam na identificação de ativos, vulnerabilidades e eventos de segurança.</p><hr id="39ff6ce8-497f-80ec-af15-cb34ce22050c" dir="auto"/><h1 id="39ff6ce8-497f-8069-8e6a-c5b60df40a49" class="" dir="auto">Relação com a LGPD</h1><p id="39ff6ce8-497f-80a2-b360-f8a50a527eb2" class="" dir="auto">A <strong>Lei Geral de Proteção de Dados (LGPD)</strong> exige que organizações adotem medidas técnicas e administrativas para proteger dados pessoais.</p><p id="39ff6ce8-497f-800b-b498-ca833c5d95a1" class="" dir="auto">Um gerenciamento de riscos eficiente contribui para:</p><ul id="39ff6ce8-497f-80cf-ad65-c19778195672" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Identificar dados pessoais.</li></ul><ul id="39ff6ce8-497f-805c-9d9f-d09f9a57ef79" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Avaliar riscos ao tratamento desses dados.</li></ul><ul id="39ff6ce8-497f-807e-99ad-e1aa8b53764e" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Implementar controles adequados.</li></ul><ul id="39ff6ce8-497f-802c-ac1c-df3917ce0fba" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Demonstrar conformidade.</li></ul><ul id="39ff6ce8-497f-80c1-bded-cc97b7e27ad3" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Reduzir a probabilidade de incidentes.</li></ul><hr id="39ff6ce8-497f-80c4-a3a9-cb55779994ba" dir="auto"/><h1 id="39ff6ce8-497f-803f-a700-d13d4e8c9df1" class="" dir="auto">Relação com Normas Internacionais</h1><p id="39ff6ce8-497f-80db-b549-dd7833c563f5" class="" dir="auto">O gerenciamento de riscos é um componente central de diversos padrões e frameworks.</p><ul id="39ff6ce8-497f-80ac-8a79-f306846bc889" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>ISO/IEC 27001</strong> – Exige um processo estruturado de gestão de riscos para implementar um Sistema de Gestão de Segurança da Informação (SGSI).</li></ul><ul id="39ff6ce8-497f-8036-ac76-c05d10c3630f" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>ISO/IEC 27005</strong> – Fornece diretrizes específicas para o gerenciamento de riscos em segurança da informação.</li></ul><ul id="39ff6ce8-497f-801c-956f-e3e6f9c090fe" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>NIST Risk Management Framework (RMF)</strong> – Estrutura para gerenciar riscos em sistemas de informação.</li></ul><ul id="39ff6ce8-497f-8037-9062-f1d88eb6b370" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>NIST Cybersecurity Framework (CSF)</strong> – Inclui a gestão de riscos como base para as funções de identificar, proteger, detectar, responder e recuperar.</li></ul><hr id="39ff6ce8-497f-80e4-8d9d-c7f761663959" dir="auto"/><h1 id="39ff6ce8-497f-80da-adfc-d0b908def82c" class="" dir="auto">Boas práticas</h1><ul id="39ff6ce8-497f-806f-b274-ee730a0ee164" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Manter um inventário atualizado dos ativos.</li></ul><ul id="39ff6ce8-497f-80ce-944c-fd7ca7204599" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Classificar as informações conforme sua sensibilidade.</li></ul><ul id="39ff6ce8-497f-802b-9b1c-cf41be7c1f9c" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Realizar avaliações de risco periodicamente.</li></ul><ul id="39ff6ce8-497f-8080-9374-edd019326bd8" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Corrigir vulnerabilidades com prioridade.</li></ul><ul id="39ff6ce8-497f-8012-b750-c3f946cc47a5" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Implementar autenticação multifator.</li></ul><ul id="39ff6ce8-497f-8003-9e52-d65881b85292" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Criptografar dados sensíveis.</li></ul><ul id="39ff6ce8-497f-8005-8988-c7d85acf389d" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Realizar backups e testar sua restauração.</li></ul><ul id="39ff6ce8-497f-80ab-bcc9-f3f6df3556f1" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Monitorar continuamente os ambientes.</li></ul><ul id="39ff6ce8-497f-80de-a975-e1269bddbc77" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Treinar usuários sobre boas práticas de segurança.</li></ul><ul id="39ff6ce8-497f-80cf-9ada-d2a36a5a1fee" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Documentar decisões e revisar os riscos regularmente.</li></ul><hr id="39ff6ce8-497f-8028-9f21-dc43d33d1028" dir="auto"/><h1 id="39ff6ce8-497f-8032-9406-dd93e2d5d369" class="" dir="auto">Resumo</h1><p id="39ff6ce8-497f-805f-aad4-dabd643cd2c5" class="" dir="auto">O <strong>Gerenciamento de Riscos para a Proteção de Dados</strong> é um processo contínuo que busca identificar, analisar, avaliar, tratar e monitorar riscos que possam comprometer os dados de uma organização. Ele se baseia na análise de ativos, ameaças, vulnerabilidades, probabilidade e impacto, permitindo priorizar ações de segurança de forma eficiente. Em vez de eliminar todos os riscos, seu objetivo é reduzi-los a níveis aceitáveis, garantindo a proteção dos dados, a continuidade dos negócios e a conformidade com normas e legislações como a LGPD. É um dos pilares da Segurança da Informação e da Segurança Cibernética modernas.</p></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

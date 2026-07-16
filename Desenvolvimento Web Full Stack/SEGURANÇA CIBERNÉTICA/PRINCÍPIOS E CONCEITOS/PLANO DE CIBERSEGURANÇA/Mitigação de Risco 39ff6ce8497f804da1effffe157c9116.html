@@ -1,0 +1,793 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Mitigação de Risco</title><meta name="data-notion-page-icon" content="/icons/lock_blue.svg"/><link rel="icon" href="https://app.notion.com/icons/lock_blue.svg"/><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+/* For default-background callouts, render the border outline. */
+.callout.block-color-default_background {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+figure,
+aside,
+details {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding-inline: 0.125rem;
+	padding-block: 0.375rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+/*
+ * Render emoji icons using a ::before pseudo-element to keep the glyph
+ * out of the DOM textContent traversal. This avoids double-rendering icons
+ * in callouts and page titles.
+ * NOTE(slim/html-export-pseudo-icons): I can't tagref this because it will
+ * flag as a duplicate tag after codegen.
+ */
+.icon[data-emoji]::before {
+	content: attr(data-emoji);
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	margin-right: 0.4em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.tab {
+	margin: 1.25em 0;
+	padding-inline: 1rem;
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style><style>@import url('https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex-swap.min.css')</style></head><body><article id="39ff6ce8-497f-804d-a1ef-fffe157c9116" class="page sans" data-notion-page-icon="/icons/lock_blue.svg"><header><div class="page-header-icon undefined"><img class="icon notion-static-icon" src="https://app.notion.com/icons/lock_blue.svg"/></div><h1 class="page-title" dir="auto">Mitigação de Risco</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><h1 id="39ff6ce8-497f-805b-879e-ea4e98f0bd4e" class="" dir="auto">Mitigação do Risco</h1><p id="39ff6ce8-497f-80c5-bf59-c39e564759bb" class="" dir="auto">A <strong>Mitigação do Risco</strong> é o conjunto de ações adotadas para reduzir a probabilidade de um risco ocorrer ou minimizar seus impactos caso ele se concretize.</p><p id="39ff6ce8-497f-807a-8f1f-f544c167f28c" class="" dir="auto">Na Segurança da Informação e na Segurança Cibernética, a mitigação é uma das principais estratégias de tratamento de riscos. Seu objetivo não é eliminar completamente o risco — algo que, na maioria dos casos, é impossível —, mas <strong>reduzi-lo a um nível aceitável para a organização</strong>.</p><p id="39ff6ce8-497f-80f0-ab3b-f360b33c6089" class="" dir="auto">Por exemplo, uma empresa não consegue impedir que existam hackers na internet, mas pode implementar controles como autenticação multifator (MFA), firewalls, criptografia e backups para reduzir significativamente as chances de um ataque bem-sucedido e seus impactos.</p><hr id="39ff6ce8-497f-80d6-a490-eba85faf348d" dir="auto"/><h1 id="39ff6ce8-497f-806e-947e-e89cd3735a79" class="" dir="auto">O que é Mitigação do Risco?</h1><p id="39ff6ce8-497f-807c-9e7a-e1394b184f7f" class="" dir="auto">Mitigar um risco significa <strong>implementar controles, processos e tecnologias capazes de diminuir sua probabilidade ou reduzir suas consequências</strong>.</p><p id="39ff6ce8-497f-8006-9435-c3cb9ca017be" class="" dir="auto">Esses controles podem ser:</p><ul id="39ff6ce8-497f-80a6-a53a-e2a767ab59bc" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Técnicos.</li></ul><ul id="39ff6ce8-497f-80bc-b660-c189245e1f14" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Administrativos.</li></ul><ul id="39ff6ce8-497f-8024-9940-d80673296c74" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Físicos.</li></ul><ul id="39ff6ce8-497f-80ee-866b-c9a0a6cd449b" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Operacionais.</li></ul><p id="39ff6ce8-497f-80b4-ab33-c5ffe734815f" class="" dir="auto">A escolha dos controles depende da natureza do risco e dos ativos que precisam ser protegidos.</p><hr id="39ff6ce8-497f-80c8-8a40-ed63124a1d89" dir="auto"/><h1 id="39ff6ce8-497f-80bf-9d6e-da14af8bfa6d" class="" dir="auto">Objetivos da Mitigação do Risco</h1><p id="39ff6ce8-497f-806e-a100-e6fb3ecbead5" class="" dir="auto">A mitigação busca:</p><ul id="39ff6ce8-497f-8074-bad0-c679c0a92345" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Reduzir a probabilidade de incidentes.</li></ul><ul id="39ff6ce8-497f-8046-bb94-ce779428118d" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Diminuir os impactos de um ataque ou falha.</li></ul><ul id="39ff6ce8-497f-80ab-b1fb-f906c335c209" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Proteger informações críticas.</li></ul><ul id="39ff6ce8-497f-8008-bf28-edaef6648423" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Garantir a continuidade dos negócios.</li></ul><ul id="39ff6ce8-497f-80b9-8634-cbe09f2ca3af" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Reduzir perdas financeiras.</li></ul><ul id="39ff6ce8-497f-80bc-b171-fe2400f710f8" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Atender normas e legislações.</li></ul><ul id="39ff6ce8-497f-805d-a867-fc02b1cc9186" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Aumentar a resiliência da organização.</li></ul><hr id="39ff6ce8-497f-8052-a48b-e6f235b8384b" dir="auto"/><h1 id="39ff6ce8-497f-8065-bf73-e5f54cbc6555" class="" dir="auto">Quando um risco deve ser mitigado?</h1><p id="39ff6ce8-497f-8032-9a1e-eefd80c179f2" class="" dir="auto">Nem todos os riscos exigem mitigação imediata. Geralmente, essa estratégia é adotada quando:</p><ul id="39ff6ce8-497f-807a-b5c0-e82c7111d604" class="bulleted-list" dir="auto"><li style="list-style-type:disc">O risco é alto ou crítico.</li></ul><ul id="39ff6ce8-497f-8053-8f1d-e0b530332362" class="bulleted-list" dir="auto"><li style="list-style-type:disc">O impacto pode comprometer o negócio.</li></ul><ul id="39ff6ce8-497f-806c-b708-d56b54617fe4" class="bulleted-list" dir="auto"><li style="list-style-type:disc">O custo da mitigação é menor que o prejuízo potencial.</li></ul><ul id="39ff6ce8-497f-8097-a2e7-f85aac831a6a" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Existem controles viáveis para reduzir o risco.</li></ul><ul id="39ff6ce8-497f-801c-b905-f2f252f87df2" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Há exigências legais ou regulatórias.</li></ul><hr id="39ff6ce8-497f-80cc-806e-c14580911964" dir="auto"/><h1 id="39ff6ce8-497f-803c-ba18-c161861c59c4" class="" dir="auto">Como funciona a Mitigação do Risco?</h1><p id="39ff6ce8-497f-801d-8ea6-edd43f3b9827" class="" dir="auto">O processo normalmente segue estas etapas:</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="39ff6ce8-497f-8061-97e0-ca716b6e5cac" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Identificar o risco
+        ↓
+Analisar probabilidade e impacto
+        ↓
+Selecionar controles de segurança
+        ↓
+Implementar os controles
+        ↓
+Testar sua eficácia
+        ↓
+Monitorar continuamente</code></pre><p id="39ff6ce8-497f-8052-a5bd-c946c07a036c" class="" dir="auto">A mitigação não termina após a implementação dos controles. É necessário acompanhar continuamente sua eficácia, pois novas ameaças e vulnerabilidades podem surgir.</p><hr id="39ff6ce8-497f-80bd-a53d-f713311b28c0" dir="auto"/><h1 id="39ff6ce8-497f-8066-9178-f724d9559c5d" class="" dir="auto">O que pode ser mitigado?</h1><p id="39ff6ce8-497f-80d1-aede-d17d4fc5ccf7" class="" dir="auto">A mitigação pode reduzir riscos relacionados a:</p><ul id="39ff6ce8-497f-8033-a45e-e5bf5b3836fc" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Ataques cibernéticos.</li></ul><ul id="39ff6ce8-497f-8020-8861-c68ae28b883e" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Vazamento de dados.</li></ul><ul id="39ff6ce8-497f-8031-93fb-ceee211b5ace" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Perda de informações.</li></ul><ul id="39ff6ce8-497f-80c7-a21b-d1686952fbcc" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Erros humanos.</li></ul><ul id="39ff6ce8-497f-8031-9fe0-ef637dfcebc2" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Falhas de hardware.</li></ul><ul id="39ff6ce8-497f-801a-8bbd-e0049c37f25d" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Falhas de software.</li></ul><ul id="39ff6ce8-497f-807d-9c67-d0f1f7d57e42" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Ataques internos.</li></ul><ul id="39ff6ce8-497f-8071-bd8f-d6d2225b9bce" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Desastres naturais.</li></ul><ul id="39ff6ce8-497f-802e-af7c-de89aefee52e" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Interrupção de serviços.</li></ul><hr id="39ff6ce8-497f-804b-a23d-fdda325cf81c" dir="auto"/><h1 id="39ff6ce8-497f-803c-b020-d790f94543c7" class="" dir="auto">Controles de Mitigação</h1><p id="39ff6ce8-497f-80c1-8012-c54da5ab5d23" class="" dir="auto">Os controles utilizados para mitigar riscos podem ser divididos em diferentes categorias.</p><hr id="39ff6ce8-497f-80f9-9dd0-f6a3db3004f2" dir="auto"/><h1 id="39ff6ce8-497f-80b2-af6d-ede1fecf9e76" class="" dir="auto">1. Controles Técnicos</h1><p id="39ff6ce8-497f-80cf-ae47-c3d2f530ddf5" class="" dir="auto">São implementados por meio de hardware ou software.</p><h2 id="39ff6ce8-497f-80b8-82d3-c5df45aa5557" class="" dir="auto">Exemplos</h2><ul id="39ff6ce8-497f-806c-b029-c08552f4147c" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Firewall.</li></ul><ul id="39ff6ce8-497f-80af-94d9-c54f59bff5b8" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Antivírus.</li></ul><ul id="39ff6ce8-497f-8082-9af8-e50537734dd8" class="bulleted-list" dir="auto"><li style="list-style-type:disc">EDR (Endpoint Detection and Response).</li></ul><ul id="39ff6ce8-497f-808b-8dc9-e2a1ec3801a5" class="bulleted-list" dir="auto"><li style="list-style-type:disc">IDS/IPS.</li></ul><ul id="39ff6ce8-497f-802a-9169-d49407315458" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Criptografia.</li></ul><ul id="39ff6ce8-497f-805b-a52a-f5014daf72c1" class="bulleted-list" dir="auto"><li style="list-style-type:disc">VPN.</li></ul><ul id="39ff6ce8-497f-8085-b2a1-e4c4651a78cc" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Autenticação Multifator (MFA).</li></ul><ul id="39ff6ce8-497f-80d5-a485-ef5dc33ce507" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Controle de acesso.</li></ul><ul id="39ff6ce8-497f-808b-9fba-e66c3e917140" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Segmentação de rede.</li></ul><ul id="39ff6ce8-497f-806a-9c55-e7cc21c4152f" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Backup automatizado.</li></ul><ul id="39ff6ce8-497f-808f-b6f0-c44251b712b5" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Monitoramento contínuo.</li></ul><ul id="39ff6ce8-497f-806d-827a-d8e9189d6549" class="bulleted-list" dir="auto"><li style="list-style-type:disc">SIEM (Security Information and Event Management).</li></ul><h3 id="39ff6ce8-497f-8089-bf73-dda5f6951614" class="" dir="auto">Exemplo</h3><p id="39ff6ce8-497f-80af-8a83-e65e5d8e50dd" class="" dir="auto">Uma empresa implementa MFA para reduzir o risco de invasão por roubo de senhas.</p><hr id="39ff6ce8-497f-8096-a2eb-d515e3f9624f" dir="auto"/><h1 id="39ff6ce8-497f-8026-a70a-d8046ec7b1dd" class="" dir="auto">2. Controles Administrativos</h1><p id="39ff6ce8-497f-8014-8aed-f9d19d2ef375" class="" dir="auto">São políticas e procedimentos que orientam as pessoas.</p><h2 id="39ff6ce8-497f-800c-be58-e462aaa77e7d" class="" dir="auto">Exemplos</h2><ul id="39ff6ce8-497f-8098-a5ef-dab6ffabcc45" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Políticas de Segurança.</li></ul><ul id="39ff6ce8-497f-800f-8281-d811f2f062a5" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Treinamentos.</li></ul><ul id="39ff6ce8-497f-80a8-84e9-d105c02d8c06" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Campanhas contra phishing.</li></ul><ul id="39ff6ce8-497f-80dc-81bf-eb53883ede36" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Controle de permissões.</li></ul><ul id="39ff6ce8-497f-80c7-b0ad-efa99ae7ad3b" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Gestão de mudanças.</li></ul><ul id="39ff6ce8-497f-80ac-badd-d506ec65eefd" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Auditorias.</li></ul><ul id="39ff6ce8-497f-80d2-8b4d-d1966c461fbe" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Gestão de riscos.</li></ul><ul id="39ff6ce8-497f-808b-8a50-e69833a6e3b0" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Classificação da informação.</li></ul><h3 id="39ff6ce8-497f-8044-ae10-d5841974fa65" class="" dir="auto">Exemplo</h3><p id="39ff6ce8-497f-80a4-9547-ca97f00e077f" class="" dir="auto">Treinar colaboradores para identificar e-mails maliciosos reduz o risco de ataques de phishing.</p><hr id="39ff6ce8-497f-80d1-92da-e52419b7043b" dir="auto"/><h1 id="39ff6ce8-497f-8006-a56e-c9b5848cd212" class="" dir="auto">3. Controles Físicos</h1><p id="39ff6ce8-497f-8005-8c22-e52ae231f6fb" class="" dir="auto">Protegem o ambiente físico.</p><h2 id="39ff6ce8-497f-803b-9887-cc50cc357b72" class="" dir="auto">Exemplos</h2><ul id="39ff6ce8-497f-8006-b700-eb909326da56" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Câmeras.</li></ul><ul id="39ff6ce8-497f-80f2-99a6-e2a5d055fe34" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Controle biométrico.</li></ul><ul id="39ff6ce8-497f-8083-bd67-df62f57c3bcd" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Cartões de acesso.</li></ul><ul id="39ff6ce8-497f-8099-b108-f6afac42fdae" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Portas reforçadas.</li></ul><ul id="39ff6ce8-497f-802f-a8af-c1c285534e91" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Alarmes.</li></ul><ul id="39ff6ce8-497f-80e9-bb5f-f5a99f26238b" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Detectores de incêndio.</li></ul><ul id="39ff6ce8-497f-80e8-b03f-c2aeedb6c6f8" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Geradores.</li></ul><ul id="39ff6ce8-497f-807d-9c79-f949e3fc2943" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Cofres.</li></ul><h3 id="39ff6ce8-497f-8043-ac16-edcdbff19343" class="" dir="auto">Exemplo</h3><p id="39ff6ce8-497f-805b-8b7e-e138b2446649" class="" dir="auto">Restringir o acesso à sala dos servidores reduz o risco de sabotagem ou roubo.</p><hr id="39ff6ce8-497f-8098-a267-f7411817fabb" dir="auto"/><h1 id="39ff6ce8-497f-8040-9aad-e02192512fbe" class="" dir="auto">4. Controles Operacionais</h1><p id="39ff6ce8-497f-8011-a410-fda25acea4e3" class="" dir="auto">Relacionam-se às rotinas da organização.</p><h2 id="39ff6ce8-497f-800d-8acd-e3959ebcf677" class="" dir="auto">Exemplos</h2><ul id="39ff6ce8-497f-8053-ba7a-e89e18eca69f" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Procedimentos de backup.</li></ul><ul id="39ff6ce8-497f-8005-a93d-d4625488d933" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Testes de recuperação.</li></ul><ul id="39ff6ce8-497f-809d-a783-f58952aa3b8e" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Monitoramento diário.</li></ul><ul id="39ff6ce8-497f-8039-8ce7-e1e6ce57b87e" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Gestão de incidentes.</li></ul><ul id="39ff6ce8-497f-80be-adc7-f720d5dc8369" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Plano de Continuidade de Negócios (BCP).</li></ul><ul id="39ff6ce8-497f-805f-8d9b-e220911133d9" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Plano de Recuperação de Desastres (DRP).</li></ul><hr id="39ff6ce8-497f-80e4-9162-c1a85537e24e" dir="auto"/><h1 id="39ff6ce8-497f-806f-a8ff-d7cc025ded08" class="" dir="auto">Estratégias de Mitigação</h1><p id="39ff6ce8-497f-80a7-82e8-df665e44b307" class="" dir="auto">Dependendo do risco, diferentes estratégias podem ser utilizadas.</p><h2 id="39ff6ce8-497f-802c-ae2b-cf2433c10058" class="" dir="auto">Reduzir a Probabilidade</h2><p id="39ff6ce8-497f-8021-b389-c5c43f6710e5" class="" dir="auto">Objetivo:</p><p id="39ff6ce8-497f-8076-9a8d-c6e57073333b" class="" dir="auto">Evitar que o incidente aconteça.</p><h3 id="39ff6ce8-497f-805d-bed1-c6b838a5b74a" class="" dir="auto">Exemplos</h3><ul id="39ff6ce8-497f-80a7-aafe-ec908f6b8b31" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Atualizar sistemas.</li></ul><ul id="39ff6ce8-497f-800d-95f0-e4a60ae2e93d" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Corrigir vulnerabilidades.</li></ul><ul id="39ff6ce8-497f-8032-8b4a-e930c3e96974" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Implementar MFA.</li></ul><ul id="39ff6ce8-497f-80c3-a33b-ddbb65923641" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Utilizar senhas fortes.</li></ul><ul id="39ff6ce8-497f-80d1-93b6-dc6cb4d4f5c6" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Treinar usuários.</li></ul><hr id="39ff6ce8-497f-8071-abac-c91508343fc5" dir="auto"/><h2 id="39ff6ce8-497f-8042-8db3-eb4d9c3f1c9f" class="" dir="auto">Reduzir o Impacto</h2><p id="39ff6ce8-497f-80a3-8bdf-e4c073a8a2f6" class="" dir="auto">Objetivo:</p><p id="39ff6ce8-497f-8041-a617-e844e0c337cf" class="" dir="auto">Diminuir os danos caso o incidente ocorra.</p><h3 id="39ff6ce8-497f-804b-bcee-ede7917cfe72" class="" dir="auto">Exemplos</h3><ul id="39ff6ce8-497f-80ed-a960-c4d51173fb88" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Backups.</li></ul><ul id="39ff6ce8-497f-8017-b76e-dac4e357dc5b" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Plano de resposta a incidentes.</li></ul><ul id="39ff6ce8-497f-80bd-aca0-da61043ecdd4" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Alta disponibilidade.</li></ul><ul id="39ff6ce8-497f-80e6-94fd-ed160a4ad8da" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Plano de recuperação.</li></ul><ul id="39ff6ce8-497f-8041-ad04-f5c76e496630" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Redundância de servidores.</li></ul><hr id="39ff6ce8-497f-8077-9a2a-efa8be8fa213" dir="auto"/><h1 id="39ff6ce8-497f-8010-b981-d82850592695" class="" dir="auto">Exemplos Práticos</h1><h2 id="39ff6ce8-497f-80ad-89af-d0448cfdeb34" class="" dir="auto">Exemplo 1 – Phishing</h2><h3 id="39ff6ce8-497f-80ea-8e52-ff5df50d2730" class="" dir="auto">Risco</h3><p id="39ff6ce8-497f-80a9-95fb-d040d0243a3d" class="" dir="auto">Funcionário clicar em um e-mail malicioso.</p><h3 id="39ff6ce8-497f-80a2-9c18-c641385dd5ae" class="" dir="auto">Mitigação</h3><ul id="39ff6ce8-497f-80c7-a151-d800b4f3ca57" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Treinamento.</li></ul><ul id="39ff6ce8-497f-80d0-989f-e41929bb89ff" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Filtro de e-mails.</li></ul><ul id="39ff6ce8-497f-80d7-86f4-eed42dd76120" class="bulleted-list" dir="auto"><li style="list-style-type:disc">MFA.</li></ul><ul id="39ff6ce8-497f-8044-8ddc-c33e077c317a" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Antivírus.</li></ul><p id="39ff6ce8-497f-8006-a34b-ee2ad6d73bf1" class="" dir="auto">Resultado:</p><p id="39ff6ce8-497f-80c5-be11-efb06e1d6e54" class="" dir="auto">Menor probabilidade de comprometimento da conta.</p><hr id="39ff6ce8-497f-80f7-ab2a-fe698c13769b" dir="auto"/><h2 id="39ff6ce8-497f-80ae-a0e8-c463ed452ae2" class="" dir="auto">Exemplo 2 – Ransomware</h2><h3 id="39ff6ce8-497f-80f9-8d9e-e06397cb7306" class="" dir="auto">Risco</h3><p id="39ff6ce8-497f-8011-afda-cb997e2fc6c1" class="" dir="auto">Criptografia dos arquivos da empresa.</p><h3 id="39ff6ce8-497f-8036-8bce-db8d6eee35ee" class="" dir="auto">Mitigação</h3><ul id="39ff6ce8-497f-8062-b6ff-df8963465ae9" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Backups offline.</li></ul><ul id="39ff6ce8-497f-809b-95e8-f5f413104fac" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Atualizações.</li></ul><ul id="39ff6ce8-497f-809b-beb7-ddec641177cd" class="bulleted-list" dir="auto"><li style="list-style-type:disc">EDR.</li></ul><ul id="39ff6ce8-497f-8041-b59e-cd0cce54eafa" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Segmentação de rede.</li></ul><ul id="39ff6ce8-497f-80c8-b812-e55b100225f6" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Monitoramento.</li></ul><p id="39ff6ce8-497f-80a0-ae9b-c58d0375774d" class="" dir="auto">Resultado:</p><p id="39ff6ce8-497f-8037-8e82-fc884674f144" class="" dir="auto">Mesmo que o ataque ocorra, a recuperação será mais rápida e com menos prejuízo.</p><hr id="39ff6ce8-497f-8075-8480-c39696c80a6e" dir="auto"/><h2 id="39ff6ce8-497f-8062-acbc-d10c6b80740e" class="" dir="auto">Exemplo 3 – Vazamento de Dados</h2><h3 id="39ff6ce8-497f-8011-9fb0-ccff0c96d516" class="" dir="auto">Risco</h3><p id="39ff6ce8-497f-80d6-8d0f-ca7a552d1d2f" class="" dir="auto">Exposição de informações confidenciais.</p><h3 id="39ff6ce8-497f-809b-9642-c5d67b340975" class="" dir="auto">Mitigação</h3><ul id="39ff6ce8-497f-8012-ab74-ed349b841593" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Criptografia.</li></ul><ul id="39ff6ce8-497f-801b-b607-d67a8a75c319" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Controle de acesso.</li></ul><ul id="39ff6ce8-497f-80f5-9442-cca140004c15" class="bulleted-list" dir="auto"><li style="list-style-type:disc">DLP (Data Loss Prevention).</li></ul><ul id="39ff6ce8-497f-806b-88f6-fcfb6aa95372" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Logs.</li></ul><ul id="39ff6ce8-497f-802c-8d7f-f2aa55ced7ed" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Auditoria.</li></ul><p id="39ff6ce8-497f-809f-9497-f3391cbb16f9" class="" dir="auto">Resultado:</p><p id="39ff6ce8-497f-80d7-995d-f983cf1fd391" class="" dir="auto">Redução do risco de acesso ou compartilhamento não autorizado.</p><hr id="39ff6ce8-497f-8054-9d17-edbbbf5ca628" dir="auto"/><h1 id="39ff6ce8-497f-80fa-860c-e010566d4e6e" class="" dir="auto">Mitigação e a Tríade CIA</h1><p id="39ff6ce8-497f-8078-ba9d-e6189c6d73a4" class="" dir="auto">A mitigação busca proteger os três pilares da Segurança da Informação.</p><h2 id="39ff6ce8-497f-8054-a96f-f18b4eb28c95" class="" dir="auto">Confidencialidade</h2><p id="39ff6ce8-497f-80fb-a0d4-d9f9f0a94a47" class="" dir="auto">Controles utilizados:</p><ul id="39ff6ce8-497f-8049-a116-ee24f8dfb78c" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Criptografia.</li></ul><ul id="39ff6ce8-497f-804e-a492-cb0d27398b1b" class="bulleted-list" dir="auto"><li style="list-style-type:disc">MFA.</li></ul><ul id="39ff6ce8-497f-8020-a1e9-da7c19baa4a9" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Controle de acesso.</li></ul><ul id="39ff6ce8-497f-80f0-868a-e431f26eb435" class="bulleted-list" dir="auto"><li style="list-style-type:disc">VPN.</li></ul><hr id="39ff6ce8-497f-800d-9280-cdd8c6ffbf06" dir="auto"/><h2 id="39ff6ce8-497f-8056-9051-fb151f9a34a2" class="" dir="auto">Integridade</h2><p id="39ff6ce8-497f-8028-88f8-e71c6f0ce4b0" class="" dir="auto">Controles utilizados:</p><ul id="39ff6ce8-497f-807d-b811-cd3df9235c8e" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Hashes.</li></ul><ul id="39ff6ce8-497f-80c0-af13-f3ae838cc079" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Assinaturas digitais.</li></ul><ul id="39ff6ce8-497f-80be-9482-c147e86a9ebe" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Controle de versões.</li></ul><ul id="39ff6ce8-497f-80e0-9cf1-f0ceeb718d26" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Auditoria.</li></ul><hr id="39ff6ce8-497f-8038-85b0-f389e69dc1a8" dir="auto"/><h2 id="39ff6ce8-497f-8082-96f8-db27fadf990c" class="" dir="auto">Disponibilidade</h2><p id="39ff6ce8-497f-80d7-8c91-ed9903ac21da" class="" dir="auto">Controles utilizados:</p><ul id="39ff6ce8-497f-8014-848d-e732c280d9be" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Backups.</li></ul><ul id="39ff6ce8-497f-809b-8f73-eb949d798115" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Redundância.</li></ul><ul id="39ff6ce8-497f-80c1-a1f3-f7ab2ff09f32" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Cluster.</li></ul><ul id="39ff6ce8-497f-80fc-910a-df3f4e904e81" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Balanceamento de carga.</li></ul><ul id="39ff6ce8-497f-804e-8ee4-e82aad74f98b" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Plano de recuperação.</li></ul><hr id="39ff6ce8-497f-80ea-8345-fa6ef776c8ad" dir="auto"/><h1 id="39ff6ce8-497f-80b2-9d61-f96910b4aced" class="" dir="auto">Mitigação x Eliminação do Risco</h1><p id="39ff6ce8-497f-8079-b6d6-cdbff88a1a09" class="" dir="auto">É importante entender que mitigar não significa eliminar completamente o risco.</p><h3 id="39ff6ce8-497f-8019-8bd2-cdef148b5fd7" class="" dir="auto">Exemplo</h3><p id="39ff6ce8-497f-8013-a4a7-f349ac89ff47" class="" dir="auto">Mesmo utilizando:</p><ul id="39ff6ce8-497f-80f8-bd04-e0f210006bfd" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Firewall.</li></ul><ul id="39ff6ce8-497f-80a3-aeee-cd7c62ba604f" class="bulleted-list" dir="auto"><li style="list-style-type:disc">MFA.</li></ul><ul id="39ff6ce8-497f-80e2-8747-e6856d9e7eb1" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Criptografia.</li></ul><ul id="39ff6ce8-497f-8054-b526-c2cc85ba6972" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Antivírus.</li></ul><ul id="39ff6ce8-497f-80d0-a624-e6bca84f6436" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Monitoramento.</li></ul><p id="39ff6ce8-497f-8040-9868-c61dbe4c826f" class="" dir="auto">Ainda existe a possibilidade de um ataque ocorrer.</p><p id="39ff6ce8-497f-8091-9a32-ed4215cff5e1" class="" dir="auto">O objetivo da mitigação é reduzir esse risco a um nível aceitável.</p><hr id="39ff6ce8-497f-80da-899f-cb9123458dc8" dir="auto"/><h1 id="39ff6ce8-497f-802c-9e40-d038e459c6bf" class="" dir="auto">Risco Residual</h1><p id="39ff6ce8-497f-8040-857d-df3dd7de9547" class="" dir="auto">Após a implementação dos controles, ainda permanece uma parcela do risco.</p><p id="39ff6ce8-497f-80f3-9a5c-ebd1af4176a4" class="" dir="auto">Esse é chamado de <strong>Risco Residual</strong>.</p><pre id="39ff6ce8-497f-808c-8ebb-e092e91a68fc" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Risco Inicial
+      ↓
+Implementação dos Controles
+      ↓
+Risco Residual</code></pre><p id="39ff6ce8-497f-808c-8b66-c32ff717b1ca" class="" dir="auto">O risco residual deve ser monitorado continuamente.</p><hr id="39ff6ce8-497f-8014-a467-e039518ab6b1" dir="auto"/><h1 id="39ff6ce8-497f-804a-bd11-e4647d1835a8" class="" dir="auto">Critérios para escolher controles</h1><p id="39ff6ce8-497f-80d4-bcde-eafc4b0072be" class="" dir="auto">Os controles devem considerar:</p><ul id="39ff6ce8-497f-80ce-879f-effc1e49efef" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Valor do ativo.</li></ul><ul id="39ff6ce8-497f-8067-b1ec-f439f58ef1b3" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Probabilidade do risco.</li></ul><ul id="39ff6ce8-497f-801b-b53d-eeaad3a29a25" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Impacto do risco.</li></ul><ul id="39ff6ce8-497f-80b3-9433-fb8114bf0bc4" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Custos de implementação.</li></ul><ul id="39ff6ce8-497f-800e-bded-e4e4a9ec890e" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Facilidade de manutenção.</li></ul><ul id="39ff6ce8-497f-80dc-bcb3-d9acfb7fbc4b" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Requisitos legais.</li></ul><ul id="39ff6ce8-497f-80e4-8707-f7a055cbffc2" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Objetivos do negócio.</li></ul><p id="39ff6ce8-497f-802e-aa48-dc9b6316bb09" class="" dir="auto">Nem sempre o controle mais caro é o mais adequado.</p><hr id="39ff6ce8-497f-8050-9c64-f48ae6728eb0" dir="auto"/><h1 id="39ff6ce8-497f-80f7-af30-d16c6fb7295f" class="" dir="auto">Relação com a Gestão de Riscos</h1><p id="39ff6ce8-497f-808c-a165-dab9e366a4ac" class="" dir="auto">A mitigação é uma etapa do tratamento dos riscos.</p><p id="39ff6ce8-497f-8051-a248-c0ddc1a35fd9" class="" dir="auto">Fluxo simplificado:</p><pre id="39ff6ce8-497f-8014-bb04-f2aed0046173" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Identificação dos Ativos
+          ↓
+Identificação das Ameaças
+          ↓
+Identificação das Vulnerabilidades
+          ↓
+Análise dos Riscos
+          ↓
+Avaliação dos Riscos
+          ↓
+Mitigação (Tratamento)
+          ↓
+Monitoramento</code></pre><hr id="39ff6ce8-497f-8019-bb5d-d4905cbb9753" dir="auto"/><h1 id="39ff6ce8-497f-809b-81d4-d53006b9eba9" class="" dir="auto">Ferramentas utilizadas</h1><p id="39ff6ce8-497f-80c7-aa79-d08977e18907" class="" dir="auto">Algumas ferramentas que auxiliam na mitigação são:</p><ul id="39ff6ce8-497f-8094-ac7f-c2b1290ad62e" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Firewall.</li></ul><ul id="39ff6ce8-497f-8077-b6fd-e5661b2a580f" class="bulleted-list" dir="auto"><li style="list-style-type:disc">WAF (Web Application Firewall).</li></ul><ul id="39ff6ce8-497f-80fb-b88f-dccb02f3c7a1" class="bulleted-list" dir="auto"><li style="list-style-type:disc">SIEM.</li></ul><ul id="39ff6ce8-497f-800e-9ca6-fcb94f81e875" class="bulleted-list" dir="auto"><li style="list-style-type:disc">EDR.</li></ul><ul id="39ff6ce8-497f-80e3-8a3e-ffcce3e73b4b" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Antivírus.</li></ul><ul id="39ff6ce8-497f-80f7-a7bb-d38497a89fc6" class="bulleted-list" dir="auto"><li style="list-style-type:disc">IDS/IPS.</li></ul><ul id="39ff6ce8-497f-808c-a383-e63630c64fac" class="bulleted-list" dir="auto"><li style="list-style-type:disc">DLP.</li></ul><ul id="39ff6ce8-497f-8031-8068-cf91da1b52ed" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Gerenciadores de Vulnerabilidades.</li></ul><ul id="39ff6ce8-497f-803b-8654-dd72a28ee30e" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Soluções de Backup.</li></ul><ul id="39ff6ce8-497f-80f9-910a-d1ed15985f4a" class="bulleted-list" dir="auto"><li style="list-style-type:disc">IAM (Identity and Access Management).</li></ul><ul id="39ff6ce8-497f-804a-ad2b-f0d462f39fff" class="bulleted-list" dir="auto"><li style="list-style-type:disc">PAM (Privileged Access Management).</li></ul><hr id="39ff6ce8-497f-8013-9244-ff6292fc8706" dir="auto"/><h1 id="39ff6ce8-497f-80c1-b2d5-f1bf3473e67a" class="" dir="auto">Relação com Normas Internacionais</h1><p id="39ff6ce8-497f-8036-967d-ecea35507d70" class="" dir="auto">Diversos padrões tratam da mitigação de riscos.</p><h2 id="39ff6ce8-497f-802d-9063-e554dc970fe6" class="" dir="auto">ISO/IEC 27001</h2><p id="39ff6ce8-497f-80e6-b9cd-c3341b74c49d" class="" dir="auto">Determina que a organização implemente controles para reduzir riscos identificados no Sistema de Gestão de Segurança da Informação (SGSI).</p><hr id="39ff6ce8-497f-809f-a099-c4ef08f38672" dir="auto"/><h2 id="39ff6ce8-497f-800e-915f-eb11c1a5dbe2" class="" dir="auto">ISO/IEC 27002</h2><p id="39ff6ce8-497f-8018-8197-e15e898a576e" class="" dir="auto">Apresenta boas práticas e controles de segurança que podem ser utilizados na mitigação.</p><hr id="39ff6ce8-497f-80a1-9fd7-f0ed77e86991" dir="auto"/><h2 id="39ff6ce8-497f-8018-9db8-f92aae9233f3" class="" dir="auto">ISO/IEC 27005</h2><p id="39ff6ce8-497f-809c-974c-e924f25ec2a5" class="" dir="auto">Fornece diretrizes específicas para o tratamento e mitigação de riscos.</p><hr id="39ff6ce8-497f-802b-9d2b-e609fec58981" dir="auto"/><h2 id="39ff6ce8-497f-807e-bde8-ed8c4a30ac8d" class="" dir="auto">NIST Cybersecurity Framework (CSF)</h2><p id="39ff6ce8-497f-8040-84ce-d149a8a52c91" class="" dir="auto">Relaciona a mitigação às funções:</p><ul id="39ff6ce8-497f-80a3-83d4-eb64a41693d6" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Protect (Proteger).</li></ul><ul id="39ff6ce8-497f-807d-a084-e2664d88dbaa" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Detect (Detectar).</li></ul><ul id="39ff6ce8-497f-800a-ba9d-e277e9495335" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Respond (Responder).</li></ul><ul id="39ff6ce8-497f-8042-adc8-e971edda54bf" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Recover (Recuperar).</li></ul><hr id="39ff6ce8-497f-8058-af5e-e34cb4c7e65d" dir="auto"/><h1 id="39ff6ce8-497f-8046-a72f-ff8331e79df9" class="" dir="auto">Boas práticas</h1><ul id="39ff6ce8-497f-80a4-a036-f8c106d6b9df" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Priorizar a mitigação dos riscos críticos.</li></ul><ul id="39ff6ce8-497f-80b0-a34d-e4e6b6c38709" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Corrigir vulnerabilidades rapidamente.</li></ul><ul id="39ff6ce8-497f-8038-b5fd-e99839aa5b1e" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Implementar autenticação multifator.</li></ul><ul id="39ff6ce8-497f-8063-b840-c22f16c6fb06" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Criptografar informações sensíveis.</li></ul><ul id="39ff6ce8-497f-803d-a7a4-cf2709fa1122" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Realizar backups frequentes e testar sua restauração.</li></ul><ul id="39ff6ce8-497f-8008-b076-ef92acb4e62e" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Monitorar continuamente os ativos.</li></ul><ul id="39ff6ce8-497f-8070-bdc4-d70424145f2c" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Capacitar colaboradores em segurança.</li></ul><ul id="39ff6ce8-497f-8089-82eb-d394e22476b4" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Revisar periodicamente os controles implementados.</li></ul><ul id="39ff6ce8-497f-80eb-aae2-f307fbdc50d3" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Avaliar o risco residual após cada ação de mitigação.</li></ul><ul id="39ff6ce8-497f-8072-86b9-e05360ce3ebb" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Documentar todas as medidas adotadas.</li></ul><hr id="39ff6ce8-497f-8018-9136-e5b416c32cab" dir="auto"/><h1 id="39ff6ce8-497f-800a-82c0-dfaa2b7037a8" class="" dir="auto">Resumo</h1><p id="39ff6ce8-497f-8059-a70e-c60814f329b1" class="" dir="auto">A <strong>Mitigação do Risco</strong> é a estratégia de tratamento que busca reduzir a probabilidade de um risco ocorrer ou minimizar seus impactos por meio da implementação de controles técnicos, administrativos, físicos e operacionais. Seu objetivo é diminuir os riscos a níveis aceitáveis, protegendo ativos, informações e processos críticos sem necessariamente eliminar completamente a possibilidade de incidentes. A mitigação está diretamente ligada à gestão de riscos e à proteção da <strong>Confidencialidade</strong>, <strong>Integridade</strong> e <strong>Disponibilidade</strong> das informações, sendo uma das práticas mais importantes para fortalecer a postura de segurança e garantir a continuidade das operações de uma organização.</p></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

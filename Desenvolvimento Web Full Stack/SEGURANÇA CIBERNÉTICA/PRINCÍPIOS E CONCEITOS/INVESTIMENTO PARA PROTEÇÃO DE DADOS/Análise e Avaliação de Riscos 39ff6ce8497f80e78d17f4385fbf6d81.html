@@ -1,0 +1,777 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Análise e Avaliação de Riscos</title><meta name="data-notion-page-icon" content="/icons/lock_blue.svg"/><link rel="icon" href="https://app.notion.com/icons/lock_blue.svg"/><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+/* For default-background callouts, render the border outline. */
+.callout.block-color-default_background {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+figure,
+aside,
+details {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding-inline: 0.125rem;
+	padding-block: 0.375rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+/*
+ * Render emoji icons using a ::before pseudo-element to keep the glyph
+ * out of the DOM textContent traversal. This avoids double-rendering icons
+ * in callouts and page titles.
+ * NOTE(slim/html-export-pseudo-icons): I can't tagref this because it will
+ * flag as a duplicate tag after codegen.
+ */
+.icon[data-emoji]::before {
+	content: attr(data-emoji);
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	margin-right: 0.4em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.tab {
+	margin: 1.25em 0;
+	padding-inline: 1rem;
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style><style>@import url('https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex-swap.min.css')</style></head><body><article id="39ff6ce8-497f-80e7-8d17-f4385fbf6d81" class="page sans" data-notion-page-icon="/icons/lock_blue.svg"><header><div class="page-header-icon undefined"><img class="icon notion-static-icon" src="https://app.notion.com/icons/lock_blue.svg"/></div><h1 class="page-title" dir="auto">Análise e Avaliação de Riscos</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><h1 id="39ff6ce8-497f-80c5-906c-e592928ab091" class="" dir="auto">Análise e Avaliação de Riscos</h1><p id="39ff6ce8-497f-8072-9c23-e33c8b6c512d" class="" dir="auto">A <strong>Análise e Avaliação de Riscos</strong> é uma das etapas mais importantes do gerenciamento de riscos na Segurança da Informação e na Segurança Cibernética. Seu objetivo é identificar quais riscos existem, compreender sua gravidade e definir quais devem ser tratados com prioridade.</p><p id="39ff6ce8-497f-8075-84c0-c7f9005be39d" class="" dir="auto">Uma organização está constantemente exposta a diversas ameaças, como ataques cibernéticos, falhas humanas, desastres naturais e problemas técnicos. No entanto, nem todos esses riscos possuem a mesma importância. Alguns têm baixa probabilidade de ocorrer, enquanto outros podem causar impactos extremamente elevados.</p><p id="39ff6ce8-497f-8000-ae95-daf616b2c0cb" class="" dir="auto">A análise e a avaliação de riscos permitem responder perguntas como:</p><ul id="39ff6ce8-497f-8088-827e-fce97a1b2c05" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Quais são os riscos mais críticos?</li></ul><ul id="39ff6ce8-497f-803a-b641-e11b3484c9ba" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Qual a probabilidade de um incidente ocorrer?</li></ul><ul id="39ff6ce8-497f-8083-9597-cb39b63bc32a" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Quais seriam as consequências?</li></ul><ul id="39ff6ce8-497f-80c8-8899-e2adab8b0dc7" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Quais riscos exigem ação imediata?</li></ul><ul id="39ff6ce8-497f-80a0-8d2b-dcdb05f85a85" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Quais podem ser aceitos ou monitorados?</li></ul><p id="39ff6ce8-497f-80b7-b3ef-f044c5895c80" class="" dir="auto">Essas respostas ajudam a direcionar investimentos e esforços de segurança para onde eles são realmente necessários.</p><hr id="39ff6ce8-497f-80e0-aae3-d6d34743b7d2" dir="auto"/><h1 id="39ff6ce8-497f-80b5-a4ac-feb4be3d7b18" class="" dir="auto">O que é Análise de Riscos?</h1><p id="39ff6ce8-497f-802c-9d08-d11bc52f83f0" class="" dir="auto">A <strong>Análise de Riscos (Risk Analysis)</strong> é o processo de identificar e compreender os riscos relacionados aos ativos da organização.</p><p id="39ff6ce8-497f-80b7-b429-fbcd5b054742" class="" dir="auto">Durante essa etapa, são analisados fatores como:</p><ul id="39ff6ce8-497f-8093-ad7d-c705cd6008d3" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Ativos existentes.</li></ul><ul id="39ff6ce8-497f-8070-a87a-cb4540c6aa90" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Ameaças.</li></ul><ul id="39ff6ce8-497f-8092-a948-df88675d48dc" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Vulnerabilidades.</li></ul><ul id="39ff6ce8-497f-80ed-a3f6-f6fd0d994341" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Probabilidade de ocorrência.</li></ul><ul id="39ff6ce8-497f-80cc-8b1b-e7b04fecc496" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Impacto caso o risco aconteça.</li></ul><p id="39ff6ce8-497f-8099-b6b9-d67cbdf933c5" class="" dir="auto">O objetivo é entender <strong>como um incidente pode ocorrer e quais seriam suas consequências</strong>.</p><hr id="39ff6ce8-497f-80c5-a3cf-dcf5beab0304" dir="auto"/><h1 id="39ff6ce8-497f-80db-b11f-ef8d10885d41" class="" dir="auto">O que é Avaliação de Riscos?</h1><p id="39ff6ce8-497f-802a-9b15-f6be88a65664" class="" dir="auto">A <strong>Avaliação de Riscos (Risk Evaluation)</strong> ocorre após a análise.</p><p id="39ff6ce8-497f-80e5-ae97-e264cb84b854" class="" dir="auto">Nessa fase, os riscos identificados são comparados com critérios definidos pela organização para determinar:</p><ul id="39ff6ce8-497f-8039-b357-f632874e2cc7" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Quais riscos são aceitáveis.</li></ul><ul id="39ff6ce8-497f-8072-a845-ec872e0d0f03" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Quais precisam ser tratados imediatamente.</li></ul><ul id="39ff6ce8-497f-807b-966f-c17ee9b3d201" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Quais podem ser monitorados.</li></ul><ul id="39ff6ce8-497f-8040-8615-c4742c2013d2" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Quais podem ser transferidos.</li></ul><p id="39ff6ce8-497f-80f5-a77a-f3fd75d6a7e9" class="" dir="auto">Enquanto a análise mede e descreve os riscos, a avaliação decide como eles serão priorizados.</p><hr id="39ff6ce8-497f-8015-9a0e-d627d75a619a" dir="auto"/><h1 id="39ff6ce8-497f-803f-97a4-fe046072b14e" class="" dir="auto">Diferença entre Análise e Avaliação</h1><table id="39ff6ce8-497f-801e-8909-e391de8491a6" class="simple-table" dir="ltr"><thead class="simple-table-header"><tr id="39ff6ce8-497f-8083-9e04-eb3ae71fc01d" dir="ltr"><th id="JMIF" class="simple-table-header-color simple-table-header">Análise de Riscos</th><th id="wwkI" class="simple-table-header-color simple-table-header">Avaliação de Riscos</th></tr></thead><tbody><tr id="39ff6ce8-497f-80cf-beb3-e49391d53f2b" dir="ltr"><td id="JMIF" class="">Identifica e analisa os riscos</td><td id="wwkI" class="">Define a prioridade dos riscos</td></tr><tr id="39ff6ce8-497f-8074-bd25-ea6508937794" dir="ltr"><td id="JMIF" class="">Estuda ameaças e vulnerabilidades</td><td id="wwkI" class="">Decide quais riscos tratar</td></tr><tr id="39ff6ce8-497f-8086-a419-e17d968a8b79" dir="ltr"><td id="JMIF" class="">Mede probabilidade e impacto</td><td id="wwkI" class="">Compara os riscos com critérios da organização</td></tr><tr id="39ff6ce8-497f-8005-9617-d400db9f990d" dir="ltr"><td id="JMIF" class="">Produz informações sobre os riscos</td><td id="wwkI" class="">Apoia a tomada de decisão</td></tr></tbody></table><p id="39ff6ce8-497f-801e-9882-f2317e7efb75" class="" dir="auto">Em resumo:</p><ul id="39ff6ce8-497f-80c3-ab6c-f4faf4d8d0f9" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>Análise</strong> = entender o risco.</li></ul><ul id="39ff6ce8-497f-80f6-bd44-ec06b89ca420" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>Avaliação</strong> = decidir o que fazer com ele.</li></ul><hr id="39ff6ce8-497f-80e8-9147-d0106391ef4b" dir="auto"/><h1 id="39ff6ce8-497f-802b-8cb9-d2748ccb7b2b" class="" dir="auto">Objetivos da Análise e Avaliação</h1><p id="39ff6ce8-497f-809c-aa52-f5e1cb9f2231" class="" dir="auto">Os principais objetivos são:</p><ul id="39ff6ce8-497f-803d-9132-e103b4372fb9" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Identificar riscos antes que causem prejuízos.</li></ul><ul id="39ff6ce8-497f-80ac-aab8-cdb8a57986d8" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Priorizar os riscos mais críticos.</li></ul><ul id="39ff6ce8-497f-80d7-aa28-f5ca55eee4a8" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Apoiar decisões de segurança.</li></ul><ul id="39ff6ce8-497f-809d-9e28-ce5782604523" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Reduzir perdas financeiras.</li></ul><ul id="39ff6ce8-497f-80c4-8a60-f41558883940" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Garantir continuidade dos serviços.</li></ul><ul id="39ff6ce8-497f-805a-9d73-c15e045ec59d" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Cumprir requisitos legais e regulatórios.</li></ul><ul id="39ff6ce8-497f-80f5-8de7-cc956e5d71eb" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Melhorar a eficiência dos controles de segurança.</li></ul><hr id="39ff6ce8-497f-8058-b892-c3c6a44da6ea" dir="auto"/><h1 id="39ff6ce8-497f-80e2-84d5-c1a901fe8291" class="" dir="auto">Conceitos Fundamentais</h1><h2 id="39ff6ce8-497f-8066-a40d-fb8ca8837d03" class="" dir="auto">Ativo</h2><p id="39ff6ce8-497f-8017-9683-fc502d900818" class="" dir="auto">Tudo aquilo que possui valor para a organização.</p><p id="39ff6ce8-497f-80da-bbf8-cb590b654c55" class="" dir="auto">Exemplos:</p><ul id="39ff6ce8-497f-802d-b9cb-dfac4dfb4cc3" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Banco de dados.</li></ul><ul id="39ff6ce8-497f-8021-996d-d218749988e8" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Servidores.</li></ul><ul id="39ff6ce8-497f-8079-a90e-dbadd3201d52" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Aplicações.</li></ul><ul id="39ff6ce8-497f-8048-aaeb-dff61a96895d" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Informações.</li></ul><ul id="39ff6ce8-497f-8024-9219-f7c352c26364" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Redes.</li></ul><ul id="39ff6ce8-497f-804d-a66b-f1f3b5520057" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Colaboradores.</li></ul><hr id="39ff6ce8-497f-8034-92d7-d6f2967fe11a" dir="auto"/><h2 id="39ff6ce8-497f-80a9-aa41-cfcb9d67235b" class="" dir="auto">Ameaça</h2><p id="39ff6ce8-497f-803e-841c-c1952bdbae2b" class="" dir="auto">Qualquer evento capaz de causar danos.</p><p id="39ff6ce8-497f-8018-b0e5-c0d8e85752ea" class="" dir="auto">Exemplos:</p><ul id="39ff6ce8-497f-8038-a8c7-e7c4860b3b0d" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Malware.</li></ul><ul id="39ff6ce8-497f-8020-ba58-ff60ca3aedb2" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Ransomware.</li></ul><ul id="39ff6ce8-497f-800a-a579-f47ba7a3c6e1" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Phishing.</li></ul><ul id="39ff6ce8-497f-8027-a61b-d8192a9f7596" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Incêndio.</li></ul><ul id="39ff6ce8-497f-803a-906d-da90f60206a7" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Erro humano.</li></ul><hr id="39ff6ce8-497f-808a-8640-e982feda4b94" dir="auto"/><h2 id="39ff6ce8-497f-80fc-a160-fa40a41799ce" class="" dir="auto">Vulnerabilidade</h2><p id="39ff6ce8-497f-80d3-8fe5-eda586d285de" class="" dir="auto">Fraqueza que pode ser explorada por uma ameaça.</p><p id="39ff6ce8-497f-808a-b57c-eea0951e9d69" class="" dir="auto">Exemplos:</p><ul id="39ff6ce8-497f-80e7-9c76-dca413088f48" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Sistema desatualizado.</li></ul><ul id="39ff6ce8-497f-80d5-8246-f73b00cc92c1" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Senhas fracas.</li></ul><ul id="39ff6ce8-497f-8044-b4c2-f33d21d319fb" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Configuração incorreta.</li></ul><ul id="39ff6ce8-497f-80fa-8309-f53bbf864fd7" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Ausência de backups.</li></ul><hr id="39ff6ce8-497f-8091-872a-c568c1fae714" dir="auto"/><h2 id="39ff6ce8-497f-8084-ab01-c27c900ce58d" class="" dir="auto">Impacto</h2><p id="39ff6ce8-497f-80ad-ad32-ebd61c00b587" class="" dir="auto">Consequência caso o risco ocorra.</p><p id="39ff6ce8-497f-8045-ad81-ebadb05c08c3" class="" dir="auto">Pode envolver:</p><ul id="39ff6ce8-497f-80bc-aa74-c4ad7d0467e6" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Perdas financeiras.</li></ul><ul id="39ff6ce8-497f-8042-b2d5-f0c9856d75de" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Interrupção dos serviços.</li></ul><ul id="39ff6ce8-497f-8064-996b-c71a89aa7689" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Vazamento de dados.</li></ul><ul id="39ff6ce8-497f-802a-9f28-dc11db61d768" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Danos à reputação.</li></ul><ul id="39ff6ce8-497f-804d-be3e-c49255c47126" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Penalidades legais.</li></ul><hr id="39ff6ce8-497f-80ae-8701-dcbe06bc49aa" dir="auto"/><h2 id="39ff6ce8-497f-8016-b496-cee539c7220c" class="" dir="auto">Probabilidade</h2><p id="39ff6ce8-497f-80bd-b61e-d49e590fb5d0" class="" dir="auto">Chance de um evento ocorrer.</p><p id="39ff6ce8-497f-80d5-a1d0-c6819595683f" class="" dir="auto">Quanto maior a probabilidade e o impacto, maior tende a ser o risco.</p><hr id="39ff6ce8-497f-809a-ac9d-c308ec87d8c1" dir="auto"/><h1 id="39ff6ce8-497f-808e-a69b-d2af74d89fd2" class="" dir="auto">Processo de Análise de Riscos</h1><p id="39ff6ce8-497f-80e4-af5c-e48f8692d4dd" class="" dir="auto">O processo geralmente segue estas etapas:</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="39ff6ce8-497f-804b-9b9d-c3f6a80040d1" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Identificar os ativos
+        ↓
+Identificar ameaças
+        ↓
+Identificar vulnerabilidades
+        ↓
+Analisar probabilidade
+        ↓
+Analisar impacto
+        ↓
+Determinar o nível de risco</code></pre><hr id="39ff6ce8-497f-80a4-97b9-f8143dbb40a5" dir="auto"/><h1 id="39ff6ce8-497f-8067-a708-ed97afa1c052" class="" dir="auto">Identificação dos Ativos</h1><p id="39ff6ce8-497f-80aa-ac37-dbae39e23984" class="" dir="auto">O primeiro passo é identificar o que precisa ser protegido.</p><p id="39ff6ce8-497f-803a-b02a-fcc409f78633" class="" dir="auto">Exemplos:</p><ul id="39ff6ce8-497f-8059-845d-d3e1fcf01c0d" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Sistemas.</li></ul><ul id="39ff6ce8-497f-8084-bb86-fb3ae82f8deb" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Servidores.</li></ul><ul id="39ff6ce8-497f-80ee-b6ac-c3058ac9b204" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Banco de dados.</li></ul><ul id="39ff6ce8-497f-8020-8c87-cc8c22454a50" class="bulleted-list" dir="auto"><li style="list-style-type:disc">APIs.</li></ul><ul id="39ff6ce8-497f-8089-b559-caf1e5d1cf3a" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Documentos.</li></ul><ul id="39ff6ce8-497f-80ae-89b4-f5bb9d09fdd6" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Redes.</li></ul><ul id="39ff6ce8-497f-8007-aa33-d670770c0540" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Equipamentos.</li></ul><p id="39ff6ce8-497f-809e-82e7-ca8526f9641e" class="" dir="auto">Sem conhecer os ativos, não é possível analisar seus riscos.</p><hr id="39ff6ce8-497f-80e7-a9f2-d6be07f617cf" dir="auto"/><h1 id="39ff6ce8-497f-804b-999d-f2f9a240b017" class="" dir="auto">Identificação das Ameaças</h1><p id="39ff6ce8-497f-8020-8f9a-e44663cd8e32" class="" dir="auto">Depois, identificam-se os eventos capazes de comprometer esses ativos.</p><h3 id="39ff6ce8-497f-8068-bced-ef4640f91520" class="" dir="auto">Ameaças naturais</h3><ul id="39ff6ce8-497f-80cb-80dd-e1c7a77bdf3d" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Incêndios.</li></ul><ul id="39ff6ce8-497f-8055-a968-eed8477a7744" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Enchentes.</li></ul><ul id="39ff6ce8-497f-80f7-b4f3-fd6b6c4a8cd4" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Raios.</li></ul><h3 id="39ff6ce8-497f-80fe-8301-d00dfe5a1bc9" class="" dir="auto">Ameaças humanas acidentais</h3><ul id="39ff6ce8-497f-8033-8549-ce84684e4e2c" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Exclusão de arquivos.</li></ul><ul id="39ff6ce8-497f-80cc-9daf-cd9b05598555" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Configuração incorreta.</li></ul><ul id="39ff6ce8-497f-80ba-aae4-d670448400fb" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Erro operacional.</li></ul><h3 id="39ff6ce8-497f-80f6-8459-fb89f49281d6" class="" dir="auto">Ameaças humanas intencionais</h3><ul id="39ff6ce8-497f-80fd-b955-cf1cd5927369" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Hackers.</li></ul><ul id="39ff6ce8-497f-8063-b7cd-f7d3889fdfba" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Funcionários mal-intencionados.</li></ul><ul id="39ff6ce8-497f-80b3-97da-d3310aedd48c" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Espionagem.</li></ul><ul id="39ff6ce8-497f-80fe-ac34-cebe81c37e7f" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Sabotagem.</li></ul><hr id="39ff6ce8-497f-8005-b281-db05a96fa269" dir="auto"/><h1 id="39ff6ce8-497f-8036-bd3a-d40e7885584c" class="" dir="auto">Identificação das Vulnerabilidades</h1><p id="39ff6ce8-497f-808b-a7ec-e3780f0836d8" class="" dir="auto">É necessário descobrir quais fraquezas podem ser exploradas.</p><p id="39ff6ce8-497f-8063-8298-ca250b48b754" class="" dir="auto">Exemplos:</p><ul id="39ff6ce8-497f-80ce-b0f0-d1c31ffa44f5" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Software sem atualização.</li></ul><ul id="39ff6ce8-497f-806b-86b5-c2c86d338119" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Firewall mal configurado.</li></ul><ul id="39ff6ce8-497f-8012-bb60-c8d8d726e4b6" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Serviços desnecessários ativos.</li></ul><ul id="39ff6ce8-497f-80d4-a65c-f0033007c607" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Senhas reutilizadas.</li></ul><ul id="39ff6ce8-497f-8092-ad4c-cf563ac60b17" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Falta de autenticação multifator.</li></ul><ul id="39ff6ce8-497f-80cc-a252-ffb8c5e91162" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Banco de dados exposto à internet.</li></ul><hr id="39ff6ce8-497f-80e4-b739-d6953dbe488c" dir="auto"/><h1 id="39ff6ce8-497f-8057-884f-f7399b9ddb00" class="" dir="auto">Análise da Probabilidade</h1><p id="39ff6ce8-497f-80db-8ad7-f3dbeabe4811" class="" dir="auto">A probabilidade indica a chance de o risco ocorrer.</p><p id="39ff6ce8-497f-80e6-827b-f67b1b85f2ed" class="" dir="auto">Uma escala comum é:</p><table id="39ff6ce8-497f-8037-bcb9-d6e0682011bb" class="simple-table" dir="ltr"><thead class="simple-table-header"><tr id="39ff6ce8-497f-803e-905e-f8abe973d9ac" dir="ltr"><th id="\GXl" class="simple-table-header-color simple-table-header">Nível</th><th id="YsXg" class="simple-table-header-color simple-table-header">Significado</th></tr></thead><tbody><tr id="39ff6ce8-497f-80c8-ab32-e0369f954eed" dir="ltr"><td id="\GXl" class="">Muito Baixa</td><td id="YsXg" class="">Evento extremamente raro.</td></tr><tr id="39ff6ce8-497f-80e1-adac-f42e37bb6931" dir="ltr"><td id="\GXl" class="">Baixa</td><td id="YsXg" class="">Pouco provável.</td></tr><tr id="39ff6ce8-497f-8006-9a31-dcc05fcbf9cd" dir="ltr"><td id="\GXl" class="">Média</td><td id="YsXg" class="">Pode ocorrer ocasionalmente.</td></tr><tr id="39ff6ce8-497f-80e3-9c35-eea88c4f9c58" dir="ltr"><td id="\GXl" class="">Alta</td><td id="YsXg" class="">Ocorre com frequência.</td></tr><tr id="39ff6ce8-497f-8031-815d-c80b782a1b77" dir="ltr"><td id="\GXl" class="">Muito Alta</td><td id="YsXg" class="">Espera-se que ocorra com frequência ou é iminente.</td></tr></tbody></table><p id="39ff6ce8-497f-80c9-9d2d-d156a337a53f" class="" dir="auto">A estimativa considera fatores como histórico de incidentes, exposição à internet, maturidade dos controles e interesse de possíveis atacantes.</p><hr id="39ff6ce8-497f-8094-89bd-e48ca0069202" dir="auto"/><h1 id="39ff6ce8-497f-80a2-85bf-cd9867b4c19d" class="" dir="auto">Análise do Impacto</h1><p id="39ff6ce8-497f-80f9-8955-ebec00618fdf" class="" dir="auto">O impacto mede as consequências para a organização caso o risco se concretize.</p><p id="39ff6ce8-497f-80b4-90c4-dacfb4f92493" class="" dir="auto">Os impactos podem ser:</p><h2 id="39ff6ce8-497f-8081-859d-ebe8e3ec8f40" class="" dir="auto">Financeiros</h2><ul id="39ff6ce8-497f-8022-bbbc-f7a4592a5b9f" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Perda de receita.</li></ul><ul id="39ff6ce8-497f-8027-8b6c-cccda4040053" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Custos de recuperação.</li></ul><ul id="39ff6ce8-497f-8048-b537-f302d7609af5" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Multas.</li></ul><hr id="39ff6ce8-497f-80fc-aa26-e13ba9b5a26b" dir="auto"/><h2 id="39ff6ce8-497f-807c-9631-c50fd770fb95" class="" dir="auto">Operacionais</h2><ul id="39ff6ce8-497f-80a4-8a01-df5b9306f685" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Sistemas indisponíveis.</li></ul><ul id="39ff6ce8-497f-807f-a77e-c3e1c83cd410" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Interrupção da produção.</li></ul><ul id="39ff6ce8-497f-80d1-92c1-f5d3d25c2c9f" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Perda de produtividade.</li></ul><hr id="39ff6ce8-497f-80c0-904a-c264ca32c997" dir="auto"/><h2 id="39ff6ce8-497f-80d6-8da2-cf6a87a55fb3" class="" dir="auto">Jurídicos</h2><ul id="39ff6ce8-497f-8002-bd7e-f241ab78de33" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Processos judiciais.</li></ul><ul id="39ff6ce8-497f-80b2-94a8-fbfbf43f3136" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Descumprimento da LGPD.</li></ul><ul id="39ff6ce8-497f-8053-a580-ecc9efef3552" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Penalidades regulatórias.</li></ul><hr id="39ff6ce8-497f-8082-a5af-f4cb80aac2a3" dir="auto"/><h2 id="39ff6ce8-497f-80b1-9112-e8aea351547a" class="" dir="auto">Reputacionais</h2><ul id="39ff6ce8-497f-8065-9389-f0b4ee7d8075" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Perda de confiança de clientes.</li></ul><ul id="39ff6ce8-497f-8044-9353-c8df82518f26" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Danos à imagem da empresa.</li></ul><ul id="39ff6ce8-497f-80b6-a541-c12ec59a187d" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Redução da competitividade.</li></ul><hr id="39ff6ce8-497f-80ae-ad49-e0d2d3428cfa" dir="auto"/><h1 id="39ff6ce8-497f-8006-af49-e074bc092b85" class="" dir="auto">Determinação do Nível de Risco</h1><p id="39ff6ce8-497f-80fc-b7f5-e8c52768674d" class="" dir="auto">Após analisar probabilidade e impacto, define-se o nível de risco.</p><p id="39ff6ce8-497f-8021-a6ea-f87b0c690cb5" class="" dir="auto">Uma forma simples é utilizar uma matriz.</p><table id="39ff6ce8-497f-8064-8552-f5af61e2611b" class="simple-table" dir="ltr"><thead class="simple-table-header"><tr id="39ff6ce8-497f-8060-8e8a-c3f77a0594db" dir="ltr"><th id="IFAP" class="simple-table-header-color simple-table-header">Probabilidade</th><th id="|ELO" class="simple-table-header-color simple-table-header">Impacto</th><th id="MMi@" class="simple-table-header-color simple-table-header">Nível de Risco</th></tr></thead><tbody><tr id="39ff6ce8-497f-807e-9f2d-d130d756d17f" dir="ltr"><td id="IFAP" class="">Baixa</td><td id="|ELO" class="">Baixo</td><td id="MMi@" class="">Baixo</td></tr><tr id="39ff6ce8-497f-80bb-ab0d-d199c4adeef9" dir="ltr"><td id="IFAP" class="">Baixa</td><td id="|ELO" class="">Alto</td><td id="MMi@" class="">Médio</td></tr><tr id="39ff6ce8-497f-801a-99e9-cdad72e76e8b" dir="ltr"><td id="IFAP" class="">Alta</td><td id="|ELO" class="">Baixo</td><td id="MMi@" class="">Médio</td></tr><tr id="39ff6ce8-497f-800c-a018-d36456daa35a" dir="ltr"><td id="IFAP" class="">Alta</td><td id="|ELO" class="">Alto</td><td id="MMi@" class="">Crítico</td></tr></tbody></table><p id="39ff6ce8-497f-806d-a219-e9648b019982" class="" dir="auto">Quanto maior a combinação entre probabilidade e impacto, maior será a prioridade do risco.</p><hr id="39ff6ce8-497f-80f2-9a30-c84ac461f3d3" dir="auto"/><h1 id="39ff6ce8-497f-80a7-b7c7-e6e5ab9bfdb5" class="" dir="auto">Métodos de Análise de Riscos</h1><p id="39ff6ce8-497f-80f9-8eae-f975b615f0d9" class="" dir="auto">Existem três abordagens principais.</p><h2 id="39ff6ce8-497f-80fa-ab5e-f8b498db5d2f" class="" dir="auto">1. Análise Qualitativa</h2><p id="39ff6ce8-497f-8013-bca9-daeced53ebbe" class="" dir="auto">Utiliza classificações descritivas em vez de valores numéricos.</p><p id="39ff6ce8-497f-8016-b38f-fdde95f45c60" class="" dir="auto">Exemplo:</p><ul id="39ff6ce8-497f-804b-8ee4-eb4428e18196" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Probabilidade: Alta.</li></ul><ul id="39ff6ce8-497f-8028-bf67-e9243afe9f46" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Impacto: Médio.</li></ul><ul id="39ff6ce8-497f-804f-acab-fbf8ad63fcb1" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Risco: Alto.</li></ul><h3 id="39ff6ce8-497f-80c8-ad37-cc5d55ce07d6" class="" dir="auto">Vantagens</h3><ul id="39ff6ce8-497f-80b2-845f-e3e8b32d5b78" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Simples.</li></ul><ul id="39ff6ce8-497f-8067-962e-c6a0931db5dd" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Rápida.</li></ul><ul id="39ff6ce8-497f-8058-bd42-e184c779916c" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Fácil de entender.</li></ul><h3 id="39ff6ce8-497f-80e6-af20-f44a70c13655" class="" dir="auto">Desvantagens</h3><ul id="39ff6ce8-497f-803a-ad83-e4254dd55d26" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Mais subjetiva.</li></ul><ul id="39ff6ce8-497f-8004-9e80-dce14f2964c1" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Depende da experiência dos avaliadores.</li></ul><hr id="39ff6ce8-497f-80bc-8c8e-f4ba673be6a0" dir="auto"/><h2 id="39ff6ce8-497f-80e0-883a-e71e29de6b2d" class="" dir="auto">2. Análise Quantitativa</h2><p id="39ff6ce8-497f-803d-927e-d8b1624d3326" class="" dir="auto">Utiliza dados numéricos para estimar perdas e probabilidades.</p><p id="39ff6ce8-497f-8029-bf1b-cadc4e872a68" class="" dir="auto">Exemplos:</p><ul id="39ff6ce8-497f-8025-960e-c6c667a75ebb" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Valor financeiro esperado de um incidente.</li></ul><ul id="39ff6ce8-497f-8062-b4c7-d176c6d15a1a" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Frequência anual estimada.</li></ul><ul id="39ff6ce8-497f-80ac-a9c2-d5b5ab37ce59" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Custos de recuperação.</li></ul><h3 id="39ff6ce8-497f-803e-aaab-e0a99ae52d41" class="" dir="auto">Vantagens</h3><ul id="39ff6ce8-497f-803b-bf47-fe3ed40b311a" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Mais precisa.</li></ul><ul id="39ff6ce8-497f-802c-b04d-c72c45b50fa9" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Auxilia em decisões financeiras.</li></ul><h3 id="39ff6ce8-497f-8045-b0a6-c1c9486b3a96" class="" dir="auto">Desvantagens</h3><ul id="39ff6ce8-497f-807f-adff-ea69a0664e7f" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Requer dados confiáveis.</li></ul><ul id="39ff6ce8-497f-80a5-86e8-d3e08761803c" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Mais complexa de aplicar.</li></ul><hr id="39ff6ce8-497f-8029-a041-def4f25618d3" dir="auto"/><h2 id="39ff6ce8-497f-8031-a2a3-d144a801ff38" class="" dir="auto">3. Análise Semiqualitativa</h2><p id="39ff6ce8-497f-80c9-9ba3-e35a26b61697" class="" dir="auto">Combina elementos qualitativos e quantitativos.</p><p id="39ff6ce8-497f-80ad-822a-dbd74956ba2a" class="" dir="auto">Por exemplo, utiliza escalas numéricas para representar classificações.</p><table id="39ff6ce8-497f-804a-9060-e3196565e013" class="simple-table" dir="ltr"><thead class="simple-table-header"><tr id="39ff6ce8-497f-8031-9455-e4ddeb1707ef" dir="ltr"><th id="]q&lt;O" class="simple-table-header-color simple-table-header">Probabilidade</th><th id="vZQ@" class="simple-table-header-color simple-table-header">Valor</th></tr></thead><tbody><tr id="39ff6ce8-497f-803a-8484-e50f297060a9" dir="ltr"><td id="]q&lt;O" class="">Baixa</td><td id="vZQ@" class="">1</td></tr><tr id="39ff6ce8-497f-809d-9207-e4c7499c9556" dir="ltr"><td id="]q&lt;O" class="">Média</td><td id="vZQ@" class="">2</td></tr><tr id="39ff6ce8-497f-8008-91e1-f8508dc2e12b" dir="ltr"><td id="]q&lt;O" class="">Alta</td><td id="vZQ@" class="">3</td></tr></tbody></table><p id="39ff6ce8-497f-8042-8130-c64cf35c4c40" class="" dir="auto">O mesmo pode ser feito para o impacto, permitindo calcular uma pontuação de risco sem exigir dados financeiros detalhados.</p><hr id="39ff6ce8-497f-803c-8946-e8a0b7fad7f8" dir="auto"/><h1 id="39ff6ce8-497f-8084-8e31-d82f2306ff8b" class="" dir="auto">Avaliação dos Riscos</h1><p id="39ff6ce8-497f-8037-90ef-fff73d5b6e6d" class="" dir="auto">Após a análise, a organização compara os riscos com seus critérios de aceitação.</p><p id="39ff6ce8-497f-803c-a69c-c1decd7ad66f" class="" dir="auto">Cada risco pode receber um tratamento diferente.</p><h2 id="39ff6ce8-497f-80be-acdb-c4c8b5838e67" class="" dir="auto">Risco Aceitável</h2><p id="39ff6ce8-497f-80cf-979b-fd89c0127b76" class="" dir="auto">O impacto é pequeno ou o custo para reduzir o risco seria maior que o benefício.</p><hr id="39ff6ce8-497f-8001-a8c7-dbc5acaad491" dir="auto"/><h2 id="39ff6ce8-497f-80e4-a6b3-ca161d9fec4b" class="" dir="auto">Risco Moderado</h2><p id="39ff6ce8-497f-8034-a198-f0be57642ec1" class="" dir="auto">Requer monitoramento e, dependendo do contexto, pode receber novos controles.</p><hr id="39ff6ce8-497f-80ba-8ceb-e02cc0ea25b6" dir="auto"/><h2 id="39ff6ce8-497f-8008-860e-d2bac40b25f6" class="" dir="auto">Risco Alto</h2><p id="39ff6ce8-497f-80ba-bd10-f11ec11af50c" class="" dir="auto">Exige tratamento em curto prazo.</p><hr id="39ff6ce8-497f-801e-aa1c-eb102c354c58" dir="auto"/><h2 id="39ff6ce8-497f-80aa-8716-e3b30a3ad972" class="" dir="auto">Risco Crítico</h2><p id="39ff6ce8-497f-80f2-ab0f-f3ad7c2bc419" class="" dir="auto">Deve ser tratado imediatamente, pois representa uma ameaça significativa ao negócio.</p><hr id="39ff6ce8-497f-804b-8588-f0f0fdb818dd" dir="auto"/><h1 id="39ff6ce8-497f-80e1-a8a1-c83e82e3a99b" class="" dir="auto">Exemplo Prático</h1><p id="39ff6ce8-497f-808b-93b4-e4e2e763608f" class="" dir="auto">Uma empresa possui um servidor de banco de dados acessível pela internet.</p><h3 id="39ff6ce8-497f-80a6-aef3-cde72f7090ab" class="" dir="auto">Ativo</h3><ul id="39ff6ce8-497f-802b-a861-c994d776aae6" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Banco de dados de clientes.</li></ul><h3 id="39ff6ce8-497f-8050-943d-e89481474afe" class="" dir="auto">Ameaça</h3><ul id="39ff6ce8-497f-800f-b28d-d64467a2568b" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Ataque de ransomware.</li></ul><h3 id="39ff6ce8-497f-80d9-84a1-d0e5c8cf46c4" class="" dir="auto">Vulnerabilidade</h3><ul id="39ff6ce8-497f-802b-ac05-f3e471d84ca0" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Sistema operacional desatualizado.</li></ul><h3 id="39ff6ce8-497f-80ad-8369-e0027795e206" class="" dir="auto">Probabilidade</h3><ul id="39ff6ce8-497f-80cd-9445-c18dfbbe5478" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Alta.</li></ul><h3 id="39ff6ce8-497f-802f-93ce-c69ba451ca07" class="" dir="auto">Impacto</h3><ul id="39ff6ce8-497f-8049-8bc9-c2be77144c78" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Muito alto.</li></ul><h3 id="39ff6ce8-497f-8088-b927-f49f52e14f49" class="" dir="auto">Resultado</h3><p id="39ff6ce8-497f-80e5-825a-cf45eba02f55" class="" dir="auto"><strong>Nível de risco: Crítico.</strong></p><h3 id="39ff6ce8-497f-8048-92fb-c2aeedbec7ee" class="" dir="auto">Decisão</h3><ul id="39ff6ce8-497f-8076-9e5e-cf262ab39929" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Atualizar o sistema.</li></ul><ul id="39ff6ce8-497f-8075-93f0-f8a69ec10aa4" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Implantar MFA.</li></ul><ul id="39ff6ce8-497f-8095-bf68-c1d275bc6fee" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Segmentar a rede.</li></ul><ul id="39ff6ce8-497f-8015-aacb-dc63e3d21515" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Implementar backups offline.</li></ul><ul id="39ff6ce8-497f-80e7-b99e-df2edeaf2485" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Monitorar continuamente o ambiente.</li></ul><hr id="39ff6ce8-497f-8057-b7fa-fd57a04c0e4e" dir="auto"/><h1 id="39ff6ce8-497f-8043-bf9e-d98954c74efa" class="" dir="auto">Registro de Riscos (Risk Register)</h1><p id="39ff6ce8-497f-8091-84d6-fe392694aa3b" class="" dir="auto">Os resultados da análise costumam ser documentados em um <strong>Registro de Riscos</strong>, que reúne informações como:</p><ul id="39ff6ce8-497f-8070-9418-ea2a11f8ba07" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Identificação do ativo.</li></ul><ul id="39ff6ce8-497f-80a3-a52c-e55e5114cbc9" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Descrição do risco.</li></ul><ul id="39ff6ce8-497f-8037-8aee-c0387a5315e7" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Ameaça associada.</li></ul><ul id="39ff6ce8-497f-8090-a6e4-e69dc2b5413e" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Vulnerabilidade explorada.</li></ul><ul id="39ff6ce8-497f-80f0-9923-c7e714fade24" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Probabilidade.</li></ul><ul id="39ff6ce8-497f-806c-8ee1-d24bf9db857c" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Impacto.</li></ul><ul id="39ff6ce8-497f-80da-b696-ea77884274bc" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Nível de risco.</li></ul><ul id="39ff6ce8-497f-80c2-8a1a-c5ca120a42c8" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Responsável.</li></ul><ul id="39ff6ce8-497f-800e-bcba-e653f25037aa" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Controles existentes.</li></ul><ul id="39ff6ce8-497f-8042-8017-faa379b21d08" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Plano de tratamento.</li></ul><ul id="39ff6ce8-497f-8095-965d-c16c87b35cd3" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Status.</li></ul><p id="39ff6ce8-497f-8082-aa39-c6ec8254b33e" class="" dir="auto">Esse documento facilita o acompanhamento e a revisão dos riscos ao longo do tempo.</p><hr id="39ff6ce8-497f-80c5-ad8f-ec314d7725ff" dir="auto"/><h1 id="39ff6ce8-497f-80d3-81c7-e33087a0db70" class="" dir="auto">Ferramentas de Apoio</h1><p id="39ff6ce8-497f-80f9-9dac-da1d5e66b3d8" class="" dir="auto">Diversas ferramentas auxiliam na análise e avaliação de riscos.</p><p id="39ff6ce8-497f-80ee-90b2-eb9de4cabd97" class="" dir="auto">Exemplos:</p><ul id="39ff6ce8-497f-801c-a533-e7ec69f357b6" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Scanners de vulnerabilidades.</li></ul><ul id="39ff6ce8-497f-8075-9c3a-cc041be3999b" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Plataformas de inventário de ativos.</li></ul><ul id="39ff6ce8-497f-8079-b787-fb8db1b32b62" class="bulleted-list" dir="auto"><li style="list-style-type:disc">SIEM (Security Information and Event Management).</li></ul><ul id="39ff6ce8-497f-8095-b889-d01883274c23" class="bulleted-list" dir="auto"><li style="list-style-type:disc">EDR (Endpoint Detection and Response).</li></ul><ul id="39ff6ce8-497f-8021-bb30-d69b5bb6fc53" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Ferramentas de GRC (Governança, Riscos e Conformidade).</li></ul><p id="39ff6ce8-497f-80b7-b125-da68fee711ae" class="" dir="auto">Essas soluções fornecem informações que tornam a análise mais precisa e eficiente.</p><hr id="39ff6ce8-497f-807b-ad43-ee292b09c95b" dir="auto"/><h1 id="39ff6ce8-497f-8084-82d0-ee7572d131af" class="" dir="auto">Boas práticas</h1><ul id="39ff6ce8-497f-8075-b51d-d14f35e0cd61" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Manter um inventário atualizado dos ativos.</li></ul><ul id="39ff6ce8-497f-80f7-8c91-df9e102885ff" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Revisar análises de risco periodicamente.</li></ul><ul id="39ff6ce8-497f-805f-af45-e5eedbeff4ba" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Priorizar a correção de vulnerabilidades críticas.</li></ul><ul id="39ff6ce8-497f-8014-9a63-f32c031f175a" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Envolver áreas técnicas e de negócio na avaliação.</li></ul><ul id="39ff6ce8-497f-80c9-933c-d531f2a9954a" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Documentar todas as decisões relacionadas aos riscos.</li></ul><ul id="39ff6ce8-497f-800c-8ac2-e80d4c4a9616" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Monitorar continuamente mudanças no ambiente.</li></ul><ul id="39ff6ce8-497f-808b-a2e9-efb9c541f28c" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Atualizar a análise sempre que novos sistemas, ameaças ou tecnologias forem introduzidos.</li></ul><hr id="39ff6ce8-497f-8053-b152-c614c86ee159" dir="auto"/><h1 id="39ff6ce8-497f-807e-bd96-c99809460d67" class="" dir="auto">Relação com normas internacionais</h1><p id="39ff6ce8-497f-80c8-823e-dbb5091e8079" class="" dir="auto">A análise e avaliação de riscos são componentes fundamentais de diversos padrões e frameworks de segurança.</p><ul id="39ff6ce8-497f-80aa-8932-d3747209615f" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>ISO/IEC 27001</strong> – Exige a realização de avaliações de risco para implementar um Sistema de Gestão de Segurança da Informação (SGSI).</li></ul><ul id="39ff6ce8-497f-8076-bd11-e11751525775" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>ISO/IEC 27005</strong> – Fornece diretrizes específicas para análise e tratamento de riscos em segurança da informação.</li></ul><ul id="39ff6ce8-497f-80e5-8c07-e7f4d0bae963" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>NIST Risk Management Framework (RMF)</strong> – Estrutura o gerenciamento de riscos ao longo do ciclo de vida dos sistemas.</li></ul><ul id="39ff6ce8-497f-80b0-8428-cc16af63a6c7" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>NIST Cybersecurity Framework (CSF)</strong> – Utiliza a avaliação de riscos para orientar a identificação e priorização de ações de segurança.</li></ul><hr id="39ff6ce8-497f-809f-9c17-dfec0530ac68" dir="auto"/><h1 id="39ff6ce8-497f-803d-89be-e7111d018ebb" class="" dir="auto">Resumo</h1><p id="39ff6ce8-497f-8092-b0c8-cf66a51a9e6c" class="" dir="auto">A <strong>Análise e Avaliação de Riscos</strong> é um processo estruturado que permite identificar ameaças, vulnerabilidades e impactos sobre os ativos de uma organização, determinando quais riscos exigem maior atenção. A análise busca compreender a natureza e o nível dos riscos, enquanto a avaliação define sua prioridade e o tratamento adequado. Ao utilizar critérios como probabilidade e impacto, além de metodologias qualitativas, quantitativas ou semiqualitativas, as organizações conseguem direcionar recursos de forma mais eficiente, reduzir riscos, proteger seus dados e fortalecer sua postura de segurança. É uma atividade contínua e indispensável para qualquer programa de Segurança da Informação ou Segurança Cibernética.</p></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>
