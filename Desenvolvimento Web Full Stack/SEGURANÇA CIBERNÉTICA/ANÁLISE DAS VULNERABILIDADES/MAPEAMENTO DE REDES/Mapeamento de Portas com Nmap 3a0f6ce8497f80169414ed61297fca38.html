@@ -1,0 +1,793 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Mapeamento de Portas com Nmap</title><meta name="data-notion-page-icon" content="/icons/lock_blue.svg"/><link rel="icon" href="https://app.notion.com/icons/lock_blue.svg"/><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+/* For default-background callouts, render the border outline. */
+.callout.block-color-default_background {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+figure,
+aside,
+details {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding-inline: 0.125rem;
+	padding-block: 0.375rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+/*
+ * Render emoji icons using a ::before pseudo-element to keep the glyph
+ * out of the DOM textContent traversal. This avoids double-rendering icons
+ * in callouts and page titles.
+ * NOTE(slim/html-export-pseudo-icons): I can't tagref this because it will
+ * flag as a duplicate tag after codegen.
+ */
+.icon[data-emoji]::before {
+	content: attr(data-emoji);
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	margin-right: 0.4em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.tab {
+	margin: 1.25em 0;
+	padding-inline: 1rem;
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style><style>@import url('https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex-swap.min.css')</style></head><body><article id="3a0f6ce8-497f-8016-9414-ed61297fca38" class="page sans" data-notion-page-icon="/icons/lock_blue.svg"><header><div class="page-header-icon undefined"><img class="icon notion-static-icon" src="https://app.notion.com/icons/lock_blue.svg"/></div><h1 class="page-title" dir="auto">Mapeamento de Portas com Nmap</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><h1 id="3a0f6ce8-497f-807a-8f53-e09f18725a60" class="" dir="auto">Mapeamento de Portas com Nmap</h1><p id="3a0f6ce8-497f-8044-bc74-d0210c2065a5" class="" dir="auto">O <strong>Mapeamento de Portas com Nmap</strong> é o processo de identificar quais portas de rede estão abertas, fechadas ou filtradas em um dispositivo, utilizando a ferramenta <strong>Nmap (Network Mapper)</strong>.</p><p id="3a0f6ce8-497f-8091-a468-e8422114855a" class="" dir="auto">O Nmap é um dos softwares mais utilizados no mundo para <strong>auditoria de redes</strong>, <strong>administração de sistemas</strong> e <strong>segurança cibernética</strong>. Ele permite descobrir dispositivos conectados à rede, identificar serviços em execução, detectar sistemas operacionais e analisar a superfície de ataque de um ambiente.</p><blockquote id="3a0f6ce8-497f-806c-9022-e769986a0ede" class="" dir="auto"><strong>Importante:</strong> O uso do Nmap deve ser feito apenas em redes, sistemas ou dispositivos para os quais você tenha autorização. Executar varreduras em sistemas de terceiros sem permissão pode violar políticas internas e legislações aplicáveis.</blockquote><hr id="3a0f6ce8-497f-80ec-80d9-d6ff48727e01" dir="auto"/><h1 id="3a0f6ce8-497f-8068-9d23-c6e7bad980fa" class="" dir="auto">O que é o Nmap?</h1><p id="3a0f6ce8-497f-808f-aa05-eccdb39cef1f" class="" dir="auto">O <strong>Nmap (Network Mapper)</strong> é uma ferramenta de código aberto desenvolvida por <strong>Gordon Lyon</strong>, conhecido pelo pseudônimo <strong>Fyodor</strong>.</p><p id="3a0f6ce8-497f-800b-ab0d-f0ea7ca4af9b" class="" dir="auto">Seu objetivo é realizar o reconhecimento e o mapeamento de redes, permitindo identificar:</p><ul id="3a0f6ce8-497f-80cd-8d99-c8670edde18d" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Hosts ativos.</li></ul><ul id="3a0f6ce8-497f-80cd-8e87-e2090773a857" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Portas abertas.</li></ul><ul id="3a0f6ce8-497f-8036-a05c-ea52716cd179" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Portas fechadas.</li></ul><ul id="3a0f6ce8-497f-8077-ab0a-e839362fff7c" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Portas filtradas.</li></ul><ul id="3a0f6ce8-497f-80b5-b04c-d9053a61fdef" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Serviços em execução.</li></ul><ul id="3a0f6ce8-497f-8052-8224-ec805f1c6815" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Versões de serviços.</li></ul><ul id="3a0f6ce8-497f-80c0-9d88-c9d9fe620d68" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Sistemas operacionais (quando possível).</li></ul><ul id="3a0f6ce8-497f-8001-ac81-f234de266954" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Topologia da rede.</li></ul><p id="3a0f6ce8-497f-809a-bffa-f1c5c31cc5d1" class="" dir="auto">O Nmap funciona enviando pacotes de rede para um ou mais dispositivos e analisando as respostas recebidas.</p><hr id="3a0f6ce8-497f-805d-9948-f6df6746069f" dir="auto"/><h1 id="3a0f6ce8-497f-8096-9270-cfed3921c976" class="" dir="auto">O que é uma Porta de Rede?</h1><p id="3a0f6ce8-497f-8036-a6ef-d9653dcd4a68" class="" dir="auto">Uma <strong>porta de rede</strong> é um identificador lógico utilizado pelos protocolos TCP e UDP para direcionar a comunicação até um serviço específico dentro de um dispositivo.</p><p id="3a0f6ce8-497f-8018-9db2-f83339015a67" class="" dir="auto">Cada serviço normalmente utiliza uma ou mais portas.</p><p id="3a0f6ce8-497f-80d2-b506-d3d58145ff3a" class="" dir="auto">Por exemplo:</p><table id="3a0f6ce8-497f-809c-9b00-f41640ca83a8" class="simple-table" dir="ltr"><thead class="simple-table-header"><tr id="3a0f6ce8-497f-80a5-8d73-eb64eb0d593c" dir="ltr"><th id="}Qri" class="simple-table-header-color simple-table-header">Porta</th><th id="H~L{" class="simple-table-header-color simple-table-header">Protocolo</th><th id="|wL:" class="simple-table-header-color simple-table-header">Serviço</th></tr></thead><tbody><tr id="3a0f6ce8-497f-80b4-9d45-c7ca8cc477eb" dir="ltr"><td id="}Qri" class="">20/21</td><td id="H~L{" class="">TCP</td><td id="|wL:" class="">FTP</td></tr><tr id="3a0f6ce8-497f-809e-917c-fcb5bc4ffc38" dir="ltr"><td id="}Qri" class="">22</td><td id="H~L{" class="">TCP</td><td id="|wL:" class="">SSH</td></tr><tr id="3a0f6ce8-497f-80e3-8dbb-c70b300c5152" dir="ltr"><td id="}Qri" class="">25</td><td id="H~L{" class="">TCP</td><td id="|wL:" class="">SMTP</td></tr><tr id="3a0f6ce8-497f-8083-a801-ca941b1ecc4e" dir="ltr"><td id="}Qri" class="">53</td><td id="H~L{" class="">TCP/UDP</td><td id="|wL:" class="">DNS</td></tr><tr id="3a0f6ce8-497f-80df-96d1-d241d894ef65" dir="ltr"><td id="}Qri" class="">80</td><td id="H~L{" class="">TCP</td><td id="|wL:" class="">HTTP</td></tr><tr id="3a0f6ce8-497f-801d-b07f-d3ee1542b67e" dir="ltr"><td id="}Qri" class="">110</td><td id="H~L{" class="">TCP</td><td id="|wL:" class="">POP3</td></tr><tr id="3a0f6ce8-497f-8082-bc33-c53da3ed37b1" dir="ltr"><td id="}Qri" class="">143</td><td id="H~L{" class="">TCP</td><td id="|wL:" class="">IMAP</td></tr><tr id="3a0f6ce8-497f-8096-8540-dd85b0b74476" dir="ltr"><td id="}Qri" class="">443</td><td id="H~L{" class="">TCP</td><td id="|wL:" class="">HTTPS</td></tr><tr id="3a0f6ce8-497f-80d9-b633-d51d1299ef84" dir="ltr"><td id="}Qri" class="">3306</td><td id="H~L{" class="">TCP</td><td id="|wL:" class="">MySQL</td></tr><tr id="3a0f6ce8-497f-805e-b669-d4d2a54e459a" dir="ltr"><td id="}Qri" class="">3389</td><td id="H~L{" class="">TCP</td><td id="|wL:" class="">Remote Desktop (RDP)</td></tr></tbody></table><p id="3a0f6ce8-497f-806f-863b-d0860b918de9" class="" dir="auto">Essas portas permitem que diferentes aplicações utilizem a rede simultaneamente.</p><hr id="3a0f6ce8-497f-8023-acde-d610fc8c45ae" dir="auto"/><h1 id="3a0f6ce8-497f-8036-aead-fc8f3dc3c818" class="" dir="auto">Objetivos do Mapeamento de Portas</h1><p id="3a0f6ce8-497f-8009-99ef-c77343e716a7" class="" dir="auto">O mapeamento de portas é utilizado para:</p><ul id="3a0f6ce8-497f-809f-a9fa-f02b79080096" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Descobrir quais serviços estão disponíveis.</li></ul><ul id="3a0f6ce8-497f-807f-9d49-d17edafc5f2b" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Identificar serviços desnecessários.</li></ul><ul id="3a0f6ce8-497f-8052-a7c2-d655b7872dd8" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Detectar configurações incorretas.</li></ul><ul id="3a0f6ce8-497f-8096-af07-e2506d03d645" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Apoiar auditorias de segurança.</li></ul><ul id="3a0f6ce8-497f-8049-b2f4-e428172cddbe" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Auxiliar na administração da rede.</li></ul><ul id="3a0f6ce8-497f-80b4-b767-c144c391a60e" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Verificar a exposição de servidores.</li></ul><ul id="3a0f6ce8-497f-8011-9a73-c799a4df5739" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Identificar possíveis superfícies de ataque.</li></ul><hr id="3a0f6ce8-497f-8000-bece-f3a304879781" dir="auto"/><h1 id="3a0f6ce8-497f-8005-859a-ea73a8051bc7" class="" dir="auto">Como o Nmap funciona?</h1><p id="3a0f6ce8-497f-808d-a558-f46ea9e9d254" class="" dir="auto">De forma simplificada, o processo ocorre em quatro etapas:</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="3a0f6ce8-497f-8025-917c-dbb6c2d37da2" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Envio de pacotes
+        ↓
+Resposta do dispositivo
+        ↓
+Análise da resposta
+        ↓
+Classificação da porta</code></pre><p id="3a0f6ce8-497f-8031-955d-cb4ec4d347a1" class="" dir="auto">Dependendo da resposta recebida, o Nmap determina o estado da porta.</p><hr id="3a0f6ce8-497f-80df-8284-fea2151e9ac2" dir="auto"/><h1 id="3a0f6ce8-497f-80e7-996e-d9bb288b1884" class="" dir="auto">Estados das Portas</h1><p id="3a0f6ce8-497f-808c-b7c7-ca9f1b5672de" class="" dir="auto">Durante uma varredura, uma porta pode ser classificada em diferentes estados.</p><h2 id="3a0f6ce8-497f-807e-826a-f0a2f76ef903" class="" dir="auto">Aberta (Open)</h2><p id="3a0f6ce8-497f-808f-8aca-c2ec3e5705cb" class="" dir="auto">Significa que existe um serviço ativo aguardando conexões.</p><p id="3a0f6ce8-497f-8079-8819-eb9971d18cf1" class="" dir="auto">Exemplo:</p><p id="3a0f6ce8-497f-8030-87db-e92432253d6d" class="" dir="auto">Servidor Web escutando na porta 443.</p><hr id="3a0f6ce8-497f-8066-ad30-f17d45d4b36a" dir="auto"/><h2 id="3a0f6ce8-497f-8032-b395-deb9a81a403b" class="" dir="auto">Fechada (Closed)</h2><p id="3a0f6ce8-497f-8062-b01f-c07083fc3fdf" class="" dir="auto">A porta está acessível, porém nenhum serviço está utilizando-a.</p><hr id="3a0f6ce8-497f-80e2-ae5c-ccc4f8c3916c" dir="auto"/><h2 id="3a0f6ce8-497f-8044-9090-e63439316427" class="" dir="auto">Filtrada (Filtered)</h2><p id="3a0f6ce8-497f-80ad-98d8-c00a0239d03c" class="" dir="auto">Um firewall ou outro mecanismo de segurança impede que o Nmap determine o estado da porta.</p><hr id="3a0f6ce8-497f-8013-aae5-d82a76fcff6d" dir="auto"/><h2 id="3a0f6ce8-497f-80bd-8ce7-ff62c44a02ac" class="" dir="auto">Aberta | Filtrada (Open|Filtered)</h2><p id="3a0f6ce8-497f-80c1-8555-f53d7ad997fd" class="" dir="auto">O Nmap não consegue determinar se a porta está aberta ou filtrada.</p><p id="3a0f6ce8-497f-80a2-9f93-cfef9b52450a" class="" dir="auto">Isso é comum em algumas varreduras UDP.</p><hr id="3a0f6ce8-497f-80cf-b829-ca0a1f81d1ce" dir="auto"/><h2 id="3a0f6ce8-497f-80d3-8781-f7e30572cfae" class="" dir="auto">Fechada | Filtrada (Closed|Filtered)</h2><p id="3a0f6ce8-497f-80fd-8c30-dd6577c4c5b4" class="" dir="auto">O estado exato da porta não pode ser determinado.</p><hr id="3a0f6ce8-497f-8064-beb3-d2df181506e2" dir="auto"/><h1 id="3a0f6ce8-497f-803c-aac0-c346508530c1" class="" dir="auto">Protocolos suportados</h1><p id="3a0f6ce8-497f-8019-9131-d68ed8a50ed5" class="" dir="auto">O Nmap realiza varreduras principalmente sobre:</p><h2 id="3a0f6ce8-497f-8054-8b88-f134bbf9221d" class="" dir="auto">TCP</h2><p id="3a0f6ce8-497f-809c-a806-d5295e2b07fc" class="" dir="auto">Protocolo orientado à conexão.</p><p id="3a0f6ce8-497f-8001-8145-e44e09299b7c" class="" dir="auto">É o mais utilizado para:</p><ul id="3a0f6ce8-497f-807c-ad72-e20cab9568ea" class="bulleted-list" dir="auto"><li style="list-style-type:disc">HTTP</li></ul><ul id="3a0f6ce8-497f-80d7-bb05-f9a1af88b861" class="bulleted-list" dir="auto"><li style="list-style-type:disc">HTTPS</li></ul><ul id="3a0f6ce8-497f-80cd-9e81-c32f7995fc9b" class="bulleted-list" dir="auto"><li style="list-style-type:disc">SSH</li></ul><ul id="3a0f6ce8-497f-809f-bf1a-d1ef9bf48e41" class="bulleted-list" dir="auto"><li style="list-style-type:disc">FTP</li></ul><ul id="3a0f6ce8-497f-80f9-9dee-fa049e33b698" class="bulleted-list" dir="auto"><li style="list-style-type:disc">SMTP</li></ul><hr id="3a0f6ce8-497f-80ab-bdb3-db824947746f" dir="auto"/><h2 id="3a0f6ce8-497f-80bf-b740-db7fc944b821" class="" dir="auto">UDP</h2><p id="3a0f6ce8-497f-80f8-b066-ced2ea2486ec" class="" dir="auto">Protocolo sem conexão.</p><p id="3a0f6ce8-497f-80c2-bd75-ea1ce8b8fda1" class="" dir="auto">Utilizado por serviços como:</p><ul id="3a0f6ce8-497f-8042-ae87-e46469f15c78" class="bulleted-list" dir="auto"><li style="list-style-type:disc">DNS</li></ul><ul id="3a0f6ce8-497f-8036-b795-f347589e0553" class="bulleted-list" dir="auto"><li style="list-style-type:disc">DHCP</li></ul><ul id="3a0f6ce8-497f-8040-b63a-ea1428936002" class="bulleted-list" dir="auto"><li style="list-style-type:disc">SNMP</li></ul><ul id="3a0f6ce8-497f-80d3-aa4f-c0b2624e37d6" class="bulleted-list" dir="auto"><li style="list-style-type:disc">NTP</li></ul><p id="3a0f6ce8-497f-8021-8dd2-c81acd605abf" class="" dir="auto">Varreduras UDP costumam ser mais lentas devido à forma como o protocolo funciona.</p><hr id="3a0f6ce8-497f-80e3-8f76-c44afbaf5d4d" dir="auto"/><h1 id="3a0f6ce8-497f-8020-8e60-d7978f9173af" class="" dir="auto">Tipos de Varredura</h1><p id="3a0f6ce8-497f-8071-861b-c178bdd40aa4" class="" dir="auto">O Nmap oferece diversos métodos de varredura. Os mais comuns incluem:</p><h2 id="3a0f6ce8-497f-80e2-89fb-d220eaa43288" class="" dir="auto">TCP Connect Scan</h2><p id="3a0f6ce8-497f-8076-a6e8-f8a73471ab50" class="" dir="auto">Utiliza a conexão TCP completa (three-way handshake). É simples e compatível com praticamente todos os sistemas, mas pode gerar registros (logs) mais facilmente.</p><hr id="3a0f6ce8-497f-80b1-bd65-ee2bd574e02f" dir="auto"/><h2 id="3a0f6ce8-497f-8057-aebc-da870f4eabe1" class="" dir="auto">SYN Scan (Half-Open Scan)</h2><p id="3a0f6ce8-497f-801d-a7a3-ed60a2fbc3f4" class="" dir="auto">Envia apenas a etapa inicial da conexão TCP para verificar o estado da porta sem completar o handshake. É muito utilizado em auditorias autorizadas por ser mais eficiente e gerar menos impacto que uma conexão completa.</p><hr id="3a0f6ce8-497f-80a8-aaff-d94176d0f805" dir="auto"/><h2 id="3a0f6ce8-497f-8082-bc06-c46cbfc5eeb1" class="" dir="auto">UDP Scan</h2><p id="3a0f6ce8-497f-80ee-a55a-c794f1e752c2" class="" dir="auto">Verifica portas UDP. Como muitos serviços UDP não respondem quando estão disponíveis, a análise costuma ser mais lenta e sujeita a incertezas.</p><hr id="3a0f6ce8-497f-80e1-b66f-d40933294a20" dir="auto"/><h2 id="3a0f6ce8-497f-80e7-ace7-ebf27d4bcdcc" class="" dir="auto">Ping Scan</h2><p id="3a0f6ce8-497f-8037-8f1a-e7eccbe2439b" class="" dir="auto">Verifica apenas se os hosts estão ativos na rede, sem realizar varredura de portas.</p><hr id="3a0f6ce8-497f-804c-a285-e55ba11ce349" dir="auto"/><h1 id="3a0f6ce8-497f-80dc-8d7a-dce35423ee9b" class="" dir="auto">Descoberta de Serviços</h1><p id="3a0f6ce8-497f-80fd-bf46-ea282fb593ee" class="" dir="auto">Além das portas, o Nmap pode identificar qual serviço está utilizando determinada porta.</p><p id="3a0f6ce8-497f-809f-821c-c02eff3836a5" class="" dir="auto">Exemplo conceitual:</p><table id="3a0f6ce8-497f-80a0-bbc9-e6bf1632e497" class="simple-table" dir="ltr"><thead class="simple-table-header"><tr id="3a0f6ce8-497f-8018-b55e-d2876f4c5375" dir="ltr"><th id="W_nW" class="simple-table-header-color simple-table-header">Porta</th><th id="NlWj" class="simple-table-header-color simple-table-header">Serviço identificado</th></tr></thead><tbody><tr id="3a0f6ce8-497f-80e4-a8bc-e94bc30a7464" dir="ltr"><td id="W_nW" class="">22</td><td id="NlWj" class="">SSH</td></tr><tr id="3a0f6ce8-497f-80ca-9f27-c254a58c4df4" dir="ltr"><td id="W_nW" class="">80</td><td id="NlWj" class="">HTTP</td></tr><tr id="3a0f6ce8-497f-800a-8cc2-f1324764cb41" dir="ltr"><td id="W_nW" class="">443</td><td id="NlWj" class="">HTTPS</td></tr><tr id="3a0f6ce8-497f-80d4-ad3e-d6ad11ac279d" dir="ltr"><td id="W_nW" class="">3306</td><td id="NlWj" class="">MySQL</td></tr></tbody></table><p id="3a0f6ce8-497f-8078-a6a3-ea66ce91a831" class="" dir="auto">Essa informação ajuda administradores a verificar se apenas os serviços esperados estão expostos.</p><hr id="3a0f6ce8-497f-8062-ac67-dda37a0b0f0d" dir="auto"/><h1 id="3a0f6ce8-497f-8048-bd13-e7cd977ae9a5" class="" dir="auto">Detecção de Versões</h1><p id="3a0f6ce8-497f-806d-8988-f0bbca922796" class="" dir="auto">O Nmap também pode identificar, quando possível, a versão do serviço em execução.</p><p id="3a0f6ce8-497f-8077-8997-f3e3620f9469" class="" dir="auto">Exemplo:</p><table id="3a0f6ce8-497f-804a-a182-fbe78c6ada13" class="simple-table" dir="ltr"><thead class="simple-table-header"><tr id="3a0f6ce8-497f-8091-a310-fc844d8cfa83" dir="ltr"><th id="JWsQ" class="simple-table-header-color simple-table-header">Serviço</th><th id="I&gt;:X" class="simple-table-header-color simple-table-header">Versão</th></tr></thead><tbody><tr id="3a0f6ce8-497f-80f7-9ef7-ef0818af9a07" dir="ltr"><td id="JWsQ" class="">Apache HTTP Server</td><td id="I&gt;:X" class="">2.4.x</td></tr><tr id="3a0f6ce8-497f-80cf-ae80-db797caadf85" dir="ltr"><td id="JWsQ" class="">OpenSSH</td><td id="I&gt;:X" class="">9.x</td></tr><tr id="3a0f6ce8-497f-80eb-b220-da70e8878ca7" dir="ltr"><td id="JWsQ" class="">MySQL</td><td id="I&gt;:X" class="">8.x</td></tr></tbody></table><p id="3a0f6ce8-497f-8083-8567-c54b0ae6c13e" class="" dir="auto">Conhecer versões auxilia na gestão de vulnerabilidades, permitindo verificar se determinado software precisa de atualização.</p><hr id="3a0f6ce8-497f-8076-bb7d-fbeabfe7d746" dir="auto"/><h1 id="3a0f6ce8-497f-8064-84d2-e75ec9dae830" class="" dir="auto">Detecção de Sistema Operacional</h1><p id="3a0f6ce8-497f-8033-b32a-ef438be49806" class="" dir="auto">Por meio da análise do comportamento da pilha TCP/IP, o Nmap pode estimar qual sistema operacional está sendo utilizado.</p><p id="3a0f6ce8-497f-80c2-b943-d1524fb5c619" class="" dir="auto">Exemplos:</p><ul id="3a0f6ce8-497f-80eb-91bc-fcf4a8ca1bc4" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Windows</li></ul><ul id="3a0f6ce8-497f-806d-b55b-d8581284b31d" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Linux</li></ul><ul id="3a0f6ce8-497f-8071-a50d-eae202e836b5" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Ubuntu</li></ul><ul id="3a0f6ce8-497f-8019-996d-f418cfa08feb" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Debian</li></ul><ul id="3a0f6ce8-497f-80e6-8de0-fdb1e52be865" class="bulleted-list" dir="auto"><li style="list-style-type:disc">FreeBSD</li></ul><p id="3a0f6ce8-497f-8041-b709-c6d247141c72" class="" dir="auto">Essa identificação é baseada em características da comunicação de rede e pode não ser precisa em todos os cenários.</p><hr id="3a0f6ce8-497f-8024-a932-f376c19fe315" dir="auto"/><h1 id="3a0f6ce8-497f-8008-b7db-db82d47758b7" class="" dir="auto">Benefícios do Mapeamento de Portas</h1><p id="3a0f6ce8-497f-8002-a14a-cf87d89012b1" class="" dir="auto">Entre os principais benefícios estão:</p><ul id="3a0f6ce8-497f-8054-98a0-dafebb913ff2" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Identificação de serviços desnecessários.</li></ul><ul id="3a0f6ce8-497f-8029-8559-cf6354aecac0" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Descoberta de portas expostas.</li></ul><ul id="3a0f6ce8-497f-8098-bdec-d296ceb4f6d0" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Apoio à gestão de ativos.</li></ul><ul id="3a0f6ce8-497f-80f1-be82-fa30d8bef45f" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Auxílio na gestão de vulnerabilidades.</li></ul><ul id="3a0f6ce8-497f-8027-acb1-e6ed50449bc7" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Verificação de configurações de firewall.</li></ul><ul id="3a0f6ce8-497f-8056-af7b-ee17c5f92d7f" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Suporte à resposta a incidentes.</li></ul><ul id="3a0f6ce8-497f-80b2-a561-e89b21029433" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Redução da superfície de ataque.</li></ul><hr id="3a0f6ce8-497f-807b-bbb6-fa7ac2e6b1bb" dir="auto"/><h1 id="3a0f6ce8-497f-80c2-b21b-ed5df1a3d50a" class="" dir="auto">Limitações</h1><p id="3a0f6ce8-497f-803c-aac7-e4c264c3ce96" class="" dir="auto">Embora seja uma ferramenta poderosa, o Nmap possui algumas limitações.</p><ul id="3a0f6ce8-497f-80be-9072-cbd6e59de24a" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Firewalls podem bloquear ou alterar as respostas.</li></ul><ul id="3a0f6ce8-497f-80c1-abce-c92aae8bfb77" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Sistemas IDS/IPS podem detectar as varreduras.</li></ul><ul id="3a0f6ce8-497f-80f7-ae9a-fc3bb775519b" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Ambientes muito grandes exigem planejamento.</li></ul><ul id="3a0f6ce8-497f-8022-abf1-d8a3edde4006" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Equipamentos antigos podem responder de forma incompleta.</li></ul><ul id="3a0f6ce8-497f-80a3-835a-db3ec53d4bf4" class="bulleted-list" dir="auto"><li style="list-style-type:disc">A identificação de versões e sistemas operacionais é uma estimativa, não uma garantia.</li></ul><hr id="3a0f6ce8-497f-8037-bf11-c32beedc8b79" dir="auto"/><h1 id="3a0f6ce8-497f-808b-b31d-d5b5518e3ee0" class="" dir="auto">Relação com a Gestão de Vulnerabilidades</h1><p id="3a0f6ce8-497f-802b-99d3-c66a3d86d055" class="" dir="auto">O mapeamento de portas costuma ser uma das primeiras etapas de um programa de gestão de vulnerabilidades.</p><p id="3a0f6ce8-497f-80f7-b656-d7257107f3e1" class="" dir="auto">Fluxo simplificado:</p><pre id="3a0f6ce8-497f-80d8-91cf-cc706327473b" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Mapeamento da Rede
+        ↓
+Descoberta de Hosts
+        ↓
+Mapeamento de Portas
+        ↓
+Identificação de Serviços
+        ↓
+Análise de Vulnerabilidades
+        ↓
+Correção das Vulnerabilidades</code></pre><p id="3a0f6ce8-497f-80b4-bc3a-ef03a6cadc46" class="" dir="auto">Somente após conhecer os serviços expostos é possível avaliar se eles apresentam falhas conhecidas.</p><hr id="3a0f6ce8-497f-80c8-853e-e33fec82d0d0" dir="auto"/><h1 id="3a0f6ce8-497f-8098-82f6-dab9ea266576" class="" dir="auto">Relação com Testes de Invasão</h1><p id="3a0f6ce8-497f-8083-b4b9-f008bd8d53fa" class="" dir="auto">Em um <strong>teste de invasão (Pentest)</strong> autorizado, o mapeamento de portas faz parte da fase de reconhecimento.</p><p id="3a0f6ce8-497f-80d7-81d1-f1060f69926c" class="" dir="auto">Fluxo simplificado:</p><pre id="3a0f6ce8-497f-80ba-8a1a-de56cfe982bc" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Coleta de Informações
+        ↓
+Descoberta de Hosts
+        ↓
+Mapeamento de Portas
+        ↓
+Enumeração
+        ↓
+Análise de Vulnerabilidades
+        ↓
+Exploração (quando autorizada)</code></pre><p id="3a0f6ce8-497f-8034-912a-d957903025aa" class="" dir="auto">Essa etapa fornece informações importantes para compreender a superfície de ataque do ambiente.</p><hr id="3a0f6ce8-497f-8001-a76a-fe817ffb110a" dir="auto"/><h1 id="3a0f6ce8-497f-806d-88e5-e296ade885be" class="" dir="auto">Boas práticas</h1><p id="3a0f6ce8-497f-8000-8ec4-f2256378748b" class="" dir="auto">Ao utilizar o Nmap em ambientes autorizados:</p><ul id="3a0f6ce8-497f-80c6-863c-f110ef144d36" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Obtenha autorização antes de iniciar qualquer varredura.</li></ul><ul id="3a0f6ce8-497f-8056-af4d-ead7684913ad" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Defina claramente o escopo dos dispositivos que serão analisados.</li></ul><ul id="3a0f6ce8-497f-80a3-8d72-eccabc6b4d02" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Execute as varreduras em horários que minimizem impactos operacionais.</li></ul><ul id="3a0f6ce8-497f-80a6-ad4e-d03b24db797a" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Documente os resultados e compare-os com o inventário de ativos.</li></ul><ul id="3a0f6ce8-497f-80bb-b373-fd3828c114e5" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Revise periodicamente os serviços expostos.</li></ul><ul id="3a0f6ce8-497f-8047-b7d1-ec03ac64ec5c" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Feche portas e desative serviços desnecessários.</li></ul><ul id="3a0f6ce8-497f-8011-bc11-c583940b0868" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Utilize os resultados para fortalecer a postura de segurança da organização.</li></ul><hr id="3a0f6ce8-497f-8091-8a65-ff49ad587640" dir="auto"/><h1 id="3a0f6ce8-497f-8001-82a5-d7ecbb3709e9" class="" dir="auto">Relação com Normas Internacionais</h1><p id="3a0f6ce8-497f-80c5-aedf-ca79b15ebbc9" class="" dir="auto">O uso do Nmap pode apoiar processos previstos em diversas normas e frameworks.</p><ul id="3a0f6ce8-497f-801a-9dce-df3c4d9f9f40" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>ISO/IEC 27001</strong> – Auxilia na identificação de ativos e na avaliação de riscos dentro do SGSI.</li></ul><ul id="3a0f6ce8-497f-80f3-ac0f-fa6958bbbff8" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>ISO/IEC 27002</strong> – Contribui para a verificação da exposição de serviços e da configuração de controles.</li></ul><ul id="3a0f6ce8-497f-8078-924c-ec14868b853f" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>NIST Cybersecurity Framework (CSF)</strong> – Apoia as funções <strong>Identify</strong> (Identificar) e <strong>Protect</strong> (Proteger), fornecendo visibilidade sobre os ativos e serviços da rede.</li></ul><ul id="3a0f6ce8-497f-8063-88d7-fb716199a329" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>NIST SP 800-115</strong> – Recomenda atividades de reconhecimento e descoberta de serviços em avaliações técnicas de segurança autorizadas.</li></ul><hr id="3a0f6ce8-497f-80b0-8a62-e77aa01f469f" dir="auto"/><h1 id="3a0f6ce8-497f-805d-b128-e3477a585863" class="" dir="auto">Resumo</h1><p id="3a0f6ce8-497f-802f-b638-fbe2673649d7" class="" dir="auto">O <strong>Mapeamento de Portas com Nmap</strong> é uma técnica utilizada para identificar portas, serviços e dispositivos presentes em uma rede por meio da ferramenta <strong>Nmap (Network Mapper)</strong>. Durante a varredura, o Nmap determina o estado das portas (abertas, fechadas ou filtradas), identifica serviços em execução, pode estimar versões de software e, em alguns casos, o sistema operacional do host. Essas informações são essenciais para administração de redes, auditorias de segurança, gestão de vulnerabilidades e testes de invasão autorizados, permitindo reduzir a superfície de ataque e fortalecer a proteção da infraestrutura de TI.</p></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>
