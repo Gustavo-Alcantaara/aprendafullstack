@@ -1,0 +1,826 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>PHPMyAdmin</title><meta name="data-notion-page-icon" content="/icons/database_blue.svg"/><link rel="icon" href="https://app.notion.com/icons/database_blue.svg"/><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+/* For default-background callouts, render the border outline. */
+.callout.block-color-default_background {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+/*
+ * Toggles and callouts hold arbitrary content, so they can easily be taller
+ * than a page. They must stay breakable: avoiding breaks inside them makes
+ * Chromium push the whole block onto the next page, which leaves the previous
+ * page mostly empty before every long toggle.
+ */
+details,
+aside {
+	margin: 1.25em 0;
+}
+
+/* Keep a toggle's title on the same page as the start of its content. */
+summary {
+	page-break-after: avoid;
+	break-after: avoid;
+}
+
+/*
+ * Toggle headings render as <h1/h2/h3 style="display:inline-block"> inside
+ * <summary>. Without this reset, the heading's margin-top pushes it below the
+ * ::marker (▼), so the triangle and the title appear on separate lines.
+ */
+summary h1,
+summary h2,
+summary h3,
+summary h4 {
+	margin-top: 0;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding-inline: 0.125rem;
+	padding-block: 0.375rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+/*
+ * Render emoji icons using a ::before pseudo-element to keep the glyph
+ * out of the DOM textContent traversal. This avoids double-rendering icons
+ * in callouts and page titles.
+ * NOTE(slim/html-export-pseudo-icons): I can't tagref this because it will
+ * flag as a duplicate tag after codegen.
+ */
+.icon[data-emoji]::before {
+	content: attr(data-emoji);
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	margin-right: 0.4em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.tab {
+	margin: 1.25em 0;
+	padding-inline: 1rem;
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style><style>@import url('https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex-swap.min.css')</style></head><body><article id="3b1f6ce8-497f-80c5-a783-f0dc09f814f1" class="page sans" data-notion-page-icon="/icons/database_blue.svg"><header><div class="page-header-icon undefined"><img class="icon notion-static-icon" src="https://app.notion.com/icons/database_blue.svg"/></div><h1 class="page-title" dir="auto">PHPMyAdmin</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><h1 id="3b1f6ce8-497f-80a3-a06b-e7d76911cb41" class="" dir="auto">O uso do PHPMyAdmin para manipulação do MySQL</h1><h2 id="3b1f6ce8-497f-8077-a655-d8e5c9fa87bf" class="" dir="auto">Introdução</h2><p id="3b1f6ce8-497f-80c9-bc87-cbe4f7b93b09" class="" dir="auto">O <strong>phpMyAdmin</strong> é uma aplicação web desenvolvida em <strong>PHP</strong> que permite administrar bancos de dados <strong>MySQL</strong> (e também MariaDB) por meio de uma <strong>interface gráfica</strong>. Em vez de escrever comandos SQL diretamente no terminal, o usuário pode realizar praticamente todas as operações utilizando menus, botões e formulários.</p><p id="3b1f6ce8-497f-8045-b036-dd8754d5d585" class="" dir="auto">Ele é uma das ferramentas mais utilizadas por estudantes, desenvolvedores e administradores de banco de dados devido à sua facilidade de uso. Em ambientes de desenvolvimento, como <strong>XAMPP</strong>, <strong>WAMP</strong> e <strong>Laragon</strong>, o phpMyAdmin geralmente já vem instalado.</p><p id="3b1f6ce8-497f-8028-9694-effbcf9500c8" class="" dir="auto">Embora seja muito útil para gerenciamento visual, é importante aprender também os comandos SQL, pois eles oferecem maior controle e são indispensáveis em ambientes profissionais.</p><hr id="3b1f6ce8-497f-8066-b014-e3a69dede892" dir="auto"/><h1 id="3b1f6ce8-497f-809f-a787-da22ea5d45d0" class="" dir="auto">O que é o phpMyAdmin?</h1><p id="3b1f6ce8-497f-8072-9d58-e87c34dbeb70" class="" dir="auto">O phpMyAdmin é um software livre, escrito em PHP, que funciona através do navegador. Ele se conecta ao servidor MySQL e permite criar, editar e administrar bancos de dados sem a necessidade de utilizar o terminal.</p><p id="3b1f6ce8-497f-80e9-aeff-dec3c1132b26" class="" dir="auto">Por exemplo, em vez de executar o comando:</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-sql.min.js" integrity="sha512-sijCOJblSCXYYmXdwvqV0tak8QJW5iy2yLB1wAbbLc3OOIueqymizRFWUS/mwKctnzPKpNdPJV3aK1zlDMJmXQ==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="3b1f6ce8-497f-808d-84a4-dfef9e26809b" class="code code-wrap" data-notion-code-syntax="sql"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">CREATE DATABASE loja;</code></pre><p id="3b1f6ce8-497f-80fa-b399-f147797ba0aa" class="" dir="auto">Basta acessar o phpMyAdmin, clicar em <strong>Novo</strong>, informar o nome do banco e clicar em <strong>Criar</strong>.</p><p id="3b1f6ce8-497f-8048-bb4c-f33b64325844" class="" dir="auto">O resultado será exatamente o mesmo.</p><hr id="3b1f6ce8-497f-8035-8cf1-f5b44db21ca3" dir="auto"/><h1 id="3b1f6ce8-497f-8017-b436-ce417470e29f" class="" dir="auto">Como o phpMyAdmin funciona?</h1><p id="3b1f6ce8-497f-807e-b21f-d4fcc6fe838a" class="" dir="auto">O phpMyAdmin atua como um intermediário entre o usuário e o MySQL.</p><p id="3b1f6ce8-497f-8018-9d60-ece94e0fb758" class="" dir="auto">O fluxo de funcionamento é:</p><pre id="3b1f6ce8-497f-8061-88e2-f24c29cb8cde" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Usuário
+    │
+    ▼
+Navegador
+    │
+    ▼
+phpMyAdmin (PHP)
+    │
+    ▼
+Servidor MySQL
+    │
+    ▼
+Banco de Dados</code></pre><p id="3b1f6ce8-497f-8057-8a1f-d05206745be5" class="" dir="auto">Quando o usuário realiza uma ação na interface, o phpMyAdmin converte essa ação em comandos SQL e os envia ao servidor MySQL.</p><p id="3b1f6ce8-497f-80d2-be49-d2e92037d619" class="" dir="auto">Por exemplo:</p><p id="3b1f6ce8-497f-809a-8350-e97aeeb6898b" class="" dir="auto">Usuário clica em:</p><blockquote id="3b1f6ce8-497f-80e2-b277-e30316cb0e96" class="" dir="auto">Criar tabela</blockquote><p id="3b1f6ce8-497f-8096-b860-d93fa4482efd" class="" dir="auto">↓</p><p id="3b1f6ce8-497f-8099-a93c-ff4f81b4177c" class="" dir="auto">O phpMyAdmin gera automaticamente algo semelhante a:</p><pre id="3b1f6ce8-497f-8044-b0f6-c62f6368a56e" class="code code-wrap" data-notion-code-syntax="sql"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">CREATE TABLE clientes(
+    id INT,
+    nome VARCHAR(100)
+);</code></pre><p id="3b1f6ce8-497f-8032-a657-d145bcefb64e" class="" dir="auto">↓</p><p id="3b1f6ce8-497f-805f-9fc0-fa5c863cede0" class="" dir="auto">O MySQL executa o comando.</p><hr id="3b1f6ce8-497f-807a-a82a-d022e084406c" dir="auto"/><h1 id="3b1f6ce8-497f-80a5-953a-d3757ebd9cd5" class="" dir="auto">Como acessar o phpMyAdmin</h1><p id="3b1f6ce8-497f-8031-9b5e-f7d6e4e42cb8" class="" dir="auto">Em servidores locais, normalmente o acesso é feito pelo navegador através do endereço:</p><pre id="3b1f6ce8-497f-8040-b51a-d0daf4906551" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">http://localhost/phpmyadmin</code></pre><p id="3b1f6ce8-497f-8022-be08-e51679fedd5f" class="" dir="auto">Caso esteja utilizando outro servidor, o endereço poderá ser diferente.</p><p id="3b1f6ce8-497f-80dd-9add-d1aa18dbca2b" class="" dir="auto">Ao acessar a ferramenta, geralmente será solicitado:</p><ul id="3b1f6ce8-497f-80bf-8ba8-da1323e3c504" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Usuário</li></ul><ul id="3b1f6ce8-497f-804e-85a2-ff0dcf16aac7" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Senha</li></ul><p id="3b1f6ce8-497f-809a-99e1-d9ac1f6011d0" class="" dir="auto">Em instalações locais do XAMPP, o usuário costuma ser:</p><pre id="3b1f6ce8-497f-8070-823b-cf892c019345" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">root</code></pre><p id="3b1f6ce8-497f-80df-aee1-fa2f4f61c675" class="" dir="auto">e a senha, por padrão, pode estar vazia (dependendo da configuração).</p><hr id="3b1f6ce8-497f-8033-a2c8-c6b1b3f61334" dir="auto"/><h1 id="3b1f6ce8-497f-8007-9d03-d4f8bc1016ae" class="" dir="auto">Interface do phpMyAdmin</h1><p id="3b1f6ce8-497f-806e-baf5-ea74e2fad56e" class="" dir="auto">A interface é bastante intuitiva e normalmente é dividida em três áreas.</p><h2 id="3b1f6ce8-497f-8032-bf33-e225bf428e4a" class="" dir="auto">1. Menu lateral</h2><p id="3b1f6ce8-497f-8081-b8a3-e2fc296d0869" class="" dir="auto">Mostra todos os bancos de dados existentes.</p><p id="3b1f6ce8-497f-804e-b9d9-e9cc67b4473d" class="" dir="auto">Exemplo:</p><pre id="3b1f6ce8-497f-80fc-809a-d53592f6fbad" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">empresa
+loja
+escola
+hospital</code></pre><p id="3b1f6ce8-497f-80d4-b872-f22ee938ac8f" class="" dir="auto">Ao clicar em um banco de dados, suas tabelas são exibidas.</p><hr id="3b1f6ce8-497f-8087-ad71-c627d0984233" dir="auto"/><h2 id="3b1f6ce8-497f-80d4-b4aa-f56bdcdd88ca" class="" dir="auto">2. Área principal</h2><p id="3b1f6ce8-497f-80f8-be50-d23f1325a063" class="" dir="auto">Exibe as informações do banco selecionado.</p><p id="3b1f6ce8-497f-8075-b7b4-d0c28da23ff2" class="" dir="auto">Nela é possível:</p><ul id="3b1f6ce8-497f-80c8-ac6a-d990b65dcc3c" class="bulleted-list" dir="auto"><li style="list-style-type:disc">visualizar tabelas;</li></ul><ul id="3b1f6ce8-497f-80b8-98b2-d51981eaba51" class="bulleted-list" dir="auto"><li style="list-style-type:disc">criar novas tabelas;</li></ul><ul id="3b1f6ce8-497f-808f-a202-cc1a08b66ba5" class="bulleted-list" dir="auto"><li style="list-style-type:disc">editar registros;</li></ul><ul id="3b1f6ce8-497f-8083-a3ab-ed624b57cb96" class="bulleted-list" dir="auto"><li style="list-style-type:disc">executar consultas SQL;</li></ul><ul id="3b1f6ce8-497f-80c9-96f3-d9895d5cce86" class="bulleted-list" dir="auto"><li style="list-style-type:disc">importar e exportar dados.</li></ul><hr id="3b1f6ce8-497f-808f-8e20-da9405d09ec5" dir="auto"/><h2 id="3b1f6ce8-497f-8097-b6df-e9cef63aa8c8" class="" dir="auto">3. Barra de ferramentas</h2><p id="3b1f6ce8-497f-800c-98a5-c786d312bc70" class="" dir="auto">Contém diversas opções, como:</p><ul id="3b1f6ce8-497f-80a5-91a7-ea5878d2d955" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Estrutura</li></ul><ul id="3b1f6ce8-497f-8003-b3fe-da9a0e53cd01" class="bulleted-list" dir="auto"><li style="list-style-type:disc">SQL</li></ul><ul id="3b1f6ce8-497f-80b0-846d-cec88b8e8970" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Pesquisar</li></ul><ul id="3b1f6ce8-497f-80e3-84f8-e38826fd7e9a" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Inserir</li></ul><ul id="3b1f6ce8-497f-809d-bcb6-d9a7a450d4ed" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Exportar</li></ul><ul id="3b1f6ce8-497f-8068-91da-fae0c065ecde" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Importar</li></ul><ul id="3b1f6ce8-497f-808d-9818-fa599f93853e" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Operações</li></ul><ul id="3b1f6ce8-497f-8007-816f-c19fe52367e8" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Privilégios</li></ul><p id="3b1f6ce8-497f-807d-8484-cb7cff30d5e5" class="" dir="auto">Cada opção possui uma função específica.</p><hr id="3b1f6ce8-497f-802c-89c7-e4d6bc3a8a82" dir="auto"/><h1 id="3b1f6ce8-497f-8092-8d6f-c8e6f6f709cf" class="" dir="auto">Principais funcionalidades</h1><h2 id="3b1f6ce8-497f-80cd-94b8-de0f73ff8cf0" class="" dir="auto">Criar banco de dados</h2><p id="3b1f6ce8-497f-80b8-8ade-e1cfbd43fcd1" class="" dir="auto">No phpMyAdmin basta:</p><ul id="3b1f6ce8-497f-8032-b377-e1a7deb225d3" class="bulleted-list" dir="auto"><li style="list-style-type:disc">clicar em <strong>Novo</strong>;</li></ul><ul id="3b1f6ce8-497f-8065-a02b-e27bbc01c875" class="bulleted-list" dir="auto"><li style="list-style-type:disc">informar o nome;</li></ul><ul id="3b1f6ce8-497f-8098-be05-ddf763c57ede" class="bulleted-list" dir="auto"><li style="list-style-type:disc">escolher a codificação (Charset);</li></ul><ul id="3b1f6ce8-497f-8056-8278-d4c0cf685d46" class="bulleted-list" dir="auto"><li style="list-style-type:disc">clicar em <strong>Criar</strong>.</li></ul><p id="3b1f6ce8-497f-8046-8fd3-cae7dbd66b04" class="" dir="auto">Equivalente em SQL:</p><pre id="3b1f6ce8-497f-802d-86ae-f8aca5c5a54b" class="code code-wrap" data-notion-code-syntax="sql"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">CREATE DATABASE empresa;</code></pre><hr id="3b1f6ce8-497f-807b-ab4d-c06c56262a81" dir="auto"/><h2 id="3b1f6ce8-497f-80d8-ae7c-cb1afb175f10" class="" dir="auto">Criar tabelas</h2><p id="3b1f6ce8-497f-8014-8a83-f21a7b12d8e4" class="" dir="auto">Após selecionar um banco:</p><ul id="3b1f6ce8-497f-801c-806b-e364ffea0a25" class="bulleted-list" dir="auto"><li style="list-style-type:disc">informar o nome da tabela;</li></ul><ul id="3b1f6ce8-497f-8000-81de-f67284d8ff0e" class="bulleted-list" dir="auto"><li style="list-style-type:disc">definir a quantidade de colunas;</li></ul><ul id="3b1f6ce8-497f-8036-a931-ef755f6041c8" class="bulleted-list" dir="auto"><li style="list-style-type:disc">configurar o tipo de cada coluna;</li></ul><ul id="3b1f6ce8-497f-8056-8b71-d4873ed0b076" class="bulleted-list" dir="auto"><li style="list-style-type:disc">definir a chave primária, se necessário.</li></ul><p id="3b1f6ce8-497f-80d3-bd81-d1065294d66a" class="" dir="auto">Exemplo:</p><table id="3b1f6ce8-497f-8078-b572-c76e05818eb8" class="simple-table" dir="ltr"><thead class="simple-table-header"><tr id="3b1f6ce8-497f-80c8-bec6-d1804e27e94c" dir="ltr"><th id="q^&lt;o" class="simple-table-header-color simple-table-header">Campo</th><th id="~B][" class="simple-table-header-color simple-table-header">Tipo</th></tr></thead><tbody><tr id="3b1f6ce8-497f-8018-867d-d81ee59614f6" dir="ltr"><td id="q^&lt;o" class="">id</td><td id="~B][" class="">INT</td></tr><tr id="3b1f6ce8-497f-80d5-94c0-e60108cc589c" dir="ltr"><td id="q^&lt;o" class="">nome</td><td id="~B][" class="">VARCHAR(100)</td></tr><tr id="3b1f6ce8-497f-8039-90cc-c8995b6dff5b" dir="ltr"><td id="q^&lt;o" class="">email</td><td id="~B][" class="">VARCHAR(150)</td></tr></tbody></table><p id="3b1f6ce8-497f-8087-bfaf-effc26af717b" class="" dir="auto">SQL correspondente:</p><pre id="3b1f6ce8-497f-802b-854b-f3c381f855ae" class="code code-wrap" data-notion-code-syntax="sql"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">CREATE TABLE clientes(
+    id INT,
+    nome VARCHAR(100),
+    email VARCHAR(150)
+);</code></pre><hr id="3b1f6ce8-497f-801b-b3a7-ec54c737781f" dir="auto"/><h2 id="3b1f6ce8-497f-801e-ae85-e1c3f88fea81" class="" dir="auto">Inserir registros</h2><p id="3b1f6ce8-497f-80a9-a956-fa3b05c70586" class="" dir="auto">Na aba <strong>Inserir</strong>, basta preencher os campos do formulário.</p><p id="3b1f6ce8-497f-80b0-94ad-f1e4e2927fb8" class="" dir="auto">Exemplo:</p><table id="3b1f6ce8-497f-8094-8f83-c5863acd7764" class="simple-table" dir="ltr"><thead class="simple-table-header"><tr id="3b1f6ce8-497f-8075-b182-d1cdaf3f83d8" dir="ltr"><th id="gGwp" class="simple-table-header-color simple-table-header">ID</th><th id="gTs&lt;" class="simple-table-header-color simple-table-header">Nome</th></tr></thead><tbody><tr id="3b1f6ce8-497f-80e7-a097-fcbfe7cc64f5" dir="ltr"><td id="gGwp" class="">1</td><td id="gTs&lt;" class="">João</td></tr></tbody></table><p id="3b1f6ce8-497f-8077-8e4d-e6c2e4898e2f" class="" dir="auto">O phpMyAdmin gera automaticamente:</p><pre id="3b1f6ce8-497f-802d-b9e9-eb910954ea52" class="code code-wrap" data-notion-code-syntax="sql"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">INSERT INTO clientes
+VALUES
+(1,&#x27;João&#x27;);</code></pre><hr id="3b1f6ce8-497f-80dc-a8e6-cab7aeb999ec" dir="auto"/><h2 id="3b1f6ce8-497f-8021-bd51-fdcdaac3efea" class="" dir="auto">Editar registros</h2><p id="3b1f6ce8-497f-80b3-b6c0-e237ab08e586" class="" dir="auto">Ao visualizar os dados da tabela, cada linha possui um botão <strong>Editar</strong>.</p><p id="3b1f6ce8-497f-806b-b857-f021e4686c45" class="" dir="auto">Após modificar os valores e salvar, o phpMyAdmin executa um comando <code>UPDATE</code>.</p><p id="3b1f6ce8-497f-80a9-8a37-fd34a5f96af7" class="" dir="auto">Exemplo:</p><pre id="3b1f6ce8-497f-8094-88c7-f1226176f619" class="code code-wrap" data-notion-code-syntax="sql"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">UPDATE clientes
+SET nome=&#x27;Maria&#x27;
+WHERE id=1;</code></pre><hr id="3b1f6ce8-497f-8001-bb15-f637d2c71e3a" dir="auto"/><h2 id="3b1f6ce8-497f-80d5-8f16-e91cf7a07b89" class="" dir="auto">Excluir registros</h2><p id="3b1f6ce8-497f-8050-9a6b-edce7ccf759f" class="" dir="auto">Cada registro possui a opção <strong>Excluir</strong>.</p><p id="3b1f6ce8-497f-8019-8ea7-eb4cdca051cf" class="" dir="auto">O sistema executa um comando semelhante a:</p><pre id="3b1f6ce8-497f-8055-a909-c4634cd8c941" class="code code-wrap" data-notion-code-syntax="sql"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">DELETE FROM clientes
+WHERE id=1;</code></pre><hr id="3b1f6ce8-497f-803b-9cc2-eed2f9a51def" dir="auto"/><h2 id="3b1f6ce8-497f-804c-8397-e7baaedca220" class="" dir="auto">Executar comandos SQL</h2><p id="3b1f6ce8-497f-8056-b5a4-e3ecdc4a2cf3" class="" dir="auto">Uma das funções mais importantes é a aba <strong>SQL</strong>.</p><p id="3b1f6ce8-497f-80ba-b998-c7a9385a1b47" class="" dir="auto">Nela o usuário pode escrever qualquer comando SQL.</p><p id="3b1f6ce8-497f-80d9-8975-d31102252958" class="" dir="auto">Exemplo:</p><pre id="3b1f6ce8-497f-80b9-ae88-ccc46c18a628" class="code code-wrap" data-notion-code-syntax="sql"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">SELECT *
+FROM clientes;</code></pre><p id="3b1f6ce8-497f-80a2-b585-ed2b15c746f6" class="" dir="auto">ou</p><pre id="3b1f6ce8-497f-809d-a5e3-edb0aa0f82aa" class="code code-wrap" data-notion-code-syntax="sql"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">SELECT nome,email
+FROM clientes
+WHERE cidade=&#x27;Fortaleza&#x27;;</code></pre><p id="3b1f6ce8-497f-80ae-b050-f2cdb9650019" class="" dir="auto">Isso permite combinar a praticidade da interface gráfica com o poder da linguagem SQL.</p><hr id="3b1f6ce8-497f-801a-8c44-ede3334c3ffc" dir="auto"/><h1 id="3b1f6ce8-497f-8040-b02e-c44f6cb9ffdc" class="" dir="auto">Importação de bancos de dados</h1><p id="3b1f6ce8-497f-80b8-9f15-ddbaaae41e48" class="" dir="auto">O phpMyAdmin permite importar arquivos SQL.</p><p id="3b1f6ce8-497f-80b8-b42e-f532803394bb" class="" dir="auto">Os formatos mais comuns são:</p><ul id="3b1f6ce8-497f-8090-998a-cd357e9c3b05" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><code>.sql</code></li></ul><ul id="3b1f6ce8-497f-8070-9e99-c0433e4a1656" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><code>.zip</code></li></ul><ul id="3b1f6ce8-497f-8029-bd7b-fd3c6b7c8a57" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><code>.gz</code></li></ul><p id="3b1f6ce8-497f-804d-a2a3-cae1be08d833" class="" dir="auto">Exemplo:</p><p id="3b1f6ce8-497f-80b7-9f9e-d8c3fc80077d" class="" dir="auto">Você baixou um banco chamado:</p><pre id="3b1f6ce8-497f-809b-9ea8-ca985e27b6f3" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">loja.sql</code></pre><p id="3b1f6ce8-497f-8074-8d44-e121fb436ebf" class="" dir="auto">No phpMyAdmin:</p><ul id="3b1f6ce8-497f-80f6-aff5-cf93fee17305" class="bulleted-list" dir="auto"><li style="list-style-type:disc">selecione o banco (ou crie um novo);</li></ul><ul id="3b1f6ce8-497f-80e4-a1d8-cd35887e35b7" class="bulleted-list" dir="auto"><li style="list-style-type:disc">clique em <strong>Importar</strong>;</li></ul><ul id="3b1f6ce8-497f-8005-860c-d396c4c1b3ae" class="bulleted-list" dir="auto"><li style="list-style-type:disc">escolha o arquivo;</li></ul><ul id="3b1f6ce8-497f-8072-b4cd-d5b8536e4280" class="bulleted-list" dir="auto"><li style="list-style-type:disc">clique em <strong>Executar</strong>.</li></ul><p id="3b1f6ce8-497f-808f-b740-e875d543cc6d" class="" dir="auto">Todas as tabelas e dados serão criados automaticamente.</p><hr id="3b1f6ce8-497f-8031-8163-ee1cf1cada9e" dir="auto"/><h1 id="3b1f6ce8-497f-8056-ab2c-da5c82629a01" class="" dir="auto">Exportação de bancos</h1><p id="3b1f6ce8-497f-8029-a19c-f757cf5accff" class="" dir="auto">Também é possível realizar backups.</p><p id="3b1f6ce8-497f-80af-91b1-f7be900e6b24" class="" dir="auto">Basta:</p><ul id="3b1f6ce8-497f-808e-b4c2-e75faff82b81" class="bulleted-list" dir="auto"><li style="list-style-type:disc">selecionar o banco;</li></ul><ul id="3b1f6ce8-497f-80f5-8c82-e2084ef5a1ff" class="bulleted-list" dir="auto"><li style="list-style-type:disc">clicar em <strong>Exportar</strong>;</li></ul><ul id="3b1f6ce8-497f-8045-8e99-f392dd4257f3" class="bulleted-list" dir="auto"><li style="list-style-type:disc">escolher o formato SQL;</li></ul><ul id="3b1f6ce8-497f-8048-ae60-cc397258864d" class="bulleted-list" dir="auto"><li style="list-style-type:disc">baixar o arquivo.</li></ul><p id="3b1f6ce8-497f-80ff-98bc-ca7acbf43b6b" class="" dir="auto">O arquivo gerado pode ser utilizado posteriormente para restaurar o banco.</p><hr id="3b1f6ce8-497f-80f7-ac04-ec5d51d67899" dir="auto"/><h1 id="3b1f6ce8-497f-80b0-87d1-ed5fc3a2830a" class="" dir="auto">Gerenciamento de usuários</h1><p id="3b1f6ce8-497f-8047-b4e2-df9248a22e89" class="" dir="auto">O phpMyAdmin também permite administrar usuários do MySQL.</p><p id="3b1f6ce8-497f-8060-b22c-d26ae4d250ad" class="" dir="auto">É possível:</p><ul id="3b1f6ce8-497f-8043-9010-c7764a121727" class="bulleted-list" dir="auto"><li style="list-style-type:disc">criar usuários;</li></ul><ul id="3b1f6ce8-497f-800d-a64d-dfc01c5c4c9f" class="bulleted-list" dir="auto"><li style="list-style-type:disc">alterar senhas;</li></ul><ul id="3b1f6ce8-497f-803d-8983-c0abdce39288" class="bulleted-list" dir="auto"><li style="list-style-type:disc">conceder permissões;</li></ul><ul id="3b1f6ce8-497f-80df-8ec4-e215efed76ad" class="bulleted-list" dir="auto"><li style="list-style-type:disc">remover acessos;</li></ul><ul id="3b1f6ce8-497f-8084-88da-f44811c55092" class="bulleted-list" dir="auto"><li style="list-style-type:disc">limitar privilégios.</li></ul><p id="3b1f6ce8-497f-80af-8c52-e120a6fb0205" class="" dir="auto">Exemplo:</p><p id="3b1f6ce8-497f-802b-b9ea-eac5d681aa11" class="" dir="auto">Um usuário pode ter permissão apenas para consultar dados (<code>SELECT</code>), enquanto outro pode criar tabelas e modificar registros.</p><p id="3b1f6ce8-497f-807d-baf2-c51ae3b1f324" class="" dir="auto">Essa separação aumenta a segurança do banco de dados.</p><hr id="3b1f6ce8-497f-8072-8b4a-efc2525235bb" dir="auto"/><h1 id="3b1f6ce8-497f-809f-93ad-e6a124c7996f" class="" dir="auto">Criação de relacionamentos</h1><p id="3b1f6ce8-497f-80cd-ba44-cf08c6dbbbad" class="" dir="auto">O phpMyAdmin permite criar relacionamentos entre tabelas utilizando <strong>chaves estrangeiras (Foreign Keys)</strong>.</p><p id="3b1f6ce8-497f-808c-afe6-dcd362b04af0" class="" dir="auto">Exemplo:</p><p id="3b1f6ce8-497f-80e3-be06-f0b9a81a15d4" class="" dir="auto">Tabela:</p><pre id="3b1f6ce8-497f-8023-a8f7-f72dd93ce25f" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">clientes</code></pre><p id="3b1f6ce8-497f-807a-8d41-fb77e8e2a006" class="" dir="auto">Tabela:</p><pre id="3b1f6ce8-497f-8034-bcd7-f71a786c69a9" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">pedidos</code></pre><p id="3b1f6ce8-497f-80dc-af9f-fd3047226592" class="" dir="auto">O campo:</p><pre id="3b1f6ce8-497f-80bf-8436-f839cc20f047" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">cliente_id</code></pre><p id="3b1f6ce8-497f-80a4-935e-c74e61860c89" class="" dir="auto">pode ser configurado para referenciar:</p><pre id="3b1f6ce8-497f-8022-ae1b-d559bd40666c" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">clientes.id</code></pre><p id="3b1f6ce8-497f-80d3-a3cd-cdf787793f0f" class="" dir="auto">Isso garante a integridade dos dados, impedindo referências inválidas.</p><hr id="3b1f6ce8-497f-80d4-95f2-de1d440663d8" dir="auto"/><h1 id="3b1f6ce8-497f-80ea-82dc-f27baefd67b7" class="" dir="auto">Alteração da estrutura das tabelas</h1><p id="3b1f6ce8-497f-8052-9a5e-f4bdca7014dd" class="" dir="auto">É possível modificar uma tabela sem precisar recriá-la.</p><p id="3b1f6ce8-497f-802a-9a07-eaad6a672c98" class="" dir="auto">Algumas operações disponíveis:</p><ul id="3b1f6ce8-497f-807c-b72f-d5606620fab5" class="bulleted-list" dir="auto"><li style="list-style-type:disc">adicionar colunas;</li></ul><ul id="3b1f6ce8-497f-806c-ab45-c1a8ca666537" class="bulleted-list" dir="auto"><li style="list-style-type:disc">remover colunas;</li></ul><ul id="3b1f6ce8-497f-8019-b55c-c9711366b07d" class="bulleted-list" dir="auto"><li style="list-style-type:disc">alterar tipos de dados;</li></ul><ul id="3b1f6ce8-497f-800b-ad9f-fcdab0a9ae84" class="bulleted-list" dir="auto"><li style="list-style-type:disc">renomear colunas;</li></ul><ul id="3b1f6ce8-497f-8076-80d3-ec7e4f3dd0a7" class="bulleted-list" dir="auto"><li style="list-style-type:disc">alterar o tamanho de um <code>VARCHAR</code>;</li></ul><ul id="3b1f6ce8-497f-8053-96fb-dc85032af414" class="bulleted-list" dir="auto"><li style="list-style-type:disc">definir valores padrão;</li></ul><ul id="3b1f6ce8-497f-806e-ae85-e5dc93136acc" class="bulleted-list" dir="auto"><li style="list-style-type:disc">configurar <code>AUTO_INCREMENT</code>.</li></ul><hr id="3b1f6ce8-497f-80c8-9f3f-d7c0e0165205" dir="auto"/><h1 id="3b1f6ce8-497f-800d-8ce9-d33eb6c7708f" class="" dir="auto">Visualização dos dados</h1><p id="3b1f6ce8-497f-8040-9031-d72d8f785398" class="" dir="auto">Na aba <strong>Procurar</strong> (<em>Browse</em>), o phpMyAdmin exibe todos os registros da tabela em formato de grade.</p><p id="3b1f6ce8-497f-8017-8ebe-c4bb03787849" class="" dir="auto">Exemplo:</p><table id="3b1f6ce8-497f-8063-b386-e68dd93a8957" class="simple-table" dir="ltr"><thead class="simple-table-header"><tr id="3b1f6ce8-497f-8030-af7c-f3012e766677" dir="ltr"><th id="pa|Y" class="simple-table-header-color simple-table-header">ID</th><th id="a[GA" class="simple-table-header-color simple-table-header">Nome</th><th id="m]oW" class="simple-table-header-color simple-table-header">Cidade</th></tr></thead><tbody><tr id="3b1f6ce8-497f-80aa-bfec-f045a632e0d1" dir="ltr"><td id="pa|Y" class="">1</td><td id="a[GA" class="">João</td><td id="m]oW" class="">Fortaleza</td></tr><tr id="3b1f6ce8-497f-8019-ba10-cec1bfcf8cc2" dir="ltr"><td id="pa|Y" class="">2</td><td id="a[GA" class="">Maria</td><td id="m]oW" class="">Natal</td></tr><tr id="3b1f6ce8-497f-80f4-9cc9-ec740c5284c5" dir="ltr"><td id="pa|Y" class="">3</td><td id="a[GA" class="">Carlos</td><td id="m]oW" class="">Recife</td></tr></tbody></table><p id="3b1f6ce8-497f-80f5-b25e-f174205078e5" class="" dir="auto">Também é possível:</p><ul id="3b1f6ce8-497f-80a0-9a1c-d91477a54391" class="bulleted-list" dir="auto"><li style="list-style-type:disc">ordenar resultados;</li></ul><ul id="3b1f6ce8-497f-80a6-9539-e7db821e8d74" class="bulleted-list" dir="auto"><li style="list-style-type:disc">pesquisar registros;</li></ul><ul id="3b1f6ce8-497f-8033-bb49-d7ecf6743c8e" class="bulleted-list" dir="auto"><li style="list-style-type:disc">filtrar informações;</li></ul><ul id="3b1f6ce8-497f-809d-a64e-d21dbd773c31" class="bulleted-list" dir="auto"><li style="list-style-type:disc">editar diretamente na tabela.</li></ul><hr id="3b1f6ce8-497f-80b3-bfe9-faae49ceaf5c" dir="auto"/><h1 id="3b1f6ce8-497f-8084-bd09-f1f7d5dd1bf3" class="" dir="auto">Pesquisa de registros</h1><p id="3b1f6ce8-497f-806e-b673-ed9ee2c7ed0c" class="" dir="auto">O phpMyAdmin possui uma ferramenta gráfica para consultas.</p><p id="3b1f6ce8-497f-80e5-8537-daa0bb163900" class="" dir="auto">Exemplo:</p><p id="3b1f6ce8-497f-80f6-871e-fca0163a36d6" class="" dir="auto">Pesquisar:</p><pre id="3b1f6ce8-497f-80e2-a8bd-d5587962529b" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Nome = João</code></pre><p id="3b1f6ce8-497f-8066-a943-d49c63e8b420" class="" dir="auto">Sem escrever SQL, a ferramenta gera internamente uma consulta semelhante a:</p><pre id="3b1f6ce8-497f-808c-977f-f19f6e5c608b" class="code code-wrap" data-notion-code-syntax="sql"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">SELECT *
+FROM clientes
+WHERE nome=&#x27;João&#x27;;</code></pre><hr id="3b1f6ce8-497f-8033-8eaf-f1b0f30e6f28" dir="auto"/><h1 id="3b1f6ce8-497f-80e7-98ea-c7c9b48ca3d8" class="" dir="auto">Monitoramento</h1><p id="3b1f6ce8-497f-8085-9499-db04c18f3148" class="" dir="auto">O phpMyAdmin apresenta diversas informações sobre o servidor MySQL, como:</p><ul id="3b1f6ce8-497f-80ac-b590-c62d96d1d5b6" class="bulleted-list" dir="auto"><li style="list-style-type:disc">versão do MySQL;</li></ul><ul id="3b1f6ce8-497f-80f9-acf4-fe58b799613f" class="bulleted-list" dir="auto"><li style="list-style-type:disc">versão do PHP;</li></ul><ul id="3b1f6ce8-497f-8025-a54e-ebea45eb568e" class="bulleted-list" dir="auto"><li style="list-style-type:disc">espaço utilizado;</li></ul><ul id="3b1f6ce8-497f-8013-9590-d3db06127035" class="bulleted-list" dir="auto"><li style="list-style-type:disc">quantidade de tabelas;</li></ul><ul id="3b1f6ce8-497f-808c-9cc1-d2af0cc4aa82" class="bulleted-list" dir="auto"><li style="list-style-type:disc">número de registros;</li></ul><ul id="3b1f6ce8-497f-80b6-be9c-f7966c1cfb54" class="bulleted-list" dir="auto"><li style="list-style-type:disc">mecanismos de armazenamento;</li></ul><ul id="3b1f6ce8-497f-8011-8928-e03bd9af4bea" class="bulleted-list" dir="auto"><li style="list-style-type:disc">codificação dos bancos.</li></ul><p id="3b1f6ce8-497f-80da-9592-ef86f58e0aad" class="" dir="auto">Essas informações ajudam na administração do ambiente.</p><hr id="3b1f6ce8-497f-8064-83be-d62da8f20fd2" dir="auto"/><h1 id="3b1f6ce8-497f-80a5-ad74-de3fee0aa926" class="" dir="auto">Vantagens do phpMyAdmin</h1><ul id="3b1f6ce8-497f-8008-89d0-df25b53c20df" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Interface gráfica intuitiva.</li></ul><ul id="3b1f6ce8-497f-8022-9809-e0bde72b80d1" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Fácil de aprender.</li></ul><ul id="3b1f6ce8-497f-8091-82d8-cf74daeee9df" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Não exige conhecimento avançado de SQL para tarefas básicas.</li></ul><ul id="3b1f6ce8-497f-8045-be4a-cee7cc1ca23b" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Permite executar comandos SQL quando necessário.</li></ul><ul id="3b1f6ce8-497f-80f6-9205-d84c09cd50ea" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Facilita backups e restaurações.</li></ul><ul id="3b1f6ce8-497f-808b-b37f-cfa0cf2fb97d" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Administração de usuários e permissões.</li></ul><ul id="3b1f6ce8-497f-800e-b614-ec9d6ce517da" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Gerenciamento completo de tabelas e bancos de dados.</li></ul><ul id="3b1f6ce8-497f-800e-a9ef-e4abc7b94d3b" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Gratuito e de código aberto.</li></ul><ul id="3b1f6ce8-497f-80b6-ad71-c40cb21f6144" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Compatível com diversos sistemas operacionais.</li></ul><ul id="3b1f6ce8-497f-80ed-b4ff-c26836f0de9a" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Integrado a pacotes como XAMPP, WAMP e Laragon.</li></ul><hr id="3b1f6ce8-497f-8051-88cd-c90ca4f16a2f" dir="auto"/><h1 id="3b1f6ce8-497f-8019-8eea-f4bbb91e582a" class="" dir="auto">Desvantagens</h1><ul id="3b1f6ce8-497f-8055-9fbb-f5dd5e09f283" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Depende de um navegador e de um servidor web (como Apache).</li></ul><ul id="3b1f6ce8-497f-80a2-8611-c3d957609ffc" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Em bancos muito grandes, algumas operações podem ser mais lentas do que utilizando ferramentas de linha de comando.</li></ul><ul id="3b1f6ce8-497f-80ba-919f-c3cb51e7a163" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Se exposto à internet sem proteção adequada, pode representar um risco de segurança.</li></ul><ul id="3b1f6ce8-497f-8051-b307-d11cb634af45" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Para automação de tarefas repetitivas, o uso direto de scripts SQL costuma ser mais eficiente.</li></ul><hr id="3b1f6ce8-497f-8080-80a4-c5bf0c9464cc" dir="auto"/><h1 id="3b1f6ce8-497f-803c-86eb-c15f0805a30f" class="" dir="auto">Boas práticas</h1><ul id="3b1f6ce8-497f-80d1-afa1-d95783e5523d" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Proteja o acesso ao phpMyAdmin com senha forte.</li></ul><ul id="3b1f6ce8-497f-80f3-b30c-c83d113e13df" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Nunca utilize o usuário <code>root</code> em aplicações web; crie usuários com permissões específicas.</li></ul><ul id="3b1f6ce8-497f-808b-96d3-c97522ce8980" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Faça backups antes de alterações importantes.</li></ul><ul id="3b1f6ce8-497f-803f-a850-da064c7b0767" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Revise comandos <code>UPDATE</code> e <code>DELETE</code> para evitar mudanças acidentais em todos os registros.</li></ul><ul id="3b1f6ce8-497f-8004-9e97-cf8dd1e92b86" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Mantenha o phpMyAdmin e o MySQL sempre atualizados.</li></ul><ul id="3b1f6ce8-497f-8057-b491-ee68539c58ec" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Em servidores públicos, restrinja o acesso ao phpMyAdmin apenas para administradores.</li></ul><hr id="3b1f6ce8-497f-800a-9f18-cd6ba8a1d049" dir="auto"/><h1 id="3b1f6ce8-497f-80c0-908c-db421720409d" class="" dir="auto">Quando utilizar o phpMyAdmin?</h1><p id="3b1f6ce8-497f-803f-99a4-fba138e63ad6" class="" dir="auto">O phpMyAdmin é ideal para:</p><ul id="3b1f6ce8-497f-808c-859c-cd5a618b6234" class="bulleted-list" dir="auto"><li style="list-style-type:disc">estudantes que estão aprendendo MySQL;</li></ul><ul id="3b1f6ce8-497f-806c-9b82-f60cd18496d2" class="bulleted-list" dir="auto"><li style="list-style-type:disc">desenvolvimento de aplicações locais;</li></ul><ul id="3b1f6ce8-497f-809b-83c5-c81852db7911" class="bulleted-list" dir="auto"><li style="list-style-type:disc">criação e teste de bancos de dados;</li></ul><ul id="3b1f6ce8-497f-807a-91f3-f125d809dafe" class="bulleted-list" dir="auto"><li style="list-style-type:disc">gerenciamento rápido de tabelas e registros;</li></ul><ul id="3b1f6ce8-497f-8005-ba19-f5452b7aebf0" class="bulleted-list" dir="auto"><li style="list-style-type:disc">realização de backups e restaurações;</li></ul><ul id="3b1f6ce8-497f-8005-a9e4-c3a7c351b562" class="bulleted-list" dir="auto"><li style="list-style-type:disc">execução ocasional de consultas SQL.</li></ul><p id="3b1f6ce8-497f-801f-8228-d544c05b03e9" class="" dir="auto">Em ambientes de produção e em tarefas automatizadas, é comum complementar ou substituir o uso do phpMyAdmin por scripts SQL, ferramentas de administração e linhas de comando.</p><hr id="3b1f6ce8-497f-8028-b653-c9e471b57b94" dir="auto"/><h1 id="3b1f6ce8-497f-8098-85b4-e6b85ca93a83" class="" dir="auto">Exemplo prático</h1><p id="3b1f6ce8-497f-80fd-a050-fe7ed180f0eb" class="" dir="auto">Imagine que você está desenvolvendo um sistema de cadastro de clientes.</p><ol type="1" id="3b1f6ce8-497f-8059-8de5-cf3d6dc68b13" class="numbered-list" start="1" dir="auto"><li>Acesse <code>http://localhost/phpmyadmin</code>.</li></ol><ol type="1" id="3b1f6ce8-497f-802e-aa10-c35f86a27179" class="numbered-list" start="2" dir="auto"><li>Crie o banco de dados <code>empresa</code>.</li></ol><ol type="1" id="3b1f6ce8-497f-8036-8ef7-e4c5d6be45f4" class="numbered-list" start="3" dir="auto"><li>Crie a tabela <code>clientes</code>.</li></ol><ol type="1" id="3b1f6ce8-497f-80d3-9797-f0d4647099f7" class="numbered-list" start="4" dir="auto"><li>Adicione os campos:<ul id="3b1f6ce8-497f-8055-b645-d5e0515f2dcf" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><code>id</code> (INT, PRIMARY KEY, AUTO_INCREMENT)</li></ul><ul id="3b1f6ce8-497f-8005-8a83-ca10e84f5d8c" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><code>nome</code> (VARCHAR(100))</li></ul><ul id="3b1f6ce8-497f-80ed-80a3-cd4e49ae47f7" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><code>email</code> (VARCHAR(150))</li></ul></li></ol><ol type="1" id="3b1f6ce8-497f-805d-9150-f9065e8a8f10" class="numbered-list" start="5" dir="auto"><li>Insira alguns registros pela aba <strong>Inserir</strong>.</li></ol><ol type="1" id="3b1f6ce8-497f-8076-82fe-e597982c4793" class="numbered-list" start="6" dir="auto"><li>Visualize os dados na aba <strong>Procurar</strong>.</li></ol><ol type="1" id="3b1f6ce8-497f-8044-ad7b-feb9d5e9516f" class="numbered-list" start="7" dir="auto"><li>Edite um registro utilizando o botão <strong>Editar</strong>.</li></ol><ol type="1" id="3b1f6ce8-497f-8051-844b-fbccbf660d44" class="numbered-list" start="8" dir="auto"><li>Exporte o banco para um arquivo <code>.sql</code> como backup.</li></ol><p id="3b1f6ce8-497f-80f4-8c85-d9c588709936" class="" dir="auto">Sem escrever uma única linha de SQL, você terá realizado todas as operações básicas de gerenciamento do banco de dados.</p><hr id="3b1f6ce8-497f-80ae-a50a-e2292f7772fb" dir="auto"/><h1 id="3b1f6ce8-497f-802e-9505-cc8e16d243e5" class="" dir="auto">Resumo</h1><p id="3b1f6ce8-497f-8036-9524-e37d876a3aed" class="" dir="auto">O <strong>phpMyAdmin</strong> é uma ferramenta gráfica que facilita a administração do MySQL, permitindo criar bancos de dados, tabelas, inserir, editar, consultar e excluir registros, além de importar, exportar e gerenciar usuários e permissões. Ele traduz as ações realizadas na interface em comandos SQL executados pelo servidor MySQL, tornando o aprendizado e a administração mais acessíveis. Apesar de sua praticidade, dominar a linguagem SQL continua sendo essencial para desenvolver aplicações profissionais e administrar bancos de dados de forma eficiente.</p></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

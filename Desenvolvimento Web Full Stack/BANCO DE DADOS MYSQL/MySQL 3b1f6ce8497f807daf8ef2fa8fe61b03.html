@@ -1,0 +1,830 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>MySQL</title><meta name="data-notion-page-icon" content="/icons/database_blue.svg"/><link rel="icon" href="https://app.notion.com/icons/database_blue.svg"/><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+/* For default-background callouts, render the border outline. */
+.callout.block-color-default_background {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+/*
+ * Toggles and callouts hold arbitrary content, so they can easily be taller
+ * than a page. They must stay breakable: avoiding breaks inside them makes
+ * Chromium push the whole block onto the next page, which leaves the previous
+ * page mostly empty before every long toggle.
+ */
+details,
+aside {
+	margin: 1.25em 0;
+}
+
+/* Keep a toggle's title on the same page as the start of its content. */
+summary {
+	page-break-after: avoid;
+	break-after: avoid;
+}
+
+/*
+ * Toggle headings render as <h1/h2/h3 style="display:inline-block"> inside
+ * <summary>. Without this reset, the heading's margin-top pushes it below the
+ * ::marker (▼), so the triangle and the title appear on separate lines.
+ */
+summary h1,
+summary h2,
+summary h3,
+summary h4 {
+	margin-top: 0;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding-inline: 0.125rem;
+	padding-block: 0.375rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+/*
+ * Render emoji icons using a ::before pseudo-element to keep the glyph
+ * out of the DOM textContent traversal. This avoids double-rendering icons
+ * in callouts and page titles.
+ * NOTE(slim/html-export-pseudo-icons): I can't tagref this because it will
+ * flag as a duplicate tag after codegen.
+ */
+.icon[data-emoji]::before {
+	content: attr(data-emoji);
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	margin-right: 0.4em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.tab {
+	margin: 1.25em 0;
+	padding-inline: 1rem;
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style><style>@import url('https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex-swap.min.css')</style></head><body><article id="3b1f6ce8-497f-807d-af8e-f2fa8fe61b03" class="page sans" data-notion-page-icon="/icons/database_blue.svg"><header><div class="page-header-icon undefined"><img class="icon notion-static-icon" src="https://app.notion.com/icons/database_blue.svg"/></div><h1 class="page-title" dir="auto">MySQL</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><h1 id="3b1f6ce8-497f-808f-beab-e5f3aff3d9b1" class="" dir="auto">MySQL</h1><h2 id="3b1f6ce8-497f-8054-8dbb-cfc51cae8921" class="" dir="auto">O que é MySQL?</h2><p id="3b1f6ce8-497f-80a9-b23b-eb0ebbf01d40" class="" dir="auto">O <strong>MySQL</strong> é um <strong>Sistema Gerenciador de Banco de Dados Relacional (SGBDR)</strong>, utilizado para armazenar, organizar, consultar e manipular dados de maneira eficiente. Ele permite que aplicações armazenem informações de forma estruturada em tabelas relacionadas entre si.</p><p id="3b1f6ce8-497f-805a-a5db-fa3c980f30e5" class="" dir="auto">O MySQL é um dos bancos de dados mais utilizados do mundo devido à sua velocidade, facilidade de uso, confiabilidade e compatibilidade com diversas linguagens de programação, como PHP, Java, Python, C#, JavaScript (Node.js), entre outras.</p><p id="3b1f6ce8-497f-806d-aa77-cd4468815c92" class="" dir="auto">Ele é baseado na linguagem <strong>SQL (Structured Query Language)</strong>, que é a linguagem padrão para criação e manipulação de bancos de dados relacionais.</p><hr id="3b1f6ce8-497f-80f2-9f46-c901b92aa771" dir="auto"/><h1 id="3b1f6ce8-497f-80b5-b80a-cee03fac0bd9" class="" dir="auto">História do MySQL</h1><p id="3b1f6ce8-497f-8068-a69b-f62e91007e3f" class="" dir="auto">O MySQL foi criado em <strong>1995</strong> pelos desenvolvedores:</p><ul id="3b1f6ce8-497f-8026-be22-f90d97c10237" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Michael &quot;Monty&quot; Widenius</li></ul><ul id="3b1f6ce8-497f-802a-9b6f-c827f84bad9f" class="bulleted-list" dir="auto"><li style="list-style-type:disc">David Axmark</li></ul><ul id="3b1f6ce8-497f-802d-9458-c1768c332d1a" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Allan Larsson</li></ul><p id="3b1f6ce8-497f-8067-9ee1-def3f53de3a3" class="" dir="auto">Inicialmente, era desenvolvido pela empresa <strong>MySQL AB</strong>.</p><p id="3b1f6ce8-497f-8035-a668-cf693f5b25f3" class="" dir="auto">Em <strong>2008</strong>, a empresa foi adquirida pela Sun Microsystems.</p><p id="3b1f6ce8-497f-80af-a7bd-da782370297f" class="" dir="auto">Em <strong>2010</strong>, a Sun foi comprada pela Oracle Corporation, que passou a ser a responsável pelo desenvolvimento do MySQL até os dias atuais.</p><p id="3b1f6ce8-497f-8092-bf51-c0e535869f6d" class="" dir="auto">Atualmente, existem duas versões principais:</p><ul id="3b1f6ce8-497f-8072-a920-fcf1cff2c3c6" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>MySQL Community Edition</strong><ul id="3b1f6ce8-497f-8025-9c95-d20132430b9c" class="bulleted-list" dir="auto"><li style="list-style-type:circle">Gratuita</li></ul><ul id="3b1f6ce8-497f-8003-a92b-caff9a53c75b" class="bulleted-list" dir="auto"><li style="list-style-type:circle">Código aberto</li></ul><ul id="3b1f6ce8-497f-8082-9107-fa79d9ff23b9" class="bulleted-list" dir="auto"><li style="list-style-type:circle">Mais utilizada por estudantes e empresas.</li></ul></li></ul><ul id="3b1f6ce8-497f-8048-b685-f075a3c4635d" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>MySQL Enterprise Edition</strong><ul id="3b1f6ce8-497f-8079-b650-ef53c6c77d29" class="bulleted-list" dir="auto"><li style="list-style-type:circle">Paga</li></ul><ul id="3b1f6ce8-497f-8051-88cc-da2f04cfb244" class="bulleted-list" dir="auto"><li style="list-style-type:circle">Recursos avançados de monitoramento</li></ul><ul id="3b1f6ce8-497f-801c-80d8-dee9b2e0c148" class="bulleted-list" dir="auto"><li style="list-style-type:circle">Backup corporativo</li></ul><ul id="3b1f6ce8-497f-804c-8e7a-c0ee6c0ec2a3" class="bulleted-list" dir="auto"><li style="list-style-type:circle">Segurança adicional</li></ul><ul id="3b1f6ce8-497f-80f7-af45-cebda9f026f9" class="bulleted-list" dir="auto"><li style="list-style-type:circle">Suporte oficial da Oracle</li></ul></li></ul><hr id="3b1f6ce8-497f-80ad-b240-d23b923ccf74" dir="auto"/><h1 id="3b1f6ce8-497f-8012-a9b3-d008d62add2c" class="" dir="auto">O que é um Banco de Dados?</h1><p id="3b1f6ce8-497f-80a8-af72-c0d30beb42da" class="" dir="auto">Um banco de dados é uma coleção organizada de informações.</p><p id="3b1f6ce8-497f-8003-a9f8-e0e76086c676" class="" dir="auto">Por exemplo:</p><p id="3b1f6ce8-497f-8033-8b84-d12f37931f55" class="" dir="auto">Imagine um sistema de uma escola.</p><p id="3b1f6ce8-497f-8083-81ae-cdafa8be56d5" class="" dir="auto">Ao invés de guardar os dados dos alunos em papéis, o sistema utiliza um banco de dados.</p><p id="3b1f6ce8-497f-80bd-a03e-c7e4de497dfe" class="" dir="auto">Ele pode armazenar:</p><ul id="3b1f6ce8-497f-8022-a603-cfe4d9f50d53" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Nome</li></ul><ul id="3b1f6ce8-497f-8057-a233-fa37bfd36ce8" class="bulleted-list" dir="auto"><li style="list-style-type:disc">CPF</li></ul><ul id="3b1f6ce8-497f-8017-bff5-c476c741f262" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Matrícula</li></ul><ul id="3b1f6ce8-497f-8069-8b99-ca0ba4e16712" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Endereço</li></ul><ul id="3b1f6ce8-497f-80ab-8100-e1edb5cd8ad7" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Curso</li></ul><ul id="3b1f6ce8-497f-8081-80a1-d4f1c921e59d" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Notas</li></ul><ul id="3b1f6ce8-497f-80e0-8560-e077a62b9d99" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Frequência</li></ul><p id="3b1f6ce8-497f-8002-8f85-c4bbfa2b859a" class="" dir="auto">Tudo fica organizado para consultas rápidas.</p><hr id="3b1f6ce8-497f-8026-9784-c7e48d9bbbf4" dir="auto"/><h1 id="3b1f6ce8-497f-80d7-9694-ff3cd2cd5b5f" class="" dir="auto">O que é um Banco de Dados Relacional?</h1><p id="3b1f6ce8-497f-800d-bc82-dbaac1ec0b89" class="" dir="auto">O MySQL é um banco de dados <strong>relacional</strong>.</p><p id="3b1f6ce8-497f-802a-a6c4-e8981fc682e7" class="" dir="auto">Isso significa que as informações ficam armazenadas em <strong>tabelas</strong>, e essas tabelas podem se relacionar entre si.</p><p id="3b1f6ce8-497f-8004-bff2-f678513c9910" class="" dir="auto">Exemplo:</p><p id="3b1f6ce8-497f-80b2-8733-c6a771cec7ad" class="" dir="auto">Tabela <strong>Clientes</strong></p><table id="3b1f6ce8-497f-808b-b72f-ccffe1eff19e" class="simple-table" dir="ltr"><thead class="simple-table-header"><tr id="3b1f6ce8-497f-80e4-9758-e37d23db1463" dir="ltr"><th id="[{ar" class="simple-table-header-color simple-table-header">ID</th><th id="ypz:" class="simple-table-header-color simple-table-header">Nome</th></tr></thead><tbody><tr id="3b1f6ce8-497f-80bf-bdef-d39d78eee48b" dir="ltr"><td id="[{ar" class="">1</td><td id="ypz:" class="">João</td></tr><tr id="3b1f6ce8-497f-808a-a6a4-d49a095f6e83" dir="ltr"><td id="[{ar" class="">2</td><td id="ypz:" class="">Maria</td></tr></tbody></table><p id="3b1f6ce8-497f-8017-9bd8-e6329fb855ef" class="" dir="auto">Tabela <strong>Pedidos</strong></p><table id="3b1f6ce8-497f-80d5-98ee-cbda5fe68a06" class="simple-table" dir="ltr"><thead class="simple-table-header"><tr id="3b1f6ce8-497f-80d7-8fe7-ff5f9738543f" dir="ltr"><th id="@v_n" class="simple-table-header-color simple-table-header">ID</th><th id="OloI" class="simple-table-header-color simple-table-header">Cliente_ID</th><th id="UH=e" class="simple-table-header-color simple-table-header">Produto</th></tr></thead><tbody><tr id="3b1f6ce8-497f-8087-9bd9-dcc65fb8fdb3" dir="ltr"><td id="@v_n" class="">1</td><td id="OloI" class="">1</td><td id="UH=e" class="">Notebook</td></tr><tr id="3b1f6ce8-497f-8020-8c49-cbdb493ad90c" dir="ltr"><td id="@v_n" class="">2</td><td id="OloI" class="">2</td><td id="UH=e" class="">Mouse</td></tr></tbody></table><p id="3b1f6ce8-497f-803d-8869-d664771a57b6" class="" dir="auto">Observe que:</p><p id="3b1f6ce8-497f-8077-8ac1-d65872b8b5c2" class="" dir="auto">Cliente_ID aponta para o cliente correspondente.</p><p id="3b1f6ce8-497f-80ed-a075-e133134cdcca" class="" dir="auto">Assim, um pedido pertence a um cliente.</p><p id="3b1f6ce8-497f-8033-9d19-d9a9ab8350bc" class="" dir="auto">Essa relação evita repetição de informações.</p><hr id="3b1f6ce8-497f-80e0-ad55-c0736c06fb23" dir="auto"/><h1 id="3b1f6ce8-497f-80fe-a6e3-c5e09b78b32c" class="" dir="auto">Como o MySQL funciona?</h1><p id="3b1f6ce8-497f-80b6-8433-c91531abcc56" class="" dir="auto">O funcionamento pode ser resumido em cinco etapas:</p><h2 id="3b1f6ce8-497f-80b5-bf8c-fcf11c45dd80" class="" dir="auto">1. A aplicação envia um comando SQL</h2><p id="3b1f6ce8-497f-8015-a5e0-cdba6a3b7512" class="" dir="auto">Exemplo:</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-sql.min.js" integrity="sha512-sijCOJblSCXYYmXdwvqV0tak8QJW5iy2yLB1wAbbLc3OOIueqymizRFWUS/mwKctnzPKpNdPJV3aK1zlDMJmXQ==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="3b1f6ce8-497f-80fa-87b6-e61900ef3f9d" class="code code-wrap" data-notion-code-syntax="sql"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">SELECT * FROM clientes;</code></pre><hr id="3b1f6ce8-497f-807f-a73d-db4ff45cb0a3" dir="auto"/><h2 id="3b1f6ce8-497f-8087-8d84-dc001ceed87a" class="" dir="auto">2. O MySQL recebe esse comando</h2><p id="3b1f6ce8-497f-80f9-b7c0-f426f40dd4f4" class="" dir="auto">O servidor interpreta a instrução.</p><hr id="3b1f6ce8-497f-80df-aeaa-d32223eddd88" dir="auto"/><h2 id="3b1f6ce8-497f-8032-a213-ed085f04ee9b" class="" dir="auto">3. O MySQL procura os dados</h2><p id="3b1f6ce8-497f-80c2-b452-f7108756d89c" class="" dir="auto">Ele acessa o banco e encontra as informações solicitadas.</p><hr id="3b1f6ce8-497f-800c-ac42-e6e7fb5c8ada" dir="auto"/><h2 id="3b1f6ce8-497f-8011-ab8e-f524281b66c0" class="" dir="auto">4. O resultado é preparado</h2><p id="3b1f6ce8-497f-80bf-900f-f6591ae1fa75" class="" dir="auto">Os dados são organizados.</p><hr id="3b1f6ce8-497f-80cd-bca3-d2c4d82bef6f" dir="auto"/><h2 id="3b1f6ce8-497f-80b3-8484-dd31200434d3" class="" dir="auto">5. O resultado retorna para a aplicação</h2><p id="3b1f6ce8-497f-80bf-ae03-d56909a538cb" class="" dir="auto">A aplicação mostra as informações ao usuário.</p><hr id="3b1f6ce8-497f-80e1-bc13-c1f115a2b1d0" dir="auto"/><h1 id="3b1f6ce8-497f-8068-b7e7-ef65a9f41f54" class="" dir="auto">Estrutura do MySQL</h1><p id="3b1f6ce8-497f-8085-8ef1-dcbf7539bc17" class="" dir="auto">A organização do MySQL é feita em níveis:</p><pre id="3b1f6ce8-497f-8089-8a76-f97feaa3f8a4" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Servidor MySQL
+│
+├── Banco de Dados
+│      │
+│      ├── Tabelas
+│      │      │
+│      │      ├── Colunas
+│      │      └── Linhas
+│      │
+│      ├── Views
+│      ├── Procedures
+│      ├── Functions
+│      ├── Triggers
+│      └── Índices</code></pre><hr id="3b1f6ce8-497f-80d8-949f-ca7f44120347" dir="auto"/><h1 id="3b1f6ce8-497f-8083-92eb-f15b21636c26" class="" dir="auto">Componentes principais</h1><h2 id="3b1f6ce8-497f-80e6-82f6-ecd1c23d9c44" class="" dir="auto">Banco de Dados (Database)</h2><p id="3b1f6ce8-497f-808c-b12b-f0a14e25ce3e" class="" dir="auto">É um conjunto de tabelas relacionadas.</p><p id="3b1f6ce8-497f-8078-a7c7-da75392f1eba" class="" dir="auto">Exemplo:</p><pre id="3b1f6ce8-497f-8010-acdf-f5b02773e4e9" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">empresa</code></pre><p id="3b1f6ce8-497f-80c4-acd2-f912b9277872" class="" dir="auto">Dentro dele podem existir:</p><ul id="3b1f6ce8-497f-80e1-ad06-e27e5a046514" class="bulleted-list" dir="auto"><li style="list-style-type:disc">clientes</li></ul><ul id="3b1f6ce8-497f-8077-af9d-fbadf95c9a7e" class="bulleted-list" dir="auto"><li style="list-style-type:disc">produtos</li></ul><ul id="3b1f6ce8-497f-80be-89cd-e21e7cf1f4cf" class="bulleted-list" dir="auto"><li style="list-style-type:disc">funcionários</li></ul><ul id="3b1f6ce8-497f-803f-bde5-daf423b6d97a" class="bulleted-list" dir="auto"><li style="list-style-type:disc">pedidos</li></ul><hr id="3b1f6ce8-497f-803b-a351-c68ac90037ff" dir="auto"/><h2 id="3b1f6ce8-497f-8053-b6ce-dd214d26988a" class="" dir="auto">Tabela (Table)</h2><p id="3b1f6ce8-497f-8005-9f5a-e749015e20d7" class="" dir="auto">É onde os dados ficam armazenados.</p><p id="3b1f6ce8-497f-80e8-b5b5-f77bf148aef5" class="" dir="auto">Exemplo:</p><pre id="3b1f6ce8-497f-80c6-8a89-c9970923faed" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">clientes</code></pre><hr id="3b1f6ce8-497f-8008-af99-e7c2fb4e17a2" dir="auto"/><h2 id="3b1f6ce8-497f-8021-a6c1-dbc03582c6ed" class="" dir="auto">Coluna (Campo)</h2><p id="3b1f6ce8-497f-80aa-9a54-d0511b3f0ccb" class="" dir="auto">Define o tipo de informação.</p><p id="3b1f6ce8-497f-8034-9f85-f2e794bdd92d" class="" dir="auto">Exemplo:</p><pre id="3b1f6ce8-497f-80df-94bf-cfe9e5a064ff" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Nome
+CPF
+Telefone
+Email</code></pre><hr id="3b1f6ce8-497f-802b-8f1b-c898152f2e72" dir="auto"/><h2 id="3b1f6ce8-497f-8005-b8de-e0190e34d477" class="" dir="auto">Linha (Registro)</h2><p id="3b1f6ce8-497f-80f2-86fd-f44cb097e884" class="" dir="auto">Representa um item cadastrado.</p><table id="3b1f6ce8-497f-80de-9d6f-e4ce6de1ba02" class="simple-table" dir="ltr"><thead class="simple-table-header"><tr id="3b1f6ce8-497f-806e-a2c3-dd85cd3ef87a" dir="ltr"><th id="UUmj" class="simple-table-header-color simple-table-header">ID</th><th id="rEiO" class="simple-table-header-color simple-table-header">Nome</th><th id="Ep[I" class="simple-table-header-color simple-table-header">Cidade</th></tr></thead><tbody><tr id="3b1f6ce8-497f-80b0-8c3a-f481ec28371b" dir="ltr"><td id="UUmj" class="">1</td><td id="rEiO" class="">João</td><td id="Ep[I" class="">Fortaleza</td></tr></tbody></table><p id="3b1f6ce8-497f-80ac-9cc3-eea406f87ebd" class="" dir="auto">Essa linha corresponde a um cliente.</p><hr id="3b1f6ce8-497f-801f-a52e-d978d9d58d5b" dir="auto"/><h1 id="3b1f6ce8-497f-80a0-85a9-ca31795ea98a" class="" dir="auto">Tipos de Dados</h1><p id="3b1f6ce8-497f-80b3-a0e1-fe78c20835f6" class="" dir="auto">O MySQL possui diversos tipos de dados.</p><h2 id="3b1f6ce8-497f-8054-b588-d37e49823917" class="" dir="auto">Numéricos</h2><pre id="3b1f6ce8-497f-80b3-a8f9-c685908cbe3b" class="code code-wrap" data-notion-code-syntax="sql"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">INT
+BIGINT
+FLOAT
+DOUBLE
+DECIMAL</code></pre><p id="3b1f6ce8-497f-8045-bc03-ecbcca491dec" class="" dir="auto">Exemplo:</p><pre id="3b1f6ce8-497f-8021-93f1-c1d6498b08cb" class="code code-wrap" data-notion-code-syntax="sql"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">idade INT</code></pre><hr id="3b1f6ce8-497f-80a2-822e-e638fa76e78d" dir="auto"/><h2 id="3b1f6ce8-497f-809e-b7d8-e2c0a45b5389" class="" dir="auto">Texto</h2><pre id="3b1f6ce8-497f-807d-a157-d5e2e8dc20fb" class="code code-wrap" data-notion-code-syntax="sql"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">CHAR
+VARCHAR
+TEXT</code></pre><p id="3b1f6ce8-497f-809e-b014-ca6ced209863" class="" dir="auto">Exemplo:</p><pre id="3b1f6ce8-497f-8038-a681-f512b4b56ddc" class="code code-wrap" data-notion-code-syntax="sql"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">nome VARCHAR(100)</code></pre><hr id="3b1f6ce8-497f-8078-adab-c02047ce5f4b" dir="auto"/><h2 id="3b1f6ce8-497f-803f-9803-d35473e86403" class="" dir="auto">Data</h2><pre id="3b1f6ce8-497f-8091-a702-fa9442cffe90" class="code code-wrap" data-notion-code-syntax="sql"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">DATE
+TIME
+DATETIME
+TIMESTAMP
+YEAR</code></pre><p id="3b1f6ce8-497f-8074-ba2f-f69dd6821728" class="" dir="auto">Exemplo:</p><pre id="3b1f6ce8-497f-80a1-bfe2-d496410fbd68" class="code code-wrap" data-notion-code-syntax="sql"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">data_nascimento DATE</code></pre><hr id="3b1f6ce8-497f-8002-bdef-d3834a506809" dir="auto"/><h2 id="3b1f6ce8-497f-800e-8535-cf848d967815" class="" dir="auto">Booleano</h2><pre id="3b1f6ce8-497f-8060-9e03-f4bf51342e33" class="code code-wrap" data-notion-code-syntax="sql"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">BOOLEAN</code></pre><p id="3b1f6ce8-497f-80e1-9fa7-e7624ca8fa4f" class="" dir="auto">Na prática:</p><pre id="3b1f6ce8-497f-80d2-b42f-ea128ade0a80" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">0 = falso
+
+1 = verdadeiro</code></pre><hr id="3b1f6ce8-497f-80d9-9209-c353d12f1920" dir="auto"/><h1 id="3b1f6ce8-497f-8089-970d-d5ee4948ee18" class="" dir="auto">Principais comandos SQL</h1><h2 id="3b1f6ce8-497f-80a1-976f-e08432d42d84" class="" dir="auto">Criar banco</h2><pre id="3b1f6ce8-497f-80d6-bc8b-c9d27e337271" class="code code-wrap" data-notion-code-syntax="sql"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">CREATE DATABASE empresa;</code></pre><hr id="3b1f6ce8-497f-80e2-8c54-fa278a37472d" dir="auto"/><h2 id="3b1f6ce8-497f-80e6-9a26-fb549993002e" class="" dir="auto">Selecionar banco</h2><pre id="3b1f6ce8-497f-802c-9a02-c815da6451ac" class="code code-wrap" data-notion-code-syntax="sql"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">USE empresa;</code></pre><hr id="3b1f6ce8-497f-806d-8944-ca1110285c48" dir="auto"/><h2 id="3b1f6ce8-497f-80ca-be30-c8654d0dc314" class="" dir="auto">Criar tabela</h2><pre id="3b1f6ce8-497f-80f8-bb60-d0481e3dffb8" class="code code-wrap" data-notion-code-syntax="sql"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">CREATE TABLE clientes(
+    id INT,
+    nome VARCHAR(100)
+);</code></pre><hr id="3b1f6ce8-497f-8024-9679-cd2b4c8acdbf" dir="auto"/><h2 id="3b1f6ce8-497f-8095-9d4e-cefe98d0fee1" class="" dir="auto">Inserir dados</h2><pre id="3b1f6ce8-497f-801a-a831-e9c05f537e36" class="code code-wrap" data-notion-code-syntax="sql"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">INSERT INTO clientes
+VALUES
+(1,&#x27;João&#x27;);</code></pre><hr id="3b1f6ce8-497f-80fc-b6fd-ca46110f2e82" dir="auto"/><h2 id="3b1f6ce8-497f-805d-bcc8-fc5050fb6198" class="" dir="auto">Consultar dados</h2><pre id="3b1f6ce8-497f-807b-adfa-ccc9a8f4faa8" class="code code-wrap" data-notion-code-syntax="sql"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">SELECT * FROM clientes;</code></pre><hr id="3b1f6ce8-497f-80f8-9ebf-f6fc1569b8b4" dir="auto"/><h2 id="3b1f6ce8-497f-804e-b93b-d1469406acf3" class="" dir="auto">Atualizar</h2><pre id="3b1f6ce8-497f-803c-9f22-d027d16b4436" class="code code-wrap" data-notion-code-syntax="sql"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">UPDATE clientes
+SET nome=&#x27;Maria&#x27;
+WHERE id=1;</code></pre><hr id="3b1f6ce8-497f-8046-af32-e2acb64b3fcd" dir="auto"/><h2 id="3b1f6ce8-497f-80a9-ba95-c4e1ecfbc598" class="" dir="auto">Excluir</h2><pre id="3b1f6ce8-497f-8036-a975-d818d996c29b" class="code code-wrap" data-notion-code-syntax="sql"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">DELETE FROM clientes
+WHERE id=1;</code></pre><hr id="3b1f6ce8-497f-8020-bea9-e530dfb78674" dir="auto"/><h1 id="3b1f6ce8-497f-80c2-aaa1-fb5800219946" class="" dir="auto">Vantagens do MySQL</h1><h2 id="3b1f6ce8-497f-8019-b0b9-f6cc94525e5a" class="" dir="auto">Gratuito</h2><p id="3b1f6ce8-497f-803e-844f-cee4d06c6594" class="" dir="auto">A versão Community é gratuita.</p><hr id="3b1f6ce8-497f-803e-b950-c7a2e647d642" dir="auto"/><h2 id="3b1f6ce8-497f-800d-b243-f6b37abb99b8" class="" dir="auto">Muito rápido</h2><p id="3b1f6ce8-497f-800c-90d9-c328f7ae36c7" class="" dir="auto">É conhecido pelo excelente desempenho em consultas e aplicações web.</p><hr id="3b1f6ce8-497f-80b6-9f4d-f75b73c26c7f" dir="auto"/><h2 id="3b1f6ce8-497f-804d-b3f4-e06fa619a8c0" class="" dir="auto">Fácil de aprender</h2><p id="3b1f6ce8-497f-8035-b7df-d511841234f5" class="" dir="auto">Sua sintaxe é simples e bem documentada.</p><hr id="3b1f6ce8-497f-8078-bb49-c7f9914dd21e" dir="auto"/><h2 id="3b1f6ce8-497f-80a4-b296-c0364dea74f7" class="" dir="auto">Multiplataforma</h2><p id="3b1f6ce8-497f-80b8-9ebe-f32501ab8001" class="" dir="auto">Funciona em:</p><ul id="3b1f6ce8-497f-8007-9a95-c72d3ef97e0f" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Windows</li></ul><ul id="3b1f6ce8-497f-80a1-b906-d58f04174aaa" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Linux</li></ul><ul id="3b1f6ce8-497f-806b-8413-f69e2a1826b9" class="bulleted-list" dir="auto"><li style="list-style-type:disc">macOS</li></ul><hr id="3b1f6ce8-497f-8058-b74b-f8bbfda5cad0" dir="auto"/><h2 id="3b1f6ce8-497f-80e7-b7df-de1be5fd763d" class="" dir="auto">Grande comunidade</h2><p id="3b1f6ce8-497f-8099-8cc4-eb2cc83b0b6a" class="" dir="auto">Existem milhares de tutoriais, fóruns e cursos.</p><hr id="3b1f6ce8-497f-8040-b5e7-c5f910a06048" dir="auto"/><h2 id="3b1f6ce8-497f-80b3-984d-cc204bd704ac" class="" dir="auto">Compatível com diversas linguagens</h2><p id="3b1f6ce8-497f-8094-8469-cf5d1ac0d244" class="" dir="auto">Pode ser utilizado com:</p><ul id="3b1f6ce8-497f-80c3-ab4e-e002d7f75ec1" class="bulleted-list" dir="auto"><li style="list-style-type:disc">PHP</li></ul><ul id="3b1f6ce8-497f-806b-a837-c8f4f1fabed9" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Java</li></ul><ul id="3b1f6ce8-497f-806f-b66f-ed6c25d5729d" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Python</li></ul><ul id="3b1f6ce8-497f-803f-bb1d-e67417059787" class="bulleted-list" dir="auto"><li style="list-style-type:disc">C#</li></ul><ul id="3b1f6ce8-497f-8005-9d76-e16e9012cca5" class="bulleted-list" dir="auto"><li style="list-style-type:disc">JavaScript</li></ul><ul id="3b1f6ce8-497f-806d-8175-daf211cac5ad" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Go</li></ul><ul id="3b1f6ce8-497f-80f7-9cd5-c6edeae3e766" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Ruby</li></ul><hr id="3b1f6ce8-497f-8084-8dd6-d0045a2197b6" dir="auto"/><h2 id="3b1f6ce8-497f-80ab-afa5-c7f6c3cce315" class="" dir="auto">Segurança</h2><p id="3b1f6ce8-497f-8039-a642-ffd7fb207f31" class="" dir="auto">Possui:</p><ul id="3b1f6ce8-497f-8022-99f0-de02ad980b62" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Controle de usuários</li></ul><ul id="3b1f6ce8-497f-8068-9046-f77881f0a021" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Permissões</li></ul><ul id="3b1f6ce8-497f-8095-9280-d354ae55935d" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Criptografia de conexões</li></ul><ul id="3b1f6ce8-497f-8052-9041-df6e5f5b6f33" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Backup</li></ul><ul id="3b1f6ce8-497f-802e-aeae-d792aa362010" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Replicação</li></ul><hr id="3b1f6ce8-497f-8081-abae-e195896c6732" dir="auto"/><h2 id="3b1f6ce8-497f-8095-be3a-c33cacf31df9" class="" dir="auto">Escalabilidade</h2><p id="3b1f6ce8-497f-80c2-b65d-ec0b31e22b5d" class="" dir="auto">Pode atender desde pequenos sites até sistemas corporativos com milhões de registros.</p><hr id="3b1f6ce8-497f-8055-b509-fabbcea31a82" dir="auto"/><h1 id="3b1f6ce8-497f-8032-ba74-e6a5648e0d5a" class="" dir="auto">Desvantagens</h1><p id="3b1f6ce8-497f-8042-9e87-d57b23dbf0e9" class="" dir="auto">Embora seja excelente, possui algumas limitações:</p><ul id="3b1f6ce8-497f-800c-a6a9-e15df2d15c0c" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Alguns recursos avançados podem estar disponíveis apenas na versão Enterprise.</li></ul><ul id="3b1f6ce8-497f-80c0-b77e-f777366dbea5" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Em cenários extremamente complexos, outros bancos podem oferecer funcionalidades específicas mais sofisticadas.</li></ul><ul id="3b1f6ce8-497f-8060-92d9-dd7305e8b230" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Bancos NoSQL podem ser mais adequados para grandes volumes de dados não estruturados.</li></ul><p id="3b1f6ce8-497f-8064-b6b8-c2d829c02e8a" class="" dir="auto">Mesmo assim, para a maioria dos sistemas web, ERPs, e-commerces e aplicações corporativas, o MySQL é uma escolha sólida.</p><hr id="3b1f6ce8-497f-80bc-a596-cfd205ce25e3" dir="auto"/><h1 id="3b1f6ce8-497f-8022-ac84-c48b8d8679ab" class="" dir="auto">Onde o MySQL é utilizado?</h1><p id="3b1f6ce8-497f-8050-a55a-def2dad06db9" class="" dir="auto">O MySQL é empregado em diversos tipos de aplicações:</p><ul id="3b1f6ce8-497f-80e6-a3e7-e0d750097937" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Sistemas de vendas</li></ul><ul id="3b1f6ce8-497f-8081-ba7a-f1d796182327" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Sistemas bancários</li></ul><ul id="3b1f6ce8-497f-80c5-a4c1-dd557e6c8d52" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Lojas virtuais</li></ul><ul id="3b1f6ce8-497f-8083-ac1e-efba648ccf13" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Sites</li></ul><ul id="3b1f6ce8-497f-805c-bb9b-e36440879e32" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Blogs</li></ul><ul id="3b1f6ce8-497f-8071-b018-e93c41066ae6" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Aplicativos móveis</li></ul><ul id="3b1f6ce8-497f-805d-9811-d3f6069ad7f5" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Sistemas escolares</li></ul><ul id="3b1f6ce8-497f-8023-8405-f83190f36888" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Hospitais</li></ul><ul id="3b1f6ce8-497f-806c-95f2-fe9d3cd9fdaf" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Empresas</li></ul><ul id="3b1f6ce8-497f-80c4-ae14-fe1da0d8b5c0" class="bulleted-list" dir="auto"><li style="list-style-type:disc">APIs</li></ul><ul id="3b1f6ce8-497f-80e0-b98a-c3829f3a33ed" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Sistemas de login</li></ul><ul id="3b1f6ce8-497f-8078-9c2b-c01116f35bf3" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Redes sociais</li></ul><ul id="3b1f6ce8-497f-8075-8cb5-e5de3fc86a31" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Plataformas de ensino</li></ul><hr id="3b1f6ce8-497f-8040-acaa-d30232bcd3e2" dir="auto"/><h1 id="3b1f6ce8-497f-800b-bec2-c6e5f5a1ba59" class="" dir="auto">Recursos importantes do MySQL</h1><p id="3b1f6ce8-497f-807d-834d-f5ceb2311080" class="" dir="auto">Além das operações básicas, o MySQL oferece diversos recursos:</p><ul id="3b1f6ce8-497f-8087-808d-e6e027826ed0" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>Índices (Indexes):</strong> aceleram consultas.</li></ul><ul id="3b1f6ce8-497f-8074-a624-dc17565e5924" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>Views:</strong> tabelas virtuais baseadas em consultas.</li></ul><ul id="3b1f6ce8-497f-80e2-94c5-daa4c1f21008" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>Stored Procedures:</strong> procedimentos armazenados para automatizar tarefas.</li></ul><ul id="3b1f6ce8-497f-8086-b8c3-e6c2c4b37ee3" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>Functions:</strong> funções criadas pelo usuário.</li></ul><ul id="3b1f6ce8-497f-80df-b88e-c21042b90ca6" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>Triggers:</strong> executam ações automaticamente em resposta a eventos.</li></ul><ul id="3b1f6ce8-497f-8080-b244-ce8554fe6e4e" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>Transactions:</strong> garantem que um conjunto de operações seja executado de forma segura e consistente.</li></ul><ul id="3b1f6ce8-497f-8067-9ba0-f3f7ab1a96b3" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>Foreign Keys:</strong> mantêm a integridade entre tabelas relacionadas.</li></ul><ul id="3b1f6ce8-497f-8004-824e-deb09a91ec3c" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>Replicação:</strong> copia dados entre servidores para alta disponibilidade e escalabilidade.</li></ul><ul id="3b1f6ce8-497f-8096-bdf9-c98e6bb0efb9" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>Backup e Restore:</strong> permitem proteger e recuperar os dados.</li></ul><hr id="3b1f6ce8-497f-808d-8079-cb918db82fa7" dir="auto"/><h1 id="3b1f6ce8-497f-8068-b269-f50bc23609e8" class="" dir="auto">Boas práticas</h1><ul id="3b1f6ce8-497f-80cd-ac8e-d178648a8745" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Escolha tipos de dados adequados para cada coluna.</li></ul><ul id="3b1f6ce8-497f-804e-879c-dfa9cd8e517d" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Defina <strong>chaves primárias (PRIMARY KEY)</strong> para identificar registros de forma única.</li></ul><ul id="3b1f6ce8-497f-805a-965f-db0091f06530" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Utilize <strong>chaves estrangeiras (FOREIGN KEY)</strong> para representar relacionamentos.</li></ul><ul id="3b1f6ce8-497f-8012-b745-f4f5480404d4" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Crie índices apenas quando eles realmente melhorarem o desempenho.</li></ul><ul id="3b1f6ce8-497f-8039-abde-fdde03b5a05c" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Faça backups periódicos.</li></ul><ul id="3b1f6ce8-497f-8050-881b-cfb81375bf58" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Controle o acesso dos usuários com permissões específicas.</li></ul><ul id="3b1f6ce8-497f-8033-9f40-ed3851b465cb" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Utilize transações em operações críticas para garantir consistência.</li></ul><ul id="3b1f6ce8-497f-80be-a334-c3adc823ae9b" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Evite armazenar informações duplicadas, aplicando princípios de normalização.</li></ul><hr id="3b1f6ce8-497f-8016-baab-db6ece41d398" dir="auto"/><h1 id="3b1f6ce8-497f-801a-b105-d431ade9ccd2" class="" dir="auto">Erros comuns de iniciantes</h1><ul id="3b1f6ce8-497f-8029-a949-d86fb5f9ba79" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Não definir uma chave primária.</li></ul><ul id="3b1f6ce8-497f-804a-8701-c5a6c1aa11ab" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Usar <code>VARCHAR</code> para armazenar valores numéricos.</li></ul><ul id="3b1f6ce8-497f-80e8-ace2-f4dada0506ce" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Esquecer a cláusula <code>WHERE</code> em comandos <code>UPDATE</code> e <code>DELETE</code>, alterando ou excluindo todos os registros.</li></ul><ul id="3b1f6ce8-497f-8086-8821-e03008512ff2" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Criar tabelas sem planejamento.</li></ul><ul id="3b1f6ce8-497f-80b6-81be-e1b2a9592b21" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Repetir informações em várias tabelas.</li></ul><ul id="3b1f6ce8-497f-801a-a6f2-c24ae98678bc" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Não realizar backups.</li></ul><ul id="3b1f6ce8-497f-8018-a484-c7857d5eb31e" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Não utilizar índices quando necessário ou criar índices em excesso.</li></ul><hr id="3b1f6ce8-497f-8013-82b4-c0a736ad3633" dir="auto"/><h1 id="3b1f6ce8-497f-8050-8bda-c6052dd1637d" class="" dir="auto">Exemplo completo</h1><p id="3b1f6ce8-497f-804c-9db9-e2441ce4eb6f" class="" dir="auto">Imagine um sistema de uma loja.</p><p id="3b1f6ce8-497f-8034-b878-d70f04fa4bec" class="" dir="auto">Tabela <strong>clientes</strong></p><table id="3b1f6ce8-497f-8054-91c5-fd64d1abc7f2" class="simple-table" dir="ltr"><thead class="simple-table-header"><tr id="3b1f6ce8-497f-80fe-9e47-d24861f2eed9" dir="ltr"><th id="dq|r" class="simple-table-header-color simple-table-header">ID</th><th id="\\Yd" class="simple-table-header-color simple-table-header">Nome</th></tr></thead><tbody><tr id="3b1f6ce8-497f-80a5-a1c8-f676a1ff6745" dir="ltr"><td id="dq|r" class="">1</td><td id="\\Yd" class="">João</td></tr><tr id="3b1f6ce8-497f-804d-94a7-d379b904fc08" dir="ltr"><td id="dq|r" class="">2</td><td id="\\Yd" class="">Maria</td></tr></tbody></table><p id="3b1f6ce8-497f-801e-9a67-fcc07a638ed3" class="" dir="auto">Tabela <strong>produtos</strong></p><table id="3b1f6ce8-497f-801b-9c36-cee4cc1bdd8a" class="simple-table" dir="ltr"><thead class="simple-table-header"><tr id="3b1f6ce8-497f-8045-9f92-ca8fcb62b60b" dir="ltr"><th id="MVcm" class="simple-table-header-color simple-table-header">ID</th><th id="Hn&lt;V" class="simple-table-header-color simple-table-header">Produto</th><th id="h:Rm" class="simple-table-header-color simple-table-header">Preço</th></tr></thead><tbody><tr id="3b1f6ce8-497f-806b-97b1-d8fa486e622f" dir="ltr"><td id="MVcm" class="">1</td><td id="Hn&lt;V" class="">Notebook</td><td id="h:Rm" class="">3500</td></tr><tr id="3b1f6ce8-497f-8052-9873-d053d969513f" dir="ltr"><td id="MVcm" class="">2</td><td id="Hn&lt;V" class="">Mouse</td><td id="h:Rm" class="">120</td></tr></tbody></table><p id="3b1f6ce8-497f-80af-b0dd-d9008e31ea7c" class="" dir="auto">Tabela <strong>pedidos</strong></p><table id="3b1f6ce8-497f-801e-8074-d77735866d3b" class="simple-table" dir="ltr"><thead class="simple-table-header"><tr id="3b1f6ce8-497f-809c-904e-c1c848c9826a" dir="ltr"><th id="LFX{" class="simple-table-header-color simple-table-header">ID</th><th id="gZ`F" class="simple-table-header-color simple-table-header">Cliente_ID</th><th id="WrvS" class="simple-table-header-color simple-table-header">Produto_ID</th></tr></thead><tbody><tr id="3b1f6ce8-497f-801e-b858-ce9fe2862edd" dir="ltr"><td id="LFX{" class="">1</td><td id="gZ`F" class="">1</td><td id="WrvS" class="">2</td></tr><tr id="3b1f6ce8-497f-80cc-bc34-e5e229ec9498" dir="ltr"><td id="LFX{" class="">2</td><td id="gZ`F" class="">2</td><td id="WrvS" class="">1</td></tr></tbody></table><p id="3b1f6ce8-497f-80f2-84c5-cf9c3e4aa360" class="" dir="auto">Nesse exemplo:</p><ul id="3b1f6ce8-497f-80ea-8d7b-d69b4aeb31f4" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Cada cliente pode realizar vários pedidos.</li></ul><ul id="3b1f6ce8-497f-803b-82bf-d6906542d9cc" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Cada pedido está associado a um cliente e a um produto.</li></ul><ul id="3b1f6ce8-497f-8002-b1e9-c27bbac0e5d4" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Os relacionamentos permitem consultar facilmente quem comprou determinado produto e quais pedidos pertencem a cada cliente.</li></ul><hr id="3b1f6ce8-497f-803e-be3f-c8442e1ec3e8" dir="auto"/><h1 id="3b1f6ce8-497f-8033-8835-eeb4bd68dbcb" class="" dir="auto">Resumo</h1><p id="3b1f6ce8-497f-800d-8b82-fa2463ab0855" class="" dir="auto">O <strong>MySQL</strong> é um dos SGBDRs mais populares do mundo, baseado na linguagem SQL e amplamente utilizado para desenvolver aplicações web, sistemas corporativos e APIs. Ele organiza dados em tabelas relacionadas, oferecendo recursos como consultas eficientes, transações, índices, controle de acesso e mecanismos para garantir a integridade das informações. Sua facilidade de uso, alto desempenho, ampla documentação e grande comunidade fazem dele uma excelente escolha tanto para iniciantes quanto para projetos profissionais de grande porte.</p></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>
