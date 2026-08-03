@@ -1,0 +1,947 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Estruturas Condicionais</title><meta name="data-notion-page-icon" content="/icons/elephant_purple.svg"/><link rel="icon" href="https://app.notion.com/icons/elephant_purple.svg"/><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+/* For default-background callouts, render the border outline. */
+.callout.block-color-default_background {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+/*
+ * Toggles and callouts hold arbitrary content, so they can easily be taller
+ * than a page. They must stay breakable: avoiding breaks inside them makes
+ * Chromium push the whole block onto the next page, which leaves the previous
+ * page mostly empty before every long toggle.
+ */
+details,
+aside {
+	margin: 1.25em 0;
+}
+
+/* Keep a toggle's title on the same page as the start of its content. */
+summary {
+	page-break-after: avoid;
+	break-after: avoid;
+}
+
+/*
+ * Toggle headings render as <h1/h2/h3 style="display:inline-block"> inside
+ * <summary>. Without this reset, the heading's margin-top pushes it below the
+ * ::marker (▼), so the triangle and the title appear on separate lines.
+ */
+summary h1,
+summary h2,
+summary h3,
+summary h4 {
+	margin-top: 0;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding-inline: 0.125rem;
+	padding-block: 0.375rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+/*
+ * Render emoji icons using a ::before pseudo-element to keep the glyph
+ * out of the DOM textContent traversal. This avoids double-rendering icons
+ * in callouts and page titles.
+ * NOTE(slim/html-export-pseudo-icons): I can't tagref this because it will
+ * flag as a duplicate tag after codegen.
+ */
+.icon[data-emoji]::before {
+	content: attr(data-emoji);
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	margin-right: 0.4em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.tab {
+	margin: 1.25em 0;
+	padding-inline: 1rem;
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style><style>@import url('https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex-swap.min.css')</style></head><body><article id="3adf6ce8-497f-8080-ac83-ff594fa81df5" class="page sans" data-notion-page-icon="/icons/elephant_purple.svg"><header><div class="page-header-icon undefined"><img class="icon notion-static-icon" src="https://app.notion.com/icons/elephant_purple.svg"/></div><h1 class="page-title" dir="auto">Estruturas Condicionais</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><h1 id="3adf6ce8-497f-8038-b0c3-d66e0d86e26a" class="" dir="auto">Estruturas de Condição no PHP</h1><p id="3adf6ce8-497f-8074-b1b4-e9e3ab397652" class="" dir="auto">As <strong>estruturas de condição</strong> são mecanismos utilizados para <strong>tomar decisões</strong> dentro de um programa. Elas permitem que o PHP execute diferentes blocos de código de acordo com o resultado de uma condição.</p><p id="3adf6ce8-497f-80f3-8e55-cc0c0606187d" class="" dir="auto">Em outras palavras, as estruturas condicionais permitem que o programa responda a perguntas como:</p><ul id="3adf6ce8-497f-8030-8847-d7cf29e75b77" class="bulleted-list" dir="auto"><li style="list-style-type:disc">O usuário está logado?</li></ul><ul id="3adf6ce8-497f-8007-8a41-e0c7deaddf65" class="bulleted-list" dir="auto"><li style="list-style-type:disc">A idade é maior que 18 anos?</li></ul><ul id="3adf6ce8-497f-8031-9a21-ecd9dd89bac8" class="bulleted-list" dir="auto"><li style="list-style-type:disc">O estoque é suficiente?</li></ul><ul id="3adf6ce8-497f-80df-9326-ea8f84dc8fdb" class="bulleted-list" dir="auto"><li style="list-style-type:disc">A senha está correta?</li></ul><ul id="3adf6ce8-497f-8055-bc41-ec3a0024ec2c" class="bulleted-list" dir="auto"><li style="list-style-type:disc">A nota é suficiente para aprovação?</li></ul><p id="3adf6ce8-497f-801f-96af-cca6b0232c5f" class="" dir="auto">Dependendo da resposta (<strong>verdadeiro</strong> ou <strong>falso</strong>), o programa executará uma ação diferente.</p><hr id="3adf6ce8-497f-80ba-83ea-dace46fab44b" dir="auto"/><h1 id="3adf6ce8-497f-8033-a49c-e452aa120955" class="" dir="auto">O que é uma condição?</h1><p id="3adf6ce8-497f-807c-bb0c-cce17b12f5e2" class="" dir="auto">Uma <strong>condição</strong> é uma expressão que resulta em um valor booleano:</p><ul id="3adf6ce8-497f-801a-8f62-c2d558fdcb3e" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><code>true</code> (verdadeiro)</li></ul><ul id="3adf6ce8-497f-8074-b2bf-fddaf390b867" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><code>false</code> (falso)</li></ul><p id="3adf6ce8-497f-80ef-b4c1-da85293ebd23" class="" dir="auto">Exemplo:</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markup-templating.min.js" integrity="sha512-+8BiRfWso6waiFDv6tEmWF8yfPGgxAtOYLDUB0rRISLwtpxkJ9lpPNUhxwWlikn3qSO+4RQyzDppi62o3ON/AA==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-php.min.js" integrity="sha512-plzrTi61ltEMFf84gTVO9IkvIMfBu07bnDuahvdlIclmFWzXJ9VcRsny9d45sxFZRv3jJg/MHNyuxnUYEMxMEg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="3adf6ce8-497f-8018-9b94-fb003400f221" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">&lt;?php
+
+$idade = 20;
+
+$idade &gt;= 18</code></pre><p id="3adf6ce8-497f-80ae-8e29-ff79ade2b9a7" class="" dir="auto">A expressão:</p><pre id="3adf6ce8-497f-80b0-ba85-f877e38057c2" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">$idade &gt;= 18</code></pre><p id="3adf6ce8-497f-80d1-a588-c31d529469a9" class="" dir="auto">será avaliada como:</p><pre id="3adf6ce8-497f-80b3-a8c6-fb2d858b6d2d" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">true</code></pre><p id="3adf6ce8-497f-80d5-8386-e8a711a0b171" class="" dir="auto">porque 20 é maior que 18.</p><hr id="3adf6ce8-497f-80dc-b6c8-f7a8d23ae752" dir="auto"/><h1 id="3adf6ce8-497f-803a-8ff0-f9d2db9ec6f4" class="" dir="auto">Importância das estruturas condicionais</h1><p id="3adf6ce8-497f-809c-9a3f-fc9957844697" class="" dir="auto">Sem estruturas de condição, um programa executaria todas as instruções na mesma ordem, sem considerar diferentes situações.</p><p id="3adf6ce8-497f-803f-bc4f-ccad74df0b43" class="" dir="auto">Com elas, é possível:</p><ul id="3adf6ce8-497f-8048-9dae-dc6df4829b59" class="bulleted-list" dir="auto"><li style="list-style-type:disc">controlar o fluxo da aplicação;</li></ul><ul id="3adf6ce8-497f-8051-8089-c54a7b7e85f2" class="bulleted-list" dir="auto"><li style="list-style-type:disc">validar informações;</li></ul><ul id="3adf6ce8-497f-80c7-82aa-d4e16920a684" class="bulleted-list" dir="auto"><li style="list-style-type:disc">restringir acesso;</li></ul><ul id="3adf6ce8-497f-80cb-a6a8-e26ff8dad502" class="bulleted-list" dir="auto"><li style="list-style-type:disc">exibir conteúdos específicos;</li></ul><ul id="3adf6ce8-497f-805f-bbb4-e7e64d0f7050" class="bulleted-list" dir="auto"><li style="list-style-type:disc">tratar diferentes cenários.</li></ul><hr id="3adf6ce8-497f-808a-94cd-ca85f143d570" dir="auto"/><h1 id="3adf6ce8-497f-809b-a297-f7e926db4804" class="" dir="auto">Principais estruturas condicionais do PHP</h1><p id="3adf6ce8-497f-8003-a658-e9190361d913" class="" dir="auto">O PHP possui diversas estruturas para tomada de decisão.</p><p id="3adf6ce8-497f-8084-aaa6-f8aabeb0136e" class="" dir="auto">As principais são:</p><ul id="3adf6ce8-497f-80ea-a79a-e3a35716a4a8" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><code>if</code></li></ul><ul id="3adf6ce8-497f-8055-8f3e-ccd0e3301d0f" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><code>if...else</code></li></ul><ul id="3adf6ce8-497f-808c-94d9-fe95b1c5360f" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><code>if...elseif...else</code></li></ul><ul id="3adf6ce8-497f-80cf-8450-cbfe33729931" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><code>switch</code></li></ul><ul id="3adf6ce8-497f-8024-bd90-c1ac4faf356f" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Operador ternário (<code>?:</code>)</li></ul><ul id="3adf6ce8-497f-8062-9abc-dbb4e63e13df" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Operador Null Coalescing (<code>??</code>)</li></ul><p id="3adf6ce8-497f-80d4-ad5f-cd1c63c99af9" class="" dir="auto">Cada uma é indicada para um tipo de situação.</p><hr id="3adf6ce8-497f-8075-a10c-eaa236bbe119" dir="auto"/><h1 id="3adf6ce8-497f-800a-bd4c-dd42688b2213" class="" dir="auto">Estrutura <code>if</code></h1><p id="3adf6ce8-497f-8031-9431-d0c258ce415d" class="" dir="auto">O <code>if</code> executa um bloco de código <strong>somente se a condição for verdadeira</strong>.</p><p id="3adf6ce8-497f-80bc-aebf-d7045da465f4" class="" dir="auto">Sintaxe:</p><pre id="3adf6ce8-497f-8001-a13f-e15df27f9b29" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">if (condição) {
+
+    // código
+
+}</code></pre><p id="3adf6ce8-497f-80c2-a0ed-e1a6bc6b9da5" class="" dir="auto">Exemplo:</p><pre id="3adf6ce8-497f-8044-8527-f3b588f7664a" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">&lt;?php
+
+$idade = 20;
+
+if ($idade &gt;= 18) {
+    echo &quot;Maior de idade&quot;;
+}</code></pre><p id="3adf6ce8-497f-80a0-a23c-c63641d0e3f5" class="" dir="auto">Resultado:</p><pre id="3adf6ce8-497f-802b-8654-e64ff4f97b16" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Maior de idade</code></pre><p id="3adf6ce8-497f-80ae-a21d-db5716891286" class="" dir="auto">Se a condição for falsa, nada será executado.</p><hr id="3adf6ce8-497f-80e9-a9d1-fa05e8f5fab5" dir="auto"/><h1 id="3adf6ce8-497f-8051-a86a-dcb48a1b9db6" class="" dir="auto">Estrutura <code>if...else</code></h1><p id="3adf6ce8-497f-8053-af38-eec4d4031b05" class="" dir="auto">O <code>else</code> define o que deve acontecer quando a condição for falsa.</p><p id="3adf6ce8-497f-808a-930b-db142141f9dd" class="" dir="auto">Sintaxe:</p><pre id="3adf6ce8-497f-80d9-a6ae-ecd906d893f0" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">if (condição) {
+
+    // verdadeiro
+
+} else {
+
+    // falso
+
+}</code></pre><p id="3adf6ce8-497f-80f7-ac05-e76d9ff0c94b" class="" dir="auto">Exemplo:</p><pre id="3adf6ce8-497f-804a-83f1-e7e20418f005" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">&lt;?php
+
+$idade = 16;
+
+if ($idade &gt;= 18) {
+    echo &quot;Maior de idade&quot;;
+} else {
+    echo &quot;Menor de idade&quot;;
+}</code></pre><p id="3adf6ce8-497f-80be-95ca-f3f53c3bce73" class="" dir="auto">Resultado:</p><pre id="3adf6ce8-497f-8077-a202-c2d93ad352b0" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Menor de idade</code></pre><hr id="3adf6ce8-497f-801c-b83a-e03d10cecd00" dir="auto"/><h1 id="3adf6ce8-497f-80bc-af3b-cf93d5e6e4d1" class="" dir="auto">Estrutura <code>if...elseif...else</code></h1><p id="3adf6ce8-497f-8087-9a18-f05d51a5867b" class="" dir="auto">Quando existem várias possibilidades, utiliza-se <code>elseif</code>.</p><p id="3adf6ce8-497f-805f-ab12-e50238915318" class="" dir="auto">Exemplo:</p><pre id="3adf6ce8-497f-8049-acb2-fe598df59655" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">&lt;?php
+
+$nota = 7;
+
+if ($nota &gt;= 9) {
+
+    echo &quot;Excelente&quot;;
+
+} elseif ($nota &gt;= 7) {
+
+    echo &quot;Aprovado&quot;;
+
+} elseif ($nota &gt;= 5) {
+
+    echo &quot;Recuperação&quot;;
+
+} else {
+
+    echo &quot;Reprovado&quot;;
+
+}</code></pre><p id="3adf6ce8-497f-8013-a1e7-f14cdc14605e" class="" dir="auto">Resultado:</p><pre id="3adf6ce8-497f-8097-82da-f889c6bab22a" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Aprovado</code></pre><p id="3adf6ce8-497f-8084-9173-d0cd1615ba23" class="" dir="auto">As condições são verificadas de cima para baixo. Assim que uma delas for verdadeira, as demais deixam de ser avaliadas.</p><hr id="3adf6ce8-497f-8098-99bc-c0e9ac8917d3" dir="auto"/><h1 id="3adf6ce8-497f-8034-ad92-cc368bef90c6" class="" dir="auto">Estruturas condicionais aninhadas</h1><p id="3adf6ce8-497f-8044-904b-eea631cbadf9" class="" dir="auto">Também é possível colocar uma estrutura condicional dentro de outra.</p><pre id="3adf6ce8-497f-809c-a962-c552e5718e72" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">&lt;?php
+
+$logado = true;
+$admin = false;
+
+if ($logado) {
+
+    if ($admin) {
+
+        echo &quot;Área administrativa&quot;;
+
+    } else {
+
+        echo &quot;Área do usuário&quot;;
+
+    }
+
+} else {
+
+    echo &quot;Faça login&quot;;
+
+}</code></pre><p id="3adf6ce8-497f-8010-b25a-c1140912b8c0" class="" dir="auto">Esse recurso deve ser usado com cuidado, pois muitos níveis de aninhamento podem dificultar a leitura do código.</p><hr id="3adf6ce8-497f-8018-a686-dd71983d8137" dir="auto"/><h1 id="3adf6ce8-497f-8017-a6b1-f91c25bcaaf5" class="" dir="auto">Estrutura <code>switch</code></h1><p id="3adf6ce8-497f-80c5-826a-fab2a812cf59" class="" dir="auto">O <code>switch</code> é utilizado quando uma variável pode assumir diversos valores específicos.</p><p id="3adf6ce8-497f-8019-800b-fa866313e8af" class="" dir="auto">Exemplo:</p><pre id="3adf6ce8-497f-8042-a55c-c644d1c03e47" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">&lt;?php
+
+$dia = 3;
+
+switch ($dia) {
+
+    case 1:
+        echo &quot;Domingo&quot;;
+        break;
+
+    case 2:
+        echo &quot;Segunda-feira&quot;;
+        break;
+
+    case 3:
+        echo &quot;Terça-feira&quot;;
+        break;
+
+    default:
+        echo &quot;Dia inválido&quot;;
+
+}</code></pre><p id="3adf6ce8-497f-80dd-bf27-c96eac7f1825" class="" dir="auto">Resultado:</p><pre id="3adf6ce8-497f-801b-b2ba-cd24fe05f44d" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Terça-feira</code></pre><p id="3adf6ce8-497f-8062-8df5-e6274568bf01" class="" dir="auto">O <code>break</code> interrompe a execução do <code>switch</code>. Sem ele, o PHP continuará executando os próximos casos.</p><hr id="3adf6ce8-497f-8052-9bea-ccee7e1258ad" dir="auto"/><h1 id="3adf6ce8-497f-809e-bfee-c362467016d4" class="" dir="auto">Operador ternário</h1><p id="3adf6ce8-497f-8095-968c-e6b97fda65e9" class="" dir="auto">O operador ternário é uma forma reduzida de escrever um <code>if...else</code> simples.</p><p id="3adf6ce8-497f-80c2-b6d4-cc0dd845d920" class="" dir="auto">Sintaxe:</p><pre id="3adf6ce8-497f-8003-a232-c2cc2f29e301" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">condição ? valor_se_verdadeiro : valor_se_falso;</code></pre><p id="3adf6ce8-497f-8040-b275-d5506fe4ac4f" class="" dir="auto">Exemplo:</p><pre id="3adf6ce8-497f-80b4-851c-ff13cf0ca7a5" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">&lt;?php
+
+$idade = 20;
+
+echo ($idade &gt;= 18) ? &quot;Maior de idade&quot; : &quot;Menor de idade&quot;;</code></pre><p id="3adf6ce8-497f-809b-9c74-f69f9cbe240b" class="" dir="auto">Resultado:</p><pre id="3adf6ce8-497f-8071-9dd7-ec9775a34146" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Maior de idade</code></pre><p id="3adf6ce8-497f-80a5-b81b-d27b7108109a" class="" dir="auto">É indicado para decisões simples.</p><hr id="3adf6ce8-497f-809e-b16b-db7bc0764d5f" dir="auto"/><h1 id="3adf6ce8-497f-805b-b3f1-cc96f7d831b5" class="" dir="auto">Operador Null Coalescing (<code>??</code>)</h1><p id="3adf6ce8-497f-8059-be93-c65cc03fb77d" class="" dir="auto">Introduzido no PHP 7, o operador <code>??</code> verifica se uma variável existe e não é <code>null</code>.</p><p id="3adf6ce8-497f-804f-a773-f1ed419d58ea" class="" dir="auto">Exemplo:</p><pre id="3adf6ce8-497f-801b-854d-e0cb85cb6ac0" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">&lt;?php
+
+$nome = null;
+
+echo $nome ?? &quot;Visitante&quot;;</code></pre><p id="3adf6ce8-497f-80b4-b1de-d63ae27bc452" class="" dir="auto">Resultado:</p><pre id="3adf6ce8-497f-80b8-b8d2-c00e6c038933" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Visitante</code></pre><p id="3adf6ce8-497f-8073-a261-f675252fbf56" class="" dir="auto">Esse operador é muito utilizado para trabalhar com dados de formulários e parâmetros de requisições.</p><hr id="3adf6ce8-497f-802d-8b87-e4ee10524097" dir="auto"/><h1 id="3adf6ce8-497f-802f-bb25-e0a7b18ec498" class="" dir="auto">Operadores relacionais</h1><p id="3adf6ce8-497f-80b2-a35a-cf9eb38d1496" class="" dir="auto">As estruturas condicionais normalmente utilizam operadores relacionais.</p><table id="3adf6ce8-497f-8019-964c-d7e7bbc44c8c" class="simple-table" dir="ltr"><thead class="simple-table-header"><tr id="3adf6ce8-497f-805c-8a15-ff5fe035fbb6" dir="ltr"><th id="{jDX" class="simple-table-header-color simple-table-header">Operador</th><th id="wdPK" class="simple-table-header-color simple-table-header">Significado</th></tr></thead><tbody><tr id="3adf6ce8-497f-8041-a3b4-dc3f847f8225" dir="ltr"><td id="{jDX" class=""><code>==</code></td><td id="wdPK" class="">Igual</td></tr><tr id="3adf6ce8-497f-8016-9674-f4b71731ce03" dir="ltr"><td id="{jDX" class=""><code>===</code></td><td id="wdPK" class="">Igual em valor e tipo</td></tr><tr id="3adf6ce8-497f-80a6-930c-c4da6ac91d12" dir="ltr"><td id="{jDX" class=""><code>!=</code></td><td id="wdPK" class="">Diferente</td></tr><tr id="3adf6ce8-497f-8070-a75d-fb566c82d16f" dir="ltr"><td id="{jDX" class=""><code>!==</code></td><td id="wdPK" class="">Diferente em valor ou tipo</td></tr><tr id="3adf6ce8-497f-8049-82f0-db2239fa4f37" dir="ltr"><td id="{jDX" class=""><code>&gt;</code></td><td id="wdPK" class="">Maior que</td></tr><tr id="3adf6ce8-497f-8002-95a1-c40fa6b1d2a4" dir="ltr"><td id="{jDX" class=""><code>&lt;</code></td><td id="wdPK" class="">Menor que</td></tr><tr id="3adf6ce8-497f-80b2-9586-ec479573ca70" dir="ltr"><td id="{jDX" class=""><code>&gt;=</code></td><td id="wdPK" class="">Maior ou igual</td></tr><tr id="3adf6ce8-497f-804b-997d-f5621f883a99" dir="ltr"><td id="{jDX" class=""><code>&lt;=</code></td><td id="wdPK" class="">Menor ou igual</td></tr></tbody></table><p id="3adf6ce8-497f-80cb-9bd6-d2078fb51c7c" class="" dir="auto">Exemplo:</p><pre id="3adf6ce8-497f-8027-a208-e723735032d3" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">&lt;?php
+
+$idade = 21;
+
+if ($idade &gt;= 18) {
+    echo &quot;Permitido&quot;;
+}</code></pre><hr id="3adf6ce8-497f-8028-bd21-c7c98f309dea" dir="auto"/><h1 id="3adf6ce8-497f-80f9-bd92-c49da6c04cfe" class="" dir="auto">Operadores lógicos</h1><p id="3adf6ce8-497f-80e1-b5ba-f7abc6b87a8d" class="" dir="auto">Também é comum combinar várias condições.</p><table id="3adf6ce8-497f-80c7-8e73-f28abf16d11d" class="simple-table" dir="ltr"><thead class="simple-table-header"><tr id="3adf6ce8-497f-8052-97c9-de697394913f" dir="ltr"><th id="FdVg" class="simple-table-header-color simple-table-header">Operador</th><th id="s_y@" class="simple-table-header-color simple-table-header">Significado</th></tr></thead><tbody><tr id="3adf6ce8-497f-8043-b391-ec2832e2de63" dir="ltr"><td id="FdVg" class=""><code>&amp;&amp;</code></td><td id="s_y@" class="">E (AND)</td></tr><tr id="3adf6ce8-497f-8086-9bce-c30548b94689" dir="ltr"><td id="FdVg" class="">`</td><td id="s_y@" class=""></td></tr><tr id="3adf6ce8-497f-8007-be03-c6bc96d00c01" dir="ltr"><td id="FdVg" class=""><code>!</code></td><td id="s_y@" class="">Não (NOT)</td></tr></tbody></table><p id="3adf6ce8-497f-8041-bcc1-cbc927724d63" class="" dir="auto">Exemplo:</p><pre id="3adf6ce8-497f-80ec-96fd-f28dbe3c783f" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">&lt;?php
+
+$idade = 22;
+$habilitado = true;
+
+if ($idade &gt;= 18 &amp;&amp; $habilitado) {
+    echo &quot;Pode dirigir&quot;;
+}</code></pre><p id="3adf6ce8-497f-805c-a0dd-c3852e943ff4" class="" dir="auto">Resultado:</p><pre id="3adf6ce8-497f-8074-b221-cc36901771aa" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Pode dirigir</code></pre><hr id="3adf6ce8-497f-8067-b3fc-d25e98f4ba40" dir="auto"/><h1 id="3adf6ce8-497f-80ac-a4fd-ede41c8de5a9" class="" dir="auto">Exemplos práticos</h1><h2 id="3adf6ce8-497f-8095-ba83-ea5d1dc15620" class="" dir="auto">Sistema de login</h2><pre id="3adf6ce8-497f-80ef-9a18-e59317e1357a" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">&lt;?php
+
+$logado = true;
+
+if ($logado) {
+
+    echo &quot;Bem-vindo!&quot;;
+
+} else {
+
+    echo &quot;Faça login.&quot;;
+
+}</code></pre><hr id="3adf6ce8-497f-8079-ae83-edb772772770" dir="auto"/><h2 id="3adf6ce8-497f-80b6-82ce-f3e75b456ae9" class="" dir="auto">Controle de estoque</h2><pre id="3adf6ce8-497f-809f-a6a3-d7ed3bd0fe29" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">&lt;?php
+
+$estoque = 8;
+
+if ($estoque &gt; 0) {
+
+    echo &quot;Produto disponível&quot;;
+
+} else {
+
+    echo &quot;Produto indisponível&quot;;
+
+}</code></pre><hr id="3adf6ce8-497f-801d-a3b2-dd8689e4e1ea" dir="auto"/><h2 id="3adf6ce8-497f-8075-b7ab-d14f285910e2" class="" dir="auto">Aprovação escolar</h2><pre id="3adf6ce8-497f-80fe-9694-d78949603e9e" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">&lt;?php
+
+$nota = 6.5;
+
+if ($nota &gt;= 7) {
+
+    echo &quot;Aprovado&quot;;
+
+} elseif ($nota &gt;= 5) {
+
+    echo &quot;Recuperação&quot;;
+
+} else {
+
+    echo &quot;Reprovado&quot;;
+
+}</code></pre><hr id="3adf6ce8-497f-80e5-ae25-e62ad58d4c9b" dir="auto"/><h1 id="3adf6ce8-497f-8073-b923-c45614054895" class="" dir="auto">Boas práticas</h1><ul id="3adf6ce8-497f-80b9-894b-f0f0f7791ccf" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Escreva condições simples e fáceis de entender.</li></ul><ul id="3adf6ce8-497f-808b-8b61-f50a72a52b1f" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Evite muitos níveis de <code>if</code> aninhados.</li></ul><ul id="3adf6ce8-497f-8087-aa0b-d5e4965c01ce" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Utilize <code>switch</code> quando comparar uma mesma variável com vários valores fixos.</li></ul><ul id="3adf6ce8-497f-805e-8a63-e33fb8fe2bce" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Utilize o operador ternário apenas para condições simples.</li></ul><ul id="3adf6ce8-497f-8021-a171-c7810ea681ce" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Sempre utilize indentação para melhorar a legibilidade.</li></ul><hr id="3adf6ce8-497f-806e-9d53-f7f3e7831d6e" dir="auto"/><h1 id="3adf6ce8-497f-8065-ac68-d3c5c119aa3a" class="" dir="auto">Resumo</h1><p id="3adf6ce8-497f-804d-b0ed-e6c750ba11e9" class="" dir="auto">As <strong>estruturas de condição</strong> permitem que um programa tome decisões durante sua execução, executando diferentes blocos de código conforme o resultado de uma condição. No PHP, as principais estruturas são <code>if</code>, <code>if...else</code>, <code>if...elseif...else</code> e <code>switch</code>, além dos operadores ternário (<code>?:</code>) e Null Coalescing (<code>??</code>). Elas trabalham em conjunto com operadores relacionais e lógicos para avaliar expressões que resultam em verdadeiro ou falso. O uso correto dessas estruturas é essencial para desenvolver aplicações capazes de validar dados, controlar o fluxo do programa e responder de forma inteligente às ações do usuário.</p></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

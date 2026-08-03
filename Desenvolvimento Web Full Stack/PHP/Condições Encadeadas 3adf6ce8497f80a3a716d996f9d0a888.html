@@ -1,0 +1,977 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Condições Encadeadas</title><meta name="data-notion-page-icon" content="/icons/elephant_purple.svg"/><link rel="icon" href="https://app.notion.com/icons/elephant_purple.svg"/><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+/* For default-background callouts, render the border outline. */
+.callout.block-color-default_background {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+/*
+ * Toggles and callouts hold arbitrary content, so they can easily be taller
+ * than a page. They must stay breakable: avoiding breaks inside them makes
+ * Chromium push the whole block onto the next page, which leaves the previous
+ * page mostly empty before every long toggle.
+ */
+details,
+aside {
+	margin: 1.25em 0;
+}
+
+/* Keep a toggle's title on the same page as the start of its content. */
+summary {
+	page-break-after: avoid;
+	break-after: avoid;
+}
+
+/*
+ * Toggle headings render as <h1/h2/h3 style="display:inline-block"> inside
+ * <summary>. Without this reset, the heading's margin-top pushes it below the
+ * ::marker (▼), so the triangle and the title appear on separate lines.
+ */
+summary h1,
+summary h2,
+summary h3,
+summary h4 {
+	margin-top: 0;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding-inline: 0.125rem;
+	padding-block: 0.375rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+/*
+ * Render emoji icons using a ::before pseudo-element to keep the glyph
+ * out of the DOM textContent traversal. This avoids double-rendering icons
+ * in callouts and page titles.
+ * NOTE(slim/html-export-pseudo-icons): I can't tagref this because it will
+ * flag as a duplicate tag after codegen.
+ */
+.icon[data-emoji]::before {
+	content: attr(data-emoji);
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	margin-right: 0.4em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.tab {
+	margin: 1.25em 0;
+	padding-inline: 1rem;
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style><style>@import url('https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex-swap.min.css')</style></head><body><article id="3adf6ce8-497f-80a3-a716-d996f9d0a888" class="page sans" data-notion-page-icon="/icons/elephant_purple.svg"><header><div class="page-header-icon undefined"><img class="icon notion-static-icon" src="https://app.notion.com/icons/elephant_purple.svg"/></div><h1 class="page-title" dir="auto">Condições Encadeadas</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><h1 id="3adf6ce8-497f-80d4-9100-f04bbfa05853" class="" dir="auto">Condições Encadeadas no PHP</h1><p id="3adf6ce8-497f-801b-aa37-c54bd6bb0a32" class="" dir="auto">As <strong>condições encadeadas</strong> são estruturas utilizadas quando um programa precisa avaliar <strong>várias condições diferentes</strong>, executando apenas o bloco de código correspondente à primeira condição verdadeira.</p><p id="3adf6ce8-497f-8098-9665-d4552e9dd454" class="" dir="auto">Em PHP, as condições encadeadas são implementadas principalmente com a estrutura:</p><ul id="3adf6ce8-497f-801b-a81c-e19d8ce55765" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><code>if</code></li></ul><ul id="3adf6ce8-497f-8004-b3ad-d6f54f3a15aa" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><code>elseif</code></li></ul><ul id="3adf6ce8-497f-806f-99a8-d38806104d89" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><code>else</code></li></ul><p id="3adf6ce8-497f-80b9-815b-fa1ec61f4095" class="" dir="auto">Esse tipo de estrutura permite tratar diferentes situações de forma organizada e eficiente.</p><hr id="3adf6ce8-497f-804a-83e9-fa678f1f00e6" dir="auto"/><h1 id="3adf6ce8-497f-80de-88fb-ff9d38b51bb3" class="" dir="auto">O que são condições encadeadas?</h1><p id="3adf6ce8-497f-8023-854c-f6784c9b455c" class="" dir="auto">Uma condição encadeada ocorre quando existe mais de uma possibilidade de decisão.</p><p id="3adf6ce8-497f-8009-886e-fcfd79b4949b" class="" dir="auto">Por exemplo, imagine um sistema escolar que precisa informar a situação de um aluno:</p><ul id="3adf6ce8-497f-8008-8f9b-ce53579d76de" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Nota maior ou igual a 9 → Excelente.</li></ul><ul id="3adf6ce8-497f-80c6-8915-e6ae80ef7f4a" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Nota maior ou igual a 7 → Aprovado.</li></ul><ul id="3adf6ce8-497f-805b-aac3-fa6cdccfbb79" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Nota maior ou igual a 5 → Recuperação.</li></ul><ul id="3adf6ce8-497f-8042-a5ba-e7a09e40dc2c" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Qualquer outro valor → Reprovado.</li></ul><p id="3adf6ce8-497f-8007-b839-eb46b828c8e3" class="" dir="auto">Nesse caso, uma única condição não é suficiente. É necessário avaliar várias possibilidades em sequência.</p><hr id="3adf6ce8-497f-8060-bcf8-fe7cc5382512" dir="auto"/><h1 id="3adf6ce8-497f-806a-bc70-e77ceea191e5" class="" dir="auto">Estrutura básica</h1><p id="3adf6ce8-497f-800b-abcb-e4ec4a39309e" class="" dir="auto">A sintaxe é:</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markup-templating.min.js" integrity="sha512-+8BiRfWso6waiFDv6tEmWF8yfPGgxAtOYLDUB0rRISLwtpxkJ9lpPNUhxwWlikn3qSO+4RQyzDppi62o3ON/AA==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-php.min.js" integrity="sha512-plzrTi61ltEMFf84gTVO9IkvIMfBu07bnDuahvdlIclmFWzXJ9VcRsny9d45sxFZRv3jJg/MHNyuxnUYEMxMEg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="3adf6ce8-497f-8014-b307-e0cfefe30f5f" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">if (condição1) {
+
+    // Código executado se condição1 for verdadeira
+
+} elseif (condição2) {
+
+    // Código executado se condição2 for verdadeira
+
+} elseif (condição3) {
+
+    // Código executado se condição3 for verdadeira
+
+} else {
+
+    // Código executado se nenhuma condição for verdadeira
+
+}</code></pre><p id="3adf6ce8-497f-8015-bb80-e205f5ca81df" class="" dir="auto">O PHP analisa as condições <strong>de cima para baixo</strong>.</p><p id="3adf6ce8-497f-807c-b20b-fad522c67cb5" class="" dir="auto">Quando encontra a primeira condição verdadeira, executa seu bloco de código e ignora todas as demais.</p><hr id="3adf6ce8-497f-8065-9dfe-d785a0f0296e" dir="auto"/><h1 id="3adf6ce8-497f-80a7-a96a-dbefdf41ffcf" class="" dir="auto">Funcionamento</h1><p id="3adf6ce8-497f-806e-9d18-dc37fedcee52" class="" dir="auto">Fluxo de execução:</p><pre id="3adf6ce8-497f-800e-8278-d00ccdf87451" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Início
+   │
+   ▼
+Condição 1?
+   │
+ ┌─┴──────────────┐
+ │Sim             │Não
+ ▼                ▼
+Executa       Condição 2?
+Bloco 1          │
+                 │
+             ┌───┴───────┐
+             │Sim        │Não
+             ▼           ▼
+        Executa      Condição 3?
+         Bloco 2         │
+                          │
+                     ┌────┴────┐
+                     │Sim      │Não
+                     ▼         ▼
+                 Executa   Executa
+                  Bloco 3   Else</code></pre><hr id="3adf6ce8-497f-8053-b6db-cf22cf6411e0" dir="auto"/><h1 id="3adf6ce8-497f-8022-a8f1-eca01b6d9195" class="" dir="auto">Exemplo simples</h1><pre id="3adf6ce8-497f-8051-976a-fa133e17207b" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">&lt;?php
+
+$nota = 8;
+
+if ($nota &gt;= 9) {
+
+    echo &quot;Excelente&quot;;
+
+} elseif ($nota &gt;= 7) {
+
+    echo &quot;Aprovado&quot;;
+
+} elseif ($nota &gt;= 5) {
+
+    echo &quot;Recuperação&quot;;
+
+} else {
+
+    echo &quot;Reprovado&quot;;
+
+}</code></pre><p id="3adf6ce8-497f-8041-bc90-c203187c6178" class="" dir="auto">Resultado:</p><pre id="3adf6ce8-497f-8075-80a9-e60e76c186ff" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Aprovado</code></pre><p id="3adf6ce8-497f-8018-b126-ec9b5baa7d94" class="" dir="auto">A primeira condição (<code>$nota &gt;= 9</code>) é falsa.</p><p id="3adf6ce8-497f-8013-b05a-d30104503461" class="" dir="auto">A segunda (<code>$nota &gt;= 7</code>) é verdadeira.</p><p id="3adf6ce8-497f-80ba-97f0-cbd9b153f61e" class="" dir="auto">O PHP executa esse bloco e não verifica as demais condições.</p><hr id="3adf6ce8-497f-80ff-a3b8-f888a992142c" dir="auto"/><h1 id="3adf6ce8-497f-8082-b883-c82171dd31b4" class="" dir="auto">Outro exemplo</h1><p id="3adf6ce8-497f-807a-b2f8-c79c3ff7aa09" class="" dir="auto">Sistema de classificação de idade.</p><pre id="3adf6ce8-497f-8057-8cf0-f20d1af65de7" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">&lt;?php
+
+$idade = 15;
+
+if ($idade &lt; 12) {
+
+    echo &quot;Criança&quot;;
+
+} elseif ($idade &lt; 18) {
+
+    echo &quot;Adolescente&quot;;
+
+} elseif ($idade &lt; 60) {
+
+    echo &quot;Adulto&quot;;
+
+} else {
+
+    echo &quot;Idoso&quot;;
+
+}</code></pre><p id="3adf6ce8-497f-8046-842f-f42e98d0c3a2" class="" dir="auto">Resultado:</p><pre id="3adf6ce8-497f-8023-9fd9-e9df98eeff51" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Adolescente</code></pre><hr id="3adf6ce8-497f-805c-b6f0-fb8de3e115bb" dir="auto"/><h1 id="3adf6ce8-497f-8062-a9ad-ff342375ad8c" class="" dir="auto">Importância da ordem das condições</h1><p id="3adf6ce8-497f-809e-98b2-f9727480bbd4" class="" dir="auto">A ordem das condições é muito importante.</p><p id="3adf6ce8-497f-8014-8ebf-f0a4edc15144" class="" dir="auto">Observe este exemplo:</p><pre id="3adf6ce8-497f-80dc-8fe7-d0bdb378cc4e" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">&lt;?php
+
+$idade = 20;
+
+if ($idade &gt;= 18) {
+
+    echo &quot;Maior de idade&quot;;
+
+} elseif ($idade &gt;= 60) {
+
+    echo &quot;Idoso&quot;;
+
+}</code></pre><p id="3adf6ce8-497f-80b5-a33a-e2a929214636" class="" dir="auto">Resultado:</p><pre id="3adf6ce8-497f-806a-a7cc-eae29361ef68" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Maior de idade</code></pre><p id="3adf6ce8-497f-8095-a322-cc239d7a4f7c" class="" dir="auto">Embora uma pessoa com 60 anos também seja maior de idade, a condição <code>&gt;= 18</code> será verdadeira primeiro, impedindo que a segunda seja analisada.</p><p id="3adf6ce8-497f-8018-a1fa-e70ee683e902" class="" dir="auto">O correto seria:</p><pre id="3adf6ce8-497f-80d5-af67-fc715b399016" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">&lt;?php
+
+$idade = 65;
+
+if ($idade &gt;= 60) {
+
+    echo &quot;Idoso&quot;;
+
+} elseif ($idade &gt;= 18) {
+
+    echo &quot;Maior de idade&quot;;
+
+}</code></pre><p id="3adf6ce8-497f-801d-a179-ebf04caeb7e3" class="" dir="auto">Agora a classificação será feita corretamente.</p><hr id="3adf6ce8-497f-80fa-bfaf-f0c5400e737c" dir="auto"/><h1 id="3adf6ce8-497f-8056-b88d-c777adeebfd9" class="" dir="auto">Utilizando operadores lógicos</h1><p id="3adf6ce8-497f-8090-b480-fe9800c41929" class="" dir="auto">É comum utilizar operadores lógicos em condições encadeadas.</p><pre id="3adf6ce8-497f-8041-b738-ea82d6799d7c" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">&lt;?php
+
+$idade = 25;
+$habilitado = true;
+
+if ($idade &gt;= 18 &amp;&amp; $habilitado) {
+
+    echo &quot;Pode dirigir&quot;;
+
+} elseif ($idade &gt;= 18) {
+
+    echo &quot;Maior de idade, mas sem habilitação&quot;;
+
+} else {
+
+    echo &quot;Menor de idade&quot;;
+
+}</code></pre><hr id="3adf6ce8-497f-805d-bb62-d44d871811e2" dir="auto"/><h1 id="3adf6ce8-497f-80b0-8d9e-c37715b25ad1" class="" dir="auto">Exemplo com sistema de login</h1><pre id="3adf6ce8-497f-8077-ae3b-c4f7dd60f1bc" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">&lt;?php
+
+$usuario = &quot;admin&quot;;
+$senha = &quot;123456&quot;;
+
+if ($usuario == &quot;admin&quot; &amp;&amp; $senha == &quot;123456&quot;) {
+
+    echo &quot;Login realizado&quot;;
+
+} elseif ($usuario != &quot;admin&quot;) {
+
+    echo &quot;Usuário inválido&quot;;
+
+} else {
+
+    echo &quot;Senha incorreta&quot;;
+
+}</code></pre><hr id="3adf6ce8-497f-8033-9568-ea266e586ca2" dir="auto"/><h1 id="3adf6ce8-497f-80b1-999c-e74f5f8635dc" class="" dir="auto">Exemplo com notas</h1><pre id="3adf6ce8-497f-8088-9152-dee009fd56af" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">&lt;?php
+
+$nota = 9.5;
+
+if ($nota &gt;= 9) {
+
+    echo &quot;Excelente&quot;;
+
+} elseif ($nota &gt;= 7) {
+
+    echo &quot;Bom&quot;;
+
+} elseif ($nota &gt;= 5) {
+
+    echo &quot;Recuperação&quot;;
+
+} else {
+
+    echo &quot;Reprovado&quot;;
+
+}</code></pre><hr id="3adf6ce8-497f-802a-9415-dd2f5184da4c" dir="auto"/><h1 id="3adf6ce8-497f-8086-a636-dbd30a5f4353" class="" dir="auto">Quando utilizar condições encadeadas?</h1><p id="3adf6ce8-497f-80f9-8f37-c75640da4111" class="" dir="auto">As condições encadeadas são indicadas quando existem várias possibilidades mutuamente exclusivas, como:</p><ul id="3adf6ce8-497f-8068-8f3a-d3d8d155ddaf" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Classificação de notas.</li></ul><ul id="3adf6ce8-497f-800c-8748-f1186fed8b48" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Faixa etária.</li></ul><ul id="3adf6ce8-497f-801b-9ab2-e5cb051d58de" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Nível de acesso.</li></ul><ul id="3adf6ce8-497f-80e2-b92d-f7b0ff0707c2" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Faixa de desconto.</li></ul><ul id="3adf6ce8-497f-80f1-adca-da218f4f2805" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Situação de pagamento.</li></ul><ul id="3adf6ce8-497f-806b-9c47-ca461180531c" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Classificação de clientes.</li></ul><ul id="3adf6ce8-497f-809e-a522-d2e4f939b2ef" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Avaliação de desempenho.</li></ul><hr id="3adf6ce8-497f-803c-b5fd-eb0e6a648b4a" dir="auto"/><h1 id="3adf6ce8-497f-80b1-ab5c-f5008768d6c7" class="" dir="auto">Condições encadeadas x condições aninhadas</h1><p id="3adf6ce8-497f-80fd-89c2-dab9a2caa2e0" class="" dir="auto">É importante não confundir esses dois conceitos.</p><h2 id="3adf6ce8-497f-80ca-abf0-c49138045a58" class="" dir="auto">Condições encadeadas</h2><p id="3adf6ce8-497f-808c-9642-c31f26dcb4b0" class="" dir="auto">Utilizam <code>if</code>, <code>elseif</code> e <code>else</code> para verificar várias possibilidades em sequência.</p><pre id="3adf6ce8-497f-8060-a73b-f93e91768b6c" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">&lt;?php
+
+if ($nota &gt;= 7) {
+
+    echo &quot;Aprovado&quot;;
+
+} elseif ($nota &gt;= 5) {
+
+    echo &quot;Recuperação&quot;;
+
+} else {
+
+    echo &quot;Reprovado&quot;;
+
+}</code></pre><hr id="3adf6ce8-497f-802e-97ed-dfbb543ec0ca" dir="auto"/><h2 id="3adf6ce8-497f-8014-afbe-d4385feffb7b" class="" dir="auto">Condições aninhadas</h2><p id="3adf6ce8-497f-80a0-925d-d104eae464cc" class="" dir="auto">São estruturas <code>if</code> dentro de outro <code>if</code>.</p><pre id="3adf6ce8-497f-80ba-9f40-f9a4e5460141" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">&lt;?php
+
+if ($logado) {
+
+    if ($admin) {
+
+        echo &quot;Administrador&quot;;
+
+    } else {
+
+        echo &quot;Usuário comum&quot;;
+
+    }
+
+}</code></pre><p id="3adf6ce8-497f-80ea-af0b-fd660e714ec2" class="" dir="auto">Enquanto as condições encadeadas escolhem entre várias alternativas, as condições aninhadas verificam uma nova condição somente após outra já ter sido satisfeita.</p><hr id="3adf6ce8-497f-80fa-be27-c295ae97470a" dir="auto"/><h1 id="3adf6ce8-497f-809e-a71b-d39fb7f3fbe8" class="" dir="auto">Boas práticas</h1><ul id="3adf6ce8-497f-8002-96d4-fd02b047f662" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Organize as condições da mais específica para a mais geral, quando necessário.</li></ul><ul id="3adf6ce8-497f-80bf-bc23-d53661c9b74a" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Evite criar muitos níveis de <code>elseif</code>; em alguns casos, um <code>switch</code> pode ser mais adequado.</li></ul><ul id="3adf6ce8-497f-805a-91d9-e22ada4c8d5e" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Utilize indentação para melhorar a leitura do código.</li></ul><ul id="3adf6ce8-497f-80b8-a927-f7f11a5ddd90" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Escreva condições simples e objetivas.</li></ul><ul id="3adf6ce8-497f-80cd-94d5-c5d92102f922" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Sempre revise a ordem das comparações para evitar que uma condição mais ampla impeça a execução de uma condição mais específica.</li></ul><hr id="3adf6ce8-497f-80bc-92d6-d95f5d89c378" dir="auto"/><h1 id="3adf6ce8-497f-803d-850c-de5e39a9bd1f" class="" dir="auto">Resumo</h1><p id="3adf6ce8-497f-80af-ad2a-f49c5996a6c6" class="" dir="auto">As <strong>condições encadeadas</strong> permitem que um programa avalie diversas possibilidades em sequência utilizando as estruturas <code>if</code>, <code>elseif</code> e <code>else</code>. O PHP verifica cada condição na ordem em que aparece e executa apenas o bloco correspondente à primeira condição verdadeira, ignorando as demais. Esse recurso é amplamente utilizado para classificar informações, validar dados, controlar níveis de acesso e implementar regras de negócio. A correta organização das condições é essencial para garantir que a lógica da aplicação funcione conforme esperado, tornando o código mais claro, eficiente e fácil de manter.</p></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

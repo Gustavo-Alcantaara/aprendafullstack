@@ -1,0 +1,847 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Operador Ternário</title><meta name="data-notion-page-icon" content="/icons/elephant_purple.svg"/><link rel="icon" href="https://app.notion.com/icons/elephant_purple.svg"/><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+/* For default-background callouts, render the border outline. */
+.callout.block-color-default_background {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+/*
+ * Toggles and callouts hold arbitrary content, so they can easily be taller
+ * than a page. They must stay breakable: avoiding breaks inside them makes
+ * Chromium push the whole block onto the next page, which leaves the previous
+ * page mostly empty before every long toggle.
+ */
+details,
+aside {
+	margin: 1.25em 0;
+}
+
+/* Keep a toggle's title on the same page as the start of its content. */
+summary {
+	page-break-after: avoid;
+	break-after: avoid;
+}
+
+/*
+ * Toggle headings render as <h1/h2/h3 style="display:inline-block"> inside
+ * <summary>. Without this reset, the heading's margin-top pushes it below the
+ * ::marker (▼), so the triangle and the title appear on separate lines.
+ */
+summary h1,
+summary h2,
+summary h3,
+summary h4 {
+	margin-top: 0;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding-inline: 0.125rem;
+	padding-block: 0.375rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+/*
+ * Render emoji icons using a ::before pseudo-element to keep the glyph
+ * out of the DOM textContent traversal. This avoids double-rendering icons
+ * in callouts and page titles.
+ * NOTE(slim/html-export-pseudo-icons): I can't tagref this because it will
+ * flag as a duplicate tag after codegen.
+ */
+.icon[data-emoji]::before {
+	content: attr(data-emoji);
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	margin-right: 0.4em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.tab {
+	margin: 1.25em 0;
+	padding-inline: 1rem;
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style><style>@import url('https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex-swap.min.css')</style></head><body><article id="3adf6ce8-497f-8029-b1e4-f69257355441" class="page sans" data-notion-page-icon="/icons/elephant_purple.svg"><header><div class="page-header-icon undefined"><img class="icon notion-static-icon" src="https://app.notion.com/icons/elephant_purple.svg"/></div><h1 class="page-title" dir="auto">Operador Ternário</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><h1 id="3adf6ce8-497f-8027-8595-ea32b43f05e8" class="" dir="auto">Operador Ternário no PHP</h1><p id="3adf6ce8-497f-80a2-83e9-d2d5cb007669" class="" dir="auto">O <strong>operador ternário</strong> é uma forma <strong>simplificada e compacta</strong> de escrever uma estrutura <code>if...else</code> quando há apenas <strong>duas possibilidades</strong> de resultado.</p><p id="3adf6ce8-497f-8045-9b0d-cd2ab5f92a7c" class="" dir="auto">Seu principal objetivo é tornar o código mais curto e legível em situações simples, evitando a necessidade de escrever uma estrutura condicional completa.</p><p id="3adf6ce8-497f-80c8-82e2-d33c34f04b44" class="" dir="auto">O nome <strong>&quot;ternário&quot;</strong> vem do fato de que ele trabalha com <strong>três operandos</strong>:</p><ol type="1" id="3adf6ce8-497f-800a-a1fa-dca6c6361c32" class="numbered-list" start="1" dir="auto"><li>A condição a ser avaliada.</li></ol><ol type="1" id="3adf6ce8-497f-8078-9371-c946a19410c3" class="numbered-list" start="2" dir="auto"><li>O valor retornado caso a condição seja verdadeira.</li></ol><ol type="1" id="3adf6ce8-497f-8067-8cdb-f41f4900991f" class="numbered-list" start="3" dir="auto"><li>O valor retornado caso a condição seja falsa.</li></ol><hr id="3adf6ce8-497f-8084-ab2d-f5d6b8ef4d17" dir="auto"/><h1 id="3adf6ce8-497f-8017-883e-d3852c33b40e" class="" dir="auto">Quando utilizar?</h1><p id="3adf6ce8-497f-808d-bb2c-d9137d19a135" class="" dir="auto">O operador ternário é indicado quando existe apenas uma decisão simples.</p><p id="3adf6ce8-497f-80c7-a35d-e3c78a2b526f" class="" dir="auto">Por exemplo:</p><ul id="3adf6ce8-497f-80db-8bbe-c7ebb402501f" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Exibir &quot;Aprovado&quot; ou &quot;Reprovado&quot;;</li></ul><ul id="3adf6ce8-497f-80c8-911f-dd2ea8e347ca" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Informar se um usuário está logado;</li></ul><ul id="3adf6ce8-497f-8066-a056-c39a8513f2bc" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Mostrar &quot;Maior&quot; ou &quot;Menor de idade&quot;;</li></ul><ul id="3adf6ce8-497f-80ac-9816-d76d1f40e3a8" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Definir um valor padrão.</li></ul><p id="3adf6ce8-497f-800e-9205-ec0e6672709d" class="" dir="auto">Quando a lógica se torna complexa, é mais recomendável utilizar <code>if...else</code>, pois o código fica mais fácil de entender.</p><hr id="3adf6ce8-497f-809e-8748-da398f551b1f" dir="auto"/><h1 id="3adf6ce8-497f-8033-bcb2-f4cee34f9797" class="" dir="auto">Sintaxe</h1><p id="3adf6ce8-497f-80e8-b6e2-e4d66a25691f" class="" dir="auto">A sintaxe do operador ternário é:</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markup-templating.min.js" integrity="sha512-+8BiRfWso6waiFDv6tEmWF8yfPGgxAtOYLDUB0rRISLwtpxkJ9lpPNUhxwWlikn3qSO+4RQyzDppi62o3ON/AA==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-php.min.js" integrity="sha512-plzrTi61ltEMFf84gTVO9IkvIMfBu07bnDuahvdlIclmFWzXJ9VcRsny9d45sxFZRv3jJg/MHNyuxnUYEMxMEg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="3adf6ce8-497f-8073-8f6e-f9a828840192" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">condição ? valor_se_verdadeiro : valor_se_falso;</code></pre><p id="3adf6ce8-497f-80cc-bedc-feedcd6216a4" class="" dir="auto">A estrutura pode ser entendida da seguinte forma:</p><pre id="3adf6ce8-497f-8054-980a-e15d3555bb44" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">condição
+    ?
+verdadeiro
+    :
+falso</code></pre><p id="3adf6ce8-497f-80f4-85e9-f09ed43f7016" class="" dir="auto">Se a condição for verdadeira, o PHP retorna o valor após <code>?</code>.</p><p id="3adf6ce8-497f-8035-b4e3-f688a711e4ce" class="" dir="auto">Caso contrário, retorna o valor após <code>:</code>.</p><hr id="3adf6ce8-497f-8017-9152-cb997c77a704" dir="auto"/><h1 id="3adf6ce8-497f-80d1-8c35-dff8117fb8bf" class="" dir="auto">Comparação com o <code>if...else</code></h1><h3 id="3adf6ce8-497f-801e-afec-dc8c44eb0643" class="" dir="auto">Utilizando <code>if...else</code></h3><pre id="3adf6ce8-497f-806c-aea0-c06a95e90467" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">&lt;?php
+
+$idade = 20;
+
+if ($idade &gt;= 18) {
+    echo &quot;Maior de idade&quot;;
+} else {
+    echo &quot;Menor de idade&quot;;
+}</code></pre><hr id="3adf6ce8-497f-80c8-83ac-c84238bf8301" dir="auto"/><h3 id="3adf6ce8-497f-80cf-a3f2-d0affff91a69" class="" dir="auto">Utilizando operador ternário</h3><pre id="3adf6ce8-497f-805a-9cf6-d9350fcda570" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">&lt;?php
+
+$idade = 20;
+
+echo ($idade &gt;= 18) ? &quot;Maior de idade&quot; : &quot;Menor de idade&quot;;</code></pre><p id="3adf6ce8-497f-8093-9c3c-efcdee64b580" class="" dir="auto">Resultado:</p><pre id="3adf6ce8-497f-80f2-ae48-fb6c56af7749" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Maior de idade</code></pre><p id="3adf6ce8-497f-8019-86be-f78ccbaa80bd" class="" dir="auto">Observe que o operador ternário produz o mesmo resultado utilizando menos linhas de código.</p><hr id="3adf6ce8-497f-8054-a121-e247ce8f7790" dir="auto"/><h1 id="3adf6ce8-497f-8014-9797-e0897f087401" class="" dir="auto">Exemplo com variáveis</h1><p id="3adf6ce8-497f-8048-99c5-cfde15abf3a8" class="" dir="auto">O resultado do operador ternário pode ser armazenado em uma variável.</p><pre id="3adf6ce8-497f-800c-92c9-e2b6f2b71801" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">&lt;?php
+
+$nota = 8;
+
+$resultado = ($nota &gt;= 7) ? &quot;Aprovado&quot; : &quot;Reprovado&quot;;
+
+echo $resultado;</code></pre><p id="3adf6ce8-497f-8057-9c3e-d68b2863c315" class="" dir="auto">Resultado:</p><pre id="3adf6ce8-497f-8051-ba58-fe48ac53beb5" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Aprovado</code></pre><hr id="3adf6ce8-497f-80f8-ba60-c60f098ea41b" dir="auto"/><h1 id="3adf6ce8-497f-802a-93b7-c1165dcfb05e" class="" dir="auto">Exemplo com login</h1><pre id="3adf6ce8-497f-800b-8bd8-ddbe0540d113" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">&lt;?php
+
+$logado = true;
+
+echo $logado ? &quot;Bem-vindo!&quot; : &quot;Faça login.&quot;;</code></pre><p id="3adf6ce8-497f-8087-8a18-d1d07b774733" class="" dir="auto">Resultado:</p><pre id="3adf6ce8-497f-8033-888a-ee4581572651" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Bem-vindo!</code></pre><hr id="3adf6ce8-497f-80c9-8bba-e98a5ba85751" dir="auto"/><h1 id="3adf6ce8-497f-80db-9990-c058a015602a" class="" dir="auto">Exemplo com estoque</h1><pre id="3adf6ce8-497f-80b7-b68b-dfbe24f15280" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">&lt;?php
+
+$estoque = 12;
+
+$status = ($estoque &gt; 0) ? &quot;Disponível&quot; : &quot;Indisponível&quot;;
+
+echo $status;</code></pre><p id="3adf6ce8-497f-80a0-b00c-e07db70f821d" class="" dir="auto">Resultado:</p><pre id="3adf6ce8-497f-802e-948d-d9c08a312da1" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Disponível</code></pre><hr id="3adf6ce8-497f-80aa-be6a-d604995f3adb" dir="auto"/><h1 id="3adf6ce8-497f-80a0-84ff-c6848b2dca4d" class="" dir="auto">Utilizando operadores de comparação</h1><p id="3adf6ce8-497f-8092-a92a-d9867b558b35" class="" dir="auto">O operador ternário normalmente trabalha em conjunto com operadores de comparação.</p><pre id="3adf6ce8-497f-80bf-918c-d3002cead8fa" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">&lt;?php
+
+$idade = 16;
+
+echo ($idade &gt;= 18) ? &quot;Entrada permitida&quot; : &quot;Entrada proibida&quot;;</code></pre><p id="3adf6ce8-497f-808b-a4ee-c1c8ad8fef0c" class="" dir="auto">Resultado:</p><pre id="3adf6ce8-497f-8072-9505-d03fa4fcd572" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Entrada proibida</code></pre><hr id="3adf6ce8-497f-8025-b0ae-cc61368c83be" dir="auto"/><h1 id="3adf6ce8-497f-807f-9333-e3e3edeaf3eb" class="" dir="auto">Utilizando operadores lógicos</h1><p id="3adf6ce8-497f-80d6-8e6f-d442bfd21257" class="" dir="auto">Também é possível utilizar condições compostas.</p><pre id="3adf6ce8-497f-80df-b44f-de4898950ba6" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">&lt;?php
+
+$idade = 20;
+$habilitado = true;
+
+echo ($idade &gt;= 18 &amp;&amp; $habilitado)
+        ? &quot;Pode dirigir&quot;
+        : &quot;Não pode dirigir&quot;;</code></pre><p id="3adf6ce8-497f-8000-9faa-f0591267966a" class="" dir="auto">Resultado:</p><pre id="3adf6ce8-497f-803a-98ec-cb24e0e51e24" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Pode dirigir</code></pre><hr id="3adf6ce8-497f-802c-b564-debbcfb226d9" dir="auto"/><h1 id="3adf6ce8-497f-8061-8177-fd44ab73af3d" class="" dir="auto">Operador ternário aninhado</h1><p id="3adf6ce8-497f-8022-8973-fb51a1395296" class="" dir="auto">É possível utilizar um operador ternário dentro de outro.</p><pre id="3adf6ce8-497f-801a-a018-d71760691408" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">&lt;?php
+
+$nota = 6;
+
+echo ($nota &gt;= 9)
+        ? &quot;Excelente&quot;
+        : (($nota &gt;= 7)
+            ? &quot;Aprovado&quot;
+            : &quot;Reprovado&quot;);</code></pre><p id="3adf6ce8-497f-80cb-9731-d5e8bf0a7016" class="" dir="auto">Resultado:</p><pre id="3adf6ce8-497f-8052-bdb7-c2799c132307" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Reprovado</code></pre><p id="3adf6ce8-497f-80e8-93cd-c643ba70feed" class="" dir="auto">Embora seja válido, <strong>não é recomendado</strong> utilizar muitos operadores ternários aninhados, pois eles dificultam a leitura do código.</p><p id="3adf6ce8-497f-8057-8261-ff00bd8bc3f3" class="" dir="auto">Nesses casos, um <code>if...elseif...else</code> costuma ser uma escolha melhor.</p><hr id="3adf6ce8-497f-8048-957c-e90e1aefcb39" dir="auto"/><h1 id="3adf6ce8-497f-804d-b6ad-f187d366a3b3" class="" dir="auto">Precedência e uso de parênteses</h1><p id="3adf6ce8-497f-8064-ba16-f774de357cec" class="" dir="auto">É uma boa prática utilizar parênteses para deixar a condição mais clara.</p><pre id="3adf6ce8-497f-8097-88d4-e4753f0e4f8a" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">&lt;?php
+
+echo ($idade &gt;= 18) ? &quot;Maior&quot; : &quot;Menor&quot;;</code></pre><p id="3adf6ce8-497f-8047-a749-f06f6d2a0826" class="" dir="auto">Isso melhora a legibilidade e evita ambiguidades em expressões mais complexas.</p><hr id="3adf6ce8-497f-80a9-bde5-eed6f79c8d96" dir="auto"/><h1 id="3adf6ce8-497f-80fa-af68-f3dcf6bbde0c" class="" dir="auto">Vantagens</h1><ul id="3adf6ce8-497f-8061-a2d2-fcae39d4eb61" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Reduz a quantidade de código.</li></ul><ul id="3adf6ce8-497f-8040-8185-e417e6a5c76f" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Torna decisões simples mais objetivas.</li></ul><ul id="3adf6ce8-497f-80b2-b361-eee00794c91b" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Facilita a atribuição de valores condicionais.</li></ul><ul id="3adf6ce8-497f-8084-b96a-ec1efb7a7151" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Pode deixar o código mais legível quando usado corretamente.</li></ul><hr id="3adf6ce8-497f-8076-bd64-db8132dc6806" dir="auto"/><h1 id="3adf6ce8-497f-80db-a116-ee78a687ccde" class="" dir="auto">Desvantagens</h1><ul id="3adf6ce8-497f-80dc-8c3c-c804a019ed0d" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Pode prejudicar a legibilidade quando usado em condições complexas.</li></ul><ul id="3adf6ce8-497f-80e6-889f-ee4c4a6b775d" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Operadores ternários aninhados tornam o código difícil de compreender.</li></ul><ul id="3adf6ce8-497f-80d5-8a2e-d35dd40d9892" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Não substitui estruturas <code>if...else</code> em lógicas mais elaboradas.</li></ul><hr id="3adf6ce8-497f-80e5-bb54-f5812dcc1625" dir="auto"/><h1 id="3adf6ce8-497f-80c1-8c10-d5bf1d67d754" class="" dir="auto">Quando usar o operador ternário?</h1><p id="3adf6ce8-497f-80c3-aeba-ec131fb81e88" class="" dir="auto">Utilize quando:</p><ul id="3adf6ce8-497f-801f-952f-f7771e522493" class="bulleted-list" dir="auto"><li style="list-style-type:disc">A decisão possui apenas duas possibilidades.</li></ul><ul id="3adf6ce8-497f-804b-9177-d714e3d9b3cc" class="bulleted-list" dir="auto"><li style="list-style-type:disc">A condição é simples.</li></ul><ul id="3adf6ce8-497f-8011-b2ed-f97c1891914a" class="bulleted-list" dir="auto"><li style="list-style-type:disc">O objetivo é atribuir um valor ou exibir uma mensagem.</li></ul><p id="3adf6ce8-497f-80b8-b8d5-ee9fcce554f6" class="" dir="auto">Evite quando:</p><ul id="3adf6ce8-497f-80c8-8b74-f27af27bc717" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Existem muitas condições.</li></ul><ul id="3adf6ce8-497f-80da-b32d-f8953edc37c1" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Há várias ações dentro de cada bloco.</li></ul><ul id="3adf6ce8-497f-805d-8b94-c5c0fd542248" class="bulleted-list" dir="auto"><li style="list-style-type:disc">A lógica é complexa.</li></ul><p id="3adf6ce8-497f-8072-b604-ce8d8040df19" class="" dir="auto">Nesses casos, prefira <code>if...elseif...else</code>.</p><hr id="3adf6ce8-497f-80a8-b4b8-c7de776a9d99" dir="auto"/><h1 id="3adf6ce8-497f-8034-bc0e-d76ab1581f78" class="" dir="auto">Boas práticas</h1><ul id="3adf6ce8-497f-8039-97fe-ce75ee31aba4" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Utilize o operador ternário apenas para condições simples.</li></ul><ul id="3adf6ce8-497f-8097-966c-ff13c67f6af1" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Evite operadores ternários aninhados sempre que possível.</li></ul><ul id="3adf6ce8-497f-8085-8ea2-db9edc83fd56" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Use parênteses para melhorar a leitura da condição.</li></ul><ul id="3adf6ce8-497f-8099-894a-ddd998e77325" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Prefira <code>if...else</code> quando a lógica envolver várias instruções.</li></ul><hr id="3adf6ce8-497f-8021-86b9-ff2d04bf540a" dir="auto"/><h1 id="3adf6ce8-497f-80dc-ad26-e459bcfc3b60" class="" dir="auto">Resumo</h1><p id="3adf6ce8-497f-80d1-95d9-d67cf32ec1ab" class="" dir="auto">O <strong>operador ternário</strong> é uma forma abreviada da estrutura <code>if...else</code>, utilizada para tomar decisões simples em uma única linha de código. Sua sintaxe é <code>condição ? valor_se_verdadeiro : valor_se_falso</code>, permitindo retornar um valor diferente conforme o resultado da condição. É muito utilizado para atribuições condicionais e exibição de mensagens, tornando o código mais compacto. Entretanto, seu uso deve ser limitado a situações simples, pois condições complexas ou operadores ternários aninhados podem comprometer a legibilidade e dificultar a manutenção do código.</p></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>
