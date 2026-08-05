@@ -1,0 +1,1024 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Interpolação</title><meta name="data-notion-page-icon" content="/icons/emoji-heart-eyes_pink.svg"/><link rel="icon" href="https://app.notion.com/icons/emoji-heart-eyes_pink.svg"/><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+/* For default-background callouts, render the border outline. */
+.callout.block-color-default_background {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+/*
+ * Toggles and callouts hold arbitrary content, so they can easily be taller
+ * than a page. They must stay breakable: avoiding breaks inside them makes
+ * Chromium push the whole block onto the next page, which leaves the previous
+ * page mostly empty before every long toggle.
+ */
+details,
+aside {
+	margin: 1.25em 0;
+}
+
+/* Keep a toggle's title on the same page as the start of its content. */
+summary {
+	page-break-after: avoid;
+	break-after: avoid;
+}
+
+/*
+ * Toggle headings render as <h1/h2/h3 style="display:inline-block"> inside
+ * <summary>. Without this reset, the heading's margin-top pushes it below the
+ * ::marker (▼), so the triangle and the title appear on separate lines.
+ */
+summary h1,
+summary h2,
+summary h3,
+summary h4 {
+	margin-top: 0;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding-inline: 0.125rem;
+	padding-block: 0.375rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+/*
+ * Render emoji icons using a ::before pseudo-element to keep the glyph
+ * out of the DOM textContent traversal. This avoids double-rendering icons
+ * in callouts and page titles.
+ * NOTE(slim/html-export-pseudo-icons): I can't tagref this because it will
+ * flag as a duplicate tag after codegen.
+ */
+.icon[data-emoji]::before {
+	content: attr(data-emoji);
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	margin-right: 0.4em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.tab {
+	margin: 1.25em 0;
+	padding-inline: 1rem;
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style><style>@import url('https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex-swap.min.css')</style></head><body><article id="3b3f6ce8-497f-80b1-9e37-e0a6220ce3d2" class="page sans" data-notion-page-icon="/icons/emoji-heart-eyes_pink.svg"><header><div class="page-header-icon undefined"><img class="icon notion-static-icon" src="https://app.notion.com/icons/emoji-heart-eyes_pink.svg"/></div><h1 class="page-title" dir="auto">Interpolação</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><h1 id="3b3f6ce8-497f-80e3-a816-d981ac5eed86" class="" dir="auto">Interpolação no SASS</h1><h2 id="3b3f6ce8-497f-8060-bef4-cecb4d8e84bf" class="" dir="auto">O que é Interpolação?</h2><p id="3b3f6ce8-497f-8050-84c9-c2ce849458a5" class="" dir="auto">A <strong>Interpolação</strong> é um recurso do SASS que permite <strong>inserir dinamicamente o valor de uma variável, expressão ou resultado de uma função dentro de seletores, propriedades, nomes de classes, IDs, valores ou strings</strong>.</p><p id="3b3f6ce8-497f-8075-93d7-e9d692d19dd7" class="" dir="auto">Ela é representada pela sintaxe:</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="3b3f6ce8-497f-8008-a0ab-c654946a3a5d" class="code code-wrap" data-notion-code-syntax="scss"><code class="language-scss" style="white-space:pre-wrap;word-break:break-all">#{$variavel}</code></pre><p id="3b3f6ce8-497f-8087-8b55-ff49dcbbc923" class="" dir="auto">ou</p><pre id="3b3f6ce8-497f-80c9-8c2c-c9fca939daec" class="code code-wrap" data-notion-code-syntax="scss"><code class="language-scss" style="white-space:pre-wrap;word-break:break-all">#{expressão}</code></pre><p id="3b3f6ce8-497f-8050-98e2-e83d41cd7a53" class="" dir="auto">A interpolação torna o código mais flexível e evita a repetição de estruturas semelhantes, sendo muito utilizada para gerar classes automaticamente, criar seletores dinâmicos e construir nomes de propriedades.</p><hr id="3b3f6ce8-497f-80ca-b633-c40684aa9f47" dir="auto"/><h1 id="3b3f6ce8-497f-8058-842c-cce1be0c64ee" class="" dir="auto">Objetivos da Interpolação</h1><p id="3b3f6ce8-497f-8036-a36d-c903cccd77cb" class="" dir="auto">A interpolação é utilizada para:</p><ul id="3b3f6ce8-497f-80f7-b89d-e385ed61943a" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Criar classes dinamicamente.</li></ul><ul id="3b3f6ce8-497f-80d1-a148-f694df338849" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Criar IDs automaticamente.</li></ul><ul id="3b3f6ce8-497f-8065-a3ab-c48875d259ac" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Gerar seletores personalizados.</li></ul><ul id="3b3f6ce8-497f-80cb-a145-c54174e2064f" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Construir nomes de propriedades.</li></ul><ul id="3b3f6ce8-497f-806d-b143-ea5ace503ce3" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Concatenar textos e variáveis.</li></ul><ul id="3b3f6ce8-497f-808e-8ffd-da6b705911e6" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Automatizar a criação de estilos repetitivos.</li></ul><ul id="3b3f6ce8-497f-80d0-8ca1-fc19b524fd6a" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Tornar o código mais reutilizável.</li></ul><hr id="3b3f6ce8-497f-80ff-95dc-c11a2222d330" dir="auto"/><h1 id="3b3f6ce8-497f-80f5-977b-c150ccec9e6a" class="" dir="auto">Como funciona?</h1><p id="3b3f6ce8-497f-800b-b414-e27d5a65e9f2" class="" dir="auto">Durante a compilação, o SASS substitui a expressão interpolada pelo seu valor.</p><h3 id="3b3f6ce8-497f-8001-a97f-ff728ba3f7ed" class="" dir="auto">SCSS</h3><pre id="3b3f6ce8-497f-806b-b42c-db302cefde22" class="code code-wrap" data-notion-code-syntax="scss"><code class="language-scss" style="white-space:pre-wrap;word-break:break-all">$cor: blue;
+
+.texto-#{$cor}{
+    color: $cor;
+}</code></pre><h3 id="3b3f6ce8-497f-80fa-bcbd-e9b698cffcb9" class="" dir="auto">CSS gerado</h3><pre id="3b3f6ce8-497f-802d-832f-ecb8f49f6c48" class="code code-wrap" data-notion-code-syntax="css"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">.texto-blue{
+    color: blue;
+}</code></pre><p id="3b3f6ce8-497f-8027-ad41-d0ab4719f29a" class="" dir="auto">Observe que o valor da variável foi utilizado tanto no nome da classe quanto no valor da propriedade.</p><hr id="3b3f6ce8-497f-80d9-aac1-cb07051f2ad6" dir="auto"/><h1 id="3b3f6ce8-497f-8080-bf17-eb15e2e86fed" class="" dir="auto">Sintaxe</h1><p id="3b3f6ce8-497f-8035-bb8c-fd2ecabe7caa" class="" dir="auto">A sintaxe geral é:</p><pre id="3b3f6ce8-497f-806b-9303-cf99f29c2fb9" class="code code-wrap" data-notion-code-syntax="scss"><code class="language-scss" style="white-space:pre-wrap;word-break:break-all">#{$variavel}</code></pre><p id="3b3f6ce8-497f-8038-bfbc-d132bad604b5" class="" dir="auto">ou</p><pre id="3b3f6ce8-497f-8082-a029-cc326c8d24a0" class="code code-wrap" data-notion-code-syntax="scss"><code class="language-scss" style="white-space:pre-wrap;word-break:break-all">#{expressão}</code></pre><p id="3b3f6ce8-497f-8028-9ced-c1d5b3d9b329" class="" dir="auto">Exemplo:</p><pre id="3b3f6ce8-497f-803c-a359-c285a63d20e4" class="code code-wrap" data-notion-code-syntax="scss"><code class="language-scss" style="white-space:pre-wrap;word-break:break-all">$nome: destaque;
+
+.#{$nome}{
+    color: red;
+}</code></pre><p id="3b3f6ce8-497f-80c1-a596-f355754779d9" class="" dir="auto">Resultado:</p><pre id="3b3f6ce8-497f-8037-a7cb-d3e26cce8b8a" class="code code-wrap" data-notion-code-syntax="css"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">.destaque{
+    color: red;
+}</code></pre><hr id="3b3f6ce8-497f-8042-8b58-fb844fc92ca1" dir="auto"/><h1 id="3b3f6ce8-497f-8084-852c-f9772b932a71" class="" dir="auto">Interpolação em Seletores</h1><p id="3b3f6ce8-497f-801d-a469-d56a5a640cef" class="" dir="auto">Um dos usos mais comuns é criar seletores dinamicamente.</p><h3 id="3b3f6ce8-497f-8030-b9d6-e8761f8e0f3a" class="" dir="auto">Exemplo</h3><pre id="3b3f6ce8-497f-8090-924a-f4c00b8ff1d6" class="code code-wrap" data-notion-code-syntax="scss"><code class="language-scss" style="white-space:pre-wrap;word-break:break-all">$classe: menu;
+
+.#{$classe}{
+    background: black;
+}</code></pre><p id="3b3f6ce8-497f-8003-a277-cca35ff74983" class="" dir="auto">Resultado:</p><pre id="3b3f6ce8-497f-8050-b724-d8130ab2fae8" class="code code-wrap" data-notion-code-syntax="css"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">.menu{
+    background: black;
+}</code></pre><hr id="3b3f6ce8-497f-80dd-9385-cb7992db314a" dir="auto"/><h1 id="3b3f6ce8-497f-80e5-bfbc-c5018064d8ea" class="" dir="auto">Interpolação em IDs</h1><p id="3b3f6ce8-497f-8076-be24-f40aed5a056d" class="" dir="auto">Também funciona com IDs.</p><pre id="3b3f6ce8-497f-8035-8f21-c861e0cad06f" class="code code-wrap" data-notion-code-syntax="scss"><code class="language-scss" style="white-space:pre-wrap;word-break:break-all">$id: principal;
+
+##{$id}{
+    width: 100%;
+}</code></pre><p id="3b3f6ce8-497f-8050-bce1-e63049692d72" class="" dir="auto">Resultado:</p><pre id="3b3f6ce8-497f-80a1-ab9a-dc30bd7cd0ed" class="code code-wrap" data-notion-code-syntax="css"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">#principal{
+    width: 100%;
+}</code></pre><hr id="3b3f6ce8-497f-809b-bfc6-c842d7b0cd07" dir="auto"/><h1 id="3b3f6ce8-497f-8012-af5a-f9ba04e4598e" class="" dir="auto">Interpolação em nomes de classes</h1><pre id="3b3f6ce8-497f-8035-89d2-e75c68dfb2ea" class="code code-wrap" data-notion-code-syntax="scss"><code class="language-scss" style="white-space:pre-wrap;word-break:break-all">$tipo: sucesso;
+
+.alerta-#{$tipo}{
+    background: green;
+}</code></pre><p id="3b3f6ce8-497f-80e5-9ccc-d6d7d0697caa" class="" dir="auto">Resultado:</p><pre id="3b3f6ce8-497f-8033-986f-d84b57ca24f4" class="code code-wrap" data-notion-code-syntax="css"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">.alerta-sucesso{
+    background: green;
+}</code></pre><p id="3b3f6ce8-497f-806a-995e-f7d8e339de0c" class="" dir="auto">Outro exemplo:</p><pre id="3b3f6ce8-497f-809c-ab64-fa8bb8b3b285" class="code code-wrap" data-notion-code-syntax="scss"><code class="language-scss" style="white-space:pre-wrap;word-break:break-all">$tamanho: grande;
+
+.botao-#{$tamanho}{
+    padding: 20px;
+}</code></pre><p id="3b3f6ce8-497f-80c4-9675-fdb249e8f664" class="" dir="auto">Resultado:</p><pre id="3b3f6ce8-497f-8056-97d0-e8863af51081" class="code code-wrap" data-notion-code-syntax="css"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">.botao-grande{
+    padding: 20px;
+}</code></pre><hr id="3b3f6ce8-497f-808d-b5f8-f4bc16f5ab45" dir="auto"/><h1 id="3b3f6ce8-497f-8018-a843-fbff6d6076c6" class="" dir="auto">Interpolação em propriedades</h1><p id="3b3f6ce8-497f-809e-b4cc-eb198cff3924" class="" dir="auto">Além de seletores, a interpolação pode ser utilizada para criar nomes de propriedades.</p><h3 id="3b3f6ce8-497f-8083-9492-f6aefbd741be" class="" dir="auto">Exemplo</h3><pre id="3b3f6ce8-497f-80b7-9bfd-d2da983c272d" class="code code-wrap" data-notion-code-syntax="scss"><code class="language-scss" style="white-space:pre-wrap;word-break:break-all">$lado: left;
+
+.box{
+    margin-#{$lado}: 20px;
+}</code></pre><p id="3b3f6ce8-497f-80ae-9d8d-f0be9eb5c6a4" class="" dir="auto">Resultado:</p><pre id="3b3f6ce8-497f-80b9-b8b3-f7c92a5cd654" class="code code-wrap" data-notion-code-syntax="css"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">.box{
+    margin-left: 20px;
+}</code></pre><p id="3b3f6ce8-497f-8065-82e0-cddbf5d64151" class="" dir="auto">Outro exemplo:</p><pre id="3b3f6ce8-497f-809e-aec0-e03992c3ad6b" class="code code-wrap" data-notion-code-syntax="scss"><code class="language-scss" style="white-space:pre-wrap;word-break:break-all">$direcao: top;
+
+.card{
+    border-#{$direcao}: 2px solid black;
+}</code></pre><p id="3b3f6ce8-497f-8074-bbc0-dd7a0cf399fe" class="" dir="auto">Resultado:</p><pre id="3b3f6ce8-497f-80a3-b224-e0e1c8c5cc05" class="code code-wrap" data-notion-code-syntax="css"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">.card{
+    border-top: 2px solid black;
+}</code></pre><hr id="3b3f6ce8-497f-8093-a6c9-eb5b6350ba25" dir="auto"/><h1 id="3b3f6ce8-497f-80ce-a76c-dfe93a4fcba9" class="" dir="auto">Interpolação em valores</h1><p id="3b3f6ce8-497f-8065-b3dd-fedbb66e264a" class="" dir="auto">Também pode ser utilizada em valores.</p><pre id="3b3f6ce8-497f-806c-852e-e840c44aedd1" class="code code-wrap" data-notion-code-syntax="scss"><code class="language-scss" style="white-space:pre-wrap;word-break:break-all">$imagem: &quot;banner.jpg&quot;;
+
+header{
+    background-image: url(&quot;img/#{$imagem}&quot;);
+}</code></pre><p id="3b3f6ce8-497f-8025-8394-decc35bc1c1c" class="" dir="auto">Resultado:</p><pre id="3b3f6ce8-497f-801b-967e-e222639abf74" class="code code-wrap" data-notion-code-syntax="css"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">header{
+    background-image: url(&quot;img/banner.jpg&quot;);
+}</code></pre><hr id="3b3f6ce8-497f-804c-a42f-fe08dcf76faa" dir="auto"/><h1 id="3b3f6ce8-497f-8018-b2e8-e150557fb7cf" class="" dir="auto">Interpolação com Strings</h1><p id="3b3f6ce8-497f-80c5-a532-d2ddf5b60e90" class="" dir="auto">É possível concatenar textos.</p><pre id="3b3f6ce8-497f-80ba-9a25-c19388d84932" class="code code-wrap" data-notion-code-syntax="scss"><code class="language-scss" style="white-space:pre-wrap;word-break:break-all">$tema: dark;
+
+body{
+
+    background-image: url(&quot;images/#{$tema}/background.png&quot;);
+
+}</code></pre><p id="3b3f6ce8-497f-800a-a55e-e9eb3cd7e136" class="" dir="auto">Resultado:</p><pre id="3b3f6ce8-497f-80cc-b79f-ed2fc977b1ba" class="code code-wrap" data-notion-code-syntax="css"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">body{
+
+    background-image: url(&quot;images/dark/background.png&quot;);
+
+}</code></pre><hr id="3b3f6ce8-497f-80b9-aede-fc326690fc45" dir="auto"/><h1 id="3b3f6ce8-497f-80c3-9871-e73fa1183007" class="" dir="auto">Interpolação com números</h1><pre id="3b3f6ce8-497f-8036-9b5c-d204b01e3840" class="code code-wrap" data-notion-code-syntax="scss"><code class="language-scss" style="white-space:pre-wrap;word-break:break-all">$numero: 5;
+
+.coluna-#{$numero}{
+    width: 50%;
+}</code></pre><p id="3b3f6ce8-497f-80c5-9603-f28698ac5496" class="" dir="auto">Resultado:</p><pre id="3b3f6ce8-497f-8030-9bed-d4488bdb129c" class="code code-wrap" data-notion-code-syntax="css"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">.coluna-5{
+    width: 50%;
+}</code></pre><hr id="3b3f6ce8-497f-8095-a5bf-ed7d5c08f100" dir="auto"/><h1 id="3b3f6ce8-497f-802c-9b6e-f9f5c10dc6c2" class="" dir="auto">Interpolação em Laços de Repetição</h1><p id="3b3f6ce8-497f-8036-a33c-fccdb30dbd43" class="" dir="auto">A interpolação é muito utilizada junto com estruturas de repetição.</p><h2 id="3b3f6ce8-497f-8009-a7b6-dfdcb97a9541" class="" dir="auto">Exemplo com <code>@for</code></h2><pre id="3b3f6ce8-497f-80c7-9479-f2c34f1dde22" class="code code-wrap" data-notion-code-syntax="scss"><code class="language-scss" style="white-space:pre-wrap;word-break:break-all">@for $i from 1 through 4{
+
+    .col-#{$i}{
+
+        width: 25% * $i;
+
+    }
+
+}</code></pre><p id="3b3f6ce8-497f-804e-956a-c9a134e72a2a" class="" dir="auto">Resultado:</p><pre id="3b3f6ce8-497f-80a7-b60b-f153a6422603" class="code code-wrap" data-notion-code-syntax="css"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">.col-1{
+    width:25%;
+}
+
+.col-2{
+    width:50%;
+}
+
+.col-3{
+    width:75%;
+}
+
+.col-4{
+    width:100%;
+}</code></pre><p id="3b3f6ce8-497f-80c9-8b97-f42aac679aed" class="" dir="auto">Esse recurso é bastante utilizado em sistemas de grids.</p><hr id="3b3f6ce8-497f-8020-8b55-d2453ecfd952" dir="auto"/><h1 id="3b3f6ce8-497f-80e2-b3cc-e0d5f7a9e37f" class="" dir="auto">Interpolação com <code>@each</code></h1><pre id="3b3f6ce8-497f-8020-8be0-fa7c7217233b" class="code code-wrap" data-notion-code-syntax="scss"><code class="language-scss" style="white-space:pre-wrap;word-break:break-all">$cores: red, blue, green;
+
+@each $cor in $cores{
+
+    .texto-#{$cor}{
+
+        color:$cor;
+
+    }
+
+}</code></pre><p id="3b3f6ce8-497f-80d4-a593-e64947563fb1" class="" dir="auto">Resultado:</p><pre id="3b3f6ce8-497f-8086-808d-cc67454c7a71" class="code code-wrap" data-notion-code-syntax="css"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">.texto-red{
+    color:red;
+}
+
+.texto-blue{
+    color:blue;
+}
+
+.texto-green{
+    color:green;
+}</code></pre><hr id="3b3f6ce8-497f-8090-8f7a-da139d79e33b" dir="auto"/><h1 id="3b3f6ce8-497f-8097-8bc5-d63e2ac99c81" class="" dir="auto">Interpolação com Mapas</h1><p id="3b3f6ce8-497f-80db-bafa-e3230a491447" class="" dir="auto">A interpolação funciona muito bem com <strong>Maps</strong>.</p><pre id="3b3f6ce8-497f-8088-8c40-e8a7b9f976bc" class="code code-wrap" data-notion-code-syntax="scss"><code class="language-scss" style="white-space:pre-wrap;word-break:break-all">$cores:(
+    sucesso:green,
+    erro:red,
+    aviso:orange
+);
+
+@each $nome,$valor in $cores{
+
+    .#{$nome}{
+
+        background:$valor;
+
+    }
+
+}</code></pre><p id="3b3f6ce8-497f-8036-a252-f3dba524415c" class="" dir="auto">Resultado:</p><pre id="3b3f6ce8-497f-80b9-add3-fb1a75d7a9db" class="code code-wrap" data-notion-code-syntax="css"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">.sucesso{
+    background:green;
+}
+
+.erro{
+    background:red;
+}
+
+.aviso{
+    background:orange;
+}</code></pre><hr id="3b3f6ce8-497f-801c-86ab-e72f471bbaa0" dir="auto"/><h1 id="3b3f6ce8-497f-801e-964e-edac41ddfd94" class="" dir="auto">Interpolação em Mixins</h1><p id="3b3f6ce8-497f-8010-9425-c0c3d3f8134b" class="" dir="auto">Também pode ser utilizada dentro de mixins.</p><pre id="3b3f6ce8-497f-804c-b022-ff464107945f" class="code code-wrap" data-notion-code-syntax="scss"><code class="language-scss" style="white-space:pre-wrap;word-break:break-all">@mixin margem($lado){
+
+    margin-#{$lado}:20px;
+
+}
+
+.box{
+
+    @include margem(left);
+
+}</code></pre><p id="3b3f6ce8-497f-80c9-b242-cf6982559136" class="" dir="auto">Resultado:</p><pre id="3b3f6ce8-497f-80b6-b68d-f46b2394874b" class="code code-wrap" data-notion-code-syntax="css"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">.box{
+
+    margin-left:20px;
+
+}</code></pre><p id="3b3f6ce8-497f-805a-ad44-f4de20462c9a" class="" dir="auto">Outro exemplo:</p><pre id="3b3f6ce8-497f-808c-9055-fafb5062048b" class="code code-wrap" data-notion-code-syntax="scss"><code class="language-scss" style="white-space:pre-wrap;word-break:break-all">@mixin borda($lado){
+
+    border-#{$lado}:2px solid black;
+
+}
+
+.card{
+
+    @include borda(bottom);
+
+}</code></pre><p id="3b3f6ce8-497f-807d-98a6-fdae78a85842" class="" dir="auto">Resultado:</p><pre id="3b3f6ce8-497f-80d1-87ff-eed7ae2e3efc" class="code code-wrap" data-notion-code-syntax="css"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">.card{
+
+    border-bottom:2px solid black;
+
+}</code></pre><hr id="3b3f6ce8-497f-805f-8c83-ee16dd730824" dir="auto"/><h1 id="3b3f6ce8-497f-809b-8324-e79a50054239" class="" dir="auto">Interpolação com Funções</h1><pre id="3b3f6ce8-497f-80e1-9f3a-fc73fa23427d" class="code code-wrap" data-notion-code-syntax="scss"><code class="language-scss" style="white-space:pre-wrap;word-break:break-all">$cor: red;
+
+.texto{
+
+    color: lighten(#{$cor},20%);
+
+}</code></pre><p id="3b3f6ce8-497f-806b-a218-f7ff535b205d" class="" dir="auto">Embora a interpolação funcione, nesse caso ela é desnecessária. O correto seria:</p><pre id="3b3f6ce8-497f-8058-9a42-d5f16274fe00" class="code code-wrap" data-notion-code-syntax="scss"><code class="language-scss" style="white-space:pre-wrap;word-break:break-all">$cor: red;
+
+.texto{
+
+    color: lighten($cor,20%);
+
+}</code></pre><p id="3b3f6ce8-497f-8005-a755-dad737637a7f" class="" dir="auto"><strong>Importante:</strong> utilize interpolação apenas quando precisar inserir um valor em um contexto onde o SASS espera texto (como nomes de classes, propriedades ou seletores). Para passar variáveis como valores de propriedades ou funções, use diretamente a variável.</p><hr id="3b3f6ce8-497f-80b2-9ce7-edb3cc6e9cff" dir="auto"/><h1 id="3b3f6ce8-497f-80e4-9348-f9abf2b3b9ba" class="" dir="auto">Interpolação com o operador <code>&amp;</code></h1><p id="3b3f6ce8-497f-8007-929b-de686e82e834" class="" dir="auto">A interpolação também pode ser combinada com o seletor pai (<code>&amp;</code>).</p><pre id="3b3f6ce8-497f-8042-abfb-ea2dcf3f782b" class="code code-wrap" data-notion-code-syntax="scss"><code class="language-scss" style="white-space:pre-wrap;word-break:break-all">$estado: ativo;
+
+.botao{
+
+    &amp;-#{$estado}{
+
+        background:green;
+
+    }
+
+}</code></pre><p id="3b3f6ce8-497f-80b8-9c2c-f5ecab3af0ab" class="" dir="auto">Resultado:</p><pre id="3b3f6ce8-497f-802d-8a78-c051a84413ef" class="code code-wrap" data-notion-code-syntax="css"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">.botao-ativo{
+
+    background:green;
+
+}</code></pre><p id="3b3f6ce8-497f-8006-bc89-d6860066c32b" class="" dir="auto">Esse padrão é muito utilizado na metodologia <strong>BEM (Block Element Modifier)</strong>.</p><hr id="3b3f6ce8-497f-8000-bc28-c4e426203e01" dir="auto"/><h1 id="3b3f6ce8-497f-80db-b266-d36164521bae" class="" dir="auto">Casos práticos</h1><h2 id="3b3f6ce8-497f-809a-ae23-fb104db485d2" class="" dir="auto">Sistema de botões</h2><pre id="3b3f6ce8-497f-80a4-badf-fa344e026d5d" class="code code-wrap" data-notion-code-syntax="scss"><code class="language-scss" style="white-space:pre-wrap;word-break:break-all">$cores:(
+    primary:blue,
+    success:green,
+    danger:red
+);
+
+@each $nome,$cor in $cores{
+
+    .btn-#{$nome}{
+
+        background:$cor;
+        color:white;
+
+    }
+
+}</code></pre><p id="3b3f6ce8-497f-80b1-ad11-c535405e1b85" class="" dir="auto">Resultado:</p><pre id="3b3f6ce8-497f-80a6-9c76-c314161f9ceb" class="code code-wrap" data-notion-code-syntax="css"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">.btn-primary{
+    background:blue;
+    color:white;
+}
+
+.btn-success{
+    background:green;
+    color:white;
+}
+
+.btn-danger{
+    background:red;
+    color:white;
+}</code></pre><hr id="3b3f6ce8-497f-8030-aa28-e05463b0ee64" dir="auto"/><h2 id="3b3f6ce8-497f-8025-af1c-dab0efe300c6" class="" dir="auto">Sistema de margens</h2><pre id="3b3f6ce8-497f-8014-a0e4-f3c44cddc409" class="code code-wrap" data-notion-code-syntax="scss"><code class="language-scss" style="white-space:pre-wrap;word-break:break-all">@for $i from 1 through 5{
+
+    .m-#{$i}{
+
+        margin:$i * 10px;
+
+    }
+
+}</code></pre><p id="3b3f6ce8-497f-8017-a391-effe62cbac54" class="" dir="auto">Resultado:</p><pre id="3b3f6ce8-497f-8069-998b-d9867bbbde24" class="code code-wrap" data-notion-code-syntax="css"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">.m-1{margin:10px;}
+.m-2{margin:20px;}
+.m-3{margin:30px;}
+.m-4{margin:40px;}
+.m-5{margin:50px;}</code></pre><hr id="3b3f6ce8-497f-80a0-aca6-ef8bdc644a6b" dir="auto"/><h1 id="3b3f6ce8-497f-80ea-8bf1-cf9fa34bd4be" class="" dir="auto">Boas práticas</h1><ul id="3b3f6ce8-497f-8087-8a4d-e899beb807c1" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Utilize a interpolação apenas quando realmente precisar construir nomes dinamicamente.</li></ul><ul id="3b3f6ce8-497f-8021-ada0-cb64466ee5ce" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Prefira nomes de variáveis descritivos.</li></ul><ul id="3b3f6ce8-497f-80ec-9fc6-dc5a97c00fef" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Combine a interpolação com <code>@for</code>, <code>@each</code> e <code>@while</code> para gerar código repetitivo automaticamente.</li></ul><ul id="3b3f6ce8-497f-8074-bbe5-d3050b9c3280" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Evite interpolação desnecessária em valores simples.</li></ul><ul id="3b3f6ce8-497f-8028-8509-ef1ba034ac0c" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Organize as variáveis em arquivos específicos (<code>_variables.scss</code>) para facilitar a reutilização.</li></ul><hr id="3b3f6ce8-497f-8093-91f1-ebc88e47c3f1" dir="auto"/><h1 id="3b3f6ce8-497f-8099-b706-e9b22fa89c60" class="" dir="auto">Vantagens</h1><ul id="3b3f6ce8-497f-80f3-8894-eb538fa2c4e7" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Reduz a repetição de código.</li></ul><ul id="3b3f6ce8-497f-801e-886c-dba1025b909c" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Automatiza a criação de seletores.</li></ul><ul id="3b3f6ce8-497f-8024-b025-f50f76b03115" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Permite gerar classes e IDs dinamicamente.</li></ul><ul id="3b3f6ce8-497f-8084-a5d0-de557940c9c2" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Facilita a criação de sistemas de componentes.</li></ul><ul id="3b3f6ce8-497f-80ca-81e5-cf48a4f15f3c" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Funciona em conjunto com laços de repetição e mapas.</li></ul><ul id="3b3f6ce8-497f-80f8-b90a-d45bf2c82aef" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Aumenta a flexibilidade do código.</li></ul><ul id="3b3f6ce8-497f-80fd-ba0d-c9b5c56dc3ef" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Torna o SCSS mais reutilizável.</li></ul><hr id="3b3f6ce8-497f-805b-b431-d6311cad79a7" dir="auto"/><h1 id="3b3f6ce8-497f-80f7-a02f-c1ab33493d62" class="" dir="auto">Desvantagens</h1><ul id="3b3f6ce8-497f-801f-b1ce-e4ad6004ad72" class="bulleted-list" dir="auto"><li style="list-style-type:disc">O uso excessivo pode dificultar a leitura do código.</li></ul><ul id="3b3f6ce8-497f-8052-b1f3-cb81765c9a93" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Pode gerar muitas classes automaticamente, aumentando o tamanho do CSS compilado.</li></ul><ul id="3b3f6ce8-497f-80fb-aba4-c3aa25c8662e" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Utilizada de forma inadequada, pode tornar o código mais complexo do que o necessário.</li></ul><hr id="3b3f6ce8-497f-8021-82e7-c23b651a2d32" dir="auto"/><h1 id="3b3f6ce8-497f-803d-ac7c-d5d83a3a4995" class="" dir="auto">Casos de uso</h1><p id="3b3f6ce8-497f-80fa-80b9-ef2c25635b55" class="" dir="auto">A interpolação é muito utilizada em:</p><ul id="3b3f6ce8-497f-8058-bc42-ca60e34269bf" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Sistemas de grids.</li></ul><ul id="3b3f6ce8-497f-807c-8498-c9f80989b48d" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Frameworks CSS.</li></ul><ul id="3b3f6ce8-497f-8074-8b8e-fbd10b3ba3a9" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Design Systems.</li></ul><ul id="3b3f6ce8-497f-80f1-9e82-ce6972fa1a04" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Componentes reutilizáveis.</li></ul><ul id="3b3f6ce8-497f-801e-8312-d17064a1b202" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Geração automática de classes utilitárias.</li></ul><ul id="3b3f6ce8-497f-805b-b3f8-d77da3c1ae50" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Sistemas de temas.</li></ul><ul id="3b3f6ce8-497f-8028-b355-efb47331da2a" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Metodologia BEM.</li></ul><ul id="3b3f6ce8-497f-8079-bf4a-dcfca591ed0f" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Mixins reutilizáveis.</li></ul><ul id="3b3f6ce8-497f-8084-81ac-c5b3ffc476f1" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Projetos com grande quantidade de componentes.</li></ul><hr id="3b3f6ce8-497f-8062-bc1b-d4cce529080e" dir="auto"/><h1 id="3b3f6ce8-497f-80e6-9f90-eb50b5232859" class="" dir="auto">Interpolação x Concatenação</h1><table id="3b3f6ce8-497f-8053-a40d-c28c35f5ff81" class="simple-table" dir="ltr"><thead class="simple-table-header"><tr id="3b3f6ce8-497f-8084-8368-d4554f33420f" dir="ltr"><th id="LfNg" class="simple-table-header-color simple-table-header">Interpolação</th><th id="lBWW" class="simple-table-header-color simple-table-header">Concatenação tradicional</th></tr></thead><tbody><tr id="3b3f6ce8-497f-8047-8598-d99e49d25711" dir="ltr"><td id="LfNg" class="">Recurso nativo do SASS</td><td id="lBWW" class="">Não existe como recurso específico no CSS</td></tr><tr id="3b3f6ce8-497f-8061-875c-fee2aa4d591a" dir="ltr"><td id="LfNg" class="">Utiliza <code>#{}</code></td><td id="lBWW" class="">Baseia-se apenas em textos literais</td></tr><tr id="3b3f6ce8-497f-8066-af73-c5959243c264" dir="ltr"><td id="LfNg" class="">Cria nomes de classes e propriedades dinamicamente</td><td id="lBWW" class="">Não permite montar seletores dinamicamente</td></tr><tr id="3b3f6ce8-497f-8054-a9ed-d7fd2aeb2b2b" dir="ltr"><td id="LfNg" class="">Muito utilizada com variáveis e laços</td><td id="lBWW" class="">Possui aplicações limitadas</td></tr></tbody></table><hr id="3b3f6ce8-497f-8019-900d-c5e5ebde16e9" dir="auto"/><h1 id="3b3f6ce8-497f-8069-80f6-c9280d42c71e" class="" dir="auto">Resumo</h1><p id="3b3f6ce8-497f-80ea-a00d-e62bd770579d" class="" dir="auto">A <strong>Interpolação</strong> é um recurso do SASS que utiliza a sintaxe <code><strong>#{}</strong></code> para inserir dinamicamente o valor de variáveis ou expressões em seletores, nomes de classes, IDs, propriedades, valores e strings. Ela é especialmente útil para automatizar a geração de código, reduzindo repetições e aumentando a flexibilidade dos estilos. Em conjunto com recursos como <strong>laços de repetição (</strong><code><strong>@for</strong></code><strong>, </strong><code><strong>@each</strong></code><strong>), mapas (</strong><code><strong>Maps</strong></code><strong>), mixins e o operador </strong><code><strong>&amp;</strong></code>, a interpolação permite criar componentes reutilizáveis, sistemas de grids, classes utilitárias e estruturas escaláveis, sendo um recurso essencial para projetos modernos desenvolvidos com SASS.</p></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

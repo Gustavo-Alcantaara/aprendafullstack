@@ -1,0 +1,1103 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Mixin</title><meta name="data-notion-page-icon" content="/icons/emoji-heart-eyes_pink.svg"/><link rel="icon" href="https://app.notion.com/icons/emoji-heart-eyes_pink.svg"/><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+/* For default-background callouts, render the border outline. */
+.callout.block-color-default_background {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+/*
+ * Toggles and callouts hold arbitrary content, so they can easily be taller
+ * than a page. They must stay breakable: avoiding breaks inside them makes
+ * Chromium push the whole block onto the next page, which leaves the previous
+ * page mostly empty before every long toggle.
+ */
+details,
+aside {
+	margin: 1.25em 0;
+}
+
+/* Keep a toggle's title on the same page as the start of its content. */
+summary {
+	page-break-after: avoid;
+	break-after: avoid;
+}
+
+/*
+ * Toggle headings render as <h1/h2/h3 style="display:inline-block"> inside
+ * <summary>. Without this reset, the heading's margin-top pushes it below the
+ * ::marker (▼), so the triangle and the title appear on separate lines.
+ */
+summary h1,
+summary h2,
+summary h3,
+summary h4 {
+	margin-top: 0;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding-inline: 0.125rem;
+	padding-block: 0.375rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+/*
+ * Render emoji icons using a ::before pseudo-element to keep the glyph
+ * out of the DOM textContent traversal. This avoids double-rendering icons
+ * in callouts and page titles.
+ * NOTE(slim/html-export-pseudo-icons): I can't tagref this because it will
+ * flag as a duplicate tag after codegen.
+ */
+.icon[data-emoji]::before {
+	content: attr(data-emoji);
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	margin-right: 0.4em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.tab {
+	margin: 1.25em 0;
+	padding-inline: 1rem;
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style><style>@import url('https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex-swap.min.css')</style></head><body><article id="3b3f6ce8-497f-805b-b3eb-dce1674ac1c1" class="page sans" data-notion-page-icon="/icons/emoji-heart-eyes_pink.svg"><header><div class="page-header-icon undefined"><img class="icon notion-static-icon" src="https://app.notion.com/icons/emoji-heart-eyes_pink.svg"/></div><h1 class="page-title" dir="auto">Mixin</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><h1 id="3b3f6ce8-497f-80a6-bdae-fdc8c93ff91f" class="" dir="auto">Mixins no SASS</h1><h2 id="3b3f6ce8-497f-8003-ac76-d031b4b0a4c2" class="" dir="auto">O que são Mixins?</h2><p id="3b3f6ce8-497f-80e9-b851-dea847aea08d" class="" dir="auto">Os <strong>Mixins</strong> são um dos recursos mais poderosos do SASS. Eles permitem <strong>agrupar um conjunto de propriedades CSS em um bloco reutilizável</strong>, que pode ser inserido em qualquer parte do projeto.</p><p id="3b3f6ce8-497f-8026-9159-c526496c193b" class="" dir="auto">Em outras palavras, um mixin funciona como uma <strong>&quot;receita de estilos&quot;</strong>: você define um conjunto de propriedades uma única vez e o reutiliza sempre que precisar.</p><p id="3b3f6ce8-497f-8032-b861-f60f83bed3ba" class="" dir="auto">Os Mixins ajudam a eliminar a repetição de código, tornando os estilos mais organizados, reutilizáveis e fáceis de manter.</p><hr id="3b3f6ce8-497f-80de-9215-d41edab36c45" dir="auto"/><h1 id="3b3f6ce8-497f-80cc-bc5c-eef3cbccef60" class="" dir="auto">Objetivos dos Mixins</h1><p id="3b3f6ce8-497f-8079-af58-e74382bcdb5e" class="" dir="auto">Os Mixins são utilizados para:</p><ul id="3b3f6ce8-497f-8011-8e6e-e999c9b89132" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Reutilizar blocos de estilos.</li></ul><ul id="3b3f6ce8-497f-80df-afc2-fb82f1e81c02" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Evitar repetição de código.</li></ul><ul id="3b3f6ce8-497f-80b0-b1b0-ed82b64ad22e" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Facilitar manutenção.</li></ul><ul id="3b3f6ce8-497f-8067-8fef-d79bb03e5d3d" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Criar componentes reutilizáveis.</li></ul><ul id="3b3f6ce8-497f-8097-ad65-c4e4a5bc04ad" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Automatizar estilos.</li></ul><ul id="3b3f6ce8-497f-8019-b4c0-d615c65257f0" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Receber parâmetros para personalização.</li></ul><ul id="3b3f6ce8-497f-805d-8000-e530b863ab03" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Melhorar a organização do projeto.</li></ul><hr id="3b3f6ce8-497f-80dc-9729-ece85cbc7a23" dir="auto"/><h1 id="3b3f6ce8-497f-805c-8f6b-cd6ecf867fe4" class="" dir="auto">Como funcionam?</h1><p id="3b3f6ce8-497f-805f-92e1-f909e4f2b9ca" class="" dir="auto">O funcionamento de um Mixin ocorre em três etapas:</p><ol type="1" id="3b3f6ce8-497f-80bb-8f75-ffb99288fa16" class="numbered-list" start="1" dir="auto"><li>O Mixin é criado utilizando <code>@mixin</code>.</li></ol><ol type="1" id="3b3f6ce8-497f-80f3-b7e0-f4e38fb2407e" class="numbered-list" start="2" dir="auto"><li>Sempre que necessário, ele é chamado utilizando <code>@include</code>.</li></ol><ol type="1" id="3b3f6ce8-497f-80f4-b34a-c34fe4867583" class="numbered-list" start="3" dir="auto"><li>Durante a compilação, o SASS substitui a chamada pelo conjunto de propriedades definido no Mixin.</li></ol><p id="3b3f6ce8-497f-8045-b63e-c4773a8190b1" class="" dir="auto">Fluxo:</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="3b3f6ce8-497f-8054-8c36-e0d4e1783758" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Cria o Mixin
+      ↓
+Chama com @include
+      ↓
+SASS copia os estilos
+      ↓
+CSS gerado</code></pre><hr id="3b3f6ce8-497f-80e2-9f44-e360a64173e2" dir="auto"/><h1 id="3b3f6ce8-497f-80d9-95c9-ce212b7e0242" class="" dir="auto">Sintaxe</h1><p id="3b3f6ce8-497f-80b6-bee7-c97d0af2116b" class="" dir="auto">A estrutura básica é:</p><pre id="3b3f6ce8-497f-8072-8f42-e2c06435e7b7" class="code code-wrap" data-notion-code-syntax="scss"><code class="language-scss" style="white-space:pre-wrap;word-break:break-all">@mixin nome{
+
+}</code></pre><p id="3b3f6ce8-497f-80e1-a617-ee11fbb58d95" class="" dir="auto">Para utilizá-lo:</p><pre id="3b3f6ce8-497f-8056-b13e-cedfc360d6b8" class="code code-wrap" data-notion-code-syntax="scss"><code class="language-scss" style="white-space:pre-wrap;word-break:break-all">@include nome;</code></pre><hr id="3b3f6ce8-497f-80ed-9365-f14c7b9000d5" dir="auto"/><h1 id="3b3f6ce8-497f-8041-b021-ec0c98ca9e98" class="" dir="auto">Primeiro exemplo</h1><h3 id="3b3f6ce8-497f-80db-b1f3-d68ba5d7a848" class="" dir="auto">SCSS</h3><pre id="3b3f6ce8-497f-807b-9af2-d014a4dd9653" class="code code-wrap" data-notion-code-syntax="scss"><code class="language-scss" style="white-space:pre-wrap;word-break:break-all">@mixin botao{
+
+    padding:10px;
+    background:blue;
+    color:white;
+    border:none;
+    border-radius:5px;
+
+}
+
+button{
+
+    @include botao;
+
+}</code></pre><h3 id="3b3f6ce8-497f-80d9-9887-d21b93522b2c" class="" dir="auto">CSS gerado</h3><pre id="3b3f6ce8-497f-80d1-962d-dec6bda7bf59" class="code code-wrap" data-notion-code-syntax="css"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">button{
+
+    padding:10px;
+    background:blue;
+    color:white;
+    border:none;
+    border-radius:5px;
+
+}</code></pre><p id="3b3f6ce8-497f-807e-8e4e-ed742ec5c4d9" class="" dir="auto">Todo o conteúdo do mixin foi inserido dentro do seletor <code>button</code>.</p><hr id="3b3f6ce8-497f-80bf-8795-eba8877abd68" dir="auto"/><h1 id="3b3f6ce8-497f-80ca-b97f-d73d008d7609" class="" dir="auto">Reutilizando um Mixin</h1><p id="3b3f6ce8-497f-8066-8325-f4d77b1fba5c" class="" dir="auto">O mesmo mixin pode ser utilizado em vários elementos.</p><pre id="3b3f6ce8-497f-8010-a752-f00ef71f23cb" class="code code-wrap" data-notion-code-syntax="scss"><code class="language-scss" style="white-space:pre-wrap;word-break:break-all">@mixin sombra{
+
+    box-shadow:0 0 10px rgba(0,0,0,.3);
+
+}
+
+.card{
+
+    @include sombra;
+
+}
+
+.modal{
+
+    @include sombra;
+
+}</code></pre><p id="3b3f6ce8-497f-80c2-b301-e8e6a668b41e" class="" dir="auto">Resultado:</p><pre id="3b3f6ce8-497f-8065-9022-d23184bdb675" class="code code-wrap" data-notion-code-syntax="css"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">.card{
+
+    box-shadow:0 0 10px rgba(0,0,0,.3);
+
+}
+
+.modal{
+
+    box-shadow:0 0 10px rgba(0,0,0,.3);
+
+}</code></pre><hr id="3b3f6ce8-497f-8059-b76c-e6e3dcd88298" dir="auto"/><h1 id="3b3f6ce8-497f-80f1-a403-d6bbc7bf80da" class="" dir="auto">Mixins com parâmetros</h1><p id="3b3f6ce8-497f-8077-ba38-de4d2ae9fcc0" class="" dir="auto">Assim como funções, os Mixins podem receber parâmetros.</p><pre id="3b3f6ce8-497f-805d-9cb5-c03abb8e50d4" class="code code-wrap" data-notion-code-syntax="scss"><code class="language-scss" style="white-space:pre-wrap;word-break:break-all">@mixin tamanho($largura,$altura){
+
+    width:$largura;
+    height:$altura;
+
+}</code></pre><p id="3b3f6ce8-497f-80a7-b21f-e9e1cd6d1393" class="" dir="auto">Uso:</p><pre id="3b3f6ce8-497f-804d-aa0f-d514c8f9db6c" class="code code-wrap" data-notion-code-syntax="scss"><code class="language-scss" style="white-space:pre-wrap;word-break:break-all">.box{
+
+    @include tamanho(200px,100px);
+
+}</code></pre><p id="3b3f6ce8-497f-8065-99cf-fbd2f7f1a71d" class="" dir="auto">Resultado:</p><pre id="3b3f6ce8-497f-80c8-88d7-f65bb40a8a68" class="code code-wrap" data-notion-code-syntax="css"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">.box{
+
+    width:200px;
+    height:100px;
+
+}</code></pre><hr id="3b3f6ce8-497f-8038-8296-c0d4e4adde1c" dir="auto"/><h1 id="3b3f6ce8-497f-8005-a913-e44602278986" class="" dir="auto">Parâmetros com valores padrão</h1><p id="3b3f6ce8-497f-804a-bebb-df35e76efbb3" class="" dir="auto">Também é possível definir valores padrão.</p><pre id="3b3f6ce8-497f-803a-a61f-fa274b3c5b07" class="code code-wrap" data-notion-code-syntax="scss"><code class="language-scss" style="white-space:pre-wrap;word-break:break-all">@mixin botao($cor:blue){
+
+    background:$cor;
+    color:white;
+
+}</code></pre><p id="3b3f6ce8-497f-803e-bfb5-fccaf876cf4c" class="" dir="auto">Uso:</p><pre id="3b3f6ce8-497f-8072-a116-c48cb1397a73" class="code code-wrap" data-notion-code-syntax="scss"><code class="language-scss" style="white-space:pre-wrap;word-break:break-all">button{
+
+    @include botao;
+
+}</code></pre><p id="3b3f6ce8-497f-8046-a07e-f93597607bf8" class="" dir="auto">Resultado:</p><pre id="3b3f6ce8-497f-801d-b051-d6e91d6aa1be" class="code code-wrap" data-notion-code-syntax="css"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">button{
+
+    background:blue;
+    color:white;
+
+}</code></pre><p id="3b3f6ce8-497f-8080-afa4-d24d7c8ee763" class="" dir="auto">Passando outro valor:</p><pre id="3b3f6ce8-497f-801a-aee8-cdf232bee298" class="code code-wrap" data-notion-code-syntax="scss"><code class="language-scss" style="white-space:pre-wrap;word-break:break-all">button{
+
+    @include botao(red);
+
+}</code></pre><p id="3b3f6ce8-497f-80d7-be1c-e6285b273bb0" class="" dir="auto">Resultado:</p><pre id="3b3f6ce8-497f-80fc-a35a-c1728aeb7c56" class="code code-wrap" data-notion-code-syntax="css"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">button{
+
+    background:red;
+    color:white;
+
+}</code></pre><hr id="3b3f6ce8-497f-8041-9b7f-d599cacd9b09" dir="auto"/><h1 id="3b3f6ce8-497f-80cc-9a3c-fc29e29d458d" class="" dir="auto">Mixins com vários parâmetros</h1><pre id="3b3f6ce8-497f-80de-b03a-c67a5327e687" class="code code-wrap" data-notion-code-syntax="scss"><code class="language-scss" style="white-space:pre-wrap;word-break:break-all">@mixin caixa($largura,$altura,$cor){
+
+    width:$largura;
+    height:$altura;
+    background:$cor;
+
+}</code></pre><p id="3b3f6ce8-497f-8004-b42b-e0eabfe52c6b" class="" dir="auto">Uso:</p><pre id="3b3f6ce8-497f-803b-9f64-e71c4dc85718" class="code code-wrap" data-notion-code-syntax="scss"><code class="language-scss" style="white-space:pre-wrap;word-break:break-all">.card{
+
+    @include caixa(300px,200px,#3498db);
+
+}</code></pre><p id="3b3f6ce8-497f-8062-9fe5-c27cd8045b04" class="" dir="auto">Resultado:</p><pre id="3b3f6ce8-497f-8083-b4d2-cbade3693582" class="code code-wrap" data-notion-code-syntax="css"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">.card{
+
+    width:300px;
+    height:200px;
+    background:#3498db;
+
+}</code></pre><hr id="3b3f6ce8-497f-804f-bb83-d6b1fea1a1c8" dir="auto"/><h1 id="3b3f6ce8-497f-8026-9d4b-e8861792d6b7" class="" dir="auto">Mixins com Condições</h1><p id="3b3f6ce8-497f-806b-a5d9-d7036e8eef09" class="" dir="auto">Os Mixins podem utilizar estruturas condicionais.</p><pre id="3b3f6ce8-497f-807e-95f5-e6b7899d0127" class="code code-wrap" data-notion-code-syntax="scss"><code class="language-scss" style="white-space:pre-wrap;word-break:break-all">@mixin tema($modo){
+
+    @if $modo == claro{
+
+        background:white;
+        color:black;
+
+    }
+
+    @else{
+
+        background:black;
+        color:white;
+
+    }
+
+}</code></pre><p id="3b3f6ce8-497f-8018-a288-f0839c417422" class="" dir="auto">Uso:</p><pre id="3b3f6ce8-497f-80b7-b5ee-edbe94e4825f" class="code code-wrap" data-notion-code-syntax="scss"><code class="language-scss" style="white-space:pre-wrap;word-break:break-all">body{
+
+    @include tema(claro);
+
+}</code></pre><p id="3b3f6ce8-497f-8027-8fc0-d14cdc8b7164" class="" dir="auto">Resultado:</p><pre id="3b3f6ce8-497f-808f-9fdf-f85b053947b4" class="code code-wrap" data-notion-code-syntax="css"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">body{
+
+    background:white;
+    color:black;
+
+}</code></pre><hr id="3b3f6ce8-497f-807d-b1d2-fa1e42517e9a" dir="auto"/><h1 id="3b3f6ce8-497f-807e-9f4c-c4b6e9da663c" class="" dir="auto">Mixins com Laços</h1><p id="3b3f6ce8-497f-80ac-abc5-e240d0c6f3da" class="" dir="auto">Também podem utilizar estruturas de repetição.</p><pre id="3b3f6ce8-497f-805d-8db4-dd8a797a4f27" class="code code-wrap" data-notion-code-syntax="scss"><code class="language-scss" style="white-space:pre-wrap;word-break:break-all">@mixin colunas($quantidade){
+
+    @for $i from 1 through $quantidade{
+
+        .col-#{$i}{
+
+            width:calc(100% / $quantidade * #{$i});
+
+        }
+
+    }
+
+}</code></pre><p id="3b3f6ce8-497f-804a-a9c2-c54aa0576577" class="" dir="auto">Uso:</p><pre id="3b3f6ce8-497f-8067-8c15-cbc89f66b46b" class="code code-wrap" data-notion-code-syntax="scss"><code class="language-scss" style="white-space:pre-wrap;word-break:break-all">@include colunas(4);</code></pre><p id="3b3f6ce8-497f-8023-aaec-c150b47d41e5" class="" dir="auto">Resultado:</p><pre id="3b3f6ce8-497f-80f4-bc56-ffe83b0c4d89" class="code code-wrap" data-notion-code-syntax="css"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">.col-1{
+    width:25%;
+}
+
+.col-2{
+    width:50%;
+}
+
+.col-3{
+    width:75%;
+}
+
+.col-4{
+    width:100%;
+}</code></pre><hr id="3b3f6ce8-497f-80f0-9dc0-eb123d9e9ec5" dir="auto"/><h1 id="3b3f6ce8-497f-80da-8ffe-f99c8f7315ee" class="" dir="auto">Mixins com Interpolação</h1><p id="3b3f6ce8-497f-800c-a76c-d84bdba2d7da" class="" dir="auto">Os Mixins podem gerar classes dinamicamente.</p><pre id="3b3f6ce8-497f-806d-978b-ef413c4db08a" class="code code-wrap" data-notion-code-syntax="scss"><code class="language-scss" style="white-space:pre-wrap;word-break:break-all">@mixin margem($lado,$valor){
+
+    margin-#{$lado}:$valor;
+
+}</code></pre><p id="3b3f6ce8-497f-802b-8caa-d1c8192b7d04" class="" dir="auto">Uso:</p><pre id="3b3f6ce8-497f-80dc-bb64-d6dc7c365bf3" class="code code-wrap" data-notion-code-syntax="scss"><code class="language-scss" style="white-space:pre-wrap;word-break:break-all">.box{
+
+    @include margem(left,20px);
+
+}</code></pre><p id="3b3f6ce8-497f-80cf-845b-dbe0fd11cf0b" class="" dir="auto">Resultado:</p><pre id="3b3f6ce8-497f-8088-8f0a-c947fb276ff3" class="code code-wrap" data-notion-code-syntax="css"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">.box{
+
+    margin-left:20px;
+
+}</code></pre><hr id="3b3f6ce8-497f-80d5-8430-d692fc89b619" dir="auto"/><h1 id="3b3f6ce8-497f-801d-b6fe-e65ecddf01e5" class="" dir="auto">Mixins com Variáveis</h1><pre id="3b3f6ce8-497f-8095-ad78-f4a1deb8d81e" class="code code-wrap" data-notion-code-syntax="scss"><code class="language-scss" style="white-space:pre-wrap;word-break:break-all">$cor-principal:#3498db;
+
+@mixin botao{
+
+    background:$cor-principal;
+    color:white;
+
+}</code></pre><p id="3b3f6ce8-497f-8075-a58a-dc0126049fb0" class="" dir="auto">Uso:</p><pre id="3b3f6ce8-497f-802d-b595-c7647f317183" class="code code-wrap" data-notion-code-syntax="scss"><code class="language-scss" style="white-space:pre-wrap;word-break:break-all">button{
+
+    @include botao;
+
+}</code></pre><p id="3b3f6ce8-497f-8093-8333-d066df9c57f8" class="" dir="auto">Resultado:</p><pre id="3b3f6ce8-497f-80b3-becd-c3668c205e98" class="code code-wrap" data-notion-code-syntax="css"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">button{
+
+    background:#3498db;
+    color:white;
+
+}</code></pre><hr id="3b3f6ce8-497f-808d-a6e8-f475cfb17a39" dir="auto"/><h1 id="3b3f6ce8-497f-805f-9407-f8e99e3b64ef" class="" dir="auto">Mixins reutilizando outros Mixins</h1><p id="3b3f6ce8-497f-8036-b248-cceb3fa58fbb" class="" dir="auto">Um Mixin pode incluir outro.</p><pre id="3b3f6ce8-497f-8079-849e-eeb774c08e14" class="code code-wrap" data-notion-code-syntax="scss"><code class="language-scss" style="white-space:pre-wrap;word-break:break-all">@mixin borda{
+
+    border:1px solid black;
+
+}
+
+@mixin card{
+
+    @include borda;
+
+    padding:20px;
+
+}</code></pre><p id="3b3f6ce8-497f-80d1-9b38-d4edcb7281b9" class="" dir="auto">Uso:</p><pre id="3b3f6ce8-497f-80a7-a73c-e5aa7e2f6559" class="code code-wrap" data-notion-code-syntax="scss"><code class="language-scss" style="white-space:pre-wrap;word-break:break-all">.card{
+
+    @include card;
+
+}</code></pre><p id="3b3f6ce8-497f-8006-8854-c06c8cfb5795" class="" dir="auto">Resultado:</p><pre id="3b3f6ce8-497f-80f2-9d53-d62667c9203d" class="code code-wrap" data-notion-code-syntax="css"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">.card{
+
+    border:1px solid black;
+    padding:20px;
+
+}</code></pre><hr id="3b3f6ce8-497f-8076-b9eb-c4514c1fbe05" dir="auto"/><h1 id="3b3f6ce8-497f-8013-8199-cc1bedf775d5" class="" dir="auto">Mixins e Media Queries</h1><p id="3b3f6ce8-497f-8040-aaba-c08b735cb688" class="" dir="auto">Uma das aplicações mais comuns é criar Media Queries reutilizáveis.</p><pre id="3b3f6ce8-497f-80cf-b399-c1ef1ddfc841" class="code code-wrap" data-notion-code-syntax="scss"><code class="language-scss" style="white-space:pre-wrap;word-break:break-all">@mixin mobile{
+
+    @media(max-width:768px){
+
+        @content;
+
+    }
+
+}</code></pre><p id="3b3f6ce8-497f-806e-9ab8-d2240ac1b610" class="" dir="auto">Uso:</p><pre id="3b3f6ce8-497f-807d-8d26-ce2eeeaacd2f" class="code code-wrap" data-notion-code-syntax="scss"><code class="language-scss" style="white-space:pre-wrap;word-break:break-all">.menu{
+
+    width:300px;
+
+    @include mobile{
+
+        width:100%;
+
+    }
+
+}</code></pre><p id="3b3f6ce8-497f-80d4-8d0b-cc3649adbe11" class="" dir="auto">Resultado:</p><pre id="3b3f6ce8-497f-801a-8345-d39897fc79de" class="code code-wrap" data-notion-code-syntax="css"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">.menu{
+
+    width:300px;
+
+}
+
+@media(max-width:768px){
+
+    .menu{
+
+        width:100%;
+
+    }
+
+}</code></pre><h3 id="3b3f6ce8-497f-80bd-be55-e41137649b3f" class="" dir="auto">O que é <code>@content</code>?</h3><p id="3b3f6ce8-497f-80a4-a74e-c903aa946f80" class="" dir="auto">A diretiva <code><strong>@content</strong></code> permite que o Mixin receba um bloco de código durante sua utilização.</p><p id="3b3f6ce8-497f-80d8-ab51-fb303fba1b92" class="" dir="auto">No exemplo anterior, tudo o que foi escrito dentro de:</p><pre id="3b3f6ce8-497f-80e3-86fa-e141d60a1efa" class="code code-wrap" data-notion-code-syntax="scss"><code class="language-scss" style="white-space:pre-wrap;word-break:break-all">@include mobile{
+
+    width:100%;
+
+}</code></pre><p id="3b3f6ce8-497f-8098-867e-d88503549f9f" class="" dir="auto">foi inserido no lugar de <code>@content</code>, tornando o Mixin extremamente flexível para criar Media Queries e outros blocos reutilizáveis.</p><hr id="3b3f6ce8-497f-80d0-a376-ddbd1bcbbbe3" dir="auto"/><h1 id="3b3f6ce8-497f-80a2-bfcd-f9c62f29771b" class="" dir="auto">Organização dos Mixins</h1><p id="3b3f6ce8-497f-80ae-838f-d137aa6c00ec" class="" dir="auto">Em projetos profissionais, é comum armazenar todos os Mixins em um arquivo específico.</p><pre id="3b3f6ce8-497f-8032-b06d-ff15b83c8ff7" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">scss/
+
+_mixins.scss
+
+_variables.scss
+
+_functions.scss
+
+style.scss</code></pre><p id="3b3f6ce8-497f-80b0-92a5-ce51aaec7366" class="" dir="auto">Depois:</p><pre id="3b3f6ce8-497f-8009-805e-e5da855d2566" class="code code-wrap" data-notion-code-syntax="scss"><code class="language-scss" style="white-space:pre-wrap;word-break:break-all">@use &quot;mixins&quot;;
+
+button{
+
+    @include mixins.botao;
+
+}</code></pre><hr id="3b3f6ce8-497f-8013-9954-f28ee28b289e" dir="auto"/><h1 id="3b3f6ce8-497f-800e-9265-cf993f7c2e9c" class="" dir="auto">Mixins x Funções</h1><p id="3b3f6ce8-497f-8049-a134-e548f95dcefa" class="" dir="auto">Esses dois recursos são frequentemente confundidos.</p><h2 id="3b3f6ce8-497f-80cb-9b77-cf025973066b" class="" dir="auto">Função</h2><p id="3b3f6ce8-497f-803f-a160-f558ce03d9c7" class="" dir="auto">Retorna um valor.</p><pre id="3b3f6ce8-497f-8059-af63-d946aed947e6" class="code code-wrap" data-notion-code-syntax="scss"><code class="language-scss" style="white-space:pre-wrap;word-break:break-all">@function dobro($valor){
+
+    @return $valor*2;
+
+}</code></pre><p id="3b3f6ce8-497f-802c-b9ae-ddeff411703b" class="" dir="auto">Uso:</p><pre id="3b3f6ce8-497f-80bc-b7a9-fcf9c4060fb5" class="code code-wrap" data-notion-code-syntax="scss"><code class="language-scss" style="white-space:pre-wrap;word-break:break-all">width:dobro(100px);</code></pre><hr id="3b3f6ce8-497f-808a-bd65-cc4bfb7b4193" dir="auto"/><h2 id="3b3f6ce8-497f-8098-a24f-ca85030392bd" class="" dir="auto">Mixin</h2><p id="3b3f6ce8-497f-8058-b8ed-c1b85d5eaac2" class="" dir="auto">Retorna um conjunto de propriedades.</p><pre id="3b3f6ce8-497f-809e-8a85-deee2d993eca" class="code code-wrap" data-notion-code-syntax="scss"><code class="language-scss" style="white-space:pre-wrap;word-break:break-all">@mixin botao{
+
+    padding:10px;
+    color:white;
+
+}</code></pre><p id="3b3f6ce8-497f-8062-a169-ee321cce057d" class="" dir="auto">Uso:</p><pre id="3b3f6ce8-497f-80dc-8676-c5ec9fb90d12" class="code code-wrap" data-notion-code-syntax="scss"><code class="language-scss" style="white-space:pre-wrap;word-break:break-all">@include botao;</code></pre><hr id="3b3f6ce8-497f-805a-ae40-dc97e809a61c" dir="auto"/><h1 id="3b3f6ce8-497f-806a-a2ba-c8e278985b35" class="" dir="auto">Diferença entre Mixin e Função</h1><table id="3b3f6ce8-497f-8084-a5dd-d57220f550a8" class="simple-table" dir="ltr"><thead class="simple-table-header"><tr id="3b3f6ce8-497f-801a-b77f-ed195d7798fb" dir="ltr"><th id="IMoO" class="simple-table-header-color simple-table-header">Mixin</th><th id="LI|D" class="simple-table-header-color simple-table-header">Função</th></tr></thead><tbody><tr id="3b3f6ce8-497f-8094-9060-c69991c14990" dir="ltr"><td id="IMoO" class="">Gera propriedades CSS</td><td id="LI|D" class="">Retorna um valor</td></tr><tr id="3b3f6ce8-497f-8011-9ec1-e9046333e579" dir="ltr"><td id="IMoO" class="">Utiliza <code>@include</code></td><td id="LI|D" class="">Utiliza <code>@return</code></td></tr><tr id="3b3f6ce8-497f-8070-bd94-c6f470996d57" dir="ltr"><td id="IMoO" class="">Ideal para componentes</td><td id="LI|D" class="">Ideal para cálculos</td></tr><tr id="3b3f6ce8-497f-806a-8310-f7aee36da684" dir="ltr"><td id="IMoO" class="">Pode conter várias propriedades</td><td id="LI|D" class="">Retorna apenas um resultado</td></tr></tbody></table><hr id="3b3f6ce8-497f-80f0-8af3-edb53d9b2525" dir="auto"/><h1 id="3b3f6ce8-497f-806d-96cd-fd3d5859479f" class="" dir="auto">Casos de uso</h1><p id="3b3f6ce8-497f-8079-86dc-ed0e32ba93fb" class="" dir="auto">Os Mixins são muito utilizados para criar:</p><ul id="3b3f6ce8-497f-808d-8775-db62a4b875c3" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Botões.</li></ul><ul id="3b3f6ce8-497f-8007-bf2a-e7aba46a10a3" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Cards.</li></ul><ul id="3b3f6ce8-497f-808a-bac1-f26b3c3fea0e" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Formulários.</li></ul><ul id="3b3f6ce8-497f-8017-bc7f-cdb289a8881d" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Sombras.</li></ul><ul id="3b3f6ce8-497f-8069-b046-ef50ff6df6c9" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Bordas.</li></ul><ul id="3b3f6ce8-497f-800f-9541-e91ef9fdbea0" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Espaçamentos.</li></ul><ul id="3b3f6ce8-497f-808b-a7e3-c1d05fbd13f4" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Layouts.</li></ul><ul id="3b3f6ce8-497f-80e1-85c5-ecb043c07ea0" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Flexbox.</li></ul><ul id="3b3f6ce8-497f-80a0-b8d9-e676a0cec98a" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Grid.</li></ul><ul id="3b3f6ce8-497f-8098-8c90-eda5d245859a" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Media Queries.</li></ul><ul id="3b3f6ce8-497f-80ba-82c6-da758cfe71a9" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Componentes reutilizáveis.</li></ul><hr id="3b3f6ce8-497f-806b-b233-e114e47f0ea5" dir="auto"/><h1 id="3b3f6ce8-497f-800e-ba11-f072d764a381" class="" dir="auto">Boas práticas</h1><ul id="3b3f6ce8-497f-8067-bbf3-e35677f2451b" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Utilize Mixins apenas quando houver repetição de blocos de estilos.</li></ul><ul id="3b3f6ce8-497f-804f-997b-ce1d0b636763" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Dê nomes claros e descritivos.</li></ul><ul id="3b3f6ce8-497f-8072-87bc-c8f45da805b4" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Utilize parâmetros para tornar os Mixins flexíveis.</li></ul><ul id="3b3f6ce8-497f-8084-9fa1-fad747dafdd7" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Armazene-os em um arquivo como <code>_mixins.scss</code>.</li></ul><ul id="3b3f6ce8-497f-8091-a18d-d58ee4c37ae0" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Evite criar Mixins muito grandes ou com muitas responsabilidades.</li></ul><ul id="3b3f6ce8-497f-80ab-b70b-d0688747b93b" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Prefira funções quando o objetivo for apenas retornar um valor.</li></ul><hr id="3b3f6ce8-497f-80b7-98da-ca8f9d4004ac" dir="auto"/><h1 id="3b3f6ce8-497f-80f1-b298-e2178a811a6c" class="" dir="auto">Vantagens</h1><ul id="3b3f6ce8-497f-8087-b62d-daea66ed80bc" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Redução de repetição de código.</li></ul><ul id="3b3f6ce8-497f-8049-bc44-c0c8ff07e3ae" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Reutilização de estilos.</li></ul><ul id="3b3f6ce8-497f-80f8-ab87-c2c59f913839" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Fácil manutenção.</li></ul><ul id="3b3f6ce8-497f-8074-bd53-c668fa48d478" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Componentes padronizados.</li></ul><ul id="3b3f6ce8-497f-80c4-8a5b-cf3eb8dc799d" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Código mais organizado.</li></ul><ul id="3b3f6ce8-497f-80b6-bd79-d77b70105aaf" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Excelente para Design Systems.</li></ul><ul id="3b3f6ce8-497f-80d5-bc4e-d5e970e0491a" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Grande flexibilidade com parâmetros e <code>@content</code>.</li></ul><hr id="3b3f6ce8-497f-8053-b944-f8c2af843eb0" dir="auto"/><h1 id="3b3f6ce8-497f-80c2-9d4a-d034f0f2f2b6" class="" dir="auto">Desvantagens</h1><ul id="3b3f6ce8-497f-80a2-a247-f44e4d9a6394" class="bulleted-list" dir="auto"><li style="list-style-type:disc">O uso excessivo pode gerar CSS compilado maior, já que o conteúdo é copiado para cada <code>@include</code>.</li></ul><ul id="3b3f6ce8-497f-803d-959c-c561e983f93e" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Mixins muito complexos podem dificultar a leitura do código.</li></ul><ul id="3b3f6ce8-497f-8073-be28-ef576c038247" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Em alguns casos, classes utilitárias podem ser uma alternativa mais eficiente.</li></ul><hr id="3b3f6ce8-497f-80f9-9aa5-de4075285ca4" dir="auto"/><h1 id="3b3f6ce8-497f-80ea-9398-d424e5729158" class="" dir="auto">Exemplo completo</h1><h3 id="3b3f6ce8-497f-8048-ae04-f24603b0f84c" class="" dir="auto">SCSS</h3><pre id="3b3f6ce8-497f-8004-a818-cc6b60d57738" class="code code-wrap" data-notion-code-syntax="scss"><code class="language-scss" style="white-space:pre-wrap;word-break:break-all">@mixin botao($cor,$padding:10px){
+
+    background:$cor;
+    color:white;
+    padding:$padding;
+    border:none;
+    border-radius:5px;
+    cursor:pointer;
+
+}
+
+.btn-primary{
+
+    @include botao(#0d6efd);
+
+}
+
+.btn-success{
+
+    @include botao(#198754,15px);
+
+}</code></pre><h3 id="3b3f6ce8-497f-801f-bc3a-ead6e4d369d9" class="" dir="auto">CSS gerado</h3><pre id="3b3f6ce8-497f-8091-a3ce-cf813554e18a" class="code code-wrap" data-notion-code-syntax="css"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">.btn-primary{
+
+    background:#0d6efd;
+    color:white;
+    padding:10px;
+    border:none;
+    border-radius:5px;
+    cursor:pointer;
+
+}
+
+.btn-success{
+
+    background:#198754;
+    color:white;
+    padding:15px;
+    border:none;
+    border-radius:5px;
+    cursor:pointer;
+
+}</code></pre><hr id="3b3f6ce8-497f-80fd-aef3-c247e5b1f0ca" dir="auto"/><h1 id="3b3f6ce8-497f-80c1-86b9-c314384e2ea4" class="" dir="auto">Resumo</h1><p id="3b3f6ce8-497f-80a8-accd-e6a0ecf30970" class="" dir="auto">Os <strong>Mixins</strong> são um recurso do SASS que permite agrupar e reutilizar conjuntos de propriedades CSS por meio das diretivas <code><strong>@mixin</strong></code> e <code><strong>@include</strong></code>. Eles podem receber parâmetros, utilizar valores padrão, estruturas condicionais, laços de repetição, interpolação e até outros Mixins, tornando o código altamente reutilizável e flexível. Além disso, com a diretiva <code><strong>@content</strong></code>, é possível criar Mixins capazes de receber blocos de código, sendo muito utilizados para Media Queries e componentes personalizados. Em projetos modernos, os Mixins são fundamentais para reduzir a duplicação de código, padronizar estilos e facilitar a manutenção de aplicações desenvolvidas com SASS.</p></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

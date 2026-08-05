@@ -1,0 +1,1093 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Herança</title><meta name="data-notion-page-icon" content="/icons/emoji-heart-eyes_pink.svg"/><link rel="icon" href="https://app.notion.com/icons/emoji-heart-eyes_pink.svg"/><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+/* For default-background callouts, render the border outline. */
+.callout.block-color-default_background {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+/*
+ * Toggles and callouts hold arbitrary content, so they can easily be taller
+ * than a page. They must stay breakable: avoiding breaks inside them makes
+ * Chromium push the whole block onto the next page, which leaves the previous
+ * page mostly empty before every long toggle.
+ */
+details,
+aside {
+	margin: 1.25em 0;
+}
+
+/* Keep a toggle's title on the same page as the start of its content. */
+summary {
+	page-break-after: avoid;
+	break-after: avoid;
+}
+
+/*
+ * Toggle headings render as <h1/h2/h3 style="display:inline-block"> inside
+ * <summary>. Without this reset, the heading's margin-top pushes it below the
+ * ::marker (▼), so the triangle and the title appear on separate lines.
+ */
+summary h1,
+summary h2,
+summary h3,
+summary h4 {
+	margin-top: 0;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding-inline: 0.125rem;
+	padding-block: 0.375rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+/*
+ * Render emoji icons using a ::before pseudo-element to keep the glyph
+ * out of the DOM textContent traversal. This avoids double-rendering icons
+ * in callouts and page titles.
+ * NOTE(slim/html-export-pseudo-icons): I can't tagref this because it will
+ * flag as a duplicate tag after codegen.
+ */
+.icon[data-emoji]::before {
+	content: attr(data-emoji);
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	margin-right: 0.4em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.tab {
+	margin: 1.25em 0;
+	padding-inline: 1rem;
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style><style>@import url('https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex-swap.min.css')</style></head><body><article id="3b3f6ce8-497f-8000-8891-ce706fc546d5" class="page sans" data-notion-page-icon="/icons/emoji-heart-eyes_pink.svg"><header><div class="page-header-icon undefined"><img class="icon notion-static-icon" src="https://app.notion.com/icons/emoji-heart-eyes_pink.svg"/></div><h1 class="page-title" dir="auto">Herança</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><h1 id="3b3f6ce8-497f-80d4-bcd6-e62749326dc4" class="" dir="auto">Herança no SASS</h1><h2 id="3b3f6ce8-497f-80eb-befe-c8b2e967e3df" class="" dir="auto">O que é Herança?</h2><p id="3b3f6ce8-497f-806e-ba85-df9a2ec965e4" class="" dir="auto">A <strong>Herança (Inheritance)</strong> é um recurso do SASS que permite <strong>compartilhar estilos entre diferentes seletores</strong>, evitando a repetição de propriedades CSS.</p><p id="3b3f6ce8-497f-8003-8261-d8fe265b407c" class="" dir="auto">Ela é implementada por meio da diretiva <code><strong>@extend</strong></code>, que faz com que um seletor herde os estilos de outro.</p><p id="3b3f6ce8-497f-8050-b459-ed1e9bed4965" class="" dir="auto">Em vez de copiar todas as propriedades para cada classe, o SASS combina os seletores no CSS compilado, reduzindo a duplicação de código.</p><hr id="3b3f6ce8-497f-8054-89e9-e452e91bddce" dir="auto"/><h1 id="3b3f6ce8-497f-8074-8a58-ee42d9e64c49" class="" dir="auto">Objetivos da Herança</h1><p id="3b3f6ce8-497f-8006-a945-fbed67a11f9a" class="" dir="auto">A herança é utilizada para:</p><ul id="3b3f6ce8-497f-807a-aa9e-e23f1a5d7943" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Reutilizar estilos.</li></ul><ul id="3b3f6ce8-497f-80ee-8772-d89f07524bc8" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Evitar repetição de código.</li></ul><ul id="3b3f6ce8-497f-80c5-9d5a-f30227f0fc89" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Padronizar componentes.</li></ul><ul id="3b3f6ce8-497f-801d-ac0a-c51ce6ce2c7f" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Facilitar manutenção.</li></ul><ul id="3b3f6ce8-497f-80b7-9ac7-d9c3f738d283" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Reduzir o tamanho do CSS gerado.</li></ul><ul id="3b3f6ce8-497f-805e-bc48-ebd221be8952" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Criar componentes relacionados.</li></ul><hr id="3b3f6ce8-497f-8059-907a-d32aec6ae750" dir="auto"/><h1 id="3b3f6ce8-497f-80b0-bb2f-fc6d83b285ad" class="" dir="auto">Como funciona?</h1><p id="3b3f6ce8-497f-80bf-b97d-c9956aeda443" class="" dir="auto">A herança segue um processo simples:</p><ol type="1" id="3b3f6ce8-497f-80eb-9118-ee9c12b764c9" class="numbered-list" start="1" dir="auto"><li>Cria-se um seletor base.</li></ol><ol type="1" id="3b3f6ce8-497f-80b1-8157-df8a6b275823" class="numbered-list" start="2" dir="auto"><li>Outro seletor utiliza <code>@extend</code>.</li></ol><ol type="1" id="3b3f6ce8-497f-803a-a154-e96ec0a2f84c" class="numbered-list" start="3" dir="auto"><li>O SASS une os seletores que compartilham os mesmos estilos.</li></ol><ol type="1" id="3b3f6ce8-497f-80e5-ba90-fd19bca59729" class="numbered-list" start="4" dir="auto"><li>O CSS gerado contém uma única regra para todos os seletores.</li></ol><p id="3b3f6ce8-497f-80e8-9ae8-f53aa6056793" class="" dir="auto">Fluxo:</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="3b3f6ce8-497f-8014-82ca-d7c895c63460" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Classe Base
+      ↓
+@extend
+      ↓
+SASS une os seletores
+      ↓
+CSS otimizado</code></pre><hr id="3b3f6ce8-497f-8028-b673-f0b580037b35" dir="auto"/><h1 id="3b3f6ce8-497f-80af-808e-c46fdc6e1cff" class="" dir="auto">Sintaxe</h1><p id="3b3f6ce8-497f-8076-b898-eae032733bc8" class="" dir="auto">A sintaxe básica é:</p><pre id="3b3f6ce8-497f-8014-a7f9-d8b89bf0b372" class="code code-wrap" data-notion-code-syntax="scss"><code class="language-scss" style="white-space:pre-wrap;word-break:break-all">@extend seletor;</code></pre><p id="3b3f6ce8-497f-80ba-abf7-db18cec75914" class="" dir="auto">Exemplo:</p><pre id="3b3f6ce8-497f-8087-a963-f472cc017337" class="code code-wrap" data-notion-code-syntax="scss"><code class="language-scss" style="white-space:pre-wrap;word-break:break-all">.botao{
+
+    padding:10px;
+    border:none;
+
+}
+
+.btn-primary{
+
+    @extend .botao;
+
+}</code></pre><hr id="3b3f6ce8-497f-8035-868d-e4055c7dec83" dir="auto"/><h1 id="3b3f6ce8-497f-80ec-9e94-e6f428448892" class="" dir="auto">Primeiro exemplo</h1><h3 id="3b3f6ce8-497f-80c4-b288-d299f6ba900f" class="" dir="auto">SCSS</h3><pre id="3b3f6ce8-497f-8042-9ba9-f4d771d31119" class="code code-wrap" data-notion-code-syntax="scss"><code class="language-scss" style="white-space:pre-wrap;word-break:break-all">.botao{
+
+    padding:10px;
+    background:blue;
+    color:white;
+
+}
+
+.btn-sucesso{
+
+    @extend .botao;
+
+}</code></pre><h3 id="3b3f6ce8-497f-80c4-928d-df573c2396df" class="" dir="auto">CSS gerado</h3><pre id="3b3f6ce8-497f-8047-a6ae-e9d282d8c600" class="code code-wrap" data-notion-code-syntax="css"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">.botao, .btn-sucesso{
+
+    padding:10px;
+    background:blue;
+    color:white;
+
+}</code></pre><p id="3b3f6ce8-497f-809e-8f68-c751b0e4c6b9" class="" dir="auto">Observe que o SASS <strong>não copia</strong> as propriedades para <code>.btn-sucesso</code>; ele apenas agrupa os seletores.</p><hr id="3b3f6ce8-497f-804c-9cfe-f1c13d018079" dir="auto"/><h1 id="3b3f6ce8-497f-8080-bc2f-edf3a3d4a575" class="" dir="auto">Adicionando estilos próprios</h1><p id="3b3f6ce8-497f-8036-8f77-d27e5c9c6988" class="" dir="auto">Após utilizar <code>@extend</code>, a nova classe pode possuir propriedades adicionais.</p><h3 id="3b3f6ce8-497f-8020-affd-e588ab2858da" class="" dir="auto">SCSS</h3><pre id="3b3f6ce8-497f-8037-9c93-ee6cc8d2e1ba" class="code code-wrap" data-notion-code-syntax="scss"><code class="language-scss" style="white-space:pre-wrap;word-break:break-all">.botao{
+
+    padding:10px;
+    color:white;
+
+}
+
+.btn-danger{
+
+    @extend .botao;
+
+    background:red;
+
+}</code></pre><h3 id="3b3f6ce8-497f-80fe-a38e-f4b98ff1327a" class="" dir="auto">CSS gerado</h3><pre id="3b3f6ce8-497f-8011-bfd3-cbefd26bbb9b" class="code code-wrap" data-notion-code-syntax="css"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">.botao, .btn-danger{
+
+    padding:10px;
+    color:white;
+
+}
+
+.btn-danger{
+
+    background:red;
+
+}</code></pre><p id="3b3f6ce8-497f-804b-947a-ff3e268ad79b" class="" dir="auto">Assim, <code>.btn-danger</code> herda os estilos do botão base e adiciona sua própria cor de fundo.</p><hr id="3b3f6ce8-497f-809b-bbf1-d30c7b201e54" dir="auto"/><h1 id="3b3f6ce8-497f-80eb-9cac-e561f5f87122" class="" dir="auto">Herança com múltiplas classes</h1><p id="3b3f6ce8-497f-80ed-ad50-f5dd9b07dee6" class="" dir="auto">Várias classes podem herdar da mesma classe base.</p><pre id="3b3f6ce8-497f-804b-b644-f208a515a5a0" class="code code-wrap" data-notion-code-syntax="scss"><code class="language-scss" style="white-space:pre-wrap;word-break:break-all">.botao{
+
+    padding:10px;
+    border-radius:5px;
+
+}
+
+.btn-primary{
+
+    @extend .botao;
+
+}
+
+.btn-success{
+
+    @extend .botao;
+
+}
+
+.btn-danger{
+
+    @extend .botao;
+
+}</code></pre><p id="3b3f6ce8-497f-806c-95e5-fcfc8b5361b3" class="" dir="auto">Resultado:</p><pre id="3b3f6ce8-497f-80d0-b904-d25c968e7b5a" class="code code-wrap" data-notion-code-syntax="css"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">.botao,
+.btn-primary,
+.btn-success,
+.btn-danger{
+
+    padding:10px;
+    border-radius:5px;
+
+}</code></pre><p id="3b3f6ce8-497f-8047-855c-d85196fcff4f" class="" dir="auto">Todos compartilham exatamente o mesmo conjunto de propriedades.</p><hr id="3b3f6ce8-497f-805e-80fe-c4b9ef793367" dir="auto"/><h1 id="3b3f6ce8-497f-800e-8bc7-c44c74337e5f" class="" dir="auto">Placeholders (<code>%</code>)</h1><p id="3b3f6ce8-497f-803e-82be-cfff422ff8a3" class="" dir="auto">Na maioria dos projetos modernos, a herança é utilizada com <strong>Placeholders</strong>.</p><p id="3b3f6ce8-497f-8041-b37d-cbfc941cc535" class="" dir="auto">Um <strong>Placeholder Selector</strong> é um seletor especial que começa com <code>%</code>.</p><p id="3b3f6ce8-497f-8041-b2a1-c499c1d7cab5" class="" dir="auto">Exemplo:</p><pre id="3b3f6ce8-497f-8066-9c4e-dafb4f61fda8" class="code code-wrap" data-notion-code-syntax="scss"><code class="language-scss" style="white-space:pre-wrap;word-break:break-all">%botao{
+
+    padding:10px;
+    border-radius:5px;
+
+}</code></pre><p id="3b3f6ce8-497f-8035-b0a4-dcfdbf59ceb9" class="" dir="auto">Diferentemente de uma classe comum, um placeholder <strong>não aparece no CSS final</strong>, a menos que seja utilizado com <code>@extend</code>.</p><hr id="3b3f6ce8-497f-8000-8475-d60fb7b54d4c" dir="auto"/><h1 id="3b3f6ce8-497f-80d4-9cfa-dff420a19e3d" class="" dir="auto">Utilizando Placeholders</h1><h3 id="3b3f6ce8-497f-80c7-b8f5-ce17ea9d9869" class="" dir="auto">SCSS</h3><pre id="3b3f6ce8-497f-80b0-93f3-d2822a158f07" class="code code-wrap" data-notion-code-syntax="scss"><code class="language-scss" style="white-space:pre-wrap;word-break:break-all">%botao{
+
+    padding:10px;
+    color:white;
+
+}
+
+.btn-primary{
+
+    @extend %botao;
+
+    background:blue;
+
+}
+
+.btn-danger{
+
+    @extend %botao;
+
+    background:red;
+
+}</code></pre><h3 id="3b3f6ce8-497f-802d-8c7e-ee94218fcdb3" class="" dir="auto">CSS gerado</h3><pre id="3b3f6ce8-497f-8054-a01a-fab132f170ef" class="code code-wrap" data-notion-code-syntax="css"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">.btn-primary,
+.btn-danger{
+
+    padding:10px;
+    color:white;
+
+}
+
+.btn-primary{
+
+    background:blue;
+
+}
+
+.btn-danger{
+
+    background:red;
+
+}</code></pre><p id="3b3f6ce8-497f-80c7-8d54-d02c8f21e89f" class="" dir="auto">Perceba que <code>%botao</code> não aparece no CSS compilado.</p><hr id="3b3f6ce8-497f-804a-8b0f-c46fc7df06d1" dir="auto"/><h1 id="3b3f6ce8-497f-80d3-8908-d584ef5ce505" class="" dir="auto">Vantagens dos Placeholders</h1><p id="3b3f6ce8-497f-80de-a66d-ffd2391dcfa7" class="" dir="auto">Os placeholders são recomendados porque:</p><ul id="3b3f6ce8-497f-80a7-bcc3-c200fe6d2fb1" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Não geram classes desnecessárias.</li></ul><ul id="3b3f6ce8-497f-8003-aa9b-f59784d611cd" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Mantêm o CSS mais limpo.</li></ul><ul id="3b3f6ce8-497f-801e-a69b-cdc24162f419" class="bulleted-list" dir="auto"><li style="list-style-type:disc">São destinados exclusivamente ao compartilhamento de estilos.</li></ul><ul id="3b3f6ce8-497f-8022-8f4e-ca827be58da4" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Evitam que uma classe base seja utilizada diretamente no HTML.</li></ul><hr id="3b3f6ce8-497f-802b-b028-d325f8d24731" dir="auto"/><h1 id="3b3f6ce8-497f-809f-8d3f-cb6d4422796f" class="" dir="auto">Herança entre componentes</h1><pre id="3b3f6ce8-497f-80d7-befa-c4c5f633ff08" class="code code-wrap" data-notion-code-syntax="scss"><code class="language-scss" style="white-space:pre-wrap;word-break:break-all">%card{
+
+    padding:20px;
+    border-radius:10px;
+    box-shadow:0 0 10px rgba(0,0,0,.2);
+
+}
+
+.card-produto{
+
+    @extend %card;
+
+}
+
+.card-usuario{
+
+    @extend %card;
+
+}</code></pre><p id="3b3f6ce8-497f-8024-907e-c246b92cfaca" class="" dir="auto">Resultado:</p><pre id="3b3f6ce8-497f-803d-83a2-ebb5fbe2c33a" class="code code-wrap" data-notion-code-syntax="css"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">.card-produto,
+.card-usuario{
+
+    padding:20px;
+    border-radius:10px;
+    box-shadow:0 0 10px rgba(0,0,0,.2);
+
+}</code></pre><hr id="3b3f6ce8-497f-80e8-a0d1-ee339fb0e5a0" dir="auto"/><h1 id="3b3f6ce8-497f-808a-97fe-cf16b0fee932" class="" dir="auto">Herança em seletores aninhados</h1><p id="3b3f6ce8-497f-806d-b1bf-daae6804a0e3" class="" dir="auto">A herança também funciona dentro de estruturas aninhadas.</p><pre id="3b3f6ce8-497f-80b6-a79c-e2a06d41a7dc" class="code code-wrap" data-notion-code-syntax="scss"><code class="language-scss" style="white-space:pre-wrap;word-break:break-all">%texto{
+
+    font-weight:bold;
+
+}
+
+.card{
+
+    h2{
+
+        @extend %texto;
+
+    }
+
+}</code></pre><p id="3b3f6ce8-497f-80be-bed1-f7aa2c58b59c" class="" dir="auto">Resultado:</p><pre id="3b3f6ce8-497f-80b7-83a1-e417cb3a9b91" class="code code-wrap" data-notion-code-syntax="css"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">.card h2{
+
+    font-weight:bold;
+
+}</code></pre><hr id="3b3f6ce8-497f-80d9-9501-c8c370293c5c" dir="auto"/><h1 id="3b3f6ce8-497f-8003-a7bb-d25471d85ce1" class="" dir="auto">Herança com múltiplos <code>@extend</code></h1><p id="3b3f6ce8-497f-8012-8e79-f9ad85fe717b" class="" dir="auto">Uma classe pode herdar de mais de um placeholder.</p><pre id="3b3f6ce8-497f-8031-a6ef-c01e4191cd4c" class="code code-wrap" data-notion-code-syntax="scss"><code class="language-scss" style="white-space:pre-wrap;word-break:break-all">%borda{
+
+    border:1px solid black;
+
+}
+
+%sombra{
+
+    box-shadow:0 0 10px rgba(0,0,0,.3);
+
+}
+
+.card{
+
+    @extend %borda;
+    @extend %sombra;
+
+}</code></pre><p id="3b3f6ce8-497f-80f0-86a6-d074846c75b8" class="" dir="auto">Resultado:</p><pre id="3b3f6ce8-497f-80c7-b9ac-fc170efc70df" class="code code-wrap" data-notion-code-syntax="css"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">.card{
+
+    border:1px solid black;
+    box-shadow:0 0 10px rgba(0,0,0,.3);
+
+}</code></pre><hr id="3b3f6ce8-497f-80ec-bba5-d84a513fdeff" dir="auto"/><h1 id="3b3f6ce8-497f-80fc-af2d-d59f3737a85e" class="" dir="auto">Herança e Mixins</h1><p id="3b3f6ce8-497f-80d8-9ef7-e6b0ce96f962" class="" dir="auto">Embora ambos reutilizem código, eles funcionam de maneira diferente.</p><h2 id="3b3f6ce8-497f-8089-ac98-fc755444ebd8" class="" dir="auto">Herança (<code>@extend</code>)</h2><pre id="3b3f6ce8-497f-80a2-b5c7-ceb93fcf2530" class="code code-wrap" data-notion-code-syntax="scss"><code class="language-scss" style="white-space:pre-wrap;word-break:break-all">%botao{
+
+    padding:10px;
+
+}
+
+.btn{
+
+    @extend %botao;
+
+}</code></pre><p id="3b3f6ce8-497f-8024-971f-cf0dac531fea" class="" dir="auto">Resultado:</p><pre id="3b3f6ce8-497f-8030-b0a4-eb7b8e1da340" class="code code-wrap" data-notion-code-syntax="css"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">.btn{
+
+    padding:10px;
+
+}</code></pre><p id="3b3f6ce8-497f-8056-acd3-f61c62663ab5" class="" dir="auto">O SASS compartilha a mesma regra CSS.</p><hr id="3b3f6ce8-497f-8082-ba14-e626510ac27f" dir="auto"/><h2 id="3b3f6ce8-497f-80ba-a9dd-d46dfd1b282f" class="" dir="auto">Mixin</h2><pre id="3b3f6ce8-497f-8055-aa7c-e90485388c8a" class="code code-wrap" data-notion-code-syntax="scss"><code class="language-scss" style="white-space:pre-wrap;word-break:break-all">@mixin botao{
+
+    padding:10px;
+
+}
+
+.btn{
+
+    @include botao;
+
+}</code></pre><p id="3b3f6ce8-497f-8038-a2f2-ffb2d6eae323" class="" dir="auto">Resultado:</p><pre id="3b3f6ce8-497f-80bb-9470-de1bbeee9f83" class="code code-wrap" data-notion-code-syntax="css"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">.btn{
+
+    padding:10px;
+
+}</code></pre><p id="3b3f6ce8-497f-803c-b8df-c1446122e9f4" class="" dir="auto">O conteúdo do Mixin é copiado para cada <code>@include</code>.</p><hr id="3b3f6ce8-497f-803c-884f-ec0d0ca16366" dir="auto"/><h1 id="3b3f6ce8-497f-8075-a1a0-d057aecc9126" class="" dir="auto">Diferença entre <code>@extend</code> e <code>@include</code></h1><table id="3b3f6ce8-497f-807f-b1ab-c1b32e5688d9" class="simple-table" dir="ltr"><thead class="simple-table-header"><tr id="3b3f6ce8-497f-80b8-8c8d-e21be1864151" dir="ltr"><th id="\MVf" class="simple-table-header-color simple-table-header"><code>@extend</code></th><th id="vS\K" class="simple-table-header-color simple-table-header"><code>@include</code> (Mixin)</th></tr></thead><tbody><tr id="3b3f6ce8-497f-80ed-86a3-f5b09b3bd7de" dir="ltr"><td id="\MVf" class="">Compartilha regras CSS</td><td id="vS\K" class="">Copia propriedades</td></tr><tr id="3b3f6ce8-497f-80bb-ba0f-ea308c47edb2" dir="ltr"><td id="\MVf" class="">Utiliza <code>@extend</code></td><td id="vS\K" class="">Utiliza <code>@include</code></td></tr><tr id="3b3f6ce8-497f-804a-a5d9-fb50344902ab" dir="ltr"><td id="\MVf" class="">Ideal para estilos idênticos</td><td id="vS\K" class="">Ideal para estilos personalizados</td></tr><tr id="3b3f6ce8-497f-80da-ac7c-e0c4b3e68aac" dir="ltr"><td id="\MVf" class="">Gera CSS menor</td><td id="vS\K" class="">Pode gerar CSS maior</td></tr><tr id="3b3f6ce8-497f-80c9-8700-cb487b4225b3" dir="ltr"><td id="\MVf" class="">Não recebe parâmetros</td><td id="vS\K" class="">Pode receber parâmetros</td></tr></tbody></table><hr id="3b3f6ce8-497f-80dc-afb9-f76e595713c5" dir="auto"/><h1 id="3b3f6ce8-497f-8085-9a1c-faaad0fa2dcb" class="" dir="auto">Quando utilizar Herança?</h1><p id="3b3f6ce8-497f-8072-9065-c9146b6a7156" class="" dir="auto">A herança é recomendada quando:</p><ul id="3b3f6ce8-497f-807f-a242-f572ffb87281" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Vários componentes possuem exatamente a mesma base de estilos.</li></ul><ul id="3b3f6ce8-497f-805d-8b51-f0636e592033" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Não há necessidade de parâmetros.</li></ul><ul id="3b3f6ce8-497f-80ce-93b0-dcad007c699a" class="bulleted-list" dir="auto"><li style="list-style-type:disc">O objetivo é compartilhar regras CSS.</li></ul><p id="3b3f6ce8-497f-8087-86c3-ce8e437a3004" class="" dir="auto">Exemplos:</p><ul id="3b3f6ce8-497f-8062-9a3c-f2fa15606afc" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Botões.</li></ul><ul id="3b3f6ce8-497f-8014-ac47-cf2f67dcc4c5" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Cards.</li></ul><ul id="3b3f6ce8-497f-8028-bade-e6b63b17c5d6" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Alertas.</li></ul><ul id="3b3f6ce8-497f-802c-936a-fe97b5f93e31" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Formulários.</li></ul><ul id="3b3f6ce8-497f-80ee-8028-e26962cc791c" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Containers.</li></ul><ul id="3b3f6ce8-497f-80f7-a012-e3649aad116c" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Tipografia.</li></ul><hr id="3b3f6ce8-497f-8068-a311-dd4b7bd7ee4a" dir="auto"/><h1 id="3b3f6ce8-497f-80bb-a103-ea194b699135" class="" dir="auto">Quando utilizar Mixins?</h1><p id="3b3f6ce8-497f-8016-b93b-f6e198ef8fb5" class="" dir="auto">Prefira Mixins quando:</p><ul id="3b3f6ce8-497f-803f-90a9-df4193e6c0b8" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Os estilos precisam ser personalizados.</li></ul><ul id="3b3f6ce8-497f-8061-a7a1-d280ee04ccda" class="bulleted-list" dir="auto"><li style="list-style-type:disc">São necessários parâmetros.</li></ul><ul id="3b3f6ce8-497f-80f9-8567-c3b2af83c5fa" class="bulleted-list" dir="auto"><li style="list-style-type:disc">É preciso utilizar lógica condicional.</li></ul><ul id="3b3f6ce8-497f-8069-a8ff-dc7c391626b2" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Há necessidade de laços (<code>@for</code>, <code>@each</code>, <code>@while</code>).</li></ul><hr id="3b3f6ce8-497f-8093-9877-ca0ba925ad38" dir="auto"/><h1 id="3b3f6ce8-497f-805c-a5cc-dba61454d0a5" class="" dir="auto">Boas práticas</h1><ul id="3b3f6ce8-497f-806b-beb9-d3cba74dd222" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Prefira utilizar <code>%placeholders</code> em vez de classes comuns para herança.</li></ul><ul id="3b3f6ce8-497f-80cc-99c6-cacb89590458" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Utilize <code>@extend</code> apenas quando os estilos forem realmente compartilhados.</li></ul><ul id="3b3f6ce8-497f-80fa-a529-d83aeffb8d6c" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Evite cadeias muito longas de herança, pois podem gerar seletores complexos.</li></ul><ul id="3b3f6ce8-497f-80b5-bca4-d7abdba0404f" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Utilize Mixins quando houver necessidade de personalização.</li></ul><ul id="3b3f6ce8-497f-801a-9a0a-f63837e9853b" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Organize os placeholders em arquivos específicos, como <code>_placeholders.scss</code>.</li></ul><hr id="3b3f6ce8-497f-8004-921f-dd04d9b01104" dir="auto"/><h1 id="3b3f6ce8-497f-804e-a780-f5b9ed1389a8" class="" dir="auto">Vantagens</h1><ul id="3b3f6ce8-497f-8002-ab2f-f6eb939dbdb3" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Reduz repetição de código.</li></ul><ul id="3b3f6ce8-497f-80f8-82f5-dc5959474ac7" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Gera CSS mais enxuto.</li></ul><ul id="3b3f6ce8-497f-805c-b567-d88fba84caa4" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Facilita manutenção.</li></ul><ul id="3b3f6ce8-497f-80cf-b727-d82ba5b8a58a" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Padroniza componentes.</li></ul><ul id="3b3f6ce8-497f-80b9-bf27-f5895f0ab8f3" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Excelente para estilos comuns.</li></ul><ul id="3b3f6ce8-497f-80be-8818-e16a1f1a7d96" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Muito útil em Design Systems.</li></ul><hr id="3b3f6ce8-497f-8061-be9d-f6a69c96512d" dir="auto"/><h1 id="3b3f6ce8-497f-8047-a04f-d5ada77b5e41" class="" dir="auto">Desvantagens</h1><ul id="3b3f6ce8-497f-8013-b274-c78afb28fe1c" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Pode gerar seletores CSS complexos quando usado em excesso.</li></ul><ul id="3b3f6ce8-497f-80a4-9bae-c26dc70e1544" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Não aceita parâmetros.</li></ul><ul id="3b3f6ce8-497f-8011-b3f5-f8f49a97cafb" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Não é adequado para estilos que precisam variar.</li></ul><ul id="3b3f6ce8-497f-8062-a668-cb4869ba582c" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Em alguns casos, Mixins oferecem maior flexibilidade.</li></ul><hr id="3b3f6ce8-497f-80cc-b49e-d7e360478fb9" dir="auto"/><h1 id="3b3f6ce8-497f-80a0-acd3-ce91b5efb673" class="" dir="auto">Organização recomendada</h1><pre id="3b3f6ce8-497f-80f1-b8fd-ec9d0170e109" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">scss/
+│
+├── abstracts/
+│   ├── _variables.scss
+│   ├── _functions.scss
+│   ├── _mixins.scss
+│   ├── _placeholders.scss
+│
+├── components/
+│
+├── layout/
+│
+└── style.scss</code></pre><p id="3b3f6ce8-497f-8084-aeb5-e8210c1baeaa" class="" dir="auto">Os placeholders ficam concentrados em <code>_placeholders.scss</code>.</p><hr id="3b3f6ce8-497f-8005-8608-caf38323e67e" dir="auto"/><h1 id="3b3f6ce8-497f-809a-b41c-ef6bd2a0e2b4" class="" dir="auto">Exemplo completo</h1><h3 id="3b3f6ce8-497f-80e5-9dfb-eed812c36c3d" class="" dir="auto"><code>_placeholders.scss</code></h3><pre id="3b3f6ce8-497f-80a2-86da-dc0f56fa7038" class="code code-wrap" data-notion-code-syntax="scss"><code class="language-scss" style="white-space:pre-wrap;word-break:break-all">%botao{
+
+    padding:12px;
+    border:none;
+    border-radius:6px;
+    color:white;
+    cursor:pointer;
+
+}</code></pre><h3 id="3b3f6ce8-497f-801e-bb7c-cb8405a2de4a" class="" dir="auto"><code>style.scss</code></h3><pre id="3b3f6ce8-497f-80ac-bf3d-c5aa55b6429d" class="code code-wrap" data-notion-code-syntax="scss"><code class="language-scss" style="white-space:pre-wrap;word-break:break-all">@use &quot;placeholders&quot;;
+
+.btn-primary{
+
+    @extend %botao;
+
+    background:#0d6efd;
+
+}
+
+.btn-success{
+
+    @extend %botao;
+
+    background:#198754;
+
+}
+
+.btn-danger{
+
+    @extend %botao;
+
+    background:#dc3545;
+
+}</code></pre><h3 id="3b3f6ce8-497f-809a-bdd5-dd369bdf822d" class="" dir="auto">CSS gerado</h3><pre id="3b3f6ce8-497f-809a-974a-dc1c0807be2e" class="code code-wrap" data-notion-code-syntax="css"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">.btn-primary,
+.btn-success,
+.btn-danger{
+
+    padding:12px;
+    border:none;
+    border-radius:6px;
+    color:white;
+    cursor:pointer;
+
+}
+
+.btn-primary{
+
+    background:#0d6efd;
+
+}
+
+.btn-success{
+
+    background:#198754;
+
+}
+
+.btn-danger{
+
+    background:#dc3545;
+
+}</code></pre><hr id="3b3f6ce8-497f-8017-b88d-c1bb8a7035bc" dir="auto"/><h1 id="3b3f6ce8-497f-8080-b363-f3ec5aeefd45" class="" dir="auto">Herança x Mixins x Funções</h1><table id="3b3f6ce8-497f-80e5-a9ca-e5ee95be55a6" class="simple-table" dir="ltr"><thead class="simple-table-header"><tr id="3b3f6ce8-497f-804b-8ca9-cfae42240be1" dir="ltr"><th id="udI{" class="simple-table-header-color simple-table-header">Recurso</th><th id="WiNE" class="simple-table-header-color simple-table-header">Finalidade</th></tr></thead><tbody><tr id="3b3f6ce8-497f-806c-a4f7-ccc68e3b9f48" dir="ltr"><td id="udI{" class=""><strong>Herança (</strong><code><strong>@extend</strong></code><strong>)</strong></td><td id="WiNE" class="">Compartilhar estilos idênticos entre seletores.</td></tr><tr id="3b3f6ce8-497f-8037-8798-eef34c42e1b6" dir="ltr"><td id="udI{" class=""><strong>Mixin (</strong><code><strong>@mixin</strong></code><strong>)</strong></td><td id="WiNE" class="">Reutilizar blocos de propriedades com possibilidade de parâmetros e lógica.</td></tr><tr id="3b3f6ce8-497f-8084-9124-ce4a3e90cd5b" dir="ltr"><td id="udI{" class=""><strong>Função (</strong><code><strong>@function</strong></code><strong>)</strong></td><td id="WiNE" class="">Retornar um valor para ser utilizado em propriedades CSS.</td></tr></tbody></table><hr id="3b3f6ce8-497f-80dd-8ea8-f15b66173db6" dir="auto"/><h1 id="3b3f6ce8-497f-80eb-9005-d52d00d9224b" class="" dir="auto">Casos de uso</h1><p id="3b3f6ce8-497f-8035-acb3-c3a9d2dfd606" class="" dir="auto">A herança é amplamente utilizada para:</p><ul id="3b3f6ce8-497f-8020-bba7-fb88825ceaf1" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Botões.</li></ul><ul id="3b3f6ce8-497f-805c-8a94-c1132e7457d3" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Cards.</li></ul><ul id="3b3f6ce8-497f-80dd-b596-dc89fdc037ca" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Alertas.</li></ul><ul id="3b3f6ce8-497f-800e-903f-f93607de2e75" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Formulários.</li></ul><ul id="3b3f6ce8-497f-80c7-8379-f82df67cc1d8" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Componentes reutilizáveis.</li></ul><ul id="3b3f6ce8-497f-8037-9ce4-f37af0138d72" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Tipografia.</li></ul><ul id="3b3f6ce8-497f-8027-b085-f2f44fa37938" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Layouts padronizados.</li></ul><ul id="3b3f6ce8-497f-80f5-9b63-ea0e96913565" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Design Systems.</li></ul><hr id="3b3f6ce8-497f-805c-b798-f3b57b6d82e9" dir="auto"/><h1 id="3b3f6ce8-497f-8082-a2c9-c8a113e9d509" class="" dir="auto">Resumo</h1><p id="3b3f6ce8-497f-808b-aa39-cc7d5edb096e" class="" dir="auto">A <strong>Herança</strong> no SASS é um recurso implementado pela diretiva <code><strong>@extend</strong></code>, que permite compartilhar estilos entre diferentes seletores sem duplicar propriedades no CSS compilado. A forma mais recomendada de utilizá-la é por meio dos <strong>Placeholders (</strong><code><strong>%</strong></code><strong>)</strong>, que são seletores especiais criados exclusivamente para reutilização e que não aparecem no CSS final. A herança é ideal para componentes que possuem uma base de estilos idêntica, como botões, cards e alertas, resultando em um código mais organizado, reutilizável e com menor tamanho. Quando há necessidade de parâmetros, lógica condicional ou personalização dos estilos, os <strong>Mixins</strong> são a alternativa mais adequada.</p></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

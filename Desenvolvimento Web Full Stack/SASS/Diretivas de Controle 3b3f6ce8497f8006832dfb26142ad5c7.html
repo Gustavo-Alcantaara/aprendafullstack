@@ -1,0 +1,1167 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Diretivas de Controle</title><meta name="data-notion-page-icon" content="/icons/emoji-heart-eyes_pink.svg"/><link rel="icon" href="https://app.notion.com/icons/emoji-heart-eyes_pink.svg"/><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+/* For default-background callouts, render the border outline. */
+.callout.block-color-default_background {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+/*
+ * Toggles and callouts hold arbitrary content, so they can easily be taller
+ * than a page. They must stay breakable: avoiding breaks inside them makes
+ * Chromium push the whole block onto the next page, which leaves the previous
+ * page mostly empty before every long toggle.
+ */
+details,
+aside {
+	margin: 1.25em 0;
+}
+
+/* Keep a toggle's title on the same page as the start of its content. */
+summary {
+	page-break-after: avoid;
+	break-after: avoid;
+}
+
+/*
+ * Toggle headings render as <h1/h2/h3 style="display:inline-block"> inside
+ * <summary>. Without this reset, the heading's margin-top pushes it below the
+ * ::marker (▼), so the triangle and the title appear on separate lines.
+ */
+summary h1,
+summary h2,
+summary h3,
+summary h4 {
+	margin-top: 0;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding-inline: 0.125rem;
+	padding-block: 0.375rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+/*
+ * Render emoji icons using a ::before pseudo-element to keep the glyph
+ * out of the DOM textContent traversal. This avoids double-rendering icons
+ * in callouts and page titles.
+ * NOTE(slim/html-export-pseudo-icons): I can't tagref this because it will
+ * flag as a duplicate tag after codegen.
+ */
+.icon[data-emoji]::before {
+	content: attr(data-emoji);
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	margin-right: 0.4em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.tab {
+	margin: 1.25em 0;
+	padding-inline: 1rem;
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style><style>@import url('https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex-swap.min.css')</style></head><body><article id="3b3f6ce8-497f-8006-832d-fb26142ad5c7" class="page sans" data-notion-page-icon="/icons/emoji-heart-eyes_pink.svg"><header><div class="page-header-icon undefined"><img class="icon notion-static-icon" src="https://app.notion.com/icons/emoji-heart-eyes_pink.svg"/></div><h1 class="page-title" dir="auto">Diretivas de Controle</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><h1 id="3b3f6ce8-497f-8072-89b0-f47f10d0f6f7" class="" dir="auto">Diretivas de Controle no SASS</h1><h2 id="3b3f6ce8-497f-80fa-a5cf-ce1eeb89fa81" class="" dir="auto">O que são Diretivas de Controle?</h2><p id="3b3f6ce8-497f-8086-9411-ff51393aae74" class="" dir="auto">As <strong>Diretivas de Controle</strong> são estruturas do SASS que permitem <strong>controlar o fluxo de execução do código</strong>, tornando os estilos mais inteligentes e dinâmicos.</p><p id="3b3f6ce8-497f-8071-8612-dba1cedb9acc" class="" dir="auto">Com elas, é possível tomar decisões, repetir blocos de código, percorrer listas e mapas e criar estilos de forma automatizada.</p><p id="3b3f6ce8-497f-80b8-be51-c0ad4849c472" class="" dir="auto">Essas diretivas são semelhantes às estruturas de controle existentes em linguagens de programação como PHP, JavaScript, Java e Python.</p><hr id="3b3f6ce8-497f-8099-93cb-e181ac43afd3" dir="auto"/><h1 id="3b3f6ce8-497f-8073-bc0f-e8e697997d91" class="" dir="auto">Objetivos das Diretivas de Controle</h1><p id="3b3f6ce8-497f-806e-a4e3-d35fe7d93fe2" class="" dir="auto">As diretivas de controle são utilizadas para:</p><ul id="3b3f6ce8-497f-801f-8937-e2b5d97c9d12" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Automatizar a geração de CSS.</li></ul><ul id="3b3f6ce8-497f-80e9-8aad-ecd311c29429" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Evitar repetição de código.</li></ul><ul id="3b3f6ce8-497f-80b4-a56b-f2b3f3f962ee" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Criar componentes reutilizáveis.</li></ul><ul id="3b3f6ce8-497f-800c-b480-fb08e32e731e" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Trabalhar com condições.</li></ul><ul id="3b3f6ce8-497f-80a3-81d8-c0689b64ab94" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Percorrer listas e mapas.</li></ul><ul id="3b3f6ce8-497f-80c3-8187-c6e0b3f1bc95" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Executar laços de repetição.</li></ul><ul id="3b3f6ce8-497f-80b9-8e99-edcb1b7fcb21" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Facilitar manutenção do projeto.</li></ul><hr id="3b3f6ce8-497f-80c7-be6d-ccfc6c223443" dir="auto"/><h1 id="3b3f6ce8-497f-8077-9eb6-c7be281667bd" class="" dir="auto">Principais Diretivas de Controle</h1><p id="3b3f6ce8-497f-80a0-9901-fb7fe3b305eb" class="" dir="auto">O SASS possui as seguintes diretivas principais:</p><table id="3b3f6ce8-497f-80b6-96e9-eeb584c263f3" class="simple-table" dir="ltr"><thead class="simple-table-header"><tr id="3b3f6ce8-497f-8023-a9b2-f47949a471a2" dir="ltr"><th id="bYK\" class="simple-table-header-color simple-table-header">Diretiva</th><th id="zY~_" class="simple-table-header-color simple-table-header">Finalidade</th></tr></thead><tbody><tr id="3b3f6ce8-497f-8033-8c94-e8d2ddd92c44" dir="ltr"><td id="bYK\" class=""><code>@if</code></td><td id="zY~_" class="">Executa um bloco se uma condição for verdadeira.</td></tr><tr id="3b3f6ce8-497f-80b5-ae33-fed8fc13c0b5" dir="ltr"><td id="bYK\" class=""><code>@else</code></td><td id="zY~_" class="">Executa um bloco alternativo quando a condição for falsa.</td></tr><tr id="3b3f6ce8-497f-807b-b18c-feff8f450862" dir="ltr"><td id="bYK\" class=""><code>@else if</code></td><td id="zY~_" class="">Permite testar várias condições em sequência.</td></tr><tr id="3b3f6ce8-497f-80b8-bce3-ef5a133e73db" dir="ltr"><td id="bYK\" class=""><code>@for</code></td><td id="zY~_" class="">Executa um bloco um número conhecido de vezes.</td></tr><tr id="3b3f6ce8-497f-8024-8272-df4c4982745a" dir="ltr"><td id="bYK\" class=""><code>@while</code></td><td id="zY~_" class="">Executa um bloco enquanto uma condição for verdadeira.</td></tr><tr id="3b3f6ce8-497f-8039-88e7-dba9b3030969" dir="ltr"><td id="bYK\" class=""><code>@each</code></td><td id="zY~_" class="">Percorre listas e mapas.</td></tr></tbody></table><hr id="3b3f6ce8-497f-804b-b020-ede89444d282" dir="auto"/><h1 id="3b3f6ce8-497f-808d-9e60-e827efe64596" class="" dir="auto">Diretiva <code>@if</code></h1><p id="3b3f6ce8-497f-80d9-8638-e85a3ad7adb4" class="" dir="auto">A diretiva <code><strong>@if</strong></code> executa um bloco apenas quando uma condição é verdadeira.</p><h3 id="3b3f6ce8-497f-80e0-8b40-df896b0b8e2f" class="" dir="auto">Sintaxe</h3><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="3b3f6ce8-497f-80cd-bdec-e358b251c1ff" class="code code-wrap" data-notion-code-syntax="scss"><code class="language-scss" style="white-space:pre-wrap;word-break:break-all">@if condição{
+
+}</code></pre><h3 id="3b3f6ce8-497f-80e6-aee7-f2ca611da91e" class="" dir="auto">Exemplo</h3><pre id="3b3f6ce8-497f-8061-b09f-f0d94dca38ce" class="code code-wrap" data-notion-code-syntax="scss"><code class="language-scss" style="white-space:pre-wrap;word-break:break-all">$tema: escuro;
+
+body{
+
+    @if $tema == escuro{
+
+        background:black;
+        color:white;
+
+    }
+
+}</code></pre><h3 id="3b3f6ce8-497f-8000-bee1-f37213b74667" class="" dir="auto">CSS gerado</h3><pre id="3b3f6ce8-497f-8004-b5f0-db25dce1c6a5" class="code code-wrap" data-notion-code-syntax="css"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">body{
+
+    background:black;
+    color:white;
+
+}</code></pre><hr id="3b3f6ce8-497f-80b0-b7b1-e8b6cf769fda" dir="auto"/><h1 id="3b3f6ce8-497f-8067-8ab2-ee183f559c9c" class="" dir="auto">Diretiva <code>@else</code></h1><p id="3b3f6ce8-497f-80c0-ba22-fa7d76810369" class="" dir="auto">Permite executar um bloco alternativo quando a condição for falsa.</p><h3 id="3b3f6ce8-497f-80be-b52e-ebe2cfc5ceb3" class="" dir="auto">Exemplo</h3><pre id="3b3f6ce8-497f-80ce-b294-d536ec3ac888" class="code code-wrap" data-notion-code-syntax="scss"><code class="language-scss" style="white-space:pre-wrap;word-break:break-all">$tema: claro;
+
+body{
+
+    @if $tema == escuro{
+
+        background:black;
+        color:white;
+
+    }
+
+    @else{
+
+        background:white;
+        color:black;
+
+    }
+
+}</code></pre><h3 id="3b3f6ce8-497f-80f2-a899-fd0140097071" class="" dir="auto">CSS gerado</h3><pre id="3b3f6ce8-497f-8061-b9c6-fef12608dd30" class="code code-wrap" data-notion-code-syntax="css"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">body{
+
+    background:white;
+    color:black;
+
+}</code></pre><hr id="3b3f6ce8-497f-80d4-951e-c7fbc076329b" dir="auto"/><h1 id="3b3f6ce8-497f-80d2-a403-d2908554c774" class="" dir="auto">Diretiva <code>@else if</code></h1><p id="3b3f6ce8-497f-8078-a59d-d0afe3ec8ba9" class="" dir="auto">Permite verificar várias condições.</p><pre id="3b3f6ce8-497f-80d8-a92f-ea5b6e175f6b" class="code code-wrap" data-notion-code-syntax="scss"><code class="language-scss" style="white-space:pre-wrap;word-break:break-all">$cor: sucesso;
+
+.botao{
+
+    @if $cor == primary{
+
+        background:blue;
+
+    }
+
+    @else if $cor == sucesso{
+
+        background:green;
+
+    }
+
+    @else{
+
+        background:red;
+
+    }
+
+}</code></pre><p id="3b3f6ce8-497f-80a4-8b26-fa73cb0accb6" class="" dir="auto">Resultado:</p><pre id="3b3f6ce8-497f-8073-90c3-d1816188c36e" class="code code-wrap" data-notion-code-syntax="css"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">.botao{
+
+    background:green;
+
+}</code></pre><hr id="3b3f6ce8-497f-809c-8b50-e9522594e1aa" dir="auto"/><h1 id="3b3f6ce8-497f-80e1-9ac7-dcde44ff65c9" class="" dir="auto">Diretiva <code>@for</code></h1><p id="3b3f6ce8-497f-803d-b190-da77394df2d3" class="" dir="auto">Executa um bloco um número determinado de vezes.</p><h3 id="3b3f6ce8-497f-8077-887a-f1a5c4fc00b6" class="" dir="auto">Exemplo</h3><pre id="3b3f6ce8-497f-80a1-b806-c1c06849cbb7" class="code code-wrap" data-notion-code-syntax="scss"><code class="language-scss" style="white-space:pre-wrap;word-break:break-all">@for $i from 1 through 3{
+
+    .col-#{$i}{
+
+        width:33.33%;
+
+    }
+
+}</code></pre><p id="3b3f6ce8-497f-80d8-8d23-ffb4b80f7316" class="" dir="auto">Resultado:</p><pre id="3b3f6ce8-497f-805d-904b-e6946bec65ce" class="code code-wrap" data-notion-code-syntax="css"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">.col-1{
+
+    width:33.33%;
+
+}
+
+.col-2{
+
+    width:33.33%;
+
+}
+
+.col-3{
+
+    width:33.33%;
+
+}</code></pre><p id="3b3f6ce8-497f-80c1-bcef-db323d83770c" class="" dir="auto"><strong>Características:</strong></p><ul id="3b3f6ce8-497f-80af-8fcd-eeadd774a0a2" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Trabalha com números.</li></ul><ul id="3b3f6ce8-497f-8043-8502-c0534761a034" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Utiliza <code>through</code> ou <code>to</code>.</li></ul><ul id="3b3f6ce8-497f-80a7-9e78-d2663c68903c" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Muito utilizada para grids e classes utilitárias.</li></ul><hr id="3b3f6ce8-497f-8012-9a3c-ecc3cc71067f" dir="auto"/><h1 id="3b3f6ce8-497f-800d-b456-f14d201a075a" class="" dir="auto">Diretiva <code>@while</code></h1><p id="3b3f6ce8-497f-80a2-934f-c9326d0b78df" class="" dir="auto">Executa um bloco enquanto uma condição permanecer verdadeira.</p><h3 id="3b3f6ce8-497f-80d0-9654-f4efd211fcdc" class="" dir="auto">Exemplo</h3><pre id="3b3f6ce8-497f-80a2-842c-fcd819f2e766" class="code code-wrap" data-notion-code-syntax="scss"><code class="language-scss" style="white-space:pre-wrap;word-break:break-all">$i:1;
+
+@while $i &lt;=3{
+
+    .item-#{$i}{
+
+        margin:$i * 10px;
+
+    }
+
+    $i:$i+1;
+
+}</code></pre><p id="3b3f6ce8-497f-8070-8a88-fca0a071bb36" class="" dir="auto">Resultado:</p><pre id="3b3f6ce8-497f-80b7-b371-d93258d5085f" class="code code-wrap" data-notion-code-syntax="css"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">.item-1{
+
+    margin:10px;
+
+}
+
+.item-2{
+
+    margin:20px;
+
+}
+
+.item-3{
+
+    margin:30px;
+
+}</code></pre><p id="3b3f6ce8-497f-80e7-96f9-e8c6942123ca" class="" dir="auto"><strong>Características:</strong></p><ul id="3b3f6ce8-497f-8056-b379-ce76be4ccb92" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Baseada em condições.</li></ul><ul id="3b3f6ce8-497f-8014-af5c-f4cfa58706bf" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Exige atualização da variável de controle.</li></ul><ul id="3b3f6ce8-497f-80a5-bbe6-ff5ae4751e53" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Deve ser utilizada com cuidado para evitar loops infinitos.</li></ul><hr id="3b3f6ce8-497f-80b7-be11-e291c95d22c4" dir="auto"/><h1 id="3b3f6ce8-497f-8075-8847-c90903688c90" class="" dir="auto">Diretiva <code>@each</code></h1><p id="3b3f6ce8-497f-80ad-a363-c000b3908a79" class="" dir="auto">Percorre listas ou mapas.</p><h3 id="3b3f6ce8-497f-8057-9eb4-ee94dc36838e" class="" dir="auto">Lista</h3><pre id="3b3f6ce8-497f-808f-a888-fc1ca363918b" class="code code-wrap" data-notion-code-syntax="scss"><code class="language-scss" style="white-space:pre-wrap;word-break:break-all">$cores:red,blue,green;
+
+@each $cor in $cores{
+
+    .texto-#{$cor}{
+
+        color:$cor;
+
+    }
+
+}</code></pre><p id="3b3f6ce8-497f-80cc-9c98-c45aa18e4339" class="" dir="auto">Resultado:</p><pre id="3b3f6ce8-497f-800c-9d88-e69531e97391" class="code code-wrap" data-notion-code-syntax="css"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">.texto-red{
+
+    color:red;
+
+}
+
+.texto-blue{
+
+    color:blue;
+
+}
+
+.texto-green{
+
+    color:green;
+
+}</code></pre><hr id="3b3f6ce8-497f-8018-a039-c0bd7f2cb69e" dir="auto"/><h3 id="3b3f6ce8-497f-804b-a163-fd5417c2e7b6" class="" dir="auto">Mapa</h3><pre id="3b3f6ce8-497f-8003-80ea-c94d1eb12ccf" class="code code-wrap" data-notion-code-syntax="scss"><code class="language-scss" style="white-space:pre-wrap;word-break:break-all">$cores:(
+
+    sucesso:green,
+
+    erro:red
+
+);
+
+@each $nome,$cor in $cores{
+
+    .#{$nome}{
+
+        background:$cor;
+
+    }
+
+}</code></pre><p id="3b3f6ce8-497f-80c5-be1a-ffbc4a294075" class="" dir="auto">Resultado:</p><pre id="3b3f6ce8-497f-8037-aadb-defc6187521d" class="code code-wrap" data-notion-code-syntax="css"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">.sucesso{
+
+    background:green;
+
+}
+
+.erro{
+
+    background:red;
+
+}</code></pre><hr id="3b3f6ce8-497f-808c-ab8d-ccaa5276f543" dir="auto"/><h1 id="3b3f6ce8-497f-809b-bc6e-c2e09ea81134" class="" dir="auto">Utilizando Diretivas dentro de Mixins</h1><p id="3b3f6ce8-497f-80f7-9730-d30c950a89a7" class="" dir="auto">As diretivas podem ser utilizadas dentro de Mixins.</p><pre id="3b3f6ce8-497f-8066-a85d-cc766137df39" class="code code-wrap" data-notion-code-syntax="scss"><code class="language-scss" style="white-space:pre-wrap;word-break:break-all">@mixin tema($modo){
+
+    @if $modo == claro{
+
+        background:white;
+
+    }
+
+    @else{
+
+        background:black;
+
+    }
+
+}</code></pre><p id="3b3f6ce8-497f-805a-b867-ef8bbb29d15c" class="" dir="auto">Uso:</p><pre id="3b3f6ce8-497f-807a-aae9-e701e036298e" class="code code-wrap" data-notion-code-syntax="scss"><code class="language-scss" style="white-space:pre-wrap;word-break:break-all">body{
+
+    @include tema(claro);
+
+}</code></pre><hr id="3b3f6ce8-497f-804c-b5da-f75b342d81cb" dir="auto"/><h1 id="3b3f6ce8-497f-808e-9111-d34c917c2811" class="" dir="auto">Utilizando Diretivas em Funções</h1><p id="3b3f6ce8-497f-8022-a11c-cbaf36765855" class="" dir="auto">Também podem ser utilizadas em funções.</p><pre id="3b3f6ce8-497f-805c-b1df-ead0309f460a" class="code code-wrap" data-notion-code-syntax="scss"><code class="language-scss" style="white-space:pre-wrap;word-break:break-all">@function corTema($modo){
+
+    @if $modo == claro{
+
+        @return white;
+
+    }
+
+    @return black;
+
+}</code></pre><p id="3b3f6ce8-497f-809b-b811-e4216c3090fc" class="" dir="auto">Uso:</p><pre id="3b3f6ce8-497f-80d9-a534-e4088fd205a9" class="code code-wrap" data-notion-code-syntax="scss"><code class="language-scss" style="white-space:pre-wrap;word-break:break-all">body{
+
+    background:corTema(claro);
+
+}</code></pre><hr id="3b3f6ce8-497f-80d2-bb70-f922b8fdd6ef" dir="auto"/><h1 id="3b3f6ce8-497f-8067-bf55-e8a9aa6bb886" class="" dir="auto">Diretivas com Interpolação</h1><p id="3b3f6ce8-497f-80c4-b1aa-dc476fde89e7" class="" dir="auto">As diretivas podem ser combinadas com interpolação.</p><pre id="3b3f6ce8-497f-8090-b4b4-e0a5d722ab3a" class="code code-wrap" data-notion-code-syntax="scss"><code class="language-scss" style="white-space:pre-wrap;word-break:break-all">@for $i from 1 through 4{
+
+    .col-#{$i}{
+
+        width:25% * $i;
+
+    }
+
+}</code></pre><p id="3b3f6ce8-497f-803c-8ccf-f7e2b6b17ee8" class="" dir="auto">Resultado:</p><pre id="3b3f6ce8-497f-801d-ba17-dbea5a9b5dab" class="code code-wrap" data-notion-code-syntax="css"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">.col-1{
+
+    width:25%;
+
+}
+
+.col-2{
+
+    width:50%;
+
+}
+
+.col-3{
+
+    width:75%;
+
+}
+
+.col-4{
+
+    width:100%;
+
+}</code></pre><hr id="3b3f6ce8-497f-8027-a329-e1e9361d72c4" dir="auto"/><h1 id="3b3f6ce8-497f-8079-912b-c89e16233fed" class="" dir="auto">Exemplo prático: Sistema de Botões</h1><pre id="3b3f6ce8-497f-8026-967e-e590fed32cc7" class="code code-wrap" data-notion-code-syntax="scss"><code class="language-scss" style="white-space:pre-wrap;word-break:break-all">$cores:(
+
+    primary:#0d6efd,
+
+    success:#198754,
+
+    danger:#dc3545
+
+);
+
+@each $tipo,$cor in $cores{
+
+    .btn-#{$tipo}{
+
+        background:$cor;
+
+    }
+
+}</code></pre><p id="3b3f6ce8-497f-802b-8e79-e4e7c5053b00" class="" dir="auto">Resultado:</p><pre id="3b3f6ce8-497f-80aa-a93b-f74a826ca520" class="code code-wrap" data-notion-code-syntax="css"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">.btn-primary{
+
+    background:#0d6efd;
+
+}
+
+.btn-success{
+
+    background:#198754;
+
+}
+
+.btn-danger{
+
+    background:#dc3545;
+
+}</code></pre><hr id="3b3f6ce8-497f-8066-947e-e8096f282e43" dir="auto"/><h1 id="3b3f6ce8-497f-80e6-84bb-d10e8fcb061f" class="" dir="auto">Exemplo prático: Espaçamentos</h1><pre id="3b3f6ce8-497f-80f5-935c-e3d8c20ab717" class="code code-wrap" data-notion-code-syntax="scss"><code class="language-scss" style="white-space:pre-wrap;word-break:break-all">@for $i from 1 through 5{
+
+    .m-#{$i}{
+
+        margin:$i * 10px;
+
+    }
+
+}</code></pre><p id="3b3f6ce8-497f-8059-a4e7-da20e05638a1" class="" dir="auto">Resultado:</p><pre id="3b3f6ce8-497f-800b-9097-ea75571500ba" class="code code-wrap" data-notion-code-syntax="css"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">.m-1{
+
+    margin:10px;
+
+}
+
+.m-2{
+
+    margin:20px;
+
+}
+
+.m-3{
+
+    margin:30px;
+
+}
+
+.m-4{
+
+    margin:40px;
+
+}
+
+.m-5{
+
+    margin:50px;
+
+}</code></pre><hr id="3b3f6ce8-497f-80d1-82a8-dcd75d02e1c1" dir="auto"/><h1 id="3b3f6ce8-497f-801e-8ed0-f143bf3ca353" class="" dir="auto">Boas práticas</h1><ul id="3b3f6ce8-497f-80b0-93c1-d960dc6f2811" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Utilize <code>@if</code> para decisões simples.</li></ul><ul id="3b3f6ce8-497f-803c-af81-e65b0cb76fc8" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Prefira <code>@for</code> quando souber a quantidade de repetições.</li></ul><ul id="3b3f6ce8-497f-80b3-9efc-d862aa6e080b" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Utilize <code>@each</code> para listas e mapas.</li></ul><ul id="3b3f6ce8-497f-8066-a943-da7db2e6b6b0" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Use <code>@while</code> apenas quando a repetição depender de uma condição.</li></ul><ul id="3b3f6ce8-497f-80d9-bf74-cb2e19197891" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Evite criar loops que gerem CSS desnecessário.</li></ul><ul id="3b3f6ce8-497f-8052-9709-f498610c89f2" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Organize a lógica em Mixins e Funções quando possível.</li></ul><hr id="3b3f6ce8-497f-8060-b444-d2c3840a71b8" dir="auto"/><h1 id="3b3f6ce8-497f-8041-8330-c6bfad416859" class="" dir="auto">Vantagens</h1><ul id="3b3f6ce8-497f-80a8-b207-f52ee82315ff" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Reduz repetição de código.</li></ul><ul id="3b3f6ce8-497f-80b4-a4af-cc27aa77afb5" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Automatiza a geração de CSS.</li></ul><ul id="3b3f6ce8-497f-80a5-ad96-c9a8d3147b59" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Facilita manutenção.</li></ul><ul id="3b3f6ce8-497f-803f-917e-fc9c1865a35b" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Permite criar componentes reutilizáveis.</li></ul><ul id="3b3f6ce8-497f-8028-abe8-e7a61f75fe7b" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Torna o código mais organizado.</li></ul><ul id="3b3f6ce8-497f-806e-8c77-d74237a145a0" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Excelente para Design Systems.</li></ul><hr id="3b3f6ce8-497f-80e3-b47c-f84ab77cb231" dir="auto"/><h1 id="3b3f6ce8-497f-80d4-b9ed-fdcebded4878" class="" dir="auto">Desvantagens</h1><ul id="3b3f6ce8-497f-80c7-b820-d9e93582d293" class="bulleted-list" dir="auto"><li style="list-style-type:disc">O uso excessivo pode dificultar a leitura do código.</li></ul><ul id="3b3f6ce8-497f-8068-8c66-d436f073cf8d" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Loops grandes podem gerar arquivos CSS muito extensos.</li></ul><ul id="3b3f6ce8-497f-8052-8d08-e166b9f03264" class="bulleted-list" dir="auto"><li style="list-style-type:disc">O uso incorreto de <code>@while</code> pode causar loops infinitos.</li></ul><ul id="3b3f6ce8-497f-8086-bd2f-fe838052d5e2" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Lógicas muito complexas podem tornar o SCSS difícil de manter.</li></ul><hr id="3b3f6ce8-497f-8088-ae33-ed70dd70855e" dir="auto"/><h1 id="3b3f6ce8-497f-80fa-a20c-e16e6fc6d87e" class="" dir="auto">Comparação das Diretivas</h1><table id="3b3f6ce8-497f-80a2-be94-d0febab29fa2" class="simple-table" dir="ltr"><thead class="simple-table-header"><tr id="3b3f6ce8-497f-80c2-b394-db22257a60b7" dir="ltr"><th id="JClh" class="simple-table-header-color simple-table-header">Diretiva</th><th id="PETT" class="simple-table-header-color simple-table-header">Melhor utilização</th></tr></thead><tbody><tr id="3b3f6ce8-497f-8080-8d62-f2a4b8b4309b" dir="ltr"><td id="JClh" class=""><code>@if</code></td><td id="PETT" class="">Decisões simples.</td></tr><tr id="3b3f6ce8-497f-80ed-9dda-e405257d8fb3" dir="ltr"><td id="JClh" class=""><code>@else</code></td><td id="PETT" class="">Bloco alternativo.</td></tr><tr id="3b3f6ce8-497f-8096-8d9b-ce9c8842d5c9" dir="ltr"><td id="JClh" class=""><code>@else if</code></td><td id="PETT" class="">Múltiplas condições.</td></tr><tr id="3b3f6ce8-497f-805e-b30e-e499846df1e7" dir="ltr"><td id="JClh" class=""><code>@for</code></td><td id="PETT" class="">Repetições numéricas.</td></tr><tr id="3b3f6ce8-497f-8041-bc27-e07adb65491e" dir="ltr"><td id="JClh" class=""><code>@while</code></td><td id="PETT" class="">Repetições condicionais.</td></tr><tr id="3b3f6ce8-497f-80e4-8816-e7964546a786" dir="ltr"><td id="JClh" class=""><code>@each</code></td><td id="PETT" class="">Percorrer listas e mapas.</td></tr></tbody></table><hr id="3b3f6ce8-497f-8033-b980-efb909695f82" dir="auto"/><h1 id="3b3f6ce8-497f-80ef-b7c5-fc8a5d2df857" class="" dir="auto">Casos de uso</h1><p id="3b3f6ce8-497f-8014-9ee1-ec5e82a05df9" class="" dir="auto">As diretivas de controle são amplamente utilizadas para:</p><ul id="3b3f6ce8-497f-80e6-adba-f597e43eafcf" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Sistemas de Grid.</li></ul><ul id="3b3f6ce8-497f-804f-b895-de31b5beae24" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Classes utilitárias.</li></ul><ul id="3b3f6ce8-497f-8086-8746-d5f36bde3a26" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Botões.</li></ul><ul id="3b3f6ce8-497f-80c7-8b78-f6115ac3d703" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Cards.</li></ul><ul id="3b3f6ce8-497f-80e9-b989-ff57572cb1b8" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Temas claro/escuro.</li></ul><ul id="3b3f6ce8-497f-80a1-91f7-fc6ea9bb6a76" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Design Systems.</li></ul><ul id="3b3f6ce8-497f-802b-9704-d744deeef8f5" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Layouts responsivos.</li></ul><ul id="3b3f6ce8-497f-80f7-bf20-e5be3e906d8f" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Geração automática de componentes.</li></ul><ul id="3b3f6ce8-497f-8041-b26c-cbe35e8a19b9" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Manipulação de listas e mapas.</li></ul><ul id="3b3f6ce8-497f-8081-8a38-eed6a91cc53c" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Automatização de estilos.</li></ul><hr id="3b3f6ce8-497f-8003-8005-ed4ceb85c7d7" dir="auto"/><h1 id="3b3f6ce8-497f-8037-a9cc-d99ab0bb8c6c" class="" dir="auto">Exemplo completo</h1><h3 id="3b3f6ce8-497f-80f6-96b7-d4a7094f5e0d" class="" dir="auto">SCSS</h3><pre id="3b3f6ce8-497f-8065-9a87-cd9d9a430397" class="code code-wrap" data-notion-code-syntax="scss"><code class="language-scss" style="white-space:pre-wrap;word-break:break-all">$cores:(
+
+    primary:#0d6efd,
+
+    success:#198754,
+
+    danger:#dc3545
+
+);
+
+@each $nome,$cor in $cores{
+
+    .btn-#{$nome}{
+
+        background:$cor;
+        color:white;
+        padding:10px;
+
+    }
+
+}
+
+@for $i from 1 through 3{
+
+    .m-#{$i}{
+
+        margin:$i * 10px;
+
+    }
+
+}</code></pre><h3 id="3b3f6ce8-497f-8087-ac2c-f2bc70002c27" class="" dir="auto">CSS gerado</h3><pre id="3b3f6ce8-497f-8029-ad51-e6b1616fad5e" class="code code-wrap" data-notion-code-syntax="css"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">.btn-primary{
+
+    background:#0d6efd;
+    color:white;
+    padding:10px;
+
+}
+
+.btn-success{
+
+    background:#198754;
+    color:white;
+    padding:10px;
+
+}
+
+.btn-danger{
+
+    background:#dc3545;
+    color:white;
+    padding:10px;
+
+}
+
+.m-1{
+
+    margin:10px;
+
+}
+
+.m-2{
+
+    margin:20px;
+
+}
+
+.m-3{
+
+    margin:30px;
+
+}</code></pre><hr id="3b3f6ce8-497f-80f0-9a77-daeead664947" dir="auto"/><h1 id="3b3f6ce8-497f-8003-b494-cceb42b366c3" class="" dir="auto">Resumo</h1><p id="3b3f6ce8-497f-800c-96d9-d6e21dc93fc8" class="" dir="auto">As <strong>Diretivas de Controle</strong> do SASS são estruturas que permitem controlar o fluxo de execução do código, tornando os estilos mais dinâmicos e reutilizáveis. Elas incluem as diretivas <code><strong>@if</strong></code>, <code><strong>@else</strong></code> e <code><strong>@else if</strong></code> para decisões condicionais, <code><strong>@for</strong></code> para repetições numéricas, <code><strong>@while</strong></code> para repetições baseadas em condições e <code><strong>@each</strong></code> para percorrer listas e mapas. Em conjunto com recursos como <strong>variáveis</strong>, <strong>mixins</strong>, <strong>funções</strong> e <strong>interpolação</strong>, essas diretivas automatizam a geração de CSS, reduzem a duplicação de código e facilitam a criação de componentes escaláveis e de fácil manutenção, sendo fundamentais no desenvolvimento de projetos modernos com SASS.</p></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

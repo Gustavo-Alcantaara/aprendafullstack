@@ -1,0 +1,1134 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Aninhamento</title><meta name="data-notion-page-icon" content="/icons/emoji-heart-eyes_pink.svg"/><link rel="icon" href="https://app.notion.com/icons/emoji-heart-eyes_pink.svg"/><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+/* For default-background callouts, render the border outline. */
+.callout.block-color-default_background {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+/*
+ * Toggles and callouts hold arbitrary content, so they can easily be taller
+ * than a page. They must stay breakable: avoiding breaks inside them makes
+ * Chromium push the whole block onto the next page, which leaves the previous
+ * page mostly empty before every long toggle.
+ */
+details,
+aside {
+	margin: 1.25em 0;
+}
+
+/* Keep a toggle's title on the same page as the start of its content. */
+summary {
+	page-break-after: avoid;
+	break-after: avoid;
+}
+
+/*
+ * Toggle headings render as <h1/h2/h3 style="display:inline-block"> inside
+ * <summary>. Without this reset, the heading's margin-top pushes it below the
+ * ::marker (▼), so the triangle and the title appear on separate lines.
+ */
+summary h1,
+summary h2,
+summary h3,
+summary h4 {
+	margin-top: 0;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding-inline: 0.125rem;
+	padding-block: 0.375rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+/*
+ * Render emoji icons using a ::before pseudo-element to keep the glyph
+ * out of the DOM textContent traversal. This avoids double-rendering icons
+ * in callouts and page titles.
+ * NOTE(slim/html-export-pseudo-icons): I can't tagref this because it will
+ * flag as a duplicate tag after codegen.
+ */
+.icon[data-emoji]::before {
+	content: attr(data-emoji);
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	margin-right: 0.4em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.tab {
+	margin: 1.25em 0;
+	padding-inline: 1rem;
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style><style>@import url('https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex-swap.min.css')</style></head><body><article id="3b3f6ce8-497f-8030-a748-eb12ebade2ee" class="page sans" data-notion-page-icon="/icons/emoji-heart-eyes_pink.svg"><header><div class="page-header-icon undefined"><img class="icon notion-static-icon" src="https://app.notion.com/icons/emoji-heart-eyes_pink.svg"/></div><h1 class="page-title" dir="auto">Aninhamento</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><h1 id="3b3f6ce8-497f-802e-a6bc-d9d326b8ab6d" class="" dir="auto">Aninhamento (Nesting) no SASS</h1><h2 id="3b3f6ce8-497f-807c-a12f-eb3e4418b41b" class="" dir="auto">O que é Aninhamento?</h2><p id="3b3f6ce8-497f-8029-8c10-e187b6527c19" class="" dir="auto">O <strong>Aninhamento (Nesting)</strong> é um dos recursos mais conhecidos e utilizados do SASS. Ele permite escrever seletores CSS <strong>dentro de outros seletores</strong>, refletindo a mesma estrutura hierárquica do HTML.</p><p id="3b3f6ce8-497f-80d3-a321-cf67022da1c1" class="" dir="auto">No CSS tradicional, quando um elemento está dentro de outro, é necessário repetir o seletor pai várias vezes. Com o aninhamento, essa repetição é eliminada, deixando o código mais limpo, organizado e fácil de entender.</p><h3 id="3b3f6ce8-497f-808e-8e95-ee2fc65b1a55" class="" dir="auto">Exemplo da estrutura HTML</h3><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="3b3f6ce8-497f-804b-a6a3-d04c406984e4" class="code code-wrap" data-notion-code-syntax="html"><code class="language-html" style="white-space:pre-wrap;word-break:break-all">&lt;nav&gt;
+    &lt;ul&gt;
+        &lt;li&gt;
+            &lt;a href=&quot;#&quot;&gt;Início&lt;/a&gt;
+        &lt;/li&gt;
+    &lt;/ul&gt;
+&lt;/nav&gt;</code></pre><p id="3b3f6ce8-497f-8092-bbd3-eef35f0537b2" class="" dir="auto">Essa estrutura pode ser representada de forma semelhante no SCSS:</p><pre id="3b3f6ce8-497f-802a-b20b-c96d4a2a21a0" class="code code-wrap" data-notion-code-syntax="scss"><code class="language-scss" style="white-space:pre-wrap;word-break:break-all">nav{
+    ul{
+        li{
+            a{
+                color: blue;
+            }
+        }
+    }
+}</code></pre><p id="3b3f6ce8-497f-80fb-8baa-f515e4b675dd" class="" dir="auto">Após a compilação, o SASS gera o CSS equivalente.</p><hr id="3b3f6ce8-497f-8015-93c4-f906421a3daa" dir="auto"/><h1 id="3b3f6ce8-497f-80aa-be1f-caba1efe5335" class="" dir="auto">Objetivo do Aninhamento</h1><p id="3b3f6ce8-497f-808b-a88d-ea5b772595e8" class="" dir="auto">O principal objetivo do aninhamento é:</p><ul id="3b3f6ce8-497f-80ef-b935-d86867bfa19f" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Evitar repetição de seletores.</li></ul><ul id="3b3f6ce8-497f-80a4-bacd-f2effdea09f6" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Organizar melhor o código.</li></ul><ul id="3b3f6ce8-497f-80df-a8dc-c53947a099ed" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Tornar o SCSS semelhante à estrutura do HTML.</li></ul><ul id="3b3f6ce8-497f-8035-8630-cc6484e5957d" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Facilitar a leitura e a manutenção.</li></ul><ul id="3b3f6ce8-497f-8072-bc28-d67e546bec0e" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Agrupar estilos relacionados.</li></ul><hr id="3b3f6ce8-497f-8025-9b23-c2c21adbbdef" dir="auto"/><h1 id="3b3f6ce8-497f-806d-b189-dbf8c1aab6f5" class="" dir="auto">Como funciona?</h1><p id="3b3f6ce8-497f-8058-92e1-f92d7e48decc" class="" dir="auto">Quando um seletor é colocado dentro de outro, o SASS combina automaticamente esses seletores ao gerar o CSS.</p><h3 id="3b3f6ce8-497f-80fb-a14b-cc035d87fd20" class="" dir="auto">Exemplo</h3><p id="3b3f6ce8-497f-80e2-a546-faa7d46d6e6e" class="" dir="auto">SCSS:</p><pre id="3b3f6ce8-497f-80d8-aa39-d88b8731e7dd" class="code code-wrap" data-notion-code-syntax="scss"><code class="language-scss" style="white-space:pre-wrap;word-break:break-all">header{
+
+    background: #333;
+
+    h1{
+
+        color: white;
+
+    }
+
+}</code></pre><p id="3b3f6ce8-497f-8014-a567-dcb4cb0cb628" class="" dir="auto">CSS gerado:</p><pre id="3b3f6ce8-497f-801b-b0ec-dfcdd71426b8" class="code code-wrap" data-notion-code-syntax="css"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">header{
+    background: #333;
+}
+
+header h1{
+    color: white;
+}</code></pre><p id="3b3f6ce8-497f-8006-b90f-d27a7e7a386f" class="" dir="auto">Observe que o SASS adicionou automaticamente o seletor <code>header</code> antes de <code>h1</code>.</p><hr id="3b3f6ce8-497f-8082-8320-f8b805ab18a1" dir="auto"/><h1 id="3b3f6ce8-497f-8058-a6f3-caacbe3e16ab" class="" dir="auto">Comparação entre CSS e SCSS</h1><h2 id="3b3f6ce8-497f-8021-b8ce-d475c2532530" class="" dir="auto">CSS tradicional</h2><pre id="3b3f6ce8-497f-80b2-ae72-c773290ecd73" class="code code-wrap" data-notion-code-syntax="css"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">nav{
+    background: black;
+}
+
+nav ul{
+    list-style: none;
+}
+
+nav ul li{
+    display: inline-block;
+}
+
+nav ul li a{
+    color: white;
+}</code></pre><p id="3b3f6ce8-497f-80b7-8b3b-e700402cdaac" class="" dir="auto">Há bastante repetição.</p><hr id="3b3f6ce8-497f-800d-91ed-ca43712f56fb" dir="auto"/><h2 id="3b3f6ce8-497f-80d6-9f4c-d2663999a5d0" class="" dir="auto">SCSS com Aninhamento</h2><pre id="3b3f6ce8-497f-8049-8ee2-dca84e291422" class="code code-wrap" data-notion-code-syntax="scss"><code class="language-scss" style="white-space:pre-wrap;word-break:break-all">nav{
+
+    background: black;
+
+    ul{
+
+        list-style: none;
+
+        li{
+
+            display: inline-block;
+
+            a{
+
+                color: white;
+
+            }
+
+        }
+
+    }
+
+}</code></pre><p id="3b3f6ce8-497f-80fb-ada2-ee9510977870" class="" dir="auto">O resultado compilado será exatamente o mesmo CSS mostrado anteriormente.</p><hr id="3b3f6ce8-497f-80c4-a029-e5b095b521e2" dir="auto"/><h1 id="3b3f6ce8-497f-80dd-9440-ecfb22a6bc63" class="" dir="auto">Vantagens do Aninhamento</h1><h2 id="3b3f6ce8-497f-8017-add7-cd4f28817aef" class="" dir="auto">1. Código mais organizado</h2><p id="3b3f6ce8-497f-8042-8be4-d66a3670e23d" class="" dir="auto">Os elementos ficam agrupados de acordo com sua hierarquia.</p><pre id="3b3f6ce8-497f-800f-99ab-f153e14cd326" class="code code-wrap" data-notion-code-syntax="scss"><code class="language-scss" style="white-space:pre-wrap;word-break:break-all">main{
+
+    article{
+
+        p{
+
+            color: gray;
+
+        }
+
+    }
+
+}</code></pre><p id="3b3f6ce8-497f-80d9-9767-c49662072756" class="" dir="auto">É fácil perceber que o <code>&lt;p&gt;</code> pertence ao <code>&lt;article&gt;</code>, que pertence ao <code>&lt;main&gt;</code>.</p><hr id="3b3f6ce8-497f-803b-aa67-ca6a93115b30" dir="auto"/><h2 id="3b3f6ce8-497f-80b8-a951-e1b2a8e32286" class="" dir="auto">2. Menor repetição</h2><p id="3b3f6ce8-497f-801e-b29d-e50e8e607745" class="" dir="auto">Sem aninhamento:</p><pre id="3b3f6ce8-497f-80be-820a-fee87f64210b" class="code code-wrap" data-notion-code-syntax="css"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">.card{
+}
+
+.card h2{
+}
+
+.card p{
+}
+
+.card button{
+}</code></pre><p id="3b3f6ce8-497f-80a0-9a2d-fc2f285909a3" class="" dir="auto">Com aninhamento:</p><pre id="3b3f6ce8-497f-80c1-ad8e-f93feedd1c52" class="code code-wrap" data-notion-code-syntax="scss"><code class="language-scss" style="white-space:pre-wrap;word-break:break-all">.card{
+
+    h2{
+
+    }
+
+    p{
+
+    }
+
+    button{
+
+    }
+
+}</code></pre><hr id="3b3f6ce8-497f-804c-980b-c1f581f7ee7b" dir="auto"/><h2 id="3b3f6ce8-497f-8057-9576-d8b259eff0e5" class="" dir="auto">3. Fácil manutenção</h2><p id="3b3f6ce8-497f-80c6-b92d-fc74369142ed" class="" dir="auto">Se um componente mudar, todos os estilos relacionados estarão agrupados em um único bloco.</p><hr id="3b3f6ce8-497f-805f-b575-e8ffbeabd076" dir="auto"/><h2 id="3b3f6ce8-497f-8099-81e1-cfcde2291629" class="" dir="auto">4. Código mais legível</h2><p id="3b3f6ce8-497f-80e7-8164-fad180561e6b" class="" dir="auto">Projetos grandes possuem centenas de seletores.</p><p id="3b3f6ce8-497f-802d-8bce-cc066b0ce3b8" class="" dir="auto">O aninhamento facilita encontrar onde determinado estilo está definido.</p><hr id="3b3f6ce8-497f-8035-aff8-c17a9b83f824" dir="auto"/><h1 id="3b3f6ce8-497f-80d5-91ec-e59ae9cb1a9d" class="" dir="auto">Níveis de Aninhamento</h1><h2 id="3b3f6ce8-497f-8053-9657-d8fd259cf533" class="" dir="auto">Um nível</h2><pre id="3b3f6ce8-497f-8094-97f9-e4449b159359" class="code code-wrap" data-notion-code-syntax="scss"><code class="language-scss" style="white-space:pre-wrap;word-break:break-all">section{
+
+    h1{
+
+    }
+
+}</code></pre><p id="3b3f6ce8-497f-8044-b472-c64d8e345685" class="" dir="auto">Resultado:</p><pre id="3b3f6ce8-497f-80ef-a79d-caf625717d40" class="code code-wrap" data-notion-code-syntax="css"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">section h1{
+
+}</code></pre><hr id="3b3f6ce8-497f-8048-8815-d77fbe9e76fc" dir="auto"/><h2 id="3b3f6ce8-497f-8020-ac68-e74dcd1b6710" class="" dir="auto">Dois níveis</h2><pre id="3b3f6ce8-497f-8012-8e33-febd8d35b1db" class="code code-wrap" data-notion-code-syntax="scss"><code class="language-scss" style="white-space:pre-wrap;word-break:break-all">section{
+
+    article{
+
+        h1{
+
+        }
+
+    }
+
+}</code></pre><p id="3b3f6ce8-497f-804e-b8b8-dd76e49355cd" class="" dir="auto">Resultado:</p><pre id="3b3f6ce8-497f-8056-aac7-f7cd546b3961" class="code code-wrap" data-notion-code-syntax="css"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">section article h1{
+
+}</code></pre><hr id="3b3f6ce8-497f-80c9-9d12-eb2a129066dc" dir="auto"/><h2 id="3b3f6ce8-497f-8050-8cf0-dd82d03ee224" class="" dir="auto">Três níveis</h2><pre id="3b3f6ce8-497f-8080-aac4-dbfeb39eea7f" class="code code-wrap" data-notion-code-syntax="scss"><code class="language-scss" style="white-space:pre-wrap;word-break:break-all">section{
+
+    article{
+
+        div{
+
+            p{
+
+            }
+
+        }
+
+    }
+
+}</code></pre><p id="3b3f6ce8-497f-8033-86e0-c3ae8c9a85f2" class="" dir="auto">Resultado:</p><pre id="3b3f6ce8-497f-808e-8802-d26c387d0c47" class="code code-wrap" data-notion-code-syntax="css"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">section article div p{
+
+}</code></pre><p id="3b3f6ce8-497f-8000-832b-d57ce9f9fec1" class="" dir="auto">Quanto maior o número de níveis, mais específico será o seletor gerado.</p><hr id="3b3f6ce8-497f-804d-b3e7-e5f4be69fa75" dir="auto"/><h1 id="3b3f6ce8-497f-80be-8809-ff90e6ad5939" class="" dir="auto">Aninhando Classes</h1><p id="3b3f6ce8-497f-800b-92aa-e47cffeebe29" class="" dir="auto">Também funciona com classes.</p><p id="3b3f6ce8-497f-8015-b9bf-f284905c1816" class="" dir="auto">SCSS:</p><pre id="3b3f6ce8-497f-8089-8299-fc3e3be54273" class="code code-wrap" data-notion-code-syntax="scss"><code class="language-scss" style="white-space:pre-wrap;word-break:break-all">.menu{
+
+    .item{
+
+        color: black;
+
+    }
+
+}</code></pre><p id="3b3f6ce8-497f-803b-ae12-c5c6af0f4fd0" class="" dir="auto">CSS:</p><pre id="3b3f6ce8-497f-8061-896a-fbb0e3ad034a" class="code code-wrap" data-notion-code-syntax="css"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">.menu .item{
+
+    color: black;
+
+}</code></pre><hr id="3b3f6ce8-497f-80c2-92fe-f9a2b9d4ce07" dir="auto"/><h1 id="3b3f6ce8-497f-8060-ac34-e743c72ca401" class="" dir="auto">Aninhando IDs</h1><pre id="3b3f6ce8-497f-8082-a33a-e1d8ca98eb70" class="code code-wrap" data-notion-code-syntax="scss"><code class="language-scss" style="white-space:pre-wrap;word-break:break-all">#container{
+
+    .card{
+
+        h2{
+
+            color: blue;
+
+        }
+
+    }
+
+}</code></pre><p id="3b3f6ce8-497f-807e-8e1d-e328269ab798" class="" dir="auto">Resultado:</p><pre id="3b3f6ce8-497f-80e6-a9e7-d173d195afee" class="code code-wrap" data-notion-code-syntax="css"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">#container .card h2{
+
+    color: blue;
+
+}</code></pre><hr id="3b3f6ce8-497f-8043-a72b-d3a9085c6b68" dir="auto"/><h1 id="3b3f6ce8-497f-8038-8c5f-f70727fbab9c" class="" dir="auto">Pseudo-classes com <code>&amp;</code></h1><p id="3b3f6ce8-497f-80f5-8f4a-dea7e0a47eb3" class="" dir="auto">O caractere <code><strong>&amp;</strong></code> representa o seletor atual e é muito utilizado para criar pseudo-classes e pseudo-elementos.</p><h3 id="3b3f6ce8-497f-80dd-a108-fd35732d16bc" class="" dir="auto">Exemplo</h3><pre id="3b3f6ce8-497f-802e-9dd7-ffb2d6c4689b" class="code code-wrap" data-notion-code-syntax="scss"><code class="language-scss" style="white-space:pre-wrap;word-break:break-all">button{
+
+    background: blue;
+
+    &amp;:hover{
+
+        background: darkblue;
+
+    }
+
+}</code></pre><p id="3b3f6ce8-497f-807b-9dc4-d704831b1205" class="" dir="auto">CSS gerado:</p><pre id="3b3f6ce8-497f-80fc-9f81-d15fe827d196" class="code code-wrap" data-notion-code-syntax="css"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">button{
+    background: blue;
+}
+
+button:hover{
+    background: darkblue;
+}</code></pre><p id="3b3f6ce8-497f-800a-9485-f23a9ef5bb17" class="" dir="auto">Sem o <code>&amp;</code>, seria necessário escrever:</p><pre id="3b3f6ce8-497f-8046-8c9f-c18086107561" class="code code-wrap" data-notion-code-syntax="css"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">button:hover{
+
+}</code></pre><hr id="3b3f6ce8-497f-8047-9732-f56d1ef19c8b" dir="auto"/><h1 id="3b3f6ce8-497f-80e7-93ef-e82b0d5dec59" class="" dir="auto">Pseudo-elementos</h1><pre id="3b3f6ce8-497f-80da-8f21-e2d50842c649" class="code code-wrap" data-notion-code-syntax="scss"><code class="language-scss" style="white-space:pre-wrap;word-break:break-all">p{
+
+    &amp;::first-letter{
+
+        font-size: 30px;
+
+    }
+
+}</code></pre><p id="3b3f6ce8-497f-8057-8f88-db6821a79d5c" class="" dir="auto">Resultado:</p><pre id="3b3f6ce8-497f-8036-96c0-f18e24058050" class="code code-wrap" data-notion-code-syntax="css"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">p::first-letter{
+
+    font-size: 30px;
+
+}</code></pre><hr id="3b3f6ce8-497f-8031-b0b0-e4231ea99111" dir="auto"/><h1 id="3b3f6ce8-497f-80fe-8504-d7d1ac961cb3" class="" dir="auto">Classes modificadoras com <code>&amp;</code></h1><p id="3b3f6ce8-497f-809f-9d91-f89f06aad70f" class="" dir="auto">Muito utilizado na metodologia <strong>BEM (Block Element Modifier)</strong>.</p><p id="3b3f6ce8-497f-8001-a181-fd4f4262f1c0" class="" dir="auto">SCSS:</p><pre id="3b3f6ce8-497f-80d2-87bf-ea5a26197d18" class="code code-wrap" data-notion-code-syntax="scss"><code class="language-scss" style="white-space:pre-wrap;word-break:break-all">.botao{
+
+    background: blue;
+
+    &amp;-grande{
+
+        padding:20px;
+
+    }
+
+}</code></pre><p id="3b3f6ce8-497f-80d6-95e8-fa5e6de46bf7" class="" dir="auto">Resultado:</p><pre id="3b3f6ce8-497f-8035-b1d9-fc00cec09a04" class="code code-wrap" data-notion-code-syntax="css"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">.botao{
+    background: blue;
+}
+
+.botao-grande{
+    padding:20px;
+}</code></pre><p id="3b3f6ce8-497f-800d-ae8d-dc48fcc9c6ed" class="" dir="auto">Outro exemplo:</p><pre id="3b3f6ce8-497f-8075-8a6b-d0f350fe2fe4" class="code code-wrap" data-notion-code-syntax="scss"><code class="language-scss" style="white-space:pre-wrap;word-break:break-all">.card{
+
+    &amp;-header{
+        padding:15px;
+    }
+
+    &amp;-body{
+        padding:20px;
+    }
+
+    &amp;-footer{
+        padding:10px;
+    }
+
+}</code></pre><p id="3b3f6ce8-497f-804d-a97c-c9ea3410f2d5" class="" dir="auto">Resultado:</p><pre id="3b3f6ce8-497f-8059-b4e7-edd488919b90" class="code code-wrap" data-notion-code-syntax="css"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">.card-header{
+    padding:15px;
+}
+
+.card-body{
+    padding:20px;
+}
+
+.card-footer{
+    padding:10px;
+}</code></pre><hr id="3b3f6ce8-497f-80b4-8b8f-f669d23aa792" dir="auto"/><h1 id="3b3f6ce8-497f-8035-8097-defacb7fb1b0" class="" dir="auto">Aninhando Media Queries</h1><p id="3b3f6ce8-497f-80ad-a6f6-d4699acc16c3" class="" dir="auto">É possível colocar media queries dentro de um seletor.</p><p id="3b3f6ce8-497f-8018-b46b-e06a9359d6d9" class="" dir="auto">SCSS:</p><pre id="3b3f6ce8-497f-8090-bddd-c5532d02ef5c" class="code code-wrap" data-notion-code-syntax="scss"><code class="language-scss" style="white-space:pre-wrap;word-break:break-all">.container{
+
+    width: 1200px;
+
+    @media(max-width:768px){
+
+        width:100%;
+
+    }
+
+}</code></pre><p id="3b3f6ce8-497f-8067-b1ab-c049e6bd7247" class="" dir="auto">CSS gerado:</p><pre id="3b3f6ce8-497f-800a-9665-e8641b0e0e61" class="code code-wrap" data-notion-code-syntax="css"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">.container{
+    width:1200px;
+}
+
+@media(max-width:768px){
+
+    .container{
+
+        width:100%;
+
+    }
+
+}</code></pre><p id="3b3f6ce8-497f-80de-b560-d047b41a262e" class="" dir="auto">Isso mantém os estilos responsivos próximos do componente ao qual pertencem.</p><hr id="3b3f6ce8-497f-8077-9cda-f2a3bec94a20" dir="auto"/><h1 id="3b3f6ce8-497f-80c2-b6f0-ccb00f38c40a" class="" dir="auto">Aninhando propriedades</h1><p id="3b3f6ce8-497f-807d-b1aa-e9e06a9382ec" class="" dir="auto">O SASS também permite agrupar propriedades com o mesmo prefixo.</p><p id="3b3f6ce8-497f-80c8-b626-fe9a06f7c480" class="" dir="auto">SCSS:</p><pre id="3b3f6ce8-497f-80a6-bcab-c249bc03b9f7" class="code code-wrap" data-notion-code-syntax="scss"><code class="language-scss" style="white-space:pre-wrap;word-break:break-all">.box{
+
+    border:{
+        width:2px;
+        style:solid;
+        color:black;
+    }
+
+}</code></pre><p id="3b3f6ce8-497f-80dd-b762-dfb4e6942be3" class="" dir="auto">CSS gerado:</p><pre id="3b3f6ce8-497f-800f-a7ed-faa7d5450365" class="code code-wrap" data-notion-code-syntax="css"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">.box{
+
+    border-width:2px;
+    border-style:solid;
+    border-color:black;
+
+}</code></pre><p id="3b3f6ce8-497f-80d4-87cb-de785db02cae" class="" dir="auto">Outro exemplo:</p><pre id="3b3f6ce8-497f-802a-9149-f661011b9886" class="code code-wrap" data-notion-code-syntax="scss"><code class="language-scss" style="white-space:pre-wrap;word-break:break-all">.texto{
+
+    font:{
+        family:Arial;
+        size:18px;
+        weight:bold;
+    }
+
+}</code></pre><p id="3b3f6ce8-497f-808b-918d-df96d5a44e23" class="" dir="auto">Resultado:</p><pre id="3b3f6ce8-497f-80f9-a6b9-ddf90ad7dc63" class="code code-wrap" data-notion-code-syntax="css"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">.texto{
+
+    font-family:Arial;
+    font-size:18px;
+    font-weight:bold;
+
+}</code></pre><hr id="3b3f6ce8-497f-8041-a25e-e9d7f077e910" dir="auto"/><h1 id="3b3f6ce8-497f-805b-a704-ffc0ec2046a3" class="" dir="auto">Cuidados com o Aninhamento</h1><p id="3b3f6ce8-497f-8080-8394-c9cec5cf4ca6" class="" dir="auto">Embora seja muito útil, o uso excessivo pode gerar problemas.</p><h3 id="3b3f6ce8-497f-809c-852c-f75e554043fd" class="" dir="auto">Exemplo ruim</h3><pre id="3b3f6ce8-497f-8015-a5be-f2593f2bc75a" class="code code-wrap" data-notion-code-syntax="scss"><code class="language-scss" style="white-space:pre-wrap;word-break:break-all">body{
+
+    main{
+
+        section{
+
+            article{
+
+                div{
+
+                    ul{
+
+                        li{
+
+                            a{
+
+                                span{
+
+                                    color:red;
+
+                                }
+
+                            }
+
+                        }
+
+                    }
+
+                }
+
+            }
+
+        }
+
+    }
+
+}</code></pre><p id="3b3f6ce8-497f-807d-a93e-d4bd5ca08183" class="" dir="auto">CSS gerado:</p><pre id="3b3f6ce8-497f-809a-9e30-db74b54d3fd1" class="code code-wrap" data-notion-code-syntax="css"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">body main section article div ul li a span{
+
+    color:red;
+
+}</code></pre><p id="3b3f6ce8-497f-80a6-894a-c287f5bee41f" class="" dir="auto">Esse seletor é extremamente específico, difícil de manter e pode prejudicar o desempenho do CSS.</p><hr id="3b3f6ce8-497f-8018-aaad-c01b2917f1de" dir="auto"/><h1 id="3b3f6ce8-497f-80e7-a407-e6c9b4d9ec70" class="" dir="auto">Recomendação</h1><p id="3b3f6ce8-497f-80ce-bf04-eb0319864b31" class="" dir="auto">O ideal é limitar o aninhamento a <strong>3 ou 4 níveis</strong>.</p><p id="3b3f6ce8-497f-8025-b5d7-e1759b765d2e" class="" dir="auto">Exemplo recomendado:</p><pre id="3b3f6ce8-497f-806a-9210-c055e23083f7" class="code code-wrap" data-notion-code-syntax="scss"><code class="language-scss" style="white-space:pre-wrap;word-break:break-all">.card{
+
+    h2{
+
+    }
+
+    p{
+
+    }
+
+    button{
+
+    }
+
+}</code></pre><p id="3b3f6ce8-497f-80c4-baa1-d88591aa3156" class="" dir="auto">Esse código permanece organizado e fácil de manter.</p><hr id="3b3f6ce8-497f-8073-89ea-fc750fc929a6" dir="auto"/><h1 id="3b3f6ce8-497f-80ea-8e61-ff8f7c6ba838" class="" dir="auto">Boas práticas</h1><ul id="3b3f6ce8-497f-8014-b36e-ed6dd0a8471d" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Utilize o aninhamento apenas quando houver relação direta entre os elementos.</li></ul><ul id="3b3f6ce8-497f-802e-a342-e5029d586c33" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Evite criar seletores muito longos.</li></ul><ul id="3b3f6ce8-497f-805c-a5ef-e11f2d54a787" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Prefira no máximo 3 ou 4 níveis de profundidade.</li></ul><ul id="3b3f6ce8-497f-8024-a564-dfcabc7f8bcc" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Use o operador <code>&amp;</code> para pseudo-classes, pseudo-elementos e modificadores.</li></ul><ul id="3b3f6ce8-497f-800b-84b2-d609bf2de1eb" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Organize os estilos por componente.</li></ul><ul id="3b3f6ce8-497f-8012-9480-e7ed9abf6f37" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Não utilize o aninhamento apenas porque ele existe; avalie se ele realmente melhora a legibilidade.</li></ul><hr id="3b3f6ce8-497f-8055-ac8a-ed967700775e" dir="auto"/><h1 id="3b3f6ce8-497f-80d8-a42c-d7fe0da8d03f" class="" dir="auto">Vantagens</h1><ul id="3b3f6ce8-497f-80a2-8d2a-df66d126cf42" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Código mais limpo.</li></ul><ul id="3b3f6ce8-497f-8002-9e00-f04824199079" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Menor repetição de seletores.</li></ul><ul id="3b3f6ce8-497f-801c-8d8b-df6352af669c" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Melhor organização.</li></ul><ul id="3b3f6ce8-497f-803d-8ac7-e396e6671da7" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Fácil manutenção.</li></ul><ul id="3b3f6ce8-497f-808c-b50f-dbed3007ff2e" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Aproxima a estrutura do SCSS da estrutura do HTML.</li></ul><ul id="3b3f6ce8-497f-80f2-8259-d325bb8d5c42" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Facilita a criação de componentes reutilizáveis.</li></ul><ul id="3b3f6ce8-497f-8043-86d9-f85fc4129509" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Excelente integração com metodologias como BEM.</li></ul><hr id="3b3f6ce8-497f-80fe-a25f-c0fc855c419b" dir="auto"/><h1 id="3b3f6ce8-497f-8009-a700-f49a74268084" class="" dir="auto">Desvantagens</h1><ul id="3b3f6ce8-497f-8012-8a79-d32d0eb5a3e3" class="bulleted-list" dir="auto"><li style="list-style-type:disc">O uso excessivo gera CSS muito específico.</li></ul><ul id="3b3f6ce8-497f-8070-9ea5-d2d3af0a1f6e" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Pode dificultar a sobrescrita de estilos.</li></ul><ul id="3b3f6ce8-497f-80e3-a0ff-f668d12b903e" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Seletores muito longos tornam a manutenção mais complexa.</li></ul><ul id="3b3f6ce8-497f-8093-8330-d28639a64144" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Desenvolvedores iniciantes tendem a exagerar na profundidade do aninhamento.</li></ul><hr id="3b3f6ce8-497f-8053-9f9a-dd7fdcccf588" dir="auto"/><h1 id="3b3f6ce8-497f-803a-9e77-c17d6f02f2a8" class="" dir="auto">Casos de uso</h1><p id="3b3f6ce8-497f-8018-8ef1-e92f5f0c74d0" class="" dir="auto">O aninhamento é especialmente útil em:</p><ul id="3b3f6ce8-497f-8062-bde0-d146cb2575bb" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Menus de navegação.</li></ul><ul id="3b3f6ce8-497f-8081-bf2e-c2757c39c19f" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Cards.</li></ul><ul id="3b3f6ce8-497f-80ed-83cf-e90695653475" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Formulários.</li></ul><ul id="3b3f6ce8-497f-808c-9ff9-f1d75f821114" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Componentes reutilizáveis.</li></ul><ul id="3b3f6ce8-497f-80b8-9473-d4292d02b733" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Cabeçalhos e rodapés.</li></ul><ul id="3b3f6ce8-497f-803a-bb72-c2db7b5e0558" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Barras laterais.</li></ul><ul id="3b3f6ce8-497f-8048-ab26-cfb9497e5801" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Componentes responsivos com media queries.</li></ul><ul id="3b3f6ce8-497f-80f2-92c0-e994e74360f9" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Projetos organizados por componentes.</li></ul><hr id="3b3f6ce8-497f-801c-a532-da06bd6ef3af" dir="auto"/><h1 id="3b3f6ce8-497f-80fa-be64-ca9b14329b2a" class="" dir="auto">Resumo</h1><p id="3b3f6ce8-497f-8071-a2df-dc30c40d54cd" class="" dir="auto">O <strong>Aninhamento (Nesting)</strong> é um recurso do SASS que permite escrever seletores dentro de outros seletores, reproduzindo a hierarquia do HTML e reduzindo a repetição de código. Durante a compilação, o SASS transforma essa estrutura em CSS comum. Além de permitir o aninhamento de seletores, ele também suporta o uso do operador <code><strong>&amp;</strong></code> para pseudo-classes, pseudo-elementos e modificadores, bem como o agrupamento de propriedades e media queries. Quando utilizado com moderação — geralmente até três ou quatro níveis de profundidade — o aninhamento torna o código mais organizado, legível e fácil de manter.</p></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

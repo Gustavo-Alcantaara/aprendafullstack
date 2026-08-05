@@ -1,0 +1,827 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Plugins</title><meta name="data-notion-page-icon" content="/icons/emoji-heart-eyes_pink.svg"/><link rel="icon" href="https://app.notion.com/icons/emoji-heart-eyes_pink.svg"/><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+/* For default-background callouts, render the border outline. */
+.callout.block-color-default_background {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+/*
+ * Toggles and callouts hold arbitrary content, so they can easily be taller
+ * than a page. They must stay breakable: avoiding breaks inside them makes
+ * Chromium push the whole block onto the next page, which leaves the previous
+ * page mostly empty before every long toggle.
+ */
+details,
+aside {
+	margin: 1.25em 0;
+}
+
+/* Keep a toggle's title on the same page as the start of its content. */
+summary {
+	page-break-after: avoid;
+	break-after: avoid;
+}
+
+/*
+ * Toggle headings render as <h1/h2/h3 style="display:inline-block"> inside
+ * <summary>. Without this reset, the heading's margin-top pushes it below the
+ * ::marker (▼), so the triangle and the title appear on separate lines.
+ */
+summary h1,
+summary h2,
+summary h3,
+summary h4 {
+	margin-top: 0;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding-inline: 0.125rem;
+	padding-block: 0.375rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+/*
+ * Render emoji icons using a ::before pseudo-element to keep the glyph
+ * out of the DOM textContent traversal. This avoids double-rendering icons
+ * in callouts and page titles.
+ * NOTE(slim/html-export-pseudo-icons): I can't tagref this because it will
+ * flag as a duplicate tag after codegen.
+ */
+.icon[data-emoji]::before {
+	content: attr(data-emoji);
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	margin-right: 0.4em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.tab {
+	margin: 1.25em 0;
+	padding-inline: 1rem;
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style><style>@import url('https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex-swap.min.css')</style></head><body><article id="3b3f6ce8-497f-808a-b79e-e72beffbdb93" class="page sans" data-notion-page-icon="/icons/emoji-heart-eyes_pink.svg"><header><div class="page-header-icon undefined"><img class="icon notion-static-icon" src="https://app.notion.com/icons/emoji-heart-eyes_pink.svg"/></div><h1 class="page-title" dir="auto">Plugins</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><h1 id="3b3f6ce8-497f-801f-8753-e563ba554d18" class="" dir="auto">Plugins e Instalação de Plugins no SASS</h1><h2 id="3b3f6ce8-497f-809f-b531-c2d3e5adf20e" class="" dir="auto">O que são Plugins no SASS?</h2><p id="3b3f6ce8-497f-8082-927f-f169868c191f" class="" dir="auto">Ao contrário de ferramentas como WordPress, VS Code ou navegadores, <strong>o SASS não possui um sistema oficial de plugins</strong> que adicionam funcionalidades diretamente à linguagem.</p><p id="3b3f6ce8-497f-8069-af8a-fa0bf4c833b8" class="" dir="auto">Quando se fala em <strong>plugins no contexto do SASS</strong>, normalmente estamos nos referindo a ferramentas que <strong>integram o SASS a editores de código, frameworks, bundlers ou processos de compilação</strong>, automatizando tarefas como:</p><ul id="3b3f6ce8-497f-80f7-ad03-c429f7d7b13e" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Compilar arquivos <code>.scss</code> para <code>.css</code>;</li></ul><ul id="3b3f6ce8-497f-8074-b461-dbb843e24e8b" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Minificar o CSS gerado;</li></ul><ul id="3b3f6ce8-497f-8055-9215-c32009ef584e" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Atualizar o navegador automaticamente;</li></ul><ul id="3b3f6ce8-497f-80b0-bb1c-cae2bf6bfcb6" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Gerar mapas de origem (Source Maps);</li></ul><ul id="3b3f6ce8-497f-809d-ac80-f8a69dfbf130" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Integrar o SASS a projetos com React, Vue, Angular e outros frameworks;</li></ul><ul id="3b3f6ce8-497f-80a1-bfef-f53fe3ec075c" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Melhorar a experiência de desenvolvimento.</li></ul><p id="3b3f6ce8-497f-8075-bfe8-f9689d18178d" class="" dir="auto">Em outras palavras, os &quot;plugins&quot; não alteram a linguagem SASS, mas facilitam seu uso no desenvolvimento.</p><hr id="3b3f6ce8-497f-8009-908b-cc4d96441c10" dir="auto"/><h1 id="3b3f6ce8-497f-80b8-9275-e48dbc1c03ab" class="" dir="auto">Por que utilizar plugins?</h1><p id="3b3f6ce8-497f-80c6-ac78-ed59bc5bb916" class="" dir="auto">Sem plugins, seria necessário compilar o SASS manualmente sempre que uma alteração fosse feita.</p><p id="3b3f6ce8-497f-80f5-a276-e68b37eb389a" class="" dir="auto">Exemplo:</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-bash.min.js" integrity="sha512-whYhDwtTmlC/NpZlCr6PSsAaLOrfjVg/iXAnC4H/dtiHawpShhT2SlIMbpIhT/IL/NrpdMm+Hq2C13+VKpHTYw==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="3b3f6ce8-497f-8079-8153-dd26368d82ca" class="code code-wrap" data-notion-code-syntax="bash"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">sass style.scss style.css</code></pre><p id="3b3f6ce8-497f-8035-af4e-ebc43cabd5c7" class="" dir="auto">Após qualquer modificação no arquivo, o desenvolvedor precisaria executar esse comando novamente.</p><p id="3b3f6ce8-497f-806d-b53e-e5484fd9cb54" class="" dir="auto">Com plugins ou ferramentas de automação, essa compilação acontece automaticamente, economizando tempo e reduzindo erros.</p><hr id="3b3f6ce8-497f-803d-926a-cff13ac94129" dir="auto"/><h1 id="3b3f6ce8-497f-80b8-864d-e80273464819" class="" dir="auto">Principais tipos de plugins e ferramentas</h1><p id="3b3f6ce8-497f-800e-a0b7-fe855b0e7d8d" class="" dir="auto">Os plugins relacionados ao SASS podem ser divididos em algumas categorias.</p><h2 id="3b3f6ce8-497f-807b-9554-d9ff9e66b253" class="" dir="auto">1. Plugins para Editores de Código</h2><p id="3b3f6ce8-497f-8025-a210-f7fd15cc1fcf" class="" dir="auto">Esses plugins facilitam o desenvolvimento dentro do editor.</p><p id="3b3f6ce8-497f-802f-9aa4-ec04854260b3" class="" dir="auto">Eles podem oferecer:</p><ul id="3b3f6ce8-497f-8015-939c-f93d5d9aa5db" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Compilação automática;</li></ul><ul id="3b3f6ce8-497f-80a6-9a2c-d074f898e599" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Autocompletar;</li></ul><ul id="3b3f6ce8-497f-80e7-9fa7-d72dcbae1304" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Destaque de sintaxe;</li></ul><ul id="3b3f6ce8-497f-80e4-8d52-ead206ec498d" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Navegação entre arquivos;</li></ul><ul id="3b3f6ce8-497f-804b-9691-c3e997c626f2" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Formatação automática;</li></ul><ul id="3b3f6ce8-497f-8003-a3df-c2a32acb451b" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Detecção de erros.</li></ul><h3 id="3b3f6ce8-497f-8084-9701-e1534eea65e2" class="" dir="auto">Exemplo no Visual Studio Code</h3><p id="3b3f6ce8-497f-80ef-8147-eaa10237ecef" class="" dir="auto">Algumas extensões populares incluem:</p><ul id="3b3f6ce8-497f-809f-becc-e90078377398" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>Live Sass Compiler</strong> – Compila arquivos SCSS automaticamente para CSS.</li></ul><ul id="3b3f6ce8-497f-8086-91da-ff8f5bd7c2c3" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>Sass Indented</strong> – Suporte à sintaxe <code>.sass</code>.</li></ul><ul id="3b3f6ce8-497f-80c8-b3e2-d2b4f54d0cf9" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>SCSS IntelliSense</strong> – Autocompletar e sugestões inteligentes.</li></ul><ul id="3b3f6ce8-497f-801b-a454-f28fe09fc774" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>Prettier</strong> – Formata automaticamente arquivos SCSS e CSS.</li></ul><hr id="3b3f6ce8-497f-80eb-a091-c3d7f6001d14" dir="auto"/><h2 id="3b3f6ce8-497f-80c7-8782-f0d17ec15e25" class="" dir="auto">2. Plugins para Bundlers</h2><p id="3b3f6ce8-497f-8002-a290-d93cf949dc9d" class="" dir="auto">Em projetos modernos, o SASS normalmente é processado por ferramentas chamadas <strong>bundlers</strong>.</p><p id="3b3f6ce8-497f-8054-bcc1-de570ff62a8e" class="" dir="auto">Essas ferramentas automatizam diversas etapas do desenvolvimento.</p><p id="3b3f6ce8-497f-80c4-97ec-c7b724dede30" class="" dir="auto">Exemplos:</p><ul id="3b3f6ce8-497f-80f3-9d6f-dc65e03a43b3" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Webpack</li></ul><ul id="3b3f6ce8-497f-805d-89e4-e0119fd9933e" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Vite</li></ul><ul id="3b3f6ce8-497f-80c9-969a-f181f4bf7655" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Parcel</li></ul><ul id="3b3f6ce8-497f-8022-94ca-c1a0ea3cab2d" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Rollup</li></ul><p id="3b3f6ce8-497f-80a0-80d0-c98a47d30262" class="" dir="auto">Esses bundlers utilizam plugins específicos para interpretar arquivos <code>.scss</code>.</p><p id="3b3f6ce8-497f-80a0-8f1c-cb25f2d74a7a" class="" dir="auto">Fluxo de funcionamento:</p><pre id="3b3f6ce8-497f-8056-be50-c5795ad6837a" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Arquivo SCSS
+      ↓
+Plugin do Bundler
+      ↓
+CSS
+      ↓
+Aplicação Web</code></pre><hr id="3b3f6ce8-497f-8091-8de4-f045c332e95d" dir="auto"/><h2 id="3b3f6ce8-497f-8096-8a57-d30a422d5015" class="" dir="auto">3. Plugins para Frameworks</h2><p id="3b3f6ce8-497f-807e-915e-cffc145c06f2" class="" dir="auto">Frameworks modernos possuem suporte ao SASS através de configurações ou plugins.</p><p id="3b3f6ce8-497f-80a9-9b8e-cebf55ac89d0" class="" dir="auto">Exemplos:</p><ul id="3b3f6ce8-497f-8025-90d2-ce0c07d44e57" class="bulleted-list" dir="auto"><li style="list-style-type:disc">React</li></ul><ul id="3b3f6ce8-497f-80a4-97a9-fc28de27c615" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Vue</li></ul><ul id="3b3f6ce8-497f-8082-8234-e41359d0220d" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Angular</li></ul><ul id="3b3f6ce8-497f-80f2-86a0-f2beea089986" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Next.js</li></ul><ul id="3b3f6ce8-497f-8010-98f5-f83a7792c5e0" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Nuxt</li></ul><p id="3b3f6ce8-497f-8064-9408-db6f82d0cced" class="" dir="auto">Nesses ambientes, o desenvolvedor pode importar arquivos SCSS diretamente nos componentes, e a ferramenta de build realiza a compilação automaticamente.</p><hr id="3b3f6ce8-497f-8093-b4dd-ca1df02d23f9" dir="auto"/><h2 id="3b3f6ce8-497f-802c-a718-ef3a497fb8b0" class="" dir="auto">4. Bibliotecas SASS</h2><p id="3b3f6ce8-497f-80ae-a789-c8f12046d297" class="" dir="auto">Embora não sejam exatamente plugins, existem bibliotecas que expandem as possibilidades do SASS.</p><p id="3b3f6ce8-497f-801f-9ea1-f41f1a2e173a" class="" dir="auto">Alguns exemplos:</p><ul id="3b3f6ce8-497f-8046-800d-feec025a51c7" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Bourbon</li></ul><ul id="3b3f6ce8-497f-8043-ba18-f52e3fd5c41c" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Compass (hoje pouco utilizado)</li></ul><ul id="3b3f6ce8-497f-8092-a695-f540b5671f6a" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Susy</li></ul><ul id="3b3f6ce8-497f-8040-9758-cb8eadf7caea" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Breakpoint</li></ul><p id="3b3f6ce8-497f-80b7-a020-f8532e9ed25d" class="" dir="auto">Essas bibliotecas fornecem mixins, funções e utilitários prontos para tarefas comuns, como grids, responsividade e manipulação de estilos.</p><hr id="3b3f6ce8-497f-80a6-8a4a-ee45d9e71a28" dir="auto"/><h1 id="3b3f6ce8-497f-8080-91d7-e2de38199f00" class="" dir="auto">Como instalar o SASS</h1><p id="3b3f6ce8-497f-8096-8bb3-fbcb41257e02" class="" dir="auto">Antes de utilizar plugins, é necessário instalar o compilador do SASS.</p><h2 id="3b3f6ce8-497f-809e-a89e-f34db420fba4" class="" dir="auto">Pré-requisitos</h2><p id="3b3f6ce8-497f-8055-82f9-e598af5d3a94" class="" dir="auto">É necessário possuir o <strong>Node.js</strong> instalado.</p><p id="3b3f6ce8-497f-80c4-aab5-e0a98ec35438" class="" dir="auto">Após instalar o Node.js, o gerenciador de pacotes <strong>npm</strong> também estará disponível.</p><p id="3b3f6ce8-497f-8011-9519-d6b8ecf45b23" class="" dir="auto">Verifique a instalação:</p><pre id="3b3f6ce8-497f-8066-befb-eab352da5ad8" class="code code-wrap" data-notion-code-syntax="bash"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">node -v
+npm -v</code></pre><hr id="3b3f6ce8-497f-80aa-a34f-eca024d543e7" dir="auto"/><h2 id="3b3f6ce8-497f-808c-a05e-dea8696c06e3" class="" dir="auto">Instalação global</h2><pre id="3b3f6ce8-497f-80cb-b6e9-ce4938adb9ad" class="code code-wrap" data-notion-code-syntax="bash"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">npm install -g sass</code></pre><p id="3b3f6ce8-497f-806d-99a7-c9684cfee3b7" class="" dir="auto">Verificando a instalação:</p><pre id="3b3f6ce8-497f-8046-a990-f83a78c1716b" class="code code-wrap" data-notion-code-syntax="bash"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">sass --version</code></pre><hr id="3b3f6ce8-497f-80cc-bfe7-c4892784b198" dir="auto"/><h2 id="3b3f6ce8-497f-80dd-b326-c604e0db8b1c" class="" dir="auto">Instalação local (recomendada)</h2><p id="3b3f6ce8-497f-80f3-9c00-f9addaace7e7" class="" dir="auto">Dentro do projeto:</p><pre id="3b3f6ce8-497f-8022-81cf-e103b0cce7fd" class="code code-wrap" data-notion-code-syntax="bash"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">npm install sass</code></pre><p id="3b3f6ce8-497f-80f5-a168-d5e56b63ca7c" class="" dir="auto">Essa abordagem garante que todos os membros da equipe utilizem a mesma versão do SASS.</p><hr id="3b3f6ce8-497f-80d6-b578-d3604d631240" dir="auto"/><h1 id="3b3f6ce8-497f-8032-a2ba-f5ff36e49f86" class="" dir="auto">Instalando plugins no Visual Studio Code</h1><p id="3b3f6ce8-497f-801d-86f9-c541c0861c59" class="" dir="auto">O Visual Studio Code possui uma loja de extensões integrada.</p><h3 id="3b3f6ce8-497f-806a-8456-e26c8373eebb" class="" dir="auto">Passo 1</h3><p id="3b3f6ce8-497f-8025-bc88-e58726a946b3" class="" dir="auto">Abra o VS Code.</p><h3 id="3b3f6ce8-497f-800b-aae8-eb53dc4243b4" class="" dir="auto">Passo 2</h3><p id="3b3f6ce8-497f-80a6-ad89-c0e14e7987c3" class="" dir="auto">Clique na aba <strong>Extensions</strong> (ou pressione <code>Ctrl + Shift + X</code>).</p><h3 id="3b3f6ce8-497f-80bb-b9d8-d45411fd1663" class="" dir="auto">Passo 3</h3><p id="3b3f6ce8-497f-80e8-8738-f10bc1cac910" class="" dir="auto">Pesquise pela extensão desejada.</p><p id="3b3f6ce8-497f-802b-9887-e438194622fd" class="" dir="auto">Exemplo:</p><pre id="3b3f6ce8-497f-8097-8b12-d248989e766d" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Live Sass Compiler</code></pre><h3 id="3b3f6ce8-497f-80a8-8f7d-eb0ebfbaaa31" class="" dir="auto">Passo 4</h3><p id="3b3f6ce8-497f-8095-aff1-d0896917aa8b" class="" dir="auto">Clique em <strong>Install</strong>.</p><p id="3b3f6ce8-497f-80a2-b16a-ddc421670aff" class="" dir="auto">Após instalada, a extensão ficará disponível no editor.</p><hr id="3b3f6ce8-497f-8016-95ea-ec2259ce8eda" dir="auto"/><h1 id="3b3f6ce8-497f-80f0-a4d3-d0bc8541137a" class="" dir="auto">Live Sass Compiler</h1><p id="3b3f6ce8-497f-80b4-b113-d0c259036126" class="" dir="auto">É uma das extensões mais populares para quem está aprendendo SASS.</p><h3 id="3b3f6ce8-497f-802f-bccd-c5ede5d91c67" class="" dir="auto">O que ela faz?</h3><ul id="3b3f6ce8-497f-80f8-aec5-fe589d12bf85" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Compila SCSS automaticamente;</li></ul><ul id="3b3f6ce8-497f-80b8-b6e4-ddf73d9fd4f5" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Gera arquivos CSS;</li></ul><ul id="3b3f6ce8-497f-800f-b08b-f51dec71f886" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Atualiza os arquivos sempre que forem salvos;</li></ul><ul id="3b3f6ce8-497f-8007-be75-efd934575e86" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Evita a necessidade de executar comandos no terminal.</li></ul><h3 id="3b3f6ce8-497f-8011-a01e-ec7c875873b1" class="" dir="auto">Fluxo de funcionamento</h3><pre id="3b3f6ce8-497f-803f-9959-fad6bbd49928" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Salvar arquivo SCSS
+        ↓
+Live Sass Compiler
+        ↓
+Arquivo CSS atualizado</code></pre><hr id="3b3f6ce8-497f-8057-b298-caac5da70660" dir="auto"/><h1 id="3b3f6ce8-497f-8073-a800-f97accfee5d4" class="" dir="auto">Como utilizar o Live Sass Compiler</h1><p id="3b3f6ce8-497f-80c6-8a23-de1a4ae7e2f8" class="" dir="auto">Suponha o seguinte arquivo:</p><pre id="3b3f6ce8-497f-8021-9c3b-ff12a73f8834" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">style.scss</code></pre><p id="3b3f6ce8-497f-80e5-83a7-e7367c342106" class="" dir="auto">Código:</p><pre id="3b3f6ce8-497f-80b3-8e4a-f054aef1b100" class="code code-wrap" data-notion-code-syntax="scss"><code class="language-scss" style="white-space:pre-wrap;word-break:break-all">$cor: blue;
+
+body{
+    background: $cor;
+}</code></pre><p id="3b3f6ce8-497f-805b-88cf-f3ca89ca4944" class="" dir="auto">Ao clicar em <strong>Watch Sass</strong>, a extensão começa a monitorar o arquivo.</p><p id="3b3f6ce8-497f-8041-978f-fc6b06158b64" class="" dir="auto">Após salvar (<code>Ctrl + S</code>), será criado:</p><pre id="3b3f6ce8-497f-8022-ba54-d27f50a01262" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">style.css</code></pre><p id="3b3f6ce8-497f-8085-91de-f400c554bba2" class="" dir="auto">Conteúdo:</p><pre id="3b3f6ce8-497f-80d3-b395-c0082052b093" class="code code-wrap" data-notion-code-syntax="css"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">body{
+    background: blue;
+}</code></pre><p id="3b3f6ce8-497f-80b1-a08f-d23b03d8c1fd" class="" dir="auto">Sempre que o arquivo SCSS for alterado, o CSS será recompilado automaticamente.</p><hr id="3b3f6ce8-497f-80e4-b106-fa2f62286245" dir="auto"/><h1 id="3b3f6ce8-497f-8069-b8db-ce6174508f5b" class="" dir="auto">Compilação pelo terminal</h1><p id="3b3f6ce8-497f-80f6-9c2a-c0da90cb9fae" class="" dir="auto">Mesmo utilizando plugins, é importante conhecer os comandos básicos do SASS.</p><p id="3b3f6ce8-497f-8033-b003-f4d02dff6652" class="" dir="auto">Compilar um arquivo:</p><pre id="3b3f6ce8-497f-8009-b37f-e55ca8dbf2e9" class="code code-wrap" data-notion-code-syntax="bash"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">sass style.scss style.css</code></pre><p id="3b3f6ce8-497f-8064-b275-f40d3c338bf3" class="" dir="auto">Monitorar alterações:</p><pre id="3b3f6ce8-497f-80a6-a708-ec51c336178f" class="code code-wrap" data-notion-code-syntax="bash"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">sass --watch style.scss style.css</code></pre><p id="3b3f6ce8-497f-80da-94c9-cb9124128bd3" class="" dir="auto">Monitorar uma pasta inteira:</p><pre id="3b3f6ce8-497f-8002-913c-e6b0fc1f3417" class="code code-wrap" data-notion-code-syntax="bash"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">sass --watch scss:css</code></pre><p id="3b3f6ce8-497f-801b-8293-c1bae8833067" class="" dir="auto">Esse comando acompanha todos os arquivos da pasta <code>scss</code> e gera os arquivos CSS correspondentes na pasta <code>css</code>.</p><hr id="3b3f6ce8-497f-8082-a856-dd970f57eae1" dir="auto"/><h1 id="3b3f6ce8-497f-800e-bbc1-c20f78995890" class="" dir="auto">Gerando CSS comprimido</h1><p id="3b3f6ce8-497f-80f1-aff7-d67a20d5c6c1" class="" dir="auto">Para produção, é comum gerar um CSS minificado.</p><pre id="3b3f6ce8-497f-80f2-8083-ede93d657a36" class="code code-wrap" data-notion-code-syntax="bash"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">sass style.scss style.css --style=compressed</code></pre><p id="3b3f6ce8-497f-80f9-821d-d07b9845174e" class="" dir="auto">Resultado:</p><pre id="3b3f6ce8-497f-80b0-927a-e6ccb88f5b33" class="code code-wrap" data-notion-code-syntax="css"><code class="language-css" style="white-space:pre-wrap;word-break:break-all">body{background:blue}</code></pre><p id="3b3f6ce8-497f-80a0-97dd-cd9dd64a34f5" class="" dir="auto">Esse formato reduz o tamanho do arquivo e melhora o desempenho do carregamento da página.</p><hr id="3b3f6ce8-497f-800e-889f-f000a5b1d97c" dir="auto"/><h1 id="3b3f6ce8-497f-80d9-b94a-dfc9b5c983b9" class="" dir="auto">Source Maps</h1><p id="3b3f6ce8-497f-8027-8181-d5d0c2e0374d" class="" dir="auto">Os <strong>Source Maps</strong> permitem que o navegador associe o CSS compilado ao arquivo SCSS original.</p><p id="3b3f6ce8-497f-80d1-8ec0-ccd0874d656d" class="" dir="auto">Benefícios:</p><ul id="3b3f6ce8-497f-80de-9c38-cf4d3482d86a" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Facilita a depuração;</li></ul><ul id="3b3f6ce8-497f-806d-bf37-c506e18aa8f3" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Permite identificar em qual arquivo SCSS um estilo foi definido;</li></ul><ul id="3b3f6ce8-497f-800d-8f46-d90bf8a8aa8b" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Muito útil em projetos grandes.</li></ul><p id="3b3f6ce8-497f-800b-8a49-c1eadcdd7089" class="" dir="auto">Durante o desenvolvimento, geralmente eles são gerados automaticamente pelas ferramentas de build.</p><hr id="3b3f6ce8-497f-80c7-b406-f0a575627eb0" dir="auto"/><h1 id="3b3f6ce8-497f-80ee-a619-d21d62d0e081" class="" dir="auto">Estrutura típica de um projeto com SASS</h1><pre id="3b3f6ce8-497f-8019-8b46-df666d6a4a13" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Projeto
+│
+├── node_modules/
+│
+├── scss/
+│   ├── _variables.scss
+│   ├── _mixins.scss
+│   ├── _header.scss
+│   ├── _footer.scss
+│   └── style.scss
+│
+├── css/
+│   └── style.css
+│
+├── package.json
+│
+└── index.html</code></pre><ul id="3b3f6ce8-497f-80f9-8576-d2f2af87a3fe" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>scss/</strong>: contém os arquivos-fonte escritos pelo desenvolvedor.</li></ul><ul id="3b3f6ce8-497f-80fc-999d-c7348ce5c94d" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>css/</strong>: recebe os arquivos compilados.</li></ul><ul id="3b3f6ce8-497f-8075-b46d-d29070462c8f" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>node_modules/</strong>: armazena as dependências instaladas pelo npm.</li></ul><ul id="3b3f6ce8-497f-80b1-96d8-f686f33ff432" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>package.json</strong>: registra as dependências e scripts do projeto.</li></ul><hr id="3b3f6ce8-497f-8024-82d3-d6d09d3afd35" dir="auto"/><h1 id="3b3f6ce8-497f-80f6-bd37-c62183f53162" class="" dir="auto">Instalação em projetos modernos</h1><p id="3b3f6ce8-497f-8084-8f0f-f328c566b8ed" class="" dir="auto">Na maioria dos projetos atuais, basta instalar o SASS como dependência:</p><pre id="3b3f6ce8-497f-8024-b57a-dfba64cfe278" class="code code-wrap" data-notion-code-syntax="bash"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">npm install sass</code></pre><p id="3b3f6ce8-497f-8049-9f54-ef8355ab807f" class="" dir="auto">Depois, o framework ou bundler já reconhece os arquivos <code>.scss</code>.</p><p id="3b3f6ce8-497f-8083-9fb1-c143d4eb88c2" class="" dir="auto">Exemplo de importação:</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-jsx.min.js" integrity="sha512-m3JYEI6gx5fh9jF10FjGoMzVKcV2N6nchcDcqPCdI1L3R2WQV7br2XVNR8iTLb2daOMRl3zldbcfT40xU2ntVw==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="3b3f6ce8-497f-8093-b075-fe746d133da6" class="code code-wrap" data-notion-code-syntax="jsx"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">import &quot;./style.scss&quot;;</code></pre><p id="3b3f6ce8-497f-801c-b87b-e6fba7792be8" class="" dir="auto">Durante a execução da aplicação, o sistema de build realiza a compilação automaticamente.</p><hr id="3b3f6ce8-497f-8092-acb6-de93d04e0bd5" dir="auto"/><h1 id="3b3f6ce8-497f-8060-a814-d574e8ab7236" class="" dir="auto">Boas práticas</h1><ul id="3b3f6ce8-497f-80d1-bece-d6a75d677cd1" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Prefira instalar o SASS localmente (<code>npm install sass</code>) em vez de globalmente.</li></ul><ul id="3b3f6ce8-497f-80ae-a3a2-ded519499e00" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Utilize um sistema de compilação automática (<code>sass --watch</code> ou uma extensão como Live Sass Compiler).</li></ul><ul id="3b3f6ce8-497f-80a8-8ed3-fb6ee0dfe2c0" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Organize os arquivos SCSS em módulos (partials).</li></ul><ul id="3b3f6ce8-497f-80d7-b7cf-e6c2d93d79d4" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Gere CSS comprimido para produção.</li></ul><ul id="3b3f6ce8-497f-80d1-ae50-fba4e6782b24" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Não edite o arquivo CSS compilado manualmente; faça as alterações sempre nos arquivos <code>.scss</code>.</li></ul><ul id="3b3f6ce8-497f-80f2-86a4-e5393fbdad06" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Mantenha as dependências atualizadas para aproveitar melhorias e correções de segurança.</li></ul><hr id="3b3f6ce8-497f-8044-9af7-d3d07e9ae676" dir="auto"/><h1 id="3b3f6ce8-497f-8074-8bca-de6227192721" class="" dir="auto">Vantagens do uso de plugins</h1><ul id="3b3f6ce8-497f-80a0-aa0b-d9bbb917c619" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Automatizam a compilação do SASS.</li></ul><ul id="3b3f6ce8-497f-80d7-8c6c-e5ce648239fd" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Aumentam a produtividade.</li></ul><ul id="3b3f6ce8-497f-8008-9b3e-e5555ab1b95e" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Reduzem erros manuais.</li></ul><ul id="3b3f6ce8-497f-8039-9434-d664f38a3ae7" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Melhoram a integração com editores e frameworks.</li></ul><ul id="3b3f6ce8-497f-803d-b60f-ccb63e9117f8" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Facilitam a depuração com Source Maps.</li></ul><ul id="3b3f6ce8-497f-8082-b68b-d4c92c698bc1" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Agilizam o desenvolvimento em equipe.</li></ul><hr id="3b3f6ce8-497f-8084-a343-fa459030ab71" dir="auto"/><h1 id="3b3f6ce8-497f-808f-af71-fe1d67a88c62" class="" dir="auto">Desvantagens</h1><ul id="3b3f6ce8-497f-80b7-9d12-e048cfdb3afd" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Exigem configuração inicial.</li></ul><ul id="3b3f6ce8-497f-804b-a661-ed908cd382c4" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Alguns plugins podem ficar desatualizados ou incompatíveis com novas versões.</li></ul><ul id="3b3f6ce8-497f-8094-abb7-c6c051341c84" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Adicionam dependências ao projeto.</li></ul><ul id="3b3f6ce8-497f-805f-a490-cbe8fa922d66" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Em projetos muito simples, podem ser desnecessários.</li></ul><hr id="3b3f6ce8-497f-805a-81f0-f4b7a38a6e17" dir="auto"/><h1 id="3b3f6ce8-497f-80d9-858d-cb779e1d592d" class="" dir="auto">Resumo</h1><p id="3b3f6ce8-497f-8013-8942-fd11df4867da" class="" dir="auto">Embora o <strong>SASS não possua um sistema oficial de plugins</strong>, ele pode ser integrado a diversas ferramentas que automatizam e aprimoram o desenvolvimento. Extensões de editores, como <strong>Live Sass Compiler</strong>, plugins de bundlers como Webpack e Vite e bibliotecas de utilitários tornam o uso do SASS mais eficiente. A instalação do compilador é feita, normalmente, pelo <strong>npm</strong>, e a compilação pode ocorrer manualmente, automaticamente por monitoramento (<code>--watch</code>) ou integrada ao processo de build de aplicações modernas. Essas ferramentas aumentam a produtividade, facilitam a manutenção dos estilos e são amplamente utilizadas em projetos profissionais.</p></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>
