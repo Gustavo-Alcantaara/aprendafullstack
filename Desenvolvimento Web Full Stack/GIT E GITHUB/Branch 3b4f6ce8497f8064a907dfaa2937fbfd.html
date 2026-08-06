@@ -1,0 +1,886 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Branch</title><meta name="data-notion-page-icon" content="/icons/git_red.svg"/><link rel="icon" href="https://app.notion.com/icons/git_red.svg"/><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+/* For default-background callouts, render the border outline. */
+.callout.block-color-default_background {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+/*
+ * Toggles and callouts hold arbitrary content, so they can easily be taller
+ * than a page. They must stay breakable: avoiding breaks inside them makes
+ * Chromium push the whole block onto the next page, which leaves the previous
+ * page mostly empty before every long toggle.
+ */
+details,
+aside {
+	margin: 1.25em 0;
+}
+
+/* Keep a toggle's title on the same page as the start of its content. */
+summary {
+	page-break-after: avoid;
+	break-after: avoid;
+}
+
+/*
+ * Toggle headings render as <h1/h2/h3 style="display:inline-block"> inside
+ * <summary>. Without this reset, the heading's margin-top pushes it below the
+ * ::marker (▼), so the triangle and the title appear on separate lines.
+ */
+summary h1,
+summary h2,
+summary h3,
+summary h4 {
+	margin-top: 0;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding-inline: 0.125rem;
+	padding-block: 0.375rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+/*
+ * Render emoji icons using a ::before pseudo-element to keep the glyph
+ * out of the DOM textContent traversal. This avoids double-rendering icons
+ * in callouts and page titles.
+ * NOTE(slim/html-export-pseudo-icons): I can't tagref this because it will
+ * flag as a duplicate tag after codegen.
+ */
+.icon[data-emoji]::before {
+	content: attr(data-emoji);
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	margin-right: 0.4em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.tab {
+	margin: 1.25em 0;
+	padding-inline: 1rem;
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style><style>@import url('https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex-swap.min.css')</style></head><body><article id="3b4f6ce8-497f-8064-a907-dfaa2937fbfd" class="page sans" data-notion-page-icon="/icons/git_red.svg"><header><div class="page-header-icon undefined"><img class="icon notion-static-icon" src="https://app.notion.com/icons/git_red.svg"/></div><h1 class="page-title" dir="auto">Branch</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><h1 id="3b4f6ce8-497f-8085-91ce-fe172837f862" class="" dir="auto">Branch no Git</h1><h2 id="3b4f6ce8-497f-8089-802d-f16cf9da0f41" class="" dir="auto">Introdução</h2><p id="3b4f6ce8-497f-8015-ba18-fc5733d9f7f8" class="" dir="auto">Uma <strong>Branch</strong> (ramo) é um dos recursos mais importantes do Git. Ela permite criar uma <strong>linha de desenvolvimento independente</strong>, onde é possível adicionar novas funcionalidades, corrigir erros ou realizar experimentos <strong>sem alterar a versão principal do projeto</strong>.</p><p id="3b4f6ce8-497f-8021-951f-d777e1b7fa2c" class="" dir="auto">Graças às branches, vários desenvolvedores podem trabalhar simultaneamente no mesmo projeto, cada um em sua própria linha de desenvolvimento, sem interferir no trabalho dos demais.</p><p id="3b4f6ce8-497f-8094-9d88-dab525087a98" class="" dir="auto">As alterações feitas em uma branch só passam a fazer parte da versão principal quando são integradas por meio de um <strong>merge</strong> (ou outro método de integração, como rebase).</p><hr id="3b4f6ce8-497f-806e-b205-c6a85ea5e5c6" dir="auto"/><h1 id="3b4f6ce8-497f-804d-a106-de42978d1098" class="" dir="auto">O que é uma Branch?</h1><p id="3b4f6ce8-497f-807d-b89a-c91622b041e6" class="" dir="auto">Imagine que o desenvolvimento de um projeto é como o tronco de uma árvore.</p><p id="3b4f6ce8-497f-805f-90c7-e3bdc5c68009" class="" dir="auto">O tronco representa a versão principal do projeto (<code>main</code>).</p><p id="3b4f6ce8-497f-80d4-9f8e-cf9f417ee90e" class="" dir="auto">Quando surge uma nova funcionalidade, em vez de modificar diretamente o tronco, cria-se um galho (branch) para desenvolver essa funcionalidade.</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="3b4f6ce8-497f-8067-b2ec-f7de0c1d2cf7" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">                 main
+                   │
+                   │
+        ┌──────────┴──────────┐
+        │                     │
+ feature-login        feature-cadastro</code></pre><p id="3b4f6ce8-497f-8004-a835-dfa453e82359" class="" dir="auto">Cada branch evolui de forma independente até que esteja pronta para ser incorporada à branch principal.</p><hr id="3b4f6ce8-497f-80e5-a7f3-ec8e1b05fb38" dir="auto"/><h1 id="3b4f6ce8-497f-8021-aed6-c8f8a1ca18c6" class="" dir="auto">Por que usar Branches?</h1><p id="3b4f6ce8-497f-8052-bc41-cd8fbf48b289" class="" dir="auto">Sem branches, qualquer alteração seria feita diretamente na versão principal do projeto.</p><p id="3b4f6ce8-497f-8023-b12a-e08441c378b6" class="" dir="auto">Isso pode causar problemas como:</p><ul id="3b4f6ce8-497f-8047-8564-c95e58357579" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Bugs afetando usuários.</li></ul><ul id="3b4f6ce8-497f-807f-9c61-c05678eb20b3" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Funcionalidades inacabadas.</li></ul><ul id="3b4f6ce8-497f-80c5-9024-ca9f45258658" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Conflitos entre desenvolvedores.</li></ul><ul id="3b4f6ce8-497f-807e-92de-f0d184ecb436" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Dificuldade para testar mudanças.</li></ul><p id="3b4f6ce8-497f-8088-b11e-f86ff2aea409" class="" dir="auto">Com branches, o código principal permanece estável enquanto novas alterações são desenvolvidas separadamente.</p><hr id="3b4f6ce8-497f-8042-863a-f4b5aa538c9c" dir="auto"/><h1 id="3b4f6ce8-497f-8070-ac71-db058277ada1" class="" dir="auto">Como uma Branch Funciona</h1><p id="3b4f6ce8-497f-802e-bb6d-fd4dca10ccd3" class="" dir="auto">Quando uma branch é criada, ela começa exatamente no estado do commit atual.</p><p id="3b4f6ce8-497f-8085-9ba7-c6bb25aeba57" class="" dir="auto">Exemplo:</p><pre id="3b4f6ce8-497f-80ae-826a-f6b7eb6eb8c7" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Commit A
+   │
+Commit B
+   │
+Commit C
+   │
+  main</code></pre><p id="3b4f6ce8-497f-80b7-968c-c74e6b0ba2b3" class="" dir="auto">Criando uma branch chamada <code>feature-login</code>:</p><pre id="3b4f6ce8-497f-80e2-bfe0-f7784f4b776b" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Commit A
+   │
+Commit B
+   │
+Commit C
+   ├──────── feature-login
+   │
+  main</code></pre><p id="3b4f6ce8-497f-8070-a1d6-e3b1620fd140" class="" dir="auto">A partir desse ponto, cada branch pode seguir seu próprio caminho.</p><p id="3b4f6ce8-497f-80f4-a6e3-e2cc807f4e8f" class="" dir="auto">Após novos commits:</p><pre id="3b4f6ce8-497f-8016-a811-cf36f59549da" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">                Commit D
+               /
+Commit A
+   │
+Commit B
+   │
+Commit C
+   │
+   └──────── Commit E
+            │
+     feature-login
+
+main</code></pre><p id="3b4f6ce8-497f-8006-9e82-e209585a43d4" class="" dir="auto">Agora existem duas linhas de desenvolvimento.</p><hr id="3b4f6ce8-497f-8078-9aae-e34b27324937" dir="auto"/><h1 id="3b4f6ce8-497f-8006-8185-dfc56b9bb5e2" class="" dir="auto">A Branch Principal</h1><p id="3b4f6ce8-497f-8048-8cc1-e9986569c037" class="" dir="auto">Atualmente, a branch principal normalmente chama-se:</p><pre id="3b4f6ce8-497f-80cd-8fcc-e13f42d703ed" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">main</code></pre><p id="3b4f6ce8-497f-80d0-bedf-c48729ec026c" class="" dir="auto">Em versões antigas do Git era comum utilizar:</p><pre id="3b4f6ce8-497f-8006-80cc-db2692fdcc78" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">master</code></pre><p id="3b4f6ce8-497f-8053-ba24-d8deb5e576e1" class="" dir="auto">Hoje, a maioria dos projetos utiliza <code>main</code> como padrão.</p><p id="3b4f6ce8-497f-8073-8077-e02007e99ddd" class="" dir="auto">A branch principal costuma conter a versão mais estável do projeto.</p><hr id="3b4f6ce8-497f-8067-b5a2-d04e37012b8d" dir="auto"/><h1 id="3b4f6ce8-497f-80c1-b8e3-ceeebce6d9a8" class="" dir="auto">Criando uma Branch</h1><p id="3b4f6ce8-497f-8020-b477-f85f5f9a1c51" class="" dir="auto">Para criar uma nova branch:</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-bash.min.js" integrity="sha512-whYhDwtTmlC/NpZlCr6PSsAaLOrfjVg/iXAnC4H/dtiHawpShhT2SlIMbpIhT/IL/NrpdMm+Hq2C13+VKpHTYw==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="3b4f6ce8-497f-80f4-88b3-e71d54b21c9b" class="code code-wrap" data-notion-code-syntax="bash"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">git branch nome-da-branch</code></pre><p id="3b4f6ce8-497f-8058-b208-f1284e8c98d4" class="" dir="auto">Exemplo:</p><pre id="3b4f6ce8-497f-80e6-bc5f-d2173d19bf0c" class="code code-wrap" data-notion-code-syntax="bash"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">git branch feature-login</code></pre><p id="3b4f6ce8-497f-80f2-8af2-e52bb31b4717" class="" dir="auto">Esse comando apenas cria a branch, mas você continua na branch atual.</p><hr id="3b4f6ce8-497f-808d-8517-c9a01a8940e3" dir="auto"/><h1 id="3b4f6ce8-497f-804c-957e-fa7a0fd4aec4" class="" dir="auto">Listando Branches</h1><p id="3b4f6ce8-497f-80c3-ae6c-c0db16dd82ee" class="" dir="auto">Para visualizar todas as branches locais:</p><pre id="3b4f6ce8-497f-8093-b829-db5e50b09bbc" class="code code-wrap" data-notion-code-syntax="bash"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">git branch</code></pre><p id="3b4f6ce8-497f-80e2-b155-c635f4831dbe" class="" dir="auto">Exemplo:</p><pre id="3b4f6ce8-497f-8010-8295-d29618efeb1a" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">* main
+  feature-login
+  feature-pagamento</code></pre><p id="3b4f6ce8-497f-80aa-9982-c963c35cd774" class="" dir="auto">O asterisco (<code>*</code>) indica a branch atualmente em uso.</p><hr id="3b4f6ce8-497f-80b4-a288-ec03187e19f4" dir="auto"/><h1 id="3b4f6ce8-497f-8062-b223-e14f04704af8" class="" dir="auto">Mudando de Branch</h1><p id="3b4f6ce8-497f-807b-9496-c96ed765a7d9" class="" dir="auto">Para alternar para outra branch:</p><pre id="3b4f6ce8-497f-8030-bfc7-c67e8e35266d" class="code code-wrap" data-notion-code-syntax="bash"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">git checkout nome-da-branch</code></pre><p id="3b4f6ce8-497f-802c-8c02-ecb4db392e29" class="" dir="auto">Exemplo:</p><pre id="3b4f6ce8-497f-80a8-a785-e85235c5bac1" class="code code-wrap" data-notion-code-syntax="bash"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">git checkout feature-login</code></pre><p id="3b4f6ce8-497f-80d0-b8d2-c51ea3910b9b" class="" dir="auto">Agora todos os commits serão feitos nessa branch.</p><hr id="3b4f6ce8-497f-8002-8a6f-f7cd461e6749" dir="auto"/><h2 id="3b4f6ce8-497f-80f3-91bd-e75150f90514" class="" dir="auto">Forma Moderna</h2><p id="3b4f6ce8-497f-8067-808c-c6b4c115f69d" class="" dir="auto">Nas versões mais recentes do Git, recomenda-se utilizar:</p><pre id="3b4f6ce8-497f-80ba-8169-d24be019f03d" class="code code-wrap" data-notion-code-syntax="bash"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">git switch nome-da-branch</code></pre><p id="3b4f6ce8-497f-8058-a284-ef2081262ec3" class="" dir="auto">Exemplo:</p><pre id="3b4f6ce8-497f-8087-8de8-d5a4eaf936d3" class="code code-wrap" data-notion-code-syntax="bash"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">git switch feature-login</code></pre><p id="3b4f6ce8-497f-80e4-be44-f77a90279791" class="" dir="auto">O comando <code>git switch</code> foi criado especificamente para facilitar a troca de branches, tornando o uso mais claro do que <code>git checkout</code>, que possui diversas outras funções.</p><hr id="3b4f6ce8-497f-8043-89f2-e9cc4e5d02a6" dir="auto"/><h1 id="3b4f6ce8-497f-80bb-8936-d1675f14b774" class="" dir="auto">Criando e Mudando para a Branch ao Mesmo Tempo</h1><p id="3b4f6ce8-497f-8002-8d9b-f68c98c608e9" class="" dir="auto">Forma tradicional:</p><pre id="3b4f6ce8-497f-8015-ba8f-e25a2ef7fa7c" class="code code-wrap" data-notion-code-syntax="bash"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">git checkout -b feature-login</code></pre><p id="3b4f6ce8-497f-80aa-bd2a-cfdf5e33a864" class="" dir="auto">Forma moderna:</p><pre id="3b4f6ce8-497f-806c-a79c-c3047607aab1" class="code code-wrap" data-notion-code-syntax="bash"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">git switch -c feature-login</code></pre><p id="3b4f6ce8-497f-807a-8099-fe2376c7341d" class="" dir="auto">Esses comandos:</p><ol type="1" id="3b4f6ce8-497f-80d3-bf18-c42a620f777f" class="numbered-list" start="1" dir="auto"><li>Criam a branch.</li></ol><ol type="1" id="3b4f6ce8-497f-80be-bccc-c48edd1c0043" class="numbered-list" start="2" dir="auto"><li>Já mudam para ela.</li></ol><hr id="3b4f6ce8-497f-804f-ad4c-d1b86d87c00c" dir="auto"/><h1 id="3b4f6ce8-497f-80b9-826a-e1af6155208f" class="" dir="auto">Fazendo Commits em uma Branch</h1><p id="3b4f6ce8-497f-80fa-a603-f1b12a89dcee" class="" dir="auto">Depois de mudar para a branch:</p><pre id="3b4f6ce8-497f-80b7-901c-fe0a19c3b30f" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">feature-login</code></pre><p id="3b4f6ce8-497f-8096-ac54-e1277cd9ecc6" class="" dir="auto">Os commits pertencem apenas a ela.</p><pre id="3b4f6ce8-497f-8058-bded-ce52bba8a3b5" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">main
+
+Commit A
+Commit B
+Commit C
+
+feature-login
+
+Commit A
+Commit B
+Commit C
+Commit D
+Commit E</code></pre><p id="3b4f6ce8-497f-80e3-a0d5-f8f59b35f1bf" class="" dir="auto">A branch <code>main</code> permanece inalterada.</p><hr id="3b4f6ce8-497f-80fe-9451-e025b141df97" dir="auto"/><h1 id="3b4f6ce8-497f-80e6-91c4-e2dd1f335c66" class="" dir="auto">Mesclando Branches (Merge)</h1><p id="3b4f6ce8-497f-80da-8f5d-d62aad69f825" class="" dir="auto">Quando o desenvolvimento termina, as alterações podem ser incorporadas à branch principal.</p><p id="3b4f6ce8-497f-8059-89d3-cab493c7a91a" class="" dir="auto">Primeiro:</p><pre id="3b4f6ce8-497f-8089-90f7-c6dbf15188f6" class="code code-wrap" data-notion-code-syntax="bash"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">git switch main</code></pre><p id="3b4f6ce8-497f-806f-8dde-e9905802f8fa" class="" dir="auto">Depois:</p><pre id="3b4f6ce8-497f-809d-a99a-cd39156ecc32" class="code code-wrap" data-notion-code-syntax="bash"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">git merge feature-login</code></pre><p id="3b4f6ce8-497f-8057-a802-d60292bb0770" class="" dir="auto">Resultado:</p><pre id="3b4f6ce8-497f-8050-b9a7-c76156c1e888" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Antes
+
+main
+
+A → B → C
+
+feature-login
+
+A → B → C → D → E
+
+
+Depois
+
+main
+
+A → B → C → D → E</code></pre><p id="3b4f6ce8-497f-8074-901b-d5cd043b0cd8" class="" dir="auto">Agora a branch principal possui todas as alterações.</p><hr id="3b4f6ce8-497f-8069-81a3-d73bf4575fbc" dir="auto"/><h1 id="3b4f6ce8-497f-8055-ab53-fbe41d11a3fe" class="" dir="auto">Excluindo uma Branch</h1><p id="3b4f6ce8-497f-8085-88b4-e2e73af5cf59" class="" dir="auto">Após integrar a branch ao projeto, ela pode ser removida.</p><pre id="3b4f6ce8-497f-8010-a468-cceca17b49e0" class="code code-wrap" data-notion-code-syntax="bash"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">git branch -d feature-login</code></pre><p id="3b4f6ce8-497f-807d-aa1c-d618d9450286" class="" dir="auto">Se a branch ainda não tiver sido integrada e você quiser removê-la mesmo assim:</p><pre id="3b4f6ce8-497f-8057-ac92-cf779d752496" class="code code-wrap" data-notion-code-syntax="bash"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">git branch -D feature-login</code></pre><p id="3b4f6ce8-497f-8025-8798-da9e11efec34" class="" dir="auto">O <code>-D</code> força a exclusão.</p><hr id="3b4f6ce8-497f-808a-882d-ef309a8112bc" dir="auto"/><h1 id="3b4f6ce8-497f-8091-a949-e068b0c172b7" class="" dir="auto">Renomeando uma Branch</h1><p id="3b4f6ce8-497f-80d8-86e2-e60ce2f98eee" class="" dir="auto">Para renomear a branch atual:</p><pre id="3b4f6ce8-497f-80f8-b2f5-e215ef51d2f8" class="code code-wrap" data-notion-code-syntax="bash"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">git branch -m novo-nome</code></pre><p id="3b4f6ce8-497f-804d-a155-f97fa13d1fe5" class="" dir="auto">Exemplo:</p><pre id="3b4f6ce8-497f-8079-82b0-f47d36b6a2ab" class="code code-wrap" data-notion-code-syntax="bash"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">git branch -m feature-autenticacao</code></pre><hr id="3b4f6ce8-497f-80e4-9ac7-ccae4ff5d35f" dir="auto"/><h1 id="3b4f6ce8-497f-80d8-836e-f9638f2c228e" class="" dir="auto">Visualizando o Histórico das Branches</h1><p id="3b4f6ce8-497f-806e-ac15-f960f20688be" class="" dir="auto">Um comando muito útil é:</p><pre id="3b4f6ce8-497f-808b-bd3d-d1c86e25efe2" class="code code-wrap" data-notion-code-syntax="bash"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">git log --oneline --graph --all</code></pre><p id="3b4f6ce8-497f-8025-9300-cd2967a58748" class="" dir="auto">Exemplo de saída:</p><pre id="3b4f6ce8-497f-80bf-938d-e843ac2edf26" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">* 95fd210 Corrige login
+* 7ae31c2 Tela de login
+|\
+| * b87dd91 Cadastro
+| * 84a912e Banco
+|
+* 24d2ff1 Projeto inicial</code></pre><p id="3b4f6ce8-497f-80a4-8e4b-e4d5535a5c61" class="" dir="auto">Esse formato mostra a divisão e a união das branches.</p><hr id="3b4f6ce8-497f-8064-bbd7-e5c110417d63" dir="auto"/><h1 id="3b4f6ce8-497f-80c8-a099-e08689d3ccf0" class="" dir="auto">Branches Remotas</h1><p id="3b4f6ce8-497f-8009-9c99-e82da807874f" class="" dir="auto">Além das branches locais, existem branches armazenadas no repositório remoto (como o GitHub).</p><p id="3b4f6ce8-497f-80ea-b759-f827919c0467" class="" dir="auto">Para visualizar todas:</p><pre id="3b4f6ce8-497f-80eb-a446-f62ab725aac9" class="code code-wrap" data-notion-code-syntax="bash"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">git branch -a</code></pre><p id="3b4f6ce8-497f-80bc-8456-eee72c37b59c" class="" dir="auto">Exemplo:</p><pre id="3b4f6ce8-497f-80d6-8e19-d4a9e1679b4f" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">* main
+  feature-login
+  remotes/origin/main
+  remotes/origin/develop</code></pre><hr id="3b4f6ce8-497f-80e9-af2b-c4727168f668" dir="auto"/><h1 id="3b4f6ce8-497f-8028-b916-c2b7d1729e0c" class="" dir="auto">Enviando uma Branch para o Repositório Remoto</h1><p id="3b4f6ce8-497f-8019-b01f-f2352e2f4297" class="" dir="auto">Depois de criar uma branch local:</p><pre id="3b4f6ce8-497f-80e7-a9be-eb20c7a12b3e" class="code code-wrap" data-notion-code-syntax="bash"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">git push origin feature-login</code></pre><p id="3b4f6ce8-497f-800b-8bd8-dcd5afe24c8c" class="" dir="auto">Agora essa branch também existirá no repositório remoto.</p><hr id="3b4f6ce8-497f-800d-9611-e7eca808a2ce" dir="auto"/><h1 id="3b4f6ce8-497f-80de-a472-faf76b572561" class="" dir="auto">Baixando Branches Remotas</h1><p id="3b4f6ce8-497f-8068-8195-e4c3d80b1bc2" class="" dir="auto">Atualizar as referências do servidor:</p><pre id="3b4f6ce8-497f-804f-9fdb-e2da9b824251" class="code code-wrap" data-notion-code-syntax="bash"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">git fetch</code></pre><p id="3b4f6ce8-497f-80c1-abeb-fc712dc7e285" class="" dir="auto">Listar todas:</p><pre id="3b4f6ce8-497f-80f7-b1ce-ce701045fd6b" class="code code-wrap" data-notion-code-syntax="bash"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">git branch -a</code></pre><p id="3b4f6ce8-497f-804b-afa7-e57d927db7e8" class="" dir="auto">Criar uma branch local baseada em uma remota:</p><pre id="3b4f6ce8-497f-8049-8861-dd05aa12f753" class="code code-wrap" data-notion-code-syntax="bash"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">git switch feature-login</code></pre><p id="3b4f6ce8-497f-80b6-96c2-c82c98181efd" class="" dir="auto">Se a branch existir apenas no remoto, o Git normalmente a configurará automaticamente como branch de acompanhamento (tracking).</p><hr id="3b4f6ce8-497f-808c-af77-ecfea1e45762" dir="auto"/><h1 id="3b4f6ce8-497f-8077-9546-f39993d431a0" class="" dir="auto">Fluxo de Trabalho com Branches</h1><p id="3b4f6ce8-497f-80b3-b341-cb49bd4a88e6" class="" dir="auto">Um fluxo simples pode ser representado assim:</p><pre id="3b4f6ce8-497f-8053-9ccc-f8724e222cf0" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">main
+ │
+ ├── Criar branch
+ │
+ ├── Desenvolver funcionalidade
+ │
+ ├── Fazer commits
+ │
+ ├── Testar
+ │
+ ├── Merge
+ │
+ └── Excluir branch</code></pre><p id="3b4f6ce8-497f-80ff-b3f4-fb7ccbd735ca" class="" dir="auto">Esse processo evita que código incompleto chegue à versão principal.</p><hr id="3b4f6ce8-497f-803b-b0ba-e46014020b6e" dir="auto"/><h1 id="3b4f6ce8-497f-80de-a9be-ec97fea1869d" class="" dir="auto">Estratégias de Uso de Branches</h1><h2 id="3b4f6ce8-497f-808d-989b-cb0502c7e54a" class="" dir="auto">Branch por Funcionalidade</h2><p id="3b4f6ce8-497f-80b5-bfbe-c1812d9442ce" class="" dir="auto">Cada nova funcionalidade possui sua própria branch.</p><pre id="3b4f6ce8-497f-80ea-8b92-ddef3f6617a8" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">main
+
+├── feature-login
+
+├── feature-cadastro
+
+├── feature-relatorios</code></pre><p id="3b4f6ce8-497f-8076-8e98-ed09056c18b4" class="" dir="auto">É uma das estratégias mais utilizadas.</p><hr id="3b4f6ce8-497f-8020-b906-cbf8f521551a" dir="auto"/><h2 id="3b4f6ce8-497f-8091-a6b2-cc2256fc43d1" class="" dir="auto">Branch para Correção de Bugs</h2><pre id="3b4f6ce8-497f-80dc-86e6-df70ae93e9f6" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">bugfix-login
+
+bugfix-menu
+
+bugfix-relatorio</code></pre><p id="3b4f6ce8-497f-805b-838b-c59e8faf7a03" class="" dir="auto">Cada correção é isolada.</p><hr id="3b4f6ce8-497f-80a9-8010-d9229da3e019" dir="auto"/><h2 id="3b4f6ce8-497f-80f8-bdb0-ce3fd69c59fb" class="" dir="auto">Branch para Experimentos</h2><p id="3b4f6ce8-497f-8062-b3b1-fb8d47dfce9e" class="" dir="auto">Pode ser criada para testar ideias sem comprometer o projeto principal.</p><pre id="3b4f6ce8-497f-804b-ac7f-d257715a6e00" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">experiment-api
+
+experiment-layout</code></pre><p id="3b4f6ce8-497f-8083-a7fb-cda73d1a156e" class="" dir="auto">Se o resultado não for satisfatório, basta excluir a branch.</p><hr id="3b4f6ce8-497f-808f-ae86-e04ecf256091" dir="auto"/><h1 id="3b4f6ce8-497f-809d-afb2-ea0b190f13a6" class="" dir="auto">Convenções de Nomes</h1><p id="3b4f6ce8-497f-80bf-b072-f2f50c2fe50d" class="" dir="auto">Embora o Git não imponha regras, algumas convenções facilitam a organização:</p><table id="3b4f6ce8-497f-80be-af4d-f5df7f888686" class="simple-table" dir="ltr"><thead class="simple-table-header"><tr id="3b4f6ce8-497f-80bf-a6a8-e2848031113d" dir="ltr"><th id="|Yxy" class="simple-table-header-color simple-table-header">Prefixo</th><th id="&lt;e;s" class="simple-table-header-color simple-table-header">Finalidade</th><th id="\?ew" class="simple-table-header-color simple-table-header">Exemplo</th></tr></thead><tbody><tr id="3b4f6ce8-497f-8053-8856-ecc541aac6b5" dir="ltr"><td id="|Yxy" class=""><code>feature/</code></td><td id="&lt;e;s" class="">Nova funcionalidade</td><td id="\?ew" class=""><code>feature/login</code></td></tr><tr id="3b4f6ce8-497f-803d-a6cf-c1152775662b" dir="ltr"><td id="|Yxy" class=""><code>bugfix/</code></td><td id="&lt;e;s" class="">Correção de erro</td><td id="\?ew" class=""><code>bugfix/menu</code></td></tr><tr id="3b4f6ce8-497f-80eb-a7b5-e45f9c4cf12e" dir="ltr"><td id="|Yxy" class=""><code>hotfix/</code></td><td id="&lt;e;s" class="">Correção urgente em produção</td><td id="\?ew" class=""><code>hotfix/login</code></td></tr><tr id="3b4f6ce8-497f-808b-b2f3-ed595c9143ca" dir="ltr"><td id="|Yxy" class=""><code>release/</code></td><td id="&lt;e;s" class="">Preparação de uma versão</td><td id="\?ew" class=""><code>release/1.0.0</code></td></tr><tr id="3b4f6ce8-497f-8099-8124-ea5a0352cf36" dir="ltr"><td id="|Yxy" class=""><code>docs/</code></td><td id="&lt;e;s" class="">Alterações na documentação</td><td id="\?ew" class=""><code>docs/readme</code></td></tr><tr id="3b4f6ce8-497f-8037-bd20-e01f5fef16cd" dir="ltr"><td id="|Yxy" class=""><code>refactor/</code></td><td id="&lt;e;s" class="">Refatoração de código</td><td id="\?ew" class=""><code>refactor/auth</code></td></tr></tbody></table><p id="3b4f6ce8-497f-8051-8896-e984ba54404f" class="" dir="auto">Esses padrões tornam o histórico mais organizado e fácil de compreender.</p><hr id="3b4f6ce8-497f-80d3-9e1d-ec0a0aff9896" dir="auto"/><h1 id="3b4f6ce8-497f-803e-b5e7-e89f0ee1073a" class="" dir="auto">Vantagens das Branches</h1><ul id="3b4f6ce8-497f-80cc-a4bb-d3faf3a5831a" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Permitem desenvolver funcionalidades sem afetar a versão principal.</li></ul><ul id="3b4f6ce8-497f-8037-89d1-fd63937a1c1b" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Facilitam o trabalho simultâneo de vários desenvolvedores.</li></ul><ul id="3b4f6ce8-497f-80d2-bc9b-f29f5a1a6655" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Tornam os testes mais seguros.</li></ul><ul id="3b4f6ce8-497f-809c-8bef-e314a9b47dd8" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Reduzem o risco de introduzir erros na branch principal.</li></ul><ul id="3b4f6ce8-497f-809b-bf8d-c6a2fe3ff1ca" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Organizam melhor o fluxo de desenvolvimento.</li></ul><ul id="3b4f6ce8-497f-802e-9489-ed462fb569cb" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Facilitam a revisão de código antes da integração.</li></ul><hr id="3b4f6ce8-497f-8056-9de2-e44f798a22f3" dir="auto"/><h1 id="3b4f6ce8-497f-80c6-8b2a-cf61c8a25507" class="" dir="auto">Boas Práticas</h1><ul id="3b4f6ce8-497f-8073-b472-d3a74fcee2fd" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Crie uma branch para cada funcionalidade ou correção.</li></ul><ul id="3b4f6ce8-497f-80b8-a529-fc31550e0ea0" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Use nomes claros e descritivos para as branches.</li></ul><ul id="3b4f6ce8-497f-80e3-957c-f7d8de5b19da" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Faça commits pequenos e frequentes.</li></ul><ul id="3b4f6ce8-497f-80fc-8b64-fc3cb1035ed4" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Mantenha sua branch sincronizada com a <code>main</code> para reduzir conflitos.</li></ul><ul id="3b4f6ce8-497f-80b5-b9ae-f8985ced2975" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Exclua branches que já foram integradas e não serão mais utilizadas.</li></ul><ul id="3b4f6ce8-497f-801f-a390-d3a51af384fd" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Evite desenvolver diretamente na <code>main</code> em projetos colaborativos.</li></ul><hr id="3b4f6ce8-497f-8010-8556-d7cb3d62128c" dir="auto"/><h1 id="3b4f6ce8-497f-80c9-8955-c7f8b2c0d6c5" class="" dir="auto">Erros Comuns</h1><ul id="3b4f6ce8-497f-8025-b6ab-eb7bfdf645fb" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Trabalhar diretamente na branch <code>main</code>.</li></ul><ul id="3b4f6ce8-497f-80b2-a5a7-c4be6485b09b" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Criar uma única branch para várias funcionalidades diferentes.</li></ul><ul id="3b4f6ce8-497f-8069-bb23-ed09efe32bcb" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Esquecer de atualizar a branch antes de fazer o merge.</li></ul><ul id="3b4f6ce8-497f-80ee-81d9-df7bf968da17" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Manter branches antigas sem uso, dificultando a organização do projeto.</li></ul><ul id="3b4f6ce8-497f-80c7-b4ae-ee5bf417bcc1" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Utilizar nomes genéricos como <code>teste</code> ou <code>nova</code>, que não indicam o objetivo da branch.</li></ul><hr id="3b4f6ce8-497f-80ed-8c34-f0c47e605042" dir="auto"/><h1 id="3b4f6ce8-497f-80d5-a4bb-f4f48584ae89" class="" dir="auto">Resumo</h1><p id="3b4f6ce8-497f-8092-a3eb-dabe581c0570" class="" dir="auto">As <strong>branches</strong> são um dos principais recursos do Git e permitem criar linhas independentes de desenvolvimento para implementar funcionalidades, corrigir erros ou realizar experimentos sem comprometer a versão principal do projeto. Elas tornam o desenvolvimento colaborativo mais seguro, organizado e eficiente. Com comandos como <code>git branch</code>, <code>git switch</code>, <code>git checkout</code> e <code>git merge</code>, é possível criar, alternar, integrar e remover branches de forma simples, mantendo um fluxo de trabalho profissional e escalável.</p></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

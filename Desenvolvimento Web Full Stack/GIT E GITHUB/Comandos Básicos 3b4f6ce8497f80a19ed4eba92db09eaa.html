@@ -1,0 +1,916 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Comandos Básicos</title><meta name="data-notion-page-icon" content="/icons/git_red.svg"/><link rel="icon" href="https://app.notion.com/icons/git_red.svg"/><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+/* For default-background callouts, render the border outline. */
+.callout.block-color-default_background {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+/*
+ * Toggles and callouts hold arbitrary content, so they can easily be taller
+ * than a page. They must stay breakable: avoiding breaks inside them makes
+ * Chromium push the whole block onto the next page, which leaves the previous
+ * page mostly empty before every long toggle.
+ */
+details,
+aside {
+	margin: 1.25em 0;
+}
+
+/* Keep a toggle's title on the same page as the start of its content. */
+summary {
+	page-break-after: avoid;
+	break-after: avoid;
+}
+
+/*
+ * Toggle headings render as <h1/h2/h3 style="display:inline-block"> inside
+ * <summary>. Without this reset, the heading's margin-top pushes it below the
+ * ::marker (▼), so the triangle and the title appear on separate lines.
+ */
+summary h1,
+summary h2,
+summary h3,
+summary h4 {
+	margin-top: 0;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding-inline: 0.125rem;
+	padding-block: 0.375rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+/*
+ * Render emoji icons using a ::before pseudo-element to keep the glyph
+ * out of the DOM textContent traversal. This avoids double-rendering icons
+ * in callouts and page titles.
+ * NOTE(slim/html-export-pseudo-icons): I can't tagref this because it will
+ * flag as a duplicate tag after codegen.
+ */
+.icon[data-emoji]::before {
+	content: attr(data-emoji);
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	margin-right: 0.4em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.tab {
+	margin: 1.25em 0;
+	padding-inline: 1rem;
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style><style>@import url('https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex-swap.min.css')</style></head><body><article id="3b4f6ce8-497f-80a1-9ed4-eba92db09eaa" class="page sans" data-notion-page-icon="/icons/git_red.svg"><header><div class="page-header-icon undefined"><img class="icon notion-static-icon" src="https://app.notion.com/icons/git_red.svg"/></div><h1 class="page-title" dir="auto">Comandos Básicos</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><h1 id="3b4f6ce8-497f-80b4-9495-ca8de4188118" class="" dir="auto">Comandos Básicos do Git</h1><h2 id="3b4f6ce8-497f-800a-91d6-dd35506b8bad" class="" dir="auto">Introdução</h2><p id="3b4f6ce8-497f-8093-8876-c8ebd700a30e" class="" dir="auto">Os <strong>comandos básicos do Git</strong> são responsáveis pelas operações mais comuns realizadas durante o desenvolvimento de um projeto, como:</p><ul id="3b4f6ce8-497f-80a4-be2a-d5e7eaf80d6b" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Criar um repositório.</li></ul><ul id="3b4f6ce8-497f-80a7-b4e0-cd20dd773431" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Verificar o estado dos arquivos.</li></ul><ul id="3b4f6ce8-497f-802d-9726-eeb3fc08aa8a" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Adicionar arquivos ao controle de versão.</li></ul><ul id="3b4f6ce8-497f-80b8-aae6-c3d852d06cc1" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Criar commits.</li></ul><ul id="3b4f6ce8-497f-805f-a5e5-f8ea3a916891" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Visualizar o histórico.</li></ul><ul id="3b4f6ce8-497f-807a-81b8-c361627884e3" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Trabalhar com repositórios remotos.</li></ul><ul id="3b4f6ce8-497f-804c-99ac-cc8f09732ea5" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Gerenciar branches.</li></ul><p id="3b4f6ce8-497f-802f-9b14-c5822a8e64a7" class="" dir="auto">Esses comandos fazem parte do fluxo de trabalho diário de qualquer desenvolvedor que utiliza Git.</p><hr id="3b4f6ce8-497f-8002-810b-c5eb76da184f" dir="auto"/><h1 id="3b4f6ce8-497f-8071-abcf-caa6352dce7e" class="" dir="auto">Fluxo Básico de Trabalho</h1><p id="3b4f6ce8-497f-80a7-81be-c54b2016ff34" class="" dir="auto">Antes de conhecer os comandos, é importante entender o fluxo padrão do Git:</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="3b4f6ce8-497f-80da-8ff8-ee9ab543241c" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Criar ou editar arquivos
+          │
+          ▼
+ Working Directory
+          │
+     git status
+          │
+          ▼
+      git add
+          │
+          ▼
+   Staging Area
+          │
+    git commit
+          │
+          ▼
+ Repositório Local
+          │
+     git push
+          │
+          ▼
+ Repositório Remoto</code></pre><hr id="3b4f6ce8-497f-8076-a7c4-c734d8db5dda" dir="auto"/><h1 id="3b4f6ce8-497f-805b-aabb-f254cb799b50" class="" dir="auto">1. git --version</h1><p id="3b4f6ce8-497f-80c1-9efc-d2049b4fd693" class="" dir="auto">Mostra a versão instalada do Git.</p><h2 id="3b4f6ce8-497f-80bf-b7b3-c353f892152e" class="" dir="auto">Sintaxe</h2><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-bash.min.js" integrity="sha512-whYhDwtTmlC/NpZlCr6PSsAaLOrfjVg/iXAnC4H/dtiHawpShhT2SlIMbpIhT/IL/NrpdMm+Hq2C13+VKpHTYw==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="3b4f6ce8-497f-806f-814a-c8248b9aae03" class="code code-wrap" data-notion-code-syntax="bash"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">git --version</code></pre><h2 id="3b4f6ce8-497f-80f1-8b9b-d375da39f816" class="" dir="auto">Exemplo</h2><pre id="3b4f6ce8-497f-80a7-a72b-f4d1e0a382bb" class="code code-wrap" data-notion-code-syntax="bash"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">git --version</code></pre><p id="3b4f6ce8-497f-8097-a44e-d181fba12d93" class="" dir="auto">Saída:</p><pre id="3b4f6ce8-497f-805f-88e8-f2cf7ad27427" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">git version 2.51.0</code></pre><h3 id="3b4f6ce8-497f-80dc-bc8b-d5b8ce964c7c" class="" dir="auto">Quando usar?</h3><ul id="3b4f6ce8-497f-8006-bfc8-d3c4b855b31a" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Verificar se o Git está instalado.</li></ul><ul id="3b4f6ce8-497f-8047-86c0-e768aeed0047" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Confirmar a versão utilizada.</li></ul><hr id="3b4f6ce8-497f-8015-9ce8-d41d41f92ee8" dir="auto"/><h1 id="3b4f6ce8-497f-80b9-9f02-c5050789b426" class="" dir="auto">2. git config</h1><p id="3b4f6ce8-497f-80c6-a0e5-d31ca6c3f6fb" class="" dir="auto">Configura informações do Git.</p><h2 id="3b4f6ce8-497f-800f-96ef-fe490aa1c7d0" class="" dir="auto">Configurar nome</h2><pre id="3b4f6ce8-497f-80d6-963b-f2353f5b3a4b" class="code code-wrap" data-notion-code-syntax="bash"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">git config --global user.name &quot;João Silva&quot;</code></pre><h2 id="3b4f6ce8-497f-8015-9cdf-de295570f467" class="" dir="auto">Configurar e-mail</h2><pre id="3b4f6ce8-497f-80d1-a0ef-cde50a29d948" class="code code-wrap" data-notion-code-syntax="bash"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">git config --global user.email &quot;joao@email.com&quot;</code></pre><h2 id="3b4f6ce8-497f-8018-9dbe-f3a7573f2dfd" class="" dir="auto">Mostrar configurações</h2><pre id="3b4f6ce8-497f-80c2-8796-d195384b0c2c" class="code code-wrap" data-notion-code-syntax="bash"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">git config --list</code></pre><h3 id="3b4f6ce8-497f-80ef-b429-c037458264ee" class="" dir="auto">Opções importantes</h3><table id="3b4f6ce8-497f-80e1-b9db-ffcfdace13c5" class="simple-table" dir="ltr"><thead class="simple-table-header"><tr id="3b4f6ce8-497f-8076-b626-e44dff1b52b0" dir="ltr"><th id="&lt;bot" class="simple-table-header-color simple-table-header">Opção</th><th id="`WP@" class="simple-table-header-color simple-table-header">Função</th></tr></thead><tbody><tr id="3b4f6ce8-497f-80c5-88ce-e04a91c2f64a" dir="ltr"><td id="&lt;bot" class=""><code>--global</code></td><td id="`WP@" class="">Configuração para todos os projetos</td></tr><tr id="3b4f6ce8-497f-80f0-8877-f16056e5e925" dir="ltr"><td id="&lt;bot" class=""><code>--local</code></td><td id="`WP@" class="">Configuração apenas do repositório atual</td></tr><tr id="3b4f6ce8-497f-8042-a6e5-dfdf9c622b9f" dir="ltr"><td id="&lt;bot" class=""><code>--list</code></td><td id="`WP@" class="">Lista todas as configurações</td></tr></tbody></table><hr id="3b4f6ce8-497f-8065-af93-d53129798403" dir="auto"/><h1 id="3b4f6ce8-497f-80d2-874b-fb40b21839aa" class="" dir="auto">3. git init</h1><p id="3b4f6ce8-497f-80a7-a30c-e7d4ace7fa32" class="" dir="auto">Inicializa um repositório Git.</p><h2 id="3b4f6ce8-497f-8025-8281-c1c857c39fb9" class="" dir="auto">Sintaxe</h2><pre id="3b4f6ce8-497f-8079-abb8-f6d9006ebb55" class="code code-wrap" data-notion-code-syntax="bash"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">git init</code></pre><h2 id="3b4f6ce8-497f-8071-b26d-d3fedfb5a1b9" class="" dir="auto">Exemplo</h2><pre id="3b4f6ce8-497f-80c9-99ea-f79809e7ef8b" class="code code-wrap" data-notion-code-syntax="bash"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">mkdir MeuProjeto
+
+cd MeuProjeto
+
+git init</code></pre><p id="3b4f6ce8-497f-80e7-a3ad-edc57cf1254a" class="" dir="auto">Resultado:</p><pre id="3b4f6ce8-497f-8057-83eb-ce086c1b1e63" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Initialized empty Git repository...</code></pre><p id="3b4f6ce8-497f-8032-9e11-d9a295212727" class="" dir="auto">A pasta <code>.git</code> será criada.</p><hr id="3b4f6ce8-497f-8031-ae80-c1c23807a766" dir="auto"/><h1 id="3b4f6ce8-497f-801e-ac6c-ed4b049e5b20" class="" dir="auto">4. git clone</h1><p id="3b4f6ce8-497f-8082-b857-fd555d9a7fc1" class="" dir="auto">Copia um repositório remoto para o computador.</p><h2 id="3b4f6ce8-497f-8061-ae23-c6e5fc29656a" class="" dir="auto">Sintaxe</h2><pre id="3b4f6ce8-497f-8024-b84f-c5a893319906" class="code code-wrap" data-notion-code-syntax="bash"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">git clone URL</code></pre><h2 id="3b4f6ce8-497f-8045-88b3-fb8abb566fc0" class="" dir="auto">Exemplo</h2><pre id="3b4f6ce8-497f-80cd-99b1-c0ab4567b46f" class="code code-wrap" data-notion-code-syntax="bash"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">git clone https://github.com/usuario/projeto.git</code></pre><p id="3b4f6ce8-497f-807c-a949-dec17e9e74fd" class="" dir="auto">Resultado:</p><pre id="3b4f6ce8-497f-8065-ade8-fae8aeebfab6" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Projeto/
+
+index.html
+
+style.css
+
+script.js
+
+.git</code></pre><p id="3b4f6ce8-497f-8026-9050-ef58441ba844" class="" dir="auto">Todo o histórico também é copiado.</p><hr id="3b4f6ce8-497f-80e5-9552-cd97e0d7ed96" dir="auto"/><h1 id="3b4f6ce8-497f-805c-9df8-dec5fa27cb9e" class="" dir="auto">5. git status</h1><p id="3b4f6ce8-497f-80c5-b47b-ea1ecd47610f" class="" dir="auto">Um dos comandos mais utilizados.</p><p id="3b4f6ce8-497f-80ba-82fa-ca30e0fb61dc" class="" dir="auto">Mostra:</p><ul id="3b4f6ce8-497f-80ed-baaf-d0747972655e" class="bulleted-list" dir="auto"><li style="list-style-type:disc">arquivos modificados;</li></ul><ul id="3b4f6ce8-497f-80ad-a1f2-fdf269e41c7b" class="bulleted-list" dir="auto"><li style="list-style-type:disc">arquivos novos;</li></ul><ul id="3b4f6ce8-497f-80ea-9c2f-f8525a9b6482" class="bulleted-list" dir="auto"><li style="list-style-type:disc">arquivos preparados para commit;</li></ul><ul id="3b4f6ce8-497f-80e3-a111-fd4f9be88e03" class="bulleted-list" dir="auto"><li style="list-style-type:disc">branch atual;</li></ul><ul id="3b4f6ce8-497f-8036-8c27-e86cfbd44b29" class="bulleted-list" dir="auto"><li style="list-style-type:disc">informações sobre sincronização com o repositório remoto.</li></ul><h2 id="3b4f6ce8-497f-8053-825c-dc5cdb3579c0" class="" dir="auto">Sintaxe</h2><pre id="3b4f6ce8-497f-8068-88a4-f5d44da48d05" class="code code-wrap" data-notion-code-syntax="bash"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">git status</code></pre><h2 id="3b4f6ce8-497f-8062-9658-f4cdd8127fd4" class="" dir="auto">Exemplo</h2><pre id="3b4f6ce8-497f-80c2-be06-e00f49669d07" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">On branch main
+
+Changes not staged for commit:
+
+modified: index.html
+
+Untracked files:
+
+script.js</code></pre><h3 id="3b4f6ce8-497f-802f-ba5e-fa811b0de803" class="" dir="auto">Estados exibidos</h3><ul id="3b4f6ce8-497f-80f3-92eb-eb122c3c5719" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Modified</li></ul><ul id="3b4f6ce8-497f-803c-91cb-e812c84093fd" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Untracked</li></ul><ul id="3b4f6ce8-497f-8001-b534-d80797427886" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Staged</li></ul><ul id="3b4f6ce8-497f-80c3-a79f-cc7ba2afa3a1" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Nothing to commit</li></ul><hr id="3b4f6ce8-497f-8040-95f0-eafefb20ff38" dir="auto"/><h1 id="3b4f6ce8-497f-80ff-9a1f-e1b4d5083503" class="" dir="auto">6. git add</h1><p id="3b4f6ce8-497f-804b-82b9-ce1f05ee0717" class="" dir="auto">Adiciona arquivos à <strong>Staging Area</strong>, preparando-os para o próximo commit.</p><h2 id="3b4f6ce8-497f-8045-bc6b-db493c4732bc" class="" dir="auto">Adicionar um arquivo</h2><pre id="3b4f6ce8-497f-8008-b4b1-f32e3b7ede23" class="code code-wrap" data-notion-code-syntax="bash"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">git add index.html</code></pre><hr id="3b4f6ce8-497f-80cc-8af1-f4faa6289d2a" dir="auto"/><h2 id="3b4f6ce8-497f-8034-a6a8-f6b7708c7c1e" class="" dir="auto">Adicionar vários arquivos</h2><pre id="3b4f6ce8-497f-8077-a612-ef5ca162b380" class="code code-wrap" data-notion-code-syntax="bash"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">git add index.html style.css</code></pre><hr id="3b4f6ce8-497f-809f-b207-da355d30ee2e" dir="auto"/><h2 id="3b4f6ce8-497f-80f0-a110-daf46097c149" class="" dir="auto">Adicionar todos os arquivos</h2><pre id="3b4f6ce8-497f-80e9-9e10-e25271bf4ae1" class="code code-wrap" data-notion-code-syntax="bash"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">git add .</code></pre><p id="3b4f6ce8-497f-80c7-b717-ca021d8cd906" class="" dir="auto">O ponto (<code>.</code>) significa &quot;todos os arquivos da pasta atual e subpastas&quot;.</p><hr id="3b4f6ce8-497f-805a-b0e8-cfefa9cecfde" dir="auto"/><h1 id="3b4f6ce8-497f-807d-8c7c-e5c085940032" class="" dir="auto">7. git commit</h1><p id="3b4f6ce8-497f-80f7-a566-e05c9e1a3d77" class="" dir="auto">Salva permanentemente as alterações adicionadas à Staging Area.</p><h2 id="3b4f6ce8-497f-804a-ad85-e3391d6ad6bb" class="" dir="auto">Sintaxe</h2><pre id="3b4f6ce8-497f-8009-92c0-d308f70b503e" class="code code-wrap" data-notion-code-syntax="bash"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">git commit -m &quot;Mensagem&quot;</code></pre><h2 id="3b4f6ce8-497f-80fb-8c40-f5f59b9376cd" class="" dir="auto">Exemplo</h2><pre id="3b4f6ce8-497f-80ca-9083-d6d1be8d7895" class="code code-wrap" data-notion-code-syntax="bash"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">git commit -m &quot;Adiciona tela de login&quot;</code></pre><h3 id="3b4f6ce8-497f-803b-8336-c2649e30fbb3" class="" dir="auto">O que acontece?</h3><p id="3b4f6ce8-497f-802a-a56e-d046592e223b" class="" dir="auto">O Git cria:</p><ul id="3b4f6ce8-497f-806f-85e0-e7ae5d1a85a1" class="bulleted-list" dir="auto"><li style="list-style-type:disc">um novo commit;</li></ul><ul id="3b4f6ce8-497f-80d8-9777-c5040c33797a" class="bulleted-list" dir="auto"><li style="list-style-type:disc">um hash único;</li></ul><ul id="3b4f6ce8-497f-80f1-89c4-ef8e258d7859" class="bulleted-list" dir="auto"><li style="list-style-type:disc">registra data e hora;</li></ul><ul id="3b4f6ce8-497f-80bf-929c-c50176104896" class="bulleted-list" dir="auto"><li style="list-style-type:disc">registra o autor;</li></ul><ul id="3b4f6ce8-497f-80c7-b468-d4380ba698ea" class="bulleted-list" dir="auto"><li style="list-style-type:disc">salva uma fotografia (<em>snapshot</em>) do projeto.</li></ul><hr id="3b4f6ce8-497f-8028-85ce-e02f0e945645" dir="auto"/><h1 id="3b4f6ce8-497f-80d6-82f0-ddbf8c390caf" class="" dir="auto">8. git log</h1><p id="3b4f6ce8-497f-8025-94bb-d17a84cd7f3c" class="" dir="auto">Mostra o histórico de commits.</p><h2 id="3b4f6ce8-497f-8055-86d9-f8aeca81e73e" class="" dir="auto">Sintaxe</h2><pre id="3b4f6ce8-497f-8027-9273-ce319b651f46" class="code code-wrap" data-notion-code-syntax="bash"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">git log</code></pre><p id="3b4f6ce8-497f-80ac-9cb0-cf106237693c" class="" dir="auto">Exemplo:</p><pre id="3b4f6ce8-497f-80b5-a639-c4d81e87aed4" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">commit a8d93ef
+
+Author: João
+
+Date:
+
+Adiciona login</code></pre><hr id="3b4f6ce8-497f-801f-abed-f72864f35bd6" dir="auto"/><h2 id="3b4f6ce8-497f-80c9-bf28-ca5c4f8001c8" class="" dir="auto">Forma resumida</h2><pre id="3b4f6ce8-497f-80c2-a34c-cd38ab25e426" class="code code-wrap" data-notion-code-syntax="bash"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">git log --oneline</code></pre><p id="3b4f6ce8-497f-80ac-9b5e-dc21a83476fe" class="" dir="auto">Resultado:</p><pre id="3b4f6ce8-497f-8062-b102-cdfdbbbb5cb3" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">8d3ef21 Adiciona Login
+
+24d3ab4 Corrige CSS
+
+75ac991 Projeto inicial</code></pre><hr id="3b4f6ce8-497f-80fc-9f0f-de4431df640b" dir="auto"/><h2 id="3b4f6ce8-497f-809f-b394-c3c028190620" class="" dir="auto">Histórico gráfico</h2><pre id="3b4f6ce8-497f-808f-9571-c27959f2f91c" class="code code-wrap" data-notion-code-syntax="bash"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">git log --oneline --graph --all</code></pre><p id="3b4f6ce8-497f-80d6-a7bc-e4c3c2e0f9be" class="" dir="auto">Exemplo:</p><pre id="3b4f6ce8-497f-80c7-87d8-c07c20283f95" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">* Login
+
+* Cadastro
+
+|\
+
+| * API
+
+|
+
+* Projeto Inicial</code></pre><p id="3b4f6ce8-497f-8043-877f-cc9b479dcbd1" class="" dir="auto">Muito útil para visualizar branches.</p><hr id="3b4f6ce8-497f-80e4-a0eb-e24b9cf48365" dir="auto"/><h1 id="3b4f6ce8-497f-80b9-a299-f29b55f252f5" class="" dir="auto">9. git diff</h1><p id="3b4f6ce8-497f-8022-889f-eaaf9c338dec" class="" dir="auto">Mostra exatamente o que foi alterado.</p><h2 id="3b4f6ce8-497f-80ec-86aa-ea1a03fb022c" class="" dir="auto">Sintaxe</h2><pre id="3b4f6ce8-497f-8071-a1c1-c61e7c0b91da" class="code code-wrap" data-notion-code-syntax="bash"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">git diff</code></pre><p id="3b4f6ce8-497f-808c-9f1d-d928e1e92653" class="" dir="auto">Exemplo:</p><pre id="3b4f6ce8-497f-8088-8c1b-ccd03db4da14" class="code code-wrap" data-notion-code-syntax="diff"><code class="language-diff" style="white-space:pre-wrap;word-break:break-all">- echo &quot;Olá&quot;;
+
++ echo &quot;Bem-vindo&quot;;</code></pre><hr id="3b4f6ce8-497f-80d6-a2db-ee98b17a1387" dir="auto"/><h2 id="3b4f6ce8-497f-8091-86ba-fb995d196c84" class="" dir="auto">Comparando arquivos preparados</h2><pre id="3b4f6ce8-497f-80ec-91b4-c19371a7028a" class="code code-wrap" data-notion-code-syntax="bash"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">git diff --staged</code></pre><p id="3b4f6ce8-497f-8089-814d-c7db2c2cfa3f" class="" dir="auto">Mostra apenas o que está na Staging Area.</p><hr id="3b4f6ce8-497f-80fb-b466-d3ebffd52ade" dir="auto"/><h1 id="3b4f6ce8-497f-80e3-9bb8-c2c30e240181" class="" dir="auto">10. git branch</h1><p id="3b4f6ce8-497f-8055-9e3a-c77fe79add8e" class="" dir="auto">Gerencia branches.</p><h2 id="3b4f6ce8-497f-803b-9407-e6724f05653f" class="" dir="auto">Listar</h2><pre id="3b4f6ce8-497f-800c-a80d-fd81135b8f7d" class="code code-wrap" data-notion-code-syntax="bash"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">git branch</code></pre><p id="3b4f6ce8-497f-8096-a626-d85e6157dc32" class="" dir="auto">Resultado:</p><pre id="3b4f6ce8-497f-8061-b631-e690b70ea3aa" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">* main
+
+feature-login
+
+feature-api</code></pre><hr id="3b4f6ce8-497f-8086-85b7-dcd43212fbe4" dir="auto"/><h2 id="3b4f6ce8-497f-8054-af1e-f19e1be4eaf7" class="" dir="auto">Criar</h2><pre id="3b4f6ce8-497f-80d4-937e-f26df6e68411" class="code code-wrap" data-notion-code-syntax="bash"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">git branch feature-login</code></pre><hr id="3b4f6ce8-497f-8020-afe0-ddf13597c494" dir="auto"/><h2 id="3b4f6ce8-497f-80a3-8049-d6879f394ae3" class="" dir="auto">Excluir</h2><pre id="3b4f6ce8-497f-80d9-a16b-c8a59230196d" class="code code-wrap" data-notion-code-syntax="bash"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">git branch -d feature-login</code></pre><hr id="3b4f6ce8-497f-8058-aa58-c2654d9f5102" dir="auto"/><h2 id="3b4f6ce8-497f-806a-a8af-cc8734468e0b" class="" dir="auto">Excluir forçando</h2><pre id="3b4f6ce8-497f-8068-91ea-dd24d7c6ebfd" class="code code-wrap" data-notion-code-syntax="bash"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">git branch -D feature-login</code></pre><hr id="3b4f6ce8-497f-8037-ae5e-f7a693b89272" dir="auto"/><h1 id="3b4f6ce8-497f-80f3-96b7-eb4fb280da0d" class="" dir="auto">11. git switch</h1><p id="3b4f6ce8-497f-805f-b094-dc0268114fef" class="" dir="auto">Troca de branch.</p><h2 id="3b4f6ce8-497f-80a9-ad27-e3b423d1afcc" class="" dir="auto">Sintaxe</h2><pre id="3b4f6ce8-497f-80a2-9af7-eb0a3cf7acc1" class="code code-wrap" data-notion-code-syntax="bash"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">git switch nome-da-branch</code></pre><p id="3b4f6ce8-497f-80ef-a227-cddb96480f71" class="" dir="auto">Exemplo:</p><pre id="3b4f6ce8-497f-80e1-8a36-f14cd4897e36" class="code code-wrap" data-notion-code-syntax="bash"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">git switch feature-login</code></pre><hr id="3b4f6ce8-497f-80e6-9d03-e8bd1ad90c95" dir="auto"/><h2 id="3b4f6ce8-497f-800f-a020-cacb15f3ad3e" class="" dir="auto">Criar e mudar</h2><pre id="3b4f6ce8-497f-8012-97bf-d94dfcbd2461" class="code code-wrap" data-notion-code-syntax="bash"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">git switch -c feature-login</code></pre><hr id="3b4f6ce8-497f-805e-8166-e66510c2b2ff" dir="auto"/><h1 id="3b4f6ce8-497f-8016-a6a4-eb05e3bb39a6" class="" dir="auto">12. git checkout</h1><p id="3b4f6ce8-497f-8040-8a14-daf38573749b" class="" dir="auto">Ainda é bastante utilizado.</p><p id="3b4f6ce8-497f-809f-b2e0-ce0abf66aa97" class="" dir="auto">Pode:</p><ul id="3b4f6ce8-497f-8006-9e96-d458b9282550" class="bulleted-list" dir="auto"><li style="list-style-type:disc">trocar de branch;</li></ul><ul id="3b4f6ce8-497f-80b6-83a9-f512a0ec9950" class="bulleted-list" dir="auto"><li style="list-style-type:disc">restaurar arquivos;</li></ul><ul id="3b4f6ce8-497f-80e5-8229-e80055166ea6" class="bulleted-list" dir="auto"><li style="list-style-type:disc">acessar commits antigos.</li></ul><h2 id="3b4f6ce8-497f-8028-b8bc-c2f78ba7de53" class="" dir="auto">Trocar de branch</h2><pre id="3b4f6ce8-497f-8059-8ec7-c577d434be01" class="code code-wrap" data-notion-code-syntax="bash"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">git checkout feature-login</code></pre><hr id="3b4f6ce8-497f-8011-b61f-ed30b39d1106" dir="auto"/><h2 id="3b4f6ce8-497f-8083-803f-cd12183a46fe" class="" dir="auto">Criar branch</h2><pre id="3b4f6ce8-497f-80f0-b86b-c4b88dea95f4" class="code code-wrap" data-notion-code-syntax="bash"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">git checkout -b feature-login</code></pre><p id="3b4f6ce8-497f-80d6-9d19-d90e16b24400" class="" dir="auto">Embora ainda funcione, para trocar e criar branches recomenda-se o uso de <code>git switch</code>.</p><hr id="3b4f6ce8-497f-80df-a803-c15a9763590a" dir="auto"/><h1 id="3b4f6ce8-497f-8029-aaaf-cce575d83651" class="" dir="auto">13. git merge</h1><p id="3b4f6ce8-497f-80c4-a6eb-e0b7f955ef8a" class="" dir="auto">Une duas branches.</p><h2 id="3b4f6ce8-497f-80f7-8df0-e041088eb342" class="" dir="auto">Exemplo</h2><pre id="3b4f6ce8-497f-8042-84b2-dd31a834571c" class="code code-wrap" data-notion-code-syntax="bash"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">git switch main
+
+git merge feature-login</code></pre><p id="3b4f6ce8-497f-80fd-8b80-dfa08ab288e8" class="" dir="auto">Resultado:</p><pre id="3b4f6ce8-497f-8048-af48-e14102b9ec4c" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">main
+
+↓
+
+Merge
+
+↓
+
+feature-login incorporada</code></pre><hr id="3b4f6ce8-497f-80bb-b657-f5a5dcd994c0" dir="auto"/><h1 id="3b4f6ce8-497f-801b-90a9-d8deebba9b28" class="" dir="auto">14. git remote</h1><p id="3b4f6ce8-497f-80e3-8491-d21f8ea95af4" class="" dir="auto">Gerencia repositórios remotos.</p><h2 id="3b4f6ce8-497f-80df-ab5a-fc5bebfa90f3" class="" dir="auto">Listar</h2><pre id="3b4f6ce8-497f-8021-925c-dd1d47cdcfed" class="code code-wrap" data-notion-code-syntax="bash"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">git remote -v</code></pre><p id="3b4f6ce8-497f-800b-9ac1-ea6475a194ed" class="" dir="auto">Exemplo:</p><pre id="3b4f6ce8-497f-80e9-a92a-c522c31498fb" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">origin
+
+https://github.com/usuario/projeto.git</code></pre><hr id="3b4f6ce8-497f-800e-bd01-cd0c3e83898f" dir="auto"/><h2 id="3b4f6ce8-497f-80be-85ce-db5c35a4b3b6" class="" dir="auto">Adicionar</h2><pre id="3b4f6ce8-497f-80dd-986f-f93531bf345f" class="code code-wrap" data-notion-code-syntax="bash"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">git remote add origin https://github.com/usuario/projeto.git</code></pre><hr id="3b4f6ce8-497f-80aa-acb7-e150df066943" dir="auto"/><h1 id="3b4f6ce8-497f-80f1-b060-f2ab8aa6efbb" class="" dir="auto">15. git push</h1><p id="3b4f6ce8-497f-808d-a656-cab4861b755d" class="" dir="auto">Envia commits locais para o repositório remoto.</p><h2 id="3b4f6ce8-497f-80a2-94b9-dc95ec6ad89d" class="" dir="auto">Sintaxe</h2><pre id="3b4f6ce8-497f-803e-909c-f39139a323c6" class="code code-wrap" data-notion-code-syntax="bash"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">git push origin main</code></pre><p id="3b4f6ce8-497f-80cb-800c-fb08438a91a6" class="" dir="auto">Fluxo:</p><pre id="3b4f6ce8-497f-80e8-b9cf-eb7d3fd066e0" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Computador
+
+↓
+
+GitHub</code></pre><hr id="3b4f6ce8-497f-806a-ae83-cbb1a397aa54" dir="auto"/><h1 id="3b4f6ce8-497f-8067-ba84-d66098f9aa8f" class="" dir="auto">16. git pull</h1><p id="3b4f6ce8-497f-8073-b174-ff4299b07f3e" class="" dir="auto">Baixa alterações do servidor e já as integra ao repositório local.</p><pre id="3b4f6ce8-497f-8076-b33e-d5aa9cc80750" class="code code-wrap" data-notion-code-syntax="bash"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">git pull</code></pre><p id="3b4f6ce8-497f-80e2-b92b-f9b4cda76147" class="" dir="auto">Fluxo:</p><pre id="3b4f6ce8-497f-801a-b414-cbb31fe65892" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">GitHub
+
+↓
+
+Computador</code></pre><hr id="3b4f6ce8-497f-80ab-b503-e8a43522c840" dir="auto"/><h1 id="3b4f6ce8-497f-805f-8075-d9bdc8ea6444" class="" dir="auto">17. git fetch</h1><p id="3b4f6ce8-497f-80c3-b956-c44cfc3a97d5" class="" dir="auto">Baixa informações do servidor sem alterar os arquivos locais.</p><pre id="3b4f6ce8-497f-8001-8070-d499698dc87f" class="code code-wrap" data-notion-code-syntax="bash"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">git fetch</code></pre><p id="3b4f6ce8-497f-80b7-95ce-cd775d7de368" class="" dir="auto">É útil para verificar mudanças antes de integrá-las.</p><hr id="3b4f6ce8-497f-8023-9323-fa1a4c653750" dir="auto"/><h1 id="3b4f6ce8-497f-8097-8b62-d0153b9b8a98" class="" dir="auto">18. git restore</h1><p id="3b4f6ce8-497f-8008-bf76-ebe2bfeafd55" class="" dir="auto">Restaura alterações em arquivos.</p><h2 id="3b4f6ce8-497f-80cc-aa8c-c2628f36ea31" class="" dir="auto">Descartar alterações</h2><pre id="3b4f6ce8-497f-8074-9291-d944e2ec6deb" class="code code-wrap" data-notion-code-syntax="bash"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">git restore index.html</code></pre><p id="3b4f6ce8-497f-808f-a324-f19f4526cff8" class="" dir="auto">O arquivo volta ao estado do último commit.</p><hr id="3b4f6ce8-497f-806c-a2b6-fc3a41d92796" dir="auto"/><h1 id="3b4f6ce8-497f-80f9-a4e3-e0f578282647" class="" dir="auto">19. git rm</h1><p id="3b4f6ce8-497f-800b-9e8d-ffeeeb0de65b" class="" dir="auto">Remove arquivos do projeto e do controle de versão.</p><pre id="3b4f6ce8-497f-80ef-b7bc-c6e6df53afb6" class="code code-wrap" data-notion-code-syntax="bash"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">git rm arquivo.txt</code></pre><p id="3b4f6ce8-497f-8037-abb9-ee43186879d2" class="" dir="auto">Depois será necessário criar um commit para confirmar a remoção.</p><hr id="3b4f6ce8-497f-8074-a4bd-e073b54498da" dir="auto"/><h1 id="3b4f6ce8-497f-807a-8f78-df15464002ce" class="" dir="auto">20. git mv</h1><p id="3b4f6ce8-497f-806e-b940-c57b1e19054f" class="" dir="auto">Move ou renomeia arquivos mantendo o histórico.</p><pre id="3b4f6ce8-497f-80f5-be80-fd7d31342bb0" class="code code-wrap" data-notion-code-syntax="bash"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">git mv antigo.txt novo.txt</code></pre><hr id="3b4f6ce8-497f-80df-b897-e375e21a99b0" dir="auto"/><h1 id="3b4f6ce8-497f-8014-949e-f42408fe4fb5" class="" dir="auto">21. git tag</h1><p id="3b4f6ce8-497f-804a-899b-dbace6b437d1" class="" dir="auto">Cria marcações para versões importantes do projeto.</p><h2 id="3b4f6ce8-497f-80ce-9cf4-c72042e1361a" class="" dir="auto">Criar</h2><pre id="3b4f6ce8-497f-808c-b802-fef1bdaebe36" class="code code-wrap" data-notion-code-syntax="bash"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">git tag v1.0</code></pre><p id="3b4f6ce8-497f-809c-b06b-d4aa1d974966" class="" dir="auto">Muito utilizada para identificar versões lançadas.</p><hr id="3b4f6ce8-497f-8011-b1b0-c4c8cd6ac79f" dir="auto"/><h1 id="3b4f6ce8-497f-80ea-982a-cec6201bcdda" class="" dir="auto">22. git show</h1><p id="3b4f6ce8-497f-800b-8332-e6a356052b32" class="" dir="auto">Mostra detalhes de um commit.</p><pre id="3b4f6ce8-497f-8001-bb9f-c532009c2779" class="code code-wrap" data-notion-code-syntax="bash"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">git show</code></pre><p id="3b4f6ce8-497f-80ec-a224-e19e5d04ebc4" class="" dir="auto">Ou:</p><pre id="3b4f6ce8-497f-807b-abf4-c707fb44c2a8" class="code code-wrap" data-notion-code-syntax="bash"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">git show a8d93ef</code></pre><p id="3b4f6ce8-497f-8074-bb64-e3bbbb470894" class="" dir="auto">Exibe:</p><ul id="3b4f6ce8-497f-8007-8c35-c6165c337b28" class="bulleted-list" dir="auto"><li style="list-style-type:disc">autor;</li></ul><ul id="3b4f6ce8-497f-8072-92c2-cd3d4f31d947" class="bulleted-list" dir="auto"><li style="list-style-type:disc">data;</li></ul><ul id="3b4f6ce8-497f-8096-8400-f3a107f240b6" class="bulleted-list" dir="auto"><li style="list-style-type:disc">mensagem;</li></ul><ul id="3b4f6ce8-497f-80ec-bf2e-f3f04e428cf5" class="bulleted-list" dir="auto"><li style="list-style-type:disc">alterações realizadas.</li></ul><hr id="3b4f6ce8-497f-8097-b5e1-e88afa417ea2" dir="auto"/><h1 id="3b4f6ce8-497f-8097-b6f4-c516ae1e20b5" class="" dir="auto">23. git stash</h1><p id="3b4f6ce8-497f-807c-8901-ea12e7bda6a9" class="" dir="auto">Guarda temporariamente alterações ainda não concluídas.</p><h2 id="3b4f6ce8-497f-80b1-827a-cf0727be6d1d" class="" dir="auto">Salvar</h2><pre id="3b4f6ce8-497f-8076-8962-ea305ee05deb" class="code code-wrap" data-notion-code-syntax="bash"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">git stash</code></pre><h2 id="3b4f6ce8-497f-8099-b5f2-c34ec188f705" class="" dir="auto">Recuperar</h2><pre id="3b4f6ce8-497f-80c2-8a3d-cb0d23f18306" class="code code-wrap" data-notion-code-syntax="bash"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">git stash pop</code></pre><p id="3b4f6ce8-497f-8032-91b7-f9224a3b4d94" class="" dir="auto">É útil quando você precisa trocar de branch sem fazer um commit incompleto.</p><hr id="3b4f6ce8-497f-80ec-8c7a-d91e7be46b2f" dir="auto"/><h1 id="3b4f6ce8-497f-80c2-a19a-c6639879b3dd" class="" dir="auto">Resumo dos Principais Comandos</h1><table id="3b4f6ce8-497f-801d-992c-e198ce6d31ce" class="simple-table" dir="ltr"><thead class="simple-table-header"><tr id="3b4f6ce8-497f-80b1-a70a-d592f809836d" dir="ltr"><th id="mlaB" class="simple-table-header-color simple-table-header">Comando</th><th id=":Vy}" class="simple-table-header-color simple-table-header">Função</th></tr></thead><tbody><tr id="3b4f6ce8-497f-80e4-a098-ff00612f840c" dir="ltr"><td id="mlaB" class=""><code>git --version</code></td><td id=":Vy}" class="">Mostra a versão do Git</td></tr><tr id="3b4f6ce8-497f-808d-ad28-c70f0ca1688a" dir="ltr"><td id="mlaB" class=""><code>git config</code></td><td id=":Vy}" class="">Configura nome, e-mail e outras opções</td></tr><tr id="3b4f6ce8-497f-8024-8dd8-f51b5322ad87" dir="ltr"><td id="mlaB" class=""><code>git init</code></td><td id=":Vy}" class="">Cria um repositório Git</td></tr><tr id="3b4f6ce8-497f-8005-a0fa-d0b7384a1f75" dir="ltr"><td id="mlaB" class=""><code>git clone</code></td><td id=":Vy}" class="">Clona um repositório remoto</td></tr><tr id="3b4f6ce8-497f-80e8-9514-c3b3b9c5c74a" dir="ltr"><td id="mlaB" class=""><code>git status</code></td><td id=":Vy}" class="">Mostra o estado do repositório</td></tr><tr id="3b4f6ce8-497f-808f-872b-eb33b838805a" dir="ltr"><td id="mlaB" class=""><code>git add</code></td><td id=":Vy}" class="">Adiciona arquivos à Staging Area</td></tr><tr id="3b4f6ce8-497f-8042-bebb-f741728d31ed" dir="ltr"><td id="mlaB" class=""><code>git commit</code></td><td id=":Vy}" class="">Salva alterações no histórico</td></tr><tr id="3b4f6ce8-497f-80ef-9fe9-f3f974242c3b" dir="ltr"><td id="mlaB" class=""><code>git log</code></td><td id=":Vy}" class="">Exibe o histórico de commits</td></tr><tr id="3b4f6ce8-497f-8016-99ba-d7ad35788dfa" dir="ltr"><td id="mlaB" class=""><code>git diff</code></td><td id=":Vy}" class="">Mostra diferenças entre versões</td></tr><tr id="3b4f6ce8-497f-805c-b1dd-c2773fc14c95" dir="ltr"><td id="mlaB" class=""><code>git branch</code></td><td id=":Vy}" class="">Cria, lista e remove branches</td></tr><tr id="3b4f6ce8-497f-80ad-a391-d647904cdef1" dir="ltr"><td id="mlaB" class=""><code>git switch</code></td><td id=":Vy}" class="">Troca ou cria branches</td></tr><tr id="3b4f6ce8-497f-8050-8d58-f4854d7fc430" dir="ltr"><td id="mlaB" class=""><code>git checkout</code></td><td id=":Vy}" class="">Troca branches ou restaura versões</td></tr><tr id="3b4f6ce8-497f-80cb-a7bf-f53835383f55" dir="ltr"><td id="mlaB" class=""><code>git merge</code></td><td id=":Vy}" class="">Une branches</td></tr><tr id="3b4f6ce8-497f-80a3-ba65-d911329c6260" dir="ltr"><td id="mlaB" class=""><code>git remote</code></td><td id=":Vy}" class="">Gerencia repositórios remotos</td></tr><tr id="3b4f6ce8-497f-8006-8ef2-ced66a8bf4d7" dir="ltr"><td id="mlaB" class=""><code>git push</code></td><td id=":Vy}" class="">Envia alterações para o repositório remoto</td></tr><tr id="3b4f6ce8-497f-80e6-a8bb-d47242bc512d" dir="ltr"><td id="mlaB" class=""><code>git pull</code></td><td id=":Vy}" class="">Baixa e integra alterações do remoto</td></tr><tr id="3b4f6ce8-497f-80ba-b046-fe71c4cd16e7" dir="ltr"><td id="mlaB" class=""><code>git fetch</code></td><td id=":Vy}" class="">Baixa alterações sem integrá-las</td></tr><tr id="3b4f6ce8-497f-8041-9092-f2bc068fe93f" dir="ltr"><td id="mlaB" class=""><code>git restore</code></td><td id=":Vy}" class="">Restaura arquivos modificados</td></tr><tr id="3b4f6ce8-497f-806d-ac0c-f85534fa6ead" dir="ltr"><td id="mlaB" class=""><code>git rm</code></td><td id=":Vy}" class="">Remove arquivos do repositório</td></tr><tr id="3b4f6ce8-497f-8030-9e8a-c05298a8e481" dir="ltr"><td id="mlaB" class=""><code>git mv</code></td><td id=":Vy}" class="">Move ou renomeia arquivos</td></tr><tr id="3b4f6ce8-497f-8045-ae28-d544f9eca221" dir="ltr"><td id="mlaB" class=""><code>git tag</code></td><td id=":Vy}" class="">Cria marcações de versão</td></tr><tr id="3b4f6ce8-497f-8083-b7b6-ff6da44fc5f7" dir="ltr"><td id="mlaB" class=""><code>git show</code></td><td id=":Vy}" class="">Exibe detalhes de um commit</td></tr><tr id="3b4f6ce8-497f-8087-964a-c9698c9a6d1d" dir="ltr"><td id="mlaB" class=""><code>git stash</code></td><td id=":Vy}" class="">Armazena alterações temporariamente</td></tr></tbody></table><hr id="3b4f6ce8-497f-803e-98df-cfc295f6fcd6" dir="auto"/><h1 id="3b4f6ce8-497f-80e1-b47d-f28215956c93" class="" dir="auto">Fluxo Completo de Exemplo</h1><p id="3b4f6ce8-497f-80b0-9d7d-f0c9e8eaac8f" class="" dir="auto">Imagine que você criou um novo projeto:</p><pre id="3b4f6ce8-497f-8091-8b46-dcb3623aa11a" class="code code-wrap" data-notion-code-syntax="bash"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all"># Criar pasta do projeto
+mkdir MeuProjeto
+
+# Entrar na pasta
+cd MeuProjeto
+
+# Inicializar o Git
+git init
+
+# Criar um arquivo
+echo &quot;# Meu Projeto&quot; &gt; README.md
+
+# Verificar o status
+git status
+
+# Adicionar o arquivo à Staging Area
+git add README.md
+
+# Criar o primeiro commit
+git commit -m &quot;Primeiro commit&quot;
+
+# Criar uma nova branch
+git switch -c feature-login
+
+# Fazer alterações e salvar
+git add .
+git commit -m &quot;Adiciona tela de login&quot;
+
+# Voltar para a branch principal
+git switch main
+
+# Integrar as alterações
+git merge feature-login
+
+# Enviar para o repositório remoto
+git push origin main</code></pre><hr id="3b4f6ce8-497f-802c-9cef-e53f71c9ff9e" dir="auto"/><h1 id="3b4f6ce8-497f-80a9-ace6-f8e4765f5b23" class="" dir="auto">Boas Práticas</h1><ul id="3b4f6ce8-497f-80b8-adf8-d505ff3898ce" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Execute <code>git status</code> com frequência para acompanhar o estado do repositório.</li></ul><ul id="3b4f6ce8-497f-80f5-ad0b-dbeb6a1c396f" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Faça commits pequenos, com mensagens claras e objetivas.</li></ul><ul id="3b4f6ce8-497f-802d-a5ec-d2411ac2f72b" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Utilize <code>git switch</code> para gerenciar branches nas versões mais recentes do Git.</li></ul><ul id="3b4f6ce8-497f-805b-aa88-c015fd01df29" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Revise as alterações com <code>git diff</code> antes de criar um commit.</li></ul><ul id="3b4f6ce8-497f-8088-8caf-f1fcf51c4507" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Faça <code>git pull</code> antes de iniciar o trabalho em um repositório compartilhado para evitar conflitos.</li></ul><ul id="3b4f6ce8-497f-8060-a9a0-f396b8d77a82" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Use <code>git stash</code> quando precisar interromper temporariamente uma tarefa.</li></ul><hr id="3b4f6ce8-497f-80e4-be1b-f08a4cd513fb" dir="auto"/><h1 id="3b4f6ce8-497f-8017-ab2d-f7cbe8592c0f" class="" dir="auto">Erros Comuns</h1><ul id="3b4f6ce8-497f-804c-aa4b-fcf82d2c2626" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Esquecer de executar <code>git add</code> antes do <code>git commit</code>.</li></ul><ul id="3b4f6ce8-497f-8047-a847-c3211f194055" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Criar commits com mensagens genéricas, como &quot;teste&quot; ou &quot;alterações&quot;.</li></ul><ul id="3b4f6ce8-497f-8094-8fe3-f79bdfafc774" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Trabalhar diretamente na branch <code>main</code> em projetos colaborativos.</li></ul><ul id="3b4f6ce8-497f-8074-8404-c279e9ea62fb" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Usar <code>git push --force</code> sem compreender suas consequências, podendo sobrescrever o trabalho de outros desenvolvedores.</li></ul><ul id="3b4f6ce8-497f-80c3-843b-c2af0afb134a" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Não verificar o estado do repositório com <code>git status</code> antes de executar comandos importantes.</li></ul><hr id="3b4f6ce8-497f-80fb-94aa-f3db6d843857" dir="auto"/><h1 id="3b4f6ce8-497f-80e1-b7b2-feb3027899a7" class="" dir="auto">Resumo</h1><p id="3b4f6ce8-497f-80ae-86bd-f6615c840f18" class="" dir="auto">Os comandos básicos do Git formam a base do controle de versão e são utilizados diariamente por desenvolvedores. Comandos como <code>git init</code>, <code>git status</code>, <code>git add</code>, <code>git commit</code>, <code>git log</code>, <code>git branch</code>, <code>git switch</code>, <code>git merge</code>, <code>git push</code> e <code>git pull</code> permitem criar repositórios, registrar alterações, gerenciar branches e sincronizar projetos com repositórios remotos. Dominar esses comandos é essencial para utilizar o Git de forma eficiente e segura em projetos individuais ou colaborativos.</p></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

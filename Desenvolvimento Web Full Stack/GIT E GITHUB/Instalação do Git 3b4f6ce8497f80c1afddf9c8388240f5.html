@@ -1,0 +1,803 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Instalação do Git</title><meta name="data-notion-page-icon" content="/icons/git_red.svg"/><link rel="icon" href="https://app.notion.com/icons/git_red.svg"/><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+/* For default-background callouts, render the border outline. */
+.callout.block-color-default_background {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+/*
+ * Toggles and callouts hold arbitrary content, so they can easily be taller
+ * than a page. They must stay breakable: avoiding breaks inside them makes
+ * Chromium push the whole block onto the next page, which leaves the previous
+ * page mostly empty before every long toggle.
+ */
+details,
+aside {
+	margin: 1.25em 0;
+}
+
+/* Keep a toggle's title on the same page as the start of its content. */
+summary {
+	page-break-after: avoid;
+	break-after: avoid;
+}
+
+/*
+ * Toggle headings render as <h1/h2/h3 style="display:inline-block"> inside
+ * <summary>. Without this reset, the heading's margin-top pushes it below the
+ * ::marker (▼), so the triangle and the title appear on separate lines.
+ */
+summary h1,
+summary h2,
+summary h3,
+summary h4 {
+	margin-top: 0;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding-inline: 0.125rem;
+	padding-block: 0.375rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+/*
+ * Render emoji icons using a ::before pseudo-element to keep the glyph
+ * out of the DOM textContent traversal. This avoids double-rendering icons
+ * in callouts and page titles.
+ * NOTE(slim/html-export-pseudo-icons): I can't tagref this because it will
+ * flag as a duplicate tag after codegen.
+ */
+.icon[data-emoji]::before {
+	content: attr(data-emoji);
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	margin-right: 0.4em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.tab {
+	margin: 1.25em 0;
+	padding-inline: 1rem;
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style><style>@import url('https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex-swap.min.css')</style></head><body><article id="3b4f6ce8-497f-80c1-afdd-f9c8388240f5" class="page sans" data-notion-page-icon="/icons/git_red.svg"><header><div class="page-header-icon undefined"><img class="icon notion-static-icon" src="https://app.notion.com/icons/git_red.svg"/></div><h1 class="page-title" dir="auto">Instalação do Git</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><h1 id="3b4f6ce8-497f-8099-bb6c-f26dd274dec6" class="" dir="auto">Instalação do Git</h1><h2 id="3b4f6ce8-497f-80df-abad-da5ac76bab8c" class="" dir="auto">Introdução</h2><p id="3b4f6ce8-497f-8079-8f91-de35d6f42055" class="" dir="auto">Antes de utilizar o Git para controlar versões de projetos, é necessário instalá-lo no computador. A instalação é simples e está disponível para os principais sistemas operacionais: <strong>Windows, Linux e macOS</strong>.</p><p id="3b4f6ce8-497f-8074-91a5-ff75951f4684" class="" dir="auto">Após a instalação, o Git pode ser utilizado tanto por meio da <strong>linha de comando (Git Bash ou Terminal)</strong> quanto integrado a diversas IDEs e editores de código, como <strong>Visual Studio Code</strong>, IntelliJ IDEA, Eclipse e outros.</p><p id="3b4f6ce8-497f-80af-aea7-e0a3bdd37f61" class="" dir="auto">Além da instalação, também é importante realizar uma configuração inicial, informando seu nome e e-mail, que serão associados aos commits.</p><hr id="3b4f6ce8-497f-808e-9eb7-cfadece51153" dir="auto"/><h1 id="3b4f6ce8-497f-8034-9bd2-faf312d26a41" class="" dir="auto">Requisitos para Instalação</h1><p id="3b4f6ce8-497f-8028-80d8-cc0a3eb5020d" class="" dir="auto">O Git possui requisitos mínimos e funciona na maioria dos computadores modernos.</p><h3 id="3b4f6ce8-497f-808d-8405-c06c2611702a" class="" dir="auto">Sistemas Operacionais Suportados</h3><ul id="3b4f6ce8-497f-805f-949d-c9701930e9a6" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Windows 10 ou superior (também funciona em versões anteriores)</li></ul><ul id="3b4f6ce8-497f-8047-b419-e11bd57347df" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Linux (Ubuntu, Debian, Fedora, Arch, entre outras)</li></ul><ul id="3b4f6ce8-497f-8066-9b23-d6e129095d52" class="bulleted-list" dir="auto"><li style="list-style-type:disc">macOS</li></ul><hr id="3b4f6ce8-497f-809d-b938-cf1a4ea19cd1" dir="auto"/><h1 id="3b4f6ce8-497f-802d-9308-f49f27cafd95" class="" dir="auto">Instalando o Git no Windows</h1><figure id="3b4f6ce8-497f-802d-9f9a-e737f27ef57f" class="image" data-notion-image="https://images.openai.com/static-rsc-4/YTvmjiilrOZMk5koI3Sq3snXzhazDAZOjcDINRqf4X53lCxu_cjZ9kJtvfynWgclgfpJdFw73CcZ2CasQRHuXAr38RIgPWaBUeCr2vmuRYSUU56YWzfKpRAMk4TvCceqJuAHeV2uL8WxN1Smu6BOhzP2SnnYIXBJ2jZPrl4g-XsrOAqP58184ArHpnSPMtbp?purpose=fullsize" dir="ltr"><a href="https://images.openai.com/static-rsc-4/YTvmjiilrOZMk5koI3Sq3snXzhazDAZOjcDINRqf4X53lCxu_cjZ9kJtvfynWgclgfpJdFw73CcZ2CasQRHuXAr38RIgPWaBUeCr2vmuRYSUU56YWzfKpRAMk4TvCceqJuAHeV2uL8WxN1Smu6BOhzP2SnnYIXBJ2jZPrl4g-XsrOAqP58184ArHpnSPMtbp?purpose=fullsize"><img src="https://images.openai.com/static-rsc-4/YTvmjiilrOZMk5koI3Sq3snXzhazDAZOjcDINRqf4X53lCxu_cjZ9kJtvfynWgclgfpJdFw73CcZ2CasQRHuXAr38RIgPWaBUeCr2vmuRYSUU56YWzfKpRAMk4TvCceqJuAHeV2uL8WxN1Smu6BOhzP2SnnYIXBJ2jZPrl4g-XsrOAqP58184ArHpnSPMtbp?purpose=fullsize"/></a></figure><figure id="3b4f6ce8-497f-80a8-9709-c934fad4b984" class="image" data-notion-image="https://images.openai.com/static-rsc-4/0CUhS-WpBwpxwwGO7RsFdJl2M68_ETrAZmB__Oe03MK8taqVi724fZhwzfpm7Ul6q4DDjOroXUITMOhaeBH-nC_pXppbfU26T9ef9hgY99z7FEiR-TV2FSP8oulm2wF1XghU4n9PVIFB9oOpaHD2okW0Vk_oG7b1bWGpRX1XJ_aTjxC2KUCTtgBEdAHM8sW-?purpose=fullsize" dir="ltr"><a href="https://images.openai.com/static-rsc-4/0CUhS-WpBwpxwwGO7RsFdJl2M68_ETrAZmB__Oe03MK8taqVi724fZhwzfpm7Ul6q4DDjOroXUITMOhaeBH-nC_pXppbfU26T9ef9hgY99z7FEiR-TV2FSP8oulm2wF1XghU4n9PVIFB9oOpaHD2okW0Vk_oG7b1bWGpRX1XJ_aTjxC2KUCTtgBEdAHM8sW-?purpose=fullsize"><img src="https://images.openai.com/static-rsc-4/0CUhS-WpBwpxwwGO7RsFdJl2M68_ETrAZmB__Oe03MK8taqVi724fZhwzfpm7Ul6q4DDjOroXUITMOhaeBH-nC_pXppbfU26T9ef9hgY99z7FEiR-TV2FSP8oulm2wF1XghU4n9PVIFB9oOpaHD2okW0Vk_oG7b1bWGpRX1XJ_aTjxC2KUCTtgBEdAHM8sW-?purpose=fullsize"/></a></figure><figure id="3b4f6ce8-497f-806d-8c4f-d10d3d603b37" class="image" data-notion-image="https://images.openai.com/static-rsc-4/DoeyPT_1AVLFzTKphMLpjD05ddq2k2LQW4UUnyFUbnRzhg4_YnqFc1kSjAvaXBTkW9TB4vXyjWvjK4OpMLEUWUq2rjfDcoX28fTlA81OAzchVlGOIO0vmTWTal5ayadXn4L7HzBDrFCM7bRLcrtUD-mcHp3zh5mrNP8cZsBYCJysZFPfJDAqcGHMdterUvc6?purpose=fullsize" dir="ltr"><a href="https://images.openai.com/static-rsc-4/DoeyPT_1AVLFzTKphMLpjD05ddq2k2LQW4UUnyFUbnRzhg4_YnqFc1kSjAvaXBTkW9TB4vXyjWvjK4OpMLEUWUq2rjfDcoX28fTlA81OAzchVlGOIO0vmTWTal5ayadXn4L7HzBDrFCM7bRLcrtUD-mcHp3zh5mrNP8cZsBYCJysZFPfJDAqcGHMdterUvc6?purpose=fullsize"><img src="https://images.openai.com/static-rsc-4/DoeyPT_1AVLFzTKphMLpjD05ddq2k2LQW4UUnyFUbnRzhg4_YnqFc1kSjAvaXBTkW9TB4vXyjWvjK4OpMLEUWUq2rjfDcoX28fTlA81OAzchVlGOIO0vmTWTal5ayadXn4L7HzBDrFCM7bRLcrtUD-mcHp3zh5mrNP8cZsBYCJysZFPfJDAqcGHMdterUvc6?purpose=fullsize"/></a></figure><figure id="3b4f6ce8-497f-80dd-8281-f374dce655dc" class="image" data-notion-image="https://images.openai.com/static-rsc-4/5TX0F8mrYMlNOGEriAp687vxFH0lg0N1qJvHWNBGfksepw-jHt5R7aWpwF4XT_Y3bT3QuRQizzUJOLO4iaLL8XG0BAYdC5WA0xZViH3nACbXao7tpj25aHBdLPeIvSiwhSueiGerZfg0iWq0IOR6WladD-6vHrsUiM9WWULb-Et7qKyHMq8IR5nrvxkgvNaQ?purpose=fullsize" dir="ltr"><a href="https://images.openai.com/static-rsc-4/5TX0F8mrYMlNOGEriAp687vxFH0lg0N1qJvHWNBGfksepw-jHt5R7aWpwF4XT_Y3bT3QuRQizzUJOLO4iaLL8XG0BAYdC5WA0xZViH3nACbXao7tpj25aHBdLPeIvSiwhSueiGerZfg0iWq0IOR6WladD-6vHrsUiM9WWULb-Et7qKyHMq8IR5nrvxkgvNaQ?purpose=fullsize"><img src="https://images.openai.com/static-rsc-4/5TX0F8mrYMlNOGEriAp687vxFH0lg0N1qJvHWNBGfksepw-jHt5R7aWpwF4XT_Y3bT3QuRQizzUJOLO4iaLL8XG0BAYdC5WA0xZViH3nACbXao7tpj25aHBdLPeIvSiwhSueiGerZfg0iWq0IOR6WladD-6vHrsUiM9WWULb-Et7qKyHMq8IR5nrvxkgvNaQ?purpose=fullsize"/></a></figure><p id="3b4f6ce8-497f-807e-b229-c0ab0edb3214" class="" dir="auto">O Windows não possui o Git instalado por padrão.</p><h2 id="3b4f6ce8-497f-80d6-9dbf-ccc82c9c3b1a" class="" dir="auto">Passo 1 – Baixar o Instalador</h2><p id="3b4f6ce8-497f-803f-9c98-fb73a6a1ea51" class="" dir="auto">Acesse o site oficial do Git:</p><p id="3b4f6ce8-497f-8012-85f1-dc849b9799cd" class="" dir="auto"><strong><a href="https://git-scm.com/downloads?utm_source=chatgpt.com">Git Downloads</a></strong></p><p id="3b4f6ce8-497f-80b7-a568-d617af18ed94" class="" dir="auto">O site identifica automaticamente o sistema operacional.</p><hr id="3b4f6ce8-497f-807d-958a-dd381b3739a4" dir="auto"/><h2 id="3b4f6ce8-497f-8098-b408-dc7ffa92b1f1" class="" dir="auto">Passo 2 – Executar o Instalador</h2><p id="3b4f6ce8-497f-800a-ac97-ffc6150adcc5" class="" dir="auto">Após o download:</p><ul id="3b4f6ce8-497f-8026-9e23-c093ea56a93e" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Clique duas vezes no arquivo baixado.</li></ul><ul id="3b4f6ce8-497f-8032-8d48-c553cb913fb0" class="bulleted-list" dir="auto"><li style="list-style-type:disc">O assistente de instalação será aberto.</li></ul><hr id="3b4f6ce8-497f-8085-83ea-d33baef6cefd" dir="auto"/><h2 id="3b4f6ce8-497f-80b6-af4b-d9b00b77bea4" class="" dir="auto">Passo 3 – Escolher o Diretório</h2><p id="3b4f6ce8-497f-803a-a36c-ef9ed20771f5" class="" dir="auto">Normalmente utiliza-se:</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="3b4f6ce8-497f-8072-a86d-fb6b0a624098" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">C:\Program Files\Git</code></pre><p id="3b4f6ce8-497f-801a-91d8-f3b46cddc503" class="" dir="auto">Pode manter o diretório padrão.</p><hr id="3b4f6ce8-497f-8080-9597-caf08db47a23" dir="auto"/><h2 id="3b4f6ce8-497f-80c4-ba94-e752bb361a03" class="" dir="auto">Passo 4 – Selecionar Componentes</h2><p id="3b4f6ce8-497f-80a4-9973-cba25e4651a4" class="" dir="auto">As opções padrão costumam ser suficientes.</p><p id="3b4f6ce8-497f-80b4-bc40-fe9f5aca96cb" class="" dir="auto">Alguns componentes importantes:</p><ul id="3b4f6ce8-497f-8010-9469-c180c318d6ee" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Git Bash</li></ul><ul id="3b4f6ce8-497f-8082-9fea-ef6ff8608fda" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Git GUI</li></ul><ul id="3b4f6ce8-497f-809b-b1f9-d644b27eb382" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Integração com Windows Explorer</li></ul><ul id="3b4f6ce8-497f-802b-8f03-e5767480d99f" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Arquivos de documentação</li></ul><ul id="3b4f6ce8-497f-80ee-9865-d407a3f7df40" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Ícones</li></ul><p id="3b4f6ce8-497f-80ee-b11e-f44e66eeaa71" class="" dir="auto">Na maioria dos casos, basta clicar em <strong>Next</strong>.</p><hr id="3b4f6ce8-497f-806a-84cf-e61868a7e3f8" dir="auto"/><h2 id="3b4f6ce8-497f-80d6-b0cf-dff6911a3735" class="" dir="auto">Passo 5 – Escolher o Editor Padrão</h2><p id="3b4f6ce8-497f-802b-9284-dbdcb3f294db" class="" dir="auto">O Git utiliza um editor para escrever mensagens de commit mais longas, resolver conflitos e editar configurações.</p><p id="3b4f6ce8-497f-805e-be4e-ccdcb2869169" class="" dir="auto">As opções mais comuns são:</p><ul id="3b4f6ce8-497f-80ca-9c05-fa7525492391" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Visual Studio Code</li></ul><ul id="3b4f6ce8-497f-80aa-9b9d-d13d417d1b44" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Vim</li></ul><ul id="3b4f6ce8-497f-80c8-918d-d5c6d052f8b0" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Nano</li></ul><ul id="3b4f6ce8-497f-80e3-9c5d-f2268f465fd9" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Notepad++</li></ul><p id="3b4f6ce8-497f-808d-9a4a-fb5ddccb71e1" class="" dir="auto">Se você utiliza o Visual Studio Code, ele costuma ser a melhor opção.</p><hr id="3b4f6ce8-497f-8072-8b78-c4b6e5ab37fa" dir="auto"/><h2 id="3b4f6ce8-497f-8096-b773-d3904affce4b" class="" dir="auto">Passo 6 – Escolher o Nome da Branch Inicial</h2><p id="3b4f6ce8-497f-808a-be1d-ffd1bad4f11b" class="" dir="auto">Durante a instalação pode aparecer a opção:</p><pre id="3b4f6ce8-497f-80ea-8d19-e85a1fde7ed1" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Default branch name</code></pre><p id="3b4f6ce8-497f-804f-a604-cbcea80ff26f" class="" dir="auto">Atualmente recomenda-se utilizar:</p><pre id="3b4f6ce8-497f-8015-b753-f6558791dd87" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">main</code></pre><p id="3b4f6ce8-497f-8038-a618-eb8d6054c565" class="" dir="auto">Em versões antigas era comum utilizar:</p><pre id="3b4f6ce8-497f-80cf-a87c-c0c0304ea443" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">master</code></pre><p id="3b4f6ce8-497f-8019-ae92-f455011daa72" class="" dir="auto">Hoje, a maioria dos serviços utiliza <strong>main</strong> como padrão.</p><hr id="3b4f6ce8-497f-801f-8288-f811cfec56d7" dir="auto"/><h2 id="3b4f6ce8-497f-80e5-92c1-c58ef90cd34a" class="" dir="auto">Passo 7 – Configurar o PATH</h2><p id="3b4f6ce8-497f-80d2-8985-fb25d6bbe7d4" class="" dir="auto">A opção recomendada é:</p><pre id="3b4f6ce8-497f-8008-b500-f17a96679c6d" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Git from the command line and also from 3rd-party software</code></pre><p id="3b4f6ce8-497f-8083-9713-f44a99b01627" class="" dir="auto">Essa configuração permite executar comandos Git no:</p><ul id="3b4f6ce8-497f-80d7-a3d6-f5cc6f2b70f6" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Prompt de Comando (CMD)</li></ul><ul id="3b4f6ce8-497f-806b-a3a7-df5306542d54" class="bulleted-list" dir="auto"><li style="list-style-type:disc">PowerShell</li></ul><ul id="3b4f6ce8-497f-802f-bfdc-d3b835f86f10" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Terminal do VS Code</li></ul><ul id="3b4f6ce8-497f-800e-8df3-e6a6ab367ac5" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Git Bash</li></ul><hr id="3b4f6ce8-497f-8055-8644-ff5642040338" dir="auto"/><h2 id="3b4f6ce8-497f-80ba-9dc0-e908ecc36305" class="" dir="auto">Passo 8 – Escolher o SSH</h2><p id="3b4f6ce8-497f-808b-ad31-e0d55feb2297" class="" dir="auto">A recomendação para iniciantes é manter:</p><pre id="3b4f6ce8-497f-8026-945c-c234dfef3441" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Use bundled OpenSSH</code></pre><hr id="3b4f6ce8-497f-8067-a32d-e43993340059" dir="auto"/><h2 id="3b4f6ce8-497f-800b-9da5-e9afff92160e" class="" dir="auto">Passo 9 – Biblioteca HTTPS</h2><p id="3b4f6ce8-497f-80f6-9ab0-edcc31cc2014" class="" dir="auto">Deixe selecionado:</p><pre id="3b4f6ce8-497f-804e-9e76-cb60eba72b0f" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Use the OpenSSL library</code></pre><hr id="3b4f6ce8-497f-8065-b8ee-db2288d6d17d" dir="auto"/><h2 id="3b4f6ce8-497f-806a-b2a2-d40c5cac8816" class="" dir="auto">Passo 10 – Finalizar</h2><p id="3b4f6ce8-497f-8036-a86d-f4c75c6688d9" class="" dir="auto">Clique em:</p><pre id="3b4f6ce8-497f-8022-b84a-f882b837891a" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Install</code></pre><p id="3b4f6ce8-497f-804a-88a9-f70defc6dda1" class="" dir="auto">Após alguns segundos, a instalação será concluída.</p><hr id="3b4f6ce8-497f-80d1-91e4-e2dfe7768704" dir="auto"/><h1 id="3b4f6ce8-497f-80b5-b89c-ef2986e3ccbf" class="" dir="auto">Instalando o Git no Linux</h1><p id="3b4f6ce8-497f-807a-8bac-dcc78f0de643" class="" dir="auto">Em muitas distribuições Linux, o Git já vem instalado.</p><p id="3b4f6ce8-497f-80e4-8dd2-ff1b40375fa3" class="" dir="auto">Para verificar:</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-bash.min.js" integrity="sha512-whYhDwtTmlC/NpZlCr6PSsAaLOrfjVg/iXAnC4H/dtiHawpShhT2SlIMbpIhT/IL/NrpdMm+Hq2C13+VKpHTYw==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="3b4f6ce8-497f-8041-a9c1-d484948ffec0" class="code code-wrap" data-notion-code-syntax="bash"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">git --version</code></pre><p id="3b4f6ce8-497f-806c-a6f2-cba8349ed937" class="" dir="auto">Se o comando retornar a versão instalada, nenhuma instalação adicional é necessária.</p><hr id="3b4f6ce8-497f-80c2-ae9a-ea82353ee136" dir="auto"/><h2 id="3b4f6ce8-497f-8038-8fe8-c62979461b5a" class="" dir="auto">Ubuntu/Debian</h2><p id="3b4f6ce8-497f-80e4-a1c4-c43bc78be6b5" class="" dir="auto">Atualize a lista de pacotes:</p><pre id="3b4f6ce8-497f-8056-a8e3-f842e292c46d" class="code code-wrap" data-notion-code-syntax="bash"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">sudo apt update</code></pre><p id="3b4f6ce8-497f-805c-9a9c-edfd571f6efa" class="" dir="auto">Instale o Git:</p><pre id="3b4f6ce8-497f-803d-9c3e-ddb2659bc2a5" class="code code-wrap" data-notion-code-syntax="bash"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">sudo apt install git</code></pre><p id="3b4f6ce8-497f-8093-a44c-d79a9053831e" class="" dir="auto">Verifique:</p><pre id="3b4f6ce8-497f-8065-b957-e74c3b150140" class="code code-wrap" data-notion-code-syntax="bash"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">git --version</code></pre><hr id="3b4f6ce8-497f-80b0-9fc5-c5e20188d9f4" dir="auto"/><h2 id="3b4f6ce8-497f-80fa-b6dd-f6c36c6d9ad8" class="" dir="auto">Fedora</h2><pre id="3b4f6ce8-497f-8002-b991-e1ad43527731" class="code code-wrap" data-notion-code-syntax="bash"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">sudo dnf install git</code></pre><hr id="3b4f6ce8-497f-80ea-97c6-c4f536397216" dir="auto"/><h2 id="3b4f6ce8-497f-8012-8705-e680d7b7c4e6" class="" dir="auto">Arch Linux</h2><pre id="3b4f6ce8-497f-80e4-b538-e99864a5a6cf" class="code code-wrap" data-notion-code-syntax="bash"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">sudo pacman -S git</code></pre><hr id="3b4f6ce8-497f-80c5-ae62-dee241683609" dir="auto"/><h2 id="3b4f6ce8-497f-80cf-b0ca-f0b4a270f5e2" class="" dir="auto">openSUSE</h2><pre id="3b4f6ce8-497f-80ca-9f8d-efab8fd56eb9" class="code code-wrap" data-notion-code-syntax="bash"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">sudo zypper install git</code></pre><hr id="3b4f6ce8-497f-80be-89ac-eb65096afe03" dir="auto"/><h1 id="3b4f6ce8-497f-80f7-a3fc-dc7a83bf2458" class="" dir="auto">Instalando o Git no macOS</h1><p id="3b4f6ce8-497f-80aa-a6ab-e23864bcaae3" class="" dir="auto">O Git pode ser instalado de diferentes formas.</p><h2 id="3b4f6ce8-497f-80e7-9e9c-f688ffa630de" class="" dir="auto">Usando o Homebrew</h2><p id="3b4f6ce8-497f-8009-8343-e974933bf6ca" class="" dir="auto">Se o Homebrew estiver instalado:</p><pre id="3b4f6ce8-497f-80d5-a7a6-fc7f73024e45" class="code code-wrap" data-notion-code-syntax="bash"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">brew install git</code></pre><p id="3b4f6ce8-497f-801b-bd90-dd76b5cdb089" class="" dir="auto">Depois:</p><pre id="3b4f6ce8-497f-80c3-a68e-c1092b85b759" class="code code-wrap" data-notion-code-syntax="bash"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">git --version</code></pre><hr id="3b4f6ce8-497f-80fb-adfc-f9ce84ce173e" dir="auto"/><h2 id="3b4f6ce8-497f-8080-ae20-f795ca5d644f" class="" dir="auto">Usando o Xcode Command Line Tools</h2><p id="3b4f6ce8-497f-8016-ae8f-e9703ba930af" class="" dir="auto">Outra opção é executar:</p><pre id="3b4f6ce8-497f-8097-bae4-dfdc5462030a" class="code code-wrap" data-notion-code-syntax="bash"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">git</code></pre><p id="3b4f6ce8-497f-80d2-b140-f6554ac021f7" class="" dir="auto">Caso o Git não esteja instalado, o sistema oferecerá a instalação das ferramentas de linha de comando do Xcode, que incluem o Git.</p><hr id="3b4f6ce8-497f-8036-a266-d7471b8480f1" dir="auto"/><h1 id="3b4f6ce8-497f-8066-b24f-e970894b6e1a" class="" dir="auto">Verificando a Instalação</h1><p id="3b4f6ce8-497f-80d8-837f-fbe2fa945917" class="" dir="auto">Após instalar, abra o terminal ou Git Bash e execute:</p><pre id="3b4f6ce8-497f-80dd-885a-fc046072a7d7" class="code code-wrap" data-notion-code-syntax="bash"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">git --version</code></pre><p id="3b4f6ce8-497f-8052-b634-fea40428ec47" class="" dir="auto">Exemplo de saída:</p><pre id="3b4f6ce8-497f-8096-a41e-f37a3a125bc7" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">git version 2.51.0</code></pre><p id="3b4f6ce8-497f-8030-a3ee-fe112807ae3a" class="" dir="auto">Se a versão for exibida, o Git foi instalado corretamente.</p><hr id="3b4f6ce8-497f-80f7-9ad3-d92cd8f32d77" dir="auto"/><h1 id="3b4f6ce8-497f-80c6-8885-cb04f86cec78" class="" dir="auto">Primeira Configuração do Git</h1><p id="3b4f6ce8-497f-8097-867a-fec3560145e0" class="" dir="auto">Após a instalação, configure sua identidade.</p><h2 id="3b4f6ce8-497f-80c7-aff6-eff689f49bee" class="" dir="auto">Configurando o Nome</h2><pre id="3b4f6ce8-497f-80fd-90de-c3aa877a52f0" class="code code-wrap" data-notion-code-syntax="bash"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">git config --global user.name &quot;João Silva&quot;</code></pre><p id="3b4f6ce8-497f-8036-9466-e465cc830118" class="" dir="auto">Exemplo:</p><pre id="3b4f6ce8-497f-80cc-bdee-e5cd6f68f591" class="code code-wrap" data-notion-code-syntax="bash"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">git config --global user.name &quot;Maria Oliveira&quot;</code></pre><hr id="3b4f6ce8-497f-80db-b07c-f453b2758ea8" dir="auto"/><h2 id="3b4f6ce8-497f-80df-a683-cd99f4c5bb26" class="" dir="auto">Configurando o E-mail</h2><pre id="3b4f6ce8-497f-80ff-8cb1-c643e87003d6" class="code code-wrap" data-notion-code-syntax="bash"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">git config --global user.email &quot;email@exemplo.com&quot;</code></pre><p id="3b4f6ce8-497f-80ab-a3b3-d7f3579d87f6" class="" dir="auto">Exemplo:</p><pre id="3b4f6ce8-497f-80dc-9561-f359a4ae5e57" class="code code-wrap" data-notion-code-syntax="bash"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">git config --global user.email &quot;maria@email.com&quot;</code></pre><p id="3b4f6ce8-497f-80b2-96dd-f93e98b43c90" class="" dir="auto">Essas informações aparecerão como autoria dos commits.</p><hr id="3b4f6ce8-497f-8050-90db-e6a1eb6096d5" dir="auto"/><h1 id="3b4f6ce8-497f-8068-b1a8-feb30edac729" class="" dir="auto">Configuração Global x Local</h1><p id="3b4f6ce8-497f-804b-9503-c77aad1e1170" class="" dir="auto">O Git possui diferentes níveis de configuração.</p><h2 id="3b4f6ce8-497f-800a-b130-cabebcbe54a5" class="" dir="auto">Global</h2><p id="3b4f6ce8-497f-80c3-8044-e869bc0a4cbd" class="" dir="auto">Vale para todos os projetos do computador.</p><pre id="3b4f6ce8-497f-80da-ad7f-eff1d19485df" class="code code-wrap" data-notion-code-syntax="bash"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">git config --global user.name &quot;João&quot;</code></pre><hr id="3b4f6ce8-497f-80b9-8113-f4a52cb28b3b" dir="auto"/><h2 id="3b4f6ce8-497f-80e0-a8b7-ddcd82dfe173" class="" dir="auto">Local</h2><p id="3b4f6ce8-497f-8084-bb5f-ee4cfba70b7c" class="" dir="auto">Vale apenas para um repositório específico.</p><pre id="3b4f6ce8-497f-8057-9c1a-ca330c3b7203" class="code code-wrap" data-notion-code-syntax="bash"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">git config user.name &quot;Equipe Backend&quot;</code></pre><hr id="3b4f6ce8-497f-80c9-98e3-f0b4af304f67" dir="auto"/><h1 id="3b4f6ce8-497f-8079-8da2-dc8f919a6f04" class="" dir="auto">Verificando as Configurações</h1><p id="3b4f6ce8-497f-805f-aa96-e2bd4943301d" class="" dir="auto">Para listar todas as configurações:</p><pre id="3b4f6ce8-497f-80e7-8dd9-efd7430c45da" class="code code-wrap" data-notion-code-syntax="bash"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">git config --list</code></pre><p id="3b4f6ce8-497f-8018-8e39-d8a44d26991d" class="" dir="auto">Saída de exemplo:</p><pre id="3b4f6ce8-497f-80fa-ac0c-f385b90c2042" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">user.name=Maria Oliveira
+user.email=maria@email.com
+core.editor=code --wait
+init.defaultBranch=main</code></pre><hr id="3b4f6ce8-497f-806a-9e1d-ef6b66134505" dir="auto"/><h1 id="3b4f6ce8-497f-8096-afc2-f29b10bf8023" class="" dir="auto">Alterando uma Configuração</h1><p id="3b4f6ce8-497f-8040-bcc7-d44aa81b8200" class="" dir="auto">Caso seja necessário alterar o e-mail:</p><pre id="3b4f6ce8-497f-8048-8740-e68801ab1b3f" class="code code-wrap" data-notion-code-syntax="bash"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">git config --global user.email &quot;novo@email.com&quot;</code></pre><p id="3b4f6ce8-497f-806c-a77e-cfe07f1bf9e3" class="" dir="auto">Ou o nome:</p><pre id="3b4f6ce8-497f-800d-affd-f6c0ce874fd4" class="code code-wrap" data-notion-code-syntax="bash"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">git config --global user.name &quot;Novo Nome&quot;</code></pre><p id="3b4f6ce8-497f-80be-b126-cdcbb22cf16f" class="" dir="auto">A nova configuração substituirá a anterior.</p><hr id="3b4f6ce8-497f-8088-982f-e2ad9373f226" dir="auto"/><h1 id="3b4f6ce8-497f-805f-b5a5-db8b5f2dda65" class="" dir="auto">Onde as Configurações São Armazenadas?</h1><p id="3b4f6ce8-497f-8067-a9ba-c0eba6147bcb" class="" dir="auto">No nível global, as configurações ficam em um arquivo de configuração do usuário:</p><h3 id="3b4f6ce8-497f-805a-a90a-e6127abaeb4e" class="" dir="auto">Windows</h3><pre id="3b4f6ce8-497f-8031-835f-f2ad5f271965" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">C:\Users\SeuUsuario\.gitconfig</code></pre><h3 id="3b4f6ce8-497f-80ac-9249-ef1b41f87e62" class="" dir="auto">Linux e macOS</h3><pre id="3b4f6ce8-497f-803f-bc0d-dcd258c29470" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">~/.gitconfig</code></pre><p id="3b4f6ce8-497f-803a-b8a6-cfac6095ed3f" class="" dir="auto">Esse arquivo pode ser editado manualmente, embora o uso do comando <code>git config</code> seja o mais recomendado.</p><hr id="3b4f6ce8-497f-801d-86da-e6febe0cd38e" dir="auto"/><h1 id="3b4f6ce8-497f-805a-9a02-de4bf5fa07b8" class="" dir="auto">O Git Bash</h1><figure id="3b4f6ce8-497f-8015-bb01-db8bd8e23f98" class="image" data-notion-image="https://images.openai.com/static-rsc-4/NZZPcwHYwdSf9D5v35l8TLAopgdGqgmNwzSqpXsSIHV2ntfXXu9IN58IE1Uk8V0xsjd-MPxzHq5MwkwGKad8eypwQRc7ifRCcxP1YCO9bN9JyLrxg6JK80gBzOGMXCQRkhOM17frUftUgaHdimN8Kd-b6BDMAS-3WNZsDGooahevp5nLxdklqXKgIGp5jVJt?purpose=fullsize" dir="ltr"><a href="https://images.openai.com/static-rsc-4/NZZPcwHYwdSf9D5v35l8TLAopgdGqgmNwzSqpXsSIHV2ntfXXu9IN58IE1Uk8V0xsjd-MPxzHq5MwkwGKad8eypwQRc7ifRCcxP1YCO9bN9JyLrxg6JK80gBzOGMXCQRkhOM17frUftUgaHdimN8Kd-b6BDMAS-3WNZsDGooahevp5nLxdklqXKgIGp5jVJt?purpose=fullsize"><img src="https://images.openai.com/static-rsc-4/NZZPcwHYwdSf9D5v35l8TLAopgdGqgmNwzSqpXsSIHV2ntfXXu9IN58IE1Uk8V0xsjd-MPxzHq5MwkwGKad8eypwQRc7ifRCcxP1YCO9bN9JyLrxg6JK80gBzOGMXCQRkhOM17frUftUgaHdimN8Kd-b6BDMAS-3WNZsDGooahevp5nLxdklqXKgIGp5jVJt?purpose=fullsize"/></a></figure><figure id="3b4f6ce8-497f-8019-9d88-d053f1fde1bb" class="image" data-notion-image="https://images.openai.com/static-rsc-4/SeVUyJAF0Nl8vrtvEi9n5RXWvAd7hl3hM524bfoGt341J_mQLu9NLGoZ5zG8ibVRcIWM93x0jmFkblwGYLOFumCwnM_dTj5pNEBblExkuRZvC6hQmO4TmOe3oA1GkRmd5k1VWQFCK8jfCLQCjU8h_cjR-NmBXrwzudWvQktTzFsMW_2REYJU9UTLayY-TLa0?purpose=fullsize" dir="ltr"><a href="https://images.openai.com/static-rsc-4/SeVUyJAF0Nl8vrtvEi9n5RXWvAd7hl3hM524bfoGt341J_mQLu9NLGoZ5zG8ibVRcIWM93x0jmFkblwGYLOFumCwnM_dTj5pNEBblExkuRZvC6hQmO4TmOe3oA1GkRmd5k1VWQFCK8jfCLQCjU8h_cjR-NmBXrwzudWvQktTzFsMW_2REYJU9UTLayY-TLa0?purpose=fullsize"><img src="https://images.openai.com/static-rsc-4/SeVUyJAF0Nl8vrtvEi9n5RXWvAd7hl3hM524bfoGt341J_mQLu9NLGoZ5zG8ibVRcIWM93x0jmFkblwGYLOFumCwnM_dTj5pNEBblExkuRZvC6hQmO4TmOe3oA1GkRmd5k1VWQFCK8jfCLQCjU8h_cjR-NmBXrwzudWvQktTzFsMW_2REYJU9UTLayY-TLa0?purpose=fullsize"/></a></figure><figure id="3b4f6ce8-497f-8056-8e43-ca0a244c331e" class="image" data-notion-image="https://images.openai.com/static-rsc-4/XPGu567-HtQ5qO0dOA7Mh_sqgSy7sAnxQoLuvK1DnXit9cT0EGchAW91zxKdiCYEIwW22pZyAv91VBiTqva0dROjh0asML5YhEEcvhGbJRiAAtBp-buBYzjh8LcuX3I7b18bTQKtBGZBY3D0S1RThrPOIOiJ64U1OiUtcugeFw6pUuLlznr4YN1RXZISpbRI?purpose=fullsize" dir="ltr"><a href="https://images.openai.com/static-rsc-4/XPGu567-HtQ5qO0dOA7Mh_sqgSy7sAnxQoLuvK1DnXit9cT0EGchAW91zxKdiCYEIwW22pZyAv91VBiTqva0dROjh0asML5YhEEcvhGbJRiAAtBp-buBYzjh8LcuX3I7b18bTQKtBGZBY3D0S1RThrPOIOiJ64U1OiUtcugeFw6pUuLlznr4YN1RXZISpbRI?purpose=fullsize"><img src="https://images.openai.com/static-rsc-4/XPGu567-HtQ5qO0dOA7Mh_sqgSy7sAnxQoLuvK1DnXit9cT0EGchAW91zxKdiCYEIwW22pZyAv91VBiTqva0dROjh0asML5YhEEcvhGbJRiAAtBp-buBYzjh8LcuX3I7b18bTQKtBGZBY3D0S1RThrPOIOiJ64U1OiUtcugeFw6pUuLlznr4YN1RXZISpbRI?purpose=fullsize"/></a></figure><p id="3b4f6ce8-497f-804d-8768-c82c5f7ec124" class="" dir="auto">O <strong>Git Bash</strong> é instalado junto com o Git no Windows.</p><p id="3b4f6ce8-497f-80b4-b1c3-efefdc6875af" class="" dir="auto">Ele oferece um terminal semelhante ao do Linux, permitindo executar comandos Git e diversos comandos Unix, como:</p><pre id="3b4f6ce8-497f-80e7-a5bb-c9e1c2b333af" class="code code-wrap" data-notion-code-syntax="bash"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">pwd
+ls
+cd
+mkdir
+rm
+cp
+mv</code></pre><p id="3b4f6ce8-497f-8033-9e6c-dc5bbfcdeeaa" class="" dir="auto">Isso facilita o uso de tutoriais e comandos que funcionam da mesma forma em Linux e macOS.</p><hr id="3b4f6ce8-497f-80e0-bce6-f0aafeba2f27" dir="auto"/><h1 id="3b4f6ce8-497f-801b-b53a-f97b3fcf1169" class="" dir="auto">Integrando o Git ao Visual Studio Code</h1><p id="3b4f6ce8-497f-80b2-bb55-d0239f56f2ce" class="" dir="auto">Após instalar o Git:</p><ol type="1" id="3b4f6ce8-497f-80d5-8a69-e24b6c0eba35" class="numbered-list" start="1" dir="auto"><li>Abra o Visual Studio Code.</li></ol><ol type="1" id="3b4f6ce8-497f-806c-89cb-f95000dee39e" class="numbered-list" start="2" dir="auto"><li>Abra um projeto.</li></ol><ol type="1" id="3b4f6ce8-497f-80c1-add2-cdef7e857424" class="numbered-list" start="3" dir="auto"><li>Abra o terminal integrado (`Ctrl + ``).</li></ol><ol type="1" id="3b4f6ce8-497f-804f-8e33-ce2fe5975bdf" class="numbered-list" start="4" dir="auto"><li>Digite:</li></ol><pre id="3b4f6ce8-497f-80e4-9530-c0b466469aa5" class="code code-wrap" data-notion-code-syntax="bash"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">git --version</code></pre><p id="3b4f6ce8-497f-8073-88ee-ec786aacefdc" class="" dir="auto">Se a versão aparecer, a integração está funcionando corretamente.</p><p id="3b4f6ce8-497f-80a0-81f1-ddb64aac5fbe" class="" dir="auto">Além disso, o VS Code reconhece automaticamente repositórios Git, exibindo alterações, permitindo criar commits e gerenciar branches pela interface gráfica.</p><hr id="3b4f6ce8-497f-80f2-a087-d932e62dbe28" dir="auto"/><h1 id="3b4f6ce8-497f-804a-80a0-d64f3ae9e705" class="" dir="auto">Problemas Comuns na Instalação</h1><h2 id="3b4f6ce8-497f-8099-942d-eecb9aaaeecd" class="" dir="auto">&quot;git is not recognized&quot;</h2><p id="3b4f6ce8-497f-80d8-a42b-d6e9985c3f7d" class="" dir="auto">Mensagem comum no Windows:</p><pre id="3b4f6ce8-497f-80ef-b3fb-f47869775f0b" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">&#x27;git&#x27; is not recognized as an internal or external command</code></pre><p id="3b4f6ce8-497f-8001-a77d-fb828f7fefe2" class="" dir="auto"><strong>Possíveis causas:</strong></p><ul id="3b4f6ce8-497f-80ec-8b5d-f8d029d8a0d6" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Git não foi instalado.</li></ul><ul id="3b4f6ce8-497f-801a-ae7c-f5653171089d" class="bulleted-list" dir="auto"><li style="list-style-type:disc">O PATH não foi configurado corretamente.</li></ul><ul id="3b4f6ce8-497f-809a-9c33-d21db4b54540" class="bulleted-list" dir="auto"><li style="list-style-type:disc">É necessário reiniciar o terminal após a instalação.</li></ul><hr id="3b4f6ce8-497f-80df-ba39-ef79465203b5" dir="auto"/><h2 id="3b4f6ce8-497f-80ea-8e5c-fe6ab86d9403" class="" dir="auto">Versão Antiga</h2><p id="3b4f6ce8-497f-8017-a353-d6bf76755a8d" class="" dir="auto">Se o comando mostrar uma versão muito antiga, recomenda-se baixar a versão mais recente no site oficial e atualizar a instalação.</p><hr id="3b4f6ce8-497f-807f-b48a-e7a0c84ba298" dir="auto"/><h2 id="3b4f6ce8-497f-80df-a066-c0fe568cd7e5" class="" dir="auto">Permissão Negada no Linux</h2><p id="3b4f6ce8-497f-803c-b8bc-d5b854af387b" class="" dir="auto">Se ocorrer erro de permissão durante a instalação, verifique se o comando foi executado com <code>sudo</code> (quando necessário) e se o gerenciador de pacotes está configurado corretamente.</p><hr id="3b4f6ce8-497f-8077-93ec-e047c84b18d0" dir="auto"/><h1 id="3b4f6ce8-497f-8090-9332-e819e092acce" class="" dir="auto">Boas Práticas</h1><ul id="3b4f6ce8-497f-8077-ab3d-cab5619b2062" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Baixe o Git sempre do <strong>site oficial</strong> ou pelos gerenciadores de pacotes da sua distribuição.</li></ul><ul id="3b4f6ce8-497f-8023-aa5a-e9c2d11ce417" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Configure <code>user.name</code> e <code>user.email</code> logo após a instalação.</li></ul><ul id="3b4f6ce8-497f-8021-a90b-c983c2da65f1" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Verifique a instalação com <code>git --version</code>.</li></ul><ul id="3b4f6ce8-497f-80b8-b82d-e38f09a168fa" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Utilize um editor moderno, como o Visual Studio Code, para facilitar o trabalho com o Git.</li></ul><ul id="3b4f6ce8-497f-806b-9f4d-c571e5bf0951" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Mantenha o Git atualizado para obter correções de segurança e novos recursos.</li></ul><hr id="3b4f6ce8-497f-8012-9d7f-f5352f946f52" dir="auto"/><h1 id="3b4f6ce8-497f-8087-ab9f-edd03ad75551" class="" dir="auto">Erros Comuns</h1><ul id="3b4f6ce8-497f-8063-973e-d072f3351b8a" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Esquecer de configurar nome e e-mail antes do primeiro commit.</li></ul><ul id="3b4f6ce8-497f-800f-b8ab-c9e9507bcc43" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Instalar o Git sem adicioná-lo ao <code>PATH</code> no Windows.</li></ul><ul id="3b4f6ce8-497f-8087-b74a-d164c83f28ea" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Confundir o Git com o GitHub: o Git é instalado no computador; o GitHub é uma plataforma para hospedar repositórios Git.</li></ul><ul id="3b4f6ce8-497f-809e-addb-c40fca85e18a" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Editar manualmente o arquivo <code>.gitconfig</code> sem necessidade.</li></ul><hr id="3b4f6ce8-497f-8028-b373-c589ce25f7b9" dir="auto"/><h1 id="3b4f6ce8-497f-80aa-bf53-e71706ca33be" class="" dir="auto">Resumo</h1><p id="3b4f6ce8-497f-8038-9159-c0ad2702ab27" class="" dir="auto">A instalação do Git é o primeiro passo para utilizar controle de versão em projetos de software. O processo varia conforme o sistema operacional, mas em todos os casos é importante verificar a instalação com <code>git --version</code> e configurar <code>user.name</code> e <code>user.email</code> antes de começar a trabalhar. Com o Git instalado e configurado, você estará preparado para criar repositórios, registrar alterações com commits e colaborar em projetos de forma eficiente.</p></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

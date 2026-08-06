@@ -1,0 +1,833 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Configuração de Chave SSH</title><meta name="data-notion-page-icon" content="/icons/git_red.svg"/><link rel="icon" href="https://app.notion.com/icons/git_red.svg"/><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+/* For default-background callouts, render the border outline. */
+.callout.block-color-default_background {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+/*
+ * Toggles and callouts hold arbitrary content, so they can easily be taller
+ * than a page. They must stay breakable: avoiding breaks inside them makes
+ * Chromium push the whole block onto the next page, which leaves the previous
+ * page mostly empty before every long toggle.
+ */
+details,
+aside {
+	margin: 1.25em 0;
+}
+
+/* Keep a toggle's title on the same page as the start of its content. */
+summary {
+	page-break-after: avoid;
+	break-after: avoid;
+}
+
+/*
+ * Toggle headings render as <h1/h2/h3 style="display:inline-block"> inside
+ * <summary>. Without this reset, the heading's margin-top pushes it below the
+ * ::marker (▼), so the triangle and the title appear on separate lines.
+ */
+summary h1,
+summary h2,
+summary h3,
+summary h4 {
+	margin-top: 0;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding-inline: 0.125rem;
+	padding-block: 0.375rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+/*
+ * Render emoji icons using a ::before pseudo-element to keep the glyph
+ * out of the DOM textContent traversal. This avoids double-rendering icons
+ * in callouts and page titles.
+ * NOTE(slim/html-export-pseudo-icons): I can't tagref this because it will
+ * flag as a duplicate tag after codegen.
+ */
+.icon[data-emoji]::before {
+	content: attr(data-emoji);
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	margin-right: 0.4em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.tab {
+	margin: 1.25em 0;
+	padding-inline: 1rem;
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style><style>@import url('https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex-swap.min.css')</style></head><body><article id="3b4f6ce8-497f-8050-b889-e70555e8998a" class="page sans" data-notion-page-icon="/icons/git_red.svg"><header><div class="page-header-icon undefined"><img class="icon notion-static-icon" src="https://app.notion.com/icons/git_red.svg"/></div><h1 class="page-title" dir="auto">Configuração de Chave SSH</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><h1 id="3b4f6ce8-497f-809e-a6f2-f8c07826c982" class="" dir="auto">Configuração de Chave SSH no Git</h1><h2 id="3b4f6ce8-497f-80fc-b660-f6814d540a00" class="" dir="auto">Introdução</h2><p id="3b4f6ce8-497f-80d5-8098-e5f32fda06ae" class="" dir="auto">Ao utilizar o Git com plataformas como <strong>GitHub</strong>, GitLab ou Bitbucket, é necessário autenticar-se para enviar (<code>git push</code>) ou receber (<code>git pull</code>) alterações de um repositório remoto.</p><p id="3b4f6ce8-497f-8020-b8e6-c6a03e622660" class="" dir="auto">Existem duas formas principais de autenticação:</p><ul id="3b4f6ce8-497f-8012-9e62-e4908fc63f8b" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>HTTPS</strong></li></ul><ul id="3b4f6ce8-497f-8001-bc07-d42dbb5b3130" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>SSH (Secure Shell)</strong></li></ul><p id="3b4f6ce8-497f-80e9-8fb9-f472838b2a4e" class="" dir="auto">A autenticação por <strong>SSH</strong> é a mais recomendada para desenvolvedores, pois oferece maior segurança e praticidade. Depois de configurada, não é necessário informar usuário e senha a cada operação.</p><hr id="3b4f6ce8-497f-806d-b603-f35aa042c11f" dir="auto"/><h1 id="3b4f6ce8-497f-8034-9fe5-fed4b95821c9" class="" dir="auto">O que é SSH?</h1><p id="3b4f6ce8-497f-802e-bf61-ea670e955823" class="" dir="auto"><strong>SSH (Secure Shell)</strong> é um protocolo de comunicação seguro utilizado para estabelecer conexões criptografadas entre dois computadores.</p><p id="3b4f6ce8-497f-8082-a246-f18dcc12b156" class="" dir="auto">No contexto do Git, o SSH permite que o computador do desenvolvedor se comunique de forma segura com o servidor do repositório remoto.</p><p id="3b4f6ce8-497f-8027-875b-da394221c773" class="" dir="auto">Fluxo:</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="3b4f6ce8-497f-8022-ba10-dfa94f51eecc" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Seu Computador
+      │
+      │  Conexão criptografada (SSH)
+      ▼
+GitHub / GitLab / Bitbucket</code></pre><hr id="3b4f6ce8-497f-8029-a917-cdbfa0cb5f4f" dir="auto"/><h1 id="3b4f6ce8-497f-8021-bf43-f426da5ab61a" class="" dir="auto">Por que utilizar SSH?</h1><p id="3b4f6ce8-497f-8093-bf42-e22ddfe5851b" class="" dir="auto">Ao usar HTTPS, normalmente é necessário autenticar-se utilizando um token de acesso (Personal Access Token) ou outro método suportado pela plataforma.</p><p id="3b4f6ce8-497f-8042-a7c3-d1aa664150a2" class="" dir="auto">Com SSH:</p><ul id="3b4f6ce8-497f-8018-ac37-f4ac4fd4733c" class="bulleted-list" dir="auto"><li style="list-style-type:disc">A autenticação é automática após a configuração.</li></ul><ul id="3b4f6ce8-497f-8093-b539-e28a341445ea" class="bulleted-list" dir="auto"><li style="list-style-type:disc">A comunicação é criptografada.</li></ul><ul id="3b4f6ce8-497f-8019-8d54-cffd7238ceca" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Não é necessário informar credenciais a cada operação.</li></ul><ul id="3b4f6ce8-497f-8099-a573-cf5ae9470549" class="bulleted-list" dir="auto"><li style="list-style-type:disc">É possível utilizar a mesma chave em diversos projetos.</li></ul><hr id="3b4f6ce8-497f-8030-8fb0-f6d2950a243f" dir="auto"/><h1 id="3b4f6ce8-497f-80c2-a0d9-ccba6e5f6724" class="" dir="auto">Como Funciona a Autenticação por Chave SSH?</h1><p id="3b4f6ce8-497f-8090-95a8-f46d1888bc36" class="" dir="auto">O SSH utiliza um sistema de criptografia baseado em um <strong>par de chaves</strong>:</p><h2 id="3b4f6ce8-497f-8048-8c78-ed01a20f266a" class="" dir="auto">Chave Privada (Private Key)</h2><ul id="3b4f6ce8-497f-80fa-8ac9-db458bcaf0d2" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Fica armazenada apenas no computador do usuário.</li></ul><ul id="3b4f6ce8-497f-80c5-84f7-dba01db903b6" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Nunca deve ser compartilhada.</li></ul><ul id="3b4f6ce8-497f-80d8-b619-df2f3a0b6045" class="bulleted-list" dir="auto"><li style="list-style-type:disc">É utilizada para provar sua identidade.</li></ul><p id="3b4f6ce8-497f-8024-8946-c03eb3a11327" class="" dir="auto">Exemplo:</p><pre id="3b4f6ce8-497f-802d-8fa6-e6f37e814496" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">id_ed25519</code></pre><hr id="3b4f6ce8-497f-802e-8678-d34dac9aacb5" dir="auto"/><h2 id="3b4f6ce8-497f-8018-af4b-f5b09d6a022d" class="" dir="auto">Chave Pública (Public Key)</h2><ul id="3b4f6ce8-497f-80e3-9d70-f63bd6a133f5" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Pode ser compartilhada.</li></ul><ul id="3b4f6ce8-497f-8053-9351-e0a5be1cb80a" class="bulleted-list" dir="auto"><li style="list-style-type:disc">É enviada para o GitHub (ou outro serviço).</li></ul><ul id="3b4f6ce8-497f-80ed-9d9e-f8941bcd5156" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Permite que o servidor reconheça seu computador.</li></ul><p id="3b4f6ce8-497f-8092-8f86-d05316206a84" class="" dir="auto">Exemplo:</p><pre id="3b4f6ce8-497f-80ad-862b-d218150387e0" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">id_ed25519.pub</code></pre><p id="3b4f6ce8-497f-80f3-8a97-eb3857312b1f" class="" dir="auto">Fluxo:</p><pre id="3b4f6ce8-497f-80df-92e4-d5e7fe90168f" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Chave Privada
+      │
+      ▼
+Seu Computador
+      │
+Comunicação SSH
+      │
+      ▼
+GitHub
+      ▲
+Chave Pública cadastrada</code></pre><hr id="3b4f6ce8-497f-8091-a4d5-f940c5749817" dir="auto"/><h1 id="3b4f6ce8-497f-809c-b558-f87df84e8cf6" class="" dir="auto">Algoritmos de Chaves</h1><p id="3b4f6ce8-497f-80cd-98cd-d39ad24c0fc1" class="" dir="auto">Os algoritmos mais comuns são:</p><table id="3b4f6ce8-497f-8073-a9b5-f74719077d3c" class="simple-table" dir="ltr"><thead class="simple-table-header"><tr id="3b4f6ce8-497f-8035-9b2b-cab124cde682" dir="ltr"><th id="=hvz" class="simple-table-header-color simple-table-header">Algoritmo</th><th id="RH@m" class="simple-table-header-color simple-table-header">Situação</th></tr></thead><tbody><tr id="3b4f6ce8-497f-8079-bc1a-c8e88ef9fae0" dir="ltr"><td id="=hvz" class=""><strong>Ed25519</strong></td><td id="RH@m" class="">Recomendado atualmente</td></tr><tr id="3b4f6ce8-497f-8022-8c7e-c5de9424b37f" dir="ltr"><td id="=hvz" class="">RSA</td><td id="RH@m" class="">Compatível com sistemas antigos</td></tr><tr id="3b4f6ce8-497f-8055-8e31-de165745c3c4" dir="ltr"><td id="=hvz" class="">ECDSA</td><td id="RH@m" class="">Menos utilizado</td></tr><tr id="3b4f6ce8-497f-8030-949a-ea80138f2174" dir="ltr"><td id="=hvz" class="">DSA</td><td id="RH@m" class="">Obsoleto e não recomendado</td></tr></tbody></table><p id="3b4f6ce8-497f-8097-bf4b-f7e738a3af68" class="" dir="auto">Hoje, a recomendação é utilizar <strong>Ed25519</strong>, por oferecer maior segurança e desempenho.</p><hr id="3b4f6ce8-497f-80ed-9aca-ff4f4f0e75cb" dir="auto"/><h1 id="3b4f6ce8-497f-80ec-9896-f07188682bbd" class="" dir="auto">Verificando se Já Existe uma Chave SSH</h1><p id="3b4f6ce8-497f-8078-a288-ed93109b25e1" class="" dir="auto">Antes de criar uma nova chave, verifique se já existe uma.</p><p id="3b4f6ce8-497f-80c7-977e-e9b4f379d2aa" class="" dir="auto">No Linux, macOS ou Git Bash no Windows:</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-bash.min.js" integrity="sha512-whYhDwtTmlC/NpZlCr6PSsAaLOrfjVg/iXAnC4H/dtiHawpShhT2SlIMbpIhT/IL/NrpdMm+Hq2C13+VKpHTYw==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="3b4f6ce8-497f-8033-9621-ce0b15a0a33d" class="code code-wrap" data-notion-code-syntax="bash"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">ls ~/.ssh</code></pre><p id="3b4f6ce8-497f-80d0-a475-cf530d244168" class="" dir="auto">Exemplo de saída:</p><pre id="3b4f6ce8-497f-80ce-a7cb-dcb8097a65ac" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">id_ed25519
+id_ed25519.pub
+known_hosts</code></pre><p id="3b4f6ce8-497f-804d-8c75-c70f0ad2885c" class="" dir="auto">Se os arquivos da chave já existirem, normalmente não é necessário gerar uma nova.</p><hr id="3b4f6ce8-497f-8037-a2ee-f4b6c63d27a1" dir="auto"/><h1 id="3b4f6ce8-497f-800b-a739-d785a51c60d7" class="" dir="auto">Gerando uma Nova Chave SSH</h1><p id="3b4f6ce8-497f-80c1-89ee-c9f0e4444fad" class="" dir="auto">O comando recomendado é:</p><pre id="3b4f6ce8-497f-806c-88a9-fb96af4d387d" class="code code-wrap" data-notion-code-syntax="bash"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">ssh-keygen -t ed25519 -C &quot;seu-email@exemplo.com&quot;</code></pre><h3 id="3b4f6ce8-497f-804f-aa70-c91bef286a98" class="" dir="auto">Explicação</h3><ul id="3b4f6ce8-497f-8091-8fa5-c6317244f22a" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><code>ssh-keygen</code> → cria uma nova chave.</li></ul><ul id="3b4f6ce8-497f-80b0-b1b0-d918c6d6df32" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><code>t ed25519</code> → define o algoritmo.</li></ul><ul id="3b4f6ce8-497f-8038-a5d2-ca7b67bc50ec" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><code>C</code> → adiciona um comentário (geralmente o e-mail).</li></ul><p id="3b4f6ce8-497f-807d-bc8c-dcd0759bf603" class="" dir="auto">Exemplo:</p><pre id="3b4f6ce8-497f-80aa-9c6c-e2802baf1293" class="code code-wrap" data-notion-code-syntax="bash"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">ssh-keygen -t ed25519 -C &quot;gustavo@email.com&quot;</code></pre><hr id="3b4f6ce8-497f-80fb-881f-dc24fb6f16f4" dir="auto"/><h1 id="3b4f6ce8-497f-8009-817e-e463cf7d6be9" class="" dir="auto">Escolhendo o Local da Chave</h1><p id="3b4f6ce8-497f-80b6-8c12-e2c5645372f2" class="" dir="auto">Durante a criação será exibida a mensagem:</p><pre id="3b4f6ce8-497f-808d-8b2d-c85ea223c6cd" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Enter file in which to save the key</code></pre><p id="3b4f6ce8-497f-805e-9e49-fb474feeb366" class="" dir="auto">Pressione <strong>Enter</strong> para utilizar o local padrão:</p><pre id="3b4f6ce8-497f-804c-ab9f-c9e452c2bf61" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">~/.ssh/id_ed25519</code></pre><p id="3b4f6ce8-497f-8071-9990-da15fc23cdde" class="" dir="auto">No Windows (Git Bash):</p><pre id="3b4f6ce8-497f-805c-ae65-cf0ee06b2990" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">C:\Users\SeuUsuario\.ssh\</code></pre><hr id="3b4f6ce8-497f-80be-b1e0-d5aa01395e7c" dir="auto"/><h1 id="3b4f6ce8-497f-8043-92a2-e658e97a5c60" class="" dir="auto">Definindo uma Senha (Passphrase)</h1><p id="3b4f6ce8-497f-8041-aa71-c257ea48f5d9" class="" dir="auto">Depois será solicitado:</p><pre id="3b4f6ce8-497f-80e3-b54b-c6f814e8db68" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Enter passphrase</code></pre><p id="3b4f6ce8-497f-8022-b0f7-f43e6d6fbfbc" class="" dir="auto">Você pode:</p><ul id="3b4f6ce8-497f-8017-97e3-db4c80685474" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Definir uma senha para aumentar a segurança.</li></ul><ul id="3b4f6ce8-497f-80ef-906c-ffa8c4ca62ee" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Pressionar <strong>Enter</strong> para deixar a chave sem senha.</li></ul><p id="3b4f6ce8-497f-80b3-b584-ce2b654e1896" class="" dir="auto">A senha protege a chave privada caso alguém tenha acesso ao seu computador.</p><hr id="3b4f6ce8-497f-80fc-bda0-cd0c23512e71" dir="auto"/><h1 id="3b4f6ce8-497f-804a-9023-d8198f045dda" class="" dir="auto">Arquivos Gerados</h1><p id="3b4f6ce8-497f-8089-b12e-dd63658d21e3" class="" dir="auto">Após a criação:</p><pre id="3b4f6ce8-497f-807c-9434-f413110448c4" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">~/.ssh/
+
+id_ed25519
+
+id_ed25519.pub</code></pre><p id="3b4f6ce8-497f-805b-8c53-f02d891f5438" class="" dir="auto">Função de cada um:</p><pre id="3b4f6ce8-497f-807a-9304-e1fbeb78ffed" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">id_ed25519</code></pre><p id="3b4f6ce8-497f-80c0-9010-d5775b122679" class="" dir="auto">→ Chave privada</p><pre id="3b4f6ce8-497f-80e2-b405-c80e0e1af334" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">id_ed25519.pub</code></pre><p id="3b4f6ce8-497f-8097-8bc3-d8625e8c3f2c" class="" dir="auto">→ Chave pública</p><hr id="3b4f6ce8-497f-8036-b2c0-d3aa89030d7b" dir="auto"/><h1 id="3b4f6ce8-497f-80c1-9a71-cc69ffa8f7c3" class="" dir="auto">Iniciando o SSH Agent</h1><p id="3b4f6ce8-497f-8064-9e16-fbd13cec8f42" class="" dir="auto">O <strong>SSH Agent</strong> mantém a chave privada carregada em memória, evitando a necessidade de digitá-la repetidamente.</p><p id="3b4f6ce8-497f-8054-ba52-d471c3d14f21" class="" dir="auto">Linux e macOS:</p><pre id="3b4f6ce8-497f-80b6-ba69-c54c9771e469" class="code code-wrap" data-notion-code-syntax="bash"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">eval &quot;$(ssh-agent -s)&quot;</code></pre><p id="3b4f6ce8-497f-80df-9b7f-dd72816c3d3f" class="" dir="auto">Git Bash (Windows):</p><pre id="3b4f6ce8-497f-8099-891e-c23b836970fb" class="code code-wrap" data-notion-code-syntax="bash"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">eval &quot;$(ssh-agent -s)&quot;</code></pre><p id="3b4f6ce8-497f-80b4-b99f-d8659d294a98" class="" dir="auto">Saída:</p><pre id="3b4f6ce8-497f-8014-9490-d15836efb870" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Agent pid 12345</code></pre><hr id="3b4f6ce8-497f-8027-b654-f12bea5a567d" dir="auto"/><h1 id="3b4f6ce8-497f-80ef-bc0f-e2a705082f42" class="" dir="auto">Adicionando a Chave ao SSH Agent</h1><pre id="3b4f6ce8-497f-8063-afb4-e79566dd0099" class="code code-wrap" data-notion-code-syntax="bash"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">ssh-add ~/.ssh/id_ed25519</code></pre><p id="3b4f6ce8-497f-809b-93dc-dec6d7b2f14b" class="" dir="auto">Resultado:</p><pre id="3b4f6ce8-497f-80ce-b60a-f229bbbcfd75" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Identity added</code></pre><p id="3b4f6ce8-497f-8049-88c8-fca67f1648e4" class="" dir="auto">Agora a chave está pronta para ser utilizada.</p><hr id="3b4f6ce8-497f-8045-a4fe-d2f234b4ad5f" dir="auto"/><h1 id="3b4f6ce8-497f-80c2-8fb0-d13096837618" class="" dir="auto">Copiando a Chave Pública</h1><p id="3b4f6ce8-497f-80be-8faf-eb74f2ee420b" class="" dir="auto">Visualize o conteúdo:</p><pre id="3b4f6ce8-497f-8054-a33e-dd008ef579f8" class="code code-wrap" data-notion-code-syntax="bash"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">cat ~/.ssh/id_ed25519.pub</code></pre><p id="3b4f6ce8-497f-8054-8754-d2fec9d40a54" class="" dir="auto">Exemplo:</p><pre id="3b4f6ce8-497f-803f-9308-fcbfc4f552ca" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAA...</code></pre><p id="3b4f6ce8-497f-80ff-9826-fab664cdeb7d" class="" dir="auto">Copie todo o conteúdo da chave pública.</p><hr id="3b4f6ce8-497f-80e0-86f5-e0d3fe8fe10a" dir="auto"/><h1 id="3b4f6ce8-497f-80fc-8177-d8bfa7997b73" class="" dir="auto">Adicionando a Chave no GitHub</h1><ol type="1" id="3b4f6ce8-497f-8010-bc84-e94e5871b497" class="numbered-list" start="1" dir="auto"><li>Faça login no GitHub.</li></ol><ol type="1" id="3b4f6ce8-497f-8062-a6f1-ded46c9c9c72" class="numbered-list" start="2" dir="auto"><li>Acesse <strong>Settings</strong>.</li></ol><ol type="1" id="3b4f6ce8-497f-801a-8380-c1296858dc40" class="numbered-list" start="3" dir="auto"><li>Clique em <strong>SSH and GPG keys</strong>.</li></ol><ol type="1" id="3b4f6ce8-497f-802b-944e-e3c1b79d733f" class="numbered-list" start="4" dir="auto"><li>Clique em <strong>New SSH key</strong>.</li></ol><ol type="1" id="3b4f6ce8-497f-80b8-8d5e-c26544bc890d" class="numbered-list" start="5" dir="auto"><li>Informe um título (por exemplo, &quot;Notebook Pessoal&quot;).</li></ol><ol type="1" id="3b4f6ce8-497f-8045-88df-dba0912d4f25" class="numbered-list" start="6" dir="auto"><li>Cole a chave pública no campo correspondente.</li></ol><ol type="1" id="3b4f6ce8-497f-80be-a056-d71701073dc0" class="numbered-list" start="7" dir="auto"><li>Salve.</li></ol><p id="3b4f6ce8-497f-8066-9037-ca34a83e2481" class="" dir="auto">A partir desse momento, o GitHub reconhecerá seu computador.</p><hr id="3b4f6ce8-497f-8019-a717-f8b182104346" dir="auto"/><h1 id="3b4f6ce8-497f-80dc-87e7-e6ef05bde82b" class="" dir="auto">Testando a Conexão</h1><p id="3b4f6ce8-497f-8020-8742-d2ec3419f683" class="" dir="auto">Execute:</p><pre id="3b4f6ce8-497f-8032-8b43-d1c9733419cd" class="code code-wrap" data-notion-code-syntax="bash"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">ssh -T git@github.com</code></pre><p id="3b4f6ce8-497f-80c2-99af-fb0a7f5deed6" class="" dir="auto">Na primeira conexão aparecerá:</p><pre id="3b4f6ce8-497f-80e8-b71d-e44abff93c29" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Are you sure you want to continue connecting?</code></pre><p id="3b4f6ce8-497f-8047-82f2-d668a6648782" class="" dir="auto">Digite:</p><pre id="3b4f6ce8-497f-8087-9fd2-f82ca31e7a14" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">yes</code></pre><p id="3b4f6ce8-497f-800e-bdb6-fca89a3cba21" class="" dir="auto">Resultado esperado:</p><pre id="3b4f6ce8-497f-8075-a14d-d5082d5792f4" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Hi usuario! You&#x27;ve successfully authenticated...</code></pre><p id="3b4f6ce8-497f-8046-ae0c-f5521a785f8d" class="" dir="auto">Isso confirma que a autenticação SSH está funcionando.</p><hr id="3b4f6ce8-497f-80f6-9cd2-d7d7b8305d2c" dir="auto"/><h1 id="3b4f6ce8-497f-804e-94ab-f54fbd5cf1d4" class="" dir="auto">Utilizando SSH ao Clonar um Repositório</h1><p id="3b4f6ce8-497f-8030-b2c7-d0469b6b4954" class="" dir="auto">Ao invés da URL HTTPS:</p><pre id="3b4f6ce8-497f-80ee-91cf-df8fa7090b65" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">https://github.com/usuario/projeto.git</code></pre><p id="3b4f6ce8-497f-8011-a5e4-c491cd135fc0" class="" dir="auto">Utilize a URL SSH:</p><pre id="3b4f6ce8-497f-8026-ada9-c4d0c002e946" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">git@github.com:usuario/projeto.git</code></pre><p id="3b4f6ce8-497f-80fa-afee-c57bad341571" class="" dir="auto">Clonando:</p><pre id="3b4f6ce8-497f-80f8-afcb-c204efc08795" class="code code-wrap" data-notion-code-syntax="bash"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">git clone git@github.com:usuario/projeto.git</code></pre><p id="3b4f6ce8-497f-80e8-9454-f641bb397537" class="" dir="auto">Agora todas as operações utilizarão SSH.</p><hr id="3b4f6ce8-497f-8015-925d-c34a9033cccd" dir="auto"/><h1 id="3b4f6ce8-497f-80af-9ce0-c9bd09bda6ec" class="" dir="auto">Alterando um Repositório Existente para SSH</h1><p id="3b4f6ce8-497f-80d5-bc3b-fdf75f976a24" class="" dir="auto">Verifique a URL atual:</p><pre id="3b4f6ce8-497f-80f9-9af2-cf397bd6dee8" class="code code-wrap" data-notion-code-syntax="bash"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">git remote -v</code></pre><p id="3b4f6ce8-497f-801b-8c44-fe7263ac7a61" class="" dir="auto">Exemplo:</p><pre id="3b4f6ce8-497f-80de-8113-fc21112acaed" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">origin
+
+https://github.com/usuario/projeto.git</code></pre><p id="3b4f6ce8-497f-8030-a161-c75ff53df8be" class="" dir="auto">Altere para SSH:</p><pre id="3b4f6ce8-497f-8008-ae05-ec6f774afa76" class="code code-wrap" data-notion-code-syntax="bash"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">git remote set-url origin git@github.com:usuario/projeto.git</code></pre><p id="3b4f6ce8-497f-80cf-a79d-d8617db2f520" class="" dir="auto">Verifique novamente:</p><pre id="3b4f6ce8-497f-803e-9cc6-cd25fb4053bb" class="code code-wrap" data-notion-code-syntax="bash"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">git remote -v</code></pre><p id="3b4f6ce8-497f-80cd-9037-dd2fe6a15bdf" class="" dir="auto">Resultado:</p><pre id="3b4f6ce8-497f-80d6-90b6-d774a7834cc5" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">origin
+
+git@github.com:usuario/projeto.git</code></pre><hr id="3b4f6ce8-497f-803e-b124-eb16a4996856" dir="auto"/><h1 id="3b4f6ce8-497f-804c-81aa-ca295fb98ceb" class="" dir="auto">Estrutura do Fluxo SSH</h1><pre id="3b4f6ce8-497f-8001-97ba-e6a9b85af04e" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Gerar Chave
+      │
+      ▼
+Adicionar ao SSH Agent
+      │
+      ▼
+Copiar Chave Pública
+      │
+      ▼
+Cadastrar no GitHub
+      │
+      ▼
+Testar Conexão
+      │
+      ▼
+Clonar ou Enviar Código</code></pre><hr id="3b4f6ce8-497f-80b9-9583-de7f7cda091a" dir="auto"/><h1 id="3b4f6ce8-497f-804f-968b-cd4611582ba3" class="" dir="auto">Vantagens da Autenticação SSH</h1><ul id="3b4f6ce8-497f-80d9-bc48-f909c6ef45a9" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Comunicação criptografada.</li></ul><ul id="3b4f6ce8-497f-8034-bef6-f21316fe18b9" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Maior segurança.</li></ul><ul id="3b4f6ce8-497f-8066-9629-ffc68705cec1" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Não exige autenticação manual em cada <code>push</code> ou <code>pull</code>.</li></ul><ul id="3b4f6ce8-497f-80c4-b073-f018da653c55" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Fácil de utilizar em vários projetos.</li></ul><ul id="3b4f6ce8-497f-80c3-94be-c8642229b35a" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Compatível com GitHub, GitLab, Bitbucket e outros serviços.</li></ul><hr id="3b4f6ce8-497f-8063-8ed9-fdaadc9c4387" dir="auto"/><h1 id="3b4f6ce8-497f-809f-bfcb-c57afbce2005" class="" dir="auto">Boas Práticas</h1><ul id="3b4f6ce8-497f-802f-a69e-f76338261d76" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Utilize <strong>Ed25519</strong> sempre que possível.</li></ul><ul id="3b4f6ce8-497f-80dd-8c1a-fdf75a06d717" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Nunca compartilhe sua <strong>chave privada</strong> (<code>id_ed25519</code>).</li></ul><ul id="3b4f6ce8-497f-80bc-8d75-fd1155917c4c" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Faça backup da chave privada em um local seguro, se necessário.</li></ul><ul id="3b4f6ce8-497f-8056-b06f-cfe4038276bb" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Proteja a chave com uma <strong>passphrase</strong> quando possível.</li></ul><ul id="3b4f6ce8-497f-8073-9297-fe0e40953d13" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Cadastre apenas a <strong>chave pública</strong> (<code>.pub</code>) nos serviços remotos.</li></ul><ul id="3b4f6ce8-497f-80be-9cad-f6c43b829d75" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Remova do serviço remoto chaves de computadores que não utiliza mais.</li></ul><hr id="3b4f6ce8-497f-80ee-8ad7-d3bc8b0a2ed8" dir="auto"/><h1 id="3b4f6ce8-497f-800b-a12e-fd77f9fa4064" class="" dir="auto">Erros Comuns</h1><ul id="3b4f6ce8-497f-806a-a926-d9620bc1a46e" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Enviar a <strong>chave privada</strong> por engano em vez da chave pública.</li></ul><ul id="3b4f6ce8-497f-8037-8b6d-c001c16717d9" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Clonar um repositório usando HTTPS e esperar que a autenticação SSH funcione automaticamente.</li></ul><ul id="3b4f6ce8-497f-806e-8380-f8e4895dd680" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Esquecer de iniciar o SSH Agent ou adicionar a chave com <code>ssh-add</code>.</li></ul><ul id="3b4f6ce8-497f-805c-83fc-e2e0a5acaee9" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Copiar apenas parte da chave pública ao cadastrá-la.</li></ul><ul id="3b4f6ce8-497f-805c-ba85-e828b528d40b" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Alterar ou excluir arquivos da pasta <code>.ssh</code> sem saber sua finalidade.</li></ul><hr id="3b4f6ce8-497f-805f-ba3c-ebba3dbee3a7" dir="auto"/><h1 id="3b4f6ce8-497f-80b9-bcbf-fb065100673f" class="" dir="auto">Resumo</h1><p id="3b4f6ce8-497f-80b5-8311-c8d78b5b16cc" class="" dir="auto">A configuração de uma <strong>chave SSH</strong> permite autenticar o computador de forma segura junto a serviços como GitHub, GitLab e Bitbucket. O processo consiste em gerar um par de chaves (privada e pública), manter a chave privada protegida no computador, adicionar a chave pública à plataforma de hospedagem e utilizar URLs SSH para clonar e sincronizar repositórios. Depois de configurado, o SSH proporciona uma autenticação prática, segura e amplamente utilizada em ambientes profissionais de desenvolvimento.</p></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

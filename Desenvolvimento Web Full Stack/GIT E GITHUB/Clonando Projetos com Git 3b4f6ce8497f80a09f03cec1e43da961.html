@@ -1,0 +1,835 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Clonando Projetos com Git</title><meta name="data-notion-page-icon" content="/icons/git_red.svg"/><link rel="icon" href="https://app.notion.com/icons/git_red.svg"/><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+/* For default-background callouts, render the border outline. */
+.callout.block-color-default_background {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+/*
+ * Toggles and callouts hold arbitrary content, so they can easily be taller
+ * than a page. They must stay breakable: avoiding breaks inside them makes
+ * Chromium push the whole block onto the next page, which leaves the previous
+ * page mostly empty before every long toggle.
+ */
+details,
+aside {
+	margin: 1.25em 0;
+}
+
+/* Keep a toggle's title on the same page as the start of its content. */
+summary {
+	page-break-after: avoid;
+	break-after: avoid;
+}
+
+/*
+ * Toggle headings render as <h1/h2/h3 style="display:inline-block"> inside
+ * <summary>. Without this reset, the heading's margin-top pushes it below the
+ * ::marker (▼), so the triangle and the title appear on separate lines.
+ */
+summary h1,
+summary h2,
+summary h3,
+summary h4 {
+	margin-top: 0;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding-inline: 0.125rem;
+	padding-block: 0.375rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+/*
+ * Render emoji icons using a ::before pseudo-element to keep the glyph
+ * out of the DOM textContent traversal. This avoids double-rendering icons
+ * in callouts and page titles.
+ * NOTE(slim/html-export-pseudo-icons): I can't tagref this because it will
+ * flag as a duplicate tag after codegen.
+ */
+.icon[data-emoji]::before {
+	content: attr(data-emoji);
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	margin-right: 0.4em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.tab {
+	margin: 1.25em 0;
+	padding-inline: 1rem;
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style><style>@import url('https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex-swap.min.css')</style></head><body><article id="3b4f6ce8-497f-80a0-9f03-cec1e43da961" class="page sans" data-notion-page-icon="/icons/git_red.svg"><header><div class="page-header-icon undefined"><img class="icon notion-static-icon" src="https://app.notion.com/icons/git_red.svg"/></div><h1 class="page-title" dir="auto">Clonando Projetos com Git</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><h1 id="3b4f6ce8-497f-80d2-b4dc-cfa4247c8f3f" class="" dir="auto">Clonar Projetos com Git</h1><h2 id="3b4f6ce8-497f-802f-8b58-ec12adcb217c" class="" dir="auto">Introdução</h2><p id="3b4f6ce8-497f-8017-a554-f10af9bb170f" class="" dir="auto">Um dos recursos mais utilizados do Git é a possibilidade de <strong>clonar um repositório</strong>, ou seja, criar uma cópia completa de um projeto remoto no computador local.</p><p id="3b4f6ce8-497f-8076-b870-df6c6c168c19" class="" dir="auto">O comando <code><strong>git clone</strong></code> é utilizado quando desejamos obter um projeto já existente, seja para estudar seu código, colaborar com uma equipe ou continuar o desenvolvimento em outro computador.</p><p id="3b4f6ce8-497f-80e4-9e06-de3e7e91e75b" class="" dir="auto">Ao contrário de simplesmente baixar os arquivos de um projeto, o <code>git clone</code> copia <strong>todo o histórico do repositório</strong>, incluindo commits, branches, tags e configurações essenciais do Git.</p><hr id="3b4f6ce8-497f-805a-ad49-ed7c1ac38296" dir="auto"/><h1 id="3b4f6ce8-497f-80fd-89bb-fa8b510e7029" class="" dir="auto">O que é Clonar um Repositório?</h1><p id="3b4f6ce8-497f-8050-82ed-e88871323bd5" class="" dir="auto">Clonar um repositório significa copiar um projeto remoto para o computador, mantendo todas as informações do controle de versão.</p><p id="3b4f6ce8-497f-8003-afb9-c87153628fbe" class="" dir="auto">Fluxo:</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="3b4f6ce8-497f-80fc-90b9-f01ca1e90d1e" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Repositório Remoto
+(GitHub/GitLab/Bitbucket)
+          │
+          │ git clone
+          ▼
+Computador Local</code></pre><p id="3b4f6ce8-497f-8014-b66a-cab04a16b010" class="" dir="auto">Após a clonagem, você terá:</p><ul id="3b4f6ce8-497f-80dc-be3b-d071b6504c2d" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Todos os arquivos do projeto.</li></ul><ul id="3b4f6ce8-497f-8054-9510-ec9dd1452089" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Histórico completo de commits.</li></ul><ul id="3b4f6ce8-497f-80b7-99ec-dcc70300d0c4" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Branches.</li></ul><ul id="3b4f6ce8-497f-805b-bcd2-da7d49a9f112" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Tags.</li></ul><ul id="3b4f6ce8-497f-809f-863d-f99f1119d5ee" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Configuração do repositório remoto.</li></ul><ul id="3b4f6ce8-497f-8000-830b-ea26a66e5059" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Pasta <code>.git</code>.</li></ul><hr id="3b4f6ce8-497f-801a-8a94-cf2e61c1f0a2" dir="auto"/><h1 id="3b4f6ce8-497f-80d9-ac80-effc6118ee1a" class="" dir="auto">Por que Clonar um Projeto?</h1><p id="3b4f6ce8-497f-807c-a30b-ccb49ee9aadb" class="" dir="auto">O comando <code>git clone</code> é utilizado em diversas situações:</p><ul id="3b4f6ce8-497f-80a3-aa47-cbc0807937e9" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Participar de um projeto em equipe.</li></ul><ul id="3b4f6ce8-497f-8063-9308-fd01e062d9fd" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Baixar um projeto de código aberto.</li></ul><ul id="3b4f6ce8-497f-80a5-be90-d58a5e59becc" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Fazer backup de um repositório.</li></ul><ul id="3b4f6ce8-497f-806d-ab42-ddfa9b85670f" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Trabalhar em outro computador.</li></ul><ul id="3b4f6ce8-497f-8013-bf43-dd5529c425f0" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Estudar projetos públicos.</li></ul><ul id="3b4f6ce8-497f-80e9-800b-f9565a1ae586" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Continuar o desenvolvimento de um projeto existente.</li></ul><hr id="3b4f6ce8-497f-803a-a843-f90e9686d5d4" dir="auto"/><h1 id="3b4f6ce8-497f-8002-a6b9-dc35b2b5d3f2" class="" dir="auto">O que é Copiado Durante a Clonagem?</h1><p id="3b4f6ce8-497f-80d8-a073-d4a9052df5b7" class="" dir="auto">Quando um repositório é clonado, o Git copia muito mais do que os arquivos.</p><p id="3b4f6ce8-497f-8047-8d5c-e3068a91ccb7" class="" dir="auto">São copiados:</p><ul id="3b4f6ce8-497f-8058-aa2d-ea3f2ff8dc69" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Todo o histórico de commits.</li></ul><ul id="3b4f6ce8-497f-8056-bb64-d972f558f13d" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Todas as branches existentes.</li></ul><ul id="3b4f6ce8-497f-802d-81ba-ca1cf7cb7ea4" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Todas as tags.</li></ul><ul id="3b4f6ce8-497f-8000-a874-c3632520d66b" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Configurações básicas do repositório.</li></ul><ul id="3b4f6ce8-497f-8054-aca9-f2408e3ebb6b" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Objetos internos do Git.</li></ul><ul id="3b4f6ce8-497f-80d7-8038-debd6c28496b" class="bulleted-list" dir="auto"><li style="list-style-type:disc">A pasta <code>.git</code>.</li></ul><p id="3b4f6ce8-497f-807e-bedc-dc84e39750f9" class="" dir="auto">Exemplo:</p><pre id="3b4f6ce8-497f-808b-8edf-e776d3adb9fd" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">MeuProjeto/
+│
+├── .git/
+├── README.md
+├── index.html
+├── style.css
+├── script.js
+└── src/</code></pre><hr id="3b4f6ce8-497f-8078-a3fa-c247426b9312" dir="auto"/><h1 id="3b4f6ce8-497f-80f1-8ece-c49cc115ece8" class="" dir="auto">Sintaxe do Comando</h1><p id="3b4f6ce8-497f-8021-a2df-d3a15e1836d7" class="" dir="auto">A sintaxe básica é:</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-bash.min.js" integrity="sha512-whYhDwtTmlC/NpZlCr6PSsAaLOrfjVg/iXAnC4H/dtiHawpShhT2SlIMbpIhT/IL/NrpdMm+Hq2C13+VKpHTYw==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="3b4f6ce8-497f-8068-9c40-fd7499333798" class="code code-wrap" data-notion-code-syntax="bash"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">git clone &lt;URL_DO_REPOSITORIO&gt;</code></pre><p id="3b4f6ce8-497f-8045-83ac-d964d70a9bf9" class="" dir="auto">Exemplo:</p><pre id="3b4f6ce8-497f-80bc-a60f-da4734a1874a" class="code code-wrap" data-notion-code-syntax="bash"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">git clone https://github.com/usuario/projeto.git</code></pre><p id="3b4f6ce8-497f-8026-985c-f75c40e86a80" class="" dir="auto">O Git cria automaticamente uma pasta com o nome do repositório.</p><hr id="3b4f6ce8-497f-80ce-8142-e7ad27e2a820" dir="auto"/><h1 id="3b4f6ce8-497f-809b-a928-ee033dac9287" class="" dir="auto">Obtendo a URL do Repositório</h1><p id="3b4f6ce8-497f-808c-9a04-ebc9b40f612a" class="" dir="auto">No GitHub, a URL pode ser encontrada no botão <strong>Code</strong>.</p><p id="3b4f6ce8-497f-806a-96ee-fc95f64624c8" class="" dir="auto">Existem dois formatos principais.</p><h2 id="3b4f6ce8-497f-800e-9cbf-dee2ff237d0d" class="" dir="auto">HTTPS</h2><pre id="3b4f6ce8-497f-80db-98df-f9b71272b8fe" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">https://github.com/usuario/projeto.git</code></pre><h2 id="3b4f6ce8-497f-80f3-88fb-d7703724bf27" class="" dir="auto">SSH</h2><pre id="3b4f6ce8-497f-808f-94e3-edebd5e9862e" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">git@github.com:usuario/projeto.git</code></pre><p id="3b4f6ce8-497f-807c-87b7-c88f79b3cd5d" class="" dir="auto">A escolha depende do método de autenticação configurado.</p><hr id="3b4f6ce8-497f-80b4-a04f-f11a02233cfd" dir="auto"/><h1 id="3b4f6ce8-497f-8087-86e7-c5e7c1f68e83" class="" dir="auto">Clonando com HTTPS</h1><p id="3b4f6ce8-497f-8090-9689-e40ec8d1ffa3" class="" dir="auto">Exemplo:</p><pre id="3b4f6ce8-497f-8051-93fb-e1c70c0ee483" class="code code-wrap" data-notion-code-syntax="bash"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">git clone https://github.com/usuario/projeto.git</code></pre><p id="3b4f6ce8-497f-8047-bd85-f092e638fc2a" class="" dir="auto">Vantagens:</p><ul id="3b4f6ce8-497f-806b-8dd3-fa6e098ed328" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Configuração simples.</li></ul><ul id="3b4f6ce8-497f-8023-9200-e3545f7ad05e" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Funciona mesmo sem chave SSH.</li></ul><p id="3b4f6ce8-497f-8025-b9b0-f01f92a48adf" class="" dir="auto">Desvantagens:</p><ul id="3b4f6ce8-497f-8081-9d13-c8110f1d4081" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Para operações de escrita (<code>push</code>), normalmente será necessário autenticar-se com um token ou outro método suportado pela plataforma.</li></ul><hr id="3b4f6ce8-497f-803c-8765-e10c52e70a6a" dir="auto"/><h1 id="3b4f6ce8-497f-8012-9594-dc52e60f7fb0" class="" dir="auto">Clonando com SSH</h1><p id="3b4f6ce8-497f-8074-aa10-da0e1f484f61" class="" dir="auto">Caso a chave SSH esteja configurada:</p><pre id="3b4f6ce8-497f-8066-bbc3-d401607e8681" class="code code-wrap" data-notion-code-syntax="bash"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">git clone git@github.com:usuario/projeto.git</code></pre><p id="3b4f6ce8-497f-8044-bbea-eb23a00ae732" class="" dir="auto">Vantagens:</p><ul id="3b4f6ce8-497f-8038-a20a-d9fded7500e7" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Autenticação automática após a configuração.</li></ul><ul id="3b4f6ce8-497f-800f-b2c0-ec08f7a65dc9" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Comunicação criptografada.</li></ul><ul id="3b4f6ce8-497f-807e-9d69-f176c60260c2" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Mais utilizado em ambientes profissionais.</li></ul><hr id="3b4f6ce8-497f-80f1-aa82-fca7ed2744ca" dir="auto"/><h1 id="3b4f6ce8-497f-8064-a723-c09227994d6c" class="" dir="auto">O que Acontece Durante o <code>git clone</code>?</h1><p id="3b4f6ce8-497f-8034-88b0-cb0513b84d0c" class="" dir="auto">Ao executar:</p><pre id="3b4f6ce8-497f-8004-8c13-d8f9639b9616" class="code code-wrap" data-notion-code-syntax="bash"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">git clone https://github.com/usuario/projeto.git</code></pre><p id="3b4f6ce8-497f-80ed-9474-c44931aed7bd" class="" dir="auto">O Git realiza automaticamente as seguintes etapas:</p><ol type="1" id="3b4f6ce8-497f-80db-bf45-e9d2cff123ac" class="numbered-list" start="1" dir="auto"><li>Cria uma pasta para o projeto.</li></ol><ol type="1" id="3b4f6ce8-497f-80d8-9348-ce3b03d70f97" class="numbered-list" start="2" dir="auto"><li>Baixa todos os arquivos.</li></ol><ol type="1" id="3b4f6ce8-497f-8005-84ea-fcf0f91cd37c" class="numbered-list" start="3" dir="auto"><li>Baixa todo o histórico de commits.</li></ol><ol type="1" id="3b4f6ce8-497f-803c-92de-d7cd401402d4" class="numbered-list" start="4" dir="auto"><li>Cria a pasta <code>.git</code>.</li></ol><ol type="1" id="3b4f6ce8-497f-8084-a6e2-f810a8d5bd98" class="numbered-list" start="5" dir="auto"><li>Configura o repositório remoto chamado <code>origin</code>.</li></ol><ol type="1" id="3b4f6ce8-497f-802d-86f0-f82c62ee976c" class="numbered-list" start="6" dir="auto"><li>Faz o checkout da branch principal (geralmente <code>main</code>).</li></ol><p id="3b4f6ce8-497f-80c9-a3e9-c7e252fef0b3" class="" dir="auto">Fluxo:</p><pre id="3b4f6ce8-497f-803f-b681-d8a0953e5108" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Servidor
+    │
+    ▼
+Baixa os objetos Git
+    │
+    ▼
+Cria a pasta do projeto
+    │
+    ▼
+Configura o repositório local</code></pre><hr id="3b4f6ce8-497f-80de-acd2-d9bff7081a65" dir="auto"/><h1 id="3b4f6ce8-497f-80aa-ba38-f168771406c1" class="" dir="auto">Clonando em uma Pasta Específica</h1><p id="3b4f6ce8-497f-8034-9c0b-fc3363837098" class="" dir="auto">É possível definir o nome da pasta onde o projeto será criado.</p><p id="3b4f6ce8-497f-80cb-b3b9-c6fa711f9c1e" class="" dir="auto">Sintaxe:</p><pre id="3b4f6ce8-497f-8049-baba-c55dc0594cfd" class="code code-wrap" data-notion-code-syntax="bash"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">git clone &lt;URL&gt; &lt;NOME_DA_PASTA&gt;</code></pre><p id="3b4f6ce8-497f-8089-b62d-ec6a9b62d19c" class="" dir="auto">Exemplo:</p><pre id="3b4f6ce8-497f-804c-aa78-fc054ed8b4f5" class="code code-wrap" data-notion-code-syntax="bash"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">git clone https://github.com/usuario/projeto.git SistemaWeb</code></pre><p id="3b4f6ce8-497f-8022-83b5-f1654e69ed25" class="" dir="auto">Resultado:</p><pre id="3b4f6ce8-497f-8038-91cb-c8db37713308" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">SistemaWeb/
+│
+├── .git
+├── README.md
+└── src/</code></pre><hr id="3b4f6ce8-497f-80b3-b592-ec3815066a2f" dir="auto"/><h1 id="3b4f6ce8-497f-808a-a97d-c85e5b97226a" class="" dir="auto">Verificando o Repositório Remoto</h1><p id="3b4f6ce8-497f-8030-b619-e5619255ae00" class="" dir="auto">Após a clonagem:</p><pre id="3b4f6ce8-497f-8008-8915-d490fd38138d" class="code code-wrap" data-notion-code-syntax="bash"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">git remote -v</code></pre><p id="3b4f6ce8-497f-80a2-b581-eda971a5a973" class="" dir="auto">Exemplo:</p><pre id="3b4f6ce8-497f-805f-b63c-cd0486084f74" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">origin  https://github.com/usuario/projeto.git (fetch)
+
+origin  https://github.com/usuario/projeto.git (push)</code></pre><p id="3b4f6ce8-497f-80e0-8898-c15b9f6d5364" class="" dir="auto">O Git configura automaticamente o remoto chamado <strong>origin</strong>.</p><hr id="3b4f6ce8-497f-8076-b103-cfac3048af86" dir="auto"/><h1 id="3b4f6ce8-497f-8047-81d6-e3958a6794d9" class="" dir="auto">Verificando as Branches</h1><p id="3b4f6ce8-497f-808e-8c82-ce974e6cb860" class="" dir="auto">Após clonar:</p><pre id="3b4f6ce8-497f-803c-b8d3-e1cf61a690a0" class="code code-wrap" data-notion-code-syntax="bash"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">git branch</code></pre><p id="3b4f6ce8-497f-802b-812e-c679068926b0" class="" dir="auto">Exemplo:</p><pre id="3b4f6ce8-497f-80e5-b63c-f3c6416c20d5" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">* main</code></pre><p id="3b4f6ce8-497f-8059-9881-ed39f8c6df19" class="" dir="auto">Para visualizar também as branches remotas:</p><pre id="3b4f6ce8-497f-8056-a69c-d5c8269ef1fe" class="code code-wrap" data-notion-code-syntax="bash"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">git branch -a</code></pre><p id="3b4f6ce8-497f-809e-9997-dcc20a2a1a34" class="" dir="auto">Exemplo:</p><pre id="3b4f6ce8-497f-8076-aef7-c5a3ac872e4d" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">* main
+
+remotes/origin/main
+
+remotes/origin/develop
+
+remotes/origin/feature-login</code></pre><hr id="3b4f6ce8-497f-805f-b72b-f140b578f75a" dir="auto"/><h1 id="3b4f6ce8-497f-8046-b393-e7ee8188e522" class="" dir="auto">Histórico Após a Clonagem</h1><p id="3b4f6ce8-497f-803a-97fc-d9cfda583c43" class="" dir="auto">Como todo o histórico é copiado, você pode visualizá-lo imediatamente:</p><pre id="3b4f6ce8-497f-80dc-9d3f-d4194580549b" class="code code-wrap" data-notion-code-syntax="bash"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">git log --oneline</code></pre><p id="3b4f6ce8-497f-8056-b86c-c982af301f4e" class="" dir="auto">Exemplo:</p><pre id="3b4f6ce8-497f-8028-a2cd-c418bf45e968" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">d8f2b31 Corrige login
+
+9ac82e0 Implementa cadastro
+
+73ef901 Projeto inicial</code></pre><hr id="3b4f6ce8-497f-80ba-bbd8-f96d45996075" dir="auto"/><h1 id="3b4f6ce8-497f-8093-9e19-e73e05d84d44" class="" dir="auto">Exemplo Prático</h1><p id="3b4f6ce8-497f-8035-89a7-ea04713ca02b" class="" dir="auto">Suponha que exista um projeto remoto.</p><p id="3b4f6ce8-497f-8070-acb6-fd3629ec3d7a" class="" dir="auto">Clone-o:</p><pre id="3b4f6ce8-497f-80ad-977d-d5a8f46550bb" class="code code-wrap" data-notion-code-syntax="bash"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">git clone https://github.com/empresa/sistema.git</code></pre><p id="3b4f6ce8-497f-801c-b966-e9a9b2c150cd" class="" dir="auto">Entre na pasta:</p><pre id="3b4f6ce8-497f-8067-a68d-cb98b0140e52" class="code code-wrap" data-notion-code-syntax="bash"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">cd sistema</code></pre><p id="3b4f6ce8-497f-8095-a5d0-c1c623816548" class="" dir="auto">Verifique o estado:</p><pre id="3b4f6ce8-497f-80ea-b7fc-ccdc9c376043" class="code code-wrap" data-notion-code-syntax="bash"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">git status</code></pre><p id="3b4f6ce8-497f-80cc-801f-ce2990e93747" class="" dir="auto">Resultado:</p><pre id="3b4f6ce8-497f-8058-8978-d20d79c789d1" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">On branch main
+
+Your branch is up to date with &#x27;origin/main&#x27;.
+
+nothing to commit, working tree clean</code></pre><p id="3b4f6ce8-497f-8042-a7c7-e81080e3fad0" class="" dir="auto">Agora o projeto está pronto para ser utilizado.</p><hr id="3b4f6ce8-497f-8074-820e-eeb07a860794" dir="auto"/><h1 id="3b4f6ce8-497f-809a-a519-d319e203a443" class="" dir="auto">Trabalhando Após a Clonagem</h1><p id="3b4f6ce8-497f-80c8-aa41-e9cb4acf9352" class="" dir="auto">Depois de clonar, o fluxo normalmente será:</p><pre id="3b4f6ce8-497f-807c-baba-e12200a4bbea" class="code code-wrap" data-notion-code-syntax="bash"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">git pull</code></pre><p id="3b4f6ce8-497f-807d-93ff-c030c081efba" class="" dir="auto">Atualiza o projeto.</p><p id="3b4f6ce8-497f-8098-b683-d86f4b58c63f" class="" dir="auto">Editar arquivos.</p><p id="3b4f6ce8-497f-80a7-ad48-f55a9b57f858" class="" dir="auto">Depois:</p><pre id="3b4f6ce8-497f-80e7-8a03-f1a25a0a80b3" class="code code-wrap" data-notion-code-syntax="bash"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">git add .</code></pre><pre id="3b4f6ce8-497f-80f5-bc5b-f8c60cd4014f" class="code code-wrap" data-notion-code-syntax="bash"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">git commit -m &quot;Implementa nova funcionalidade&quot;</code></pre><p id="3b4f6ce8-497f-8038-aac3-c11b151e0a23" class="" dir="auto">Enviar:</p><pre id="3b4f6ce8-497f-80d9-a9a5-c61018cf1b18" class="code code-wrap" data-notion-code-syntax="bash"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">git push</code></pre><hr id="3b4f6ce8-497f-80f7-9b06-c42eb95e9a0e" dir="auto"/><h1 id="3b4f6ce8-497f-8089-bd31-e9a9627a6a6b" class="" dir="auto">Clonando um Projeto Privado</h1><p id="3b4f6ce8-497f-808f-821a-db67b465fb70" class="" dir="auto">Se o repositório for privado:</p><ul id="3b4f6ce8-497f-805f-bd7d-c3f3bc3882a6" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Com HTTPS, será necessário autenticar-se conforme o método suportado pela plataforma (como um token de acesso).</li></ul><ul id="3b4f6ce8-497f-8070-93b1-da157bc18b1f" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Com SSH, será necessário que a chave pública esteja cadastrada na conta correspondente.</li></ul><p id="3b4f6ce8-497f-8004-993d-fa8a02e88424" class="" dir="auto">Sem permissão de acesso, a clonagem não será realizada.</p><hr id="3b4f6ce8-497f-807f-8b23-c6f7a0f83403" dir="auto"/><h1 id="3b4f6ce8-497f-809a-8879-ec5116149951" class="" dir="auto">Diferença entre Clonar e Baixar ZIP</h1><p id="3b4f6ce8-497f-80aa-a53b-eefe41583a0c" class="" dir="auto">Muitas plataformas permitem baixar um projeto em formato ZIP.</p><p id="3b4f6ce8-497f-80c5-ab07-f57a8dd5dedf" class="" dir="auto">Exemplo:</p><pre id="3b4f6ce8-497f-80b9-852b-caee935997d1" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Download ZIP</code></pre><p id="3b4f6ce8-497f-8048-b816-d6686cff181a" class="" dir="auto">Diferenças:</p><table id="3b4f6ce8-497f-80f9-80ce-fff53f66dfb8" class="simple-table" dir="ltr"><thead class="simple-table-header"><tr id="3b4f6ce8-497f-80ba-aaea-e2356c610e8e" dir="ltr"><th id="bOH`" class="simple-table-header-color simple-table-header">Clonar (<code>git clone</code>)</th><th id="EGx@" class="simple-table-header-color simple-table-header">Download ZIP</th></tr></thead><tbody><tr id="3b4f6ce8-497f-8099-891a-e79f65f16975" dir="ltr"><td id="bOH`" class="">Copia todo o histórico</td><td id="EGx@" class="">Copia apenas os arquivos atuais</td></tr><tr id="3b4f6ce8-497f-8019-9436-dfef810b1a4e" dir="ltr"><td id="bOH`" class="">Mantém a pasta <code>.git</code></td><td id="EGx@" class="">Não possui <code>.git</code></td></tr><tr id="3b4f6ce8-497f-80b3-b700-e54a0ab95f01" dir="ltr"><td id="bOH`" class="">Permite criar commits</td><td id="EGx@" class="">Não permite usar Git diretamente</td></tr><tr id="3b4f6ce8-497f-8034-b59e-ebfb0f091ac3" dir="ltr"><td id="bOH`" class="">Permite <code>pull</code> e <code>push</code></td><td id="EGx@" class="">Não sincroniza alterações</td></tr><tr id="3b4f6ce8-497f-8067-9bd3-cda8a5a4bcce" dir="ltr"><td id="bOH`" class="">Mantém branches e tags</td><td id="EGx@" class="">Não inclui histórico</td></tr></tbody></table><p id="3b4f6ce8-497f-8001-9e3d-cafa1a0c687a" class="" dir="auto">Se o objetivo é desenvolver ou colaborar no projeto, utilize sempre <code>git clone</code>.</p><hr id="3b4f6ce8-497f-80bf-845c-f71aa78a18d5" dir="auto"/><h1 id="3b4f6ce8-497f-8080-9b43-f46cd19912f1" class="" dir="auto">Clonagem Rasa (Shallow Clone)</h1><p id="3b4f6ce8-497f-8090-9969-eecde1cd7236" class="" dir="auto">Em projetos muito grandes, pode ser interessante baixar apenas os commits mais recentes.</p><p id="3b4f6ce8-497f-8035-8763-c57118536544" class="" dir="auto">Exemplo:</p><pre id="3b4f6ce8-497f-804d-b69a-e53eb04de9e3" class="code code-wrap" data-notion-code-syntax="bash"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">git clone --depth 1 https://github.com/usuario/projeto.git</code></pre><p id="3b4f6ce8-497f-800d-808c-c8b376b7cdbb" class="" dir="auto">Nesse caso:</p><ul id="3b4f6ce8-497f-80af-accc-cb831d1a4831" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Apenas o commit mais recente é baixado.</li></ul><ul id="3b4f6ce8-497f-8063-aeb1-e653e614fd0a" class="bulleted-list" dir="auto"><li style="list-style-type:disc">O histórico completo não é copiado.</li></ul><ul id="3b4f6ce8-497f-8029-a532-def9a16d8813" class="bulleted-list" dir="auto"><li style="list-style-type:disc">A clonagem é mais rápida e ocupa menos espaço em disco.</li></ul><p id="3b4f6ce8-497f-80d1-bf5e-e070709fa9a2" class="" dir="auto">Essa técnica é útil quando não há necessidade de consultar o histórico completo.</p><hr id="3b4f6ce8-497f-80bd-a9bf-c4a02a247a58" dir="auto"/><h1 id="3b4f6ce8-497f-8057-8f5a-d4f5fb05c8ee" class="" dir="auto">Problemas Comuns</h1><h2 id="3b4f6ce8-497f-80f6-9cdb-f43e7ab985e0" class="" dir="auto">Repositório não encontrado</h2><p id="3b4f6ce8-497f-80ec-b82c-ddf80e8fa84f" class="" dir="auto">Mensagem:</p><pre id="3b4f6ce8-497f-80df-aa11-dd9a8d0cc170" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Repository not found.</code></pre><p id="3b4f6ce8-497f-8034-aa00-fce799909aa0" class="" dir="auto">Possíveis causas:</p><ul id="3b4f6ce8-497f-8026-8035-e1b3a1de83b0" class="bulleted-list" dir="auto"><li style="list-style-type:disc">URL incorreta.</li></ul><ul id="3b4f6ce8-497f-804d-a5b6-ef53957527f0" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Repositório privado.</li></ul><ul id="3b4f6ce8-497f-80c5-ab9b-dc154436e3d4" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Falta de permissão.</li></ul><hr id="3b4f6ce8-497f-80ec-b2b4-f18c8baaa994" dir="auto"/><h2 id="3b4f6ce8-497f-80fe-b9a4-ef7fa72a7c5d" class="" dir="auto">Permissão negada (SSH)</h2><p id="3b4f6ce8-497f-80e5-9dab-ce6e74a20dad" class="" dir="auto">Mensagem:</p><pre id="3b4f6ce8-497f-801d-820c-ecb1029229ef" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Permission denied (publickey).</code></pre><p id="3b4f6ce8-497f-80a3-97e8-c8aebb7e1ed0" class="" dir="auto">Possíveis causas:</p><ul id="3b4f6ce8-497f-806a-a221-d9aa47ce9729" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Chave SSH não configurada.</li></ul><ul id="3b4f6ce8-497f-805c-a6c4-d21df603abe4" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Chave pública não cadastrada na plataforma.</li></ul><ul id="3b4f6ce8-497f-80ed-84b2-ce8243202e3e" class="bulleted-list" dir="auto"><li style="list-style-type:disc">SSH Agent não iniciado.</li></ul><hr id="3b4f6ce8-497f-8081-9355-c5e81948e284" dir="auto"/><h2 id="3b4f6ce8-497f-8000-a493-f0003cd6f2a4" class="" dir="auto">Erro de autenticação (HTTPS)</h2><p id="3b4f6ce8-497f-8072-9edb-dda4da1c5436" class="" dir="auto">Caso ocorra falha na autenticação:</p><ul id="3b4f6ce8-497f-80fe-8f96-f5726f27030b" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Verifique suas credenciais.</li></ul><ul id="3b4f6ce8-497f-8010-ab41-f3229a0b1ecb" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Confirme se possui acesso ao repositório.</li></ul><ul id="3b4f6ce8-497f-800a-a525-db9cc7c96e95" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Utilize um método de autenticação suportado pela plataforma (como um token de acesso).</li></ul><hr id="3b4f6ce8-497f-805c-932e-ee4c3edbc7fa" dir="auto"/><h1 id="3b4f6ce8-497f-80b7-900c-d0918c6ce1d5" class="" dir="auto">Boas Práticas</h1><ul id="3b4f6ce8-497f-80d2-8bfc-c5917eed981a" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Utilize <code>git clone</code> para iniciar o trabalho em projetos existentes.</li></ul><ul id="3b4f6ce8-497f-801b-b449-c58f5c56d42d" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Prefira URLs SSH quando a autenticação por chave já estiver configurada.</li></ul><ul id="3b4f6ce8-497f-80c8-9de1-d485a2152aec" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Verifique o remoto com <code>git remote -v</code> após a clonagem.</li></ul><ul id="3b4f6ce8-497f-80fb-a9fc-c36503e15421" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Atualize o projeto regularmente com <code>git pull</code>.</li></ul><ul id="3b4f6ce8-497f-80f4-ade0-e5c69c8b539a" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Não exclua a pasta <code>.git</code>, pois ela contém todo o histórico do repositório.</li></ul><ul id="3b4f6ce8-497f-80f1-a691-c362b6cc2e35" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Antes de modificar um projeto clonado, confirme em qual branch você está trabalhando com <code>git branch</code> ou <code>git status</code>.</li></ul><hr id="3b4f6ce8-497f-8047-a127-e4081e24a446" dir="auto"/><h1 id="3b4f6ce8-497f-8093-8a56-deee34d57979" class="" dir="auto">Erros Comuns</h1><ul id="3b4f6ce8-497f-80e9-adf6-c1f5ea0f112b" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Baixar um projeto em ZIP quando a intenção é contribuir com o código.</li></ul><ul id="3b4f6ce8-497f-8000-aa06-df83be32432a" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Tentar fazer <code>git push</code> sem possuir permissão de escrita no repositório.</li></ul><ul id="3b4f6ce8-497f-8096-93dd-cf5d99b8b10a" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Esquecer de entrar na pasta criada pelo <code>git clone</code> antes de executar outros comandos.</li></ul><ul id="3b4f6ce8-497f-80d3-b324-fc0ef6a98865" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Alterar a URL do repositório remoto sem necessidade.</li></ul><ul id="3b4f6ce8-497f-800d-953f-f4a555bcdb94" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Confundir <code>git clone</code> (cria uma cópia local) com <code>git pull</code> (atualiza um repositório já existente).</li></ul><hr id="3b4f6ce8-497f-80ce-9cb8-ed2cc1e26e9b" dir="auto"/><h1 id="3b4f6ce8-497f-8054-9a20-eb56aa61b939" class="" dir="auto">Resumo</h1><p id="3b4f6ce8-497f-800b-9a46-e3881326f0dd" class="" dir="auto">O comando <code><strong>git clone</strong></code> é utilizado para copiar um repositório remoto para o computador local, trazendo não apenas os arquivos do projeto, mas também todo o histórico de commits, branches, tags e configurações necessárias para o controle de versão. Ele é o método padrão para iniciar o trabalho em projetos existentes, permitindo que desenvolvedores colaborem, estudem e mantenham seus projetos sincronizados com plataformas como GitHub, GitLab e Bitbucket. Dominar a clonagem de repositórios é um passo fundamental para trabalhar de forma eficiente com Git em ambientes profissionais.</p></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>
