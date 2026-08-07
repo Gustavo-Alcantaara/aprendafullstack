@@ -1,0 +1,794 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Aplicações Web vs Internet</title><meta name="data-notion-page-icon" content="/icons/subtask_red.svg"/><link rel="icon" href="https://app.notion.com/icons/subtask_red.svg"/><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+/* For default-background callouts, render the border outline. */
+.callout.block-color-default_background {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+/*
+ * Toggles and callouts hold arbitrary content, so they can easily be taller
+ * than a page. They must stay breakable: avoiding breaks inside them makes
+ * Chromium push the whole block onto the next page, which leaves the previous
+ * page mostly empty before every long toggle.
+ */
+details,
+aside {
+	margin: 1.25em 0;
+}
+
+/* Keep a toggle's title on the same page as the start of its content. */
+summary {
+	page-break-after: avoid;
+	break-after: avoid;
+}
+
+/*
+ * Toggle headings render as <h1/h2/h3 style="display:inline-block"> inside
+ * <summary>. Without this reset, the heading's margin-top pushes it below the
+ * ::marker (▼), so the triangle and the title appear on separate lines.
+ */
+summary h1,
+summary h2,
+summary h3,
+summary h4 {
+	margin-top: 0;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding-inline: 0.125rem;
+	padding-block: 0.375rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+/*
+ * Render emoji icons using a ::before pseudo-element to keep the glyph
+ * out of the DOM textContent traversal. This avoids double-rendering icons
+ * in callouts and page titles.
+ * NOTE(slim/html-export-pseudo-icons): I can't tagref this because it will
+ * flag as a duplicate tag after codegen.
+ */
+.icon[data-emoji]::before {
+	content: attr(data-emoji);
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	margin-right: 0.4em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.tab {
+	margin: 1.25em 0;
+	padding-inline: 1rem;
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style><style>@import url('https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex-swap.min.css')</style></head><body><article id="3b5f6ce8-497f-8084-9a55-f7df10174e72" class="page sans" data-notion-page-icon="/icons/subtask_red.svg"><header><div class="page-header-icon undefined"><img class="icon notion-static-icon" src="https://app.notion.com/icons/subtask_red.svg"/></div><h1 class="page-title" dir="auto">Aplicações Web vs Internet</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><h1 id="3b5f6ce8-497f-802b-ba9d-e9d365e97b10" class="" dir="auto">Aplicações Web vs Internet</h1><p id="3b5f6ce8-497f-8078-8491-dd51c9669750" class="" dir="auto">Embora os termos <strong>Aplicação Web</strong> e <strong>Internet</strong> sejam frequentemente utilizados juntos, eles representam conceitos diferentes. A Internet é a infraestrutura global que permite a comunicação entre dispositivos, enquanto a aplicação web é um software que utiliza essa infraestrutura para oferecer serviços aos usuários. Entender essa diferença é essencial para quem desenvolve e publica sistemas na web.</p><hr id="3b5f6ce8-497f-80c5-b3c7-ddbd7b23a45d" dir="auto"/><h1 id="3b5f6ce8-497f-80dd-a2d3-e19a5ca8ea36" class="" dir="auto">O que é uma Aplicação Web?</h1><p id="3b5f6ce8-497f-8059-a100-ea8490b174e2" class="" dir="auto">Uma <strong>Aplicação Web</strong> é um software desenvolvido para ser acessado por meio de um navegador (browser), sem a necessidade de instalação no computador do usuário. Ela é executada em um servidor web e disponibilizada através da Internet ou de uma rede privada.</p><p id="3b5f6ce8-497f-8036-8954-ceb055bceac1" class="" dir="auto">Ao acessar uma aplicação web, o navegador envia uma solicitação ao servidor, que processa a requisição e retorna a resposta em forma de páginas, dados ou funcionalidades.</p><h3 id="3b5f6ce8-497f-8099-9b2d-f7047609ac54" class="" dir="auto">Exemplos de aplicações web</h3><ul id="3b5f6ce8-497f-8076-8b32-c5bd1036fd80" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Gmail</li></ul><ul id="3b5f6ce8-497f-80f1-8580-caaa88b9c095" class="bulleted-list" dir="auto"><li style="list-style-type:disc">YouTube</li></ul><ul id="3b5f6ce8-497f-8092-9cfa-d30b7a88179d" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Facebook</li></ul><ul id="3b5f6ce8-497f-8086-9cf7-dbc2629e39a8" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Instagram</li></ul><ul id="3b5f6ce8-497f-8077-bf00-fc9a99ba68a3" class="bulleted-list" dir="auto"><li style="list-style-type:disc">WhatsApp Web</li></ul><ul id="3b5f6ce8-497f-80b1-84de-f62a53c824e6" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Sistemas bancários online</li></ul><ul id="3b5f6ce8-497f-80ae-8f2f-dffaedbb728c" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Lojas virtuais</li></ul><ul id="3b5f6ce8-497f-8095-8d5e-d91d6e0b7421" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Sistemas acadêmicos</li></ul><ul id="3b5f6ce8-497f-804d-bc19-d6cd985f4b8d" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Plataformas de ensino</li></ul><ul id="3b5f6ce8-497f-80a9-9619-e9309539b674" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Sistemas de gerenciamento empresarial (ERP)</li></ul><hr id="3b5f6ce8-497f-805f-b388-f9f66eb97882" dir="auto"/><h1 id="3b5f6ce8-497f-803f-8ce5-dc0c8595377a" class="" dir="auto">Características de uma Aplicação Web</h1><ul id="3b5f6ce8-497f-8068-99ac-e8868d807730" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Funciona através de navegadores.</li></ul><ul id="3b5f6ce8-497f-8015-867e-cc587016164a" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Não precisa ser instalada localmente (na maioria dos casos).</li></ul><ul id="3b5f6ce8-497f-80d0-8805-dfd60cd24491" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Pode ser acessada de qualquer lugar com conexão de rede.</li></ul><ul id="3b5f6ce8-497f-80ec-8a17-e960fae23c53" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Centraliza os dados em um servidor.</li></ul><ul id="3b5f6ce8-497f-803b-837f-df0d86d93b1c" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Permite atualização sem intervenção do usuário.</li></ul><ul id="3b5f6ce8-497f-80f3-a949-e179bdca66fa" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Pode atender milhares ou milhões de usuários simultaneamente.</li></ul><hr id="3b5f6ce8-497f-80df-9740-c54e9f20577d" dir="auto"/><h1 id="3b5f6ce8-497f-8026-b0c8-dc34b1624f91" class="" dir="auto">Componentes de uma Aplicação Web</h1><p id="3b5f6ce8-497f-801f-be07-c95a40b72d95" class="" dir="auto">Uma aplicação web normalmente possui três camadas principais:</p><h2 id="3b5f6ce8-497f-80c0-9173-f02ebabac0a0" class="" dir="auto">Front-end</h2><p id="3b5f6ce8-497f-80e8-a985-e51979b090fa" class="" dir="auto">É a parte visual, com a qual o usuário interage.</p><p id="3b5f6ce8-497f-80a1-95e1-ec064c03527a" class="" dir="auto">Tecnologias comuns:</p><ul id="3b5f6ce8-497f-8062-8257-f7170bed1250" class="bulleted-list" dir="auto"><li style="list-style-type:disc">HTML</li></ul><ul id="3b5f6ce8-497f-805d-b2e5-f2173019acd5" class="bulleted-list" dir="auto"><li style="list-style-type:disc">CSS</li></ul><ul id="3b5f6ce8-497f-80b8-a026-d6a6e3baaa80" class="bulleted-list" dir="auto"><li style="list-style-type:disc">JavaScript</li></ul><ul id="3b5f6ce8-497f-80f5-ae57-f98649f38cba" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Bootstrap</li></ul><ul id="3b5f6ce8-497f-8074-a6e1-e2ac7d269cc2" class="bulleted-list" dir="auto"><li style="list-style-type:disc">React</li></ul><ul id="3b5f6ce8-497f-800b-8c60-ccb2149aca03" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Vue</li></ul><ul id="3b5f6ce8-497f-80ca-ad9f-dbc57c513ef1" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Angular</li></ul><p id="3b5f6ce8-497f-8072-8864-c0410320770d" class="" dir="auto">Exemplo:</p><p id="3b5f6ce8-497f-804e-9652-dd27ddc31835" class="" dir="auto">Botões, formulários, menus, tabelas e imagens.</p><hr id="3b5f6ce8-497f-8029-a9c9-c141b2727310" dir="auto"/><h2 id="3b5f6ce8-497f-80fb-88ed-c26e2af4ba6b" class="" dir="auto">Back-end</h2><p id="3b5f6ce8-497f-8023-b349-d00a5ebd9f42" class="" dir="auto">É a parte responsável pela lógica da aplicação.</p><p id="3b5f6ce8-497f-8011-b3f9-f82014a18549" class="" dir="auto">Pode ser desenvolvido utilizando:</p><ul id="3b5f6ce8-497f-80a7-808e-cb3bb1fe6e7c" class="bulleted-list" dir="auto"><li style="list-style-type:disc">PHP</li></ul><ul id="3b5f6ce8-497f-808d-a1e0-e703312587a1" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Java</li></ul><ul id="3b5f6ce8-497f-80df-83db-e5f85a7d1c9c" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Python</li></ul><ul id="3b5f6ce8-497f-803e-853b-e150dece6709" class="bulleted-list" dir="auto"><li style="list-style-type:disc">C#</li></ul><ul id="3b5f6ce8-497f-8088-af11-daeb67a7c4b1" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Node.js</li></ul><ul id="3b5f6ce8-497f-8083-b184-f7c78103b020" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Ruby</li></ul><p id="3b5f6ce8-497f-803a-a5b2-d298e681e88d" class="" dir="auto">Funções do back-end:</p><ul id="3b5f6ce8-497f-8040-b4fa-d1a3871fded8" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Processar informações</li></ul><ul id="3b5f6ce8-497f-8058-a5a3-c8a37639d750" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Validar dados</li></ul><ul id="3b5f6ce8-497f-805e-956d-e94bf2f6f7a0" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Realizar cálculos</li></ul><ul id="3b5f6ce8-497f-803f-b1c9-f32933745456" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Autenticar usuários</li></ul><ul id="3b5f6ce8-497f-80d0-88a0-dd88df719429" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Controlar permissões</li></ul><ul id="3b5f6ce8-497f-80e4-8655-e88f6a8375cd" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Gerenciar sessões</li></ul><hr id="3b5f6ce8-497f-8095-8a1d-fe4b94dbc471" dir="auto"/><h2 id="3b5f6ce8-497f-80ef-9074-f4e6f77fef83" class="" dir="auto">Banco de Dados</h2><p id="3b5f6ce8-497f-801f-bd1a-f2beaccca855" class="" dir="auto">Responsável pelo armazenamento das informações.</p><p id="3b5f6ce8-497f-805b-a3b5-e524731ef0b4" class="" dir="auto">Exemplos:</p><ul id="3b5f6ce8-497f-801e-b5ad-c9ef9f1eab0d" class="bulleted-list" dir="auto"><li style="list-style-type:disc">MySQL</li></ul><ul id="3b5f6ce8-497f-800f-a74d-f69800e52dd4" class="bulleted-list" dir="auto"><li style="list-style-type:disc">PostgreSQL</li></ul><ul id="3b5f6ce8-497f-8024-adac-dae45c267638" class="bulleted-list" dir="auto"><li style="list-style-type:disc">SQL Server</li></ul><ul id="3b5f6ce8-497f-807f-b5f1-fb43a7283a96" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Oracle</li></ul><ul id="3b5f6ce8-497f-80ba-ad49-f25b0221aa57" class="bulleted-list" dir="auto"><li style="list-style-type:disc">MongoDB</li></ul><p id="3b5f6ce8-497f-80b3-b8b7-cf4a541532e6" class="" dir="auto">Armazena dados como:</p><ul id="3b5f6ce8-497f-80c1-89c5-f12dfd066069" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Usuários</li></ul><ul id="3b5f6ce8-497f-8017-b847-dc37c074de8e" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Produtos</li></ul><ul id="3b5f6ce8-497f-8078-98a7-eb0fbddaf297" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Pedidos</li></ul><ul id="3b5f6ce8-497f-802a-9798-dd1d3fde8791" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Mensagens</li></ul><ul id="3b5f6ce8-497f-80f4-a892-f41a1451f3ae" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Arquivos</li></ul><ul id="3b5f6ce8-497f-8044-987e-c238da501ed7" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Configurações</li></ul><hr id="3b5f6ce8-497f-80e0-8234-e7852c29e28c" dir="auto"/><h1 id="3b5f6ce8-497f-802b-85bc-d8253fe26e2f" class="" dir="auto">O que é a Internet?</h1><p id="3b5f6ce8-497f-8099-a7dd-e04ea21cf6ef" class="" dir="auto">A <strong>Internet</strong> é uma gigantesca rede mundial formada pela interligação de milhões de computadores, servidores, roteadores e outros dispositivos.</p><p id="3b5f6ce8-497f-8038-9c38-f33e22a4f40c" class="" dir="auto">Ela permite que dispositivos localizados em diferentes partes do mundo troquem informações utilizando protocolos padronizados.</p><p id="3b5f6ce8-497f-8091-8e97-c2517888b108" class="" dir="auto">Sem a Internet, a maioria das aplicações web públicas não poderia ser acessada pelos usuários.</p><hr id="3b5f6ce8-497f-807b-8031-f57013a99956" dir="auto"/><h1 id="3b5f6ce8-497f-8026-b40d-e1f40de3374a" class="" dir="auto">Como a Internet funciona?</h1><p id="3b5f6ce8-497f-80bc-aa34-d4e1a9295cc1" class="" dir="auto">Quando você acessa um site:</p><ol type="1" id="3b5f6ce8-497f-8069-8269-d122083e0239" class="numbered-list" start="1" dir="auto"><li>Digita um endereço (URL).</li></ol><ol type="1" id="3b5f6ce8-497f-808e-b1e3-ca98f97b6f92" class="numbered-list" start="2" dir="auto"><li>O navegador consulta o DNS para descobrir o endereço IP do servidor.</li></ol><ol type="1" id="3b5f6ce8-497f-8004-ac77-f3c44e5c1a94" class="numbered-list" start="3" dir="auto"><li>A solicitação é enviada pela Internet.</li></ol><ol type="1" id="3b5f6ce8-497f-807a-af38-db69afa7888d" class="numbered-list" start="4" dir="auto"><li>O servidor recebe a requisição.</li></ol><ol type="1" id="3b5f6ce8-497f-80f5-91af-fd1ad866754d" class="numbered-list" start="5" dir="auto"><li>A aplicação processa a solicitação.</li></ol><ol type="1" id="3b5f6ce8-497f-8052-8d38-e8e5af9d7e47" class="numbered-list" start="6" dir="auto"><li>O servidor envia a resposta.</li></ol><ol type="1" id="3b5f6ce8-497f-80ac-9ede-c5f4d0c17793" class="numbered-list" start="7" dir="auto"><li>O navegador exibe a página ao usuário.</li></ol><p id="3b5f6ce8-497f-80c6-ae38-f6da6da421f6" class="" dir="auto">Esse processo ocorre em poucos milissegundos.</p><hr id="3b5f6ce8-497f-80b8-947f-c78f0266ad84" dir="auto"/><h1 id="3b5f6ce8-497f-8003-a0e9-f20d7ba00a9b" class="" dir="auto">Componentes da Internet</h1><p id="3b5f6ce8-497f-8008-9004-ec09e02447b7" class="" dir="auto">A Internet é composta por diversos elementos.</p><h2 id="3b5f6ce8-497f-805d-9b59-d7daaff30fb4" class="" dir="auto">Servidores</h2><p id="3b5f6ce8-497f-809b-86c4-df7de3314a2a" class="" dir="auto">Armazenam aplicações, arquivos e bancos de dados.</p><p id="3b5f6ce8-497f-8095-9799-c1311e8d7afe" class="" dir="auto">Exemplo:</p><p id="3b5f6ce8-497f-80de-9d58-d71656eb6325" class="" dir="auto">Um servidor hospedando um sistema de vendas.</p><hr id="3b5f6ce8-497f-80db-baf0-caffe1aa2fa4" dir="auto"/><h2 id="3b5f6ce8-497f-803f-afba-f8ef453609ff" class="" dir="auto">Clientes</h2><p id="3b5f6ce8-497f-8006-9196-f21c42c8eaae" class="" dir="auto">São os dispositivos que acessam os serviços.</p><p id="3b5f6ce8-497f-8094-b4ad-c4711a6f80af" class="" dir="auto">Exemplos:</p><ul id="3b5f6ce8-497f-8023-a131-e1d703eeca08" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Computadores</li></ul><ul id="3b5f6ce8-497f-80a5-a4b6-cd8973f977e7" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Smartphones</li></ul><ul id="3b5f6ce8-497f-8065-9238-efc1e22388bc" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Tablets</li></ul><ul id="3b5f6ce8-497f-807c-8a35-c6b08354ec7e" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Smart TVs</li></ul><hr id="3b5f6ce8-497f-80ca-8bdc-e0c9d087d0a0" dir="auto"/><h2 id="3b5f6ce8-497f-80eb-8ef9-edffd6d18d12" class="" dir="auto">Roteadores</h2><p id="3b5f6ce8-497f-801b-a9c1-dc1ca4839161" class="" dir="auto">Encaminham os pacotes de dados entre diferentes redes.</p><hr id="3b5f6ce8-497f-8026-89b5-ed20bdaf21c8" dir="auto"/><h2 id="3b5f6ce8-497f-8097-8ec7-d4dbf7a9c3b7" class="" dir="auto">Cabos e Redes</h2><p id="3b5f6ce8-497f-8080-8801-f3e02b4b7382" class="" dir="auto">A comunicação ocorre através de:</p><ul id="3b5f6ce8-497f-8008-9eb0-c07738dafc67" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Fibra óptica</li></ul><ul id="3b5f6ce8-497f-800f-af92-dcf14a43d221" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Cabos submarinos</li></ul><ul id="3b5f6ce8-497f-80fe-b0b9-d6febe63a514" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Satélites</li></ul><ul id="3b5f6ce8-497f-809d-9684-c629ef87d7aa" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Redes móveis (4G e 5G)</li></ul><ul id="3b5f6ce8-497f-80d6-ba7f-eeb5100694be" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Wi-Fi</li></ul><hr id="3b5f6ce8-497f-8061-9562-ee25750c4ad6" dir="auto"/><h2 id="3b5f6ce8-497f-802e-8b06-f67fc345c369" class="" dir="auto">Protocolos</h2><p id="3b5f6ce8-497f-806a-ae75-c0938b0aae3c" class="" dir="auto">Definem como a comunicação acontece.</p><p id="3b5f6ce8-497f-80f2-8de8-f72d9f24c490" class="" dir="auto">Exemplos:</p><ul id="3b5f6ce8-497f-8013-be87-f4fcb3102add" class="bulleted-list" dir="auto"><li style="list-style-type:disc">HTTP</li></ul><ul id="3b5f6ce8-497f-8072-a76a-e6c7b630c97d" class="bulleted-list" dir="auto"><li style="list-style-type:disc">HTTPS</li></ul><ul id="3b5f6ce8-497f-80fa-a511-dd4c493a4e9e" class="bulleted-list" dir="auto"><li style="list-style-type:disc">TCP/IP</li></ul><ul id="3b5f6ce8-497f-8088-a4f4-cf2580afc371" class="bulleted-list" dir="auto"><li style="list-style-type:disc">DNS</li></ul><ul id="3b5f6ce8-497f-802a-a4fa-f300fcdf780e" class="bulleted-list" dir="auto"><li style="list-style-type:disc">FTP</li></ul><ul id="3b5f6ce8-497f-80a8-ab61-fc830199ca13" class="bulleted-list" dir="auto"><li style="list-style-type:disc">SMTP</li></ul><hr id="3b5f6ce8-497f-8046-b32b-f03a269e9088" dir="auto"/><h1 id="3b5f6ce8-497f-808c-a10f-fef8da0ea452" class="" dir="auto">Relação entre Aplicação Web e Internet</h1><p id="3b5f6ce8-497f-8023-af92-d98c2b0250f2" class="" dir="auto">A aplicação web depende da Internet (ou de outra rede baseada nos mesmos protocolos) para que usuários remotos possam acessá-la.</p><p id="3b5f6ce8-497f-80cb-b194-dc1d57a9dcc8" class="" dir="auto">Imagine um restaurante:</p><ul id="3b5f6ce8-497f-8032-b7ba-c5a5676b2273" class="bulleted-list" dir="auto"><li style="list-style-type:disc">A <strong>aplicação web</strong> é o restaurante.</li></ul><ul id="3b5f6ce8-497f-804a-b74e-d834c0dc1cd1" class="bulleted-list" dir="auto"><li style="list-style-type:disc">A <strong>Internet</strong> é a estrada que leva os clientes até ele.</li></ul><p id="3b5f6ce8-497f-8035-a616-c9479add9b60" class="" dir="auto">Sem a estrada, o restaurante continua existindo, mas as pessoas não conseguem chegar até ele.</p><p id="3b5f6ce8-497f-8041-b3e1-e566adb0e6af" class="" dir="auto">Da mesma forma:</p><ul id="3b5f6ce8-497f-80ea-8158-f71ce26983e4" class="bulleted-list" dir="auto"><li style="list-style-type:disc">A aplicação realiza o processamento.</li></ul><ul id="3b5f6ce8-497f-80f1-8a88-c7a66582a471" class="bulleted-list" dir="auto"><li style="list-style-type:disc">A Internet transporta as informações.</li></ul><hr id="3b5f6ce8-497f-8014-8592-d51acd1ad34c" dir="auto"/><h1 id="3b5f6ce8-497f-80ee-82c9-c191eb09435a" class="" dir="auto">Aplicação Web x Internet</h1><table id="3b5f6ce8-497f-8009-83f9-e3f312c51b6b" class="simple-table" dir="ltr"><thead class="simple-table-header"><tr id="3b5f6ce8-497f-80c3-b196-d57e9c7c6188" dir="ltr"><th id="DSvr" class="simple-table-header-color simple-table-header">Aplicação Web</th><th id="GA]Y" class="simple-table-header-color simple-table-header">Internet</th></tr></thead><tbody><tr id="3b5f6ce8-497f-8031-b872-c27b4cd2dd34" dir="ltr"><td id="DSvr" class="">É um software.</td><td id="GA]Y" class="">É uma rede mundial de computadores.</td></tr><tr id="3b5f6ce8-497f-8087-bf87-dc5857d741f8" dir="ltr"><td id="DSvr" class="">Executa funcionalidades.</td><td id="GA]Y" class="">Transporta dados entre dispositivos.</td></tr><tr id="3b5f6ce8-497f-8042-9b7b-dae6db2e5fc6" dir="ltr"><td id="DSvr" class="">É desenvolvida por programadores.</td><td id="GA]Y" class="">É formada pela infraestrutura de redes.</td></tr><tr id="3b5f6ce8-497f-8073-b05f-e1f43127bf6e" dir="ltr"><td id="DSvr" class="">Pode utilizar banco de dados.</td><td id="GA]Y" class="">Permite a comunicação entre clientes e servidores.</td></tr><tr id="3b5f6ce8-497f-804d-aa81-d78646e21609" dir="ltr"><td id="DSvr" class="">Processa informações.</td><td id="GA]Y" class="">Apenas transmite as informações.</td></tr></tbody></table><hr id="3b5f6ce8-497f-80e1-a0dc-fdd1b09df400" dir="auto"/><h1 id="3b5f6ce8-497f-80f3-a912-e68000bce178" class="" dir="auto">Exemplo Prático</h1><p id="3b5f6ce8-497f-8077-85c8-f3ffe02e7d26" class="" dir="auto">Imagine um sistema de vendas online.</p><h3 id="3b5f6ce8-497f-804d-8f1d-f1cd07ccd9c0" class="" dir="auto">Aplicação Web</h3><p id="3b5f6ce8-497f-8039-8456-ff9c5edc39a7" class="" dir="auto">Responsável por:</p><ul id="3b5f6ce8-497f-804d-a617-e14ec5e0aaa7" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Cadastro de clientes.</li></ul><ul id="3b5f6ce8-497f-8049-8138-fd353449aa39" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Cadastro de produtos.</li></ul><ul id="3b5f6ce8-497f-800d-b3a0-f02cf68c008a" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Carrinho de compras.</li></ul><ul id="3b5f6ce8-497f-8000-8a64-c5b7c208c0c6" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Login.</li></ul><ul id="3b5f6ce8-497f-8036-b4b3-e241ea5343bf" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Pagamento.</li></ul><ul id="3b5f6ce8-497f-8077-ade1-c3b3f435874c" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Emissão de pedidos.</li></ul><h3 id="3b5f6ce8-497f-8060-a40c-d1320a9919aa" class="" dir="auto">Internet</h3><p id="3b5f6ce8-497f-80f9-b2e5-d4588c6f3a71" class="" dir="auto">Responsável por:</p><ul id="3b5f6ce8-497f-80ed-96c2-fc9e51e26143" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Levar a solicitação do cliente até o servidor.</li></ul><ul id="3b5f6ce8-497f-8080-926a-ee2cc301ef1e" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Transportar os dados.</li></ul><ul id="3b5f6ce8-497f-8075-ab0c-f3ed630a0b2a" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Retornar as páginas para o navegador.</li></ul><hr id="3b5f6ce8-497f-8069-ad80-c4abebc19d17" dir="auto"/><h1 id="3b5f6ce8-497f-803c-b8fd-f39e3e944efc" class="" dir="auto">A aplicação web funciona sem Internet?</h1><p id="3b5f6ce8-497f-8035-a349-d337b2bbd327" class="" dir="auto">Depende.</p><h2 id="3b5f6ce8-497f-80eb-9710-c65b8d34725e" class="" dir="auto">Sim</h2><p id="3b5f6ce8-497f-805b-bf76-d3ccb944dfa3" class="" dir="auto">Se estiver em uma rede local (LAN), a aplicação pode funcionar sem acesso à Internet.</p><p id="3b5f6ce8-497f-802a-9a83-da4f5d1daa40" class="" dir="auto">Exemplo:</p><p id="3b5f6ce8-497f-803e-b3f2-d706f821416e" class="" dir="auto">Um sistema interno de uma empresa acessado apenas pelos computadores da organização.</p><hr id="3b5f6ce8-497f-8062-89c3-dbf84ba220a8" dir="auto"/><h2 id="3b5f6ce8-497f-8073-bbbd-da0a60aa6766" class="" dir="auto">Não</h2><p id="3b5f6ce8-497f-8007-ac79-efd217c8a734" class="" dir="auto">Se a aplicação estiver hospedada em um servidor público, será necessário acesso à Internet para que usuários externos possam utilizá-la.</p><p id="3b5f6ce8-497f-809d-a0dd-f9e05eab44d2" class="" dir="auto">Exemplos:</p><ul id="3b5f6ce8-497f-80c3-8f67-d46807fc02ca" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Loja virtual</li></ul><ul id="3b5f6ce8-497f-80c9-af88-e3f1f8a3bcb0" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Redes sociais</li></ul><ul id="3b5f6ce8-497f-80b8-9636-feeeebb2a1df" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Sistemas bancários</li></ul><ul id="3b5f6ce8-497f-8033-a632-d77201697a94" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Plataformas de streaming</li></ul><hr id="3b5f6ce8-497f-8079-858b-d4c8517d2890" dir="auto"/><h1 id="3b5f6ce8-497f-802d-8d47-e5b7335e9f5b" class="" dir="auto">Vantagens das Aplicações Web</h1><ul id="3b5f6ce8-497f-80b4-829f-c0a0d39d8575" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Acesso de qualquer lugar.</li></ul><ul id="3b5f6ce8-497f-800a-be24-d9dcbe625671" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Não exige instalação local na maioria dos casos.</li></ul><ul id="3b5f6ce8-497f-806d-a8e4-e1c32a4fd66b" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Atualizações centralizadas.</li></ul><ul id="3b5f6ce8-497f-8014-a0d5-fa7f094bb8b7" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Compatibilidade com diferentes sistemas operacionais.</li></ul><ul id="3b5f6ce8-497f-8027-a4c5-c2215b5d0d45" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Facilidade de manutenção.</li></ul><ul id="3b5f6ce8-497f-8074-8273-eb91ff766db8" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Compartilhamento de informações em tempo real.</li></ul><ul id="3b5f6ce8-497f-80fd-b541-fd5e172f5ca5" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Integração com bancos de dados e APIs.</li></ul><hr id="3b5f6ce8-497f-80c2-a1c8-e91f0a9d4e97" dir="auto"/><h1 id="3b5f6ce8-497f-8076-9400-d116d0df5a71" class="" dir="auto">Desafios das Aplicações Web</h1><ul id="3b5f6ce8-497f-8053-9833-ed2be6e29e2d" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Dependência da conectividade de rede.</li></ul><ul id="3b5f6ce8-497f-80c8-a4fa-cea635a4172d" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Necessidade de proteger os dados contra ataques.</li></ul><ul id="3b5f6ce8-497f-801e-8350-f15c2a6e608a" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Escalabilidade para atender muitos usuários.</li></ul><ul id="3b5f6ce8-497f-8082-91d3-ee3b15085314" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Garantia de disponibilidade dos servidores.</li></ul><ul id="3b5f6ce8-497f-80df-ace3-fd2eb316efbb" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Desempenho e tempo de resposta.</li></ul><hr id="3b5f6ce8-497f-8065-9803-c4b585eda865" dir="auto"/><h1 id="3b5f6ce8-497f-807c-a2c4-d93b955aeae7" class="" dir="auto">Boas práticas no desenvolvimento de aplicações web</h1><ul id="3b5f6ce8-497f-8077-9ef0-d61ebe308000" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Utilizar HTTPS para criptografar a comunicação.</li></ul><ul id="3b5f6ce8-497f-808e-89d0-db57ea969647" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Validar dados tanto no cliente quanto no servidor.</li></ul><ul id="3b5f6ce8-497f-80dd-8b59-e0c97f6f39ff" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Implementar autenticação e controle de acesso.</li></ul><ul id="3b5f6ce8-497f-8089-b329-e6e2adbfeb95" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Fazer backups periódicos do banco de dados.</li></ul><ul id="3b5f6ce8-497f-801f-92ec-ecfc220e8b16" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Otimizar o desempenho com cache e compactação.</li></ul><ul id="3b5f6ce8-497f-80bd-9483-c72ad1515a30" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Monitorar logs e recursos do servidor.</li></ul><ul id="3b5f6ce8-497f-80db-bf1f-ef2bfe18838b" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Manter frameworks, bibliotecas e dependências atualizados.</li></ul><hr id="3b5f6ce8-497f-80eb-b4d7-c9dceb477eb3" dir="auto"/><h1 id="3b5f6ce8-497f-808b-9298-f7baa51ba8f4" class="" dir="auto">Resumo</h1><ul id="3b5f6ce8-497f-80b5-b05b-e7835f52893b" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>Aplicação Web</strong> é um software acessado por navegadores que oferece funcionalidades aos usuários, como sistemas de vendas, redes sociais e plataformas de ensino.</li></ul><ul id="3b5f6ce8-497f-80fb-8d62-de753997280b" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>Internet</strong> é a infraestrutura global que conecta dispositivos e transporta dados entre clientes e servidores.</li></ul><ul id="3b5f6ce8-497f-800c-8d1c-da41b406e159" class="bulleted-list" dir="auto"><li style="list-style-type:disc">A aplicação web utiliza a Internet para disponibilizar seus serviços, mas os dois conceitos não são sinônimos.</li></ul><ul id="3b5f6ce8-497f-8001-86c8-c2e2fdf0d6c0" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Enquanto a aplicação executa a lógica de negócio e manipula dados, a Internet fornece o meio de comunicação que permite o acesso a essas funcionalidades em qualquer lugar do mundo. Compreender essa diferença é fundamental para desenvolver, implantar e manter aplicações web de forma eficiente e segura.</li></ul></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

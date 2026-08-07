@@ -1,0 +1,801 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>cPanel</title><meta name="data-notion-page-icon" content="/icons/subtask_red.svg"/><link rel="icon" href="https://app.notion.com/icons/subtask_red.svg"/><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+/* For default-background callouts, render the border outline. */
+.callout.block-color-default_background {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+/*
+ * Toggles and callouts hold arbitrary content, so they can easily be taller
+ * than a page. They must stay breakable: avoiding breaks inside them makes
+ * Chromium push the whole block onto the next page, which leaves the previous
+ * page mostly empty before every long toggle.
+ */
+details,
+aside {
+	margin: 1.25em 0;
+}
+
+/* Keep a toggle's title on the same page as the start of its content. */
+summary {
+	page-break-after: avoid;
+	break-after: avoid;
+}
+
+/*
+ * Toggle headings render as <h1/h2/h3 style="display:inline-block"> inside
+ * <summary>. Without this reset, the heading's margin-top pushes it below the
+ * ::marker (▼), so the triangle and the title appear on separate lines.
+ */
+summary h1,
+summary h2,
+summary h3,
+summary h4 {
+	margin-top: 0;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding-inline: 0.125rem;
+	padding-block: 0.375rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+/*
+ * Render emoji icons using a ::before pseudo-element to keep the glyph
+ * out of the DOM textContent traversal. This avoids double-rendering icons
+ * in callouts and page titles.
+ * NOTE(slim/html-export-pseudo-icons): I can't tagref this because it will
+ * flag as a duplicate tag after codegen.
+ */
+.icon[data-emoji]::before {
+	content: attr(data-emoji);
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	margin-right: 0.4em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.tab {
+	margin: 1.25em 0;
+	padding-inline: 1rem;
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style><style>@import url('https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex-swap.min.css')</style></head><body><article id="3b5f6ce8-497f-80a1-a98a-da7061d826da" class="page sans" data-notion-page-icon="/icons/subtask_red.svg"><header><div class="page-header-icon undefined"><img class="icon notion-static-icon" src="https://app.notion.com/icons/subtask_red.svg"/></div><h1 class="page-title" dir="auto">cPanel</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><h1 id="3b5f6ce8-497f-8018-ad4b-df220cd417d5" class="" dir="auto">cPanel</h1><p id="3b5f6ce8-497f-807e-85ba-fa824f9920fc" class="" dir="auto">O <strong>cPanel</strong> é um dos painéis de controle de hospedagem mais utilizados no mundo. Ele oferece uma interface gráfica baseada na web que permite gerenciar sites, domínios, arquivos, bancos de dados, e-mails, certificados SSL e diversos outros recursos de um servidor, sem a necessidade de utilizar comandos no terminal. É amplamente adotado por empresas de hospedagem que utilizam servidores Linux. (<a href="https://www.cpanel.net/products/?utm_source=chatgpt.com">cPanel</a>)</p><hr id="3b5f6ce8-497f-802d-b34e-c8e936b60b3b" dir="auto"/><h1 id="3b5f6ce8-497f-805d-9b28-cc633ae0570b" class="" dir="auto">O que é o cPanel?</h1><p id="3b5f6ce8-497f-8047-9b86-d58817a93243" class="" dir="auto">O cPanel é um software de gerenciamento de hospedagem que facilita a administração de um site ou aplicação web.</p><p id="3b5f6ce8-497f-80b6-88bd-d226ca7ff80b" class="" dir="auto">Por meio dele, é possível realizar tarefas como:</p><ul id="3b5f6ce8-497f-80bd-9253-df8140d256ba" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Gerenciar arquivos do site.</li></ul><ul id="3b5f6ce8-497f-80ec-a704-e1243fa78b01" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Criar bancos de dados.</li></ul><ul id="3b5f6ce8-497f-804e-bb6c-f3fbf2e433da" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Configurar domínios.</li></ul><ul id="3b5f6ce8-497f-802e-a8ed-f40b65429e24" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Criar contas de e-mail.</li></ul><ul id="3b5f6ce8-497f-8092-9a58-ff5774604c78" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Instalar aplicações como WordPress.</li></ul><ul id="3b5f6ce8-497f-80ed-ab73-db2a05f62537" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Fazer backups.</li></ul><ul id="3b5f6ce8-497f-8057-aa99-dd143a434dca" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Gerenciar certificados SSL.</li></ul><ul id="3b5f6ce8-497f-8027-ab16-ff7d19458e9b" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Monitorar recursos da hospedagem.</li></ul><p id="3b5f6ce8-497f-805c-8b1e-d7ece4778a42" class="" dir="auto">Tudo isso é feito por meio de um navegador, sem necessidade de conhecimentos avançados em administração de servidores. (<a href="https://www.cpanel.net/products/?utm_source=chatgpt.com">cPanel</a>)</p><hr id="3b5f6ce8-497f-80f4-abdd-f54b90fc8650" dir="auto"/><h1 id="3b5f6ce8-497f-807d-8d53-c09267617055" class="" dir="auto">Para que serve o cPanel?</h1><p id="3b5f6ce8-497f-801e-8e4a-c10612b7b3ca" class="" dir="auto">O cPanel serve para facilitar o gerenciamento de uma hospedagem.</p><p id="3b5f6ce8-497f-8041-bad2-e0f89bbcff51" class="" dir="auto">Sem ele, muitas tarefas precisariam ser realizadas diretamente no servidor por meio de comandos Linux.</p><p id="3b5f6ce8-497f-80c3-9870-c87efe31be53" class="" dir="auto">Com o cPanel, essas tarefas podem ser executadas por meio de menus e formulários intuitivos.</p><hr id="3b5f6ce8-497f-8039-95aa-dd4aba79409c" dir="auto"/><h1 id="3b5f6ce8-497f-8024-9999-d1a66dcd7e26" class="" dir="auto">Como funciona?</h1><p id="3b5f6ce8-497f-8026-a908-fad42ac86bfe" class="" dir="auto">O funcionamento básico é:</p><ol type="1" id="3b5f6ce8-497f-804f-9e35-d0840e08e60a" class="numbered-list" start="1" dir="auto"><li>O usuário acessa o cPanel com login e senha.</li></ol><ol type="1" id="3b5f6ce8-497f-80c6-bd94-f3b85d8fb31c" class="numbered-list" start="2" dir="auto"><li>O painel exibe todas as ferramentas disponíveis.</li></ol><ol type="1" id="3b5f6ce8-497f-80d8-a56c-c3ca3232c5ee" class="numbered-list" start="3" dir="auto"><li>O usuário escolhe a função desejada.</li></ol><ol type="1" id="3b5f6ce8-497f-807d-8fae-e71cbb45931e" class="numbered-list" start="4" dir="auto"><li>O cPanel executa automaticamente as configurações necessárias no servidor.</li></ol><p id="3b5f6ce8-497f-8050-a46d-c95d69331809" class="" dir="auto">Isso torna a administração mais rápida e reduz a chance de erros.</p><hr id="3b5f6ce8-497f-800d-ab43-ee384a61ed2f" dir="auto"/><h1 id="3b5f6ce8-497f-80bf-a17a-cd525d78f066" class="" dir="auto">Estrutura do cPanel</h1><p id="3b5f6ce8-497f-80cb-ae80-fd74c77e72fa" class="" dir="auto">O painel normalmente organiza as ferramentas em categorias.</p><h2 id="3b5f6ce8-497f-800b-bcd6-dd1b3e38027e" class="" dir="auto">Arquivos (Files)</h2><p id="3b5f6ce8-497f-8056-bd4a-ca36ff1fea5b" class="" dir="auto">Permite gerenciar os arquivos da hospedagem.</p><p id="3b5f6ce8-497f-8011-884d-f158f1f62114" class="" dir="auto">Principais recursos:</p><ul id="3b5f6ce8-497f-8030-9a67-f60d3d52bd7a" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Gerenciador de Arquivos (File Manager)</li></ul><ul id="3b5f6ce8-497f-8055-be88-d6e95710f0b0" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Contas FTP</li></ul><ul id="3b5f6ce8-497f-8059-a9a0-cbf973eabf87" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Uso do disco</li></ul><ul id="3b5f6ce8-497f-80f4-b2de-f6fe7284d715" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Backup de arquivos</li></ul><hr id="3b5f6ce8-497f-808b-ba33-d3e24dd2c647" dir="auto"/><h2 id="3b5f6ce8-497f-808f-bff6-ed503ce3f5d0" class="" dir="auto">Domínios (Domains)</h2><p id="3b5f6ce8-497f-804c-a978-d6e30e8d2c06" class="" dir="auto">Gerencia todos os domínios da hospedagem.</p><p id="3b5f6ce8-497f-80ef-979b-d6beae65d1f3" class="" dir="auto">É possível:</p><ul id="3b5f6ce8-497f-8097-a6a4-c0716f08dc31" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Adicionar domínios.</li></ul><ul id="3b5f6ce8-497f-806b-be8e-c9c408e08bbe" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Criar subdomínios.</li></ul><ul id="3b5f6ce8-497f-8008-83cf-f9a9dd7e3b30" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Configurar redirecionamentos.</li></ul><ul id="3b5f6ce8-497f-80a2-823b-fd96b0c8cbb6" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Gerenciar zonas DNS.</li></ul><hr id="3b5f6ce8-497f-8084-828c-deacb272b99f" dir="auto"/><h2 id="3b5f6ce8-497f-80cb-98f0-c7822d966ea1" class="" dir="auto">Bancos de Dados (Databases)</h2><p id="3b5f6ce8-497f-8005-a988-c5f98bee26eb" class="" dir="auto">Permite criar e administrar bancos de dados.</p><p id="3b5f6ce8-497f-8000-9a96-f6cc71c0fa9e" class="" dir="auto">Normalmente suporta:</p><ul id="3b5f6ce8-497f-809a-b533-ec17a0679453" class="bulleted-list" dir="auto"><li style="list-style-type:disc">MySQL</li></ul><ul id="3b5f6ce8-497f-80d0-8240-fa07d8adb313" class="bulleted-list" dir="auto"><li style="list-style-type:disc">MariaDB</li></ul><p id="3b5f6ce8-497f-80de-b722-eb49be6613d2" class="" dir="auto">Também oferece ferramentas como:</p><ul id="3b5f6ce8-497f-8093-8c64-d09ad75f4a0e" class="bulleted-list" dir="auto"><li style="list-style-type:disc">phpMyAdmin</li></ul><ul id="3b5f6ce8-497f-807b-94ec-f68219abfee0" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Assistente de criação de banco de dados</li></ul><hr id="3b5f6ce8-497f-805e-9e6a-e39135f6fb19" dir="auto"/><h2 id="3b5f6ce8-497f-807c-8260-f910b97a0a56" class="" dir="auto">E-mail (Email)</h2><p id="3b5f6ce8-497f-80f0-8265-dbe93a14ee15" class="" dir="auto">Permite criar e administrar contas de e-mail.</p><p id="3b5f6ce8-497f-8057-a93a-fb64a24c403a" class="" dir="auto">Exemplo:</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="3b5f6ce8-497f-80bd-b615-ce35ae8bde49" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">contato@empresa.com</code></pre><p id="3b5f6ce8-497f-80a1-8cff-fa121b8a696f" class="" dir="auto">Recursos disponíveis:</p><ul id="3b5f6ce8-497f-80b7-b9da-edda88f337cc" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Contas de e-mail</li></ul><ul id="3b5f6ce8-497f-8075-8ef3-e018da60d04b" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Encaminhamento (Forwarders)</li></ul><ul id="3b5f6ce8-497f-8095-9b9a-f099b219a9b0" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Respostas automáticas</li></ul><ul id="3b5f6ce8-497f-8095-95c9-c414e195e76e" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Filtros de spam</li></ul><ul id="3b5f6ce8-497f-8045-a817-cb3f32b5a71f" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Webmail</li></ul><hr id="3b5f6ce8-497f-8022-bb2f-c3ec3f087e08" dir="auto"/><h2 id="3b5f6ce8-497f-801f-a0fa-d8d0cf581497" class="" dir="auto">Segurança (Security)</h2><p id="3b5f6ce8-497f-80bb-8e2c-c59f7f2ecbc8" class="" dir="auto">Possui ferramentas para proteger a hospedagem.</p><p id="3b5f6ce8-497f-8015-86e2-f19af0168176" class="" dir="auto">Exemplos:</p><ul id="3b5f6ce8-497f-8050-9cf7-e1d62a88e523" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Certificados SSL</li></ul><ul id="3b5f6ce8-497f-80a2-ac8b-d131cf1a18fd" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Bloqueio de IP</li></ul><ul id="3b5f6ce8-497f-8026-9a2b-f51a7cf9588a" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Proteção contra Hotlink</li></ul><ul id="3b5f6ce8-497f-80b6-b258-e125a6ae5d93" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Diretórios protegidos por senha</li></ul><ul id="3b5f6ce8-497f-806e-8958-f92f4feccba2" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Autenticação em dois fatores (quando disponibilizada pelo provedor)</li></ul><hr id="3b5f6ce8-497f-80d3-b87b-fe7085a0139e" dir="auto"/><h2 id="3b5f6ce8-497f-804f-b385-f740971f7e7f" class="" dir="auto">Software</h2><p id="3b5f6ce8-497f-803c-b0db-fc40f19850d5" class="" dir="auto">Área destinada à instalação e configuração de aplicações.</p><p id="3b5f6ce8-497f-80a5-9541-f5f0de66f2b5" class="" dir="auto">Pode incluir:</p><ul id="3b5f6ce8-497f-80c6-bfa2-d65f40deb7bb" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Softaculous</li></ul><ul id="3b5f6ce8-497f-80ac-b649-e7835bc9a6f9" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Instalação do WordPress</li></ul><ul id="3b5f6ce8-497f-8091-bcae-f6654bdf5dc3" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Seleção da versão do PHP</li></ul><ul id="3b5f6ce8-497f-8079-b46a-ce1fd8912cc3" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Gerenciamento de extensões PHP</li></ul><hr id="3b5f6ce8-497f-8043-acea-c569f2cf0999" dir="auto"/><h2 id="3b5f6ce8-497f-80c6-8d58-ceb1237f3868" class="" dir="auto">Métricas (Metrics)</h2><p id="3b5f6ce8-497f-8043-9540-d9b4b9c8b3c5" class="" dir="auto">Mostra informações sobre o uso da hospedagem.</p><p id="3b5f6ce8-497f-8041-95ca-d00abf6213db" class="" dir="auto">Exemplos:</p><ul id="3b5f6ce8-497f-80a6-a02d-c27d4ae47398" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Número de visitantes</li></ul><ul id="3b5f6ce8-497f-80ac-9c14-edf1d32321cf" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Uso da CPU</li></ul><ul id="3b5f6ce8-497f-80a0-a358-d8b9fdce6ed1" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Consumo de memória</li></ul><ul id="3b5f6ce8-497f-8032-a939-ec8014791406" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Espaço em disco</li></ul><ul id="3b5f6ce8-497f-8061-a2a9-dee4079292ac" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Largura de banda</li></ul><hr id="3b5f6ce8-497f-8045-a78b-e8c45638184e" dir="auto"/><h1 id="3b5f6ce8-497f-80f0-b44c-c2533b3f238c" class="" dir="auto">Principais ferramentas do cPanel</h1><h2 id="3b5f6ce8-497f-804a-bfe9-f3aa3c3f8a38" class="" dir="auto">File Manager (Gerenciador de Arquivos)</h2><p id="3b5f6ce8-497f-80e2-8480-cecc3124c97b" class="" dir="auto">Permite:</p><ul id="3b5f6ce8-497f-8005-b6c5-d26ee4fe33e0" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Criar pastas.</li></ul><ul id="3b5f6ce8-497f-8030-9d54-f89579f89f54" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Fazer upload de arquivos.</li></ul><ul id="3b5f6ce8-497f-8011-8ec5-dd4e1c1c3646" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Editar arquivos.</li></ul><ul id="3b5f6ce8-497f-80aa-b298-e0d1244ddce4" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Compactar e descompactar arquivos.</li></ul><ul id="3b5f6ce8-497f-807b-bb8a-cba97906ce66" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Excluir documentos.</li></ul><p id="3b5f6ce8-497f-806a-b2a9-d3101878ce6b" class="" dir="auto">É muito utilizado para publicar aplicações PHP.</p><hr id="3b5f6ce8-497f-80c1-80dd-cd238bf289ae" dir="auto"/><h2 id="3b5f6ce8-497f-802e-aca0-edfa6ef618d6" class="" dir="auto">FTP Accounts</h2><p id="3b5f6ce8-497f-80ef-8c74-fc82169d9d69" class="" dir="auto">Permite criar usuários FTP.</p><p id="3b5f6ce8-497f-8035-812f-fc3252b61eb6" class="" dir="auto">Esses usuários podem enviar arquivos utilizando programas como:</p><ul id="3b5f6ce8-497f-809c-9816-e1d1ee861a1c" class="bulleted-list" dir="auto"><li style="list-style-type:disc">FileZilla</li></ul><ul id="3b5f6ce8-497f-80b9-a730-d20636e1d40b" class="bulleted-list" dir="auto"><li style="list-style-type:disc">WinSCP</li></ul><hr id="3b5f6ce8-497f-8041-ad33-f42cbef67f8b" dir="auto"/><h2 id="3b5f6ce8-497f-8056-b14c-d1d84213160f" class="" dir="auto">phpMyAdmin</h2><p id="3b5f6ce8-497f-80ba-a123-fb690e58e87f" class="" dir="auto">Ferramenta para administrar bancos MySQL.</p><p id="3b5f6ce8-497f-8023-88bb-e3a60a0baddb" class="" dir="auto">Permite:</p><ul id="3b5f6ce8-497f-8023-8a8a-d882a475c011" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Criar tabelas.</li></ul><ul id="3b5f6ce8-497f-803c-82aa-c0935b142012" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Executar comandos SQL.</li></ul><ul id="3b5f6ce8-497f-803e-8433-c34f5d412eb8" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Importar bancos.</li></ul><ul id="3b5f6ce8-497f-80f3-9eb7-fec81c995d4c" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Exportar bancos.</li></ul><ul id="3b5f6ce8-497f-806a-ac6d-d37e0d7cc348" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Alterar registros.</li></ul><hr id="3b5f6ce8-497f-8022-a940-d84ed30d994a" dir="auto"/><h2 id="3b5f6ce8-497f-80c9-b73d-f779917ec8fb" class="" dir="auto">Backup</h2><p id="3b5f6ce8-497f-80ed-a89b-f0f2667c6ac5" class="" dir="auto">Permite criar cópias de segurança do site.</p><p id="3b5f6ce8-497f-808f-9757-feecc259261a" class="" dir="auto">Podem ser realizados backups de:</p><ul id="3b5f6ce8-497f-80bd-9a88-c7f70539a43a" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Arquivos</li></ul><ul id="3b5f6ce8-497f-8061-9239-dacd9b2d35f0" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Bancos de dados</li></ul><ul id="3b5f6ce8-497f-80c9-81e1-f532ad8c1092" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Contas de e-mail</li></ul><ul id="3b5f6ce8-497f-8006-b33b-ecee972210c3" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Configurações</li></ul><hr id="3b5f6ce8-497f-80da-913b-feb0a96342b0" dir="auto"/><h2 id="3b5f6ce8-497f-80b4-a926-d9288727949a" class="" dir="auto">SSL/TLS</h2><p id="3b5f6ce8-497f-80b5-8f85-f1dc4de60be3" class="" dir="auto">Gerencia certificados digitais.</p><p id="3b5f6ce8-497f-807d-bc99-d026b566e2e7" class="" dir="auto">Permite ativar HTTPS para proteger a comunicação entre navegador e servidor.</p><hr id="3b5f6ce8-497f-8013-be15-e0bf61603d89" dir="auto"/><h2 id="3b5f6ce8-497f-8079-b351-d234261050ba" class="" dir="auto">Softaculous</h2><p id="3b5f6ce8-497f-805e-9715-d74302d0f72c" class="" dir="auto">O Softaculous é um instalador automático disponível em muitas hospedagens com cPanel.</p><p id="3b5f6ce8-497f-80e4-878c-dceec65dc73d" class="" dir="auto">Com poucos cliques é possível instalar:</p><ul id="3b5f6ce8-497f-804d-8211-d1ea6e06f6cc" class="bulleted-list" dir="auto"><li style="list-style-type:disc">WordPress</li></ul><ul id="3b5f6ce8-497f-804f-a5da-fba5864b4d4b" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Joomla</li></ul><ul id="3b5f6ce8-497f-8075-a2c2-e519268d2632" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Drupal</li></ul><ul id="3b5f6ce8-497f-800d-986c-ca9a6e5420dc" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Moodle</li></ul><ul id="3b5f6ce8-497f-809e-99ed-ec93f396dd6f" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Laravel (dependendo da hospedagem)</li></ul><ul id="3b5f6ce8-497f-8022-aaf0-ce4c8f107858" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Outras centenas de aplicações</li></ul><hr id="3b5f6ce8-497f-80fd-bae2-e017ad1dd512" dir="auto"/><h1 id="3b5f6ce8-497f-8051-bae2-eabe6f289fed" class="" dir="auto">Exemplo de utilização</h1><p id="3b5f6ce8-497f-8040-b8c1-c44a48da1e0c" class="" dir="auto">Imagine que você desenvolveu uma aplicação PHP.</p><p id="3b5f6ce8-497f-8063-b19f-d919ec9e77b5" class="" dir="auto">O processo seria:</p><ol type="1" id="3b5f6ce8-497f-80b1-af0a-c5edd57ad847" class="numbered-list" start="1" dir="auto"><li>Acessar o cPanel.</li></ol><ol type="1" id="3b5f6ce8-497f-80bd-85f1-ec7911b4ecdc" class="numbered-list" start="2" dir="auto"><li>Abrir o Gerenciador de Arquivos.</li></ol><ol type="1" id="3b5f6ce8-497f-80c0-ac71-f5c6035d03c8" class="numbered-list" start="3" dir="auto"><li>Enviar os arquivos para a pasta <code>public_html</code>.</li></ol><ol type="1" id="3b5f6ce8-497f-8084-ab9e-cc272028ff6e" class="numbered-list" start="4" dir="auto"><li>Criar um banco de dados MySQL.</li></ol><ol type="1" id="3b5f6ce8-497f-8089-8554-d699d00dd1e6" class="numbered-list" start="5" dir="auto"><li>Criar um usuário para o banco.</li></ol><ol type="1" id="3b5f6ce8-497f-80c3-b892-efd49ba5fe7f" class="numbered-list" start="6" dir="auto"><li>Importar o arquivo <code>.sql</code> pelo phpMyAdmin.</li></ol><ol type="1" id="3b5f6ce8-497f-80da-969e-f591dca34e11" class="numbered-list" start="7" dir="auto"><li>Configurar o arquivo de conexão da aplicação.</li></ol><ol type="1" id="3b5f6ce8-497f-802a-9aae-c3cbc41b122d" class="numbered-list" start="8" dir="auto"><li>Testar o sistema pelo navegador.</li></ol><p id="3b5f6ce8-497f-800b-a295-da211778b9cc" class="" dir="auto">Em poucos minutos, a aplicação estará publicada.</p><hr id="3b5f6ce8-497f-803f-9881-eb5db589bf44" dir="auto"/><h1 id="3b5f6ce8-497f-8078-80f4-dce3dae9ef90" class="" dir="auto">Relação entre cPanel e public_html</h1><p id="3b5f6ce8-497f-80c7-90ec-d606e14e15e8" class="" dir="auto">Dentro do cPanel existe uma pasta muito importante:</p><pre id="3b5f6ce8-497f-8055-83bf-df765a610606" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">public_html</code></pre><p id="3b5f6ce8-497f-809e-9813-e625d5eb9116" class="" dir="auto">Ela representa a pasta pública do site.</p><p id="3b5f6ce8-497f-80da-a3e5-e8176c24259a" class="" dir="auto">Exemplo:</p><pre id="3b5f6ce8-497f-8089-8082-d40bc0b0285f" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">public_html
+│
+├── index.php
+├── login.php
+├── css
+├── js
+├── imagens
+└── uploads</code></pre><p id="3b5f6ce8-497f-8021-86a7-f6dbc9d0fa72" class="" dir="auto">Tudo que estiver nessa pasta poderá ser acessado pelo navegador, conforme a configuração da hospedagem.</p><hr id="3b5f6ce8-497f-8015-8045-cb496703bac5" dir="auto"/><h1 id="3b5f6ce8-497f-8055-af9f-f0b4f1e03039" class="" dir="auto">cPanel e WHM</h1><p id="3b5f6ce8-497f-80ab-9b1a-c548bef9eff0" class="" dir="auto">É importante diferenciar dois componentes que costumam ser usados juntos:</p><h3 id="3b5f6ce8-497f-80df-8d6e-c751c6b4df9e" class="" dir="auto">cPanel</h3><p id="3b5f6ce8-497f-8053-9f86-eab6d660a9a8" class="" dir="auto">Destinado ao <strong>cliente da hospedagem</strong>.</p><p id="3b5f6ce8-497f-80d8-a4bf-e6f3bac031c7" class="" dir="auto">Permite gerenciar:</p><ul id="3b5f6ce8-497f-80aa-b564-f4cab4333bf8" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Sites</li></ul><ul id="3b5f6ce8-497f-809e-acc6-dc3460cc9298" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Arquivos</li></ul><ul id="3b5f6ce8-497f-8063-8d1b-e0a8d7f19ae6" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Bancos de dados</li></ul><ul id="3b5f6ce8-497f-8076-b154-e252d41cb603" class="bulleted-list" dir="auto"><li style="list-style-type:disc">E-mails</li></ul><ul id="3b5f6ce8-497f-8058-b8d8-d0b8e2a359b2" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Domínios</li></ul><h3 id="3b5f6ce8-497f-80e1-8513-f3ae0e89b8e3" class="" dir="auto">WHM (Web Host Manager)</h3><p id="3b5f6ce8-497f-8054-93e6-f22f7c99297e" class="" dir="auto">Destinado ao <strong>administrador do servidor</strong>.</p><p id="3b5f6ce8-497f-8076-9642-fa71c2a65de5" class="" dir="auto">Permite:</p><ul id="3b5f6ce8-497f-8022-968f-fd4d9bab351f" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Criar contas de hospedagem.</li></ul><ul id="3b5f6ce8-497f-80a2-abf6-f2bf243ebb67" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Gerenciar usuários.</li></ul><ul id="3b5f6ce8-497f-80ec-95d8-ca94d7bbf0bb" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Configurar o servidor.</li></ul><ul id="3b5f6ce8-497f-8032-a4db-caa649e6f356" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Definir limites de recursos.</li></ul><ul id="3b5f6ce8-497f-8007-9c03-e0f29c1ba8db" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Monitorar o desempenho.</li></ul><p id="3b5f6ce8-497f-80b0-ace8-dfb80d18fae8" class="" dir="auto">Em empresas de hospedagem, o administrador utiliza o <strong>WHM</strong>, enquanto cada cliente utiliza seu próprio <strong>cPanel</strong>. (<a href="https://www.cpanel.net/products/?utm_source=chatgpt.com">cPanel</a>)</p><hr id="3b5f6ce8-497f-80c5-9a15-efa600200540" dir="auto"/><h1 id="3b5f6ce8-497f-8069-9af1-d1837fd441d7" class="" dir="auto">Vantagens do cPanel</h1><ul id="3b5f6ce8-497f-803a-8b0e-d650bb0773c8" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Interface gráfica simples e intuitiva.</li></ul><ul id="3b5f6ce8-497f-8066-92e6-fcc01fe69eee" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Fácil administração de sites e aplicações.</li></ul><ul id="3b5f6ce8-497f-801a-8c5b-e5869dcaa267" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Não exige conhecimentos avançados de Linux.</li></ul><ul id="3b5f6ce8-497f-80a4-971d-f0ea37cec8ac" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Grande compatibilidade com hospedagens.</li></ul><ul id="3b5f6ce8-497f-80a1-b6e4-fcf80cb6e39d" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Gerenciamento centralizado de arquivos, bancos de dados e e-mails.</li></ul><ul id="3b5f6ce8-497f-80f1-8bda-e0a5ab0668ab" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Instalação facilitada de aplicações.</li></ul><ul id="3b5f6ce8-497f-80b0-aaaf-ee561d596ca8" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Ferramentas de backup e segurança integradas. (<a href="https://www.cpanel.net/products/?utm_source=chatgpt.com">cPanel</a>)</li></ul><hr id="3b5f6ce8-497f-80c3-94c6-f3c7108db36f" dir="auto"/><h1 id="3b5f6ce8-497f-80b2-a4f4-f4a45bbf3f23" class="" dir="auto">Desvantagens</h1><ul id="3b5f6ce8-497f-80df-b82b-c9d3df203bd7" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Requer licença paga (normalmente incluída pela empresa de hospedagem). (<a href="https://www.cpanel.net/products/?utm_source=chatgpt.com">cPanel</a>)</li></ul><ul id="3b5f6ce8-497f-800c-bed1-fc14f4e9a15b" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Alguns recursos dependem da configuração feita pela empresa de hospedagem.</li></ul><ul id="3b5f6ce8-497f-8076-abbb-c002b4891b7a" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Pode oferecer menos flexibilidade do que administrar um servidor diretamente pelo terminal.</li></ul><ul id="3b5f6ce8-497f-80d2-babf-e53d0144ad17" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Alguns recursos avançados para aplicações modernas (como deploy automatizado) podem depender de ferramentas adicionais.</li></ul><hr id="3b5f6ce8-497f-80eb-b83a-f6f2627dd113" dir="auto"/><h1 id="3b5f6ce8-497f-80c5-a410-f67492ba9f77" class="" dir="auto">Segurança no cPanel</h1><p id="3b5f6ce8-497f-8097-aa2a-da458781af1b" class="" dir="auto">Para manter sua hospedagem segura:</p><ul id="3b5f6ce8-497f-80d3-976d-e91f2f6ed5da" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Utilize senhas fortes.</li></ul><ul id="3b5f6ce8-497f-808f-b289-f0cc08ad0738" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Ative a autenticação em dois fatores, se disponível.</li></ul><ul id="3b5f6ce8-497f-80aa-bf0e-c5696373c937" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Faça backups periódicos.</li></ul><ul id="3b5f6ce8-497f-8063-aba4-fb6d14cd7937" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Mantenha aplicações e plugins atualizados.</li></ul><ul id="3b5f6ce8-497f-801b-a844-f2b800003600" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Utilize HTTPS.</li></ul><ul id="3b5f6ce8-497f-8081-94a7-c6b04a47fcbe" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Remova arquivos que não são mais utilizados.</li></ul><ul id="3b5f6ce8-497f-80e2-b96a-c6746c16c810" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Restrinja permissões de arquivos e diretórios.</li></ul><hr id="3b5f6ce8-497f-80da-95d4-df56b2e615e4" dir="auto"/><h1 id="3b5f6ce8-497f-800b-beb8-cc74416951e6" class="" dir="auto">Exemplo Prático</h1><p id="3b5f6ce8-497f-804d-9912-d348a39a8bd4" class="" dir="auto">Imagine que você criou um sistema de cadastro de alunos em PHP.</p><p id="3b5f6ce8-497f-80c1-b695-c5ba6d7d4348" class="" dir="auto">Com o cPanel, você pode:</p><ol type="1" id="3b5f6ce8-497f-80c3-b6b2-c77813067483" class="numbered-list" start="1" dir="auto"><li>Fazer upload dos arquivos do sistema.</li></ol><ol type="1" id="3b5f6ce8-497f-8095-8dd0-d539f10c435d" class="numbered-list" start="2" dir="auto"><li>Criar um banco de dados MySQL.</li></ol><ol type="1" id="3b5f6ce8-497f-803c-8c6b-c4eea18fd457" class="numbered-list" start="3" dir="auto"><li>Importar as tabelas pelo phpMyAdmin.</li></ol><ol type="1" id="3b5f6ce8-497f-80f7-9d0c-d96a88eb8f5c" class="numbered-list" start="4" dir="auto"><li>Configurar a conexão da aplicação com o banco.</li></ol><ol type="1" id="3b5f6ce8-497f-809c-81e4-fd427809309d" class="numbered-list" start="5" dir="auto"><li>Criar um certificado SSL.</li></ol><ol type="1" id="3b5f6ce8-497f-8042-a479-da3d02200bc2" class="numbered-list" start="6" dir="auto"><li>Configurar o domínio.</li></ol><ol type="1" id="3b5f6ce8-497f-80dc-84b7-d90a8bb0b1a7" class="numbered-list" start="7" dir="auto"><li>Disponibilizar o sistema na Internet.</li></ol><p id="3b5f6ce8-497f-80c1-b2cc-de5b1dc93054" class="" dir="auto">Todo esse processo pode ser realizado pela interface do painel, sem necessidade de utilizar comandos Linux.</p><hr id="3b5f6ce8-497f-8020-aa20-c83f36d7d912" dir="auto"/><h1 id="3b5f6ce8-497f-80fa-ba12-db8f307b1ef2" class="" dir="auto">Boas práticas</h1><ul id="3b5f6ce8-497f-8023-80d0-d205d5a92f9b" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Organize os arquivos em pastas bem definidas.</li></ul><ul id="3b5f6ce8-497f-8025-ab7b-c086822ddfdb" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Faça backups antes de alterações importantes.</li></ul><ul id="3b5f6ce8-497f-8051-8c3f-ca32354b75f6" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Utilize versões atualizadas do PHP.</li></ul><ul id="3b5f6ce8-497f-8028-a470-ee974773a0a0" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Exclua arquivos temporários e antigos.</li></ul><ul id="3b5f6ce8-497f-80ae-95fe-cf07c05d6d52" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Monitore o uso de recursos da hospedagem.</li></ul><ul id="3b5f6ce8-497f-8083-8a02-d69f43c25196" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Proteja diretórios administrativos com autenticação.</li></ul><ul id="3b5f6ce8-497f-80f9-a18b-ef1513e9a1de" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Utilize conexões seguras (HTTPS e SFTP).</li></ul><hr id="3b5f6ce8-497f-8000-ad9d-dbca0f17e833" dir="auto"/><h1 id="3b5f6ce8-497f-809f-8759-c6e5cf689263" class="" dir="auto">Resumo</h1><p id="3b5f6ce8-497f-8026-9f7a-f6b44c4a6cf8" class="" dir="auto">O <strong>cPanel</strong> é um painel de controle para hospedagens Linux que simplifica a administração de sites e aplicações web. Com ele, é possível gerenciar arquivos, bancos de dados, domínios, e-mails, certificados SSL, backups e muito mais por meio de uma interface gráfica intuitiva. Sua facilidade de uso faz dele uma das ferramentas mais populares para desenvolvedores e administradores de hospedagem, sendo especialmente útil na publicação e manutenção de aplicações web. Apesar de exigir uma licença, geralmente fornecida pela empresa de hospedagem, o cPanel continua sendo uma das soluções mais completas e amplamente utilizadas para gerenciamento de ambientes web. (<a href="https://www.cpanel.net/products/?utm_source=chatgpt.com">cPanel</a>)</p></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

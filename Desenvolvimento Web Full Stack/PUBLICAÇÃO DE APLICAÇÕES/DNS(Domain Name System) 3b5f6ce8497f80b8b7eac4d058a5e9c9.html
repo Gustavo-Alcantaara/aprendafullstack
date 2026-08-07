@@ -1,0 +1,847 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>DNS(Domain Name System)</title><meta name="data-notion-page-icon" content="/icons/subtask_red.svg"/><link rel="icon" href="https://app.notion.com/icons/subtask_red.svg"/><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+/* For default-background callouts, render the border outline. */
+.callout.block-color-default_background {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+/*
+ * Toggles and callouts hold arbitrary content, so they can easily be taller
+ * than a page. They must stay breakable: avoiding breaks inside them makes
+ * Chromium push the whole block onto the next page, which leaves the previous
+ * page mostly empty before every long toggle.
+ */
+details,
+aside {
+	margin: 1.25em 0;
+}
+
+/* Keep a toggle's title on the same page as the start of its content. */
+summary {
+	page-break-after: avoid;
+	break-after: avoid;
+}
+
+/*
+ * Toggle headings render as <h1/h2/h3 style="display:inline-block"> inside
+ * <summary>. Without this reset, the heading's margin-top pushes it below the
+ * ::marker (▼), so the triangle and the title appear on separate lines.
+ */
+summary h1,
+summary h2,
+summary h3,
+summary h4 {
+	margin-top: 0;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding-inline: 0.125rem;
+	padding-block: 0.375rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+/*
+ * Render emoji icons using a ::before pseudo-element to keep the glyph
+ * out of the DOM textContent traversal. This avoids double-rendering icons
+ * in callouts and page titles.
+ * NOTE(slim/html-export-pseudo-icons): I can't tagref this because it will
+ * flag as a duplicate tag after codegen.
+ */
+.icon[data-emoji]::before {
+	content: attr(data-emoji);
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	margin-right: 0.4em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.tab {
+	margin: 1.25em 0;
+	padding-inline: 1rem;
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style><style>@import url('https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex-swap.min.css')</style></head><body><article id="3b5f6ce8-497f-80b8-b7ea-c4d058a5e9c9" class="page sans" data-notion-page-icon="/icons/subtask_red.svg"><header><div class="page-header-icon undefined"><img class="icon notion-static-icon" src="https://app.notion.com/icons/subtask_red.svg"/></div><h1 class="page-title" dir="auto">DNS(Domain Name System)</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><h1 id="3b5f6ce8-497f-80e5-a298-ef01f1142270" class="" dir="auto">DNS (Domain Name System)</h1><p id="3b5f6ce8-497f-80b6-a962-ca3a08d4d37e" class="" dir="auto">O <strong>DNS (Domain Name System)</strong> é um dos componentes mais importantes da Internet. Ele é responsável por traduzir os <strong>nomes de domínio</strong> (como <code>www.google.com</code>) em <strong>endereços IP</strong> (como <code>142.250.190.78</code>), permitindo que computadores encontrem e se comuniquem entre si.</p><p id="3b5f6ce8-497f-80cf-be3c-d42f42ce0d15" class="" dir="auto">Sem o DNS, seria necessário memorizar o endereço IP de cada site que desejamos acessar, o que tornaria a navegação muito mais difícil.</p><hr id="3b5f6ce8-497f-800f-8451-d8c4abbd152e" dir="auto"/><h1 id="3b5f6ce8-497f-8086-baeb-f581892666f9" class="" dir="auto">O que é DNS?</h1><p id="3b5f6ce8-497f-8011-9174-f0922fbabb7e" class="" dir="auto">O <strong>Domain Name System (Sistema de Nomes de Domínio)</strong> é um sistema distribuído que associa nomes de domínio legíveis por humanos a endereços IP utilizados pelos computadores.</p><p id="3b5f6ce8-497f-8080-abd0-e8b85e571305" class="" dir="auto">Ele funciona como uma <strong>lista telefônica da Internet</strong>:</p><ul id="3b5f6ce8-497f-8034-92f6-f45aa7a87f59" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Você conhece o nome da pessoa (domínio).</li></ul><ul id="3b5f6ce8-497f-80e3-80e7-e1be6e51790b" class="bulleted-list" dir="auto"><li style="list-style-type:disc">A lista telefônica informa o número (endereço IP).</li></ul><p id="3b5f6ce8-497f-8006-8fca-c78df0c9485a" class="" dir="auto">Da mesma forma:</p><ul id="3b5f6ce8-497f-8068-8e47-d39af0c77f03" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Você digita <strong><a href="http://www.exemplo.com/">www.exemplo.com</a></strong>.</li></ul><ul id="3b5f6ce8-497f-80f6-9127-eb1cd9be0c17" class="bulleted-list" dir="auto"><li style="list-style-type:disc">O DNS informa ao navegador qual é o endereço IP do servidor onde esse site está hospedado.</li></ul><hr id="3b5f6ce8-497f-80d2-9432-c8e29a48d759" dir="auto"/><h1 id="3b5f6ce8-497f-80bf-9d6e-c350f880cd94" class="" dir="auto">Por que o DNS foi criado?</h1><p id="3b5f6ce8-497f-8006-9c39-d3f81abbf2fb" class="" dir="auto">Os computadores se comunicam utilizando <strong>endereços IP</strong>, não nomes.</p><p id="3b5f6ce8-497f-8032-bf15-eb4508e1fb2c" class="" dir="auto">Por exemplo:</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="3b5f6ce8-497f-80da-a745-d173c7a236e7" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">142.250.190.78</code></pre><p id="3b5f6ce8-497f-8091-aa18-d9da8a0f41eb" class="" dir="auto">É muito mais fácil lembrar de:</p><pre id="3b5f6ce8-497f-8002-b182-d29723ddb11e" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">www.google.com</code></pre><p id="3b5f6ce8-497f-808f-af66-eebe0508af9c" class="" dir="auto">do que memorizar dezenas de números.</p><p id="3b5f6ce8-497f-8039-b2b7-f138d48253f8" class="" dir="auto">O DNS foi criado justamente para tornar a Internet mais amigável para os usuários.</p><hr id="3b5f6ce8-497f-80ed-a8d7-d10cd1cc8c03" dir="auto"/><h1 id="3b5f6ce8-497f-8039-b218-fefba0b03f52" class="" dir="auto">Como o DNS funciona?</h1><p id="3b5f6ce8-497f-8028-8ec8-ebb9e34f0e94" class="" dir="auto">Quando um usuário acessa um site, ocorre o seguinte processo:</p><h3 id="3b5f6ce8-497f-8029-88bd-d821f5cb3787" class="" dir="auto">1. O usuário digita o domínio</h3><p id="3b5f6ce8-497f-80c1-b44f-f8c17bb81770" class="" dir="auto">Exemplo:</p><pre id="3b5f6ce8-497f-80e0-9216-f98484429731" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">www.exemplo.com</code></pre><hr id="3b5f6ce8-497f-80f7-b7f9-f58a52b960b4" dir="auto"/><h3 id="3b5f6ce8-497f-80ed-922f-e7168579cb21" class="" dir="auto">2. O navegador verifica o cache</h3><p id="3b5f6ce8-497f-808b-8b3a-e40ca8b42000" class="" dir="auto">Primeiro ele verifica se já conhece o IP.</p><p id="3b5f6ce8-497f-8034-8d51-ff15937ac9b4" class="" dir="auto">Se encontrar:</p><ul id="3b5f6ce8-497f-80f4-bd72-dcf611df70d8" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Usa imediatamente.</li></ul><p id="3b5f6ce8-497f-8036-96e8-ef8ba6f59f9f" class="" dir="auto">Se não encontrar:</p><ul id="3b5f6ce8-497f-8057-bb13-ec91c3b7ac40" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Consulta um servidor DNS.</li></ul><hr id="3b5f6ce8-497f-8081-a949-fe7ad6bf39e7" dir="auto"/><h3 id="3b5f6ce8-497f-8081-9654-e93128634a50" class="" dir="auto">3. O servidor DNS procura o endereço IP</h3><p id="3b5f6ce8-497f-8023-816a-fad49476aa38" class="" dir="auto">O servidor verifica seus registros.</p><p id="3b5f6ce8-497f-801e-90fb-e1a8edbc01f7" class="" dir="auto">Exemplo:</p><pre id="3b5f6ce8-497f-8055-a7bf-f5789a29792a" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">www.exemplo.com
+
+↓
+
+200.100.50.20</code></pre><hr id="3b5f6ce8-497f-807f-abbe-ccd3426ff3b9" dir="auto"/><h3 id="3b5f6ce8-497f-8002-9782-e5d12c5be11b" class="" dir="auto">4. O IP é enviado ao navegador</h3><p id="3b5f6ce8-497f-8075-9ade-d1057010b648" class="" dir="auto">Agora o navegador sabe onde está o servidor.</p><hr id="3b5f6ce8-497f-80b6-97fa-c11bfc1de3d5" dir="auto"/><h3 id="3b5f6ce8-497f-8091-aaf0-f5883c9565be" class="" dir="auto">5. A conexão é estabelecida</h3><p id="3b5f6ce8-497f-80a8-92d6-d043c1c07d0f" class="" dir="auto">O navegador envia a requisição ao servidor utilizando o endereço IP.</p><hr id="3b5f6ce8-497f-80eb-9c94-ffe6eea35a99" dir="auto"/><h3 id="3b5f6ce8-497f-8002-a8ed-e9dee86bb0b8" class="" dir="auto">6. O servidor responde</h3><p id="3b5f6ce8-497f-80e9-9d9f-fab4a1b26fe5" class="" dir="auto">A página é enviada ao navegador.</p><hr id="3b5f6ce8-497f-804a-8095-e70002240c74" dir="auto"/><h3 id="3b5f6ce8-497f-80be-8710-dd10c30ddeb1" class="" dir="auto">Fluxo resumido</h3><pre id="3b5f6ce8-497f-801f-8a1b-cd7500315e4e" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Usuário
+      │
+      ▼
+Digita www.exemplo.com
+      │
+      ▼
+Navegador consulta DNS
+      │
+      ▼
+DNS retorna o IP
+      │
+      ▼
+Navegador conecta ao servidor
+      │
+      ▼
+Servidor responde
+      │
+      ▼
+Página exibida</code></pre><hr id="3b5f6ce8-497f-803f-9e35-eb1cc0592b14" dir="auto"/><h1 id="3b5f6ce8-497f-80f6-b5af-e78adb438d44" class="" dir="auto">O que é um Domínio?</h1><p id="3b5f6ce8-497f-801d-a416-f34e469daf89" class="" dir="auto">É o nome utilizado para identificar um site.</p><p id="3b5f6ce8-497f-80be-9e32-f4ed69417a23" class="" dir="auto">Exemplos:</p><ul id="3b5f6ce8-497f-80fd-a370-f210f9e402a7" class="bulleted-list" dir="auto"><li style="list-style-type:disc">google.com</li></ul><ul id="3b5f6ce8-497f-80d3-9aee-f7a5544a6396" class="bulleted-list" dir="auto"><li style="list-style-type:disc">microsoft.com</li></ul><ul id="3b5f6ce8-497f-80c3-8213-c37f24289177" class="bulleted-list" dir="auto"><li style="list-style-type:disc">uol.com.br</li></ul><ul id="3b5f6ce8-497f-8013-8bfc-e77293a4be16" class="bulleted-list" dir="auto"><li style="list-style-type:disc">ifce.edu.br</li></ul><ul id="3b5f6ce8-497f-8007-903d-c11724293c33" class="bulleted-list" dir="auto"><li style="list-style-type:disc">github.com</li></ul><p id="3b5f6ce8-497f-80e8-886c-edbf15911ec5" class="" dir="auto">Cada domínio possui um endereço IP correspondente.</p><hr id="3b5f6ce8-497f-80f2-9826-df05ce2847a6" dir="auto"/><h1 id="3b5f6ce8-497f-80e7-bc52-f503fef8435e" class="" dir="auto">O que é um Endereço IP?</h1><p id="3b5f6ce8-497f-80cb-9f8f-fbbc4996d863" class="" dir="auto">É o endereço que identifica um dispositivo na rede.</p><p id="3b5f6ce8-497f-809e-bba7-f37163e51676" class="" dir="auto">Exemplo IPv4:</p><pre id="3b5f6ce8-497f-804f-803b-c46dd728a7ed" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">192.168.1.10</code></pre><p id="3b5f6ce8-497f-803b-b99f-def23a7bf5bb" class="" dir="auto">Exemplo público:</p><pre id="3b5f6ce8-497f-80ae-8c4b-c6e7021bf4a1" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">104.26.8.91</code></pre><p id="3b5f6ce8-497f-8061-b0b6-d570e2a5acf9" class="" dir="auto">O DNS apenas faz a tradução entre domínio e IP.</p><hr id="3b5f6ce8-497f-805c-949b-e18456e7c130" dir="auto"/><h1 id="3b5f6ce8-497f-80e5-bda4-fb60f74b358f" class="" dir="auto">Estrutura de um Nome de Domínio</h1><p id="3b5f6ce8-497f-806f-a92a-e2fb36d969bc" class="" dir="auto">Considere o domínio:</p><pre id="3b5f6ce8-497f-802d-b2b9-c08308a8677f" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">www.loja.com.br</code></pre><p id="3b5f6ce8-497f-80af-99ec-c8e36f39b651" class="" dir="auto">Cada parte possui um significado.</p><h3 id="3b5f6ce8-497f-8039-a7a8-eccdde7a420e" class="" dir="auto">www</h3><p id="3b5f6ce8-497f-806c-ab70-c692cfe4629c" class="" dir="auto">Subdomínio.</p><p id="3b5f6ce8-497f-80ae-abf2-d6520b5aae7a" class="" dir="auto">Pode indicar o servidor Web.</p><hr id="3b5f6ce8-497f-803e-88d3-df720e752fdb" dir="auto"/><h3 id="3b5f6ce8-497f-8097-b19b-c164f9c997a6" class="" dir="auto">loja</h3><p id="3b5f6ce8-497f-80d7-a650-f2724fa9a1bb" class="" dir="auto">Nome registrado.</p><p id="3b5f6ce8-497f-80be-948e-e28e2fe72c6b" class="" dir="auto">É escolhido pelo proprietário.</p><hr id="3b5f6ce8-497f-80b3-b6a6-fd7344317d5e" dir="auto"/><h3 id="3b5f6ce8-497f-8010-a0fc-c6d3585c4a1e" class="" dir="auto">com</h3><p id="3b5f6ce8-497f-809f-b37f-d2bd826af11a" class="" dir="auto">Tipo de domínio.</p><p id="3b5f6ce8-497f-802a-8e5c-ce317906cb74" class="" dir="auto">Significa comercial.</p><hr id="3b5f6ce8-497f-8062-92fe-f7a2d5db10b2" dir="auto"/><h3 id="3b5f6ce8-497f-80a3-bf94-e0b5720e9c27" class="" dir="auto">br</h3><p id="3b5f6ce8-497f-80ec-8157-c5fbd0846f44" class="" dir="auto">País.</p><p id="3b5f6ce8-497f-8073-ba75-c352201fca3b" class="" dir="auto">Representa o Brasil.</p><hr id="3b5f6ce8-497f-80da-a995-fe747e5c060e" dir="auto"/><h1 id="3b5f6ce8-497f-8007-a13e-d8d91a3d1fde" class="" dir="auto">Exemplo de domínio</h1><pre id="3b5f6ce8-497f-809f-93c6-ce4104fc5d80" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">https://www.exemplo.com.br</code></pre><table id="3b5f6ce8-497f-8009-b168-c50a10188b90" class="simple-table" dir="ltr"><thead class="simple-table-header"><tr id="3b5f6ce8-497f-8007-a2ce-dfc9bc61a73a" dir="ltr"><th id="Tnn&lt;" class="simple-table-header-color simple-table-header">Parte</th><th id="dYL&lt;" class="simple-table-header-color simple-table-header">Significado</th></tr></thead><tbody><tr id="3b5f6ce8-497f-80c5-914b-e15ce1a2ed40" dir="ltr"><td id="Tnn&lt;" class="">https</td><td id="dYL&lt;" class="">Protocolo</td></tr><tr id="3b5f6ce8-497f-807d-9fa3-dcfc5d06d2f5" dir="ltr"><td id="Tnn&lt;" class="">www</td><td id="dYL&lt;" class="">Subdomínio</td></tr><tr id="3b5f6ce8-497f-8039-b41e-eae7076cbe75" dir="ltr"><td id="Tnn&lt;" class="">exemplo</td><td id="dYL&lt;" class="">Nome do domínio</td></tr><tr id="3b5f6ce8-497f-801f-a910-d1ba54f1e28f" dir="ltr"><td id="Tnn&lt;" class="">com</td><td id="dYL&lt;" class="">Categoria</td></tr><tr id="3b5f6ce8-497f-80e4-bb9a-f793d45ab80c" dir="ltr"><td id="Tnn&lt;" class="">br</td><td id="dYL&lt;" class="">País</td></tr></tbody></table><hr id="3b5f6ce8-497f-8055-a239-d40524221b22" dir="auto"/><h1 id="3b5f6ce8-497f-808d-836b-fb9212705073" class="" dir="auto">Tipos de Servidores DNS</h1><p id="3b5f6ce8-497f-8060-87f8-ddd27ef31cf5" class="" dir="auto">O funcionamento do DNS depende de diferentes tipos de servidores, cada um com uma função específica.</p><h2 id="3b5f6ce8-497f-80d8-a307-fe174d732734" class="" dir="auto">Servidor Recursivo (Recursive Resolver)</h2><p id="3b5f6ce8-497f-807c-9a0d-c9043d0a9e65" class="" dir="auto">É o primeiro servidor consultado pelo computador do usuário.</p><p id="3b5f6ce8-497f-8095-b5c4-deeeab9a5b40" class="" dir="auto">Ele procura a resposta para o domínio solicitado e geralmente mantém um cache para acelerar consultas futuras.</p><p id="3b5f6ce8-497f-8072-ba35-eb6628bee538" class="" dir="auto">Exemplos:</p><ul id="3b5f6ce8-497f-80ee-a3ed-dbbe1ea6a6be" class="bulleted-list" dir="auto"><li style="list-style-type:disc">DNS do Google</li></ul><ul id="3b5f6ce8-497f-800d-8900-d3986805f944" class="bulleted-list" dir="auto"><li style="list-style-type:disc">DNS da Cloudflare</li></ul><ul id="3b5f6ce8-497f-800b-bdb9-d32aba59a214" class="bulleted-list" dir="auto"><li style="list-style-type:disc">DNS do provedor de Internet</li></ul><hr id="3b5f6ce8-497f-803a-94a4-cdd333caf835" dir="auto"/><h2 id="3b5f6ce8-497f-80a2-8ce0-cd252da00399" class="" dir="auto">Servidor Raiz (Root Server)</h2><p id="3b5f6ce8-497f-80cd-a063-e4644a7650e0" class="" dir="auto">É o ponto inicial da hierarquia do DNS.</p><p id="3b5f6ce8-497f-801a-9e76-d90f05789d73" class="" dir="auto">Ele não conhece o IP do site, mas informa qual servidor é responsável pelo domínio de nível superior (TLD).</p><hr id="3b5f6ce8-497f-8056-bb3a-d853e4bd53ff" dir="auto"/><h2 id="3b5f6ce8-497f-8088-9d33-c951cfa0c8ba" class="" dir="auto">Servidor TLD (Top-Level Domain)</h2><p id="3b5f6ce8-497f-80a1-aae4-f93a5907bc04" class="" dir="auto">Gerencia domínios como:</p><ul id="3b5f6ce8-497f-8058-ba40-c936d996dacb" class="bulleted-list" dir="auto"><li style="list-style-type:disc">.com</li></ul><ul id="3b5f6ce8-497f-80a7-b609-cf180aa05d52" class="bulleted-list" dir="auto"><li style="list-style-type:disc">.org</li></ul><ul id="3b5f6ce8-497f-8015-8d76-f4601fdf341d" class="bulleted-list" dir="auto"><li style="list-style-type:disc">.net</li></ul><ul id="3b5f6ce8-497f-8056-a939-fadf8447558f" class="bulleted-list" dir="auto"><li style="list-style-type:disc">.br</li></ul><ul id="3b5f6ce8-497f-805f-abda-e69433bb9044" class="bulleted-list" dir="auto"><li style="list-style-type:disc">.edu</li></ul><p id="3b5f6ce8-497f-80d2-83ca-d9510fdc1050" class="" dir="auto">Ele indica onde está o servidor autoritativo daquele domínio.</p><hr id="3b5f6ce8-497f-8064-aa91-ee34bb1eacd0" dir="auto"/><h2 id="3b5f6ce8-497f-80ed-96b4-dd64b14fa7a8" class="" dir="auto">Servidor Autoritativo</h2><p id="3b5f6ce8-497f-80e9-bbaa-fa63a8d80619" class="" dir="auto">É o servidor que possui a resposta definitiva para um domínio.</p><p id="3b5f6ce8-497f-80a6-be72-dbd07f2e4e1d" class="" dir="auto">Exemplo:</p><pre id="3b5f6ce8-497f-805a-adfe-e87f135bf845" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">www.loja.com
+
+↓
+
+201.50.100.10</code></pre><hr id="3b5f6ce8-497f-8020-9d58-d404198eb632" dir="auto"/><h1 id="3b5f6ce8-497f-8059-86e9-ee8ddddb4af1" class="" dir="auto">Hierarquia do DNS</h1><pre id="3b5f6ce8-497f-8093-88ba-c050679a20f8" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Usuário
+      │
+      ▼
+DNS Recursivo
+      │
+      ▼
+Servidor Raiz
+      │
+      ▼
+Servidor TLD
+      │
+      ▼
+Servidor Autoritativo
+      │
+      ▼
+Endereço IP</code></pre><hr id="3b5f6ce8-497f-80dd-9ec4-d766954ebbc3" dir="auto"/><h1 id="3b5f6ce8-497f-8059-a022-ef4f096a6aed" class="" dir="auto">Principais Registros DNS</h1><p id="3b5f6ce8-497f-804f-ae13-ec53b46a4a08" class="" dir="auto">Os registros DNS armazenam informações sobre um domínio.</p><h2 id="3b5f6ce8-497f-80b7-bcf1-eef9c82a8b51" class="" dir="auto">Registro A</h2><p id="3b5f6ce8-497f-8063-a3c3-f46600be119e" class="" dir="auto">Relaciona um domínio a um endereço IPv4.</p><p id="3b5f6ce8-497f-8052-9088-dfc626b07613" class="" dir="auto">Exemplo:</p><pre id="3b5f6ce8-497f-80bd-ad33-c7aac8f08581" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">www.site.com
+
+↓
+
+200.100.20.30</code></pre><hr id="3b5f6ce8-497f-80a3-b74c-d9b5fc8894e0" dir="auto"/><h2 id="3b5f6ce8-497f-8025-9977-db592b75d4b0" class="" dir="auto">Registro AAAA</h2><p id="3b5f6ce8-497f-8025-afa3-dfddb800db3c" class="" dir="auto">Relaciona um domínio a um endereço IPv6.</p><hr id="3b5f6ce8-497f-803b-9941-ffd7181e8a61" dir="auto"/><h2 id="3b5f6ce8-497f-8016-89f8-fb4d94643475" class="" dir="auto">Registro CNAME</h2><p id="3b5f6ce8-497f-8064-8d32-e5def768de3c" class="" dir="auto">Cria um apelido para outro domínio.</p><p id="3b5f6ce8-497f-80ee-b0ec-def3f363ce72" class="" dir="auto">Exemplo:</p><pre id="3b5f6ce8-497f-801b-a458-ca3673f1a7f1" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">blog.site.com
+
+↓
+
+www.site.com</code></pre><hr id="3b5f6ce8-497f-80eb-a590-d44e3b2bc4df" dir="auto"/><h2 id="3b5f6ce8-497f-80ba-bc62-c6cb2b7fe93a" class="" dir="auto">Registro MX</h2><p id="3b5f6ce8-497f-804a-9e9a-c6a4eb36d2c4" class="" dir="auto">Indica os servidores responsáveis pelos e-mails do domínio.</p><p id="3b5f6ce8-497f-8020-8833-f49e1d36c012" class="" dir="auto">Exemplo:</p><pre id="3b5f6ce8-497f-80f7-958b-fa0228cef109" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">contato@empresa.com</code></pre><hr id="3b5f6ce8-497f-8043-9efe-ca49e2427951" dir="auto"/><h2 id="3b5f6ce8-497f-804c-aeee-c14c43d0532b" class="" dir="auto">Registro TXT</h2><p id="3b5f6ce8-497f-80f4-ae1f-ce0d2ce75809" class="" dir="auto">Armazena informações textuais.</p><p id="3b5f6ce8-497f-80f7-8358-ccdb2ee38f4b" class="" dir="auto">Muito utilizado para:</p><ul id="3b5f6ce8-497f-80f7-936c-ddddd0b2c0c9" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Verificação de domínio</li></ul><ul id="3b5f6ce8-497f-8089-a2ec-ecbd6a71492e" class="bulleted-list" dir="auto"><li style="list-style-type:disc">SPF</li></ul><ul id="3b5f6ce8-497f-8029-8e2e-fd3d0861ca6f" class="bulleted-list" dir="auto"><li style="list-style-type:disc">DKIM</li></ul><ul id="3b5f6ce8-497f-8085-b67d-ea8d0583b684" class="bulleted-list" dir="auto"><li style="list-style-type:disc">DMARC</li></ul><hr id="3b5f6ce8-497f-80cd-9bcc-c883755ed3bc" dir="auto"/><h2 id="3b5f6ce8-497f-808f-b40e-fb2ea4adc7e7" class="" dir="auto">Registro NS</h2><p id="3b5f6ce8-497f-805d-a998-e878250fca7b" class="" dir="auto">Indica quais servidores DNS são responsáveis pelo domínio.</p><hr id="3b5f6ce8-497f-8077-a594-e63a55d48b97" dir="auto"/><h1 id="3b5f6ce8-497f-8014-a1d6-eb5a2659c9a5" class="" dir="auto">Cache DNS</h1><p id="3b5f6ce8-497f-807b-b8da-c61a9f88d725" class="" dir="auto">Para acelerar o acesso aos sites, as respostas DNS ficam armazenadas temporariamente em cache.</p><p id="3b5f6ce8-497f-8084-be84-e34aeadb0073" class="" dir="auto">O cache pode existir em:</p><ul id="3b5f6ce8-497f-8032-952a-d1f36444f5b1" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Navegador</li></ul><ul id="3b5f6ce8-497f-8025-adad-ca07813dbe6a" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Sistema operacional</li></ul><ul id="3b5f6ce8-497f-80cb-9b15-c7114f03a751" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Roteador</li></ul><ul id="3b5f6ce8-497f-8065-8583-d8def97cec05" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Provedor</li></ul><ul id="3b5f6ce8-497f-8014-9bd1-db4c64d6a5df" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Servidor DNS</li></ul><p id="3b5f6ce8-497f-80ef-8146-d9e515efe37f" class="" dir="auto">Isso evita consultas repetidas.</p><hr id="3b5f6ce8-497f-803b-b80d-cd409a0640f4" dir="auto"/><h1 id="3b5f6ce8-497f-80a2-9b5b-d8c265663bcb" class="" dir="auto">TTL (Time To Live)</h1><p id="3b5f6ce8-497f-80b5-97d5-f28b388fbd42" class="" dir="auto">É o tempo que um registro DNS permanece em cache.</p><p id="3b5f6ce8-497f-805b-89a3-fbb4029e6a94" class="" dir="auto">Exemplo:</p><pre id="3b5f6ce8-497f-8041-91f8-cf9d9eaff9db" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">TTL = 3600 segundos</code></pre><p id="3b5f6ce8-497f-8047-8869-cba5deb785fb" class="" dir="auto">Significa:</p><p id="3b5f6ce8-497f-804b-bb99-fdb077eca254" class="" dir="auto">Após uma hora, o registro deverá ser consultado novamente.</p><hr id="3b5f6ce8-497f-8034-94a0-ed78ead4eb5a" dir="auto"/><h1 id="3b5f6ce8-497f-8020-99f0-c42c7712be97" class="" dir="auto">DNS Público</h1><p id="3b5f6ce8-497f-80ca-a314-e601d07f766f" class="" dir="auto">Diversas empresas oferecem servidores DNS públicos gratuitos.</p><p id="3b5f6ce8-497f-8077-8ff4-ce67d3691817" class="" dir="auto">Alguns dos mais utilizados são:</p><table id="3b5f6ce8-497f-80bb-bb18-edfa1c25ecad" class="simple-table" dir="ltr"><thead class="simple-table-header"><tr id="3b5f6ce8-497f-805b-9590-c74e89ac0ccb" dir="ltr"><th id="Hpu]" class="simple-table-header-color simple-table-header">Serviço</th><th id="y^pU" class="simple-table-header-color simple-table-header">DNS Primário</th><th id="CSYK" class="simple-table-header-color simple-table-header">DNS Secundário</th></tr></thead><tbody><tr id="3b5f6ce8-497f-80a3-939c-d3eb48511753" dir="ltr"><td id="Hpu]" class="">Google Public DNS</td><td id="y^pU" class="">8.8.8.8</td><td id="CSYK" class="">8.8.4.4</td></tr><tr id="3b5f6ce8-497f-808b-9406-f48836509e09" dir="ltr"><td id="Hpu]" class="">Cloudflare</td><td id="y^pU" class="">1.1.1.1</td><td id="CSYK" class="">1.0.0.1</td></tr><tr id="3b5f6ce8-497f-8079-b9d6-e789b98dfbfe" dir="ltr"><td id="Hpu]" class="">OpenDNS</td><td id="y^pU" class="">208.67.222.222</td><td id="CSYK" class="">208.67.220.220</td></tr></tbody></table><p id="3b5f6ce8-497f-8087-bffb-dd6c6c373d02" class="" dir="auto">Esses serviços costumam oferecer boa velocidade, alta disponibilidade e, em alguns casos, recursos adicionais de segurança.</p><hr id="3b5f6ce8-497f-807c-bb37-dcb2273e6041" dir="auto"/><h1 id="3b5f6ce8-497f-80c2-a734-d7454e3a3421" class="" dir="auto">DNS e Publicação de Aplicações Web</h1><p id="3b5f6ce8-497f-805f-8431-fa4ee40b2eea" class="" dir="auto">Quando uma aplicação web é publicada, ela normalmente é hospedada em um servidor que possui um endereço IP.</p><p id="3b5f6ce8-497f-8007-a50f-d334bb7c4002" class="" dir="auto">Entretanto, os usuários acessam a aplicação utilizando um domínio.</p><p id="3b5f6ce8-497f-805c-b736-e2c33fc1ebc7" class="" dir="auto">Exemplo:</p><p id="3b5f6ce8-497f-80cf-b700-c8367359a762" class="" dir="auto">Servidor:</p><pre id="3b5f6ce8-497f-8081-8dd2-dd4ebf3bec9d" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">177.50.100.15</code></pre><p id="3b5f6ce8-497f-80eb-b21a-da6fc25ff4f7" class="" dir="auto">Domínio registrado:</p><pre id="3b5f6ce8-497f-808d-9e80-d8264f412b8f" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">www.minhaloja.com</code></pre><p id="3b5f6ce8-497f-807c-9d6f-ee2ab95969bb" class="" dir="auto">O administrador cria um <strong>registro A</strong> apontando:</p><pre id="3b5f6ce8-497f-802a-904a-c3e8471f8e6e" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">www.minhaloja.com
+
+↓
+
+177.50.100.15</code></pre><p id="3b5f6ce8-497f-8074-8c49-d4b2af1803eb" class="" dir="auto">Assim, sempre que alguém acessar o domínio, o DNS encaminhará o navegador para o servidor correto.</p><hr id="3b5f6ce8-497f-8075-8df8-d206433cb740" dir="auto"/><h1 id="3b5f6ce8-497f-8029-b5e9-c03e607ca97c" class="" dir="auto">Vantagens do DNS</h1><ul id="3b5f6ce8-497f-800c-964f-d8d6d0240682" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Facilita a navegação utilizando nomes em vez de IPs.</li></ul><ul id="3b5f6ce8-497f-80b6-b977-f58fe9247477" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Permite alterar o servidor sem mudar o domínio do site.</li></ul><ul id="3b5f6ce8-497f-80e9-82e6-d1608c3531b2" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Organiza os domínios em uma estrutura hierárquica.</li></ul><ul id="3b5f6ce8-497f-80f2-9c05-c7f9aa73f505" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Melhora o desempenho com o uso de cache.</li></ul><ul id="3b5f6ce8-497f-80e6-9334-f213300beaf3" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Suporta diferentes tipos de serviços, como sites e e-mails.</li></ul><ul id="3b5f6ce8-497f-80d7-b19e-c4c66e9f02a9" class="bulleted-list" dir="auto"><li style="list-style-type:disc">É escalável e distribuído, atendendo bilhões de consultas diariamente.</li></ul><hr id="3b5f6ce8-497f-804b-9260-db514adfb38f" dir="auto"/><h1 id="3b5f6ce8-497f-8046-aa6e-e4515706f9be" class="" dir="auto">Desvantagens e Desafios</h1><ul id="3b5f6ce8-497f-8014-8401-d44b8f784e9b" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Alterações podem levar algum tempo para se propagar devido ao cache (propagação DNS).</li></ul><ul id="3b5f6ce8-497f-8041-a08d-f8b070b99db4" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Ataques, como envenenamento de cache (DNS Cache Poisoning) e ataques DDoS contra servidores DNS, podem afetar a disponibilidade.</li></ul><ul id="3b5f6ce8-497f-8047-ab64-cd345a8501df" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Configurações incorretas podem tornar um site ou serviço inacessível.</li></ul><ul id="3b5f6ce8-497f-800b-a77f-edc5278cd28a" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Dependência da disponibilidade dos servidores DNS para localizar os serviços.</li></ul><hr id="3b5f6ce8-497f-80ff-aa91-dc4457373006" dir="auto"/><h1 id="3b5f6ce8-497f-805a-b96d-d8b19bf5affa" class="" dir="auto">Boas práticas</h1><ul id="3b5f6ce8-497f-80ba-9bf5-eed0e4a56640" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Utilizar provedores de DNS confiáveis e com alta disponibilidade.</li></ul><ul id="3b5f6ce8-497f-8019-ac6d-e5a98b0d19fb" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Configurar corretamente os registros DNS antes de publicar uma aplicação.</li></ul><ul id="3b5f6ce8-497f-802a-b514-dcc12b51bee6" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Definir valores de TTL adequados para facilitar futuras alterações.</li></ul><ul id="3b5f6ce8-497f-803b-a157-faf0ec3d5a2a" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Proteger o acesso ao painel de gerenciamento do domínio.</li></ul><ul id="3b5f6ce8-497f-804b-8e1a-e722e24e43df" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Monitorar periodicamente os registros DNS.</li></ul><ul id="3b5f6ce8-497f-809e-be00-ef082819edff" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Utilizar <strong>DNSSEC</strong>, quando disponível, para aumentar a segurança e a autenticidade das respostas DNS.</li></ul><hr id="3b5f6ce8-497f-808a-9020-f9b45f28e5ae" dir="auto"/><h1 id="3b5f6ce8-497f-806d-adf7-da2a21151d09" class="" dir="auto">Resumo</h1><p id="3b5f6ce8-497f-802f-8805-d4016a19fb86" class="" dir="auto">O <strong>DNS (Domain Name System)</strong> é o sistema responsável por traduzir nomes de domínio em endereços IP, permitindo que usuários acessem aplicações web usando nomes fáceis de lembrar em vez de números. Ele funciona por meio de uma hierarquia de servidores (recursivos, raiz, TLD e autoritativos) e utiliza registros como <strong>A, AAAA, CNAME, MX, TXT e NS</strong> para armazenar diferentes tipos de informações.</p><p id="3b5f6ce8-497f-8099-8a07-ec7eba491167" class="" dir="auto">Na publicação de aplicações web, o DNS é indispensável, pois conecta o domínio registrado ao servidor onde a aplicação está hospedada, tornando o acesso simples, rápido e transparente para os usuários. Uma configuração correta do DNS é fundamental para garantir disponibilidade, desempenho e confiabilidade dos serviços na Internet.</p></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

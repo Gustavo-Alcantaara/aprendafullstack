@@ -1,0 +1,823 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Configurando Banco de Dados</title><meta name="data-notion-page-icon" content="/icons/subtask_red.svg"/><link rel="icon" href="https://app.notion.com/icons/subtask_red.svg"/><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+/* For default-background callouts, render the border outline. */
+.callout.block-color-default_background {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+/*
+ * Toggles and callouts hold arbitrary content, so they can easily be taller
+ * than a page. They must stay breakable: avoiding breaks inside them makes
+ * Chromium push the whole block onto the next page, which leaves the previous
+ * page mostly empty before every long toggle.
+ */
+details,
+aside {
+	margin: 1.25em 0;
+}
+
+/* Keep a toggle's title on the same page as the start of its content. */
+summary {
+	page-break-after: avoid;
+	break-after: avoid;
+}
+
+/*
+ * Toggle headings render as <h1/h2/h3 style="display:inline-block"> inside
+ * <summary>. Without this reset, the heading's margin-top pushes it below the
+ * ::marker (▼), so the triangle and the title appear on separate lines.
+ */
+summary h1,
+summary h2,
+summary h3,
+summary h4 {
+	margin-top: 0;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding-inline: 0.125rem;
+	padding-block: 0.375rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+/*
+ * Render emoji icons using a ::before pseudo-element to keep the glyph
+ * out of the DOM textContent traversal. This avoids double-rendering icons
+ * in callouts and page titles.
+ * NOTE(slim/html-export-pseudo-icons): I can't tagref this because it will
+ * flag as a duplicate tag after codegen.
+ */
+.icon[data-emoji]::before {
+	content: attr(data-emoji);
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	margin-right: 0.4em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.tab {
+	margin: 1.25em 0;
+	padding-inline: 1rem;
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style><style>@import url('https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex-swap.min.css')</style></head><body><article id="3b5f6ce8-497f-80d1-8ac6-ee874801bba1" class="page sans" data-notion-page-icon="/icons/subtask_red.svg"><header><div class="page-header-icon undefined"><img class="icon notion-static-icon" src="https://app.notion.com/icons/subtask_red.svg"/></div><h1 class="page-title" dir="auto">Configurando Banco de Dados</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><h1 id="3b5f6ce8-497f-80ff-9a7a-d1b7c7ea92f7" class="" dir="auto">Configurando o Banco de Dados MySQL</h1><p id="3b5f6ce8-497f-8032-8bb3-e4f764f28415" class="" dir="auto">A <strong>configuração do Banco de Dados MySQL</strong> é uma das etapas mais importantes na publicação de uma aplicação web. Após enviar os arquivos da aplicação para o servidor, é necessário criar o banco de dados, importar as tabelas e configurar a conexão da aplicação para que ela consiga armazenar e recuperar informações.</p><p id="3b5f6ce8-497f-8093-9ffb-d8fcd6db05bf" class="" dir="auto">Sem essa configuração, a aplicação pode até abrir no navegador, mas funcionalidades como login, cadastro de usuários, consultas e registros de dados não funcionarão.</p><hr id="3b5f6ce8-497f-80dc-ad6e-f82f9c00851d" dir="auto"/><h1 id="3b5f6ce8-497f-8000-9ac0-e8f297cfed05" class="" dir="auto">O que é o MySQL?</h1><p id="3b5f6ce8-497f-8091-8593-f2d2929ba803" class="" dir="auto">O <strong>MySQL</strong> é um <strong>Sistema Gerenciador de Banco de Dados Relacional (SGBD)</strong> amplamente utilizado em aplicações web. Ele organiza os dados em tabelas e permite armazenar, consultar, atualizar e excluir informações utilizando a linguagem SQL (Structured Query Language).</p><p id="3b5f6ce8-497f-8095-b3a5-fc62a22d7a06" class="" dir="auto">Exemplos de informações armazenadas em um banco MySQL:</p><ul id="3b5f6ce8-497f-80d0-b88f-f93055c19a6d" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Usuários</li></ul><ul id="3b5f6ce8-497f-804c-adb7-e62fc5831eb0" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Produtos</li></ul><ul id="3b5f6ce8-497f-802c-b992-e19c893eef9d" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Clientes</li></ul><ul id="3b5f6ce8-497f-801e-8789-cd5ba04490a4" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Pedidos</li></ul><ul id="3b5f6ce8-497f-8010-9732-f7a0e07c8b99" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Mensagens</li></ul><ul id="3b5f6ce8-497f-8023-979a-e5f80de58939" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Funcionários</li></ul><ul id="3b5f6ce8-497f-80a7-9fe1-f1ba1424c18a" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Livros</li></ul><ul id="3b5f6ce8-497f-8081-b8f0-e49d6c5c937b" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Notas de alunos</li></ul><hr id="3b5f6ce8-497f-8072-b845-d6174ebaef0d" dir="auto"/><h1 id="3b5f6ce8-497f-80f2-8fff-ed1586f65df1" class="" dir="auto">Por que configurar o Banco de Dados?</h1><p id="3b5f6ce8-497f-8065-b949-d507baa59e23" class="" dir="auto">Uma aplicação PHP normalmente é dividida em duas partes:</p><ul id="3b5f6ce8-497f-8083-be8f-f7b4f27c94df" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>Arquivos da aplicação</strong>, que contêm a lógica do sistema.</li></ul><ul id="3b5f6ce8-497f-803e-9776-dfec4e43eb9f" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>Banco de dados</strong>, que armazena as informações.</li></ul><p id="3b5f6ce8-497f-8027-a9a8-c00fd50d0478" class="" dir="auto">Se o banco de dados não estiver configurado corretamente, a aplicação não conseguirá acessar os dados necessários para seu funcionamento.</p><hr id="3b5f6ce8-497f-8044-8cd8-f68e8d17c8fa" dir="auto"/><h1 id="3b5f6ce8-497f-80cc-9290-e88be7fe07c5" class="" dir="auto">Etapas da Configuração</h1><p id="3b5f6ce8-497f-8090-86ef-cb5da17a2a40" class="" dir="auto">A configuração do banco de dados envolve as seguintes etapas:</p><ol type="1" id="3b5f6ce8-497f-80f2-9716-cc27631129c4" class="numbered-list" start="1" dir="auto"><li>Criar o banco de dados.</li></ol><ol type="1" id="3b5f6ce8-497f-806c-b096-cbc51613b451" class="numbered-list" start="2" dir="auto"><li>Criar um usuário para o banco.</li></ol><ol type="1" id="3b5f6ce8-497f-80a6-8a53-e7a0253d6c0b" class="numbered-list" start="3" dir="auto"><li>Definir uma senha segura.</li></ol><ol type="1" id="3b5f6ce8-497f-808e-b874-c3c6dd8dede8" class="numbered-list" start="4" dir="auto"><li>Associar o usuário ao banco.</li></ol><ol type="1" id="3b5f6ce8-497f-8030-8535-dc784b079b3c" class="numbered-list" start="5" dir="auto"><li>Conceder permissões ao usuário.</li></ol><ol type="1" id="3b5f6ce8-497f-80bf-9f32-c3060dab357d" class="numbered-list" start="6" dir="auto"><li>Importar as tabelas da aplicação.</li></ol><ol type="1" id="3b5f6ce8-497f-80fc-97bd-f1000e4cf774" class="numbered-list" start="7" dir="auto"><li>Configurar a conexão no código PHP.</li></ol><ol type="1" id="3b5f6ce8-497f-80ed-a69f-d93ce1d6d20a" class="numbered-list" start="8" dir="auto"><li>Testar a conexão.</li></ol><hr id="3b5f6ce8-497f-809d-970b-d44257d0ff87" dir="auto"/><h1 id="3b5f6ce8-497f-80d0-ad44-e143c1f0c2ea" class="" dir="auto">Criando um Banco de Dados</h1><p id="3b5f6ce8-497f-8075-8938-f7eb22dfd19a" class="" dir="auto">A criação é feita pelo painel de hospedagem (como cPanel, Plesk ou VistaPanel).</p><p id="3b5f6ce8-497f-8099-8d93-d7dabb45af02" class="" dir="auto">Exemplo de nome:</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="3b5f6ce8-497f-8054-af22-d4628f276f7d" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">biblioteca_db</code></pre><p id="3b5f6ce8-497f-80fe-8abe-c68599b38150" class="" dir="auto">ou</p><pre id="3b5f6ce8-497f-808b-8b59-c21c82c5cbcc" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">loja_virtual</code></pre><p id="3b5f6ce8-497f-80b2-940d-e731f62758b7" class="" dir="auto">Em algumas hospedagens, o nome do banco recebe um prefixo automático.</p><p id="3b5f6ce8-497f-8067-a552-ebe71d303cbe" class="" dir="auto">Exemplo:</p><pre id="3b5f6ce8-497f-80c4-b7ce-f0bca09975aa" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">usuario_biblioteca</code></pre><hr id="3b5f6ce8-497f-8020-aca2-dd12e1bd9f9c" dir="auto"/><h1 id="3b5f6ce8-497f-80d6-a8af-e958bf81e43b" class="" dir="auto">Criando um Usuário</h1><p id="3b5f6ce8-497f-80f8-9217-d4b41134fec6" class="" dir="auto">Após criar o banco, é necessário criar um usuário.</p><p id="3b5f6ce8-497f-806d-b1ee-fb1bf84dbb78" class="" dir="auto">Exemplo:</p><pre id="3b5f6ce8-497f-80dd-9f59-f40281a664ac" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">biblioteca_user</code></pre><p id="3b5f6ce8-497f-80db-a0da-c933dec25d26" class="" dir="auto">Também é necessário definir uma senha.</p><p id="3b5f6ce8-497f-80e9-bbdd-f3d520f36705" class="" dir="auto">Exemplo:</p><pre id="3b5f6ce8-497f-8067-a9cb-f716d9a90895" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Senha:
+*************</code></pre><p id="3b5f6ce8-497f-803a-8d34-e75ec462843b" class="" dir="auto">Utilize sempre senhas fortes, contendo:</p><ul id="3b5f6ce8-497f-80f9-9803-f6e3f9b0a327" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Letras maiúsculas</li></ul><ul id="3b5f6ce8-497f-80c3-9ef8-eaa6b5048aaf" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Letras minúsculas</li></ul><ul id="3b5f6ce8-497f-80e5-8c6c-d7174658c1df" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Números</li></ul><ul id="3b5f6ce8-497f-809a-85ba-ffab39868901" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Caracteres especiais</li></ul><hr id="3b5f6ce8-497f-8077-b8db-ed9cfc5adfcd" dir="auto"/><h1 id="3b5f6ce8-497f-80c6-90d5-da4558beddc0" class="" dir="auto">Associando o Usuário ao Banco</h1><p id="3b5f6ce8-497f-80f5-a150-d16f9a7a3b27" class="" dir="auto">Depois da criação, o usuário deve ser vinculado ao banco de dados.</p><p id="3b5f6ce8-497f-80fa-a081-f51607786bad" class="" dir="auto">Exemplo:</p><pre id="3b5f6ce8-497f-8074-80c7-f564afa8d3c5" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Banco:
+biblioteca_db
+
+↓
+
+Usuário:
+biblioteca_user</code></pre><p id="3b5f6ce8-497f-8089-9039-df9e654b9c3a" class="" dir="auto">Sem essa associação, o usuário não poderá acessar o banco.</p><hr id="3b5f6ce8-497f-804f-a6d7-ffd3d13b2493" dir="auto"/><h1 id="3b5f6ce8-497f-8086-9416-ff00d874e6b3" class="" dir="auto">Definindo Permissões</h1><p id="3b5f6ce8-497f-80fd-a00f-d53f1c39d301" class="" dir="auto">Após associar o usuário ao banco, devem ser concedidas permissões.</p><p id="3b5f6ce8-497f-80bc-ae6e-c8820c59c836" class="" dir="auto">As permissões mais comuns incluem:</p><ul id="3b5f6ce8-497f-80f1-98ec-d17d16ee4189" class="bulleted-list" dir="auto"><li style="list-style-type:disc">SELECT</li></ul><ul id="3b5f6ce8-497f-80ef-9451-f4367d32d525" class="bulleted-list" dir="auto"><li style="list-style-type:disc">INSERT</li></ul><ul id="3b5f6ce8-497f-80f5-8a59-f7de30c0d4a4" class="bulleted-list" dir="auto"><li style="list-style-type:disc">UPDATE</li></ul><ul id="3b5f6ce8-497f-8003-b3da-eed82a0714bb" class="bulleted-list" dir="auto"><li style="list-style-type:disc">DELETE</li></ul><ul id="3b5f6ce8-497f-80b5-bf98-eb35052deacd" class="bulleted-list" dir="auto"><li style="list-style-type:disc">CREATE</li></ul><ul id="3b5f6ce8-497f-80a2-bbc6-ee878c487525" class="bulleted-list" dir="auto"><li style="list-style-type:disc">ALTER</li></ul><ul id="3b5f6ce8-497f-80df-9823-d4d380709b77" class="bulleted-list" dir="auto"><li style="list-style-type:disc">DROP</li></ul><ul id="3b5f6ce8-497f-8063-94d6-d38ad7ac5232" class="bulleted-list" dir="auto"><li style="list-style-type:disc">INDEX</li></ul><p id="3b5f6ce8-497f-80db-87af-c339d8f11e24" class="" dir="auto">Na maioria dos casos, para aplicações próprias, utiliza-se a opção <strong>ALL PRIVILEGES</strong>, permitindo que a aplicação execute todas as operações necessárias.</p><hr id="3b5f6ce8-497f-8093-b338-c17f4577e35e" dir="auto"/><h1 id="3b5f6ce8-497f-80be-b605-dda4f67c0af1" class="" dir="auto">Importando o Banco de Dados</h1><p id="3b5f6ce8-497f-80ec-9747-c1cd601dd5ca" class="" dir="auto">Após criar o banco vazio, é necessário importar as tabelas.</p><p id="3b5f6ce8-497f-804b-8d95-ea3439a3a202" class="" dir="auto">Normalmente isso é feito pelo <strong>phpMyAdmin</strong>.</p><p id="3b5f6ce8-497f-80d5-9426-f0be809f7dcf" class="" dir="auto">Passos:</p><ol type="1" id="3b5f6ce8-497f-808e-8b02-f1e1a980b2d6" class="numbered-list" start="1" dir="auto"><li>Abrir o phpMyAdmin.</li></ol><ol type="1" id="3b5f6ce8-497f-80b2-950e-d58ccb5870cd" class="numbered-list" start="2" dir="auto"><li>Selecionar o banco criado.</li></ol><ol type="1" id="3b5f6ce8-497f-8036-b909-c65ce0cf9407" class="numbered-list" start="3" dir="auto"><li>Clicar em <strong>Importar</strong>.</li></ol><ol type="1" id="3b5f6ce8-497f-808f-8bad-e8c6e53ff757" class="numbered-list" start="4" dir="auto"><li>Escolher o arquivo <code>.sql</code>.</li></ol><ol type="1" id="3b5f6ce8-497f-8094-bc7c-e403a491e539" class="numbered-list" start="5" dir="auto"><li>Executar a importação.</li></ol><p id="3b5f6ce8-497f-80aa-bbc2-f1ae7fcce4bb" class="" dir="auto">Exemplo:</p><pre id="3b5f6ce8-497f-80e5-981c-eab723236612" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">biblioteca.sql</code></pre><p id="3b5f6ce8-497f-8042-b43a-ea7022d21226" class="" dir="auto">Esse arquivo contém:</p><ul id="3b5f6ce8-497f-800a-b3b9-c2a1ee3a82f9" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Criação das tabelas.</li></ul><ul id="3b5f6ce8-497f-808e-8cde-c0183c442a67" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Estrutura do banco.</li></ul><ul id="3b5f6ce8-497f-8064-a51c-ec8f68c3e98d" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Dados iniciais (quando houver).</li></ul><hr id="3b5f6ce8-497f-802e-8d80-eeea0cc315de" dir="auto"/><h1 id="3b5f6ce8-497f-80e6-bc0f-df9d133be738" class="" dir="auto">Estrutura de um Banco</h1><p id="3b5f6ce8-497f-804f-bd5c-fa0f19e9e4a4" class="" dir="auto">Exemplo:</p><pre id="3b5f6ce8-497f-8058-a75b-feeff7a5dc73" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">biblioteca_db
+│
+├── usuarios
+├── livros
+├── emprestimos
+├── autores
+└── categorias</code></pre><p id="3b5f6ce8-497f-808c-a95f-db2624a4d900" class="" dir="auto">Cada tabela armazena um tipo específico de informação.</p><hr id="3b5f6ce8-497f-805e-b838-d30f792fdf80" dir="auto"/><h1 id="3b5f6ce8-497f-8001-8e16-c565762f2c4a" class="" dir="auto">Configurando a Conexão no PHP</h1><p id="3b5f6ce8-497f-80a7-99f4-cba32547b354" class="" dir="auto">Depois de criar o banco, a aplicação deve ser configurada para acessá-lo.</p><p id="3b5f6ce8-497f-8018-9003-f459cf440840" class="" dir="auto">As informações normalmente são:</p><ul id="3b5f6ce8-497f-80ae-b944-d5e09a3a737f" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Host</li></ul><ul id="3b5f6ce8-497f-80f0-97ce-e27863d89a20" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Nome do banco</li></ul><ul id="3b5f6ce8-497f-8020-bf9c-e2ca8859e971" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Usuário</li></ul><ul id="3b5f6ce8-497f-8003-b4de-d70ad77a2868" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Senha</li></ul><p id="3b5f6ce8-497f-801f-a578-cedce8b811a7" class="" dir="auto">Exemplo utilizando <strong>MySQLi</strong>:</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markup-templating.min.js" integrity="sha512-+8BiRfWso6waiFDv6tEmWF8yfPGgxAtOYLDUB0rRISLwtpxkJ9lpPNUhxwWlikn3qSO+4RQyzDppi62o3ON/AA==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-php.min.js" integrity="sha512-plzrTi61ltEMFf84gTVO9IkvIMfBu07bnDuahvdlIclmFWzXJ9VcRsny9d45sxFZRv3jJg/MHNyuxnUYEMxMEg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="3b5f6ce8-497f-809d-99d1-c2e2da72dc33" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">&lt;?php
+
+$host = &quot;localhost&quot;;
+$usuario = &quot;biblioteca_user&quot;;
+$senha = &quot;********&quot;;
+$banco = &quot;biblioteca_db&quot;;
+
+$conexao = new mysqli($host, $usuario, $senha, $banco);
+
+if ($conexao-&gt;connect_error) {
+    die(&quot;Erro de conexão: &quot; . $conexao-&gt;connect_error);
+}
+
+echo &quot;Conexão realizada com sucesso!&quot;;
+
+?&gt;</code></pre><p id="3b5f6ce8-497f-80c1-abe3-c95b099f1130" class="" dir="auto">Também é possível utilizar <strong>PDO</strong>, que oferece maior flexibilidade e suporte a diferentes bancos de dados.</p><hr id="3b5f6ce8-497f-80fa-9cf6-de7e04a11ac4" dir="auto"/><h1 id="3b5f6ce8-497f-8003-ac91-f49b4f43c4cf" class="" dir="auto">Significado dos parâmetros</h1><h2 id="3b5f6ce8-497f-80e7-a3cf-e560e21a3cef" class="" dir="auto">Host</h2><p id="3b5f6ce8-497f-8022-8c66-fe6b654df09a" class="" dir="auto">É o endereço do servidor onde o MySQL está instalado.</p><p id="3b5f6ce8-497f-806a-8b76-cf0859891087" class="" dir="auto">Exemplos:</p><pre id="3b5f6ce8-497f-80fa-8bd1-c82cbd399459" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">localhost</code></pre><p id="3b5f6ce8-497f-80ce-9d38-d30b4bc6da01" class="" dir="auto">ou</p><pre id="3b5f6ce8-497f-80e3-8b3b-e5152188683d" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">sql123.exemplo.com</code></pre><p id="3b5f6ce8-497f-8041-95f3-e9750f0e65b9" class="" dir="auto">Em hospedagens compartilhadas, o provedor informa o valor correto.</p><hr id="3b5f6ce8-497f-80ce-89bf-fe5c79ad81a0" dir="auto"/><h2 id="3b5f6ce8-497f-80dd-a0ec-fcbafee0b895" class="" dir="auto">Usuário</h2><p id="3b5f6ce8-497f-80f6-9c36-f9fb592d9434" class="" dir="auto">É o usuário autorizado a acessar o banco.</p><p id="3b5f6ce8-497f-8086-9f71-ee4ed0f2674c" class="" dir="auto">Exemplo:</p><pre id="3b5f6ce8-497f-803d-ab1e-eb7d3eb267e8" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">biblioteca_user</code></pre><hr id="3b5f6ce8-497f-8020-8841-e95cd6a94724" dir="auto"/><h2 id="3b5f6ce8-497f-801b-a416-c841533383da" class="" dir="auto">Senha</h2><p id="3b5f6ce8-497f-80cf-82f3-dddc7f13e798" class="" dir="auto">É a senha cadastrada para esse usuário.</p><hr id="3b5f6ce8-497f-806d-9462-db9b8014dd04" dir="auto"/><h2 id="3b5f6ce8-497f-80b2-b355-fc38b4cb581e" class="" dir="auto">Banco</h2><p id="3b5f6ce8-497f-80c0-9629-de21fb480956" class="" dir="auto">É o nome do banco criado.</p><p id="3b5f6ce8-497f-806d-9a70-e2410e582b81" class="" dir="auto">Exemplo:</p><pre id="3b5f6ce8-497f-80fa-941b-fc427b8885ac" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">biblioteca_db</code></pre><hr id="3b5f6ce8-497f-80c3-bc1e-dc8a2408b992" dir="auto"/><h1 id="3b5f6ce8-497f-804e-9d28-cfd59e9d8419" class="" dir="auto">Testando a Conexão</h1><p id="3b5f6ce8-497f-80dd-bd52-ddaa230cfc7c" class="" dir="auto">Após configurar o arquivo de conexão:</p><ol type="1" id="3b5f6ce8-497f-8050-bcc8-f9ff2d901c0b" class="numbered-list" start="1" dir="auto"><li>Salve as alterações.</li></ol><ol type="1" id="3b5f6ce8-497f-8001-af2c-db0739ba081e" class="numbered-list" start="2" dir="auto"><li>Acesse a aplicação pelo navegador.</li></ol><ol type="1" id="3b5f6ce8-497f-80fc-95f1-fffc82c31f80" class="numbered-list" start="3" dir="auto"><li>Verifique se não há mensagens de erro.</li></ol><ol type="1" id="3b5f6ce8-497f-803c-be73-c22596d778fa" class="numbered-list" start="4" dir="auto"><li>Teste funcionalidades que utilizam o banco de dados, como login e cadastro.</li></ol><hr id="3b5f6ce8-497f-8062-811f-f16fc51b0b5e" dir="auto"/><h1 id="3b5f6ce8-497f-80cc-86cf-c496e2e8b4e7" class="" dir="auto">Erros Comuns</h1><h2 id="3b5f6ce8-497f-8056-9168-cbed24750c64" class="" dir="auto">Erro de autenticação</h2><p id="3b5f6ce8-497f-80b1-b335-f9e01bcffa4f" class="" dir="auto">Mensagem:</p><pre id="3b5f6ce8-497f-808a-bd48-dce0a041d35b" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Access denied for user</code></pre><p id="3b5f6ce8-497f-800e-81a5-f56947d43ec2" class="" dir="auto">Possíveis causas:</p><ul id="3b5f6ce8-497f-8028-b869-e6bff6b5028c" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Usuário incorreto.</li></ul><ul id="3b5f6ce8-497f-801a-a39c-ebb10f42fca4" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Senha incorreta.</li></ul><ul id="3b5f6ce8-497f-80c1-86a4-d6794079c7c3" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Usuário sem permissão para acessar o banco.</li></ul><hr id="3b5f6ce8-497f-8056-bc5f-d5fc64bc9ed5" dir="auto"/><h2 id="3b5f6ce8-497f-807f-8317-c0625a3faf5a" class="" dir="auto">Banco inexistente</h2><p id="3b5f6ce8-497f-8072-ac39-d32596fa3226" class="" dir="auto">Mensagem:</p><pre id="3b5f6ce8-497f-8043-8a86-c3ce13613466" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Unknown database</code></pre><p id="3b5f6ce8-497f-8040-959f-d29d65aef2c6" class="" dir="auto">O nome do banco informado no código está incorreto ou o banco não foi criado.</p><hr id="3b5f6ce8-497f-8094-833e-cb39ed3bf1ba" dir="auto"/><h2 id="3b5f6ce8-497f-803e-896c-c513d533b91d" class="" dir="auto">Tabela inexistente</h2><p id="3b5f6ce8-497f-8008-a364-c476a4f167cf" class="" dir="auto">Mensagem:</p><pre id="3b5f6ce8-497f-8043-ab2e-e276f001e914" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Table doesn&#x27;t exist</code></pre><p id="3b5f6ce8-497f-80cb-8c22-d51169658bd2" class="" dir="auto">O arquivo <code>.sql</code> pode não ter sido importado ou a tabela esperada não existe.</p><hr id="3b5f6ce8-497f-80ea-aba2-e2ad2d6aee8c" dir="auto"/><h2 id="3b5f6ce8-497f-809e-bd69-d311f38245e8" class="" dir="auto">Erro de conexão</h2><p id="3b5f6ce8-497f-801d-956b-e421a7824ff7" class="" dir="auto">Mensagem:</p><pre id="3b5f6ce8-497f-806c-8f3d-f031610d0e93" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Connection refused</code></pre><p id="3b5f6ce8-497f-8019-9ad8-e955f013f146" class="" dir="auto">Pode indicar:</p><ul id="3b5f6ce8-497f-8008-a87e-f25ba0819387" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Host incorreto.</li></ul><ul id="3b5f6ce8-497f-8098-9c7e-e3f489ecd59c" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Servidor MySQL indisponível.</li></ul><ul id="3b5f6ce8-497f-8053-bf7e-cc663c527106" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Configuração incorreta da hospedagem.</li></ul><hr id="3b5f6ce8-497f-8042-ac67-f84b07ef68b3" dir="auto"/><h1 id="3b5f6ce8-497f-80aa-9bcd-c9230f24cdea" class="" dir="auto">Diferença entre ambiente local e hospedagem</h1><p id="3b5f6ce8-497f-8018-a014-e94227ec6dcc" class="" dir="auto">Durante o desenvolvimento, é comum utilizar:</p><pre id="3b5f6ce8-497f-809e-ad9c-f409c10f7708" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Host:
+localhost</code></pre><p id="3b5f6ce8-497f-8047-b55e-f5bd3b193603" class="" dir="auto">Já em hospedagens, o host pode ser diferente.</p><p id="3b5f6ce8-497f-80b1-9ce4-f91540ee0045" class="" dir="auto">Exemplo:</p><pre id="3b5f6ce8-497f-8066-8649-e219dc1ef4bc" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">sql205.infinityfree.com</code></pre><p id="3b5f6ce8-497f-80ec-b45b-d4cdf6dfea43" class="" dir="auto">Além disso, nomes de bancos e usuários geralmente recebem prefixos definidos pela hospedagem.</p><hr id="3b5f6ce8-497f-807f-a64c-f67646327bb7" dir="auto"/><h1 id="3b5f6ce8-497f-8025-8ed3-c552edd43f18" class="" dir="auto">Exemplo Prático</h1><p id="3b5f6ce8-497f-80ba-9d04-dcd5fa6ab3d8" class="" dir="auto">Imagine que você desenvolveu um sistema de biblioteca.</p><p id="3b5f6ce8-497f-804d-83ab-f9c40b4304c7" class="" dir="auto">O processo seria:</p><ol type="1" id="3b5f6ce8-497f-80b3-9dd6-d0326786168b" class="numbered-list" start="1" dir="auto"><li>Criar o banco de dados <code>biblioteca_db</code>.</li></ol><ol type="1" id="3b5f6ce8-497f-80fd-897e-e31b0dbcf90c" class="numbered-list" start="2" dir="auto"><li>Criar o usuário <code>biblioteca_user</code>.</li></ol><ol type="1" id="3b5f6ce8-497f-8032-bb31-cfef53fba926" class="numbered-list" start="3" dir="auto"><li>Definir uma senha segura.</li></ol><ol type="1" id="3b5f6ce8-497f-803f-9748-f9e6eb97730c" class="numbered-list" start="4" dir="auto"><li>Associar o usuário ao banco.</li></ol><ol type="1" id="3b5f6ce8-497f-805b-afd3-cca769755ec0" class="numbered-list" start="5" dir="auto"><li>Conceder permissões.</li></ol><ol type="1" id="3b5f6ce8-497f-8058-b414-d4bdeacb13cc" class="numbered-list" start="6" dir="auto"><li>Importar o arquivo <code>biblioteca.sql</code>.</li></ol><ol type="1" id="3b5f6ce8-497f-804f-a63e-cdf477ea4cfb" class="numbered-list" start="7" dir="auto"><li>Configurar o arquivo <code>config.php</code> com os dados corretos.</li></ol><ol type="1" id="3b5f6ce8-497f-80bf-ada4-df6cfdcdf4bc" class="numbered-list" start="8" dir="auto"><li>Testar o login e o cadastro de livros.</li></ol><p id="3b5f6ce8-497f-803f-94e4-de724f8a13b4" class="" dir="auto">Se todas as etapas forem executadas corretamente, a aplicação estará pronta para armazenar e consultar informações.</p><hr id="3b5f6ce8-497f-804a-9634-e69bf6c44c87" dir="auto"/><h1 id="3b5f6ce8-497f-800e-a7b3-debbf0006199" class="" dir="auto">Vantagens de uma configuração correta</h1><ul id="3b5f6ce8-497f-8016-85aa-caa8b49fab10" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Funcionamento adequado da aplicação.</li></ul><ul id="3b5f6ce8-497f-807d-868b-e9d15ba59589" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Acesso seguro aos dados.</li></ul><ul id="3b5f6ce8-497f-80fc-adf9-dcbf8083e6cd" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Maior desempenho.</li></ul><ul id="3b5f6ce8-497f-8060-b5be-d0ab5033516e" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Facilidade de manutenção.</li></ul><ul id="3b5f6ce8-497f-80eb-b066-d46b72486135" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Redução de erros durante a execução.</li></ul><ul id="3b5f6ce8-497f-8068-9178-fe18168313c3" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Organização das informações em tabelas relacionais.</li></ul><hr id="3b5f6ce8-497f-804a-a04e-f327c3c07709" dir="auto"/><h1 id="3b5f6ce8-497f-8057-b0b8-d593df09313a" class="" dir="auto">Cuidados importantes</h1><ul id="3b5f6ce8-497f-80f0-a4fb-fd23a91c138e" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Nunca utilize o usuário administrador (<code>root</code>) em ambientes de produção.</li></ul><ul id="3b5f6ce8-497f-80c1-9080-c2244938b477" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Utilize senhas fortes e exclusivas para o banco de dados.</li></ul><ul id="3b5f6ce8-497f-80c8-9b56-e91da4a77b79" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Faça backups periódicos do banco.</li></ul><ul id="3b5f6ce8-497f-80e1-a7bc-c9f960b26e7b" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Conceda apenas as permissões necessárias quando possível (princípio do menor privilégio).</li></ul><ul id="3b5f6ce8-497f-805f-84b3-cdfd0d34e76f" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Proteja arquivos de configuração que contenham credenciais.</li></ul><ul id="3b5f6ce8-497f-80f4-81f3-e26c6997fc8e" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Não exponha senhas ou dados do banco em repositórios públicos.</li></ul><ul id="3b5f6ce8-497f-80ac-b497-c3583c858db4" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Teste a conexão antes de disponibilizar a aplicação aos usuários.</li></ul><hr id="3b5f6ce8-497f-8007-8cb3-c99bea57f767" dir="auto"/><h1 id="3b5f6ce8-497f-80e1-a36f-f3f915e8429e" class="" dir="auto">Boas práticas</h1><ul id="3b5f6ce8-497f-80ab-af05-fb516b8f639d" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Organize o código de conexão em um único arquivo (por exemplo, <code>config.php</code> ou <code>conexao.php</code>) para facilitar a manutenção.</li></ul><ul id="3b5f6ce8-497f-808f-9781-c9c72fbc9279" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Utilize <strong>PDO</strong> ou <strong>MySQLi</strong> com <strong>consultas preparadas (Prepared Statements)</strong> para aumentar a segurança contra ataques de SQL Injection.</li></ul><ul id="3b5f6ce8-497f-803f-a539-dcfa1ba5ace9" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Valide e trate possíveis erros de conexão de forma adequada.</li></ul><ul id="3b5f6ce8-497f-802b-b860-f8919e1b950c" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Mantenha o MySQL e o PHP atualizados.</li></ul><ul id="3b5f6ce8-497f-802d-9ec4-f7e3486d68a1" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Monitore o desempenho do banco e realize otimizações quando necessário.</li></ul><hr id="3b5f6ce8-497f-80af-9e46-c36d5b4723b6" dir="auto"/><h1 id="3b5f6ce8-497f-80b0-b823-dd1487bf503d" class="" dir="auto">Resumo</h1><p id="3b5f6ce8-497f-807f-82a9-fd6f40b78323" class="" dir="auto">Configurar o <strong>Banco de Dados MySQL</strong> é uma etapa indispensável na publicação de aplicações web. O processo envolve criar o banco de dados, criar e associar um usuário, conceder permissões, importar as tabelas e configurar a conexão da aplicação. Uma configuração correta garante que o sistema possa armazenar e recuperar informações com segurança e eficiência. Além disso, seguir boas práticas, como utilizar senhas fortes, backups regulares e consultas preparadas, contribui para um ambiente mais seguro, estável e confiável.</p></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

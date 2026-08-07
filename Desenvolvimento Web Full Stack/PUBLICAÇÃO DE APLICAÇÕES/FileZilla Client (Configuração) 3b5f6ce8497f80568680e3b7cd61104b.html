@@ -1,0 +1,847 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>FileZilla Client (Configuração)</title><meta name="data-notion-page-icon" content="/icons/subtask_red.svg"/><link rel="icon" href="https://app.notion.com/icons/subtask_red.svg"/><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+/* For default-background callouts, render the border outline. */
+.callout.block-color-default_background {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+/*
+ * Toggles and callouts hold arbitrary content, so they can easily be taller
+ * than a page. They must stay breakable: avoiding breaks inside them makes
+ * Chromium push the whole block onto the next page, which leaves the previous
+ * page mostly empty before every long toggle.
+ */
+details,
+aside {
+	margin: 1.25em 0;
+}
+
+/* Keep a toggle's title on the same page as the start of its content. */
+summary {
+	page-break-after: avoid;
+	break-after: avoid;
+}
+
+/*
+ * Toggle headings render as <h1/h2/h3 style="display:inline-block"> inside
+ * <summary>. Without this reset, the heading's margin-top pushes it below the
+ * ::marker (▼), so the triangle and the title appear on separate lines.
+ */
+summary h1,
+summary h2,
+summary h3,
+summary h4 {
+	margin-top: 0;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding-inline: 0.125rem;
+	padding-block: 0.375rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+/*
+ * Render emoji icons using a ::before pseudo-element to keep the glyph
+ * out of the DOM textContent traversal. This avoids double-rendering icons
+ * in callouts and page titles.
+ * NOTE(slim/html-export-pseudo-icons): I can't tagref this because it will
+ * flag as a duplicate tag after codegen.
+ */
+.icon[data-emoji]::before {
+	content: attr(data-emoji);
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	margin-right: 0.4em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.tab {
+	margin: 1.25em 0;
+	padding-inline: 1rem;
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style><style>@import url('https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex-swap.min.css')</style></head><body><article id="3b5f6ce8-497f-8056-8680-e3b7cd61104b" class="page sans" data-notion-page-icon="/icons/subtask_red.svg"><header><div class="page-header-icon undefined"><img class="icon notion-static-icon" src="https://app.notion.com/icons/subtask_red.svg"/></div><h1 class="page-title" dir="auto">FileZilla Client (Configuração)</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><h1 id="3b5f6ce8-497f-80b8-bac1-cab3a6b840b2" class="" dir="auto">FileZilla Client FTP (Configuração)</h1><p id="3b5f6ce8-497f-80fa-b29e-d6c6b80215a8" class="" dir="auto">O <strong>FileZilla Client</strong> é um dos clientes FTP mais populares do mundo. Ele é um software gratuito e de código aberto utilizado para <strong>transferir arquivos entre um computador e um servidor de hospedagem</strong>. É amplamente utilizado por desenvolvedores web para publicar sites, aplicações PHP, imagens, documentos e outros arquivos em servidores remotos.</p><p id="3b5f6ce8-497f-80b2-888d-ded08011f0dc" class="" dir="auto">Além do protocolo <strong>FTP</strong>, o FileZilla também oferece suporte aos protocolos <strong>FTPS</strong> (FTP com criptografia SSL/TLS) e <strong>SFTP</strong> (SSH File Transfer Protocol), sendo estes dois últimos mais seguros para a transferência de dados.</p><hr id="3b5f6ce8-497f-8097-a579-cee0544622a8" dir="auto"/><h1 id="3b5f6ce8-497f-80ca-9eaf-fd2b28487614" class="" dir="auto">O que é o FileZilla Client?</h1><p id="3b5f6ce8-497f-8087-9d12-c2dc7b0c8c6d" class="" dir="auto">O FileZilla Client é um programa que permite conectar seu computador a um servidor remoto para enviar, baixar, copiar, mover e excluir arquivos.</p><p id="3b5f6ce8-497f-8003-885b-ecfd690750ec" class="" dir="auto">Ele é muito utilizado para:</p><ul id="3b5f6ce8-497f-80de-b558-c1f258e96c70" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Publicar sites.</li></ul><ul id="3b5f6ce8-497f-80aa-a654-c772cf910edb" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Enviar aplicações PHP.</li></ul><ul id="3b5f6ce8-497f-802b-8b8d-c0f7dcd2eb73" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Atualizar arquivos do servidor.</li></ul><ul id="3b5f6ce8-497f-8059-98f8-d74e3480954e" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Fazer backup de arquivos.</li></ul><ul id="3b5f6ce8-497f-801d-9f47-cbbdc6834dee" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Gerenciar documentos hospedados.</li></ul><p id="3b5f6ce8-497f-80c2-9616-d69ceaeb5468" class="" dir="auto">Sua interface é simples e semelhante ao Explorador de Arquivos do Windows.</p><hr id="3b5f6ce8-497f-806f-a5c3-c5008afb78ef" dir="auto"/><h1 id="3b5f6ce8-497f-80b3-a4dc-cd5f729d653c" class="" dir="auto">O que é FTP?</h1><p id="3b5f6ce8-497f-809e-a552-c83eb2fdca9f" class="" dir="auto"><strong>FTP (File Transfer Protocol)</strong> é um protocolo de rede criado para realizar a transferência de arquivos entre computadores.</p><p id="3b5f6ce8-497f-8075-9347-f09ad89fb9c3" class="" dir="auto">Ele permite:</p><ul id="3b5f6ce8-497f-80ec-ae76-f7a393d73184" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Enviar arquivos para um servidor.</li></ul><ul id="3b5f6ce8-497f-80ee-87f1-f3f2204de889" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Baixar arquivos do servidor.</li></ul><ul id="3b5f6ce8-497f-804f-a7e0-d0b99744cf6e" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Criar pastas.</li></ul><ul id="3b5f6ce8-497f-8076-8ad8-decaa7e880af" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Renomear arquivos.</li></ul><ul id="3b5f6ce8-497f-800c-b8d0-d4220e1b1338" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Excluir arquivos.</li></ul><p id="3b5f6ce8-497f-8030-b8bf-e9e19f8fcf52" class="" dir="auto">Embora ainda seja utilizado, o FTP tradicional transmite dados sem criptografia, por isso, sempre que possível, deve-se utilizar <strong>FTPS</strong> ou <strong>SFTP</strong>.</p><hr id="3b5f6ce8-497f-806c-befa-e4adfa4b602f" dir="auto"/><h1 id="3b5f6ce8-497f-80b4-b361-e42804bd5c16" class="" dir="auto">Diferença entre FTP, FTPS e SFTP</h1><table id="3b5f6ce8-497f-80d5-9192-f31cccb852bc" class="simple-table" dir="ltr"><thead class="simple-table-header"><tr id="3b5f6ce8-497f-802a-9b79-dc2514db45bc" dir="ltr"><th id="eCfR" class="simple-table-header-color simple-table-header">Protocolo</th><th id="N=eL" class="simple-table-header-color simple-table-header">Segurança</th><th id="nGae" class="simple-table-header-color simple-table-header">Porta padrão</th><th id="pSvv" class="simple-table-header-color simple-table-header">Características</th></tr></thead><tbody><tr id="3b5f6ce8-497f-8025-88ea-d1b5e41d00c7" dir="ltr"><td id="eCfR" class="">FTP</td><td id="N=eL" class="">Baixa</td><td id="nGae" class="">21</td><td id="pSvv" class="">Não criptografa os dados.</td></tr><tr id="3b5f6ce8-497f-80c5-82d6-c5becc1782bb" dir="ltr"><td id="eCfR" class="">FTPS</td><td id="N=eL" class="">Alta</td><td id="nGae" class="">21 (com SSL/TLS)</td><td id="pSvv" class="">Utiliza criptografia SSL/TLS.</td></tr><tr id="3b5f6ce8-497f-8057-b78e-ec1b8aeff040" dir="ltr"><td id="eCfR" class="">SFTP</td><td id="N=eL" class="">Muito alta</td><td id="nGae" class="">22</td><td id="pSvv" class="">Funciona sobre SSH, oferecendo comunicação criptografada.</td></tr></tbody></table><p id="3b5f6ce8-497f-805b-899b-f671b95de90f" class="" dir="auto"><strong>Recomendação:</strong> para aplicações em produção, prefira <strong>SFTP</strong> ou <strong>FTPS</strong>, pois protegem credenciais e arquivos durante a transmissão.</p><hr id="3b5f6ce8-497f-8001-9be3-ccadfa3a0cfb" dir="auto"/><h1 id="3b5f6ce8-497f-809d-b8cd-fca6f1d0393a" class="" dir="auto">Interface do FileZilla</h1><p id="3b5f6ce8-497f-8034-b7f8-edbf14cf9741" class="" dir="auto">Ao abrir o FileZilla, a janela é dividida em áreas.</p><h2 id="3b5f6ce8-497f-80aa-83da-c537744eb200" class="" dir="auto">Barra de conexão rápida</h2><p id="3b5f6ce8-497f-804e-bb12-d52c39b95f2d" class="" dir="auto">Localizada na parte superior, permite informar rapidamente:</p><ul id="3b5f6ce8-497f-807d-a8d1-ca34ec95592f" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Host</li></ul><ul id="3b5f6ce8-497f-8005-9898-ed28e9e53540" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Usuário</li></ul><ul id="3b5f6ce8-497f-802b-ae34-dde79c9c6117" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Senha</li></ul><ul id="3b5f6ce8-497f-809f-9ec6-dff318cdfc8b" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Porta</li></ul><hr id="3b5f6ce8-497f-8029-ad9a-f2f077be391a" dir="auto"/><h2 id="3b5f6ce8-497f-80c8-a555-e1721b22638d" class="" dir="auto">Painel Local</h2><p id="3b5f6ce8-497f-809c-bfb0-f32d645ec14e" class="" dir="auto">Mostra os arquivos existentes no computador.</p><p id="3b5f6ce8-497f-8035-a919-fcdffb444fe6" class="" dir="auto">Exemplo:</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="3b5f6ce8-497f-80b6-88ad-fa48b8fa3370" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">C:
+├── Projetos
+│   ├── SistemaLoja
+│   ├── Biblioteca
+│   └── index.php</code></pre><hr id="3b5f6ce8-497f-808d-916e-d1cc5c9dcb00" dir="auto"/><h2 id="3b5f6ce8-497f-8090-a147-f3e1b89825dd" class="" dir="auto">Painel Remoto</h2><p id="3b5f6ce8-497f-8042-9750-c4f91abbec85" class="" dir="auto">Mostra os arquivos armazenados no servidor.</p><p id="3b5f6ce8-497f-8085-af68-dd00287c8873" class="" dir="auto">Exemplo:</p><pre id="3b5f6ce8-497f-8051-922a-d59e534f960d" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Servidor
+├── public_html
+│   ├── index.php
+│   ├── css
+│   ├── imagens
+│   └── uploads</code></pre><hr id="3b5f6ce8-497f-8083-8882-e4560bcee93b" dir="auto"/><h2 id="3b5f6ce8-497f-805e-a050-ce762be5f92b" class="" dir="auto">Fila de Transferência</h2><p id="3b5f6ce8-497f-8029-9e30-d68b50ab9174" class="" dir="auto">Exibe:</p><ul id="3b5f6ce8-497f-8078-8857-ea8452a0b76a" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Arquivos enviados.</li></ul><ul id="3b5f6ce8-497f-80c2-a6e0-d0c6de5d89ae" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Arquivos recebidos.</li></ul><ul id="3b5f6ce8-497f-805a-9aac-caaf0ffd5276" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Erros.</li></ul><ul id="3b5f6ce8-497f-8060-941b-c6e65a2dee3c" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Transferências em andamento.</li></ul><hr id="3b5f6ce8-497f-8031-bbb8-d3ce7d27edc3" dir="auto"/><h1 id="3b5f6ce8-497f-80c7-8360-c9221665767b" class="" dir="auto">Informações necessárias para conectar</h1><p id="3b5f6ce8-497f-80a9-96eb-e518c045e235" class="" dir="auto">Antes da configuração, a empresa de hospedagem fornece os dados de acesso.</p><p id="3b5f6ce8-497f-80d0-bd04-dd72a706f424" class="" dir="auto">Normalmente são:</p><ul id="3b5f6ce8-497f-8063-ab00-f0f08d30c831" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Host (Servidor FTP)</li></ul><ul id="3b5f6ce8-497f-800d-97c5-c20b150bb546" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Nome de usuário</li></ul><ul id="3b5f6ce8-497f-8000-9c68-db753f3b0678" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Senha</li></ul><ul id="3b5f6ce8-497f-80e6-abcf-ef6c5e15ae23" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Porta</li></ul><ul id="3b5f6ce8-497f-80b5-b425-de62aa95e3d9" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Tipo de protocolo</li></ul><p id="3b5f6ce8-497f-804d-ace1-d29f6d1183e8" class="" dir="auto">Exemplo:</p><pre id="3b5f6ce8-497f-800d-be16-de306d273d73" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Host: ftp.meusite.com
+Usuário: usuario123
+Senha: ********
+Porta: 21</code></pre><p id="3b5f6ce8-497f-8076-ad0c-c994801aeec1" class="" dir="auto">Ou, para SFTP:</p><pre id="3b5f6ce8-497f-80f1-979f-c79224b9ae8c" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Host: sftp.meusite.com
+Usuário: usuario123
+Senha: ********
+Porta: 22</code></pre><hr id="3b5f6ce8-497f-80db-be89-f47d4e140aeb" dir="auto"/><h1 id="3b5f6ce8-497f-8092-923b-dc84dd8e4a66" class="" dir="auto">Configurando o FileZilla</h1><h2 id="3b5f6ce8-497f-80ab-9c5c-ee7a97316cfe" class="" dir="auto">Método 1 – Conexão Rápida</h2><p id="3b5f6ce8-497f-8040-845f-effb579e26a8" class="" dir="auto">Na barra superior do FileZilla, preencha:</p><p id="3b5f6ce8-497f-80b2-8338-f3e91f80038b" class="" dir="auto">Host:</p><pre id="3b5f6ce8-497f-80c6-b448-f0d3987898a6" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">ftp.meusite.com</code></pre><p id="3b5f6ce8-497f-8013-86a1-cea3e8f3c87c" class="" dir="auto">Usuário:</p><pre id="3b5f6ce8-497f-805b-86c0-cdb438d3647d" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">usuario123</code></pre><p id="3b5f6ce8-497f-80ef-8989-ecf7f234df10" class="" dir="auto">Senha:</p><pre id="3b5f6ce8-497f-80fd-b93c-eeb24787142c" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">********</code></pre><p id="3b5f6ce8-497f-80c1-af77-ca0bd400820a" class="" dir="auto">Porta:</p><pre id="3b5f6ce8-497f-809e-b55e-df9e69bf4fc0" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">21</code></pre><p id="3b5f6ce8-497f-80d7-b7a4-d401810b19e9" class="" dir="auto">Clique em <strong>Conexão Rápida (Quickconnect)</strong>.</p><p id="3b5f6ce8-497f-808e-ae17-db429e8318d3" class="" dir="auto">Se os dados estiverem corretos, a conexão será estabelecida.</p><hr id="3b5f6ce8-497f-80be-b369-fd62137730f4" dir="auto"/><h2 id="3b5f6ce8-497f-80fd-808f-fd213f790b18" class="" dir="auto">Método 2 – Gerenciador de Sites (Recomendado)</h2><p id="3b5f6ce8-497f-8079-8294-d5c0de749538" class="" dir="auto">O <strong>Gerenciador de Sites (Site Manager)</strong> permite salvar conexões para reutilização.</p><p id="3b5f6ce8-497f-8000-8e8c-efee038c5fb6" class="" dir="auto">Passos:</p><ol type="1" id="3b5f6ce8-497f-80e6-afb4-cf404b534174" class="numbered-list" start="1" dir="auto"><li>Abra o FileZilla.</li></ol><ol type="1" id="3b5f6ce8-497f-8006-b7b8-e746a0d739b8" class="numbered-list" start="2" dir="auto"><li>Clique em <strong>Arquivo → Gerenciador de Sites</strong>.</li></ol><ol type="1" id="3b5f6ce8-497f-80d5-8062-d6d02b77fab8" class="numbered-list" start="3" dir="auto"><li>Clique em <strong>Novo Site</strong>.</li></ol><ol type="1" id="3b5f6ce8-497f-80ec-8921-efef9e7c47a7" class="numbered-list" start="4" dir="auto"><li>Informe um nome para identificar a conexão.</li></ol><ol type="1" id="3b5f6ce8-497f-8087-bd63-ed36c1771bf1" class="numbered-list" start="5" dir="auto"><li>Configure os dados do servidor.</li></ol><ol type="1" id="3b5f6ce8-497f-8010-86c7-fc301c704839" class="numbered-list" start="6" dir="auto"><li>Salve a configuração.</li></ol><p id="3b5f6ce8-497f-8009-ab39-d30a3c73dc42" class="" dir="auto">Essa é a forma mais indicada para quem acessa o mesmo servidor com frequência.</p><hr id="3b5f6ce8-497f-809d-9797-c8b090b013d3" dir="auto"/><h1 id="3b5f6ce8-497f-80cd-89bc-f1de8a06e60b" class="" dir="auto">Configuração FTP</h1><p id="3b5f6ce8-497f-8041-9752-dc435b701deb" class="" dir="auto">Exemplo de configuração:</p><pre id="3b5f6ce8-497f-801f-b367-cc417480cc92" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Host:
+ftp.meusite.com
+
+Porta:
+21
+
+Protocolo:
+FTP
+
+Criptografia:
+Usar FTP explícito sobre TLS, se disponível
+
+Tipo de logon:
+Normal
+
+Usuário:
+usuario123
+
+Senha:
+********</code></pre><hr id="3b5f6ce8-497f-80cf-b60e-ee169556ecef" dir="auto"/><h1 id="3b5f6ce8-497f-809d-b34a-dd040a425403" class="" dir="auto">Configuração SFTP</h1><p id="3b5f6ce8-497f-802c-9f3f-d2ff4d6bb8d8" class="" dir="auto">Exemplo:</p><pre id="3b5f6ce8-497f-8016-9749-cf64a8b70c1a" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Host:
+sftp.meusite.com
+
+Porta:
+22
+
+Protocolo:
+SFTP
+
+Usuário:
+usuario123
+
+Senha:
+********</code></pre><p id="3b5f6ce8-497f-8085-a35b-e0d3151aa79a" class="" dir="auto">Essa é a opção mais segura quando o servidor oferece suporte.</p><hr id="3b5f6ce8-497f-8068-b107-f6e83c2e2aea" dir="auto"/><h1 id="3b5f6ce8-497f-8054-883d-c007aa3c6bda" class="" dir="auto">Publicando uma aplicação PHP</h1><p id="3b5f6ce8-497f-80a4-94fd-f8db13cf5612" class="" dir="auto">Depois de conectar ao servidor:</p><h3 id="3b5f6ce8-497f-8005-8070-c02cbfe2c25b" class="" dir="auto">1. Localize a pasta do projeto</h3><p id="3b5f6ce8-497f-802a-b6d4-e0d15582a6cc" class="" dir="auto">Exemplo:</p><pre id="3b5f6ce8-497f-808f-b0cf-d97bf25f9fa6" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">SistemaLoja
+│
+├── index.php
+├── login.php
+├── css
+├── js
+└── imagens</code></pre><hr id="3b5f6ce8-497f-80c3-a0ec-cbc53cb9d9d4" dir="auto"/><h3 id="3b5f6ce8-497f-80f1-bffd-f523afad7918" class="" dir="auto">2. Abra a pasta pública do servidor</h3><p id="3b5f6ce8-497f-808d-8afc-fe946ddb8da3" class="" dir="auto">Normalmente:</p><pre id="3b5f6ce8-497f-80e8-8fb9-eec25e0ef4d1" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">public_html</code></pre><p id="3b5f6ce8-497f-801f-bb2d-d8eb17a73646" class="" dir="auto">ou</p><pre id="3b5f6ce8-497f-8011-99bb-e27075ad37c4" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">htdocs</code></pre><hr id="3b5f6ce8-497f-806c-8ddf-f30c1cfcb33b" dir="auto"/><h3 id="3b5f6ce8-497f-8013-b3ff-d5dd76000c85" class="" dir="auto">3. Envie os arquivos</h3><p id="3b5f6ce8-497f-8056-9606-f90498beccf1" class="" dir="auto">Selecione os arquivos no painel local e:</p><ul id="3b5f6ce8-497f-80e2-ae07-fb7d7750a682" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Arraste para o painel remoto; ou</li></ul><ul id="3b5f6ce8-497f-80fc-84a1-ef9be143b744" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Clique com o botão direito e escolha <strong>Enviar (Upload)</strong>.</li></ul><p id="3b5f6ce8-497f-805b-82ad-c20508d4568b" class="" dir="auto">O FileZilla iniciará a transferência.</p><hr id="3b5f6ce8-497f-8056-a620-fe72e83a822e" dir="auto"/><h1 id="3b5f6ce8-497f-80a9-9aa5-cd259c2560b9" class="" dir="auto">Atualizando um site</h1><p id="3b5f6ce8-497f-802c-9507-f9bbb435f672" class="" dir="auto">Quando alterar um arquivo local:</p><ol type="1" id="3b5f6ce8-497f-80b6-93d8-c1e54affe9a3" class="numbered-list" start="1" dir="auto"><li>Salve as modificações.</li></ol><ol type="1" id="3b5f6ce8-497f-807e-957a-cde0d014c6e8" class="numbered-list" start="2" dir="auto"><li>Envie novamente o arquivo para o servidor.</li></ol><ol type="1" id="3b5f6ce8-497f-8093-a312-ff0098ba1e13" class="numbered-list" start="3" dir="auto"><li>O FileZilla perguntará se deseja substituir o arquivo existente.</li></ol><ol type="1" id="3b5f6ce8-497f-8012-9bf2-e42173a577ae" class="numbered-list" start="4" dir="auto"><li>Confirme a substituição.</li></ol><p id="3b5f6ce8-497f-80e0-9e9d-ea412d792e32" class="" dir="auto">O site será atualizado imediatamente (salvo se houver algum sistema de cache).</p><hr id="3b5f6ce8-497f-8059-bdfe-ea6b4fd1f808" dir="auto"/><h1 id="3b5f6ce8-497f-800a-b774-f4852a563007" class="" dir="auto">Permissões de arquivos</h1><p id="3b5f6ce8-497f-80c5-9559-fbf47069f4f8" class="" dir="auto">Alguns servidores permitem alterar permissões pelo FileZilla.</p><p id="3b5f6ce8-497f-80d1-b52b-fbc749f5b231" class="" dir="auto">Exemplo de permissões em sistemas Linux:</p><pre id="3b5f6ce8-497f-8085-86c8-c83860771fb2" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">755</code></pre><p id="3b5f6ce8-497f-806a-860e-efbb930d8340" class="" dir="auto">Usado para diretórios.</p><hr id="3b5f6ce8-497f-8029-8afa-db53f0f8daf9" dir="auto"/><pre id="3b5f6ce8-497f-807f-b0de-ed9f058087c6" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">644</code></pre><p id="3b5f6ce8-497f-80bb-a504-e7a81c7ee3bf" class="" dir="auto">Usado para arquivos.</p><p id="3b5f6ce8-497f-808e-8c12-ca082e175446" class="" dir="auto">Essas permissões ajudam a proteger os arquivos e permitem o funcionamento correto da aplicação.</p><hr id="3b5f6ce8-497f-80ce-a9c8-f54cccbabfc2" dir="auto"/><h1 id="3b5f6ce8-497f-800a-a0cb-fcf71948e42c" class="" dir="auto">Mensagens comuns</h1><h2 id="3b5f6ce8-497f-8036-ad8b-dafda2d51547" class="" dir="auto">Conexão bem-sucedida</h2><pre id="3b5f6ce8-497f-803b-a0fa-d6a3f9397ee1" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Directory listing successful</code></pre><p id="3b5f6ce8-497f-804a-9ef1-cc1a900a5642" class="" dir="auto">Significa que o servidor respondeu corretamente.</p><hr id="3b5f6ce8-497f-8075-b416-f3fd91e4ec36" dir="auto"/><h2 id="3b5f6ce8-497f-8066-955a-fac7b9c80404" class="" dir="auto">Senha incorreta</h2><pre id="3b5f6ce8-497f-80ef-835d-f589a335d8f6" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Authentication failed</code></pre><p id="3b5f6ce8-497f-801d-b1e6-ed91f2221c7a" class="" dir="auto">Verifique usuário e senha.</p><hr id="3b5f6ce8-497f-8039-8e93-db1bfeeb2736" dir="auto"/><h2 id="3b5f6ce8-497f-80f7-ba33-df2f872d80ea" class="" dir="auto">Servidor indisponível</h2><pre id="3b5f6ce8-497f-80c2-84c3-fb702f18ecf0" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Connection timed out</code></pre><p id="3b5f6ce8-497f-8059-881a-da12dab1e764" class="" dir="auto">Pode indicar:</p><ul id="3b5f6ce8-497f-80a0-b5c5-e4dda9ccf26e" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Servidor fora do ar.</li></ul><ul id="3b5f6ce8-497f-80c5-80e1-cf9778ce931d" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Firewall bloqueando a conexão.</li></ul><ul id="3b5f6ce8-497f-801d-a5a6-fb37b08e3c36" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Host incorreto.</li></ul><ul id="3b5f6ce8-497f-8063-a957-e53420af4175" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Problemas na Internet.</li></ul><hr id="3b5f6ce8-497f-80e9-b839-c6f8b7108de2" dir="auto"/><h2 id="3b5f6ce8-497f-80d2-8297-d863aad878f3" class="" dir="auto">Porta incorreta</h2><pre id="3b5f6ce8-497f-807e-bd23-c3134b03d437" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Connection refused</code></pre><p id="3b5f6ce8-497f-8000-bde1-ce7c36310a43" class="" dir="auto">Geralmente ocorre quando a porta informada está errada ou o serviço FTP/SFTP não está ativo.</p><hr id="3b5f6ce8-497f-80f4-b535-eb5f39f17980" dir="auto"/><h1 id="3b5f6ce8-497f-804f-8b87-e1bb8e6aac1f" class="" dir="auto">Vantagens do FileZilla</h1><ul id="3b5f6ce8-497f-80c5-92ac-d89b70b053cf" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Gratuito e de código aberto.</li></ul><ul id="3b5f6ce8-497f-805e-b333-d6e609d01dbf" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Interface simples e intuitiva.</li></ul><ul id="3b5f6ce8-497f-801b-9a8f-daec3ccf35f1" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Compatível com Windows, Linux e macOS.</li></ul><ul id="3b5f6ce8-497f-800f-add6-f66bca05f25c" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Suporte a FTP, FTPS e SFTP.</li></ul><ul id="3b5f6ce8-497f-8058-a3bf-eeac7efbf327" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Permite envio de vários arquivos simultaneamente.</li></ul><ul id="3b5f6ce8-497f-809b-ba2e-e4451b361909" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Gerenciador de Sites para salvar conexões.</li></ul><ul id="3b5f6ce8-497f-802a-b76a-e58bc52d7ce7" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Recurso de retomada de transferências interrompidas.</li></ul><ul id="3b5f6ce8-497f-809c-9bb7-e8aa2a40b488" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Exibe logs detalhados para facilitar a identificação de problemas.</li></ul><hr id="3b5f6ce8-497f-80aa-987c-fdf9f3d5f2a7" dir="auto"/><h1 id="3b5f6ce8-497f-8085-b648-c4f3a4a58199" class="" dir="auto">Desvantagens</h1><ul id="3b5f6ce8-497f-807f-92ca-d2023cac0908" class="bulleted-list" dir="auto"><li style="list-style-type:disc">A interface pode parecer simples em comparação com ferramentas mais modernas.</li></ul><ul id="3b5f6ce8-497f-80a3-a67c-f7bfe005ae9e" class="bulleted-list" dir="auto"><li style="list-style-type:disc">O protocolo FTP tradicional não é seguro para transmissão de credenciais.</li></ul><ul id="3b5f6ce8-497f-804e-bd67-d3ef95eaffcf" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Erros de configuração (host, porta, usuário ou senha) impedem a conexão.</li></ul><hr id="3b5f6ce8-497f-8026-8761-cd5a899b44fb" dir="auto"/><h1 id="3b5f6ce8-497f-8097-b0bf-c2189da363b7" class="" dir="auto">Boas práticas</h1><ul id="3b5f6ce8-497f-8058-b494-e3d243b8278d" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Prefira <strong>SFTP</strong> ou <strong>FTPS</strong> em vez de FTP simples.</li></ul><ul id="3b5f6ce8-497f-8083-975d-db1d45445619" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Salve conexões no Gerenciador de Sites para evitar erros de digitação.</li></ul><ul id="3b5f6ce8-497f-806a-b8fc-e424b5a72471" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Faça backup dos arquivos antes de substituí-los.</li></ul><ul id="3b5f6ce8-497f-802a-9cc5-f99dbcd5167f" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Organize os arquivos em pastas bem definidas.</li></ul><ul id="3b5f6ce8-497f-8039-af7d-cd7e2012c67b" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Envie apenas os arquivos necessários para a produção.</li></ul><ul id="3b5f6ce8-497f-800e-be62-ef3180b5b04c" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Proteja suas credenciais e não compartilhe senhas.</li></ul><ul id="3b5f6ce8-497f-80b9-b748-d98a07d8b35d" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Verifique os logs do FileZilla caso ocorra algum erro de conexão ou transferência.</li></ul><hr id="3b5f6ce8-497f-8006-bf70-eeae5809543a" dir="auto"/><h1 id="3b5f6ce8-497f-80ea-912a-ff9533d14ffe" class="" dir="auto">Exemplo Prático</h1><p id="3b5f6ce8-497f-807a-b82f-ed2afd001213" class="" dir="auto">Imagine que você desenvolveu um sistema de biblioteca em PHP utilizando o XAMPP.</p><p id="3b5f6ce8-497f-80fd-af03-edddc8d776e2" class="" dir="auto">Para publicá-lo:</p><ol type="1" id="3b5f6ce8-497f-8071-abc0-d566f70e3b1f" class="numbered-list" start="1" dir="auto"><li>Desenvolva e teste o sistema localmente.</li></ol><ol type="1" id="3b5f6ce8-497f-801b-88ca-dc50fefcdd37" class="numbered-list" start="2" dir="auto"><li>Obtenha os dados FTP ou SFTP da hospedagem.</li></ol><ol type="1" id="3b5f6ce8-497f-8041-b374-f239f19efcc0" class="numbered-list" start="3" dir="auto"><li>Configure uma conexão no Gerenciador de Sites do FileZilla.</li></ol><ol type="1" id="3b5f6ce8-497f-80db-8bcb-c54d7f3a15a2" class="numbered-list" start="4" dir="auto"><li>Conecte-se ao servidor.</li></ol><ol type="1" id="3b5f6ce8-497f-802e-97cd-eba79f599daf" class="numbered-list" start="5" dir="auto"><li>Acesse a pasta <code>public_html</code>.</li></ol><ol type="1" id="3b5f6ce8-497f-80a9-931d-f1968a87593b" class="numbered-list" start="6" dir="auto"><li>Envie todos os arquivos da aplicação.</li></ol><ol type="1" id="3b5f6ce8-497f-805d-bd6c-fd73674bf17c" class="numbered-list" start="7" dir="auto"><li>Crie e importe o banco de dados pelo painel da hospedagem.</li></ol><ol type="1" id="3b5f6ce8-497f-80c8-ab9a-da45561d2de4" class="numbered-list" start="8" dir="auto"><li>Atualize o arquivo de conexão com os dados do banco de dados.</li></ol><ol type="1" id="3b5f6ce8-497f-8026-b143-e67701899466" class="numbered-list" start="9" dir="auto"><li>Acesse o domínio pelo navegador e teste o funcionamento da aplicação.</li></ol><hr id="3b5f6ce8-497f-807e-b80c-d849e02df427" dir="auto"/><h1 id="3b5f6ce8-497f-809c-9347-eee936534311" class="" dir="auto">Resumo</h1><p id="3b5f6ce8-497f-80c1-b9e1-ed2006c3faef" class="" dir="auto">O <strong>FileZilla Client</strong> é uma ferramenta essencial para desenvolvedores web, permitindo a transferência de arquivos entre o computador e um servidor de hospedagem por meio dos protocolos <strong>FTP</strong>, <strong>FTPS</strong> e <strong>SFTP</strong>. Sua configuração exige informações como <strong>host</strong>, <strong>usuário</strong>, <strong>senha</strong>, <strong>porta</strong> e <strong>protocolo</strong>, fornecidas pela empresa de hospedagem. Entre os métodos de configuração, o <strong>Gerenciador de Sites</strong> é o mais recomendado, pois facilita o gerenciamento de conexões recorrentes. Combinado com boas práticas de segurança e organização dos arquivos, o FileZilla torna a publicação e manutenção de aplicações web um processo simples, eficiente e confiável.</p></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

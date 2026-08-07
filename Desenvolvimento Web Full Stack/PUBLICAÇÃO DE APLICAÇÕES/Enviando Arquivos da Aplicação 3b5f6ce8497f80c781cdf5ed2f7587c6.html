@@ -1,0 +1,816 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Enviando Arquivos da Aplicação</title><meta name="data-notion-page-icon" content="/icons/subtask_red.svg"/><link rel="icon" href="https://app.notion.com/icons/subtask_red.svg"/><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+/* For default-background callouts, render the border outline. */
+.callout.block-color-default_background {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+/*
+ * Toggles and callouts hold arbitrary content, so they can easily be taller
+ * than a page. They must stay breakable: avoiding breaks inside them makes
+ * Chromium push the whole block onto the next page, which leaves the previous
+ * page mostly empty before every long toggle.
+ */
+details,
+aside {
+	margin: 1.25em 0;
+}
+
+/* Keep a toggle's title on the same page as the start of its content. */
+summary {
+	page-break-after: avoid;
+	break-after: avoid;
+}
+
+/*
+ * Toggle headings render as <h1/h2/h3 style="display:inline-block"> inside
+ * <summary>. Without this reset, the heading's margin-top pushes it below the
+ * ::marker (▼), so the triangle and the title appear on separate lines.
+ */
+summary h1,
+summary h2,
+summary h3,
+summary h4 {
+	margin-top: 0;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding-inline: 0.125rem;
+	padding-block: 0.375rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+/*
+ * Render emoji icons using a ::before pseudo-element to keep the glyph
+ * out of the DOM textContent traversal. This avoids double-rendering icons
+ * in callouts and page titles.
+ * NOTE(slim/html-export-pseudo-icons): I can't tagref this because it will
+ * flag as a duplicate tag after codegen.
+ */
+.icon[data-emoji]::before {
+	content: attr(data-emoji);
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	margin-right: 0.4em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.tab {
+	margin: 1.25em 0;
+	padding-inline: 1rem;
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style><style>@import url('https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex-swap.min.css')</style></head><body><article id="3b5f6ce8-497f-80c7-81cd-f5ed2f7587c6" class="page sans" data-notion-page-icon="/icons/subtask_red.svg"><header><div class="page-header-icon undefined"><img class="icon notion-static-icon" src="https://app.notion.com/icons/subtask_red.svg"/></div><h1 class="page-title" dir="auto">Enviando Arquivos da Aplicação</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><h1 id="3b5f6ce8-497f-805e-b86c-df4115ae9645" class="" dir="auto">Enviando Arquivos da Aplicação via File Manager</h1><p id="3b5f6ce8-497f-80b8-be06-e30726f7ff80" class="" dir="auto">O <strong>File Manager (Gerenciador de Arquivos)</strong> é uma ferramenta disponível na maioria dos painéis de hospedagem, como <strong>cPanel</strong>, <strong>VistaPanel</strong> (utilizado pelo InfinityFree) e <strong>Plesk</strong>. Ele permite gerenciar os arquivos de um site diretamente pelo navegador, sem a necessidade de instalar programas como o FileZilla.</p><p id="3b5f6ce8-497f-805c-9bdf-c9123c741992" class="" dir="auto">Por meio do File Manager, é possível fazer upload, download, criar pastas, editar arquivos, compactar, descompactar e excluir arquivos da aplicação.</p><hr id="3b5f6ce8-497f-80de-b388-d7b988533cdf" dir="auto"/><h1 id="3b5f6ce8-497f-8003-9a85-cd736e657c61" class="" dir="auto">O que é o File Manager?</h1><p id="3b5f6ce8-497f-8084-8742-d821122b7757" class="" dir="auto">O <strong>File Manager</strong> é um gerenciador de arquivos online que permite acessar os diretórios da hospedagem por meio de uma interface gráfica.</p><p id="3b5f6ce8-497f-80d3-a4d6-c8036eadbd16" class="" dir="auto">Ele funciona de maneira semelhante ao Explorador de Arquivos do Windows, permitindo organizar os arquivos do servidor de forma simples.</p><p id="3b5f6ce8-497f-8049-b485-e7b0765dcb7d" class="" dir="auto">É muito utilizado para:</p><ul id="3b5f6ce8-497f-8076-b15e-d724d18bc8f4" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Publicar aplicações web.</li></ul><ul id="3b5f6ce8-497f-8004-8b60-f1ed27660ffb" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Atualizar arquivos do site.</li></ul><ul id="3b5f6ce8-497f-8004-94ac-e814d985d485" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Organizar pastas.</li></ul><ul id="3b5f6ce8-497f-804b-889f-dbd9d306d58e" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Fazer upload de imagens.</li></ul><ul id="3b5f6ce8-497f-809f-abba-fe5223f41695" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Editar pequenos arquivos de configuração.</li></ul><ul id="3b5f6ce8-497f-8096-8fa8-f47219fbc30c" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Realizar backups.</li></ul><hr id="3b5f6ce8-497f-80f3-8a42-f54d154f656e" dir="auto"/><h1 id="3b5f6ce8-497f-80f7-b5ea-fbb4fe395d5c" class="" dir="auto">Quando utilizar o File Manager?</h1><p id="3b5f6ce8-497f-80fd-9ba7-f0e71ad2522f" class="" dir="auto">O File Manager é indicado quando:</p><ul id="3b5f6ce8-497f-805c-b384-c60e7841dc4e" class="bulleted-list" dir="auto"><li style="list-style-type:disc">O projeto é pequeno.</li></ul><ul id="3b5f6ce8-497f-8070-8b16-ee0e602e0f0d" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Você precisa fazer alterações rápidas.</li></ul><ul id="3b5f6ce8-497f-8003-a45d-ed4f1e609c82" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Não deseja instalar um cliente FTP.</li></ul><ul id="3b5f6ce8-497f-8070-94e4-db7c2f2e7eb7" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Precisa editar um arquivo diretamente no servidor.</li></ul><ul id="3b5f6ce8-497f-807a-8a67-d99d97ad3ff6" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Está utilizando um computador onde não é possível instalar programas.</li></ul><p id="3b5f6ce8-497f-807b-aaf5-d28cd58f2b71" class="" dir="auto">Para projetos grandes, normalmente é mais eficiente utilizar um cliente FTP ou SFTP, como o FileZilla.</p><hr id="3b5f6ce8-497f-8053-8e34-ffc35f0b74ef" dir="auto"/><h1 id="3b5f6ce8-497f-809d-aeb2-f2d797b357ba" class="" dir="auto">Como acessar o File Manager?</h1><p id="3b5f6ce8-497f-80ba-88ba-dd5964a11191" class="" dir="auto">O acesso depende da hospedagem, mas geralmente segue estes passos:</p><ol type="1" id="3b5f6ce8-497f-80a9-a135-c5ae15d5eb29" class="numbered-list" start="1" dir="auto"><li>Acesse o painel da hospedagem.</li></ol><ol type="1" id="3b5f6ce8-497f-8057-9182-dad7c04c52c8" class="numbered-list" start="2" dir="auto"><li>Faça login com seu usuário e senha.</li></ol><ol type="1" id="3b5f6ce8-497f-80f3-bcbd-f996c2cf7859" class="numbered-list" start="3" dir="auto"><li>Procure pela opção <strong>File Manager</strong> ou <strong>Gerenciador de Arquivos</strong>.</li></ol><ol type="1" id="3b5f6ce8-497f-803c-9c86-f75ba44973a8" class="numbered-list" start="4" dir="auto"><li>Clique para abrir o gerenciador.</li></ol><p id="3b5f6ce8-497f-8041-a626-dc19a489e98f" class="" dir="auto">Após isso, será exibida a estrutura de pastas do servidor.</p><hr id="3b5f6ce8-497f-80d1-b1ff-ea7b92317e89" dir="auto"/><h1 id="3b5f6ce8-497f-80a4-acb3-c884946de209" class="" dir="auto">Estrutura de diretórios</h1><p id="3b5f6ce8-497f-80a0-a4fa-e9be2e332c7f" class="" dir="auto">Uma hospedagem normalmente apresenta uma estrutura semelhante à seguinte:</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="3b5f6ce8-497f-803c-8710-f1050b700222" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">/
+├── public_html
+├── logs
+├── backups
+├── tmp
+└── mail</code></pre><p id="3b5f6ce8-497f-808b-8317-d390178a1284" class="" dir="auto">A pasta mais importante para aplicações web é:</p><pre id="3b5f6ce8-497f-806e-b0c3-e9fc7aae34c5" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">public_html</code></pre><p id="3b5f6ce8-497f-80f1-8a74-e32dabda2631" class="" dir="auto">Ela é a pasta pública do site.</p><p id="3b5f6ce8-497f-8094-a3a5-f191bd5ccb24" class="" dir="auto">Tudo que estiver nela poderá ser acessado pelo navegador, conforme a configuração da hospedagem.</p><hr id="3b5f6ce8-497f-8008-9ceb-d85b62cdcb35" dir="auto"/><h1 id="3b5f6ce8-497f-80f5-acee-fd31485ef69c" class="" dir="auto">Organização de uma aplicação</h1><p id="3b5f6ce8-497f-806d-b628-d7bb6d40c26a" class="" dir="auto">Uma aplicação PHP pode possuir a seguinte estrutura:</p><pre id="3b5f6ce8-497f-80f8-84a7-ef752ce38b53" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">public_html
+│
+├── index.php
+├── login.php
+├── cadastro.php
+├── css
+│   └── estilo.css
+├── js
+│   └── script.js
+├── imagens
+├── uploads
+└── includes</code></pre><p id="3b5f6ce8-497f-801b-8a3e-f7fe0a749c49" class="" dir="auto">Essa organização facilita a manutenção do projeto.</p><hr id="3b5f6ce8-497f-805e-a3b3-c65f2cf06e7f" dir="auto"/><h1 id="3b5f6ce8-497f-801c-af12-cc6a5b3bc4ff" class="" dir="auto">Enviando arquivos</h1><p id="3b5f6ce8-497f-8015-a35d-e1b66d4f32a9" class="" dir="auto">Após abrir a pasta <strong>public_html</strong>, o procedimento geralmente é:</p><h3 id="3b5f6ce8-497f-806c-b281-ecf6ded2b0e6" class="" dir="auto">1. Abrir a pasta pública</h3><p id="3b5f6ce8-497f-80fa-abb8-eae5fa9dcd88" class="" dir="auto">Entre na pasta:</p><pre id="3b5f6ce8-497f-80c9-a2e6-e8cdadf27e0a" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">public_html</code></pre><hr id="3b5f6ce8-497f-80a5-ac5b-f5acbf098ee5" dir="auto"/><h3 id="3b5f6ce8-497f-8076-8d2a-db41bae5b754" class="" dir="auto">2. Localizar o botão Upload</h3><p id="3b5f6ce8-497f-8074-b000-d81e8d5fda1b" class="" dir="auto">Na barra superior normalmente existe a opção:</p><pre id="3b5f6ce8-497f-807f-a1da-fae032f1ad7f" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Upload</code></pre><hr id="3b5f6ce8-497f-8023-86fc-f4c107a8fa78" dir="auto"/><h3 id="3b5f6ce8-497f-8001-bccc-dc1564377b62" class="" dir="auto">3. Selecionar os arquivos</h3><p id="3b5f6ce8-497f-8073-aaa6-cbb4d1fb1f65" class="" dir="auto">Escolha os arquivos da aplicação no computador.</p><p id="3b5f6ce8-497f-8028-81c4-db704e90cf52" class="" dir="auto">Exemplo:</p><pre id="3b5f6ce8-497f-805f-b5b1-fa6a8b720f68" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">SistemaBiblioteca
+│
+├── index.php
+├── css
+├── js
+├── imagens
+└── includes</code></pre><hr id="3b5f6ce8-497f-80d3-827c-def9a61c4db5" dir="auto"/><h3 id="3b5f6ce8-497f-80d2-96c3-e10e155cc7ca" class="" dir="auto">4. Aguardar a transferência</h3><p id="3b5f6ce8-497f-801c-bc90-c3227d617787" class="" dir="auto">O painel exibirá o progresso do envio.</p><p id="3b5f6ce8-497f-8031-82fd-f2cf8b722c66" class="" dir="auto">Quando finalizar, os arquivos já estarão disponíveis no servidor.</p><hr id="3b5f6ce8-497f-80c5-a96d-dfcedef13c2d" dir="auto"/><h1 id="3b5f6ce8-497f-80d3-814a-fd7f456d3fcb" class="" dir="auto">Enviando um arquivo compactado</h1><p id="3b5f6ce8-497f-8091-bc28-d3aaf0279a43" class="" dir="auto">Uma prática muito utilizada é enviar apenas um arquivo <code>.zip</code>.</p><p id="3b5f6ce8-497f-8012-ac46-f1ec6a1e7174" class="" dir="auto">Exemplo:</p><pre id="3b5f6ce8-497f-800f-b7d0-c1581c689518" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">SistemaLoja.zip</code></pre><p id="3b5f6ce8-497f-800a-9910-cfe121ab6c33" class="" dir="auto">Após o upload:</p><ol type="1" id="3b5f6ce8-497f-80e6-88d3-eb12fe288643" class="numbered-list" start="1" dir="auto"><li>Selecione o arquivo.</li></ol><ol type="1" id="3b5f6ce8-497f-80e3-bddc-ecab4c4b807e" class="numbered-list" start="2" dir="auto"><li>Clique em <strong>Extract</strong> ou <strong>Extrair</strong>.</li></ol><ol type="1" id="3b5f6ce8-497f-806e-8de4-de0537e2bcf7" class="numbered-list" start="3" dir="auto"><li>Aguarde a descompactação.</li></ol><p id="3b5f6ce8-497f-808d-9101-d219ed9567f3" class="" dir="auto">Essa técnica é muito mais rápida do que enviar centenas de arquivos individualmente.</p><hr id="3b5f6ce8-497f-805a-8762-dd8717089a40" dir="auto"/><h1 id="3b5f6ce8-497f-8060-85ce-ed7f6ec624f7" class="" dir="auto">Editando arquivos</h1><p id="3b5f6ce8-497f-8019-b42b-ec56a5a88ebe" class="" dir="auto">O File Manager permite editar arquivos diretamente no servidor.</p><p id="3b5f6ce8-497f-8061-a1a8-cf60165d0448" class="" dir="auto">Exemplo:</p><pre id="3b5f6ce8-497f-8040-953c-d27a1a52a0c4" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">config.php</code></pre><p id="3b5f6ce8-497f-806a-a6a2-fb3a183a1923" class="" dir="auto">Ao clicar em <strong>Edit</strong>, é possível alterar:</p><ul id="3b5f6ce8-497f-8042-b0cc-d75da67b7dfc" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Configurações.</li></ul><ul id="3b5f6ce8-497f-8047-9966-cfd342115c19" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Senhas.</li></ul><ul id="3b5f6ce8-497f-80ae-a477-edc65be3a504" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Dados do banco de dados.</li></ul><ul id="3b5f6ce8-497f-80b1-a27d-c8497647b535" class="bulleted-list" dir="auto"><li style="list-style-type:disc">URLs.</li></ul><ul id="3b5f6ce8-497f-8040-a420-d395554650bf" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Variáveis.</li></ul><p id="3b5f6ce8-497f-80e3-a797-f65f97770f8b" class="" dir="auto">Após salvar, as alterações entram em vigor imediatamente.</p><hr id="3b5f6ce8-497f-804b-8618-cd0f78d1d72b" dir="auto"/><h1 id="3b5f6ce8-497f-80a8-9338-c357ba09828b" class="" dir="auto">Criando pastas</h1><p id="3b5f6ce8-497f-80df-a192-e9142375bfc6" class="" dir="auto">Também é possível criar diretórios.</p><p id="3b5f6ce8-497f-80cb-bd06-c0283caf0f6b" class="" dir="auto">Exemplo:</p><pre id="3b5f6ce8-497f-80c6-8df2-f1458844ac78" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">uploads</code></pre><p id="3b5f6ce8-497f-8034-944b-c5f41fc355a2" class="" dir="auto">ou</p><pre id="3b5f6ce8-497f-8094-9af7-f85d8dff0a73" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">imagens</code></pre><p id="3b5f6ce8-497f-8027-b079-e4093b914801" class="" dir="auto">Isso ajuda a organizar os arquivos da aplicação.</p><hr id="3b5f6ce8-497f-80bf-afa9-eee57ee128b5" dir="auto"/><h1 id="3b5f6ce8-497f-8010-b2e6-ff0c0b6b258f" class="" dir="auto">Excluindo arquivos</h1><p id="3b5f6ce8-497f-8076-bc18-edf2fcd56f9a" class="" dir="auto">Caso seja necessário remover um arquivo:</p><ol type="1" id="3b5f6ce8-497f-80be-998d-f8078cdc73d9" class="numbered-list" start="1" dir="auto"><li>Selecione-o.</li></ol><ol type="1" id="3b5f6ce8-497f-8064-871a-e34cbe76e11d" class="numbered-list" start="2" dir="auto"><li>Clique em <strong>Delete</strong>.</li></ol><ol type="1" id="3b5f6ce8-497f-80c3-9b58-cbb18a1565a7" class="numbered-list" start="3" dir="auto"><li>Confirme a exclusão.</li></ol><p id="3b5f6ce8-497f-8081-8200-f4a2ca030ddc" class="" dir="auto">Essa operação deve ser realizada com cuidado, pois pode tornar a aplicação indisponível.</p><hr id="3b5f6ce8-497f-8043-9818-d8f69f3ca2ad" dir="auto"/><h1 id="3b5f6ce8-497f-800d-a476-c45f32a4655f" class="" dir="auto">Renomeando arquivos</h1><p id="3b5f6ce8-497f-8071-8c81-ddf0c8c4f4b1" class="" dir="auto">Também é possível alterar nomes.</p><p id="3b5f6ce8-497f-807b-9dd7-f2373b2bbb05" class="" dir="auto">Exemplo:</p><p id="3b5f6ce8-497f-8084-bc10-f1220f4584dc" class="" dir="auto">Antes:</p><pre id="3b5f6ce8-497f-8067-b17a-eeab7e4be10e" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">pagina1.php</code></pre><p id="3b5f6ce8-497f-8005-be65-dd869855a480" class="" dir="auto">Depois:</p><pre id="3b5f6ce8-497f-80c0-880b-e9e3f2886c3b" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">login.php</code></pre><hr id="3b5f6ce8-497f-802f-96b6-ec4d5b4b44d9" dir="auto"/><h1 id="3b5f6ce8-497f-8005-965a-fc53a89f1754" class="" dir="auto">Compactando arquivos</h1><p id="3b5f6ce8-497f-8030-bf5d-d4607484b9cc" class="" dir="auto">O File Manager normalmente permite criar arquivos compactados.</p><p id="3b5f6ce8-497f-806e-a152-e14c32f884ab" class="" dir="auto">Exemplo:</p><pre id="3b5f6ce8-497f-8053-ae16-c766bb2c3632" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">BackupSite.zip</code></pre><p id="3b5f6ce8-497f-8077-8419-f3713a0e7bdc" class="" dir="auto">Esse recurso é útil para realizar backups da aplicação.</p><hr id="3b5f6ce8-497f-80e4-9088-f0d48f15230a" dir="auto"/><h1 id="3b5f6ce8-497f-80c6-bf37-fbb56e9375a9" class="" dir="auto">Descompactando arquivos</h1><p id="3b5f6ce8-497f-80d6-8eca-ff84f191e30b" class="" dir="auto">Após enviar um arquivo ZIP:</p><pre id="3b5f6ce8-497f-804e-b287-c6ad7b7c83a3" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Sistema.zip</code></pre><p id="3b5f6ce8-497f-80ab-9735-ff240215f69b" class="" dir="auto">Basta utilizar:</p><pre id="3b5f6ce8-497f-8055-a7cb-d2848e98cd8f" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Extract</code></pre><p id="3b5f6ce8-497f-80fe-901a-ee231085a6a9" class="" dir="auto">O painel criará automaticamente toda a estrutura de pastas.</p><hr id="3b5f6ce8-497f-809e-9210-c1db68fe995f" dir="auto"/><h1 id="3b5f6ce8-497f-80ab-af51-e4d0290ca58a" class="" dir="auto">Atualizando uma aplicação</h1><p id="3b5f6ce8-497f-8025-a71d-f5bf784da9d5" class="" dir="auto">Quando houver alterações:</p><ol type="1" id="3b5f6ce8-497f-80e6-b6ab-e7013fb4c5fa" class="numbered-list" start="1" dir="auto"><li>Modifique os arquivos localmente.</li></ol><ol type="1" id="3b5f6ce8-497f-80ea-b77b-cc8c3769174f" class="numbered-list" start="2" dir="auto"><li>Faça upload novamente.</li></ol><ol type="1" id="3b5f6ce8-497f-80e7-bc17-ca7a03721ecc" class="numbered-list" start="3" dir="auto"><li>Substitua os arquivos antigos.</li></ol><ol type="1" id="3b5f6ce8-497f-8003-8b96-c8dce6687ca0" class="numbered-list" start="4" dir="auto"><li>Teste a aplicação.</li></ol><p id="3b5f6ce8-497f-8008-9c9d-dbd1693c44c9" class="" dir="auto">Assim, a nova versão ficará disponível para os usuários.</p><hr id="3b5f6ce8-497f-8037-999e-ec1f4ff66d3c" dir="auto"/><h1 id="3b5f6ce8-497f-80c7-af85-e3288328ee8b" class="" dir="auto">Cuidados ao enviar arquivos</h1><p id="3b5f6ce8-497f-8004-a60a-fe79311001a9" class="" dir="auto">Alguns erros são bastante comuns.</p><h2 id="3b5f6ce8-497f-807f-bed1-d7823a0c7e6e" class="" dir="auto">Enviar para a pasta errada</h2><p id="3b5f6ce8-497f-804d-8717-c846ba9f1a76" class="" dir="auto">Correto:</p><pre id="3b5f6ce8-497f-804a-935a-f63f8bceec2f" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">public_html</code></pre><p id="3b5f6ce8-497f-80e2-a107-c7b86573f810" class="" dir="auto">Errado:</p><pre id="3b5f6ce8-497f-80ee-90a8-deb1972779d7" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">tmp</code></pre><p id="3b5f6ce8-497f-802d-be1a-d8cef60c9770" class="" dir="auto">Se os arquivos forem enviados para a pasta incorreta, o site não será exibido corretamente.</p><hr id="3b5f6ce8-497f-800b-85c8-f8bb8b77ea78" dir="auto"/><h2 id="3b5f6ce8-497f-80a8-bdb8-cd9e199aa88e" class="" dir="auto">Esquecer o arquivo principal</h2><p id="3b5f6ce8-497f-8051-9992-e088ed9d9218" class="" dir="auto">A maioria das aplicações precisa possuir:</p><pre id="3b5f6ce8-497f-80b6-ad18-ca54d73d8d22" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">index.php</code></pre><p id="3b5f6ce8-497f-8089-bb55-d2c7d6466904" class="" dir="auto">ou</p><pre id="3b5f6ce8-497f-8090-af89-e0660e0d7da4" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">index.html</code></pre><p id="3b5f6ce8-497f-80b0-a418-d5ec0ed9cf09" class="" dir="auto">Esse é o arquivo inicial que será carregado quando o usuário acessar o domínio.</p><hr id="3b5f6ce8-497f-80ae-9396-d35fe25a592e" dir="auto"/><h2 id="3b5f6ce8-497f-80ce-9217-c4cca8b1221c" class="" dir="auto">Não configurar o banco de dados</h2><p id="3b5f6ce8-497f-8013-9d90-f57bf4e03710" class="" dir="auto">Mesmo enviando todos os arquivos, a aplicação pode não funcionar caso a conexão com o banco de dados esteja incorreta.</p><hr id="3b5f6ce8-497f-8047-9e85-c45e5534f969" dir="auto"/><h2 id="3b5f6ce8-497f-80bf-b4ed-dfdcbc23bc21" class="" dir="auto">Não importar o banco</h2><p id="3b5f6ce8-497f-80c0-bdc7-eb64e87e294e" class="" dir="auto">Além dos arquivos, é necessário importar as tabelas do banco de dados utilizando uma ferramenta como o phpMyAdmin.</p><hr id="3b5f6ce8-497f-8021-ac9d-e1dfc9eb30b8" dir="auto"/><h1 id="3b5f6ce8-497f-8065-8a93-dc9c98503391" class="" dir="auto">Exemplo Prático</h1><p id="3b5f6ce8-497f-8034-b6b8-d1d91182ffa6" class="" dir="auto">Imagine que você desenvolveu um sistema de cadastro de alunos em PHP.</p><p id="3b5f6ce8-497f-806b-83c7-c828dad19fbd" class="" dir="auto">O processo seria:</p><ol type="1" id="3b5f6ce8-497f-8092-8568-e969c2724c73" class="numbered-list" start="1" dir="auto"><li>Testar o sistema localmente.</li></ol><ol type="1" id="3b5f6ce8-497f-80bc-8399-e54a6b59bdcf" class="numbered-list" start="2" dir="auto"><li>Compactar a pasta do projeto em um arquivo ZIP.</li></ol><ol type="1" id="3b5f6ce8-497f-8016-9111-d9751045acc3" class="numbered-list" start="3" dir="auto"><li>Acessar o painel da hospedagem.</li></ol><ol type="1" id="3b5f6ce8-497f-80b4-8f34-f09d2edf3343" class="numbered-list" start="4" dir="auto"><li>Abrir o File Manager.</li></ol><ol type="1" id="3b5f6ce8-497f-80c6-ac4b-f9715aa60536" class="numbered-list" start="5" dir="auto"><li>Entrar na pasta <code>public_html</code>.</li></ol><ol type="1" id="3b5f6ce8-497f-8077-9054-d71f2c5ecd70" class="numbered-list" start="6" dir="auto"><li>Fazer upload do arquivo ZIP.</li></ol><ol type="1" id="3b5f6ce8-497f-8057-9da6-e363e331a05a" class="numbered-list" start="7" dir="auto"><li>Extrair os arquivos.</li></ol><ol type="1" id="3b5f6ce8-497f-8085-9afa-c8c0efbb92e0" class="numbered-list" start="8" dir="auto"><li>Criar o banco de dados.</li></ol><ol type="1" id="3b5f6ce8-497f-80e4-a9b7-c0780db9fad2" class="numbered-list" start="9" dir="auto"><li>Importar o arquivo <code>.sql</code>.</li></ol><ol type="1" id="3b5f6ce8-497f-8051-8d52-f6c17ec6f55b" class="numbered-list numbered-list-digits-2" start="10" dir="auto"><li>Configurar o arquivo de conexão (<code>config.php</code>).</li></ol><ol type="1" id="3b5f6ce8-497f-80cc-be4c-e769bc055fa0" class="numbered-list numbered-list-digits-2" start="11" dir="auto"><li>Acessar o domínio para verificar se a aplicação funciona corretamente.</li></ol><hr id="3b5f6ce8-497f-804a-bf52-c2811fbf8494" dir="auto"/><h1 id="3b5f6ce8-497f-80fe-8495-de1eaf091dcb" class="" dir="auto">Vantagens do File Manager</h1><ul id="3b5f6ce8-497f-8032-b4cc-d53aed4a58b1" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Não exige instalação de programas.</li></ul><ul id="3b5f6ce8-497f-80c9-878f-e3a6447ebcaa" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Acesso pelo navegador de qualquer computador.</li></ul><ul id="3b5f6ce8-497f-80f2-9577-cd38dd2cdacd" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Interface gráfica simples.</li></ul><ul id="3b5f6ce8-497f-8026-aa14-dcd944830027" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Permite editar arquivos diretamente no servidor.</li></ul><ul id="3b5f6ce8-497f-804a-9d4b-cfa5c1719448" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Facilita uploads rápidos.</li></ul><ul id="3b5f6ce8-497f-8020-9354-d8a35897e1ee" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Possibilita compactar e descompactar arquivos.</li></ul><ul id="3b5f6ce8-497f-80de-b64f-d0af240887d1" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Ideal para pequenas atualizações e manutenção.</li></ul><hr id="3b5f6ce8-497f-806b-9733-cb33bc7f8075" dir="auto"/><h1 id="3b5f6ce8-497f-8084-b2d2-cdf3f512f96c" class="" dir="auto">Desvantagens</h1><ul id="3b5f6ce8-497f-807c-9d2b-e0ab563cbcbd" class="bulleted-list" dir="auto"><li style="list-style-type:disc">O upload de muitos arquivos pode ser mais lento do que via FTP/SFTP.</li></ul><ul id="3b5f6ce8-497f-8007-ae5b-eb1d3f309d8e" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Alguns painéis limitam o tamanho máximo de arquivos enviados.</li></ul><ul id="3b5f6ce8-497f-80d8-acc5-d98da471f41a" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Editar arquivos diretamente no servidor aumenta o risco de erros em produção.</li></ul><ul id="3b5f6ce8-497f-80b8-b1df-f2272be61f3e" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Menos eficiente para projetos muito grandes.</li></ul><hr id="3b5f6ce8-497f-80fb-ac8c-ee7cdba1427e" dir="auto"/><h1 id="3b5f6ce8-497f-801f-9404-c8364c4c8061" class="" dir="auto">Boas práticas</h1><ul id="3b5f6ce8-497f-8033-aca4-eb55f94ce74c" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Organize a aplicação em pastas (<code>css</code>, <code>js</code>, <code>imagens</code>, <code>uploads</code>).</li></ul><ul id="3b5f6ce8-497f-80a8-b7ed-d024cfacf169" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Envie arquivos compactados quando o projeto tiver muitos arquivos.</li></ul><ul id="3b5f6ce8-497f-8081-9dac-ea4c0c1ceb89" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Faça backup antes de substituir arquivos importantes.</li></ul><ul id="3b5f6ce8-497f-80b3-97cf-e1f217847f59" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Teste a aplicação após cada atualização.</li></ul><ul id="3b5f6ce8-497f-8052-819d-f0e3ac3d2a26" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Verifique se os arquivos estão na pasta <code>public_html</code>.</li></ul><ul id="3b5f6ce8-497f-803a-a7df-ead61e87a4ff" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Evite editar diretamente arquivos críticos em produção; prefira testar as alterações localmente antes de enviá-las.</li></ul><ul id="3b5f6ce8-497f-80de-bce7-eea83c2135d4" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Mantenha apenas os arquivos necessários no servidor para reduzir riscos de segurança.</li></ul><hr id="3b5f6ce8-497f-8082-b1ad-dce619cf6236" dir="auto"/><h1 id="3b5f6ce8-497f-806e-afb3-de9528d7ff5b" class="" dir="auto">Resumo</h1><p id="3b5f6ce8-497f-80f5-8d34-c9dac6908894" class="" dir="auto">O <strong>File Manager</strong> é uma ferramenta integrada aos painéis de hospedagem que permite gerenciar arquivos da aplicação diretamente pelo navegador. Com ele, é possível enviar, editar, excluir, compactar e descompactar arquivos sem utilizar programas externos. Na publicação de aplicações web, os arquivos devem ser enviados para a pasta <code><strong>public_html</strong></code>, que corresponde ao diretório público do site. Embora seja uma solução prática para projetos pequenos e atualizações rápidas, para aplicações maiores o uso de clientes FTP/SFTP costuma oferecer mais velocidade e eficiência.</p></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>
