@@ -1,0 +1,876 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Baixando Alterações com Git Pull</title><meta name="data-notion-page-icon" content="/icons/git_red.svg"/><link rel="icon" href="https://app.notion.com/icons/git_red.svg"/><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+/* For default-background callouts, render the border outline. */
+.callout.block-color-default_background {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+/*
+ * Toggles and callouts hold arbitrary content, so they can easily be taller
+ * than a page. They must stay breakable: avoiding breaks inside them makes
+ * Chromium push the whole block onto the next page, which leaves the previous
+ * page mostly empty before every long toggle.
+ */
+details,
+aside {
+	margin: 1.25em 0;
+}
+
+/* Keep a toggle's title on the same page as the start of its content. */
+summary {
+	page-break-after: avoid;
+	break-after: avoid;
+}
+
+/*
+ * Toggle headings render as <h1/h2/h3 style="display:inline-block"> inside
+ * <summary>. Without this reset, the heading's margin-top pushes it below the
+ * ::marker (▼), so the triangle and the title appear on separate lines.
+ */
+summary h1,
+summary h2,
+summary h3,
+summary h4 {
+	margin-top: 0;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding-inline: 0.125rem;
+	padding-block: 0.375rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+/*
+ * Render emoji icons using a ::before pseudo-element to keep the glyph
+ * out of the DOM textContent traversal. This avoids double-rendering icons
+ * in callouts and page titles.
+ * NOTE(slim/html-export-pseudo-icons): I can't tagref this because it will
+ * flag as a duplicate tag after codegen.
+ */
+.icon[data-emoji]::before {
+	content: attr(data-emoji);
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	margin-right: 0.4em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.tab {
+	margin: 1.25em 0;
+	padding-inline: 1rem;
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style><style>@import url('https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex-swap.min.css')</style></head><body><article id="3b5f6ce8-497f-804b-9a59-f9b9096e1af7" class="page sans" data-notion-page-icon="/icons/git_red.svg"><header><div class="page-header-icon undefined"><img class="icon notion-static-icon" src="https://app.notion.com/icons/git_red.svg"/></div><h1 class="page-title" dir="auto">Baixando Alterações com Git Pull</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><h1 id="3b5f6ce8-497f-80b2-ba55-cd24179108ce" class="" dir="auto">Baixando Alterações com <code>git pull</code></h1><h2 id="3b5f6ce8-497f-80f3-aaa1-f1ca9cc00fa8" class="" dir="auto">Introdução</h2><p id="3b5f6ce8-497f-80d7-9e62-e518a994b910" class="" dir="auto">Em projetos colaborativos, é comum que vários desenvolvedores trabalhem simultaneamente no mesmo repositório. Enquanto você desenvolve uma funcionalidade, outros membros da equipe podem enviar novas alterações para o GitHub.</p><p id="3b5f6ce8-497f-8028-b435-fdd898aec442" class="" dir="auto">Para manter seu projeto atualizado com essas mudanças, utiliza-se o comando <code><strong>git pull</strong></code>.</p><p id="3b5f6ce8-497f-8031-b134-d43189c71445" class="" dir="auto">O <code>git pull</code> permite baixar as alterações do repositório remoto e integrá-las automaticamente ao repositório local, garantindo que todos trabalhem sobre a versão mais recente do projeto.</p><hr id="3b5f6ce8-497f-8020-8195-c52b8c9fba52" dir="auto"/><h1 id="3b5f6ce8-497f-80e8-bb98-c8adf90be016" class="" dir="auto">O que é o <code>git pull</code>?</h1><p id="3b5f6ce8-497f-8087-b73b-c623c61af016" class="" dir="auto">O comando <code><strong>git pull</strong></code> é utilizado para:</p><ul id="3b5f6ce8-497f-80ac-9342-d086f85193b8" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Baixar alterações do repositório remoto.</li></ul><ul id="3b5f6ce8-497f-8051-94ef-f2c110ac27a2" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Atualizar a branch local.</li></ul><ul id="3b5f6ce8-497f-8070-b1f3-fe0c8c2d510b" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Integrar automaticamente as mudanças recebidas.</li></ul><p id="3b5f6ce8-497f-80ff-bfc4-cf81fafbe328" class="" dir="auto">Fluxo:</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="3b5f6ce8-497f-8039-9c87-fb01efeb317b" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">GitHub (Repositório Remoto)
+            │
+        git pull
+            │
+            ▼
+Computador (Repositório Local)</code></pre><p id="3b5f6ce8-497f-8070-8185-cb8446deceb5" class="" dir="auto">Após a execução do comando, o projeto local passa a refletir as alterações existentes no repositório remoto.</p><hr id="3b5f6ce8-497f-806e-834d-e983affccdbb" dir="auto"/><h1 id="3b5f6ce8-497f-8046-a7cc-f81bb66b197d" class="" dir="auto">Por que Utilizar o <code>git pull</code>?</h1><p id="3b5f6ce8-497f-80bf-a3ff-e99812538198" class="" dir="auto">O <code>git pull</code> é importante para:</p><ul id="3b5f6ce8-497f-8039-b1f0-f2af4f3e3bd0" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Manter o projeto atualizado.</li></ul><ul id="3b5f6ce8-497f-8075-9d84-e962546f395f" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Receber alterações feitas por outros desenvolvedores.</li></ul><ul id="3b5f6ce8-497f-8051-9456-e2146b4e9f50" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Evitar conflitos durante o envio de alterações (<code>git push</code>).</li></ul><ul id="3b5f6ce8-497f-80b2-8b9b-cd697f52e81f" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Sincronizar o histórico de commits.</li></ul><ul id="3b5f6ce8-497f-80c5-b5d5-cf72822bd8a5" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Trabalhar sempre com a versão mais recente do código.</li></ul><hr id="3b5f6ce8-497f-80c0-8376-fdbe4e580503" dir="auto"/><h1 id="3b5f6ce8-497f-802c-94f2-d3baf67e95c4" class="" dir="auto">Como Funciona o <code>git pull</code>?</h1><p id="3b5f6ce8-497f-80bb-b208-d9f5a7f145f9" class="" dir="auto">Quando executamos:</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-bash.min.js" integrity="sha512-whYhDwtTmlC/NpZlCr6PSsAaLOrfjVg/iXAnC4H/dtiHawpShhT2SlIMbpIhT/IL/NrpdMm+Hq2C13+VKpHTYw==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="3b5f6ce8-497f-80ea-ac74-e09cd6493db6" class="code code-wrap" data-notion-code-syntax="bash"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">git pull</code></pre><p id="3b5f6ce8-497f-808d-94a1-df163d669fec" class="" dir="auto">O Git realiza duas operações automaticamente:</p><ol type="1" id="3b5f6ce8-497f-8018-9a34-c966368534bd" class="numbered-list" start="1" dir="auto"><li><code><strong>git fetch</strong></code> → Baixa as novas alterações do repositório remoto.</li></ol><ol type="1" id="3b5f6ce8-497f-8096-ae28-d323ba3671c0" class="numbered-list" start="2" dir="auto"><li><code><strong>git merge</strong></code> → Integra essas alterações à branch local.</li></ol><p id="3b5f6ce8-497f-809e-93fd-caf9fcc87284" class="" dir="auto">Fluxo interno:</p><pre id="3b5f6ce8-497f-80ee-82a7-e056f9edac0c" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">GitHub
+   │
+   ▼
+git fetch
+   │
+   ▼
+Baixa os novos commits
+   │
+   ▼
+git merge
+   │
+   ▼
+Atualiza a branch local</code></pre><p id="3b5f6ce8-497f-804e-9363-f9fa9d30133d" class="" dir="auto">Em outras palavras:</p><pre id="3b5f6ce8-497f-8006-89cf-e6f0ed82d717" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">git pull = git fetch + git merge</code></pre><hr id="3b5f6ce8-497f-80a5-8d25-c912c2e7f752" dir="auto"/><h1 id="3b5f6ce8-497f-808b-8f76-c8659da14491" class="" dir="auto">Sintaxe</h1><p id="3b5f6ce8-497f-8060-8ebd-d451ff7e9afb" class="" dir="auto">A forma mais simples é:</p><pre id="3b5f6ce8-497f-807a-a28a-e31034e1c107" class="code code-wrap" data-notion-code-syntax="bash"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">git pull</code></pre><p id="3b5f6ce8-497f-8072-aca1-f90c7b258afe" class="" dir="auto">O Git utilizará automaticamente:</p><ul id="3b5f6ce8-497f-80ad-afc3-cd71fa6c8996" class="bulleted-list" dir="auto"><li style="list-style-type:disc">o repositório remoto configurado (geralmente <code>origin</code>);</li></ul><ul id="3b5f6ce8-497f-80cf-8cfa-e193608f57e0" class="bulleted-list" dir="auto"><li style="list-style-type:disc">a branch associada (geralmente <code>main</code>).</li></ul><hr id="3b5f6ce8-497f-8097-bf92-c4d4fc8a030b" dir="auto"/><p id="3b5f6ce8-497f-80d8-b188-fe1760abf237" class="" dir="auto">Também é possível informar explicitamente:</p><pre id="3b5f6ce8-497f-806b-b857-df951e127073" class="code code-wrap" data-notion-code-syntax="bash"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">git pull origin main</code></pre><p id="3b5f6ce8-497f-807a-aa6c-c36ece6f9ab4" class="" dir="auto">Explicação:</p><table id="3b5f6ce8-497f-809b-89b3-cae7cd741df8" class="simple-table" dir="ltr"><thead class="simple-table-header"><tr id="3b5f6ce8-497f-80eb-bbe2-c9d36d22f1fd" dir="ltr"><th id="V?U_" class="simple-table-header-color simple-table-header">Comando</th><th id="`&lt;Gf" class="simple-table-header-color simple-table-header">Função</th></tr></thead><tbody><tr id="3b5f6ce8-497f-80e8-86a7-cae3d4285aff" dir="ltr"><td id="V?U_" class=""><code>origin</code></td><td id="`&lt;Gf" class="">Nome do repositório remoto</td></tr><tr id="3b5f6ce8-497f-803e-930e-f88e17362635" dir="ltr"><td id="V?U_" class=""><code>main</code></td><td id="`&lt;Gf" class="">Branch da qual as alterações serão baixadas</td></tr></tbody></table><hr id="3b5f6ce8-497f-805f-9b26-e5b7fa3f1959" dir="auto"/><h1 id="3b5f6ce8-497f-80fa-8426-c06ac385d31e" class="" dir="auto">Exemplo Prático</h1><p id="3b5f6ce8-497f-80fb-be14-cb17c5c638a9" class="" dir="auto">Imagine que outra pessoa enviou um commit para o GitHub.</p><p id="3b5f6ce8-497f-80a0-ae96-c7c7fa3b02b4" class="" dir="auto">Seu histórico local:</p><pre id="3b5f6ce8-497f-8021-9d39-f5f416a4b33b" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Commit A
+Commit B</code></pre><p id="3b5f6ce8-497f-8064-b8ed-f778ddc53b97" class="" dir="auto">Histórico remoto:</p><pre id="3b5f6ce8-497f-8083-9a90-ce479d5be7d2" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Commit A
+Commit B
+Commit C</code></pre><p id="3b5f6ce8-497f-80af-bdd4-ecb9c5e0d7df" class="" dir="auto">Executando:</p><pre id="3b5f6ce8-497f-804f-8290-dac0b20827a7" class="code code-wrap" data-notion-code-syntax="bash"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">git pull</code></pre><p id="3b5f6ce8-497f-8096-9b7a-e627974d7dc7" class="" dir="auto">Resultado:</p><pre id="3b5f6ce8-497f-80e7-969f-c67c48864bf1" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Commit A
+Commit B
+Commit C</code></pre><p id="3b5f6ce8-497f-8099-bcb3-c437d4d48740" class="" dir="auto">Seu repositório agora está atualizado.</p><hr id="3b5f6ce8-497f-8057-8eae-c2d8f11b4d4d" dir="auto"/><h1 id="3b5f6ce8-497f-8075-a424-c5eb1888cd36" class="" dir="auto">Fluxo de Trabalho</h1><p id="3b5f6ce8-497f-80e3-8dda-f9032e7c74d9" class="" dir="auto">Um fluxo comum de desenvolvimento é:</p><pre id="3b5f6ce8-497f-8007-bc07-c5a06a245e97" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Abrir o projeto
+        │
+        ▼
+git pull
+        │
+        ▼
+Editar arquivos
+        │
+        ▼
+git add
+        │
+        ▼
+git commit
+        │
+        ▼
+git push</code></pre><p id="3b5f6ce8-497f-80cd-9742-ccbd5ed24f8d" class="" dir="auto">Esse processo reduz a chance de conflitos.</p><hr id="3b5f6ce8-497f-80f5-85e5-c211b1a9708d" dir="auto"/><h1 id="3b5f6ce8-497f-8084-8e57-d13d1dea9d2a" class="" dir="auto">Verificando Antes de Fazer o Pull</h1><p id="3b5f6ce8-497f-8048-83d3-c58beb745246" class="" dir="auto">Antes de atualizar o projeto, verifique o estado do repositório:</p><pre id="3b5f6ce8-497f-80e7-9ac2-e89f1a4ff1b6" class="code code-wrap" data-notion-code-syntax="bash"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">git status</code></pre><p id="3b5f6ce8-497f-807b-99ac-edfaa746ada7" class="" dir="auto">Exemplo:</p><pre id="3b5f6ce8-497f-8042-8411-d8cab47eba43" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">On branch main
+
+nothing to commit, working tree clean</code></pre><p id="3b5f6ce8-497f-80ef-aec5-cde30d9efc9b" class="" dir="auto">É recomendado realizar o <code>git pull</code> quando não houver alterações locais pendentes.</p><hr id="3b5f6ce8-497f-80fd-b46a-da4b4a6623c4" dir="auto"/><h1 id="3b5f6ce8-497f-8051-89f7-fd41cbb67e16" class="" dir="auto">Exemplo Completo</h1><p id="3b5f6ce8-497f-806a-b9ee-d95762f2e6c3" class="" dir="auto">Atualizar o projeto:</p><pre id="3b5f6ce8-497f-8026-9436-ea3d54284a88" class="code code-wrap" data-notion-code-syntax="bash"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">git pull</code></pre><p id="3b5f6ce8-497f-8074-96e4-e7dad1f8e71d" class="" dir="auto">Editar arquivos.</p><p id="3b5f6ce8-497f-80e5-a77c-f3dbe2e03c4d" class="" dir="auto">Verificar:</p><pre id="3b5f6ce8-497f-80d5-8e86-c2b4399f174c" class="code code-wrap" data-notion-code-syntax="bash"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">git status</code></pre><p id="3b5f6ce8-497f-80d9-8d75-f557f2188ddc" class="" dir="auto">Adicionar alterações:</p><pre id="3b5f6ce8-497f-80f1-9d72-c022b2c6cc05" class="code code-wrap" data-notion-code-syntax="bash"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">git add .</code></pre><p id="3b5f6ce8-497f-808c-9a0a-e9a4d0046442" class="" dir="auto">Criar commit:</p><pre id="3b5f6ce8-497f-8046-9b59-fc5ed129df31" class="code code-wrap" data-notion-code-syntax="bash"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">git commit -m &quot;Corrige tela de login&quot;</code></pre><p id="3b5f6ce8-497f-8055-b758-ea4799ccbbbe" class="" dir="auto">Enviar:</p><pre id="3b5f6ce8-497f-80ec-894d-ee918c7cccfb" class="code code-wrap" data-notion-code-syntax="bash"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">git push</code></pre><hr id="3b5f6ce8-497f-80a2-9828-d18875f75b14" dir="auto"/><h1 id="3b5f6ce8-497f-80a0-841a-c764803f7eb0" class="" dir="auto">O que Acontece se Não Existirem Alterações?</h1><p id="3b5f6ce8-497f-8071-87db-c4047094f55b" class="" dir="auto">Caso o repositório já esteja atualizado:</p><pre id="3b5f6ce8-497f-8029-85a4-f5709afe58ac" class="code code-wrap" data-notion-code-syntax="bash"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">git pull</code></pre><p id="3b5f6ce8-497f-8030-b399-d6a48a59d58a" class="" dir="auto">Resultado:</p><pre id="3b5f6ce8-497f-804a-8962-f61a9890aab1" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Already up to date.</code></pre><p id="3b5f6ce8-497f-80e6-8f80-e3f903bef90a" class="" dir="auto">Isso significa que nenhuma atualização foi encontrada.</p><hr id="3b5f6ce8-497f-80e0-9fe7-c923c5dcd77e" dir="auto"/><h1 id="3b5f6ce8-497f-806c-87a5-e62e69c2e9d0" class="" dir="auto">O que Acontece se Existirem Novos Commits?</h1><p id="3b5f6ce8-497f-80f3-99c9-ef667bbd08c1" class="" dir="auto">Exemplo:</p><pre id="3b5f6ce8-497f-8013-baac-fcfd1a686893" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Updating 9ab31f..83ef721
+Fast-forward</code></pre><p id="3b5f6ce8-497f-8041-b1bd-e0fa74009a08" class="" dir="auto">O Git baixará e aplicará automaticamente os novos commits.</p><hr id="3b5f6ce8-497f-800a-b939-ca703e27085f" dir="auto"/><h1 id="3b5f6ce8-497f-804c-9da5-feb7ca5414b3" class="" dir="auto">O que é um Fast-Forward?</h1><p id="3b5f6ce8-497f-80c1-874a-f0837461f47f" class="" dir="auto">Quando não existem alterações locais conflitantes, o Git apenas avança o ponteiro da branch.</p><p id="3b5f6ce8-497f-8023-b134-fa53cee42987" class="" dir="auto">Antes:</p><pre id="3b5f6ce8-497f-8055-87e8-ed5038c68427" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">A → B</code></pre><p id="3b5f6ce8-497f-80ff-b833-d66b789fe0c6" class="" dir="auto">Servidor:</p><pre id="3b5f6ce8-497f-808d-b967-f85a9568f922" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">A → B → C → D</code></pre><p id="3b5f6ce8-497f-805a-9027-dd77f836459d" class="" dir="auto">Após:</p><pre id="3b5f6ce8-497f-8059-8165-e24a27b0cf92" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">A → B → C → D</code></pre><p id="3b5f6ce8-497f-8080-aea9-d10e1e821783" class="" dir="auto">Nenhum conflito ocorre.</p><hr id="3b5f6ce8-497f-8068-89a3-ece78f62daad" dir="auto"/><h1 id="3b5f6ce8-497f-8080-9f8e-f321f9b6be8f" class="" dir="auto">Quando Ocorrem Conflitos?</h1><p id="3b5f6ce8-497f-8037-9d48-c03b9d77d4ab" class="" dir="auto">Conflitos acontecem quando:</p><ul id="3b5f6ce8-497f-80af-9d28-e3a922419ba2" class="bulleted-list" dir="auto"><li style="list-style-type:disc">você modifica um arquivo;</li></ul><ul id="3b5f6ce8-497f-80fa-929a-e24c4905931d" class="bulleted-list" dir="auto"><li style="list-style-type:disc">outra pessoa modifica a mesma parte do mesmo arquivo;</li></ul><ul id="3b5f6ce8-497f-80f2-9f92-d05932ecd788" class="bulleted-list" dir="auto"><li style="list-style-type:disc">ambos tentam integrar as alterações.</li></ul><p id="3b5f6ce8-497f-80fb-88db-fdb872625fd9" class="" dir="auto">Exemplo:</p><p id="3b5f6ce8-497f-8055-83ff-f6e8a4703636" class="" dir="auto">Você alterou:</p><pre id="3b5f6ce8-497f-80ca-a10a-ffaf33c26197" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Bem-vindo ao sistema</code></pre><p id="3b5f6ce8-497f-8032-9c8b-f5b61408f301" class="" dir="auto">Outro desenvolvedor alterou:</p><pre id="3b5f6ce8-497f-803e-93c8-fca915c9cec3" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Olá, usuário!</code></pre><p id="3b5f6ce8-497f-8033-bd18-f5bfd153a8d9" class="" dir="auto">Ao executar:</p><pre id="3b5f6ce8-497f-809e-aded-d2ddb54f4006" class="code code-wrap" data-notion-code-syntax="bash"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">git pull</code></pre><p id="3b5f6ce8-497f-80a6-96bd-f4a3741e34af" class="" dir="auto">O Git pode exibir:</p><pre id="3b5f6ce8-497f-802c-b2ff-f80d3b896c84" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">CONFLICT (content): Merge conflict in index.html</code></pre><hr id="3b5f6ce8-497f-8091-94b9-d39ae30067d9" dir="auto"/><h1 id="3b5f6ce8-497f-8029-a931-c2dcc4fcd2be" class="" dir="auto">Como Resolver um Conflito?</h1><p id="3b5f6ce8-497f-80b4-a88b-d2650ce4c483" class="" dir="auto">O Git marca o conflito no arquivo:</p><pre id="3b5f6ce8-497f-8098-a30e-f5274da14420" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD
+Bem-vindo ao sistema
+=======
+Olá, usuário!
+&gt;&gt;&gt;&gt;&gt;&gt;&gt; origin/main</code></pre><p id="3b5f6ce8-497f-806a-83c4-e60ec5fe6a4e" class="" dir="auto">Significado:</p><ul id="3b5f6ce8-497f-80b9-b941-eed215afe9c5" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><code>HEAD</code> → sua alteração local.</li></ul><ul id="3b5f6ce8-497f-8035-9eec-c9f4c3554398" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><code>origin/main</code> → alteração recebida do GitHub.</li></ul><p id="3b5f6ce8-497f-80b2-bcbc-d4aec03092fd" class="" dir="auto">Você deve editar o arquivo, escolhendo uma das versões ou combinando ambas.</p><p id="3b5f6ce8-497f-806b-b851-f44f55faffcc" class="" dir="auto">Depois:</p><pre id="3b5f6ce8-497f-8049-aa89-c1cbb77e3560" class="code code-wrap" data-notion-code-syntax="bash"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">git add .</code></pre><p id="3b5f6ce8-497f-8020-a229-c68723bb1e36" class="" dir="auto">Criar o commit de merge:</p><pre id="3b5f6ce8-497f-808d-aad4-f886a1333c98" class="code code-wrap" data-notion-code-syntax="bash"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">git commit</code></pre><p id="3b5f6ce8-497f-8004-bad2-ecd2137d9db7" class="" dir="auto">Se necessário, enviar as alterações:</p><pre id="3b5f6ce8-497f-80cd-8f6b-f251ab984801" class="code code-wrap" data-notion-code-syntax="bash"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">git push</code></pre><hr id="3b5f6ce8-497f-8094-9ca7-c032587eb147" dir="auto"/><h1 id="3b5f6ce8-497f-808d-8b66-f5002472d74b" class="" dir="auto">Diferença entre <code>git pull</code> e <code>git fetch</code></h1><h2 id="3b5f6ce8-497f-8080-b96d-ee182fbd6a8a" class="" dir="auto"><code>git pull</code></h2><ul id="3b5f6ce8-497f-8085-95bc-db82bc402532" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Baixa alterações.</li></ul><ul id="3b5f6ce8-497f-80cc-b0ec-eb527afd17dd" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Integra automaticamente ao projeto.</li></ul><ul id="3b5f6ce8-497f-807b-b9e8-cda3610bd6e8" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Atualiza imediatamente a branch local.</li></ul><p id="3b5f6ce8-497f-80bb-9a48-c34517d07f0c" class="" dir="auto">Fluxo:</p><pre id="3b5f6ce8-497f-807f-8adf-c820c91a0047" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">GitHub
+   │
+   ▼
+git pull
+   │
+   ▼
+Projeto Atualizado</code></pre><hr id="3b5f6ce8-497f-8046-8a70-e25c212abd32" dir="auto"/><h2 id="3b5f6ce8-497f-80d5-bd82-efa1b3ee2d8a" class="" dir="auto"><code>git fetch</code></h2><ul id="3b5f6ce8-497f-8047-a9b1-d502633deb1a" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Apenas baixa as alterações.</li></ul><ul id="3b5f6ce8-497f-80fa-8314-e208ca5e051c" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Não modifica os arquivos locais.</li></ul><ul id="3b5f6ce8-497f-80ea-b521-c3885a81cf98" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Permite analisar as mudanças antes de integrá-las.</li></ul><p id="3b5f6ce8-497f-8081-91b5-c4a38af5a699" class="" dir="auto">Fluxo:</p><pre id="3b5f6ce8-497f-805f-b4b0-c8244e8ac231" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">GitHub
+   │
+   ▼
+git fetch
+   │
+   ▼
+Commits baixados
+
+(Sem alterar o projeto)</code></pre><hr id="3b5f6ce8-497f-80ee-b4b7-df7e0d11fdd7" dir="auto"/><h1 id="3b5f6ce8-497f-803e-98d2-cca4176169d3" class="" dir="auto">Comparação</h1><table id="3b5f6ce8-497f-8095-ae95-dd808ebed7ed" class="simple-table" dir="ltr"><thead class="simple-table-header"><tr id="3b5f6ce8-497f-807e-9bec-ebae967db6a8" dir="ltr"><th id="gsw&gt;" class="simple-table-header-color simple-table-header"><code>git pull</code></th><th id="wLfX" class="simple-table-header-color simple-table-header"><code>git fetch</code></th></tr></thead><tbody><tr id="3b5f6ce8-497f-8081-96d7-dd908d99ccec" dir="ltr"><td id="gsw&gt;" class="">Baixa alterações</td><td id="wLfX" class="">Baixa alterações</td></tr><tr id="3b5f6ce8-497f-8037-b498-f0b517e8dce2" dir="ltr"><td id="gsw&gt;" class="">Integra automaticamente</td><td id="wLfX" class="">Não integra</td></tr><tr id="3b5f6ce8-497f-80b6-818f-f72ccc76a69e" dir="ltr"><td id="gsw&gt;" class="">Atualiza a branch local</td><td id="wLfX" class="">Mantém os arquivos inalterados</td></tr><tr id="3b5f6ce8-497f-80b4-91e5-e16e6bd2acc6" dir="ltr"><td id="gsw&gt;" class="">Mais rápido para o dia a dia</td><td id="wLfX" class="">Melhor para inspeção e análise</td></tr></tbody></table><hr id="3b5f6ce8-497f-802d-a49c-c8f38f9c542a" dir="auto"/><h1 id="3b5f6ce8-497f-800a-bf99-ddf7a6c1a0ed" class="" dir="auto">Pull em uma Branch Específica</h1><p id="3b5f6ce8-497f-801f-bf68-e8bf308fbe98" class="" dir="auto">Caso deseje atualizar outra branch:</p><pre id="3b5f6ce8-497f-80cc-a4a1-d8dfd5620466" class="code code-wrap" data-notion-code-syntax="bash"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">git pull origin develop</code></pre><p id="3b5f6ce8-497f-8096-b9d8-f6cf65ee9149" class="" dir="auto">Primeiro, certifique-se de estar na branch correta:</p><pre id="3b5f6ce8-497f-8070-a404-fbbaaa2a843c" class="code code-wrap" data-notion-code-syntax="bash"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">git switch develop</code></pre><p id="3b5f6ce8-497f-8086-a10c-da76d8ca7e49" class="" dir="auto">Depois:</p><pre id="3b5f6ce8-497f-800c-94a7-f8581a95a727" class="code code-wrap" data-notion-code-syntax="bash"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">git pull origin develop</code></pre><hr id="3b5f6ce8-497f-800f-834b-de420fbe71c6" dir="auto"/><h1 id="3b5f6ce8-497f-80d2-a188-e11c1bdda4a2" class="" dir="auto">Fluxo Completo em Equipe</h1><p id="3b5f6ce8-497f-8085-8586-d4733545dca9" class="" dir="auto">Imagine três desenvolvedores:</p><pre id="3b5f6ce8-497f-805e-9bc2-c7dc4e2a5494" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">João
+    │
+git push
+    │
+    ▼
+GitHub
+    ▲
+git pull
+    │
+Maria
+
+Pedro</code></pre><p id="3b5f6ce8-497f-8067-bae0-e5664ab8ed34" class="" dir="auto">Todos utilizam <code>git pull</code> para manter seus repositórios sincronizados.</p><hr id="3b5f6ce8-497f-8099-9db3-f3fef21fa346" dir="auto"/><h1 id="3b5f6ce8-497f-8089-b9f1-f544df7cd1db" class="" dir="auto">Boas Práticas</h1><ul id="3b5f6ce8-497f-80a8-857c-c4f4ae27178a" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Execute <code>git pull</code> antes de iniciar uma nova tarefa.</li></ul><ul id="3b5f6ce8-497f-800d-8a53-fcc7c8bc7f9d" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Verifique o estado do repositório com <code>git status</code> antes de atualizar.</li></ul><ul id="3b5f6ce8-497f-806f-84c1-feffc085de34" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Faça commit ou utilize <code>git stash</code> caso possua alterações locais antes do <code>git pull</code>.</li></ul><ul id="3b5f6ce8-497f-804b-a871-de50200311e6" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Atualize frequentemente o projeto para reduzir conflitos.</li></ul><ul id="3b5f6ce8-497f-8057-bdb3-c9c62381a5ca" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Certifique-se de estar na branch correta antes de executar o comando.</li></ul><hr id="3b5f6ce8-497f-80c5-8ae1-d727a928d2c3" dir="auto"/><h1 id="3b5f6ce8-497f-8038-bda5-ebcbc7c4d94f" class="" dir="auto">Erros Comuns</h1><ul id="3b5f6ce8-497f-8086-8a67-c222cc9e1670" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Executar <code>git pull</code> com alterações locais não salvas, gerando conflitos desnecessários.</li></ul><ul id="3b5f6ce8-497f-8003-9a56-da9390930b18" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Esquecer de atualizar o projeto antes de criar novas funcionalidades.</li></ul><ul id="3b5f6ce8-497f-80d0-b946-ccaa7593d99d" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Resolver conflitos de forma incorreta, removendo alterações importantes.</li></ul><ul id="3b5f6ce8-497f-801e-a867-c89548d47485" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Confundir <code>git pull</code> (baixa e integra alterações) com <code>git push</code> (envia alterações).</li></ul><ul id="3b5f6ce8-497f-804e-9193-f4a7e0f808bf" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Trabalhar por longos períodos sem sincronizar o repositório local com o remoto.</li></ul><hr id="3b5f6ce8-497f-80aa-ade2-d255d47b3ab7" dir="auto"/><h1 id="3b5f6ce8-497f-80eb-bf9e-cd26f2161f73" class="" dir="auto">Exemplo Completo</h1><pre id="3b5f6ce8-497f-8098-a219-dde8201a8967" class="code code-wrap" data-notion-code-syntax="bash"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all"># Verificar o estado do repositório
+git status
+
+# Atualizar o projeto
+git pull
+
+# Fazer alterações
+git add .
+
+# Criar um commit
+git commit -m &quot;Implementa autenticação&quot;
+
+# Enviar para o GitHub
+git push</code></pre><hr id="3b5f6ce8-497f-8089-8c95-ce18b544a62c" dir="auto"/><h1 id="3b5f6ce8-497f-803d-aecf-e0b8f8d4048b" class="" dir="auto">Resumo</h1><p id="3b5f6ce8-497f-80f5-84cf-c1dc64cd9ba4" class="" dir="auto">O comando <code><strong>git pull</strong></code> é utilizado para baixar e integrar automaticamente as alterações existentes em um repositório remoto ao repositório local. Internamente, ele combina as operações de <code>git fetch</code> e <code>git merge</code>, permitindo que o desenvolvedor trabalhe sempre com a versão mais recente do projeto. Seu uso é essencial em ambientes colaborativos, pois mantém o histórico sincronizado, reduz a possibilidade de conflitos e facilita a integração do trabalho entre diferentes membros da equipe. Utilizar o <code>git pull</code> regularmente é uma das principais boas práticas no desenvolvimento com Git e GitHub.</p></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>
