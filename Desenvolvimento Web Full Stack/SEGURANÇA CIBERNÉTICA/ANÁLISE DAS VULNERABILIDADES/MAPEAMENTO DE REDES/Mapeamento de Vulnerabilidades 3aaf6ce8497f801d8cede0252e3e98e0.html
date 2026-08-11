@@ -1,0 +1,818 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Mapeamento de Vulnerabilidades</title><meta name="data-notion-page-icon" content="/icons/lock_blue.svg"/><link rel="icon" href="https://app.notion.com/icons/lock_blue.svg"/><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+/* For default-background callouts, render the border outline. */
+.callout.block-color-default_background {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+/*
+ * Toggles and callouts hold arbitrary content, so they can easily be taller
+ * than a page. They must stay breakable: avoiding breaks inside them makes
+ * Chromium push the whole block onto the next page, which leaves the previous
+ * page mostly empty before every long toggle.
+ */
+details,
+aside {
+	margin: 1.25em 0;
+}
+
+/* Keep a toggle's title on the same page as the start of its content. */
+summary {
+	page-break-after: avoid;
+	break-after: avoid;
+}
+
+/*
+ * Toggle headings render as <h1/h2/h3 style="display:inline-block"> inside
+ * <summary>. Without this reset, the heading's margin-top pushes it below the
+ * ::marker (▼), so the triangle and the title appear on separate lines.
+ */
+summary h1,
+summary h2,
+summary h3,
+summary h4 {
+	margin-top: 0;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding-inline: 0.125rem;
+	padding-block: 0.375rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+/*
+ * Render emoji icons using a ::before pseudo-element to keep the glyph
+ * out of the DOM textContent traversal. This avoids double-rendering icons
+ * in callouts and page titles.
+ * NOTE(slim/html-export-pseudo-icons): I can't tagref this because it will
+ * flag as a duplicate tag after codegen.
+ */
+.icon[data-emoji]::before {
+	content: attr(data-emoji);
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	margin-right: 0.4em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.tab {
+	margin: 1.25em 0;
+	padding-inline: 1rem;
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style><style>@import url('https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex-swap.min.css')</style></head><body><article id="3aaf6ce8-497f-801d-8ced-e0252e3e98e0" class="page sans" data-notion-page-icon="/icons/lock_blue.svg"><header><div class="page-header-icon undefined"><img class="icon notion-static-icon" src="https://app.notion.com/icons/lock_blue.svg"/></div><h1 class="page-title" dir="auto">Mapeamento de Vulnerabilidades</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><h1 id="3aaf6ce8-497f-808e-9771-d7b95dc07d9d" class="" dir="auto">Mapeamento de Vulnerabilidades</h1><p id="3aaf6ce8-497f-80f7-858a-c96409d20dbc" class="" dir="auto">O <strong>Mapeamento de Vulnerabilidades</strong> é o processo de identificar, localizar, analisar e documentar falhas de segurança existentes em sistemas, redes, aplicações, dispositivos e demais ativos de tecnologia da informação.</p><p id="3aaf6ce8-497f-80b2-8838-ff3b27455af7" class="" dir="auto">Seu principal objetivo é descobrir pontos fracos que possam ser explorados por ameaças antes que causem danos à organização. Esse processo é um dos pilares da <strong>Gestão de Vulnerabilidades</strong> e da <strong>Segurança Cibernética</strong>, permitindo que as falhas sejam corrigidas ou mitigadas antes de serem exploradas.</p><p id="3aaf6ce8-497f-805b-9041-fea7a4d18eab" class="" dir="auto">Diferentemente de um ataque ou de um teste de invasão, o mapeamento de vulnerabilidades tem caráter <strong>preventivo</strong>, buscando identificar problemas para que sejam corrigidos de forma planejada.</p><hr id="3aaf6ce8-497f-801b-b78f-f61ac0ecf7cf" dir="auto"/><h1 id="3aaf6ce8-497f-80b2-87ad-ed65c62d1dfd" class="" dir="auto">O que é uma Vulnerabilidade?</h1><p id="3aaf6ce8-497f-808f-8eda-cebafd4db032" class="" dir="auto">Uma <strong>vulnerabilidade</strong> é uma fraqueza ou deficiência em um sistema, processo, configuração ou comportamento que pode ser explorada por uma ameaça para comprometer a segurança.</p><p id="3aaf6ce8-497f-8038-b00c-e5d6bae0aeb5" class="" dir="auto">Uma vulnerabilidade pode existir em:</p><ul id="3aaf6ce8-497f-80fa-ad0a-c60bf24b9ae0" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Sistemas operacionais.</li></ul><ul id="3aaf6ce8-497f-8072-a32f-d9baed60032d" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Aplicações Web.</li></ul><ul id="3aaf6ce8-497f-8063-b337-d50337a8a2bd" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Bancos de dados.</li></ul><ul id="3aaf6ce8-497f-80ba-9523-f84a67bd4ed7" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Equipamentos de rede.</li></ul><ul id="3aaf6ce8-497f-8022-8a7e-fbe01834fc78" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Dispositivos móveis.</li></ul><ul id="3aaf6ce8-497f-8020-97e0-f94a60aa8397" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Serviços em nuvem.</li></ul><ul id="3aaf6ce8-497f-804f-9b13-e40431e8030b" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Equipamentos IoT.</li></ul><ul id="3aaf6ce8-497f-80a1-849d-f8c05d7ab3c0" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Processos organizacionais.</li></ul><ul id="3aaf6ce8-497f-8002-a679-f7e39873c541" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Comportamento humano.</li></ul><p id="3aaf6ce8-497f-8073-8800-c007537afe3f" class="" dir="auto">Uma vulnerabilidade, por si só, não representa um ataque. Ela apenas cria a possibilidade de que um ataque ocorra.</p><hr id="3aaf6ce8-497f-8031-80ee-ebcea83817de" dir="auto"/><h1 id="3aaf6ce8-497f-80da-8098-f72b738b98b7" class="" dir="auto">O que é o Mapeamento de Vulnerabilidades?</h1><p id="3aaf6ce8-497f-8063-9421-f9c993157519" class="" dir="auto">O mapeamento consiste em localizar todas as vulnerabilidades existentes nos ativos da organização e registrar informações como:</p><ul id="3aaf6ce8-497f-8098-a108-db08a0be6d3b" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Onde a vulnerabilidade está localizada.</li></ul><ul id="3aaf6ce8-497f-805a-805e-d87782aa21bf" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Qual ativo é afetado.</li></ul><ul id="3aaf6ce8-497f-8004-b72a-f97d71ec0a01" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Qual a gravidade da falha.</li></ul><ul id="3aaf6ce8-497f-805e-8c62-d0414ede4197" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Qual o impacto potencial.</li></ul><ul id="3aaf6ce8-497f-8009-a393-e2efc0947edb" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Quais controles já existem.</li></ul><ul id="3aaf6ce8-497f-8038-b648-fd066a40bb13" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Qual a prioridade de correção.</li></ul><p id="3aaf6ce8-497f-8014-9f2c-e0a58fbc0caa" class="" dir="auto">Ao final do processo, a organização possui um inventário das vulnerabilidades identificadas.</p><hr id="3aaf6ce8-497f-80f6-b53d-c523364e42ec" dir="auto"/><h1 id="3aaf6ce8-497f-8015-bdeb-ffbaf97e9918" class="" dir="auto">Objetivos do Mapeamento de Vulnerabilidades</h1><p id="3aaf6ce8-497f-8092-a28b-f7d175e10875" class="" dir="auto">Os principais objetivos são:</p><ul id="3aaf6ce8-497f-8077-b410-ce8b7b81abcb" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Identificar falhas de segurança.</li></ul><ul id="3aaf6ce8-497f-8063-85f4-cf68ee47acd0" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Priorizar correções.</li></ul><ul id="3aaf6ce8-497f-806b-9637-c0a799c0d46d" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Reduzir riscos.</li></ul><ul id="3aaf6ce8-497f-8047-a27e-dd8b064f7377" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Proteger ativos críticos.</li></ul><ul id="3aaf6ce8-497f-801a-a1ff-dae2e3bfedcd" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Apoiar auditorias.</li></ul><ul id="3aaf6ce8-497f-8026-bd2e-edb13ec7deee" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Atender requisitos legais e normativos.</li></ul><ul id="3aaf6ce8-497f-8034-9018-dc739af47696" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Melhorar a postura de segurança.</li></ul><ul id="3aaf6ce8-497f-802d-8c53-d51c3c1e1a1f" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Evitar incidentes.</li></ul><hr id="3aaf6ce8-497f-800d-9a85-ca3c6a0fef0a" dir="auto"/><h1 id="3aaf6ce8-497f-80d6-93f2-f650d8dcc209" class="" dir="auto">Importância do Mapeamento</h1><p id="3aaf6ce8-497f-802c-9286-d187d088e425" class="" dir="auto">Sem conhecer suas vulnerabilidades, a organização não consegue proteger adequadamente seus ativos.</p><p id="3aaf6ce8-497f-80a9-b085-e8b52de99d97" class="" dir="auto">Por exemplo:</p><p id="3aaf6ce8-497f-8037-8c95-f94dd2af6800" class="" dir="auto">Uma empresa utiliza um servidor web com uma versão antiga do software.</p><p id="3aaf6ce8-497f-80e8-98e8-e7ac7b237129" class="" dir="auto">Enquanto a falha permanecer desconhecida:</p><ul id="3aaf6ce8-497f-80ef-a062-ca949d81c605" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Ela poderá ser explorada.</li></ul><ul id="3aaf6ce8-497f-80e2-8b11-c8d6e79cc1d0" class="bulleted-list" dir="auto"><li style="list-style-type:disc">A organização não saberá da existência do risco.</li></ul><ul id="3aaf6ce8-497f-806a-b200-ec4b2d645a4c" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Não haverá planejamento para correção.</li></ul><p id="3aaf6ce8-497f-808d-9d8c-e38d5f2935f6" class="" dir="auto">Ao identificar essa vulnerabilidade, a empresa pode aplicar atualizações, alterar configurações ou implementar controles compensatórios antes que ocorra um incidente.</p><hr id="3aaf6ce8-497f-80a8-a6f5-de6720118948" dir="auto"/><h1 id="3aaf6ce8-497f-800e-87d9-e8524347b59e" class="" dir="auto">Tipos de Vulnerabilidades</h1><p id="3aaf6ce8-497f-8026-ad3d-cb378fba17b8" class="" dir="auto">As vulnerabilidades podem ser classificadas em diferentes categorias.</p><hr id="3aaf6ce8-497f-80b8-ba65-d5ffe64414f0" dir="auto"/><h1 id="3aaf6ce8-497f-8055-b643-fb4b2e70b615" class="" dir="auto">1. Vulnerabilidades de Software</h1><p id="3aaf6ce8-497f-80dd-9e3b-e97445917586" class="" dir="auto">São falhas existentes em programas ou sistemas.</p><p id="3aaf6ce8-497f-8028-8bdc-fc2d9c0e6114" class="" dir="auto">Exemplos:</p><ul id="3aaf6ce8-497f-8030-9ce6-fe0852b49e19" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Software desatualizado.</li></ul><ul id="3aaf6ce8-497f-80d2-8d38-dc4d34e6500b" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Erros de programação.</li></ul><ul id="3aaf6ce8-497f-8096-aa3e-f5ad9f119e0e" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Falhas de autenticação.</li></ul><ul id="3aaf6ce8-497f-80a3-9e80-d4dc65aea49a" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Falhas de validação de entrada.</li></ul><ul id="3aaf6ce8-497f-80f5-9797-d6226babb012" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Configurações inseguras.</li></ul><hr id="3aaf6ce8-497f-80a0-b8b5-c9c2d157c1f8" dir="auto"/><h1 id="3aaf6ce8-497f-8046-b7c4-f6bbb1dfdbc9" class="" dir="auto">2. Vulnerabilidades de Hardware</h1><p id="3aaf6ce8-497f-80e0-b59f-ffbe76599e27" class="" dir="auto">Relacionadas aos equipamentos físicos.</p><p id="3aaf6ce8-497f-8033-85eb-d51bb7918123" class="" dir="auto">Exemplos:</p><ul id="3aaf6ce8-497f-808c-9d21-c49b3de1decb" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Equipamentos obsoletos.</li></ul><ul id="3aaf6ce8-497f-800b-8a64-e349afffa105" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Firmware desatualizado.</li></ul><ul id="3aaf6ce8-497f-80cc-a799-cb2d53f067d6" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Falhas de fabricação.</li></ul><ul id="3aaf6ce8-497f-80c9-b3fa-e19a2b3c38ac" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Componentes sem suporte do fabricante.</li></ul><hr id="3aaf6ce8-497f-8036-a5b3-f4b8c82c9667" dir="auto"/><h1 id="3aaf6ce8-497f-80ee-9a23-da8b0f9a0663" class="" dir="auto">3. Vulnerabilidades de Rede</h1><p id="3aaf6ce8-497f-80bb-a098-d6d661e27940" class="" dir="auto">Afetam a infraestrutura de comunicação.</p><p id="3aaf6ce8-497f-8094-8088-e371f6f6e161" class="" dir="auto">Exemplos:</p><ul id="3aaf6ce8-497f-8016-a170-c3491944960b" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Portas abertas desnecessárias.</li></ul><ul id="3aaf6ce8-497f-800c-abe2-e9b14c5afe9f" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Serviços inseguros.</li></ul><ul id="3aaf6ce8-497f-8077-b4f3-e91a656d8132" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Firewalls mal configurados.</li></ul><ul id="3aaf6ce8-497f-802b-8753-f194a84705cc" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Protocolos inseguros.</li></ul><ul id="3aaf6ce8-497f-808a-92c1-d37108d4cdc6" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Segmentação inadequada.</li></ul><hr id="3aaf6ce8-497f-80dd-a06f-d1c5ee6c04fe" dir="auto"/><h1 id="3aaf6ce8-497f-80fc-a39a-cc72e3489a46" class="" dir="auto">4. Vulnerabilidades Humanas</h1><p id="3aaf6ce8-497f-802e-89cb-d30f140762a7" class="" dir="auto">Decorrentes de erros ou comportamentos das pessoas.</p><p id="3aaf6ce8-497f-803d-8883-ec3d599c7eff" class="" dir="auto">Exemplos:</p><ul id="3aaf6ce8-497f-808b-ba43-e3bd2aee02ca" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Senhas fracas.</li></ul><ul id="3aaf6ce8-497f-8024-891b-fcb250194fc7" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Compartilhamento de credenciais.</li></ul><ul id="3aaf6ce8-497f-8097-b13e-e76e415c1ad9" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Clique em links maliciosos.</li></ul><ul id="3aaf6ce8-497f-8044-a2cf-f9e2232e8c3d" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Engenharia social.</li></ul><ul id="3aaf6ce8-497f-80f9-9922-e39564c0a87a" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Falta de treinamento.</li></ul><hr id="3aaf6ce8-497f-80dd-a4d0-cc5e4440dd82" dir="auto"/><h1 id="3aaf6ce8-497f-80e6-809e-d68ab1793fa5" class="" dir="auto">5. Vulnerabilidades Físicas</h1><p id="3aaf6ce8-497f-803b-bff2-dcc581458b18" class="" dir="auto">Relacionadas à proteção física da infraestrutura.</p><p id="3aaf6ce8-497f-80e7-a236-c444a0782958" class="" dir="auto">Exemplos:</p><ul id="3aaf6ce8-497f-80cc-962a-ef16602e105e" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Sala de servidores sem controle de acesso.</li></ul><ul id="3aaf6ce8-497f-8087-8c94-f7a7c129bd02" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Equipamentos sem proteção.</li></ul><ul id="3aaf6ce8-497f-809d-83da-ce9a098d6fe9" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Falta de câmeras.</li></ul><ul id="3aaf6ce8-497f-8064-90c0-e00a86c6f1dc" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Ausência de nobreaks.</li></ul><ul id="3aaf6ce8-497f-8098-9bdf-ca867255d142" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Falta de detectores de incêndio.</li></ul><hr id="3aaf6ce8-497f-80f2-8add-d1b2c5b1e2c2" dir="auto"/><h1 id="3aaf6ce8-497f-8070-b3c8-f768a8482464" class="" dir="auto">Processo de Mapeamento de Vulnerabilidades</h1><p id="3aaf6ce8-497f-8077-814b-f3d1ae98d844" class="" dir="auto">O processo normalmente segue estas etapas.</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="3aaf6ce8-497f-8027-a9f1-e989ce554d37" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Inventário dos Ativos
+          ↓
+Mapeamento da Rede
+          ↓
+Identificação dos Sistemas
+          ↓
+Identificação das Vulnerabilidades
+          ↓
+Classificação da Gravidade
+          ↓
+Priorização
+          ↓
+Correção ou Mitigação
+          ↓
+Nova Verificação</code></pre><p id="3aaf6ce8-497f-80e3-a5ef-f80bc49adc43" class="" dir="auto">Esse ciclo deve ser repetido periodicamente.</p><hr id="3aaf6ce8-497f-8061-8d3e-c6e828ef55b3" dir="auto"/><h1 id="3aaf6ce8-497f-8074-8ad5-d701b9f2ae48" class="" dir="auto">Etapas do Mapeamento</h1><h2 id="3aaf6ce8-497f-807b-a4cd-eb231be7e487" class="" dir="auto">1. Inventário dos Ativos</h2><p id="3aaf6ce8-497f-80cc-95fe-e2763812fb0d" class="" dir="auto">Antes de procurar vulnerabilidades, é necessário saber quais ativos existem.</p><p id="3aaf6ce8-497f-8007-873d-c5808a951ca9" class="" dir="auto">Exemplos:</p><ul id="3aaf6ce8-497f-802d-8a7a-f74c9160c987" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Servidores.</li></ul><ul id="3aaf6ce8-497f-8034-9083-cdc26be35b4b" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Computadores.</li></ul><ul id="3aaf6ce8-497f-8024-a638-fdd6e5c7b160" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Aplicações.</li></ul><ul id="3aaf6ce8-497f-80fb-925f-cd02617e129d" class="bulleted-list" dir="auto"><li style="list-style-type:disc">APIs.</li></ul><ul id="3aaf6ce8-497f-802c-b027-c4f892e9aefa" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Bancos de dados.</li></ul><ul id="3aaf6ce8-497f-80b0-9579-e74fe477aa62" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Equipamentos de rede.</li></ul><hr id="3aaf6ce8-497f-8083-81ab-d497e8c35c74" dir="auto"/><h2 id="3aaf6ce8-497f-8058-98f1-e64260de6ae5" class="" dir="auto">2. Descoberta dos Sistemas</h2><p id="3aaf6ce8-497f-80ac-881c-de99ec6254e8" class="" dir="auto">Após identificar os ativos, são levantadas informações como:</p><ul id="3aaf6ce8-497f-8082-bf61-ff5e28bf5902" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Sistema operacional.</li></ul><ul id="3aaf6ce8-497f-8070-9c5d-f64872c76b70" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Serviços ativos.</li></ul><ul id="3aaf6ce8-497f-80c5-bca3-eda7c44063cb" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Versões dos softwares.</li></ul><ul id="3aaf6ce8-497f-80cd-b793-f76456f36392" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Configurações.</li></ul><ul id="3aaf6ce8-497f-8013-858d-c63b062aa868" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Portas abertas.</li></ul><p id="3aaf6ce8-497f-80dd-804f-f2c7a38bfede" class="" dir="auto">Essas informações ajudam a localizar possíveis falhas.</p><hr id="3aaf6ce8-497f-800c-9bc0-df5b233f7016" dir="auto"/><h2 id="3aaf6ce8-497f-803e-9b21-d28466dd8f22" class="" dir="auto">3. Identificação das Vulnerabilidades</h2><p id="3aaf6ce8-497f-80e4-9fe7-fe438aef7afd" class="" dir="auto">Nesta etapa, são comparadas as informações coletadas com bancos de dados de vulnerabilidades conhecidas e boas práticas de segurança.</p><p id="3aaf6ce8-497f-80bf-9c0e-c921ec778ba8" class="" dir="auto">Exemplos de problemas identificados:</p><ul id="3aaf6ce8-497f-8091-88e3-cf6210237e4b" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Software sem atualização.</li></ul><ul id="3aaf6ce8-497f-8068-a8b2-e52c245b6e31" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Configuração insegura.</li></ul><ul id="3aaf6ce8-497f-8044-8eb0-fbb24b386829" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Serviço desnecessário habilitado.</li></ul><ul id="3aaf6ce8-497f-8014-ad90-fc7fd6218208" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Senha padrão.</li></ul><ul id="3aaf6ce8-497f-80bc-8268-ecf12f5906c4" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Criptografia fraca.</li></ul><hr id="3aaf6ce8-497f-80a0-91e3-c9c525a2d7fa" dir="auto"/><h2 id="3aaf6ce8-497f-8095-a5a2-cea6cd1de34c" class="" dir="auto">4. Classificação da Gravidade</h2><p id="3aaf6ce8-497f-8066-9f2b-f5065563f6ee" class="" dir="auto">Cada vulnerabilidade recebe um nível de severidade.</p><p id="3aaf6ce8-497f-80d8-ace4-d64fa0b538c4" class="" dir="auto">Uma classificação comum é:</p><table id="3aaf6ce8-497f-801c-9006-fbb8fc5006a8" class="simple-table" dir="ltr"><thead class="simple-table-header"><tr id="3aaf6ce8-497f-804b-b343-f721d78ac29d" dir="ltr"><th id="nURY" class="simple-table-header-color simple-table-header">Gravidade</th><th id="RGjm" class="simple-table-header-color simple-table-header">Características</th></tr></thead><tbody><tr id="3aaf6ce8-497f-80fe-be89-fb240b22631c" dir="ltr"><td id="nURY" class="">Baixa</td><td id="RGjm" class="">Pouco impacto e difícil exploração.</td></tr><tr id="3aaf6ce8-497f-806b-a2f7-cc0f897aa17f" dir="ltr"><td id="nURY" class="">Média</td><td id="RGjm" class="">Pode afetar parte do ambiente.</td></tr><tr id="3aaf6ce8-497f-80d8-9729-e7e2a963ea17" dir="ltr"><td id="nURY" class="">Alta</td><td id="RGjm" class="">Pode causar danos significativos.</td></tr><tr id="3aaf6ce8-497f-8047-aa68-c6479b93c1a0" dir="ltr"><td id="nURY" class="">Crítica</td><td id="RGjm" class="">Alto potencial de comprometimento e prioridade máxima de correção.</td></tr></tbody></table><hr id="3aaf6ce8-497f-809b-98dd-fc3f9b6c1ee9" dir="auto"/><h2 id="3aaf6ce8-497f-8069-bb23-cd464aad083e" class="" dir="auto">5. Priorização</h2><p id="3aaf6ce8-497f-80eb-ac48-e9e13f362393" class="" dir="auto">Nem todas as vulnerabilidades podem ser corrigidas imediatamente.</p><p id="3aaf6ce8-497f-80cf-a0c6-ff49555fbae3" class="" dir="auto">A priorização considera fatores como:</p><ul id="3aaf6ce8-497f-8028-9ce1-fa4f1cc513c1" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Gravidade.</li></ul><ul id="3aaf6ce8-497f-801e-8446-f4fd92c130bf" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Probabilidade de exploração.</li></ul><ul id="3aaf6ce8-497f-80e7-8777-edeaf02833c5" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Valor do ativo afetado.</li></ul><ul id="3aaf6ce8-497f-8036-982e-fa311cf52224" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Impacto para o negócio.</li></ul><ul id="3aaf6ce8-497f-80a5-9183-ebc5cab5a75c" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Existência de controles compensatórios.</li></ul><hr id="3aaf6ce8-497f-8083-94ab-c8ae3d9f22e5" dir="auto"/><h2 id="3aaf6ce8-497f-80b3-a4d2-d5b7f8e2b011" class="" dir="auto">6. Correção</h2><p id="3aaf6ce8-497f-8061-8b1f-cb9055afff71" class="" dir="auto">Após a priorização, as vulnerabilidades são tratadas.</p><p id="3aaf6ce8-497f-8060-8574-fa3077f26e1b" class="" dir="auto">As ações podem incluir:</p><ul id="3aaf6ce8-497f-80a1-92a8-fa344054e50d" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Atualizar softwares.</li></ul><ul id="3aaf6ce8-497f-80b2-8041-fd038f7bce6b" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Corrigir configurações.</li></ul><ul id="3aaf6ce8-497f-8081-9461-d8d1cc896d4f" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Fechar portas desnecessárias.</li></ul><ul id="3aaf6ce8-497f-8083-aaa5-ffb32a194a68" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Remover serviços obsoletos.</li></ul><ul id="3aaf6ce8-497f-80ae-a89c-fa16ac6f8a45" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Aplicar patches.</li></ul><ul id="3aaf6ce8-497f-8042-a5a4-d27fd82a5920" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Alterar políticas de acesso.</li></ul><hr id="3aaf6ce8-497f-80db-b940-e63c80cc110f" dir="auto"/><h2 id="3aaf6ce8-497f-8021-9584-ef6e4777331a" class="" dir="auto">7. Validação</h2><p id="3aaf6ce8-497f-803c-ab78-c12aa22e4fd7" class="" dir="auto">Depois da correção, uma nova verificação confirma se a vulnerabilidade foi realmente eliminada ou mitigada.</p><hr id="3aaf6ce8-497f-807a-bb3d-da17adb203ad" dir="auto"/><h1 id="3aaf6ce8-497f-80ca-a27c-d4faeb2482d9" class="" dir="auto">Ferramentas Utilizadas</h1><p id="3aaf6ce8-497f-8043-9fe8-e0613e33f5fc" class="" dir="auto">Diversas ferramentas auxiliam no mapeamento.</p><h2 id="3aaf6ce8-497f-8092-bdef-f7d652d99964" class="" dir="auto">Nmap</h2><p id="3aaf6ce8-497f-806f-b341-d84c787af496" class="" dir="auto">Auxilia na descoberta de:</p><ul id="3aaf6ce8-497f-80b8-bf35-c48b4c841a21" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Hosts.</li></ul><ul id="3aaf6ce8-497f-809d-856d-f06f9852dc3b" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Portas abertas.</li></ul><ul id="3aaf6ce8-497f-80ef-9f1b-e2ad3c77001f" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Serviços.</li></ul><ul id="3aaf6ce8-497f-80ba-a37f-fe670458004b" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Sistemas operacionais.</li></ul><p id="3aaf6ce8-497f-80cf-89c9-d24e32679232" class="" dir="auto">É frequentemente utilizado como etapa inicial do processo.</p><hr id="3aaf6ce8-497f-80fb-900f-f83c972a1f63" dir="auto"/><h2 id="3aaf6ce8-497f-80ca-a76c-e2ad780b2d08" class="" dir="auto">Nessus</h2><p id="3aaf6ce8-497f-80a5-b72a-cc01dffc86b7" class="" dir="auto">Uma das ferramentas mais conhecidas para identificação automática de vulnerabilidades.</p><p id="3aaf6ce8-497f-80b2-a8c5-f2538ca3996e" class="" dir="auto">Pode detectar:</p><ul id="3aaf6ce8-497f-80e9-af60-cf0b0c128443" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Softwares desatualizados.</li></ul><ul id="3aaf6ce8-497f-805c-9a34-ca9e544e919c" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Configurações inseguras.</li></ul><ul id="3aaf6ce8-497f-80df-9b72-ff5cc401adbe" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Vulnerabilidades conhecidas.</li></ul><hr id="3aaf6ce8-497f-80a7-ad39-c360682f2328" dir="auto"/><h2 id="3aaf6ce8-497f-8095-8569-f741b2a73da1" class="" dir="auto">OpenVAS (Greenbone)</h2><p id="3aaf6ce8-497f-802a-81ff-fc2f6f78d82d" class="" dir="auto">Ferramenta de código aberto voltada para análise de vulnerabilidades.</p><hr id="3aaf6ce8-497f-80bd-aeeb-f175ef6f22ef" dir="auto"/><h2 id="3aaf6ce8-497f-8052-92c9-f092b476df8e" class="" dir="auto">Qualys</h2><p id="3aaf6ce8-497f-806e-8e71-f6cd76109f90" class="" dir="auto">Plataforma em nuvem para gerenciamento contínuo de vulnerabilidades e conformidade.</p><hr id="3aaf6ce8-497f-803f-909a-d42c0d32591f" dir="auto"/><h2 id="3aaf6ce8-497f-8039-bd6c-e97a2b4741a5" class="" dir="auto">Microsoft Defender Vulnerability Management</h2><p id="3aaf6ce8-497f-809b-a6d2-f51a00e33e02" class="" dir="auto">Integra-se ao ambiente Microsoft para identificar vulnerabilidades em dispositivos e aplicações.</p><hr id="3aaf6ce8-497f-802d-85c6-ce83b50bfba9" dir="auto"/><h1 id="3aaf6ce8-497f-8047-9260-f0b4d3ae7343" class="" dir="auto">Mapeamento x Teste de Invasão</h1><p id="3aaf6ce8-497f-80f7-8c17-f82249e4aa3f" class="" dir="auto">Embora relacionados, são atividades diferentes.</p><table id="3aaf6ce8-497f-809c-af9c-d88d6ec76a79" class="simple-table" dir="ltr"><thead class="simple-table-header"><tr id="3aaf6ce8-497f-80c3-a734-f8e5ed9d7872" dir="ltr"><th id="HFs`" class="simple-table-header-color simple-table-header">Mapeamento de Vulnerabilidades</th><th id="x~Cy" class="simple-table-header-color simple-table-header">Teste de Invasão (Pentest)</th></tr></thead><tbody><tr id="3aaf6ce8-497f-806c-abfa-c947253140ce" dir="ltr"><td id="HFs`" class="">Identifica falhas.</td><td id="x~Cy" class="">Verifica se as falhas podem ser exploradas.</td></tr><tr id="3aaf6ce8-497f-80ca-8777-fff6a27532f1" dir="ltr"><td id="HFs`" class="">Tem caráter preventivo.</td><td id="x~Cy" class="">Simula ataques autorizados.</td></tr><tr id="3aaf6ce8-497f-809e-8d82-c8f9b5215c43" dir="ltr"><td id="HFs`" class="">Não busca explorar as vulnerabilidades.</td><td id="x~Cy" class="">Pode explorar vulnerabilidades dentro do escopo autorizado.</td></tr><tr id="3aaf6ce8-497f-8044-8ae4-f774fdb44760" dir="ltr"><td id="HFs`" class="">Gera uma lista de vulnerabilidades.</td><td id="x~Cy" class="">Avalia o impacto real da exploração.</td></tr></tbody></table><p id="3aaf6ce8-497f-80b4-bfb5-d4759c758fd5" class="" dir="auto">Em muitas organizações, o mapeamento é realizado antes de um Pentest.</p><hr id="3aaf6ce8-497f-808f-9843-e2e1db4d71c8" dir="auto"/><h1 id="3aaf6ce8-497f-80f4-ab4a-d2dd2a86a30f" class="" dir="auto">Relação com a Gestão de Riscos</h1><p id="3aaf6ce8-497f-80a0-b035-e900da9f133a" class="" dir="auto">O mapeamento fornece informações essenciais para a análise de riscos.</p><p id="3aaf6ce8-497f-8024-891f-f06421eb9d2f" class="" dir="auto">Fluxo:</p><pre id="3aaf6ce8-497f-80bc-84ea-fa5666af983f" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Inventário dos Ativos
+          ↓
+Mapeamento da Rede
+          ↓
+Mapeamento de Vulnerabilidades
+          ↓
+Análise de Riscos
+          ↓
+Mitigação
+          ↓
+Monitoramento</code></pre><p id="3aaf6ce8-497f-8058-b46d-d9c288b9b0bb" class="" dir="auto">Quanto mais críticas forem as vulnerabilidades identificadas, maior tende a ser o risco associado.</p><hr id="3aaf6ce8-497f-80a6-86c2-eb65cddef92a" dir="auto"/><h1 id="3aaf6ce8-497f-800d-8ced-e52122ce3af8" class="" dir="auto">Relação com a Tríade CIA</h1><p id="3aaf6ce8-497f-80bf-9d51-cfeb58a069df" class="" dir="auto">O mapeamento de vulnerabilidades contribui para proteger os três pilares da Segurança da Informação.</p><h2 id="3aaf6ce8-497f-8001-b186-c72c5b734c0f" class="" dir="auto">Confidencialidade</h2><p id="3aaf6ce8-497f-808e-bb0d-e65de39d890f" class="" dir="auto">Identifica falhas que podem permitir acesso não autorizado às informações.</p><hr id="3aaf6ce8-497f-80a9-aac5-cd1ce52922cc" dir="auto"/><h2 id="3aaf6ce8-497f-8080-b615-c9bc283b516c" class="" dir="auto">Integridade</h2><p id="3aaf6ce8-497f-8067-ada7-e4aaa65d1105" class="" dir="auto">Detecta vulnerabilidades que podem permitir alterações indevidas em dados ou sistemas.</p><hr id="3aaf6ce8-497f-8085-b19e-ee51dcb33512" dir="auto"/><h2 id="3aaf6ce8-497f-809f-b0ad-f84dd6757c27" class="" dir="auto">Disponibilidade</h2><p id="3aaf6ce8-497f-80f7-9714-c1420b6d4732" class="" dir="auto">Revela falhas que podem causar interrupção de serviços, como configurações incorretas ou ausência de redundância.</p><hr id="3aaf6ce8-497f-802e-8852-f6931da55125" dir="auto"/><h1 id="3aaf6ce8-497f-8094-830d-d0b902cc4581" class="" dir="auto">Benefícios</h1><p id="3aaf6ce8-497f-80df-8595-c8ecf97495e3" class="" dir="auto">Entre os principais benefícios estão:</p><ul id="3aaf6ce8-497f-80cc-82f7-fd6a9fec653e" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Identificação antecipada de falhas.</li></ul><ul id="3aaf6ce8-497f-80ae-a9db-de9a42c3a133" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Redução da superfície de ataque.</li></ul><ul id="3aaf6ce8-497f-803e-b918-ffd8e9bafc3a" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Priorização das correções.</li></ul><ul id="3aaf6ce8-497f-8035-afb7-eb697ca690a6" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Melhoria da conformidade com normas.</li></ul><ul id="3aaf6ce8-497f-80bc-9298-fd93c4ee0da8" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Aumento da segurança dos ativos.</li></ul><ul id="3aaf6ce8-497f-8026-ba17-e2636bce5e2f" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Apoio à gestão de riscos.</li></ul><ul id="3aaf6ce8-497f-805a-854a-d2cc445fe917" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Redução da probabilidade de incidentes.</li></ul><hr id="3aaf6ce8-497f-80e7-abbe-f07b5b3ed155" dir="auto"/><h1 id="3aaf6ce8-497f-8084-800c-e6e89adc40bd" class="" dir="auto">Desafios</h1><p id="3aaf6ce8-497f-80d3-8bfd-e1cf2fd14417" class="" dir="auto">Alguns desafios comuns incluem:</p><ul id="3aaf6ce8-497f-80b1-8294-f33048bce0ac" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Grande quantidade de ativos.</li></ul><ul id="3aaf6ce8-497f-8016-8820-e968e3e0c0de" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Novas vulnerabilidades surgindo constantemente.</li></ul><ul id="3aaf6ce8-497f-8059-9ba1-e01ac1d2ee32" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Ambientes híbridos (local e nuvem).</li></ul><ul id="3aaf6ce8-497f-8018-a810-e967d09b1511" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Equipamentos sem suporte.</li></ul><ul id="3aaf6ce8-497f-80ae-9ee6-d4846bda4985" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Falta de atualização dos inventários.</li></ul><ul id="3aaf6ce8-497f-8079-ba6c-cbd042ea9cf6" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Escassez de profissionais especializados.</li></ul><p id="3aaf6ce8-497f-800e-9eed-ebb6ff19e21f" class="" dir="auto">Por isso, o mapeamento deve ser contínuo e integrado aos processos de segurança.</p><hr id="3aaf6ce8-497f-800a-86e5-d09210065edb" dir="auto"/><h1 id="3aaf6ce8-497f-8068-abb9-d764c03695f3" class="" dir="auto">Boas práticas</h1><ul id="3aaf6ce8-497f-80e1-856c-c91dd0aed1f5" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Manter um inventário atualizado dos ativos.</li></ul><ul id="3aaf6ce8-497f-80ad-8f06-e07342f33bf6" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Realizar verificações periódicas.</li></ul><ul id="3aaf6ce8-497f-80fd-ab66-e8a462efa631" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Priorizar a correção de vulnerabilidades críticas.</li></ul><ul id="3aaf6ce8-497f-8074-b15a-c76808d618f4" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Aplicar atualizações e patches rapidamente.</li></ul><ul id="3aaf6ce8-497f-806a-b843-ea4a5392b765" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Remover softwares e serviços desnecessários.</li></ul><ul id="3aaf6ce8-497f-80db-98f8-dbf91c0e5168" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Revisar configurações de segurança regularmente.</li></ul><ul id="3aaf6ce8-497f-80d2-96c8-de281a79a3a0" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Documentar todas as vulnerabilidades identificadas.</li></ul><ul id="3aaf6ce8-497f-800e-8523-d6900f9cf5ed" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Reavaliar os ativos após mudanças significativas.</li></ul><ul id="3aaf6ce8-497f-800b-8a39-d0b42c7b4b7b" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Integrar o mapeamento à gestão de riscos e à resposta a incidentes.</li></ul><hr id="3aaf6ce8-497f-80a7-809d-e21b4625adab" dir="auto"/><h1 id="3aaf6ce8-497f-803e-999e-d640f484b2b7" class="" dir="auto">Relação com Normas Internacionais</h1><p id="3aaf6ce8-497f-8015-ae19-cdb1784fe8b8" class="" dir="auto">O mapeamento de vulnerabilidades é recomendado por diversos padrões de segurança.</p><ul id="3aaf6ce8-497f-80b5-a924-ddfac9b05e33" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>ISO/IEC 27001</strong> – Exige a gestão de riscos e a implementação de controles para tratar vulnerabilidades.</li></ul><ul id="3aaf6ce8-497f-8066-b6c2-e48ae9bd5216" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>ISO/IEC 27002</strong> – Recomenda processos de gerenciamento de vulnerabilidades técnicas e atualização de sistemas.</li></ul><ul id="3aaf6ce8-497f-808e-8a64-d01c1f007e5d" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>ISO/IEC 27005</strong> – Integra a identificação de vulnerabilidades ao processo de gestão de riscos.</li></ul><ul id="3aaf6ce8-497f-8057-9f7e-e85250c751f2" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>NIST Cybersecurity Framework (CSF)</strong> – Nas funções <strong>Identify</strong> e <strong>Protect</strong>, destaca a necessidade de identificar vulnerabilidades e reduzir a superfície de ataque.</li></ul><ul id="3aaf6ce8-497f-80a4-8e82-c6f429689d2c" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>NIST SP 800-40</strong> – Apresenta diretrizes para gerenciamento de vulnerabilidades e aplicação de correções (patch management).</li></ul><hr id="3aaf6ce8-497f-80ba-b2e9-e0b27ab3cacc" dir="auto"/><h1 id="3aaf6ce8-497f-803c-8085-f3683bac5dde" class="" dir="auto">Resumo</h1><p id="3aaf6ce8-497f-8047-8711-cf921a614a79" class="" dir="auto">O <strong>Mapeamento de Vulnerabilidades</strong> é o processo de identificar, documentar e analisar falhas de segurança presentes em sistemas, aplicações, redes e outros ativos de TI. Ele permite conhecer os pontos fracos da infraestrutura, classificá-los por gravidade e definir prioridades de correção, reduzindo a probabilidade de exploração por atacantes. Integrado à gestão de riscos e à gestão de vulnerabilidades, esse processo fortalece a proteção da <strong>Confidencialidade</strong>, <strong>Integridade</strong> e <strong>Disponibilidade</strong> das informações, contribuindo para uma postura de segurança mais preventiva e alinhada às boas práticas e normas internacionais.</p></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

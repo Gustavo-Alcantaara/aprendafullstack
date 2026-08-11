@@ -1,0 +1,794 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Tipos de Vulnerabilidades</title><meta name="data-notion-page-icon" content="/icons/lock_blue.svg"/><link rel="icon" href="https://app.notion.com/icons/lock_blue.svg"/><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+/* For default-background callouts, render the border outline. */
+.callout.block-color-default_background {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+/*
+ * Toggles and callouts hold arbitrary content, so they can easily be taller
+ * than a page. They must stay breakable: avoiding breaks inside them makes
+ * Chromium push the whole block onto the next page, which leaves the previous
+ * page mostly empty before every long toggle.
+ */
+details,
+aside {
+	margin: 1.25em 0;
+}
+
+/* Keep a toggle's title on the same page as the start of its content. */
+summary {
+	page-break-after: avoid;
+	break-after: avoid;
+}
+
+/*
+ * Toggle headings render as <h1/h2/h3 style="display:inline-block"> inside
+ * <summary>. Without this reset, the heading's margin-top pushes it below the
+ * ::marker (▼), so the triangle and the title appear on separate lines.
+ */
+summary h1,
+summary h2,
+summary h3,
+summary h4 {
+	margin-top: 0;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding-inline: 0.125rem;
+	padding-block: 0.375rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+/*
+ * Render emoji icons using a ::before pseudo-element to keep the glyph
+ * out of the DOM textContent traversal. This avoids double-rendering icons
+ * in callouts and page titles.
+ * NOTE(slim/html-export-pseudo-icons): I can't tagref this because it will
+ * flag as a duplicate tag after codegen.
+ */
+.icon[data-emoji]::before {
+	content: attr(data-emoji);
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	margin-right: 0.4em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.tab {
+	margin: 1.25em 0;
+	padding-inline: 1rem;
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style><style>@import url('https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex-swap.min.css')</style></head><body><article id="3b8f6ce8-497f-803f-ab1e-fc47f35fa885" class="page sans" data-notion-page-icon="/icons/lock_blue.svg"><header><div class="page-header-icon undefined"><img class="icon notion-static-icon" src="https://app.notion.com/icons/lock_blue.svg"/></div><h1 class="page-title" dir="auto">Tipos de Vulnerabilidades</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><h1 id="3b8f6ce8-497f-8024-992c-f74cef69aa35" class="" dir="auto">Tipos de Vulnerabilidades</h1><p id="3b8f6ce8-497f-808e-a8ba-cbf23abac3b8" class="" dir="auto">Uma <strong>vulnerabilidade</strong> é uma fraqueza ou falha existente em um sistema, aplicação, dispositivo, rede, configuração ou processo que pode ser explorada para comprometer a <strong>confidencialidade, integridade ou disponibilidade</strong> de informações e serviços.</p><p id="3b8f6ce8-497f-80e6-9885-efa27c96a47e" class="" dir="auto">Em Segurança Cibernética, entender os tipos de vulnerabilidades é fundamental porque permite identificar <strong>onde um sistema pode estar exposto</strong>, avaliar os riscos e aplicar medidas de correção antes que uma falha seja explorada.</p><blockquote id="3b8f6ce8-497f-80e4-9ba6-ffc1b1d0f5ec" class="" dir="auto"><strong>Vulnerabilidade ≠ ameaça ≠ ataque:</strong> a vulnerabilidade é a fraqueza; a ameaça é aquilo que pode explorá-la; e o ataque é a ação realizada para tentar obter algum benefício explorando essa fraqueza.</blockquote><hr id="3b8f6ce8-497f-800d-9ba8-d05b11fa45cd" dir="auto"/><h1 id="3b8f6ce8-497f-8008-a8e5-e0801002658f" class="" dir="auto">1. Vulnerabilidades de Software</h1><p id="3b8f6ce8-497f-8030-8c04-f26337c9f437" class="" dir="auto">São falhas presentes no código de programas, sistemas operacionais, bibliotecas, frameworks ou outros componentes de software.</p><p id="3b8f6ce8-497f-80ff-9cc9-cd23203e0d9e" class="" dir="auto">Podem surgir por:</p><ul id="3b8f6ce8-497f-80db-91c3-e8f509c51218" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Erros de programação;</li></ul><ul id="3b8f6ce8-497f-80cc-b2d3-f4f01ab22278" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Falta de validação de dados;</li></ul><ul id="3b8f6ce8-497f-8045-9155-d97b25f512d1" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Falhas de autenticação;</li></ul><ul id="3b8f6ce8-497f-8035-8d06-f23d9137ea53" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Tratamento inadequado de erros;</li></ul><ul id="3b8f6ce8-497f-8015-89e6-ecfc7934cb65" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Uso de bibliotecas vulneráveis;</li></ul><ul id="3b8f6ce8-497f-80bf-9dc1-c54de5ce4927" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Falta de atualizações.</li></ul><h3 id="3b8f6ce8-497f-804a-847e-d41ad13e4efd" class="" dir="auto">Exemplo</h3><p id="3b8f6ce8-497f-8036-910a-f87add7be878" class="" dir="auto">Imagine uma aplicação que recebe um dado do usuário e não verifica corretamente o conteúdo recebido.</p><p id="3b8f6ce8-497f-808b-853b-e3b7a4f98539" class="" dir="auto">Dependendo da falha, um atacante pode conseguir manipular o comportamento da aplicação.</p><h3 id="3b8f6ce8-497f-8006-8597-da7960786bc2" class="" dir="auto">Como prevenir</h3><ul id="3b8f6ce8-497f-805f-b490-cd4b07b0cb6b" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Atualizar softwares;</li></ul><ul id="3b8f6ce8-497f-80af-8268-d992dc82d50e" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Corrigir vulnerabilidades conhecidas;</li></ul><ul id="3b8f6ce8-497f-8057-b66e-fe57a5adca05" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Realizar testes de segurança;</li></ul><ul id="3b8f6ce8-497f-8000-adfa-c1e4b5444717" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Fazer revisão de código;</li></ul><ul id="3b8f6ce8-497f-804a-a463-d37b15ca718d" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Utilizar ferramentas de análise de código.</li></ul><hr id="3b8f6ce8-497f-80a0-8ea8-d988f158c299" dir="auto"/><h1 id="3b8f6ce8-497f-8095-bac2-eb65970cb619" class="" dir="auto">2. Vulnerabilidades em Aplicações Web</h1><p id="3b8f6ce8-497f-8047-8ba3-e7bd704aa262" class="" dir="auto">Aplicações Web são um dos principais alvos de ataques porque ficam frequentemente expostas à Internet.</p><p id="3b8f6ce8-497f-80a7-91f6-c98d28aaf2c9" class="" dir="auto">Alguns exemplos conhecidos são:</p><ul id="3b8f6ce8-497f-8049-a746-eb9e9d49effd" class="bulleted-list" dir="auto"><li style="list-style-type:disc">SQL Injection;</li></ul><ul id="3b8f6ce8-497f-8033-821f-ec22d33c4250" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Cross-Site Scripting (XSS);</li></ul><ul id="3b8f6ce8-497f-8048-ac4d-e5ef50d4d09a" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Cross-Site Request Forgery (CSRF);</li></ul><ul id="3b8f6ce8-497f-807f-aeb5-e1b8d1b05201" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Falhas de autenticação;</li></ul><ul id="3b8f6ce8-497f-80c5-9953-e576e477a1d7" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Controle de acesso inadequado;</li></ul><ul id="3b8f6ce8-497f-809a-b330-f3607936b73d" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Upload inseguro de arquivos;</li></ul><ul id="3b8f6ce8-497f-805d-9c84-f019f77aa90b" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Exposição de informações sensíveis.</li></ul><h3 id="3b8f6ce8-497f-807c-a49e-c07b0006b1b9" class="" dir="auto">Exemplo</h3><p id="3b8f6ce8-497f-80a9-b5a8-f08bbbc0c220" class="" dir="auto">Uma aplicação possui uma página de login que não trata adequadamente os dados enviados pelo usuário.</p><p id="3b8f6ce8-497f-8033-8529-e3dd192d4436" class="" dir="auto">Se a aplicação utilizar esses dados diretamente em uma consulta ao banco de dados, poderá existir uma vulnerabilidade de <strong>SQL Injection</strong>.</p><h3 id="3b8f6ce8-497f-808d-9fc3-ccc87e16fc6c" class="" dir="auto">Prevenção</h3><ul id="3b8f6ce8-497f-80dc-bf01-cceb9c488a65" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Validação de entrada;</li></ul><ul id="3b8f6ce8-497f-8030-bab8-d34e1ee9ebe3" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Prepared Statements;</li></ul><ul id="3b8f6ce8-497f-8091-9784-fe303031cf03" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Controle adequado de sessão;</li></ul><ul id="3b8f6ce8-497f-80fd-a1ac-e705783486a6" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Autenticação segura;</li></ul><ul id="3b8f6ce8-497f-803d-a0ba-fd231ad2c7cc" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Autorização adequada;</li></ul><ul id="3b8f6ce8-497f-80ef-abcc-eba1af77f55e" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Uso de HTTPS;</li></ul><ul id="3b8f6ce8-497f-8031-aa35-fa6f340d529e" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Atualização dos frameworks e bibliotecas.</li></ul><hr id="3b8f6ce8-497f-801e-aa13-f6a41428c456" dir="auto"/><h1 id="3b8f6ce8-497f-80db-a2d6-f250ef68e02e" class="" dir="auto">3. Vulnerabilidades de Rede</h1><p id="3b8f6ce8-497f-805e-b7dd-df3e71f7b9ba" class="" dir="auto">São falhas relacionadas à infraestrutura de comunicação.</p><p id="3b8f6ce8-497f-80c2-b5bf-cb252cf27b54" class="" dir="auto">Podem envolver:</p><ul id="3b8f6ce8-497f-802c-96cc-fb2a3d8b0382" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Roteadores;</li></ul><ul id="3b8f6ce8-497f-8044-b759-eebe1f5f61b0" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Switches;</li></ul><ul id="3b8f6ce8-497f-8025-a117-d66b2ffe5ec1" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Firewalls;</li></ul><ul id="3b8f6ce8-497f-808e-a635-eb7e24941b71" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Redes Wi-Fi;</li></ul><ul id="3b8f6ce8-497f-80ff-b632-fb3885ce88e2" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Servidores;</li></ul><ul id="3b8f6ce8-497f-8002-ae0c-ccd18ef130b8" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Protocolos;</li></ul><ul id="3b8f6ce8-497f-805e-ba7c-e9824cc8a0f7" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Configurações de rede.</li></ul><h3 id="3b8f6ce8-497f-80fa-86b0-d4440fd4b1d3" class="" dir="auto">Exemplos</h3><p id="3b8f6ce8-497f-80ca-a2fc-f7732ff7837a" class="" dir="auto">Uma rede pode apresentar problemas quando:</p><ul id="3b8f6ce8-497f-802a-91cc-ed6463c9ba28" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Utiliza protocolos inseguros;</li></ul><ul id="3b8f6ce8-497f-8046-859e-e79bdb1f77f8" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Possui serviços desnecessários expostos;</li></ul><ul id="3b8f6ce8-497f-8089-96c1-ff8f7f57bae2" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Utiliza configurações padrão;</li></ul><ul id="3b8f6ce8-497f-804f-ad76-f6cdd81e1908" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Possui firewall mal configurado;</li></ul><ul id="3b8f6ce8-497f-8064-87f1-d534b3b54f76" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Permite acesso excessivo entre segmentos.</li></ul><h3 id="3b8f6ce8-497f-808c-8f84-f8aa5fa320ce" class="" dir="auto">Prevenção</h3><p id="3b8f6ce8-497f-8084-99db-e6f959b050f3" class="" dir="auto">Algumas medidas incluem:</p><ul id="3b8f6ce8-497f-8065-8ff6-dda0f16bbc6b" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Segmentação de rede;</li></ul><ul id="3b8f6ce8-497f-800f-b573-dcceac60b5b3" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Firewall;</li></ul><ul id="3b8f6ce8-497f-805b-964b-eadf93f4d360" class="bulleted-list" dir="auto"><li style="list-style-type:disc">IDS/IPS;</li></ul><ul id="3b8f6ce8-497f-80e6-bb90-f8a50d1bb813" class="bulleted-list" dir="auto"><li style="list-style-type:disc">VPN;</li></ul><ul id="3b8f6ce8-497f-8076-a8f0-f22f8c0917e7" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Monitoramento;</li></ul><ul id="3b8f6ce8-497f-8024-9172-d491b9b5e981" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Desativação de serviços desnecessários;</li></ul><ul id="3b8f6ce8-497f-8080-ac10-eeb39439589b" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Atualização dos equipamentos.</li></ul><hr id="3b8f6ce8-497f-8051-a99d-d96631104ae8" dir="auto"/><h1 id="3b8f6ce8-497f-80aa-b0ed-f9adaf7e505e" class="" dir="auto">4. Vulnerabilidades de Configuração</h1><p id="3b8f6ce8-497f-8092-a77f-f3662f726978" class="" dir="auto">Nem sempre a vulnerabilidade está no software.</p><p id="3b8f6ce8-497f-8018-90a1-e0f4640ba006" class="" dir="auto">Muitas vezes, o sistema é seguro, mas foi <strong>configurado incorretamente</strong>.</p><p id="3b8f6ce8-497f-8080-a6f2-cd1c38457283" class="" dir="auto">Esse tipo de vulnerabilidade é bastante comum.</p><h3 id="3b8f6ce8-497f-8051-bc5b-fcda8b60150b" class="" dir="auto">Exemplos</h3><ul id="3b8f6ce8-497f-8015-aef4-d86697bd087d" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Senhas padrão;</li></ul><ul id="3b8f6ce8-497f-80b2-9d38-f8a2758eed4a" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Portas desnecessariamente abertas;</li></ul><ul id="3b8f6ce8-497f-8080-9033-db057c118671" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Permissões excessivas;</li></ul><ul id="3b8f6ce8-497f-8034-be74-ef6b22dd7f3c" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Serviços desnecessários ativados;</li></ul><ul id="3b8f6ce8-497f-8053-a0cb-f08249646187" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Configurações inseguras;</li></ul><ul id="3b8f6ce8-497f-8081-a573-e0773914c231" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Compartilhamento de arquivos inadequado;</li></ul><ul id="3b8f6ce8-497f-8064-a516-ddbe3f84a63e" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Falta de políticas de segurança.</li></ul><h3 id="3b8f6ce8-497f-80f0-ab6e-c57bbd7f5ca2" class="" dir="auto">Exemplo</h3><p id="3b8f6ce8-497f-80fd-bb2f-ca7873f20cfe" class="" dir="auto">Um servidor possui um serviço que não é utilizado, mas permanece acessível pela rede.</p><p id="3b8f6ce8-497f-80b4-9a68-e0032edcf4cd" class="" dir="auto">Mesmo que o serviço não apresente uma vulnerabilidade conhecida, mantê-lo exposto aumenta a <strong>superfície de ataque</strong>.</p><h3 id="3b8f6ce8-497f-8004-a0ed-db8efb0dcd15" class="" dir="auto">Prevenção</h3><p id="3b8f6ce8-497f-8070-9f07-f26b8c6bb69f" class="" dir="auto">Utilizar o princípio de <strong>hardening</strong>, que consiste em reduzir as possibilidades de exploração do sistema.</p><hr id="3b8f6ce8-497f-80f2-9017-ca12af7ecd64" dir="auto"/><h1 id="3b8f6ce8-497f-80ec-afc9-e84db939f0f8" class="" dir="auto">5. Vulnerabilidades de Autenticação</h1><p id="3b8f6ce8-497f-8081-9b57-f359e00ba099" class="" dir="auto">A autenticação determina <strong>quem é o usuário</strong>.</p><p id="3b8f6ce8-497f-80a4-a973-d341b902c025" class="" dir="auto">Falhas nessa área podem permitir que alguém consiga acessar uma conta sem autorização.</p><p id="3b8f6ce8-497f-8022-9255-cd758068ed09" class="" dir="auto">Exemplos:</p><ul id="3b8f6ce8-497f-80ef-aa1b-cb9937b82c18" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Senhas fracas;</li></ul><ul id="3b8f6ce8-497f-80f5-be3a-ced3188edf7f" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Ausência de MFA;</li></ul><ul id="3b8f6ce8-497f-80d6-9243-ec3eb6848fc2" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Recuperação de senha insegura;</li></ul><ul id="3b8f6ce8-497f-8071-b5d6-e9ffcb9e9bb5" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Sessões mal implementadas;</li></ul><ul id="3b8f6ce8-497f-8022-83c3-d5ff11f81934" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Falhas no bloqueio de tentativas;</li></ul><ul id="3b8f6ce8-497f-806c-9451-e2d81fa15348" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Credenciais padrão.</li></ul><h3 id="3b8f6ce8-497f-805a-b82f-f7aab768c2e3" class="" dir="auto">Exemplo</h3><p id="3b8f6ce8-497f-807e-ac57-ca2e89353b27" class="" dir="auto">Uma aplicação permite infinitas tentativas de login sem qualquer mecanismo adicional de proteção.</p><p id="3b8f6ce8-497f-80e5-8ca7-fd089c833abb" class="" dir="auto">Isso pode facilitar ataques automatizados de tentativa de senha.</p><h3 id="3b8f6ce8-497f-800c-9fcc-d0d02abd482e" class="" dir="auto">Prevenção</h3><ul id="3b8f6ce8-497f-80c0-9ba0-ffe6b3b302ac" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Senhas fortes;</li></ul><ul id="3b8f6ce8-497f-802c-9656-c3af29b616e4" class="bulleted-list" dir="auto"><li style="list-style-type:disc">MFA;</li></ul><ul id="3b8f6ce8-497f-8068-81fb-c3fc9a92f94f" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Limitação de tentativas;</li></ul><ul id="3b8f6ce8-497f-809b-990e-de00ee99b3a4" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Políticas de senha;</li></ul><ul id="3b8f6ce8-497f-8078-a842-ea5112dae4d2" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Gerenciamento seguro de sessões;</li></ul><ul id="3b8f6ce8-497f-80d0-b9b2-e9285f9aafd6" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Proteção dos mecanismos de recuperação de conta.</li></ul><hr id="3b8f6ce8-497f-80c7-a8ba-d752ec3ae039" dir="auto"/><h1 id="3b8f6ce8-497f-806e-b9f2-c108a4fcb5ef" class="" dir="auto">6. Vulnerabilidades de Autorização</h1><p id="3b8f6ce8-497f-8067-88ac-f132e3b768ba" class="" dir="auto"><strong>Autenticação</strong> responde:</p><blockquote id="3b8f6ce8-497f-80b3-bc9a-dd5240591bb6" class="" dir="auto">&quot;Quem é você?&quot;</blockquote><p id="3b8f6ce8-497f-80b5-9ab1-c9697d04b9d9" class="" dir="auto"><strong>Autorização</strong> responde:</p><blockquote id="3b8f6ce8-497f-801e-a336-c010f9c75099" class="" dir="auto">&quot;O que você pode fazer?&quot;</blockquote><p id="3b8f6ce8-497f-806f-a6ec-d197b895bb46" class="" dir="auto">Uma aplicação pode autenticar corretamente um usuário, mas permitir que ele acesse recursos que não deveria.</p><h3 id="3b8f6ce8-497f-80dd-a0e6-dd14b009486a" class="" dir="auto">Exemplo</h3><p id="3b8f6ce8-497f-8011-a57a-f8f8991623ee" class="" dir="auto">Imagine um sistema com:</p><ul id="3b8f6ce8-497f-8038-8cc8-e82ab5e665bd" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Usuário A;</li></ul><ul id="3b8f6ce8-497f-8078-911b-ee6c24146a14" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Usuário B.</li></ul><p id="3b8f6ce8-497f-80d5-8b17-fdce2f7a1e4c" class="" dir="auto">O usuário A altera um identificador presente na URL e consegue visualizar informações pertencentes ao usuário B.</p><p id="3b8f6ce8-497f-80d1-bc07-dab962d57b3c" class="" dir="auto">Esse tipo de problema está relacionado a <strong>controle de acesso inadequado</strong>.</p><h3 id="3b8f6ce8-497f-80eb-8015-e5a6acb7a637" class="" dir="auto">Prevenção</h3><p id="3b8f6ce8-497f-80cc-be18-c82763af8bbd" class="" dir="auto">As permissões devem ser verificadas <strong>no servidor</strong>, e não apenas na interface.</p><p id="3b8f6ce8-497f-8087-b52b-f0a82ca48a27" class="" dir="auto">Também é importante aplicar:</p><ul id="3b8f6ce8-497f-808e-9016-e61da01080be" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Menor privilégio;</li></ul><ul id="3b8f6ce8-497f-8035-9416-e948bdb6f51f" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Controle de acesso baseado em funções;</li></ul><ul id="3b8f6ce8-497f-808f-81fd-eb0cdca05264" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Verificação de autorização em cada recurso;</li></ul><ul id="3b8f6ce8-497f-80fd-8ee2-dd4d75327df1" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Separação adequada entre usuários e administradores.</li></ul><hr id="3b8f6ce8-497f-8033-92ef-c1915e2af45c" dir="auto"/><h1 id="3b8f6ce8-497f-80ca-838b-d6bd6de8d870" class="" dir="auto">7. Vulnerabilidades de Criptografia</h1><p id="3b8f6ce8-497f-8048-b4c9-d3c9aaa837d4" class="" dir="auto">A criptografia protege informações contra acesso indevido.</p><p id="3b8f6ce8-497f-80c1-8fae-f576134c1c0c" class="" dir="auto">Vulnerabilidades podem ocorrer quando:</p><ul id="3b8f6ce8-497f-802b-91d2-c00df97d4596" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Algoritmos inadequados são utilizados;</li></ul><ul id="3b8f6ce8-497f-80f2-919b-d0c7475d9a21" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Chaves são armazenadas de forma insegura;</li></ul><ul id="3b8f6ce8-497f-80d9-a97f-e312c8238f95" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Senhas são armazenadas incorretamente;</li></ul><ul id="3b8f6ce8-497f-80f5-a70d-fa46aedb6798" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Protocolos antigos são utilizados;</li></ul><ul id="3b8f6ce8-497f-8028-9e4a-e1fa53a02740" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Configurações criptográficas são fracas.</li></ul><h3 id="3b8f6ce8-497f-8055-ac82-da75d63ff26b" class="" dir="auto">Exemplo</h3><p id="3b8f6ce8-497f-8026-86ae-f0981cf8f74e" class="" dir="auto">Armazenar senhas diretamente em texto puro no banco de dados é uma prática extremamente insegura.</p><p id="3b8f6ce8-497f-8092-ac23-f42f7b621364" class="" dir="auto">O correto é utilizar mecanismos apropriados de <strong>hash de senha</strong>, como algoritmos projetados para esse propósito.</p><hr id="3b8f6ce8-497f-806d-9fd3-d4cd0596cb31" dir="auto"/><h1 id="3b8f6ce8-497f-8005-91f0-ebc45ca927be" class="" dir="auto">8. Vulnerabilidades de Sistemas Operacionais</h1><p id="3b8f6ce8-497f-80ca-8f5b-cf073d577e5e" class="" dir="auto">Sistemas operacionais podem apresentar vulnerabilidades que permitam ações não autorizadas.</p><p id="3b8f6ce8-497f-801b-9093-eb3137bcdc1d" class="" dir="auto">Exemplos:</p><ul id="3b8f6ce8-497f-8028-81fd-c075a8947807" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Falhas no kernel;</li></ul><ul id="3b8f6ce8-497f-8066-8161-d47e7ef817a6" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Serviços vulneráveis;</li></ul><ul id="3b8f6ce8-497f-800e-a42d-ee2e29852c6f" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Drivers vulneráveis;</li></ul><ul id="3b8f6ce8-497f-80f5-a2b9-cc36b25b47be" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Componentes desatualizados;</li></ul><ul id="3b8f6ce8-497f-80cb-b109-e427f9ef6313" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Configurações inseguras.</li></ul><p id="3b8f6ce8-497f-80b1-bbc9-d0526d198977" class="" dir="auto">Por isso, sistemas como Windows e Linux precisam receber atualizações de segurança regularmente.</p><hr id="3b8f6ce8-497f-80f0-be8e-df088780bfe7" dir="auto"/><h1 id="3b8f6ce8-497f-8054-a1f6-f66f1d45a0d7" class="" dir="auto">9. Vulnerabilidades de Hardware</h1><p id="3b8f6ce8-497f-80f9-b362-eeb6d0123ac2" class="" dir="auto">Também podem existir vulnerabilidades relacionadas ao próprio hardware ou à forma como ele interage com o software.</p><p id="3b8f6ce8-497f-8058-8ce0-cf41b7ed46cc" class="" dir="auto">Exemplos históricos incluem vulnerabilidades relacionadas a:</p><ul id="3b8f6ce8-497f-8048-a8b1-ca92a48c4861" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Processadores;</li></ul><ul id="3b8f6ce8-497f-806f-9d78-e6863959bb1b" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Memória;</li></ul><ul id="3b8f6ce8-497f-80f0-b140-db8217f6ccdf" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Firmware;</li></ul><ul id="3b8f6ce8-497f-8041-a6ff-d81d92339ec4" class="bulleted-list" dir="auto"><li style="list-style-type:disc">BIOS/UEFI;</li></ul><ul id="3b8f6ce8-497f-8005-8b44-c309b1bb6360" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Dispositivos de armazenamento.</li></ul><p id="3b8f6ce8-497f-80ea-a1b5-f521c63ead43" class="" dir="auto">Algumas vulnerabilidades de hardware podem exigir atualizações de firmware ou correções fornecidas pelos fabricantes.</p><hr id="3b8f6ce8-497f-8096-981c-cefd5e5028c0" dir="auto"/><h1 id="3b8f6ce8-497f-809c-8615-e763ce15baf7" class="" dir="auto">10. Vulnerabilidades de Firmware</h1><p id="3b8f6ce8-497f-8010-8bd1-e81406aec562" class="" dir="auto"><strong>Firmware</strong> é o software responsável pelo funcionamento básico de determinados dispositivos.</p><p id="3b8f6ce8-497f-8000-bbd8-f507055e0b9d" class="" dir="auto">Está presente em:</p><ul id="3b8f6ce8-497f-80fe-9e46-e7ac9c5b0187" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Roteadores;</li></ul><ul id="3b8f6ce8-497f-8012-9db4-c345a76c8b1c" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Impressoras;</li></ul><ul id="3b8f6ce8-497f-80b9-b751-fafb78910e7d" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Câmeras;</li></ul><ul id="3b8f6ce8-497f-8050-8038-c8204396205b" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Placas-mãe;</li></ul><ul id="3b8f6ce8-497f-8082-ab85-f3768b9251ec" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Dispositivos IoT;</li></ul><ul id="3b8f6ce8-497f-80f3-aadc-de68162b5c58" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Equipamentos de rede.</li></ul><p id="3b8f6ce8-497f-80e9-85b6-feac14708ba5" class="" dir="auto">Um firmware desatualizado pode conter vulnerabilidades conhecidas.</p><h3 id="3b8f6ce8-497f-8005-a869-f32314a982f9" class="" dir="auto">Prevenção</h3><ul id="3b8f6ce8-497f-8055-a1b6-d8609c72470c" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Atualizar firmware;</li></ul><ul id="3b8f6ce8-497f-80af-bcee-ff785470783e" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Alterar credenciais padrão;</li></ul><ul id="3b8f6ce8-497f-80bf-ba8e-f0c5ac381334" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Desativar recursos desnecessários;</li></ul><ul id="3b8f6ce8-497f-8023-a24b-f0e4710dc2ea" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Isolar dispositivos importantes na rede.</li></ul><hr id="3b8f6ce8-497f-801d-9809-c30f61b4e765" dir="auto"/><h1 id="3b8f6ce8-497f-8002-bdc8-d5127fbd961a" class="" dir="auto">11. Vulnerabilidades em APIs</h1><p id="3b8f6ce8-497f-8024-a69f-cc5543bdc3e0" class="" dir="auto">APIs permitem que diferentes sistemas se comuniquem.</p><p id="3b8f6ce8-497f-800b-9df6-cc265fa739bd" class="" dir="auto">Por isso, uma API mal protegida pode expor informações ou funcionalidades indevidas.</p><p id="3b8f6ce8-497f-80be-9b51-d69bacf70a71" class="" dir="auto">Problemas comuns incluem:</p><ul id="3b8f6ce8-497f-80cd-9f83-dfb1ea6fedb3" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Autenticação inadequada;</li></ul><ul id="3b8f6ce8-497f-80cf-87a6-c517ffa91e79" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Autorização inadequada;</li></ul><ul id="3b8f6ce8-497f-800d-86f0-f565d486db78" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Excesso de dados retornados;</li></ul><ul id="3b8f6ce8-497f-8066-b1e1-e6d4b2b1e731" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Falta de limitação de requisições;</li></ul><ul id="3b8f6ce8-497f-806c-8a5d-d465cec99974" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Validação insuficiente;</li></ul><ul id="3b8f6ce8-497f-80c9-a7aa-d32a29c283e7" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Exposição de informações sensíveis.</li></ul><h3 id="3b8f6ce8-497f-803a-8ff3-e185f5be9b4f" class="" dir="auto">Exemplo</h3><p id="3b8f6ce8-497f-808f-b74c-ff8e2f3a93ac" class="" dir="auto">Uma API deveria retornar apenas o nome e o e-mail do usuário, mas acaba retornando também informações internas que não deveriam ser disponibilizadas.</p><hr id="3b8f6ce8-497f-80ce-b3d1-de7b5f5c5d53" dir="auto"/><h1 id="3b8f6ce8-497f-8066-adf2-c53bd748dbe8" class="" dir="auto">12. Vulnerabilidades em Bancos de Dados</h1><p id="3b8f6ce8-497f-80de-8050-ce51b0698a87" class="" dir="auto">Bancos de dados armazenam informações extremamente importantes.</p><p id="3b8f6ce8-497f-8031-9f45-e00c4bca2919" class="" dir="auto">Problemas podem ocorrer devido a:</p><ul id="3b8f6ce8-497f-8069-bd0f-cb4ed950386e" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Senhas fracas;</li></ul><ul id="3b8f6ce8-497f-80b9-af6a-fb21b5fe08e8" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Permissões excessivas;</li></ul><ul id="3b8f6ce8-497f-8062-89b4-fc5713074572" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Configurações inadequadas;</li></ul><ul id="3b8f6ce8-497f-8053-a539-fd5884a71ee0" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Falhas de aplicação;</li></ul><ul id="3b8f6ce8-497f-8016-ac45-e3338d7574ea" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Falta de criptografia;</li></ul><ul id="3b8f6ce8-497f-8097-8aa9-dec54e58e2a8" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Exposição desnecessária do banco à rede.</li></ul><h3 id="3b8f6ce8-497f-80d3-99cb-e5eb7b2c7ac4" class="" dir="auto">Exemplo</h3><p id="3b8f6ce8-497f-8011-8e5d-c09169622732" class="" dir="auto">Um banco de dados que deveria ser acessível apenas pelo servidor da aplicação acaba sendo exposto diretamente à Internet.</p><p id="3b8f6ce8-497f-80c7-ae16-f5c7b0d46bc3" class="" dir="auto">Isso aumenta significativamente o risco.</p><hr id="3b8f6ce8-497f-80c4-8255-d2522ffed605" dir="auto"/><h1 id="3b8f6ce8-497f-8076-9f75-ebbb51066d10" class="" dir="auto">13. Vulnerabilidades de Terceiros e Dependências</h1><p id="3b8f6ce8-497f-80c5-aee7-f57a99b41ac9" class="" dir="auto">Aplicações modernas raramente são construídas completamente do zero.</p><p id="3b8f6ce8-497f-804e-abc8-ee803e927bd7" class="" dir="auto">Elas utilizam:</p><ul id="3b8f6ce8-497f-8085-8621-cc94ea8ebb01" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Bibliotecas;</li></ul><ul id="3b8f6ce8-497f-8023-8d3c-e1ae2541e572" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Frameworks;</li></ul><ul id="3b8f6ce8-497f-8075-94df-cda708451d74" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Plugins;</li></ul><ul id="3b8f6ce8-497f-802d-9dd0-f57b471b0079" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Pacotes;</li></ul><ul id="3b8f6ce8-497f-80dd-9f13-d439423e5dd0" class="bulleted-list" dir="auto"><li style="list-style-type:disc">APIs externas.</li></ul><p id="3b8f6ce8-497f-80f2-a4aa-ddddb57c1ff9" class="" dir="auto">Se uma dessas dependências possuir uma vulnerabilidade, a aplicação que a utiliza também pode ficar exposta.</p><h3 id="3b8f6ce8-497f-80fe-9ab3-e82bafe2d0ed" class="" dir="auto">Exemplo</h3><p id="3b8f6ce8-497f-80e4-b681-e8c6f89e8cd6" class="" dir="auto">Uma aplicação PHP utiliza uma biblioteca de terceiros com uma vulnerabilidade conhecida.</p><p id="3b8f6ce8-497f-8046-9cfd-ef11a9a3894e" class="" dir="auto">Mesmo que o código desenvolvido pela equipe esteja correto, a aplicação pode continuar vulnerável por causa da dependência.</p><p id="3b8f6ce8-497f-804c-b8d7-cc753ebf4d19" class="" dir="auto">Por isso existe o conceito de <strong>gerenciamento de dependências e vulnerabilidades da cadeia de software</strong>.</p><hr id="3b8f6ce8-497f-8030-8bc4-f4e1ad17fe3c" dir="auto"/><h1 id="3b8f6ce8-497f-80c7-b4a0-ccd247c92417" class="" dir="auto">14. Vulnerabilidades de Engenharia Social</h1><p id="3b8f6ce8-497f-805b-923d-ca72f50501dd" class="" dir="auto">Nem todas as vulnerabilidades são técnicas.</p><p id="3b8f6ce8-497f-80eb-8b37-ced45fc61300" class="" dir="auto">Os <strong>seres humanos também podem ser um ponto de entrada</strong>.</p><p id="3b8f6ce8-497f-80e4-a54b-c3867a192629" class="" dir="auto">Ataques de engenharia social exploram:</p><ul id="3b8f6ce8-497f-8049-8989-e647d8d49d3b" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Confiança;</li></ul><ul id="3b8f6ce8-497f-8082-898a-c168ddea81c1" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Curiosidade;</li></ul><ul id="3b8f6ce8-497f-8058-b718-e143bfa5ac85" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Medo;</li></ul><ul id="3b8f6ce8-497f-8088-8d09-f710cede4160" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Urgência;</li></ul><ul id="3b8f6ce8-497f-8089-b513-e35b3e014ce3" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Falta de conhecimento.</li></ul><p id="3b8f6ce8-497f-8017-a32b-e38fdba7b9fd" class="" dir="auto">Exemplos:</p><ul id="3b8f6ce8-497f-8028-ae34-e1b193ca5b3b" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Phishing;</li></ul><ul id="3b8f6ce8-497f-80ba-bd69-fc880bddc69a" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Pretexting;</li></ul><ul id="3b8f6ce8-497f-80bd-939c-d6dc52d5989f" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Baiting;</li></ul><ul id="3b8f6ce8-497f-807c-be5b-ff8a1f27d1c3" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Vishing;</li></ul><ul id="3b8f6ce8-497f-809f-ac98-f87eac1516b9" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Smishing.</li></ul><h3 id="3b8f6ce8-497f-80fd-bd99-d6669534d66d" class="" dir="auto">Exemplo</h3><p id="3b8f6ce8-497f-8052-9078-cd0b94ab7f7d" class="" dir="auto">Um funcionário recebe uma mensagem falsa dizendo que sua conta será bloqueada e é induzido a acessar uma página fraudulenta.</p><p id="3b8f6ce8-497f-8005-8591-ee63c218f30e" class="" dir="auto">Nesse caso, o atacante explora principalmente o <strong>comportamento humano</strong>.</p><hr id="3b8f6ce8-497f-8006-bccb-fca2c3c242d4" dir="auto"/><h1 id="3b8f6ce8-497f-80f4-af22-e9006a85f5bc" class="" dir="auto">15. Vulnerabilidades Físicas</h1><p id="3b8f6ce8-497f-8049-811b-e1e0650aa0dc" class="" dir="auto">A segurança física também faz parte da Segurança Cibernética.</p><p id="3b8f6ce8-497f-802c-8dd8-ea3d42c7494f" class="" dir="auto">Exemplos:</p><ul id="3b8f6ce8-497f-8060-9c64-e5c27ebe4892" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Servidores acessíveis fisicamente;</li></ul><ul id="3b8f6ce8-497f-80fe-bde0-d036f3b46727" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Computadores sem bloqueio de tela;</li></ul><ul id="3b8f6ce8-497f-8015-8625-c3f4f4d1fd68" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Salas de servidores sem controle de acesso;</li></ul><ul id="3b8f6ce8-497f-80c6-8688-ccfa55e538fe" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Equipamentos abandonados;</li></ul><ul id="3b8f6ce8-497f-80fe-a7a1-c6acbf4f0a7c" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Portas USB sem políticas de controle.</li></ul><h3 id="3b8f6ce8-497f-8076-abb3-d28490d3e2c3" class="" dir="auto">Exemplo</h3><p id="3b8f6ce8-497f-807c-b0bb-f3ba4f09239c" class="" dir="auto">Um computador corporativo desbloqueado e sem supervisão pode permitir acesso indevido a informações.</p><hr id="3b8f6ce8-497f-80c7-adab-fce2711952ca" dir="auto"/><h1 id="3b8f6ce8-497f-8022-93d2-c7c0b6ce015a" class="" dir="auto">16. Vulnerabilidades de Disponibilidade</h1><p id="3b8f6ce8-497f-8075-ae34-c182549a73ca" class="" dir="auto">Algumas vulnerabilidades podem afetar a capacidade de um sistema permanecer disponível.</p><p id="3b8f6ce8-497f-80bb-9f16-c6b9e3e0c50d" class="" dir="auto">Podem estar relacionadas a:</p><ul id="3b8f6ce8-497f-8069-8c4f-df68fb8ba51b" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Falta de redundância;</li></ul><ul id="3b8f6ce8-497f-80a4-9569-ff6041e1f391" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Recursos insuficientes;</li></ul><ul id="3b8f6ce8-497f-8094-bf07-dcf5b21bac45" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Configurações inadequadas;</li></ul><ul id="3b8f6ce8-497f-808b-bd6e-c166c00c95cc" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Falhas de infraestrutura;</li></ul><ul id="3b8f6ce8-497f-8021-bcfe-fc29c725ce92" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Ausência de mecanismos contra abuso de recursos.</li></ul><p id="3b8f6ce8-497f-8009-80ce-e568209b5f29" class="" dir="auto">Ataques de <strong>negação de serviço (DoS/DDoS)</strong> são exemplos de ameaças que podem explorar ou provocar problemas relacionados à disponibilidade.</p><hr id="3b8f6ce8-497f-803e-af6e-dce1bce3f11a" dir="auto"/><h1 id="3b8f6ce8-497f-8038-a707-ef8334f67a9d" class="" dir="auto">17. Vulnerabilidades de Lógica</h1><p id="3b8f6ce8-497f-8044-970b-ed2a83d001f9" class="" dir="auto">São falhas relacionadas à <strong>lógica de funcionamento da aplicação</strong>, mesmo quando o código não possui um erro sintático.</p><h3 id="3b8f6ce8-497f-8086-9801-fbbaac511ec4" class="" dir="auto">Exemplo</h3><p id="3b8f6ce8-497f-8069-af46-fadc1a1ca0e9" class="" dir="auto">Um sistema de comércio eletrônico possui uma promoção:</p><blockquote id="3b8f6ce8-497f-80d0-80ee-ee820a151a52" class="" dir="auto">&quot;Compre 2 produtos e receba um desconto.&quot;</blockquote><p id="3b8f6ce8-497f-8086-b602-d6db44962d9c" class="" dir="auto">Por uma falha na lógica, um usuário consegue manipular o processo para receber o desconto sem cumprir as condições.</p><p id="3b8f6ce8-497f-804c-a591-e4e71fd0e54a" class="" dir="auto">O sistema está funcionando tecnicamente, mas sua <strong>regra de negócio pode ser burlada</strong>.</p><p id="3b8f6ce8-497f-8099-ae28-e76a87a7c396" class="" dir="auto">Esse tipo de vulnerabilidade é especialmente importante em:</p><ul id="3b8f6ce8-497f-8050-848c-f0a4b4bfb2ae" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Sistemas financeiros;</li></ul><ul id="3b8f6ce8-497f-80f1-95eb-ccb35507b89e" class="bulleted-list" dir="auto"><li style="list-style-type:disc">E-commerce;</li></ul><ul id="3b8f6ce8-497f-8099-96e2-ed6d362859b3" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Bancos;</li></ul><ul id="3b8f6ce8-497f-80b5-bfd5-c440ed1ee0c7" class="bulleted-list" dir="auto"><li style="list-style-type:disc">APIs;</li></ul><ul id="3b8f6ce8-497f-8017-8432-ebdc2aad8515" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Sistemas de autenticação.</li></ul><hr id="3b8f6ce8-497f-8038-8a1b-dca49df8b921" dir="auto"/><h1 id="3b8f6ce8-497f-8014-8a75-d446a20e4180" class="" dir="auto">18. Vulnerabilidades de Dia Zero (Zero-Day)</h1><p id="3b8f6ce8-497f-8051-9b19-deb0a71a0bd3" class="" dir="auto">Uma <strong>Zero-Day</strong> é uma vulnerabilidade que ainda não possui uma correção disponível para o público ou que está sendo explorada antes que uma correção seja amplamente disponibilizada.</p><p id="3b8f6ce8-497f-802e-8ae2-e0a6a52eb607" class="" dir="auto">O termo está relacionado ao fato de que o desenvolvedor possui pouco ou nenhum tempo para corrigir o problema antes de sua exploração.</p><p id="3b8f6ce8-497f-80a0-a8e3-e842ec89b2d1" class="" dir="auto">São consideradas especialmente perigosas porque podem não existir mecanismos de proteção específicos no momento inicial da descoberta.</p><hr id="3b8f6ce8-497f-8072-95db-dd460c767239" dir="auto"/><h1 id="3b8f6ce8-497f-8037-9b4b-df1b55786b1d" class="" dir="auto">19. Vulnerabilidades Conhecidas</h1><p id="3b8f6ce8-497f-8038-9153-ce03d949b7ac" class="" dir="auto">São vulnerabilidades que já foram identificadas e normalmente possuem informações públicas e, muitas vezes, correções disponíveis.</p><p id="3b8f6ce8-497f-8051-b311-d72e6109e3e9" class="" dir="auto">Um sistema desatualizado pode continuar vulnerável mesmo quando o fabricante já disponibilizou uma correção.</p><p id="3b8f6ce8-497f-8044-b1e4-eccfb4bad0c4" class="" dir="auto">É por isso que o <strong>gerenciamento de atualizações e patches</strong> é tão importante.</p><hr id="3b8f6ce8-497f-80d4-8237-cf123b657167" dir="auto"/><h1 id="3b8f6ce8-497f-8005-863c-cb0f096f325d" class="" dir="auto">20. Vulnerabilidades Internas</h1><p id="3b8f6ce8-497f-805b-892f-d6c0f2297969" class="" dir="auto">Uma vulnerabilidade também pode existir dentro da própria organização.</p><p id="3b8f6ce8-497f-80aa-aeb4-f3e43f9e4e48" class="" dir="auto">Exemplos:</p><ul id="3b8f6ce8-497f-801f-8e4c-d27681c4300b" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Funcionários com privilégios excessivos;</li></ul><ul id="3b8f6ce8-497f-8007-a2a1-d6aa45233a74" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Contas antigas ainda ativas;</li></ul><ul id="3b8f6ce8-497f-80b8-ba06-e0edefe44cfc" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Falta de controle de acesso;</li></ul><ul id="3b8f6ce8-497f-80ab-8b41-c73bafe23dc1" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Compartilhamento inadequado de senhas;</li></ul><ul id="3b8f6ce8-497f-803d-ae80-fb75f0da3eb2" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Falta de treinamento;</li></ul><ul id="3b8f6ce8-497f-8038-b714-c2972b1beaab" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Políticas de segurança inexistentes.</li></ul><p id="3b8f6ce8-497f-804c-abe9-d6ce34b9f3c7" class="" dir="auto">Esses problemas podem facilitar incidentes causados tanto por erro humano quanto por ações maliciosas.</p><hr id="3b8f6ce8-497f-80a2-b5b2-e57c514bdda1" dir="auto"/><h1 id="3b8f6ce8-497f-8056-88df-e76fed181d89" class="" dir="auto">Vulnerabilidade, Exploit e Risco</h1><p id="3b8f6ce8-497f-80e9-897c-f465042eb2be" class="" dir="auto">É importante diferenciar três conceitos:</p><h3 id="3b8f6ce8-497f-80ef-91bd-f55db660220b" class="" dir="auto">Vulnerabilidade</h3><p id="3b8f6ce8-497f-803f-b390-f4a964fa268e" class="" dir="auto">É a <strong>fraqueza</strong>.</p><blockquote id="3b8f6ce8-497f-8094-8002-c63f8de5ecb4" class="" dir="auto">Exemplo: uma aplicação possui uma falha de controle de acesso.</blockquote><h3 id="3b8f6ce8-497f-80ce-92d0-c7c5ab883662" class="" dir="auto">Exploit</h3><p id="3b8f6ce8-497f-80de-a1a6-ec5a78d3c9d2" class="" dir="auto">É uma técnica, código ou mecanismo utilizado para <strong>explorar uma vulnerabilidade</strong>.</p><h3 id="3b8f6ce8-497f-8021-9e00-ff959996cd67" class="" dir="auto">Risco</h3><p id="3b8f6ce8-497f-8062-b69c-f69369967cff" class="" dir="auto">É a possibilidade de uma ameaça explorar uma vulnerabilidade e causar impacto.</p><p id="3b8f6ce8-497f-80ae-8355-f4911d5f1df5" class="" dir="auto">Podemos representar de forma simplificada:</p><p id="3b8f6ce8-497f-805d-b07c-caa42d4fc131" class="" dir="auto"><strong>Ameaça → Vulnerabilidade → Exploração → Impacto</strong></p><p id="3b8f6ce8-497f-806f-a016-df172a21d780" class="" dir="auto">Por exemplo:</p><p id="3b8f6ce8-497f-80a9-a424-d5b1d8821618" class="" dir="auto"><strong>Atacante → Falha de autenticação → Acesso indevido → Roubo de dados</strong></p><hr id="3b8f6ce8-497f-8017-8f0e-e954a300a88d" dir="auto"/><h1 id="3b8f6ce8-497f-808c-9373-de32cab745d0" class="" dir="auto">Classificação pela origem</h1><p id="3b8f6ce8-497f-8016-b725-ddcaf9d2825f" class="" dir="auto">Outra maneira de estudar vulnerabilidades é classificá-las pela sua origem:</p><table id="3b8f6ce8-497f-80d5-9ca8-fc3176dd22e0" class="simple-table" dir="ltr"><thead class="simple-table-header"><tr id="3b8f6ce8-497f-808a-8f6a-ebdb03c811db" dir="ltr"><th id="xKPJ" class="simple-table-header-color simple-table-header">Origem</th><th id="q_EP" class="simple-table-header-color simple-table-header">Exemplos</th></tr></thead><tbody><tr id="3b8f6ce8-497f-80d5-8f1d-d5b6dde21e39" dir="ltr"><td id="xKPJ" class="">Software</td><td id="q_EP" class="">Bugs, falhas de memória</td></tr><tr id="3b8f6ce8-497f-8023-9f7c-cc11e5989c5d" dir="ltr"><td id="xKPJ" class="">Web</td><td id="q_EP" class="">SQL Injection, XSS</td></tr><tr id="3b8f6ce8-497f-808c-ad45-c432ddf8408d" dir="ltr"><td id="xKPJ" class="">Rede</td><td id="q_EP" class="">Serviços expostos, protocolos inseguros</td></tr><tr id="3b8f6ce8-497f-805e-b60b-c7862bd3b7e2" dir="ltr"><td id="xKPJ" class="">Configuração</td><td id="q_EP" class="">Permissões excessivas</td></tr><tr id="3b8f6ce8-497f-80db-a5e7-f06f5cddd9dd" dir="ltr"><td id="xKPJ" class="">Autenticação</td><td id="q_EP" class="">Senhas fracas</td></tr><tr id="3b8f6ce8-497f-8032-90c6-e0fad441dec2" dir="ltr"><td id="xKPJ" class="">Autorização</td><td id="q_EP" class="">Acesso indevido</td></tr><tr id="3b8f6ce8-497f-80e0-91f0-f04c333430ce" dir="ltr"><td id="xKPJ" class="">Humana</td><td id="q_EP" class="">Engenharia social</td></tr><tr id="3b8f6ce8-497f-8002-8a34-c98e1c01b4f9" dir="ltr"><td id="xKPJ" class="">Física</td><td id="q_EP" class="">Equipamentos desprotegidos</td></tr><tr id="3b8f6ce8-497f-803f-be7d-e970c018f51c" dir="ltr"><td id="xKPJ" class="">Hardware</td><td id="q_EP" class="">Falhas de processadores</td></tr><tr id="3b8f6ce8-497f-8010-aef2-c4b359599cc5" dir="ltr"><td id="xKPJ" class="">Firmware</td><td id="q_EP" class="">Roteadores desatualizados</td></tr><tr id="3b8f6ce8-497f-8035-9cc6-d2056d32853f" dir="ltr"><td id="xKPJ" class="">Dependências</td><td id="q_EP" class="">Bibliotecas vulneráveis</td></tr><tr id="3b8f6ce8-497f-8002-9c60-caa62957d911" dir="ltr"><td id="xKPJ" class="">Banco de dados</td><td id="q_EP" class="">Exposição e permissões inadequadas</td></tr><tr id="3b8f6ce8-497f-808f-9e95-ccf4a9b8292a" dir="ltr"><td id="xKPJ" class="">API</td><td id="q_EP" class="">Falhas de autenticação/autorização</td></tr><tr id="3b8f6ce8-497f-8074-9b58-e47c00ade216" dir="ltr"><td id="xKPJ" class="">Lógica</td><td id="q_EP" class="">Bypass de regras de negócio</td></tr></tbody></table><hr id="3b8f6ce8-497f-803a-a880-f503b8a0cd4d" dir="auto"/><h1 id="3b8f6ce8-497f-805e-a0cd-cf3363e72417" class="" dir="auto">Como identificar vulnerabilidades?</h1><p id="3b8f6ce8-497f-809c-be8d-e7f4e25ad0f4" class="" dir="auto">Profissionais de segurança utilizam diferentes técnicas.</p><h3 id="3b8f6ce8-497f-80d1-94e3-df47f226250f" class="" dir="auto">Análise manual</h3><p id="3b8f6ce8-497f-805f-9b08-e0d9e5a9504c" class="" dir="auto">O profissional analisa:</p><ul id="3b8f6ce8-497f-80ca-b781-c7e37144ace7" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Código;</li></ul><ul id="3b8f6ce8-497f-8041-94a6-f726f0c9e60f" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Configurações;</li></ul><ul id="3b8f6ce8-497f-80ca-a703-de8b1b1edd20" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Arquitetura;</li></ul><ul id="3b8f6ce8-497f-80f6-963e-c4e0b8f39f2f" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Permissões;</li></ul><ul id="3b8f6ce8-497f-805a-80a5-f4b3160b7340" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Comportamento do sistema.</li></ul><h3 id="3b8f6ce8-497f-8045-80ff-fbf4500d8716" class="" dir="auto">Scanners de vulnerabilidades</h3><p id="3b8f6ce8-497f-80f9-85da-f62ae257a6e3" class="" dir="auto">Ferramentas automatizadas podem identificar:</p><ul id="3b8f6ce8-497f-80bd-80ef-f874cc77e031" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Software desatualizado;</li></ul><ul id="3b8f6ce8-497f-805f-8991-d49065541371" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Serviços expostos;</li></ul><ul id="3b8f6ce8-497f-80a5-9851-e128c5341c2b" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Configurações inseguras;</li></ul><ul id="3b8f6ce8-497f-80a2-b67a-e9a5cca8db9e" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Vulnerabilidades conhecidas.</li></ul><h3 id="3b8f6ce8-497f-8096-aa52-f47255a85fd1" class="" dir="auto">Testes de segurança</h3><p id="3b8f6ce8-497f-80be-87ee-e363870dc83a" class="" dir="auto">Também podem ser realizados testes controlados, como:</p><ul id="3b8f6ce8-497f-8061-8658-c6c7186782f7" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Testes de intrusão;</li></ul><ul id="3b8f6ce8-497f-8098-9b4b-c775879031c3" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Análise de aplicações;</li></ul><ul id="3b8f6ce8-497f-807e-b014-c911ba25c267" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Análise de redes;</li></ul><ul id="3b8f6ce8-497f-80f0-a3a4-fcdc3c372a49" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Testes de configuração.</li></ul><p id="3b8f6ce8-497f-80c8-8b70-f716bede27f2" class="" dir="auto">Tudo isso deve ser feito <strong>com autorização</strong>, especialmente quando envolve sistemas de terceiros.</p><hr id="3b8f6ce8-497f-80df-b91c-e907ecf5e274" dir="auto"/><h1 id="3b8f6ce8-497f-80b7-8a88-ee08c8a6ca10" class="" dir="auto">Como corrigir vulnerabilidades?</h1><p id="3b8f6ce8-497f-8019-90c3-e470019cebb5" class="" dir="auto">O processo normalmente envolve:</p><p id="3b8f6ce8-497f-80dc-bf94-eaf7f2386754" class="" dir="auto"><strong>1. Identificação</strong></p><p id="3b8f6ce8-497f-8070-b7e0-d22015912847" class="" dir="auto">Descobrir a vulnerabilidade.</p><p id="3b8f6ce8-497f-805b-b123-e181b27a8a91" class="" dir="auto"><strong>2. Análise</strong></p><p id="3b8f6ce8-497f-80fd-8e8e-ef784eebb335" class="" dir="auto">Determinar sua gravidade e impacto.</p><p id="3b8f6ce8-497f-808a-82d6-eee4712c8719" class="" dir="auto"><strong>3. Priorização</strong></p><p id="3b8f6ce8-497f-80e1-a6a1-de0ee985ccd3" class="" dir="auto">Corrigir primeiro as vulnerabilidades mais críticas.</p><p id="3b8f6ce8-497f-8039-b962-c98fe525c6fe" class="" dir="auto"><strong>4. Correção</strong></p><p id="3b8f6ce8-497f-80c4-87b6-eaebf15b9625" class="" dir="auto">Aplicar:</p><ul id="3b8f6ce8-497f-80fe-a6a2-da2ac32e1c9e" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Patches;</li></ul><ul id="3b8f6ce8-497f-8092-a359-dafd845e0eb4" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Atualizações;</li></ul><ul id="3b8f6ce8-497f-8011-8f5d-de9105890081" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Alterações de configuração;</li></ul><ul id="3b8f6ce8-497f-80ad-a0a2-e867a0e58a77" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Correções de código;</li></ul><ul id="3b8f6ce8-497f-808d-a4f4-c1f58f43704b" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Mudanças de arquitetura.</li></ul><p id="3b8f6ce8-497f-80b5-8ef8-ef95f79fa381" class="" dir="auto"><strong>5. Teste</strong></p><p id="3b8f6ce8-497f-8005-a937-efe5b35b28ec" class="" dir="auto">Verificar se a correção realmente resolveu o problema.</p><p id="3b8f6ce8-497f-80c8-83c3-dc66f58f1149" class="" dir="auto"><strong>6. Monitoramento</strong></p><p id="3b8f6ce8-497f-8004-b78b-fbd2822b0396" class="" dir="auto">Continuar acompanhando o ambiente para identificar novos problemas.</p><hr id="3b8f6ce8-497f-80cb-ad2f-dfb5e9fc4b0f" dir="auto"/><h1 id="3b8f6ce8-497f-8050-afe5-d864446abab9" class="" dir="auto">CVE e CVSS</h1><p id="3b8f6ce8-497f-8075-a6ea-eca799fc3615" class="" dir="auto">Dois conceitos importantes no gerenciamento de vulnerabilidades são <strong>CVE</strong> e <strong>CVSS</strong>.</p><h3 id="3b8f6ce8-497f-8028-b28b-c1a461054a77" class="" dir="auto">CVE</h3><p id="3b8f6ce8-497f-805c-a762-e9666d946be2" class="" dir="auto"><strong>Common Vulnerabilities and Exposures</strong> é um sistema utilizado para identificar vulnerabilidades conhecidas através de identificadores únicos.</p><p id="3b8f6ce8-497f-8071-a636-d7ab4c7a0be9" class="" dir="auto">Um identificador possui normalmente o formato:</p><p id="3b8f6ce8-497f-8067-8ae2-f6a1984c17b1" class="" dir="auto"><code>CVE-ANO-NÚMERO</code></p><p id="3b8f6ce8-497f-80bc-95a6-e07634f91fb0" class="" dir="auto">Por exemplo:</p><p id="3b8f6ce8-497f-80bb-be14-e02a5b58f422" class="" dir="auto"><code>CVE-2024-XXXX</code></p><h3 id="3b8f6ce8-497f-805d-ad71-f46866e6e696" class="" dir="auto">CVSS</h3><p id="3b8f6ce8-497f-8001-958b-c2d7cae3c49d" class="" dir="auto"><strong>Common Vulnerability Scoring System</strong> é um sistema utilizado para avaliar a gravidade de vulnerabilidades.</p><p id="3b8f6ce8-497f-80c5-bd46-d6a8842b0db8" class="" dir="auto">A pontuação ajuda as organizações a decidir quais vulnerabilidades devem receber maior prioridade.</p><hr id="3b8f6ce8-497f-80eb-b881-d1a4c1ae7e08" dir="auto"/><h1 id="3b8f6ce8-497f-801a-84e5-eedd3087293f" class="" dir="auto">Resumo</h1><p id="3b8f6ce8-497f-8033-82dd-efba9416c126" class="" dir="auto">As vulnerabilidades podem existir praticamente em qualquer componente de um ambiente tecnológico:</p><p id="3b8f6ce8-497f-8049-855e-ef7ad0175478" class="" dir="auto"><strong>Software → Aplicações Web → Redes → Sistemas Operacionais → Hardware → Firmware → APIs → Bancos de Dados → Configurações → Usuários → Processos</strong></p><p id="3b8f6ce8-497f-8066-a0bd-e27ea2fdc1a0" class="" dir="auto">Conhecer esses tipos é essencial para entender <strong>como os ataques acontecem e, principalmente, como evitá-los</strong>.</p><p id="3b8f6ce8-497f-802c-a92b-efb935641620" class="" dir="auto">No estudo de Segurança Cibernética, o próximo passo natural é aprender sobre <strong>ameaças e tipos de ataques cibernéticos</strong>, diferenciando o que é uma vulnerabilidade, uma ameaça, um vetor de ataque e um ataque propriamente dito.</p></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>
