@@ -1,0 +1,939 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Outros modelos de SGBD</title><meta name="data-notion-page-icon" content="/icons/elephant_blue.svg"/><link rel="icon" href="https://app.notion.com/icons/elephant_blue.svg"/><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+/* For default-background callouts, render the border outline. */
+.callout.block-color-default_background {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+/*
+ * Toggles and callouts hold arbitrary content, so they can easily be taller
+ * than a page. They must stay breakable: avoiding breaks inside them makes
+ * Chromium push the whole block onto the next page, which leaves the previous
+ * page mostly empty before every long toggle.
+ */
+details,
+aside {
+	margin: 1.25em 0;
+}
+
+/* Keep a toggle's title on the same page as the start of its content. */
+summary {
+	page-break-after: avoid;
+	break-after: avoid;
+}
+
+/*
+ * Toggle headings render as <h1/h2/h3 style="display:inline-block"> inside
+ * <summary>. Without this reset, the heading's margin-top pushes it below the
+ * ::marker (▼), so the triangle and the title appear on separate lines.
+ */
+summary h1,
+summary h2,
+summary h3,
+summary h4 {
+	margin-top: 0;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding-inline: 0.125rem;
+	padding-block: 0.375rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+/*
+ * Render emoji icons using a ::before pseudo-element to keep the glyph
+ * out of the DOM textContent traversal. This avoids double-rendering icons
+ * in callouts and page titles.
+ * NOTE(slim/html-export-pseudo-icons): I can't tagref this because it will
+ * flag as a duplicate tag after codegen.
+ */
+.icon[data-emoji]::before {
+	content: attr(data-emoji);
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	margin-right: 0.4em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.tab {
+	margin: 1.25em 0;
+	padding-inline: 1rem;
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style><style>@import url('https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex-swap.min.css')</style></head><body><article id="3b9f6ce8-497f-800c-9fc8-e364c832dd50" class="page sans" data-notion-page-icon="/icons/elephant_blue.svg"><header><div class="page-header-icon undefined"><img class="icon notion-static-icon" src="https://app.notion.com/icons/elephant_blue.svg"/></div><h1 class="page-title" dir="auto">Outros modelos de SGBD</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><h1 id="3b9f6ce8-497f-80a0-a516-cbc9c2be60e3" class="" dir="auto">Outros Modelos de SGBD</h1><p id="3b9f6ce8-497f-806f-baa4-ee3388c3ec41" class="" dir="auto">Embora os <strong>SGBDs relacionais</strong> sejam extremamente importantes e ainda sejam muito utilizados, eles não são a única forma de organizar e gerenciar dados.</p><p id="3b9f6ce8-497f-808e-a56a-ef848f813442" class="" dir="auto">Dependendo da aplicação, pode ser mais adequado utilizar outros <strong>modelos de banco de dados</strong>, principalmente quando os dados possuem estruturas muito grandes, flexíveis, distribuídas ou altamente conectadas.</p><p id="3b9f6ce8-497f-80d6-8825-f4f1a1beb4a0" class="" dir="auto">Os principais modelos além do relacional são:</p><ul id="3b9f6ce8-497f-80ba-8322-c728a75aff4b" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>Hierárquico</strong></li></ul><ul id="3b9f6ce8-497f-80d9-9932-ffe11c1fe5a5" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>Em rede</strong></li></ul><ul id="3b9f6ce8-497f-8059-a662-da926d900a4a" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>Orientado a objetos</strong></li></ul><ul id="3b9f6ce8-497f-80fb-a560-ec5fc0b9d439" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>Chave-valor</strong></li></ul><ul id="3b9f6ce8-497f-80b3-b8a0-dfa63c2f0d89" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>Orientado a documentos</strong></li></ul><ul id="3b9f6ce8-497f-80cc-bccd-e71288878388" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>Orientado a colunas</strong></li></ul><ul id="3b9f6ce8-497f-802e-aa35-d258e787d6df" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>Orientado a grafos</strong></li></ul><ul id="3b9f6ce8-497f-80b1-9630-feb3bc4796fc" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>Multimodelo</strong></li></ul><ul id="3b9f6ce8-497f-805e-a596-d7eef10b5aad" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>Vetorial</strong></li></ul><hr id="3b9f6ce8-497f-8091-b8e7-df7f782d5829" dir="auto"/><h1 id="3b9f6ce8-497f-8029-9e95-e2ad796a923c" class="" dir="auto">1. Modelo Hierárquico</h1><p id="3b9f6ce8-497f-8080-aa93-c81925890475" class="" dir="auto">O <strong>modelo hierárquico</strong> organiza os dados em uma estrutura semelhante a uma <strong>árvore</strong>.</p><p id="3b9f6ce8-497f-80ef-8c53-e5e2782eb52a" class="" dir="auto">Cada elemento possui uma relação de hierarquia com outros elementos.</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="3b9f6ce8-497f-80bd-bd8a-f3b011a1968a" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Empresa
+│
+├── Departamento
+│   ├── Funcionário
+│   └── Funcionário
+│
+└── Departamento
+    ├── Funcionário
+    └── Funcionário</code></pre><p id="3b9f6ce8-497f-80a9-84c2-f216b234309a" class="" dir="auto">Nesse modelo existe normalmente uma relação de:</p><pre id="3b9f6ce8-497f-80c4-9465-dca5f6b82949" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Pai
+ ↓
+Filho</code></pre><h2 id="3b9f6ce8-497f-80d3-a3ac-d0afc6d523bc" class="" dir="auto">Características</h2><ul id="3b9f6ce8-497f-80d7-9200-e31323b26e2b" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Estrutura em árvore;</li></ul><ul id="3b9f6ce8-497f-8076-a5a9-c88b90ba439e" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Organização hierárquica;</li></ul><ul id="3b9f6ce8-497f-80f1-bde9-ce1b759f2d21" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Navegação por caminhos;</li></ul><ul id="3b9f6ce8-497f-80f3-932f-c97069d4ecfe" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Bom desempenho em estruturas naturalmente hierárquicas.</li></ul><h2 id="3b9f6ce8-497f-80b7-8051-cfedede74c42" class="" dir="auto">Vantagens</h2><ul id="3b9f6ce8-497f-807d-8780-f7b2c1a636d6" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Estrutura simples;</li></ul><ul id="3b9f6ce8-497f-8021-a5b2-c09028df7c91" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Boa velocidade para determinados tipos de consulta;</li></ul><ul id="3b9f6ce8-497f-8043-bb99-f0ed2038d076" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Fácil representação de hierarquias.</li></ul><h2 id="3b9f6ce8-497f-8025-9daf-ffe82bada717" class="" dir="auto">Desvantagens</h2><ul id="3b9f6ce8-497f-8039-bbd0-c02439473039" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Pouca flexibilidade;</li></ul><ul id="3b9f6ce8-497f-80a6-bc4d-dc4d0c562d8e" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Relacionamentos complexos são difíceis;</li></ul><ul id="3b9f6ce8-497f-8032-8efb-ed942d7d6217" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Alterações na estrutura podem ser trabalhosas.</li></ul><h2 id="3b9f6ce8-497f-80bf-b1ca-dc7e1b06d497" class="" dir="auto">Exemplo de utilização</h2><p id="3b9f6ce8-497f-800f-8a1e-e993f6df56cf" class="" dir="auto">Pode ser adequado para estruturas como:</p><pre id="3b9f6ce8-497f-8072-89d7-c9a60315f820" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Empresa
+ ↓
+Departamento
+ ↓
+Funcionário</code></pre><p id="3b9f6ce8-497f-8067-9a38-c068f578f83c" class="" dir="auto">Esse modelo teve grande importância histórica no desenvolvimento dos bancos de dados.</p><hr id="3b9f6ce8-497f-8002-83b7-e2fdee2807d0" dir="auto"/><h1 id="3b9f6ce8-497f-80a1-bf04-d9c62f1331bd" class="" dir="auto">2. Modelo em Rede</h1><p id="3b9f6ce8-497f-80f0-aa3d-c9bbbb6a53c3" class="" dir="auto">O <strong>modelo em rede</strong> surgiu como uma evolução do modelo hierárquico.</p><p id="3b9f6ce8-497f-803d-ab42-e531b46a6c46" class="" dir="auto">Enquanto o modelo hierárquico trabalha principalmente com uma estrutura de árvore, o modelo em rede permite relacionamentos mais complexos.</p><pre id="3b9f6ce8-497f-80e4-9e99-d9a48a01e27c" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Aluno ─────── Curso A
+  │             │
+  │             │
+  └────────── Curso B</code></pre><p id="3b9f6ce8-497f-8050-ab5d-e3555e63b3cf" class="" dir="auto">Um registro pode estar relacionado a vários outros.</p><h2 id="3b9f6ce8-497f-8010-94d9-c949a5b7d0ce" class="" dir="auto">Vantagens</h2><ul id="3b9f6ce8-497f-804f-ae9c-ce09c064e21b" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Mais flexível que o modelo hierárquico;</li></ul><ul id="3b9f6ce8-497f-80c1-8e87-c44e88254a35" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Permite relacionamentos complexos;</li></ul><ul id="3b9f6ce8-497f-800d-9964-d061e318bf00" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Bom desempenho em determinadas estruturas.</li></ul><h2 id="3b9f6ce8-497f-80a8-b9fa-e666d7fdab66" class="" dir="auto">Desvantagens</h2><ul id="3b9f6ce8-497f-80fb-a5c3-e6fcbc9b56d6" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Complexidade;</li></ul><ul id="3b9f6ce8-497f-80c5-bf7f-d5f82d4276d5" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Difícil manutenção;</li></ul><ul id="3b9f6ce8-497f-80af-b318-c57cc49c348a" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Menos utilizado atualmente.</li></ul><p id="3b9f6ce8-497f-8044-81cf-c69c67e6cbbc" class="" dir="auto">Foi importante historicamente, mas perdeu espaço para o modelo relacional.</p><hr id="3b9f6ce8-497f-8014-9d30-d2b5321a5b04" dir="auto"/><h1 id="3b9f6ce8-497f-801f-9400-e68c376a0c97" class="" dir="auto">3. Banco de Dados Orientado a Objetos</h1><p id="3b9f6ce8-497f-804b-b6b4-ea248f4ee5eb" class="" dir="auto">O <strong>modelo orientado a objetos</strong> procura armazenar dados utilizando conceitos semelhantes aos da <strong>Programação Orientada a Objetos (POO)</strong>.</p><p id="3b9f6ce8-497f-80f7-87d3-e0fdeadd18bc" class="" dir="auto">Em vez de pensar apenas em tabelas, podemos pensar em <strong>objetos</strong>.</p><p id="3b9f6ce8-497f-80f7-8fef-dd4582fd8768" class="" dir="auto">Exemplo:</p><pre id="3b9f6ce8-497f-809a-9625-fde5d8082752" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Objeto Cliente
+│
+├── nome
+├── CPF
+├── endereço
+│
+└── métodos</code></pre><p id="3b9f6ce8-497f-8017-afb4-d26d38302c5b" class="" dir="auto">O objeto pode possuir:</p><ul id="3b9f6ce8-497f-80cf-9741-d87fe45b1285" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Atributos;</li></ul><ul id="3b9f6ce8-497f-80bb-ac7e-f82c9fce74b1" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Comportamentos;</li></ul><ul id="3b9f6ce8-497f-802c-9e08-c2610d7cf56b" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Identidade;</li></ul><ul id="3b9f6ce8-497f-8089-bae5-ec0570688b57" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Relacionamentos.</li></ul><h2 id="3b9f6ce8-497f-8012-a56c-f18682731073" class="" dir="auto">Características</h2><p id="3b9f6ce8-497f-803d-95bb-c457dc8af463" class="" dir="auto">Pode trabalhar com conceitos como:</p><ul id="3b9f6ce8-497f-8084-883d-df0e207efd03" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Classes;</li></ul><ul id="3b9f6ce8-497f-800a-a4cd-f1099216c2a5" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Objetos;</li></ul><ul id="3b9f6ce8-497f-806b-b9f6-e14f88e0e315" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Herança;</li></ul><ul id="3b9f6ce8-497f-80c7-a4ab-cd248a7acd29" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Encapsulamento;</li></ul><ul id="3b9f6ce8-497f-802d-b8f1-c176385b766b" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Polimorfismo.</li></ul><h2 id="3b9f6ce8-497f-803d-9089-d6e0656eeee0" class="" dir="auto">Vantagem</h2><p id="3b9f6ce8-497f-804f-957c-d9134f66c5fe" class="" dir="auto">Existe uma maior aproximação entre a estrutura dos dados e aplicações desenvolvidas com orientação a objetos.</p><h2 id="3b9f6ce8-497f-8076-8b33-e756b3e21249" class="" dir="auto">Desvantagem</h2><p id="3b9f6ce8-497f-8012-9d0d-ebf599f5ca7a" class="" dir="auto">Não possui a mesma popularidade dos bancos relacionais tradicionais.</p><hr id="3b9f6ce8-497f-804a-94b3-ccda779ba56a" dir="auto"/><h1 id="3b9f6ce8-497f-80ce-a784-f99d9cf9e31c" class="" dir="auto">4. Modelo Chave-Valor</h1><p id="3b9f6ce8-497f-8087-9c1c-e94b24988716" class="" dir="auto">O modelo <strong>chave-valor</strong> é um dos modelos NoSQL mais simples.</p><p id="3b9f6ce8-497f-80ee-9a4e-e7f5ca44c09e" class="" dir="auto">Os dados são armazenados como pares:</p><pre id="3b9f6ce8-497f-8092-bcbe-edd45b689b78" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">CHAVE → VALOR</code></pre><p id="3b9f6ce8-497f-806f-9884-f78ff6116f4f" class="" dir="auto">Exemplo:</p><pre id="3b9f6ce8-497f-80d7-b83c-e6374700a1a2" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">usuario:1001 → &quot;João&quot;
+usuario:1002 → &quot;Maria&quot;
+usuario:1003 → &quot;Carlos&quot;</code></pre><p id="3b9f6ce8-497f-805e-bb81-e905fcdcad72" class="" dir="auto">O valor também pode ser mais complexo:</p><pre id="3b9f6ce8-497f-804d-a1ec-da4d04adc2f3" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">usuario:1001 →
+{
+    nome: &quot;João&quot;,
+    idade: 25,
+    cidade: &quot;Fortaleza&quot;
+}</code></pre><h2 id="3b9f6ce8-497f-8006-95fb-d2336306e07d" class="" dir="auto">Funcionamento</h2><p id="3b9f6ce8-497f-804d-8eaa-e9af54c944dc" class="" dir="auto">A aplicação fornece uma chave:</p><pre id="3b9f6ce8-497f-80e9-9eb5-ef284f04fe72" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">usuario:1001</code></pre><p id="3b9f6ce8-497f-809f-b7b6-ee3fd030cc5d" class="" dir="auto">O banco retorna o valor correspondente.</p><h2 id="3b9f6ce8-497f-8072-a37d-d12ad8a4faf4" class="" dir="auto">Vantagens</h2><ul id="3b9f6ce8-497f-800b-a5bf-fdda5ee73df5" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Muito rápido;</li></ul><ul id="3b9f6ce8-497f-802c-adc0-c0d27c6310c1" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Simples;</li></ul><ul id="3b9f6ce8-497f-808c-b01d-e40d6d8641df" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Fácil de escalar;</li></ul><ul id="3b9f6ce8-497f-80c7-8c55-c20abcd99e62" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Excelente para determinadas operações de leitura e escrita.</li></ul><h2 id="3b9f6ce8-497f-8067-9fc8-dc2d92c5b38f" class="" dir="auto">Desvantagens</h2><ul id="3b9f6ce8-497f-8045-ac3a-f2e7f8115a08" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Consultas complexas podem ser limitadas;</li></ul><ul id="3b9f6ce8-497f-80ee-931c-c59abf31e4cc" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Não é ideal para relacionamentos complexos.</li></ul><h2 id="3b9f6ce8-497f-800a-942f-d2aae327fde8" class="" dir="auto">Exemplos</h2><ul id="3b9f6ce8-497f-8017-b3d0-daca9695db55" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Redis</li></ul><ul id="3b9f6ce8-497f-80bd-8e40-ffbbfc834f1f" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Amazon DynamoDB</li></ul><hr id="3b9f6ce8-497f-80a7-abea-f236580655ea" dir="auto"/><h1 id="3b9f6ce8-497f-800e-9215-c5a8bdd2d9ac" class="" dir="auto">5. Modelo Orientado a Documentos</h1><p id="3b9f6ce8-497f-803f-9f1a-c3770f3079e3" class="" dir="auto">Os bancos <strong>orientados a documentos</strong> armazenam informações como documentos.</p><p id="3b9f6ce8-497f-8095-9995-f1523f128f2a" class="" dir="auto">Um formato muito comum é o <strong>JSON</strong>.</p><p id="3b9f6ce8-497f-80ea-8f47-d0bee4cc0e10" class="" dir="auto">Exemplo:</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-json.min.js" integrity="sha512-QXFMVAusM85vUYDaNgcYeU3rzSlc+bTV4JvkfJhjxSHlQEo+ig53BtnGkvFTiNJh8D+wv6uWAQ2vJaVmxe8d3w==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="3b9f6ce8-497f-809c-a1eb-cf3a8a94ad56" class="code code-wrap" data-notion-code-syntax="json"><code class="language-json" style="white-space:pre-wrap;word-break:break-all">{
+    &quot;id&quot;: 1,
+    &quot;nome&quot;: &quot;João&quot;,
+    &quot;idade&quot;: 25,
+    &quot;cidade&quot;: &quot;Fortaleza&quot;
+}</code></pre><p id="3b9f6ce8-497f-8078-bff1-c1f31308371d" class="" dir="auto">Outro documento poderia possuir uma estrutura diferente:</p><pre id="3b9f6ce8-497f-80f5-b2d3-c7d52c36de58" class="code code-wrap" data-notion-code-syntax="json"><code class="language-json" style="white-space:pre-wrap;word-break:break-all">{
+    &quot;id&quot;: 2,
+    &quot;nome&quot;: &quot;Maria&quot;,
+    &quot;email&quot;: &quot;maria@email.com&quot;,
+    &quot;telefones&quot;: [
+        &quot;99999-1111&quot;,
+        &quot;98888-2222&quot;
+    ]
+}</code></pre><p id="3b9f6ce8-497f-801c-8c6f-f2f659f380e7" class="" dir="auto">Observe que os documentos não precisam necessariamente possuir exatamente os mesmos campos.</p><hr id="3b9f6ce8-497f-80bc-9d5b-fa3778bb8185" dir="auto"/><h2 id="3b9f6ce8-497f-80d0-89fe-e34549e8cc16" class="" dir="auto">Características</h2><ul id="3b9f6ce8-497f-804f-bd3d-e63430095466" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Estrutura flexível;</li></ul><ul id="3b9f6ce8-497f-8022-b9c7-d7e6480d445d" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Documentos independentes;</li></ul><ul id="3b9f6ce8-497f-8004-9a32-f13e9e7b17e7" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Geralmente utiliza JSON ou formatos semelhantes;</li></ul><ul id="3b9f6ce8-497f-8088-8cad-c817456f7089" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Boa escalabilidade.</li></ul><h2 id="3b9f6ce8-497f-8019-a3a0-ef84066391bf" class="" dir="auto">Vantagens</h2><ul id="3b9f6ce8-497f-80bb-bbe9-db945761c50f" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Flexibilidade;</li></ul><ul id="3b9f6ce8-497f-80a3-a586-c2d94e930a95" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Desenvolvimento rápido;</li></ul><ul id="3b9f6ce8-497f-8072-872e-c66b76672230" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Boa adaptação a aplicações Web;</li></ul><ul id="3b9f6ce8-497f-80e1-bcaf-f853a6b0f33e" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Facilidade para armazenar estruturas complexas.</li></ul><h2 id="3b9f6ce8-497f-8005-981f-eac649d5a3cb" class="" dir="auto">Desvantagens</h2><ul id="3b9f6ce8-497f-802a-a914-e460f2a0735b" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Relacionamentos complexos podem ser mais difíceis;</li></ul><ul id="3b9f6ce8-497f-80e5-9f2c-da2bee07d278" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Pode ocorrer duplicação de informações;</li></ul><ul id="3b9f6ce8-497f-805a-aa2c-db03a16c6f7b" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Nem sempre é a melhor opção para dados altamente relacionais.</li></ul><h2 id="3b9f6ce8-497f-80fe-8568-dea304ba247e" class="" dir="auto">Exemplos</h2><ul id="3b9f6ce8-497f-809a-9638-fee9f5500fa1" class="bulleted-list" dir="auto"><li style="list-style-type:disc">MongoDB</li></ul><ul id="3b9f6ce8-497f-80ce-9f6f-f09c7b6d3487" class="bulleted-list" dir="auto"><li style="list-style-type:disc">CouchDB</li></ul><ul id="3b9f6ce8-497f-8071-8e48-e92c4bbe3896" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Amazon DocumentDB</li></ul><hr id="3b9f6ce8-497f-806c-84d3-d385c3369e27" dir="auto"/><h1 id="3b9f6ce8-497f-80cb-848b-ee4acaf1e2b0" class="" dir="auto">6. Modelo Orientado a Colunas</h1><p id="3b9f6ce8-497f-808e-a3d8-e226889de219" class="" dir="auto">Os bancos orientados a <strong>colunas</strong> armazenam e processam dados de maneira diferente dos bancos relacionais tradicionais.</p><p id="3b9f6ce8-497f-8019-8e34-ed5b65f15af2" class="" dir="auto">Em um banco relacional, podemos imaginar:</p><pre id="3b9f6ce8-497f-8026-82e8-c96dc36f3948" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">ID | Nome | Cidade | Idade</code></pre><p id="3b9f6ce8-497f-8010-864c-d52ca4261af8" class="" dir="auto">Em determinados bancos colunares, os dados são organizados de maneira que o acesso por colunas seja extremamente eficiente.</p><p id="3b9f6ce8-497f-8082-b226-ea59ad694f05" class="" dir="auto">Conceitualmente:</p><pre id="3b9f6ce8-497f-80be-a98c-d702994c4901" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">ID:
+1
+2
+3
+
+Nome:
+João
+Maria
+Carlos
+
+Cidade:
+Fortaleza
+Natal
+Recife</code></pre><p id="3b9f6ce8-497f-8087-bc39-c141ab044077" class="" dir="auto">Esse modelo é especialmente interessante para:</p><ul id="3b9f6ce8-497f-8003-9c57-f800287523fc" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Big Data;</li></ul><ul id="3b9f6ce8-497f-806a-aa80-e61a725d2c88" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Analytics;</li></ul><ul id="3b9f6ce8-497f-8059-89a1-e1d37051d822" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Grandes volumes de informações;</li></ul><ul id="3b9f6ce8-497f-8013-83e5-c88b9a30cb70" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Processamento distribuído.</li></ul><h2 id="3b9f6ce8-497f-80cf-b5c3-ef6bee7b3c33" class="" dir="auto">Exemplos</h2><ul id="3b9f6ce8-497f-80f0-a5ae-ff1a0c4299bf" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Apache Cassandra</li></ul><ul id="3b9f6ce8-497f-80ab-b6fe-d19d874a08a8" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Apache HBase</li></ul><ul id="3b9f6ce8-497f-801e-805b-c6146dc2106e" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Google Bigtable</li></ul><hr id="3b9f6ce8-497f-804a-9d04-fcd8f70c8f34" dir="auto"/><h1 id="3b9f6ce8-497f-8014-8a6d-f9358b0e0208" class="" dir="auto">7. Modelo Orientado a Grafos</h1><p id="3b9f6ce8-497f-8067-9884-de5bc8ae5425" class="" dir="auto">O modelo de <strong>grafos</strong> é utilizado quando os relacionamentos entre os dados são tão importantes quanto os próprios dados.</p><p id="3b9f6ce8-497f-80a8-8240-d5bd8c56c72b" class="" dir="auto">Os dados são representados principalmente por:</p><ul id="3b9f6ce8-497f-8055-973f-de5bdca2541e" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>Nós (nodes)</strong></li></ul><ul id="3b9f6ce8-497f-804d-8d1e-f60ac7e1dd27" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>Relacionamentos (edges)</strong></li></ul><p id="3b9f6ce8-497f-80d6-81f5-c8325623c111" class="" dir="auto">Exemplo:</p><pre id="3b9f6ce8-497f-80bc-9611-d9fe40d91031" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">        amigo
+João ─────────→ Maria
+ │
+ │ trabalha
+ ↓
+Empresa X</code></pre><p id="3b9f6ce8-497f-801f-a194-c505c4dd682c" class="" dir="auto">Outro exemplo:</p><pre id="3b9f6ce8-497f-805b-9ef3-f10578ddd12b" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">João
+ │
+ ├── amigo → Maria
+ │
+ ├── mora → Fortaleza
+ │
+ └── trabalha → Empresa X</code></pre><h2 id="3b9f6ce8-497f-8007-b43f-f7fc09c9078c" class="" dir="auto">Onde é utilizado?</h2><p id="3b9f6ce8-497f-80e1-a3e1-c4e5df1cc451" class="" dir="auto">É especialmente útil para:</p><ul id="3b9f6ce8-497f-802b-94be-dd9e8c892012" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Redes sociais;</li></ul><ul id="3b9f6ce8-497f-80ae-9069-c62a2320a140" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Sistemas de recomendação;</li></ul><ul id="3b9f6ce8-497f-80a6-b929-cc697dde62e5" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Detecção de fraudes;</li></ul><ul id="3b9f6ce8-497f-800e-bcc6-ccf4efb045ba" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Mapas;</li></ul><ul id="3b9f6ce8-497f-8016-8001-df352a4b2fe8" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Redes de relacionamento;</li></ul><ul id="3b9f6ce8-497f-80f8-b352-dd3bdcc5aa3b" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Análise de conexões;</li></ul><ul id="3b9f6ce8-497f-80a1-9b35-c7536ff05954" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Grafos de conhecimento.</li></ul><h2 id="3b9f6ce8-497f-805b-823b-dcb9abc8ff06" class="" dir="auto">Exemplo</h2><p id="3b9f6ce8-497f-8082-8e8a-c74ea18e5bc8" class="" dir="auto">Imagine uma rede social.</p><p id="3b9f6ce8-497f-801b-a884-cfdbe6462503" class="" dir="auto">Para descobrir:</p><blockquote id="3b9f6ce8-497f-80e5-8b9d-ce2c951ba543" class="" dir="auto">&quot;Quais amigos de João também são amigos de Maria?&quot;</blockquote><p id="3b9f6ce8-497f-8008-ad72-f99947e3c564" class="" dir="auto">Um banco de grafos pode ser muito eficiente para trabalhar com esse tipo de relacionamento.</p><h2 id="3b9f6ce8-497f-80af-80c2-ff50eb00b448" class="" dir="auto">Exemplos</h2><ul id="3b9f6ce8-497f-80ec-9045-dac0471c0bba" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Neo4j</li></ul><ul id="3b9f6ce8-497f-8023-ae35-d3613f8f833a" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Amazon Neptune</li></ul><ul id="3b9f6ce8-497f-8081-b777-fefc7472b93e" class="bulleted-list" dir="auto"><li style="list-style-type:disc">JanusGraph</li></ul><hr id="3b9f6ce8-497f-8041-a988-f3f5e6cfc1bb" dir="auto"/><h1 id="3b9f6ce8-497f-8038-ba26-d6cd1ac50548" class="" dir="auto">8. Modelo Multimodelo</h1><p id="3b9f6ce8-497f-8051-93b1-fe8e7f9ba079" class="" dir="auto">Os bancos <strong>multimodelo</strong> permitem trabalhar com diferentes modelos de dados dentro de uma mesma plataforma.</p><p id="3b9f6ce8-497f-807a-8c2e-cd85a18c10ee" class="" dir="auto">Um sistema pode trabalhar, por exemplo, com:</p><pre id="3b9f6ce8-497f-80d4-898c-e5126d9f416d" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Documentos
+    +
+Grafos
+    +
+Chave-Valor</code></pre><p id="3b9f6ce8-497f-800b-aa8f-d990d7951602" class="" dir="auto">Isso pode ser útil quando uma aplicação possui necessidades diferentes.</p><h3 id="3b9f6ce8-497f-801b-94cc-f99bc155cf5e" class="" dir="auto">Exemplo</h3><p id="3b9f6ce8-497f-80d5-92ac-e3127c4473c5" class="" dir="auto">Uma aplicação poderia armazenar:</p><pre id="3b9f6ce8-497f-800b-a540-de6adad0d4af" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Usuários → Documentos
+Sessões → Chave-Valor
+Relacionamentos → Grafos</code></pre><p id="3b9f6ce8-497f-8033-ad91-d0ff0654c80f" class="" dir="auto">Em vez de utilizar obrigatoriamente três sistemas diferentes, uma solução multimodelo pode centralizar essas estruturas.</p><hr id="3b9f6ce8-497f-800d-8e3c-f4d75fb141ae" dir="auto"/><h1 id="3b9f6ce8-497f-8096-a81c-e194d93ee2f0" class="" dir="auto">9. Bancos de Dados Vetoriais</h1><p id="3b9f6ce8-497f-8017-9181-e36a16f337a8" class="" dir="auto">Os <strong>bancos vetoriais</strong> ganharam grande importância com a expansão das aplicações de <strong>Inteligência Artificial</strong>.</p><p id="3b9f6ce8-497f-8013-8ac3-f3664c560ea6" class="" dir="auto">Eles armazenam representações numéricas chamadas <strong>vetores</strong>.</p><p id="3b9f6ce8-497f-80a1-bc96-d9127e611c60" class="" dir="auto">Por exemplo, um texto pode ser transformado em um vetor:</p><pre id="3b9f6ce8-497f-8092-a31f-ee4874e7085d" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">&quot;Banco de dados&quot;
+       ↓
+[0.21, -0.45, 0.78, 0.12, ...]</code></pre><p id="3b9f6ce8-497f-80ec-b7bb-d4fcce63cc05" class="" dir="auto">Esses vetores representam características semânticas dos dados.</p><p id="3b9f6ce8-497f-8019-ae0b-ce79a33c50ad" class="" dir="auto">O banco pode então procurar vetores semelhantes.</p><pre id="3b9f6ce8-497f-80f7-8006-cd75f110e084" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Pergunta
+   ↓
+Embedding
+   ↓
+Vetor
+   ↓
+Busca por similaridade
+   ↓
+Resultados semelhantes</code></pre><h2 id="3b9f6ce8-497f-80f4-855a-ddc37b760970" class="" dir="auto">Aplicações</h2><ul id="3b9f6ce8-497f-80df-b06a-c35f39520744" class="bulleted-list" dir="auto"><li style="list-style-type:disc">IA generativa;</li></ul><ul id="3b9f6ce8-497f-80aa-9b5c-cc75868e4a70" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Busca semântica;</li></ul><ul id="3b9f6ce8-497f-8054-b594-c98abc5b5843" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Sistemas de recomendação;</li></ul><ul id="3b9f6ce8-497f-8085-ae84-dd52e12a8d68" class="bulleted-list" dir="auto"><li style="list-style-type:disc">RAG (Retrieval-Augmented Generation);</li></ul><ul id="3b9f6ce8-497f-80f6-b5dd-f4a2ee5baf72" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Pesquisa de imagens;</li></ul><ul id="3b9f6ce8-497f-8050-aefa-dfaed1dade6b" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Pesquisa de documentos.</li></ul><h2 id="3b9f6ce8-497f-80a3-b153-f5b1f7defacb" class="" dir="auto">Exemplos</h2><ul id="3b9f6ce8-497f-80e0-abf9-cd3937302729" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Milvus</li></ul><ul id="3b9f6ce8-497f-8034-9332-f8f3aaa3a871" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Qdrant</li></ul><ul id="3b9f6ce8-497f-800f-986a-fdd9c31fd773" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Weaviate</li></ul><ul id="3b9f6ce8-497f-80cf-bbe1-eaa749189247" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Pinecone</li></ul><hr id="3b9f6ce8-497f-80fe-886b-ecd4a8a98d64" dir="auto"/><h1 id="3b9f6ce8-497f-8028-bfbf-f7609f0cf3b6" class="" dir="auto">10. Comparação dos principais modelos</h1><table id="3b9f6ce8-497f-8005-8a6f-f5d571cb8bc4" class="simple-table" dir="ltr"><thead class="simple-table-header"><tr id="3b9f6ce8-497f-8052-ae4b-df086d66a760" dir="ltr"><th id="lmei" class="simple-table-header-color simple-table-header">Modelo</th><th id=":vGw" class="simple-table-header-color simple-table-header">Estrutura</th><th id="qp@o" class="simple-table-header-color simple-table-header">Melhor aplicação</th></tr></thead><tbody><tr id="3b9f6ce8-497f-80a4-b451-d27c06ead6a5" dir="ltr"><td id="lmei" class="">Hierárquico</td><td id=":vGw" class="">Árvore</td><td id="qp@o" class="">Dados hierárquicos</td></tr><tr id="3b9f6ce8-497f-8082-8586-c2b3b35e44c3" dir="ltr"><td id="lmei" class="">Rede</td><td id=":vGw" class="">Grafo estrutural</td><td id="qp@o" class="">Relacionamentos complexos</td></tr><tr id="3b9f6ce8-497f-80cc-b2bf-d16ff5f6b4cc" dir="ltr"><td id="lmei" class="">Orientado a objetos</td><td id=":vGw" class="">Objetos</td><td id="qp@o" class="">Sistemas orientados a objetos</td></tr><tr id="3b9f6ce8-497f-8043-9971-fba4c5221d3e" dir="ltr"><td id="lmei" class="">Chave-valor</td><td id=":vGw" class="">Chave → Valor</td><td id="qp@o" class="">Cache e sessões</td></tr><tr id="3b9f6ce8-497f-8065-844b-f43f32c50af4" dir="ltr"><td id="lmei" class="">Documentos</td><td id=":vGw" class="">JSON/documentos</td><td id="qp@o" class="">Aplicações Web flexíveis</td></tr><tr id="3b9f6ce8-497f-8091-b49b-d2bea284c663" dir="ltr"><td id="lmei" class="">Colunar</td><td id=":vGw" class="">Colunas</td><td id="qp@o" class="">Big Data e analytics</td></tr><tr id="3b9f6ce8-497f-8021-b51d-c870092a7fee" dir="ltr"><td id="lmei" class="">Grafos</td><td id=":vGw" class="">Nós + relações</td><td id="qp@o" class="">Redes e relacionamentos</td></tr><tr id="3b9f6ce8-497f-8077-ae19-f4839031db43" dir="ltr"><td id="lmei" class="">Multimodelo</td><td id=":vGw" class="">Vários modelos</td><td id="qp@o" class="">Aplicações híbridas</td></tr><tr id="3b9f6ce8-497f-8050-be11-d433a2defab8" dir="ltr"><td id="lmei" class="">Vetorial</td><td id=":vGw" class="">Vetores</td><td id="qp@o" class="">IA e busca semântica</td></tr></tbody></table><hr id="3b9f6ce8-497f-8011-862a-f37b4e68c8ab" dir="auto"/><h1 id="3b9f6ce8-497f-806e-8683-cb80ee7e178d" class="" dir="auto">11. Relacional × NoSQL</h1><p id="3b9f6ce8-497f-80c9-925c-f9123bbea4a6" class="" dir="auto">Uma das comparações mais importantes é entre os bancos <strong>relacionais</strong> e os <strong>NoSQL</strong>.</p><h3 id="3b9f6ce8-497f-8084-b18c-fd3f16e2609e" class="" dir="auto">Relacional</h3><pre id="3b9f6ce8-497f-8021-ab91-ceb2632a7eec" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Tabela
+ ↓
+Linhas
+ ↓
+Colunas
+ ↓
+Relacionamentos</code></pre><p id="3b9f6ce8-497f-80aa-9c52-fc2e4bc8dba3" class="" dir="auto">Exemplo:</p><pre id="3b9f6ce8-497f-804c-abbe-eff7aa680284" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Clientes
+Produtos
+Pedidos</code></pre><p id="3b9f6ce8-497f-8086-b5b6-ebf4fe1bd768" class="" dir="auto">É muito adequado quando:</p><ul id="3b9f6ce8-497f-8065-a345-ca7d924a06d9" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Os dados possuem estrutura bem definida;</li></ul><ul id="3b9f6ce8-497f-8047-a52d-fec676810e9c" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Existem muitos relacionamentos;</li></ul><ul id="3b9f6ce8-497f-8090-8b39-c318a1ba51f8" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Consistência transacional é importante;</li></ul><ul id="3b9f6ce8-497f-80b7-9a44-c8da3e7c0b40" class="bulleted-list" dir="auto"><li style="list-style-type:disc">SQL é conveniente para as consultas.</li></ul><hr id="3b9f6ce8-497f-802b-b55f-eab056808f5f" dir="auto"/><h3 id="3b9f6ce8-497f-8086-a0fc-dda4ef2de4e8" class="" dir="auto">NoSQL</h3><p id="3b9f6ce8-497f-807e-b83a-fa0622014a2a" class="" dir="auto">Pode utilizar:</p><pre id="3b9f6ce8-497f-8028-ad7c-f43eddc6950d" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Documento
+Chave-Valor
+Colunas
+Grafos</code></pre><p id="3b9f6ce8-497f-8027-b543-c21e61a8f229" class="" dir="auto">É interessante quando:</p><ul id="3b9f6ce8-497f-8022-922a-de9e3ee2c028" class="bulleted-list" dir="auto"><li style="list-style-type:disc">A estrutura dos dados é flexível;</li></ul><ul id="3b9f6ce8-497f-80c3-ad09-fa330fe4ae6c" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Existe necessidade de escalabilidade horizontal;</li></ul><ul id="3b9f6ce8-497f-803f-99a8-e6435e48a850" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Os dados possuem grande volume;</li></ul><ul id="3b9f6ce8-497f-80e1-aca1-de1cc8e26c3d" class="bulleted-list" dir="auto"><li style="list-style-type:disc">O modelo relacional não representa bem o problema.</li></ul><hr id="3b9f6ce8-497f-800d-8d6c-e5e5f0e91343" dir="auto"/><h1 id="3b9f6ce8-497f-8012-ae1e-f2eda00a5d8d" class="" dir="auto">12. Os modelos não são necessariamente concorrentes</h1><p id="3b9f6ce8-497f-802c-8753-fdb87696630d" class="" dir="auto">É importante entender que <strong>NoSQL não significa que os bancos relacionais ficaram ultrapassados</strong>.</p><p id="3b9f6ce8-497f-804e-a077-f22a7f185957" class="" dir="auto">Cada modelo resolve problemas diferentes.</p><p id="3b9f6ce8-497f-8086-acf0-c574eb66978d" class="" dir="auto">Por exemplo:</p><pre id="3b9f6ce8-497f-8061-a1de-f14c60dbce65" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Sistema bancário
+       ↓
+Banco Relacional</code></pre><p id="3b9f6ce8-497f-80ec-8800-dffa6a410131" class="" dir="auto">Enquanto:</p><pre id="3b9f6ce8-497f-801e-b235-e275b6edcffd" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Cache de aplicação
+       ↓
+Chave-Valor</code></pre><p id="3b9f6ce8-497f-80e0-80f9-fb0ed0b8d25b" class="" dir="auto">E:</p><pre id="3b9f6ce8-497f-8037-a51d-cb33e34a7e15" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Rede social
+       ↓
+Banco de Grafos</code></pre><p id="3b9f6ce8-497f-80f6-b05c-d5366617e1b0" class="" dir="auto">E:</p><pre id="3b9f6ce8-497f-80d2-88fc-f13746e37d81" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Aplicação de IA
+       ↓
+Banco Vetorial</code></pre><p id="3b9f6ce8-497f-80cc-910e-fe1e60b5b409" class="" dir="auto">Uma aplicação moderna pode até utilizar <strong>vários bancos simultaneamente</strong>.</p><hr id="3b9f6ce8-497f-8081-9f03-ffef748b48b1" dir="auto"/><h1 id="3b9f6ce8-497f-80d6-ab5c-c932f5ccf820" class="" dir="auto">13. Exemplo de arquitetura moderna</h1><p id="3b9f6ce8-497f-8056-915a-c3aeb1699c85" class="" dir="auto">Imagine uma grande aplicação de comércio eletrônico:</p><pre id="3b9f6ce8-497f-80f8-be94-c32b7016b9a4" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">                  Aplicação
+                      │
+        ┌─────────────┼─────────────┐
+        ↓             ↓             ↓
+   PostgreSQL       Redis       MongoDB
+        │             │             │
+     Pedidos        Cache       Catálogo
+        │
+        └──────────────┐
+                       ↓
+                 Data Warehouse
+                       │
+                       ↓
+                    Analytics
+                       │
+                       ↓
+                       IA</code></pre><p id="3b9f6ce8-497f-80f4-a30b-e7d71dbfa066" class="" dir="auto">Cada tecnologia pode cumprir uma função diferente.</p><hr id="3b9f6ce8-497f-8018-8147-e3b4c9080f6b" dir="auto"/><h1 id="3b9f6ce8-497f-8059-bbf7-eda71aedcf40" class="" dir="auto">14. Como escolher o modelo?</h1><p id="3b9f6ce8-497f-805a-84d8-ed4a9a746e12" class="" dir="auto">A escolha deve começar pelo <strong>problema</strong>, e não pela tecnologia.</p><h3 id="3b9f6ce8-497f-80a0-ab7c-dfd8ce4e62f4" class="" dir="auto">Se você precisa de muitos relacionamentos e transações:</h3><p id="3b9f6ce8-497f-807f-bd62-dda8ec635fff" class="" dir="auto"><strong>Relacional</strong></p><p id="3b9f6ce8-497f-80b7-8447-d141df5de37c" class="" dir="auto">Exemplo:</p><ul id="3b9f6ce8-497f-802d-8c2f-d0773b7d7484" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Banco;</li></ul><ul id="3b9f6ce8-497f-8012-a52c-f081a06b3b84" class="bulleted-list" dir="auto"><li style="list-style-type:disc">ERP;</li></ul><ul id="3b9f6ce8-497f-807f-bfab-fdbb69454e29" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Sistema financeiro.</li></ul><h3 id="3b9f6ce8-497f-8092-ba9b-f7cf1e46cd50" class="" dir="auto">Se precisa de documentos flexíveis:</h3><p id="3b9f6ce8-497f-80c2-9e7f-c8673a6fa64f" class="" dir="auto"><strong>Documento</strong></p><p id="3b9f6ce8-497f-8026-a830-e1bafb5909de" class="" dir="auto">Exemplo:</p><ul id="3b9f6ce8-497f-8008-858b-e4c3d0b024be" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Catálogo de produtos;</li></ul><ul id="3b9f6ce8-497f-8072-8cd3-c213079711e7" class="bulleted-list" dir="auto"><li style="list-style-type:disc">APIs;</li></ul><ul id="3b9f6ce8-497f-802b-83a5-e2488007ab1a" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Aplicações Web.</li></ul><h3 id="3b9f6ce8-497f-80e3-b7ce-ece829dba404" class="" dir="auto">Se precisa de cache extremamente rápido:</h3><p id="3b9f6ce8-497f-80ef-858a-fde70626bc22" class="" dir="auto"><strong>Chave-valor</strong></p><p id="3b9f6ce8-497f-8085-acae-cf4fa5583cd3" class="" dir="auto">Exemplo:</p><ul id="3b9f6ce8-497f-80d6-8f71-d271d1bbac97" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Sessões;</li></ul><ul id="3b9f6ce8-497f-8023-b528-d0c41205b8f3" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Cache;</li></ul><ul id="3b9f6ce8-497f-80c4-803c-c607d2a55418" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Contadores.</li></ul><h3 id="3b9f6ce8-497f-80db-8208-c7a77610173e" class="" dir="auto">Se trabalha com relacionamentos complexos:</h3><p id="3b9f6ce8-497f-806a-891e-ebcec1e1e409" class="" dir="auto"><strong>Grafos</strong></p><p id="3b9f6ce8-497f-80c1-b08e-c886d25b465a" class="" dir="auto">Exemplo:</p><ul id="3b9f6ce8-497f-80bd-b1d5-e718fedb05ff" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Redes sociais;</li></ul><ul id="3b9f6ce8-497f-8065-aa77-cc8d66d72c37" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Fraudes;</li></ul><ul id="3b9f6ce8-497f-8050-ae4e-f730bed7c634" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Recomendações.</li></ul><h3 id="3b9f6ce8-497f-8024-8ac5-c9cc3e4d37c9" class="" dir="auto">Se trabalha com grandes volumes analíticos:</h3><p id="3b9f6ce8-497f-807b-8998-f0565fc2e085" class="" dir="auto"><strong>Colunar</strong></p><p id="3b9f6ce8-497f-8043-9b7c-f7c56642db0f" class="" dir="auto">Exemplo:</p><ul id="3b9f6ce8-497f-80cf-a3c3-cfe2961bbf3e" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Big Data;</li></ul><ul id="3b9f6ce8-497f-80a4-a83f-dedd99c0c95e" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Analytics.</li></ul><h3 id="3b9f6ce8-497f-805e-97f7-cd0552a3b62d" class="" dir="auto">Se trabalha com IA e busca semântica:</h3><p id="3b9f6ce8-497f-80c8-a8d3-f45c1b6ba71a" class="" dir="auto"><strong>Vetorial</strong></p><p id="3b9f6ce8-497f-8014-8a5b-faa76fcc43dd" class="" dir="auto">Exemplo:</p><ul id="3b9f6ce8-497f-8028-ba99-fb5e69bab415" class="bulleted-list" dir="auto"><li style="list-style-type:disc">RAG;</li></ul><ul id="3b9f6ce8-497f-8047-813d-f9ff334cee4a" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Busca por similaridade;</li></ul><ul id="3b9f6ce8-497f-8056-8e1c-ed8e1d25fe70" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Sistemas de recomendação.</li></ul><hr id="3b9f6ce8-497f-80ad-9f28-df58965f3d78" dir="auto"/><h1 id="3b9f6ce8-497f-801f-be87-ca7fdc5d9262" class="" dir="auto">15. Relação com o estudo de Banco de Dados</h1><p id="3b9f6ce8-497f-805e-ae7c-f2d9c8151c42" class="" dir="auto">Como você está estudando <strong>Banco de Dados</strong>, é importante dominar primeiro o modelo relacional.</p><p id="3b9f6ce8-497f-80f1-97fe-c50c138be8cd" class="" dir="auto">Uma sequência interessante é:</p><pre id="3b9f6ce8-497f-80c1-9b76-dbffec8ef001" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Banco de Dados
+      ↓
+Modelo Relacional
+      ↓
+Tabelas
+      ↓
+Chaves
+      ↓
+Relacionamentos
+      ↓
+SQL
+      ↓
+MySQL / PostgreSQL
+      ↓
+NoSQL
+      ↓
+Documentos
+Chave-Valor
+Grafos
+Colunas
+      ↓
+Bancos Distribuídos
+      ↓
+Cloud
+      ↓
+Big Data
+      ↓
+Bancos Vetoriais</code></pre><p id="3b9f6ce8-497f-80b1-9bea-d966e8b5937c" class="" dir="auto">Dessa forma, você entende primeiro os fundamentos e depois consegue compreender por que outros modelos foram criados.</p><hr id="3b9f6ce8-497f-8099-a3ab-de320e3764ae" dir="auto"/><h1 id="3b9f6ce8-497f-80e8-8d13-c783381a534f" class="" dir="auto">Resumo</h1><p id="3b9f6ce8-497f-80bb-beae-c53cf0f48c65" class="" dir="auto">Os <strong>SGBDs não se limitam ao modelo relacional</strong>. Ao longo da evolução dos bancos de dados, diferentes modelos foram desenvolvidos para atender necessidades específicas.</p><p id="3b9f6ce8-497f-8038-8175-cbd7e562b73a" class="" dir="auto">Os principais são:</p><ul id="3b9f6ce8-497f-803d-8717-c732d7370a17" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>Hierárquico</strong> — organiza dados em árvores.</li></ul><ul id="3b9f6ce8-497f-8067-851d-d5993b10652d" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>Em rede</strong> — permite relacionamentos mais complexos.</li></ul><ul id="3b9f6ce8-497f-8010-9e3d-e5f9e1aec97f" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>Orientado a objetos</strong> — trabalha com objetos e conceitos de POO.</li></ul><ul id="3b9f6ce8-497f-808f-b9b3-f4c97a10b741" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>Chave-valor</strong> — armazena dados como pares chave/valor.</li></ul><ul id="3b9f6ce8-497f-80d9-87cf-d72e7a03735e" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>Orientado a documentos</strong> — utiliza documentos flexíveis, geralmente JSON.</li></ul><ul id="3b9f6ce8-497f-80c9-be26-ce172ebeb217" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>Orientado a colunas</strong> — adequado para grandes volumes e análises.</li></ul><ul id="3b9f6ce8-497f-80bb-8ee8-cae2f5defbbd" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>Orientado a grafos</strong> — especializado em relacionamentos e conexões.</li></ul><ul id="3b9f6ce8-497f-80bf-a027-f322eb2fcdf5" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>Multimodelo</strong> — combina diferentes modelos.</li></ul><ul id="3b9f6ce8-497f-80e4-82e3-d2e18cbee9ae" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>Vetorial</strong> — otimizado para similaridade e aplicações de Inteligência Artificial.</li></ul><p id="3b9f6ce8-497f-8099-b566-f4caf5c5ec27" class="" dir="auto">A principal ideia é:</p><blockquote id="3b9f6ce8-497f-8011-ab4b-d11eff16abc1" class="" dir="auto"><strong>Não existe um único modelo de banco de dados ideal para todos os problemas.</strong></blockquote><p id="3b9f6ce8-497f-80c4-adbb-dbbc83fff1d4" class="" dir="auto">A escolha depende da <strong>estrutura dos dados, tipo de consulta, volume, velocidade, necessidade de relacionamentos, consistência, escalabilidade e finalidade da aplicação</strong>.</p></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

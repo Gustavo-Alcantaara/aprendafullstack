@@ -93,11 +93,38 @@ h3 {
 	border: 1px solid rgba(55, 53, 47, 0.09);
 }
 
-figure,
-aside,
-details {
+figure {
 	margin: 1.25em 0;
 	page-break-inside: avoid;
+}
+
+/*
+ * Toggles and callouts hold arbitrary content, so they can easily be taller
+ * than a page. They must stay breakable: avoiding breaks inside them makes
+ * Chromium push the whole block onto the next page, which leaves the previous
+ * page mostly empty before every long toggle.
+ */
+details,
+aside {
+	margin: 1.25em 0;
+}
+
+/* Keep a toggle's title on the same page as the start of its content. */
+summary {
+	page-break-after: avoid;
+	break-after: avoid;
+}
+
+/*
+ * Toggle headings render as <h1/h2/h3 style="display:inline-block"> inside
+ * <summary>. Without this reset, the heading's margin-top pushes it below the
+ * ::marker (▼), so the triangle and the title appear on separate lines.
+ */
+summary h1,
+summary h2,
+summary h3,
+summary h4 {
+	margin-top: 0;
 }
 
 figcaption {
@@ -764,9 +791,9 @@ blockquote.quote-large {
 	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
 }
 	
-</style><style>@import url('https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex-swap.min.css')</style></head><body><article id="373f6ce8-497f-8082-8c98-e560de14c8a7" class="page sans" data-notion-page-icon="/icons/command-line_yellow.svg"><header><div class="page-header-icon undefined"><img class="icon notion-static-icon" src="https://app.notion.com/icons/command-line_yellow.svg"/></div><h1 class="page-title" dir="auto">For…in</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><h1 id="373f6ce8-497f-80dd-a75c-f270f139ac99" style="display:inline-block" dir="auto">Estrutura <code>for...in</code> em JavaScript</h1><p id="373f6ce8-497f-80c3-b711-e85dd4c1f886" class="" dir="auto">A estrutura <code><strong>for...in</strong></code> é utilizada para percorrer as <strong>propriedades (chaves)</strong> de um objeto.</p><p id="373f6ce8-497f-80c9-adff-e3d7fe3557aa" class="" dir="auto">Ela percorre os nomes das propriedades, e não os valores diretamente.</p><h2 id="373f6ce8-497f-80cb-8ae3-f4c2757368a4" style="display:inline-block" dir="auto">Sintaxe</h2><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-jsx.min.js" integrity="sha512-m3JYEI6gx5fh9jF10FjGoMzVKcV2N6nchcDcqPCdI1L3R2WQV7br2XVNR8iTLb2daOMRl3zldbcfT40xU2ntVw==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="373f6ce8-497f-80cd-b75f-f3b4f925be07" class="code code-wrap" data-notion-code-syntax="jsx"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">for (const chave in objeto) {
+</style><style>@import url('https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex-swap.min.css')</style></head><body><article id="373f6ce8-497f-8082-8c98-e560de14c8a7" class="page sans" data-notion-page-icon="/icons/command-line_yellow.svg"><header><div class="page-header-icon undefined"><img class="icon notion-static-icon" src="https://app.notion.com/icons/command-line_yellow.svg"/></div><h1 class="page-title" dir="auto">For…in</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><h1 id="373f6ce8-497f-80dd-a75c-f270f139ac99" class="" dir="auto">Estrutura <code>for...in</code> em JavaScript</h1><p id="373f6ce8-497f-80c3-b711-e85dd4c1f886" class="" dir="auto">A estrutura <code><strong>for...in</strong></code> é utilizada para percorrer as <strong>propriedades (chaves)</strong> de um objeto.</p><p id="373f6ce8-497f-80c9-adff-e3d7fe3557aa" class="" dir="auto">Ela percorre os nomes das propriedades, e não os valores diretamente.</p><h2 id="373f6ce8-497f-80cb-8ae3-f4c2757368a4" class="" dir="auto">Sintaxe</h2><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-jsx.min.js" integrity="sha512-m3JYEI6gx5fh9jF10FjGoMzVKcV2N6nchcDcqPCdI1L3R2WQV7br2XVNR8iTLb2daOMRl3zldbcfT40xU2ntVw==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="373f6ce8-497f-80cd-b75f-f3b4f925be07" class="code code-wrap" data-notion-code-syntax="jsx"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">for (const chave in objeto) {
 // código
-}</code></pre><hr id="373f6ce8-497f-80aa-873d-d93e8281a5d7" dir="auto"/><h1 id="373f6ce8-497f-8053-8c69-ca6c42baf697" style="display:inline-block" dir="auto">Exemplo básico</h1><pre id="373f6ce8-497f-8078-bc5c-c17067df09d7" class="code code-wrap" data-notion-code-syntax="jsx"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const pessoa = {
+}</code></pre><hr id="373f6ce8-497f-80aa-873d-d93e8281a5d7" dir="auto"/><h1 id="373f6ce8-497f-8053-8c69-ca6c42baf697" class="" dir="auto">Exemplo básico</h1><pre id="373f6ce8-497f-8078-bc5c-c17067df09d7" class="code code-wrap" data-notion-code-syntax="jsx"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const pessoa = {
   nome:&quot;Gustavo&quot;,
   idade:21,
   cidade:&quot;Fortaleza&quot;
@@ -776,7 +803,7 @@ for (const chave in pessoa) {
 console.log(chave);
 }</code></pre><p id="373f6ce8-497f-8021-b71c-f3fe35d3ccf5" class="" dir="auto">Resultado:</p><pre id="373f6ce8-497f-8090-b4b2-dc52ffaff6d5" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">nome
 idade
-cidade</code></pre><p id="373f6ce8-497f-8056-aab5-c9e9b8f69e07" class="" dir="auto">Observe que o <code>for...in</code> retorna as chaves (propriedades) do objeto.</p><hr id="373f6ce8-497f-80f1-a4dc-e2d3e8864b2d" dir="auto"/><h1 id="373f6ce8-497f-8028-9cab-c95957bdd12d" style="display:inline-block" dir="auto">Obtendo os valores</h1><p id="373f6ce8-497f-80bc-b9e2-cc06ee89d150" class="" dir="auto">Para acessar os valores, utilizamos a chave:</p><pre id="373f6ce8-497f-8009-98e4-f70e0a8b6edb" class="code code-wrap" data-notion-code-syntax="jsx"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const pessoa = {
+cidade</code></pre><p id="373f6ce8-497f-8056-aab5-c9e9b8f69e07" class="" dir="auto">Observe que o <code>for...in</code> retorna as chaves (propriedades) do objeto.</p><hr id="373f6ce8-497f-80f1-a4dc-e2d3e8864b2d" dir="auto"/><h1 id="373f6ce8-497f-8028-9cab-c95957bdd12d" class="" dir="auto">Obtendo os valores</h1><p id="373f6ce8-497f-80bc-b9e2-cc06ee89d150" class="" dir="auto">Para acessar os valores, utilizamos a chave:</p><pre id="373f6ce8-497f-8009-98e4-f70e0a8b6edb" class="code code-wrap" data-notion-code-syntax="jsx"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const pessoa = {
   nome:&quot;Gustavo&quot;,
   idade:21,
   cidade:&quot;Fortaleza&quot;
@@ -786,7 +813,7 @@ for (const chave in pessoa) {
 console.log(pessoa[chave]);
 }</code></pre><p id="373f6ce8-497f-8058-8ff0-f7b25bf9e558" class="" dir="auto">Resultado:</p><pre id="373f6ce8-497f-80a8-90ca-ef857af1e6f6" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Gustavo
 21
-Fortaleza</code></pre><hr id="373f6ce8-497f-80be-979e-dc61bc878c37" dir="auto"/><h1 id="373f6ce8-497f-80d6-a779-fdbb3413691e" style="display:inline-block" dir="auto">Exibindo chave e valor</h1><pre id="373f6ce8-497f-80ba-851e-d2b1d345e565" class="code code-wrap" data-notion-code-syntax="jsx"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const pessoa = {
+Fortaleza</code></pre><hr id="373f6ce8-497f-80be-979e-dc61bc878c37" dir="auto"/><h1 id="373f6ce8-497f-80d6-a779-fdbb3413691e" class="" dir="auto">Exibindo chave e valor</h1><pre id="373f6ce8-497f-80ba-851e-d2b1d345e565" class="code code-wrap" data-notion-code-syntax="jsx"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const pessoa = {
   nome:&quot;Gustavo&quot;,
   idade:21
 };
@@ -794,7 +821,7 @@ Fortaleza</code></pre><hr id="373f6ce8-497f-80be-979e-dc61bc878c37" dir="auto"/>
 for (const chave in pessoa) {
 console.log(chave +&quot;: &quot;+ pessoa[chave]);
 }</code></pre><p id="373f6ce8-497f-805b-8639-f0f4285bc178" class="" dir="auto">Resultado:</p><pre id="373f6ce8-497f-80ce-b423-e9e5fa7d38fd" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">nome: Gustavo
-idade: 21</code></pre><hr id="373f6ce8-497f-80eb-b924-ddaa32398ba2" dir="auto"/><h1 id="373f6ce8-497f-80df-ba17-d15e852d2ad0" style="display:inline-block" dir="auto"><code>for...in</code> em Arrays</h1><p id="373f6ce8-497f-80b3-be3c-edc354ce7664" class="" dir="auto">Também funciona com arrays, mas normalmente não é a melhor opção.</p><pre id="373f6ce8-497f-8080-ac62-f0327ebb6c85" class="code code-wrap" data-notion-code-syntax="jsx"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const frutas = [&quot;Maçã&quot;,&quot;Banana&quot;,&quot;Uva&quot;];
+idade: 21</code></pre><hr id="373f6ce8-497f-80eb-b924-ddaa32398ba2" dir="auto"/><h1 id="373f6ce8-497f-80df-ba17-d15e852d2ad0" class="" dir="auto"><code>for...in</code> em Arrays</h1><p id="373f6ce8-497f-80b3-be3c-edc354ce7664" class="" dir="auto">Também funciona com arrays, mas normalmente não é a melhor opção.</p><pre id="373f6ce8-497f-8080-ac62-f0327ebb6c85" class="code code-wrap" data-notion-code-syntax="jsx"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const frutas = [&quot;Maçã&quot;,&quot;Banana&quot;,&quot;Uva&quot;];
 
 for (const indice in frutas) {
 console.log(indice);
@@ -804,15 +831,15 @@ console.log(indice);
 console.log(frutas[indice]);
 }</code></pre><p id="373f6ce8-497f-8076-b7a2-ea2881f75d91" class="" dir="auto">Resultado:</p><pre id="373f6ce8-497f-80cf-850f-f93adf664d42" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Maçã
 Banana
-Uva</code></pre><hr id="373f6ce8-497f-8097-bc93-fcbd9741150e" dir="auto"/><h1 id="373f6ce8-497f-80cc-bf53-e8f68d1a344b" style="display:inline-block" dir="auto">Diferença entre <code>for...in</code> e <code>for...of</code></h1><h2 id="373f6ce8-497f-80c5-b7a5-e8bba54d235d" style="display:inline-block" dir="auto"><code>for...in</code></h2><p id="373f6ce8-497f-8047-b4d4-e8c903c1e008" class="" dir="auto">Percorre chaves ou índices.</p><pre id="373f6ce8-497f-8082-9995-f3976fa11bf6" class="code code-wrap" data-notion-code-syntax="jsx"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">for (const indice in frutas) {
+Uva</code></pre><hr id="373f6ce8-497f-8097-bc93-fcbd9741150e" dir="auto"/><h1 id="373f6ce8-497f-80cc-bf53-e8f68d1a344b" class="" dir="auto">Diferença entre <code>for...in</code> e <code>for...of</code></h1><h2 id="373f6ce8-497f-80c5-b7a5-e8bba54d235d" class="" dir="auto"><code>for...in</code></h2><p id="373f6ce8-497f-8047-b4d4-e8c903c1e008" class="" dir="auto">Percorre chaves ou índices.</p><pre id="373f6ce8-497f-8082-9995-f3976fa11bf6" class="code code-wrap" data-notion-code-syntax="jsx"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">for (const indice in frutas) {
 console.log(indice);
 }</code></pre><p id="373f6ce8-497f-809d-b055-e4f2eefd980a" class="" dir="auto">Resultado:</p><pre id="373f6ce8-497f-804e-9f50-c0b1f7e446bb" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">0
 1
-2</code></pre><hr id="373f6ce8-497f-80f1-85d6-f4e0c14e9f18" dir="auto"/><h2 id="373f6ce8-497f-80e9-811a-c91a7fa7493d" style="display:inline-block" dir="auto"><code>for...of</code></h2><p id="373f6ce8-497f-80c7-a609-eaf6fe8bfe33" class="" dir="auto">Percorre os valores diretamente.</p><pre id="373f6ce8-497f-8066-a7d1-ec86c33153ad" class="code code-wrap" data-notion-code-syntax="jsx"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">for (const fruta of frutas) {
+2</code></pre><hr id="373f6ce8-497f-80f1-85d6-f4e0c14e9f18" dir="auto"/><h2 id="373f6ce8-497f-80e9-811a-c91a7fa7493d" class="" dir="auto"><code>for...of</code></h2><p id="373f6ce8-497f-80c7-a609-eaf6fe8bfe33" class="" dir="auto">Percorre os valores diretamente.</p><pre id="373f6ce8-497f-8066-a7d1-ec86c33153ad" class="code code-wrap" data-notion-code-syntax="jsx"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">for (const fruta of frutas) {
 console.log(fruta);
 }</code></pre><p id="373f6ce8-497f-80cf-be1f-c7ab8851104f" class="" dir="auto">Resultado:</p><pre id="373f6ce8-497f-80b6-9cfe-eebc7f5a112c" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Maçã
 Banana
-Uva</code></pre><hr id="373f6ce8-497f-80f6-a259-ec939b51c3e1" dir="auto"/><h1 id="373f6ce8-497f-8064-8717-ddad00047d5b" style="display:inline-block" dir="auto">Quando usar <code>for...in</code>?</h1><p id="373f6ce8-497f-8071-a67a-d9fd70720ba6" class="" dir="auto">É recomendado principalmente para objetos.</p><pre id="373f6ce8-497f-80f8-9d55-ef9b705bc311" class="code code-wrap" data-notion-code-syntax="jsx"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const carro = {
+Uva</code></pre><hr id="373f6ce8-497f-80f6-a259-ec939b51c3e1" dir="auto"/><h1 id="373f6ce8-497f-8064-8717-ddad00047d5b" class="" dir="auto">Quando usar <code>for...in</code>?</h1><p id="373f6ce8-497f-8071-a67a-d9fd70720ba6" class="" dir="auto">É recomendado principalmente para objetos.</p><pre id="373f6ce8-497f-80f8-9d55-ef9b705bc311" class="code code-wrap" data-notion-code-syntax="jsx"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const carro = {
   marca:&quot;Toyota&quot;,
   modelo:&quot;Corolla&quot;,
   ano:2025
@@ -820,13 +847,13 @@ Uva</code></pre><hr id="373f6ce8-497f-80f6-a259-ec939b51c3e1" dir="auto"/><h1 id
 
 for (const propriedade in carro) {
 console.log(propriedade);
-}</code></pre><hr id="373f6ce8-497f-8097-9378-d2a5732efc7c" dir="auto"/><h1 id="373f6ce8-497f-80f6-9494-e5557b865115" style="display:inline-block" dir="auto">Verificando propriedades</h1><p id="373f6ce8-497f-809f-9a15-c2ba8e92a9c8" class="" dir="auto">Pode ser combinado com:</p><pre id="373f6ce8-497f-802d-beee-f88490275f43" class="code code-wrap" data-notion-code-syntax="jsx"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">Object.hasOwn()</code></pre><p id="373f6ce8-497f-801e-8b15-fe18c06fe5b9" class="" dir="auto">Exemplo:</p><pre id="373f6ce8-497f-80f6-ae6b-d9140e69685a" class="code code-wrap" data-notion-code-syntax="jsx"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">for (const chave in objeto) {
+}</code></pre><hr id="373f6ce8-497f-8097-9378-d2a5732efc7c" dir="auto"/><h1 id="373f6ce8-497f-80f6-9494-e5557b865115" class="" dir="auto">Verificando propriedades</h1><p id="373f6ce8-497f-809f-9a15-c2ba8e92a9c8" class="" dir="auto">Pode ser combinado com:</p><pre id="373f6ce8-497f-802d-beee-f88490275f43" class="code code-wrap" data-notion-code-syntax="jsx"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">Object.hasOwn()</code></pre><p id="373f6ce8-497f-801e-8b15-fe18c06fe5b9" class="" dir="auto">Exemplo:</p><pre id="373f6ce8-497f-80f6-ae6b-d9140e69685a" class="code code-wrap" data-notion-code-syntax="jsx"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">for (const chave in objeto) {
 
 if (Object.hasOwn(objeto,chave)) {
 console.log(chave);
   }
 
-}</code></pre><p id="373f6ce8-497f-80d6-bd12-d408303964db" class="" dir="auto">Isso evita percorrer propriedades herdadas da cadeia de protótipos.</p><hr id="373f6ce8-497f-8066-85a3-ceee60ae25f3" dir="auto"/><h1 id="373f6ce8-497f-80ea-9623-ed72c624b99d" style="display:inline-block" dir="auto">Casos de uso</h1><p id="373f6ce8-497f-8093-9fac-ee10e6542182" class="" dir="auto">O <code>for...in</code> é útil para:</p><ul id="373f6ce8-497f-806c-b4e6-d9496f8f91e5" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Percorrer objetos</li></ul><ul id="373f6ce8-497f-80e4-8645-c0b954bf038c" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Listar configurações</li></ul><ul id="373f6ce8-497f-80ce-b717-ed4a6c6247bd" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Exibir propriedades de usuários</li></ul><ul id="373f6ce8-497f-80a7-b557-ccd44d9b06e7" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Trabalhar com objetos JSON</li></ul><ul id="373f6ce8-497f-80fa-bc16-ce1c8c429f82" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Criar relatórios dinâmicos</li></ul><hr id="373f6ce8-497f-80ea-a476-c092aa59bbc5" dir="auto"/><h1 id="373f6ce8-497f-8005-85ee-d177c6badb83" style="display:inline-block" dir="auto">Resumindo</h1><p id="373f6ce8-497f-80d4-a33b-ed34b2c27318" class="" dir="auto">A estrutura <code>for...in</code> percorre as propriedades de um objeto.</p><p id="373f6ce8-497f-802e-82af-d0a8ce415ee3" class="" dir="auto">Características principais:</p><ul id="373f6ce8-497f-8088-becf-dc004081972c" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Retorna chaves (propriedades).</li></ul><ul id="373f6ce8-497f-801c-80a3-d842f0fa3117" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Pode ser usada em arrays, mas não é a opção mais indicada.</li></ul><ul id="373f6ce8-497f-80de-bb5d-e0210d905bd0" class="bulleted-list" dir="auto"><li style="list-style-type:disc">É ideal para objetos.</li></ul><ul id="373f6ce8-497f-802b-a374-efa90270b621" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Permite acessar valores usando <code>objeto[chave]</code>.</li></ul><p id="373f6ce8-497f-8060-bcd5-cd4b9cb918e6" class="" dir="auto">Exemplo clássico:</p><pre id="373f6ce8-497f-8060-b8b0-f28a9c66c9dc" class="code code-wrap" data-notion-code-syntax="jsx"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">for (const chave in objeto) {
+}</code></pre><p id="373f6ce8-497f-80d6-bd12-d408303964db" class="" dir="auto">Isso evita percorrer propriedades herdadas da cadeia de protótipos.</p><hr id="373f6ce8-497f-8066-85a3-ceee60ae25f3" dir="auto"/><h1 id="373f6ce8-497f-80ea-9623-ed72c624b99d" class="" dir="auto">Casos de uso</h1><p id="373f6ce8-497f-8093-9fac-ee10e6542182" class="" dir="auto">O <code>for...in</code> é útil para:</p><ul id="373f6ce8-497f-806c-b4e6-d9496f8f91e5" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Percorrer objetos</li></ul><ul id="373f6ce8-497f-80e4-8645-c0b954bf038c" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Listar configurações</li></ul><ul id="373f6ce8-497f-80ce-b717-ed4a6c6247bd" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Exibir propriedades de usuários</li></ul><ul id="373f6ce8-497f-80a7-b557-ccd44d9b06e7" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Trabalhar com objetos JSON</li></ul><ul id="373f6ce8-497f-80fa-bc16-ce1c8c429f82" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Criar relatórios dinâmicos</li></ul><hr id="373f6ce8-497f-80ea-a476-c092aa59bbc5" dir="auto"/><h1 id="373f6ce8-497f-8005-85ee-d177c6badb83" class="" dir="auto">Resumindo</h1><p id="373f6ce8-497f-80d4-a33b-ed34b2c27318" class="" dir="auto">A estrutura <code>for...in</code> percorre as propriedades de um objeto.</p><p id="373f6ce8-497f-802e-82af-d0a8ce415ee3" class="" dir="auto">Características principais:</p><ul id="373f6ce8-497f-8088-becf-dc004081972c" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Retorna chaves (propriedades).</li></ul><ul id="373f6ce8-497f-801c-80a3-d842f0fa3117" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Pode ser usada em arrays, mas não é a opção mais indicada.</li></ul><ul id="373f6ce8-497f-80de-bb5d-e0210d905bd0" class="bulleted-list" dir="auto"><li style="list-style-type:disc">É ideal para objetos.</li></ul><ul id="373f6ce8-497f-802b-a374-efa90270b621" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Permite acessar valores usando <code>objeto[chave]</code>.</li></ul><p id="373f6ce8-497f-8060-bcd5-cd4b9cb918e6" class="" dir="auto">Exemplo clássico:</p><pre id="373f6ce8-497f-8060-b8b0-f28a9c66c9dc" class="code code-wrap" data-notion-code-syntax="jsx"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">for (const chave in objeto) {
 console.log(chave);
 console.log(objeto[chave]);
 }</code></pre><p id="373f6ce8-497f-80b3-98ed-e46cbe5f9b9e" class="" dir="auto">No dia a dia, o <code>for...in</code> é muito utilizado para percorrer objetos e dados recebidos de APIs em aplicações feitas com Node.js e React.</p></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

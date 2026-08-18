@@ -93,11 +93,38 @@ h3 {
 	border: 1px solid rgba(55, 53, 47, 0.09);
 }
 
-figure,
-aside,
-details {
+figure {
 	margin: 1.25em 0;
 	page-break-inside: avoid;
+}
+
+/*
+ * Toggles and callouts hold arbitrary content, so they can easily be taller
+ * than a page. They must stay breakable: avoiding breaks inside them makes
+ * Chromium push the whole block onto the next page, which leaves the previous
+ * page mostly empty before every long toggle.
+ */
+details,
+aside {
+	margin: 1.25em 0;
+}
+
+/* Keep a toggle's title on the same page as the start of its content. */
+summary {
+	page-break-after: avoid;
+	break-after: avoid;
+}
+
+/*
+ * Toggle headings render as <h1/h2/h3 style="display:inline-block"> inside
+ * <summary>. Without this reset, the heading's margin-top pushes it below the
+ * ::marker (▼), so the triangle and the title appear on separate lines.
+ */
+summary h1,
+summary h2,
+summary h3,
+summary h4 {
+	margin-top: 0;
 }
 
 figcaption {
@@ -764,11 +791,11 @@ blockquote.quote-large {
 	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
 }
 	
-</style><style>@import url('https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex-swap.min.css')</style></head><body><article id="358f6ce8-497f-80c8-906a-d4ecfd82297a" class="page sans" data-notion-page-icon="/icons/snippet_blue.svg"><header><div class="page-header-icon undefined"><img class="icon notion-static-icon" src="https://app.notion.com/icons/snippet_blue.svg"/></div><h1 class="page-title" dir="auto">Como adicionar e aplicar CSS</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><h1 id="12e0d92d-a712-4d9a-a100-2fdf2fedac3c" style="display:inline-block" dir="auto"><mark class="highlight-blue" data-notion-highlight="blue">Formas de aplicar CSS em uma página HTML</mark></h1><h1 id="0057610d-7976-483f-bb83-3588b333cfef" style="display:inline-block" dir="auto"><strong>CSS inline (no próprio elemento)</strong></h1><ul id="5e8c440b-9735-42d8-9513-8ee50a0ca969" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Você aplica o estilo diretamente no atributo <code>style</code> de uma tag.</li></ul><ul id="bab3c458-57a5-4b2e-a18a-82df8341b1a0" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Útil para ajustes rápidos e pontuais, mas dificulta manutenção e reutilização.</li></ul><ul id="5316f1c0-9462-480c-b97c-0f3e7d005cf4" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Ex.: <code>&lt;p style=&quot;color: red;&quot;&gt;Texto&lt;/p&gt;</code></li></ul><hr id="358f6ce8-497f-8096-b619-d20a46bac152" dir="auto"/><h1 id="0b39b042-af94-4242-82e4-14eb05e48434" style="display:inline-block" dir="auto"><strong>CSS interno (na própria página, dentro de </strong><code><strong>&lt;style&gt;</strong></code><strong>)</strong></h1><ul id="af840489-ad7f-4fb2-9eee-03ec72db3e42" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Você escreve as regras CSS dentro da tag <code>&lt;style&gt;</code> no <code>&lt;head&gt;</code> do HTML.</li></ul><ul id="0bf48d1c-132c-4729-a56c-ef6288de211a" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Bom para páginas únicas ou protótipos, mas não reaproveita entre páginas.</li></ul><ul id="2e1e7c9d-ceba-45ec-b703-77f373264f53" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Ex.:<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="358f6ce8-497f-8067-aead-f65067a9e864" class="code code-wrap" data-notion-code-syntax="html"><code class="language-html" style="white-space:pre-wrap;word-break:break-all">&lt;head&gt;
+</style><style>@import url('https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex-swap.min.css')</style></head><body><article id="358f6ce8-497f-80c8-906a-d4ecfd82297a" class="page sans" data-notion-page-icon="/icons/snippet_blue.svg"><header><div class="page-header-icon undefined"><img class="icon notion-static-icon" src="https://app.notion.com/icons/snippet_blue.svg"/></div><h1 class="page-title" dir="auto">Como adicionar e aplicar CSS</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><h1 id="12e0d92d-a712-4d9a-a100-2fdf2fedac3c" class="" dir="auto"><mark class="highlight-blue" data-notion-highlight="blue">Formas de aplicar CSS em uma página HTML</mark></h1><h1 id="0057610d-7976-483f-bb83-3588b333cfef" class="" dir="auto"><strong>CSS inline (no próprio elemento)</strong></h1><ul id="5e8c440b-9735-42d8-9513-8ee50a0ca969" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Você aplica o estilo diretamente no atributo <code>style</code> de uma tag.</li></ul><ul id="bab3c458-57a5-4b2e-a18a-82df8341b1a0" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Útil para ajustes rápidos e pontuais, mas dificulta manutenção e reutilização.</li></ul><ul id="5316f1c0-9462-480c-b97c-0f3e7d005cf4" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Ex.: <code>&lt;p style=&quot;color: red;&quot;&gt;Texto&lt;/p&gt;</code></li></ul><hr id="358f6ce8-497f-8096-b619-d20a46bac152" dir="auto"/><h1 id="0b39b042-af94-4242-82e4-14eb05e48434" class="" dir="auto"><strong>CSS interno (na própria página, dentro de </strong><code><strong>&lt;style&gt;</strong></code><strong>)</strong></h1><ul id="af840489-ad7f-4fb2-9eee-03ec72db3e42" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Você escreve as regras CSS dentro da tag <code>&lt;style&gt;</code> no <code>&lt;head&gt;</code> do HTML.</li></ul><ul id="0bf48d1c-132c-4729-a56c-ef6288de211a" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Bom para páginas únicas ou protótipos, mas não reaproveita entre páginas.</li></ul><ul id="2e1e7c9d-ceba-45ec-b703-77f373264f53" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Ex.:<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="358f6ce8-497f-8067-aead-f65067a9e864" class="code code-wrap" data-notion-code-syntax="html"><code class="language-html" style="white-space:pre-wrap;word-break:break-all">&lt;head&gt;
 &lt;style&gt;
    p { 
    color: red; 
    }
 &lt;/style&gt;
-&lt;/head&gt;</code></pre></li></ul><hr id="358f6ce8-497f-805f-9a12-e3c4f67c1f46" dir="auto"/><h1 id="2f9f473e-ae45-4011-8abe-3904210a8e6c" style="display:inline-block" dir="auto"><strong>CSS externo (arquivo </strong><code><strong>.css</strong></code><strong> separado)</strong></h1><ul id="cbd7942b-43f7-4114-b2b2-b8d8c523be10" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Você coloca o CSS em um arquivo separado e conecta ao HTML com <code>&lt;link&gt;</code>  na tag <code>head</code> .</li></ul><ul id="9e88d494-f50b-4790-b46d-4dab9b62afcd" class="bulleted-list" dir="auto"><li style="list-style-type:disc">É a forma mais recomendada para projetos, pois melhora organização, reutilização e cache.</li></ul><ul id="8c9bdd79-92a3-4fa1-91fb-24b7d4044612" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Ex.: <code>&lt;link rel=&quot;stylesheet&quot; href=&quot;styles.css&quot;&gt;</code></li></ul><aside class="block-color-blue_background callout" data-notion-callout="" data-notion-callout-icon="💡" data-notion-callout-background="blue_background" style="white-space:pre-wrap;display:flex" id="41e4d40e-d160-493f-9784-0c48a4d66d4b" dir="ltr"><div style="font-size:1.5em"><span class="icon" data-emoji="💡"></span></div><div style="width:100%"><p id="a454dfb6-d90a-4708-8f43-fd6a328f560d" class="" dir="auto">Na prática, prefira <strong>CSS externo</strong>. Use <strong>CSS interno</strong> para casos específicos e <strong>inline</strong> apenas quando não houver alternativa.</p></div></aside><p id="358f6ce8-497f-80ec-a500-db5dcc4c8113" class="" dir="auto">
+&lt;/head&gt;</code></pre></li></ul><hr id="358f6ce8-497f-805f-9a12-e3c4f67c1f46" dir="auto"/><h1 id="2f9f473e-ae45-4011-8abe-3904210a8e6c" class="" dir="auto"><strong>CSS externo (arquivo </strong><code><strong>.css</strong></code><strong> separado)</strong></h1><ul id="cbd7942b-43f7-4114-b2b2-b8d8c523be10" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Você coloca o CSS em um arquivo separado e conecta ao HTML com <code>&lt;link&gt;</code>  na tag <code>head</code> .</li></ul><ul id="9e88d494-f50b-4790-b46d-4dab9b62afcd" class="bulleted-list" dir="auto"><li style="list-style-type:disc">É a forma mais recomendada para projetos, pois melhora organização, reutilização e cache.</li></ul><ul id="8c9bdd79-92a3-4fa1-91fb-24b7d4044612" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Ex.: <code>&lt;link rel=&quot;stylesheet&quot; href=&quot;styles.css&quot;&gt;</code></li></ul><aside class="block-color-blue_background callout" data-notion-callout="" data-notion-callout-icon="💡" data-notion-callout-background="blue_background" style="white-space:pre-wrap;display:flex" id="41e4d40e-d160-493f-9784-0c48a4d66d4b" dir="ltr"><div style="font-size:1.5em"><span class="icon" data-emoji="💡"></span></div><div style="width:100%"><p id="a454dfb6-d90a-4708-8f43-fd6a328f560d" class="" dir="auto">Na prática, prefira <strong>CSS externo</strong>. Use <strong>CSS interno</strong> para casos específicos e <strong>inline</strong> apenas quando não houver alternativa.</p></div></aside><p id="358f6ce8-497f-80ec-a500-db5dcc4c8113" class="" dir="auto">
 </p></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

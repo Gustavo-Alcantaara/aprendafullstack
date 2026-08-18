@@ -1,0 +1,867 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Principais SGBD Relacionais</title><meta name="data-notion-page-icon" content="/icons/elephant_blue.svg"/><link rel="icon" href="https://app.notion.com/icons/elephant_blue.svg"/><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+/* For default-background callouts, render the border outline. */
+.callout.block-color-default_background {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+/*
+ * Toggles and callouts hold arbitrary content, so they can easily be taller
+ * than a page. They must stay breakable: avoiding breaks inside them makes
+ * Chromium push the whole block onto the next page, which leaves the previous
+ * page mostly empty before every long toggle.
+ */
+details,
+aside {
+	margin: 1.25em 0;
+}
+
+/* Keep a toggle's title on the same page as the start of its content. */
+summary {
+	page-break-after: avoid;
+	break-after: avoid;
+}
+
+/*
+ * Toggle headings render as <h1/h2/h3 style="display:inline-block"> inside
+ * <summary>. Without this reset, the heading's margin-top pushes it below the
+ * ::marker (▼), so the triangle and the title appear on separate lines.
+ */
+summary h1,
+summary h2,
+summary h3,
+summary h4 {
+	margin-top: 0;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding-inline: 0.125rem;
+	padding-block: 0.375rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+/*
+ * Render emoji icons using a ::before pseudo-element to keep the glyph
+ * out of the DOM textContent traversal. This avoids double-rendering icons
+ * in callouts and page titles.
+ * NOTE(slim/html-export-pseudo-icons): I can't tagref this because it will
+ * flag as a duplicate tag after codegen.
+ */
+.icon[data-emoji]::before {
+	content: attr(data-emoji);
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	margin-right: 0.4em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.tab {
+	margin: 1.25em 0;
+	padding-inline: 1rem;
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style><style>@import url('https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex-swap.min.css')</style></head><body><article id="3b9f6ce8-497f-80d9-8e09-d46964c4a307" class="page sans" data-notion-page-icon="/icons/elephant_blue.svg"><header><div class="page-header-icon undefined"><img class="icon notion-static-icon" src="https://app.notion.com/icons/elephant_blue.svg"/></div><h1 class="page-title" dir="auto">Principais SGBD Relacionais</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><h1 id="3b9f6ce8-497f-80b7-b563-c571f90ac1ed" class="" dir="auto">Principais SGBDs Relacionais</h1><p id="3b9f6ce8-497f-801f-9786-e676045ba9ef" class="" dir="auto">Os <strong>Sistemas Gerenciadores de Bancos de Dados Relacionais (SGBDs relacionais)</strong> são softwares responsáveis por criar, armazenar, organizar, consultar, modificar e proteger dados estruturados no modelo relacional.</p><p id="3b9f6ce8-497f-80a4-86f9-cffde59afa23" class="" dir="auto">Nesse modelo, os dados são normalmente organizados em <strong>tabelas</strong>, formadas por <strong>linhas e colunas</strong>, e as tabelas podem ser relacionadas por meio de <strong>chaves</strong>.</p><p id="3b9f6ce8-497f-808b-85f1-fd31a44024fc" class="" dir="auto">Exemplo:</p><h3 id="3b9f6ce8-497f-8097-8b2d-dff0ecae61bb" class="" dir="auto">Tabela <code>clientes</code></h3><table id="3b9f6ce8-497f-80d6-b4ec-d33f079cb3ab" class="simple-table" dir="ltr"><thead class="simple-table-header"><tr id="3b9f6ce8-497f-807c-88f1-f44190dc4358" dir="ltr"><th id="x^pl" class="simple-table-header-color simple-table-header">id</th><th id="YZ^d" class="simple-table-header-color simple-table-header">nome</th><th id="xbz_" class="simple-table-header-color simple-table-header">email</th></tr></thead><tbody><tr id="3b9f6ce8-497f-80da-b199-d55bf14e4000" dir="ltr"><td id="x^pl" class="">1</td><td id="YZ^d" class="">João</td><td id="xbz_" class=""><a href="mailto:joao@email.com">joao@email.com</a></td></tr><tr id="3b9f6ce8-497f-8071-b8e5-f9c634fa26ad" dir="ltr"><td id="x^pl" class="">2</td><td id="YZ^d" class="">Maria</td><td id="xbz_" class=""><a href="mailto:maria@email.com">maria@email.com</a></td></tr></tbody></table><h3 id="3b9f6ce8-497f-805a-9707-c2a635295330" class="" dir="auto">Tabela <code>pedidos</code></h3><table id="3b9f6ce8-497f-8068-934e-f3d3f02b9ac1" class="simple-table" dir="ltr"><thead class="simple-table-header"><tr id="3b9f6ce8-497f-8059-a15e-c958924eafcd" dir="ltr"><th id="H[dU" class="simple-table-header-color simple-table-header">id</th><th id="e=Cn" class="simple-table-header-color simple-table-header">cliente_id</th><th id="M]Ic" class="simple-table-header-color simple-table-header">valor</th></tr></thead><tbody><tr id="3b9f6ce8-497f-801b-8e9f-c4949ff64fed" dir="ltr"><td id="H[dU" class="">101</td><td id="e=Cn" class="">1</td><td id="M]Ic" class="">250.00</td></tr><tr id="3b9f6ce8-497f-8061-9156-c5ef9f28133d" dir="ltr"><td id="H[dU" class="">102</td><td id="e=Cn" class="">2</td><td id="M]Ic" class="">180.00</td></tr></tbody></table><p id="3b9f6ce8-497f-80ec-bde9-f048f757ab9f" class="" dir="auto">O campo <code>cliente_id</code> pode estabelecer um relacionamento entre as duas tabelas.</p><hr id="3b9f6ce8-497f-8034-b546-ff64fa659642" dir="auto"/><h1 id="3b9f6ce8-497f-800d-b801-c5a724254b1f" class="" dir="auto">1. O que é um SGBD Relacional?</h1><p id="3b9f6ce8-497f-80aa-9f40-d65ba7e1c127" class="" dir="auto">Um <strong>SGBD Relacional</strong> é um software que permite administrar bancos de dados baseados no <strong>modelo relacional</strong>.</p><p id="3b9f6ce8-497f-8054-b748-ee1d2c4583ca" class="" dir="auto">Ele fornece recursos para:</p><ul id="3b9f6ce8-497f-80f0-9f3b-daa151df6a19" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Criar bancos de dados;</li></ul><ul id="3b9f6ce8-497f-8002-99de-de0f844ed11c" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Criar tabelas;</li></ul><ul id="3b9f6ce8-497f-80f6-b407-deac17a52172" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Inserir dados;</li></ul><ul id="3b9f6ce8-497f-80e2-a3f4-f6454383aad6" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Consultar informações;</li></ul><ul id="3b9f6ce8-497f-80df-acc4-f788a2a5eb90" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Alterar registros;</li></ul><ul id="3b9f6ce8-497f-8022-8e00-d34ab6b1f423" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Excluir registros;</li></ul><ul id="3b9f6ce8-497f-8074-b161-c28b0f06449e" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Criar relacionamentos;</li></ul><ul id="3b9f6ce8-497f-80e7-ac11-c525ef65b550" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Controlar usuários;</li></ul><ul id="3b9f6ce8-497f-8003-9a7f-f4cd86266420" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Definir permissões;</li></ul><ul id="3b9f6ce8-497f-8073-8d2a-c2560d88edee" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Fazer backups;</li></ul><ul id="3b9f6ce8-497f-8027-8780-c74be55f8f3d" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Recuperar dados;</li></ul><ul id="3b9f6ce8-497f-80d7-84a4-c4d17afa5ce3" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Controlar transações;</li></ul><ul id="3b9f6ce8-497f-8008-b5c1-fb59af4902f9" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Otimizar consultas.</li></ul><p id="3b9f6ce8-497f-8029-8245-f57977948bff" class="" dir="auto">A comunicação normalmente é feita por meio da <strong>SQL (Structured Query Language)</strong>.</p><p id="3b9f6ce8-497f-80bf-a2ad-c88b42a9c203" class="" dir="auto">Exemplo:</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-sql.min.js" integrity="sha512-sijCOJblSCXYYmXdwvqV0tak8QJW5iy2yLB1wAbbLc3OOIueqymizRFWUS/mwKctnzPKpNdPJV3aK1zlDMJmXQ==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="3b9f6ce8-497f-8043-a697-d03242c4510f" class="code code-wrap" data-notion-code-syntax="sql"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">SELECT *
+FROM clientes;</code></pre><hr id="3b9f6ce8-497f-8096-8d84-dccc3d1ebe96" dir="auto"/><h1 id="3b9f6ce8-497f-80ec-98bd-e814958fe572" class="" dir="auto">2. Principais SGBDs relacionais</h1><p id="3b9f6ce8-497f-80b0-b229-c5463c6bf5a8" class="" dir="auto">Entre os principais SGBDs relacionais estão:</p><ol type="1" id="3b9f6ce8-497f-8053-99d9-fc74d6470184" class="numbered-list" start="1" dir="auto"><li><strong>MySQL</strong></li></ol><ol type="1" id="3b9f6ce8-497f-80e3-8d37-ea490fc0a3c9" class="numbered-list" start="2" dir="auto"><li><strong>PostgreSQL</strong></li></ol><ol type="1" id="3b9f6ce8-497f-80e3-b270-cf71c2f30b3a" class="numbered-list" start="3" dir="auto"><li><strong>Oracle Database</strong></li></ol><ol type="1" id="3b9f6ce8-497f-8069-8ce2-ff9c5de54d21" class="numbered-list" start="4" dir="auto"><li><strong>Microsoft SQL Server</strong></li></ol><ol type="1" id="3b9f6ce8-497f-801a-a7fe-cd5870fe211f" class="numbered-list" start="5" dir="auto"><li><strong>MariaDB</strong></li></ol><ol type="1" id="3b9f6ce8-497f-8056-bca5-d4dd324146a8" class="numbered-list" start="6" dir="auto"><li><strong>SQLite</strong></li></ol><ol type="1" id="3b9f6ce8-497f-80dd-8277-e13908ea7481" class="numbered-list" start="7" dir="auto"><li><strong>IBM Db2</strong></li></ol><p id="3b9f6ce8-497f-80be-8e6b-e5ba8aea62b3" class="" dir="auto">Cada um possui características próprias e atende diferentes necessidades.</p><hr id="3b9f6ce8-497f-80c0-8764-dbc95e32ff22" dir="auto"/><h1 id="3b9f6ce8-497f-805a-afda-eeae14ed566a" class="" dir="auto">3. MySQL</h1><figure id="3b9f6ce8-497f-80da-a55d-c867a7c53f3c" class="image" data-notion-image="https://images.openai.com/static-rsc-4/UURpo9fwnPa36Do_ogvsy1jYZN9etRSiVp971ir2g1DpHZrOTA5DsIXuyZG4c8AoOE8i7WOkZ3dGbSW_8N6mx2sgh3KShmHeKtDVrmdTP2-Ruqwlju15dVnqzdY1rkjQE-Bu3hNDejc647ROJGceZAGSYnBcDpbnypdZWWDmVPewhFqE9ebkd0nrlKIo2xNw?purpose=fullsize" dir="ltr"><a href="https://images.openai.com/static-rsc-4/UURpo9fwnPa36Do_ogvsy1jYZN9etRSiVp971ir2g1DpHZrOTA5DsIXuyZG4c8AoOE8i7WOkZ3dGbSW_8N6mx2sgh3KShmHeKtDVrmdTP2-Ruqwlju15dVnqzdY1rkjQE-Bu3hNDejc647ROJGceZAGSYnBcDpbnypdZWWDmVPewhFqE9ebkd0nrlKIo2xNw?purpose=fullsize"><img src="https://images.openai.com/static-rsc-4/UURpo9fwnPa36Do_ogvsy1jYZN9etRSiVp971ir2g1DpHZrOTA5DsIXuyZG4c8AoOE8i7WOkZ3dGbSW_8N6mx2sgh3KShmHeKtDVrmdTP2-Ruqwlju15dVnqzdY1rkjQE-Bu3hNDejc647ROJGceZAGSYnBcDpbnypdZWWDmVPewhFqE9ebkd0nrlKIo2xNw?purpose=fullsize"/></a></figure><figure id="3b9f6ce8-497f-8069-8029-c2762ccd76db" class="image" data-notion-image="https://images.openai.com/static-rsc-4/i_Cnz4kPKoISSnQxfAB6hV89c6cpO4ec7Fu3RXA-H1OeCRDNdLZsWN1C4XJvVxLs7Pc4ZWkzsesI3npc80Sb55W-J0PvMYmt8LeWL-gNTWpWCOZpMLZ3K2FBjH_xkGoqcLpMgXeE0lYzvP1s8E_bwRD2nilImSsFpjONeycjpXbw1kgt4cEqmFh_LtqYE5Fj?purpose=fullsize" dir="ltr"><a href="https://images.openai.com/static-rsc-4/i_Cnz4kPKoISSnQxfAB6hV89c6cpO4ec7Fu3RXA-H1OeCRDNdLZsWN1C4XJvVxLs7Pc4ZWkzsesI3npc80Sb55W-J0PvMYmt8LeWL-gNTWpWCOZpMLZ3K2FBjH_xkGoqcLpMgXeE0lYzvP1s8E_bwRD2nilImSsFpjONeycjpXbw1kgt4cEqmFh_LtqYE5Fj?purpose=fullsize"><img src="https://images.openai.com/static-rsc-4/i_Cnz4kPKoISSnQxfAB6hV89c6cpO4ec7Fu3RXA-H1OeCRDNdLZsWN1C4XJvVxLs7Pc4ZWkzsesI3npc80Sb55W-J0PvMYmt8LeWL-gNTWpWCOZpMLZ3K2FBjH_xkGoqcLpMgXeE0lYzvP1s8E_bwRD2nilImSsFpjONeycjpXbw1kgt4cEqmFh_LtqYE5Fj?purpose=fullsize"/></a></figure><figure id="3b9f6ce8-497f-80cd-a880-f2c979536f60" class="image" data-notion-image="https://images.openai.com/static-rsc-4/p00dXkrkAACSAQ0wqF9BEubH_OUt51bpcrtWDC6QbhVg5oe10M1ujMJxLFQATmDANkPQu6xG1FzE6LRba5VDtTI5EFNOLBnXwSwHR_UiPN4zIDeSNTmQUjIzjiG_zexM8iw3D-m0-O9zrAosyDBrnfbqFnHsEbHRQVvdCXmMctfoAT_FJNS1r10tpZwWKSOZ?purpose=fullsize" dir="ltr"><a href="https://images.openai.com/static-rsc-4/p00dXkrkAACSAQ0wqF9BEubH_OUt51bpcrtWDC6QbhVg5oe10M1ujMJxLFQATmDANkPQu6xG1FzE6LRba5VDtTI5EFNOLBnXwSwHR_UiPN4zIDeSNTmQUjIzjiG_zexM8iw3D-m0-O9zrAosyDBrnfbqFnHsEbHRQVvdCXmMctfoAT_FJNS1r10tpZwWKSOZ?purpose=fullsize"><img src="https://images.openai.com/static-rsc-4/p00dXkrkAACSAQ0wqF9BEubH_OUt51bpcrtWDC6QbhVg5oe10M1ujMJxLFQATmDANkPQu6xG1FzE6LRba5VDtTI5EFNOLBnXwSwHR_UiPN4zIDeSNTmQUjIzjiG_zexM8iw3D-m0-O9zrAosyDBrnfbqFnHsEbHRQVvdCXmMctfoAT_FJNS1r10tpZwWKSOZ?purpose=fullsize"/></a></figure><figure id="3b9f6ce8-497f-8092-9999-daf7aa0127fe" class="image" data-notion-image="https://images.openai.com/static-rsc-4/Oyhncq0L-4r1mxiDyvSa8RvYdlqwsaoFQMw0exw1d_HxCO0bacngua2Dsq2lbT0nZCWypwm_FkO-wL1h5O-8DpK_dIFlVL8vNa6YLTr5eXVj_eVk487QLQjgS6ZRMKc1Xjwe-O6TXA1eWNI9gyUn6Vu-xHYskyz63Iuav5TrkJTziwphu43EWrgcG5_Fh65X?purpose=fullsize" dir="ltr"><a href="https://images.openai.com/static-rsc-4/Oyhncq0L-4r1mxiDyvSa8RvYdlqwsaoFQMw0exw1d_HxCO0bacngua2Dsq2lbT0nZCWypwm_FkO-wL1h5O-8DpK_dIFlVL8vNa6YLTr5eXVj_eVk487QLQjgS6ZRMKc1Xjwe-O6TXA1eWNI9gyUn6Vu-xHYskyz63Iuav5TrkJTziwphu43EWrgcG5_Fh65X?purpose=fullsize"><img src="https://images.openai.com/static-rsc-4/Oyhncq0L-4r1mxiDyvSa8RvYdlqwsaoFQMw0exw1d_HxCO0bacngua2Dsq2lbT0nZCWypwm_FkO-wL1h5O-8DpK_dIFlVL8vNa6YLTr5eXVj_eVk487QLQjgS6ZRMKc1Xjwe-O6TXA1eWNI9gyUn6Vu-xHYskyz63Iuav5TrkJTziwphu43EWrgcG5_Fh65X?purpose=fullsize"/></a></figure><p id="3b9f6ce8-497f-80b4-95e0-d8edcad33f7e" class="" dir="auto">O <strong>MySQL</strong> é um dos SGBDs relacionais mais conhecidos e utilizados no desenvolvimento de aplicações Web.</p><p id="3b9f6ce8-497f-80b6-8175-f6ad8650ae23" class="" dir="auto">Ele utiliza SQL e possui grande integração com tecnologias de desenvolvimento Web.</p><p id="3b9f6ce8-497f-803b-9708-df23a88c4c56" class="" dir="auto">É muito comum encontrar MySQL em aplicações desenvolvidas com:</p><ul id="3b9f6ce8-497f-807b-9d32-fc3ed2f518e1" class="bulleted-list" dir="auto"><li style="list-style-type:disc">PHP;</li></ul><ul id="3b9f6ce8-497f-809f-90e5-d0a1febb687b" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Java;</li></ul><ul id="3b9f6ce8-497f-807d-824e-c942692c4df6" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Python;</li></ul><ul id="3b9f6ce8-497f-8037-8d25-d7844ec50099" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Node.js;</li></ul><ul id="3b9f6ce8-497f-80ce-80ea-c9a3daccace6" class="bulleted-list" dir="auto"><li style="list-style-type:disc">JavaScript;</li></ul><ul id="3b9f6ce8-497f-801e-9da6-e2428556a19e" class="bulleted-list" dir="auto"><li style="list-style-type:disc">C#.</li></ul><h3 id="3b9f6ce8-497f-806b-a8a8-e4645827c8b2" class="" dir="auto">Características</h3><ul id="3b9f6ce8-497f-80e2-944d-cbace1299356" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Código aberto;</li></ul><ul id="3b9f6ce8-497f-8050-905b-da1007aaf375" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Boa performance;</li></ul><ul id="3b9f6ce8-497f-8025-8d61-d368a6782def" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Fácil de aprender;</li></ul><ul id="3b9f6ce8-497f-806b-906f-cf9c3601776f" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Grande comunidade;</li></ul><ul id="3b9f6ce8-497f-80fc-85b8-dc352e639ea6" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Muito utilizado em hospedagem Web;</li></ul><ul id="3b9f6ce8-497f-8048-a514-c7084e4b16a4" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Suporte a transações;</li></ul><ul id="3b9f6ce8-497f-80b6-8c47-cfb11714d5f8" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Índices;</li></ul><ul id="3b9f6ce8-497f-80a1-8f71-f6e5fa438528" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Chaves estrangeiras;</li></ul><ul id="3b9f6ce8-497f-80fd-998f-d0f17030662a" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Replicação;</li></ul><ul id="3b9f6ce8-497f-8097-beee-eecc46ab1636" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Procedimentos armazenados.</li></ul><h3 id="3b9f6ce8-497f-8091-8544-da13fd7df376" class="" dir="auto">Exemplo</h3><pre id="3b9f6ce8-497f-8091-b088-f9717d3389b1" class="code code-wrap" data-notion-code-syntax="sql"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">CREATE DATABASE loja;
+
+USE loja;
+
+CREATE TABLE produtos (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    nome VARCHAR(100),
+    preco DECIMAL(10,2)
+);</code></pre><p id="3b9f6ce8-497f-80a8-8e93-fb79d441fe19" class="" dir="auto">Depois:</p><pre id="3b9f6ce8-497f-80e8-8e00-e3889a0e7a59" class="code code-wrap" data-notion-code-syntax="sql"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">INSERT INTO produtos (nome, preco)
+VALUES (&#x27;Notebook&#x27;, 3500.00);</code></pre><p id="3b9f6ce8-497f-80d2-894c-e68e2e06583e" class="" dir="auto">E:</p><pre id="3b9f6ce8-497f-805d-ba8a-fb21123303ee" class="code code-wrap" data-notion-code-syntax="sql"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">SELECT * FROM produtos;</code></pre><h3 id="3b9f6ce8-497f-8020-a3e4-fcab6e1de0b7" class="" dir="auto">Onde é utilizado?</h3><p id="3b9f6ce8-497f-8069-8fd2-ff11a3ff1357" class="" dir="auto">É bastante utilizado em:</p><ul id="3b9f6ce8-497f-80bc-aaa5-cc5e65c80426" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Sites;</li></ul><ul id="3b9f6ce8-497f-80f0-aa6d-e1ad95b06ae4" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Sistemas Web;</li></ul><ul id="3b9f6ce8-497f-80cc-9a3c-cd3f950a2d49" class="bulleted-list" dir="auto"><li style="list-style-type:disc">E-commerce;</li></ul><ul id="3b9f6ce8-497f-805c-a0fe-c9caab9e531d" class="bulleted-list" dir="auto"><li style="list-style-type:disc">APIs;</li></ul><ul id="3b9f6ce8-497f-8087-8f1e-d92ec0590fe1" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Sistemas empresariais;</li></ul><ul id="3b9f6ce8-497f-8076-b0e5-ff27bd371442" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Aplicações de pequeno e grande porte.</li></ul><hr id="3b9f6ce8-497f-80e0-a694-cdc0c97ceba7" dir="auto"/><h1 id="3b9f6ce8-497f-8004-88e4-d11c8207e16c" class="" dir="auto">4. PostgreSQL</h1><figure id="3b9f6ce8-497f-80cd-8aa2-f1b4fa3b90c0" class="image" data-notion-image="https://images.openai.com/static-rsc-4/yQYDkishTwQpTUKn_j3-dnxmTCn_hznJ7N72ksvBen3biV7L_v7H4_cSJOXyftSkKxDyfv3se729Ub4AMwG3MG_oBZw7dHTVEaImFvys86NWXUPjhQISM9loET6b-TNPdcht6nzYxhzmm4OxRPBIrnR9113BYFHdqphNYueB4Tsq_BACj4IzmeW8d6_4vP5t?purpose=fullsize" dir="ltr"><a href="https://images.openai.com/static-rsc-4/yQYDkishTwQpTUKn_j3-dnxmTCn_hznJ7N72ksvBen3biV7L_v7H4_cSJOXyftSkKxDyfv3se729Ub4AMwG3MG_oBZw7dHTVEaImFvys86NWXUPjhQISM9loET6b-TNPdcht6nzYxhzmm4OxRPBIrnR9113BYFHdqphNYueB4Tsq_BACj4IzmeW8d6_4vP5t?purpose=fullsize"><img src="https://images.openai.com/static-rsc-4/yQYDkishTwQpTUKn_j3-dnxmTCn_hznJ7N72ksvBen3biV7L_v7H4_cSJOXyftSkKxDyfv3se729Ub4AMwG3MG_oBZw7dHTVEaImFvys86NWXUPjhQISM9loET6b-TNPdcht6nzYxhzmm4OxRPBIrnR9113BYFHdqphNYueB4Tsq_BACj4IzmeW8d6_4vP5t?purpose=fullsize"/></a></figure><figure id="3b9f6ce8-497f-8047-80fd-c48e76fdb3a9" class="image" data-notion-image="https://images.openai.com/static-rsc-4/R0UDeLCY_VYwWbHof4w9TTsXGCsv5BHOriEbYrgYZhmRwtX0kQOFCKms-B7zFFOXcpRH7sALhR3FB2oxkrcKfGjbqjgSfeDbEvhNYsVD4bdI3XAUQVL6Ke3XvBgYh7DILtSvCd2RkqrJnVPPyu6Cl4J60lUhtsF9Uk_sagbiEbfnMbewg8JtNAUMLQ_ZgdBa?purpose=fullsize" dir="ltr"><a href="https://images.openai.com/static-rsc-4/R0UDeLCY_VYwWbHof4w9TTsXGCsv5BHOriEbYrgYZhmRwtX0kQOFCKms-B7zFFOXcpRH7sALhR3FB2oxkrcKfGjbqjgSfeDbEvhNYsVD4bdI3XAUQVL6Ke3XvBgYh7DILtSvCd2RkqrJnVPPyu6Cl4J60lUhtsF9Uk_sagbiEbfnMbewg8JtNAUMLQ_ZgdBa?purpose=fullsize"><img src="https://images.openai.com/static-rsc-4/R0UDeLCY_VYwWbHof4w9TTsXGCsv5BHOriEbYrgYZhmRwtX0kQOFCKms-B7zFFOXcpRH7sALhR3FB2oxkrcKfGjbqjgSfeDbEvhNYsVD4bdI3XAUQVL6Ke3XvBgYh7DILtSvCd2RkqrJnVPPyu6Cl4J60lUhtsF9Uk_sagbiEbfnMbewg8JtNAUMLQ_ZgdBa?purpose=fullsize"/></a></figure><figure id="3b9f6ce8-497f-8036-a33e-cceaa52ddee8" class="image" data-notion-image="https://images.openai.com/static-rsc-4/kvDiO5tvsp48_YYyZ8IV4mBMpJinJLpa4ZOQ0ncvBYwASrhMfIAFDd9SB57lbhX22UCjEX-_lpMGotPe-3aN1T_X2SBrvY5PkVytVuSvNWJLdKyNnWI0Ad4-W-sp_z49cmIGoMwzqSss1WTPT7QTMlK3GZJQHpiqlbO54ce6UclBw0TmBiZZh38M1gHR6Ob7?purpose=fullsize" dir="ltr"><a href="https://images.openai.com/static-rsc-4/kvDiO5tvsp48_YYyZ8IV4mBMpJinJLpa4ZOQ0ncvBYwASrhMfIAFDd9SB57lbhX22UCjEX-_lpMGotPe-3aN1T_X2SBrvY5PkVytVuSvNWJLdKyNnWI0Ad4-W-sp_z49cmIGoMwzqSss1WTPT7QTMlK3GZJQHpiqlbO54ce6UclBw0TmBiZZh38M1gHR6Ob7?purpose=fullsize"><img src="https://images.openai.com/static-rsc-4/kvDiO5tvsp48_YYyZ8IV4mBMpJinJLpa4ZOQ0ncvBYwASrhMfIAFDd9SB57lbhX22UCjEX-_lpMGotPe-3aN1T_X2SBrvY5PkVytVuSvNWJLdKyNnWI0Ad4-W-sp_z49cmIGoMwzqSss1WTPT7QTMlK3GZJQHpiqlbO54ce6UclBw0TmBiZZh38M1gHR6Ob7?purpose=fullsize"/></a></figure><figure id="3b9f6ce8-497f-803a-8221-df86b944a13a" class="image" data-notion-image="https://images.openai.com/static-rsc-4/X01si06DzcH6SaayWDHF2kfVANsUBlsg7wWYQG7Jn8x9tucS2--bX25uBHrPldzqltks_4K2vVXHVmNchSXYiMCRDAy-Vec9SbEKBvK1UeFAHQpu2kFN-DgPNYaxGDZ89MiO5spkUcQ_2gAkCJldrBPOb00-sIQAjp-dGWdSP__pq_dhzM3v2e8GQwjbIJbh?purpose=fullsize" dir="ltr"><a href="https://images.openai.com/static-rsc-4/X01si06DzcH6SaayWDHF2kfVANsUBlsg7wWYQG7Jn8x9tucS2--bX25uBHrPldzqltks_4K2vVXHVmNchSXYiMCRDAy-Vec9SbEKBvK1UeFAHQpu2kFN-DgPNYaxGDZ89MiO5spkUcQ_2gAkCJldrBPOb00-sIQAjp-dGWdSP__pq_dhzM3v2e8GQwjbIJbh?purpose=fullsize"><img src="https://images.openai.com/static-rsc-4/X01si06DzcH6SaayWDHF2kfVANsUBlsg7wWYQG7Jn8x9tucS2--bX25uBHrPldzqltks_4K2vVXHVmNchSXYiMCRDAy-Vec9SbEKBvK1UeFAHQpu2kFN-DgPNYaxGDZ89MiO5spkUcQ_2gAkCJldrBPOb00-sIQAjp-dGWdSP__pq_dhzM3v2e8GQwjbIJbh?purpose=fullsize"/></a></figure><p id="3b9f6ce8-497f-8022-bbc1-e7b0d064e96c" class="" dir="auto">O <strong>PostgreSQL</strong> é um SGBD relacional de código aberto conhecido por sua robustez, extensibilidade e conformidade com padrões SQL.</p><p id="3b9f6ce8-497f-808b-a558-ccaebd2b85a6" class="" dir="auto">É frequentemente utilizado em aplicações que precisam de recursos avançados de banco de dados.</p><h3 id="3b9f6ce8-497f-8005-902b-fe044eddd77b" class="" dir="auto">Características</h3><ul id="3b9f6ce8-497f-80f7-82db-f8457a05edea" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Código aberto;</li></ul><ul id="3b9f6ce8-497f-808f-a96e-eaaa817d877d" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Excelente suporte a SQL;</li></ul><ul id="3b9f6ce8-497f-8041-8d1d-cafca08da18e" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Transações;</li></ul><ul id="3b9f6ce8-497f-805c-bddd-ed16ab7ecc2a" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Integridade referencial;</li></ul><ul id="3b9f6ce8-497f-80cf-b992-d56be1a0242e" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Extensibilidade;</li></ul><ul id="3b9f6ce8-497f-8086-975a-ed0f2c9aad4e" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Views;</li></ul><ul id="3b9f6ce8-497f-80c4-aaca-e34b8afdadc9" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Triggers;</li></ul><ul id="3b9f6ce8-497f-80e1-81e3-d01d8cf462b2" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Funções;</li></ul><ul id="3b9f6ce8-497f-8009-bd0f-d9c01260ee3a" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Tipos de dados avançados;</li></ul><ul id="3b9f6ce8-497f-8097-bb6c-fabff5ad1baa" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Suporte a JSON/JSONB;</li></ul><ul id="3b9f6ce8-497f-806b-b4c9-f4e5ef8dd2fa" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Recursos geoespaciais por meio de extensões como PostGIS.</li></ul><h3 id="3b9f6ce8-497f-8001-a6e1-e3780add611c" class="" dir="auto">Exemplo</h3><pre id="3b9f6ce8-497f-8084-a37d-e0497baecd3c" class="code code-wrap" data-notion-code-syntax="sql"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">CREATE TABLE funcionarios (
+    id SERIAL PRIMARY KEY,
+    nome VARCHAR(100) NOT NULL,
+    salario NUMERIC(10,2)
+);</code></pre><p id="3b9f6ce8-497f-8087-8f9a-d8f100eaec08" class="" dir="auto">Consulta:</p><pre id="3b9f6ce8-497f-8054-b4d1-f58a6b4a358b" class="code code-wrap" data-notion-code-syntax="sql"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">SELECT nome, salario
+FROM funcionarios
+WHERE salario &gt; 3000;</code></pre><h3 id="3b9f6ce8-497f-80b4-ad01-df8eb83bb0dd" class="" dir="auto">Onde é utilizado?</h3><p id="3b9f6ce8-497f-8098-a375-d2940ae5de15" class="" dir="auto">Muito utilizado em:</p><ul id="3b9f6ce8-497f-80da-848c-d720d648fccd" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Sistemas empresariais;</li></ul><ul id="3b9f6ce8-497f-80bb-862c-fdcfb27faba4" class="bulleted-list" dir="auto"><li style="list-style-type:disc">APIs;</li></ul><ul id="3b9f6ce8-497f-80f4-83af-effa1277f68d" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Sistemas financeiros;</li></ul><ul id="3b9f6ce8-497f-80d6-9da0-df16fbc3d67a" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Aplicações Web;</li></ul><ul id="3b9f6ce8-497f-806b-900d-ef5ce8f9102e" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Sistemas de análise de dados;</li></ul><ul id="3b9f6ce8-497f-806a-b080-cff7a9e2893c" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Aplicações que necessitam de recursos SQL avançados.</li></ul><hr id="3b9f6ce8-497f-805d-8859-cabad3650b49" dir="auto"/><h1 id="3b9f6ce8-497f-80fc-afcb-c62b566c1f42" class="" dir="auto">5. Oracle Database</h1><figure id="3b9f6ce8-497f-80f8-b4f1-e39fe537d01f" class="image" data-notion-image="https://images.openai.com/static-rsc-4/g0Bvwdj0HUqa_Mka_yP5dLGOLJVYr2_w2_5BbI1nNcchvh6GgZujds9JfffAyCZvgMGBdUaQ7oVrnyctuFP8yN-C27ReyIuWWeEOtT9LDKQNgLzlEfm5nOXQy2nJRP2chhIZhH_3SHgXsIpRedrHKNXwlsroLhrzZUd8zgnhdWiR8HlqN29dXrzfqSIUfJyz?purpose=fullsize" dir="ltr"><a href="https://images.openai.com/static-rsc-4/g0Bvwdj0HUqa_Mka_yP5dLGOLJVYr2_w2_5BbI1nNcchvh6GgZujds9JfffAyCZvgMGBdUaQ7oVrnyctuFP8yN-C27ReyIuWWeEOtT9LDKQNgLzlEfm5nOXQy2nJRP2chhIZhH_3SHgXsIpRedrHKNXwlsroLhrzZUd8zgnhdWiR8HlqN29dXrzfqSIUfJyz?purpose=fullsize"><img src="https://images.openai.com/static-rsc-4/g0Bvwdj0HUqa_Mka_yP5dLGOLJVYr2_w2_5BbI1nNcchvh6GgZujds9JfffAyCZvgMGBdUaQ7oVrnyctuFP8yN-C27ReyIuWWeEOtT9LDKQNgLzlEfm5nOXQy2nJRP2chhIZhH_3SHgXsIpRedrHKNXwlsroLhrzZUd8zgnhdWiR8HlqN29dXrzfqSIUfJyz?purpose=fullsize"/></a></figure><figure id="3b9f6ce8-497f-8084-9898-e4767020bc28" class="image" data-notion-image="https://images.openai.com/static-rsc-4/SSzIh0lFdMissyhjw8Jeb_2QuFufP5h3bMPZDGkZkQTHKLJOMNIGxINa4Bt9bL9Z6Lmt6g0Rq-5MRGW7ZvxvoEkaUBa0S6ChowZ31wK3XRH-T8rQE5oH9LcvtIQvdp6EkY2glMAgpWoP_3B6TzCCKYAudIOskun_Kzk5Q3vaf4nJH4VEFXTEoDXm2PQOdmdX?purpose=fullsize" dir="ltr"><a href="https://images.openai.com/static-rsc-4/SSzIh0lFdMissyhjw8Jeb_2QuFufP5h3bMPZDGkZkQTHKLJOMNIGxINa4Bt9bL9Z6Lmt6g0Rq-5MRGW7ZvxvoEkaUBa0S6ChowZ31wK3XRH-T8rQE5oH9LcvtIQvdp6EkY2glMAgpWoP_3B6TzCCKYAudIOskun_Kzk5Q3vaf4nJH4VEFXTEoDXm2PQOdmdX?purpose=fullsize"><img src="https://images.openai.com/static-rsc-4/SSzIh0lFdMissyhjw8Jeb_2QuFufP5h3bMPZDGkZkQTHKLJOMNIGxINa4Bt9bL9Z6Lmt6g0Rq-5MRGW7ZvxvoEkaUBa0S6ChowZ31wK3XRH-T8rQE5oH9LcvtIQvdp6EkY2glMAgpWoP_3B6TzCCKYAudIOskun_Kzk5Q3vaf4nJH4VEFXTEoDXm2PQOdmdX?purpose=fullsize"/></a></figure><figure id="3b9f6ce8-497f-8023-b636-f9d0cd5aeb25" class="image" data-notion-image="https://images.openai.com/static-rsc-4/A1XTlMQY15tr_NtKp08QMfXnRtg7bLv2ykqgOrIV3j_-_XWaHF6bETj_S_IDe9p_KbuLhRc87_VlCLVJSWMjQmlwqxEyzSfR95m6DNiO3f4VwuBDBPtnufJbqTX5AYQF3QXosr-0SihXvXi_5vSiLpZhlv9imR1flGEqtiqOWtzNKyzdGRosFkLnGtiZs_z0?purpose=fullsize" dir="ltr"><a href="https://images.openai.com/static-rsc-4/A1XTlMQY15tr_NtKp08QMfXnRtg7bLv2ykqgOrIV3j_-_XWaHF6bETj_S_IDe9p_KbuLhRc87_VlCLVJSWMjQmlwqxEyzSfR95m6DNiO3f4VwuBDBPtnufJbqTX5AYQF3QXosr-0SihXvXi_5vSiLpZhlv9imR1flGEqtiqOWtzNKyzdGRosFkLnGtiZs_z0?purpose=fullsize"><img src="https://images.openai.com/static-rsc-4/A1XTlMQY15tr_NtKp08QMfXnRtg7bLv2ykqgOrIV3j_-_XWaHF6bETj_S_IDe9p_KbuLhRc87_VlCLVJSWMjQmlwqxEyzSfR95m6DNiO3f4VwuBDBPtnufJbqTX5AYQF3QXosr-0SihXvXi_5vSiLpZhlv9imR1flGEqtiqOWtzNKyzdGRosFkLnGtiZs_z0?purpose=fullsize"/></a></figure><figure id="3b9f6ce8-497f-8039-bc3a-eee458c62449" class="image" data-notion-image="https://images.openai.com/static-rsc-4/sCj_AiyOuWTUZQdPD73M9AVSYJviBKi6MLMwHb9thoztz8mMj4klRttHoa74Hg4S8IEbio6tDWOenFrh0xQBWBuIvVTZJcPQ_TbILAeSw0A_DUBl6xsAInAcPJm1U8CeDn8ZV-s4BLVEcfrm-oHwGuH5ngrDtWAXSsh7ueUrLeLY-yHNpBts8bYqGZF9-ur1?purpose=fullsize" dir="ltr"><a href="https://images.openai.com/static-rsc-4/sCj_AiyOuWTUZQdPD73M9AVSYJviBKi6MLMwHb9thoztz8mMj4klRttHoa74Hg4S8IEbio6tDWOenFrh0xQBWBuIvVTZJcPQ_TbILAeSw0A_DUBl6xsAInAcPJm1U8CeDn8ZV-s4BLVEcfrm-oHwGuH5ngrDtWAXSsh7ueUrLeLY-yHNpBts8bYqGZF9-ur1?purpose=fullsize"><img src="https://images.openai.com/static-rsc-4/sCj_AiyOuWTUZQdPD73M9AVSYJviBKi6MLMwHb9thoztz8mMj4klRttHoa74Hg4S8IEbio6tDWOenFrh0xQBWBuIvVTZJcPQ_TbILAeSw0A_DUBl6xsAInAcPJm1U8CeDn8ZV-s4BLVEcfrm-oHwGuH5ngrDtWAXSsh7ueUrLeLY-yHNpBts8bYqGZF9-ur1?purpose=fullsize"/></a></figure><figure id="3b9f6ce8-497f-8017-9137-e48d59ec4f19" class="image" data-notion-image="https://images.openai.com/static-rsc-4/7UaOdmVZYk4aexYgWyBcTPPuZpDi57wp8bCk542ioiQ81nhyOuPx9Gfr20f9CZblvaS8H-jldL_4z-dUxp1dHWHFi88R8uyTOAaFvgPZQ7KpqvcS70Js2ATUQP5ThhqcoXmc3bDfqyfe1yUpbmTAPhcZt-QDkMMODw01HsPgUdgR1u9JqiRKJdZLbmK5KGUA?purpose=fullsize" dir="ltr"><a href="https://images.openai.com/static-rsc-4/7UaOdmVZYk4aexYgWyBcTPPuZpDi57wp8bCk542ioiQ81nhyOuPx9Gfr20f9CZblvaS8H-jldL_4z-dUxp1dHWHFi88R8uyTOAaFvgPZQ7KpqvcS70Js2ATUQP5ThhqcoXmc3bDfqyfe1yUpbmTAPhcZt-QDkMMODw01HsPgUdgR1u9JqiRKJdZLbmK5KGUA?purpose=fullsize"><img src="https://images.openai.com/static-rsc-4/7UaOdmVZYk4aexYgWyBcTPPuZpDi57wp8bCk542ioiQ81nhyOuPx9Gfr20f9CZblvaS8H-jldL_4z-dUxp1dHWHFi88R8uyTOAaFvgPZQ7KpqvcS70Js2ATUQP5ThhqcoXmc3bDfqyfe1yUpbmTAPhcZt-QDkMMODw01HsPgUdgR1u9JqiRKJdZLbmK5KGUA?purpose=fullsize"/></a></figure><p id="3b9f6ce8-497f-80a6-8b69-ca2afd23dce0" class="" dir="auto">O <strong>Oracle Database</strong> é um dos principais SGBDs utilizados em ambientes corporativos.</p><p id="3b9f6ce8-497f-80c3-b4f3-e6bd415e4a9d" class="" dir="auto">É desenvolvido pela Oracle.</p><p id="3b9f6ce8-497f-8061-9262-f8e7e9e527a0" class="" dir="auto">Possui recursos voltados para ambientes que precisam de:</p><ul id="3b9f6ce8-497f-80d6-9efa-c90f64b2fce1" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Alta disponibilidade;</li></ul><ul id="3b9f6ce8-497f-80d0-bdcf-f7dfeefebae4" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Segurança;</li></ul><ul id="3b9f6ce8-497f-80f2-9817-f9e00d9d7dab" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Escalabilidade;</li></ul><ul id="3b9f6ce8-497f-80b4-b4fd-c6c8b9bb3575" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Grande volume de dados;</li></ul><ul id="3b9f6ce8-497f-8031-b751-fcc22460645e" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Processamento de transações;</li></ul><ul id="3b9f6ce8-497f-8025-b918-ebe6eb61a2e9" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Administração corporativa.</li></ul><h3 id="3b9f6ce8-497f-80c5-825f-e50f1de0fc4b" class="" dir="auto">Características</h3><ul id="3b9f6ce8-497f-8067-90c3-c9f218a9711d" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Alta capacidade de processamento;</li></ul><ul id="3b9f6ce8-497f-80cb-a542-c97dcfcf3da9" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Controle avançado de transações;</li></ul><ul id="3b9f6ce8-497f-8063-a8eb-e8867f4263c7" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Segurança;</li></ul><ul id="3b9f6ce8-497f-80c6-b379-ec2ef756002f" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Backup e recuperação;</li></ul><ul id="3b9f6ce8-497f-8089-a277-fd879fe77273" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Alta disponibilidade;</li></ul><ul id="3b9f6ce8-497f-8044-903d-da9c90c25577" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Replicação;</li></ul><ul id="3b9f6ce8-497f-800f-9fd5-de86dd06a8d8" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Particionamento;</li></ul><ul id="3b9f6ce8-497f-80ce-bdec-e36877a9a34b" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Ferramentas administrativas avançadas.</li></ul><p id="3b9f6ce8-497f-80ae-83d7-e3213657a665" class="" dir="auto">O Oracle utiliza uma implementação própria da SQL chamada <strong>Oracle SQL</strong>, além de tecnologias como <strong>PL/SQL</strong> para programação no banco.</p><p id="3b9f6ce8-497f-8026-b63b-e5e3847e443f" class="" dir="auto">Exemplo:</p><pre id="3b9f6ce8-497f-80d3-8899-c064db954c62" class="code code-wrap" data-notion-code-syntax="sql"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">SELECT nome, salario
+FROM funcionarios
+WHERE salario &gt; 5000;</code></pre><h3 id="3b9f6ce8-497f-805f-a80f-dee82a3affc6" class="" dir="auto">Onde é utilizado?</h3><p id="3b9f6ce8-497f-8029-a300-e50f5b6734f0" class="" dir="auto">Principalmente em:</p><ul id="3b9f6ce8-497f-8018-8bac-d209ae5b5f0d" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Grandes empresas;</li></ul><ul id="3b9f6ce8-497f-80fb-91bb-f53cbbce19e0" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Bancos;</li></ul><ul id="3b9f6ce8-497f-8053-93db-fc91c3d92240" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Telecomunicações;</li></ul><ul id="3b9f6ce8-497f-803d-a5ef-f3b92d755f58" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Governos;</li></ul><ul id="3b9f6ce8-497f-8072-8f8b-db613cf82992" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Sistemas corporativos;</li></ul><ul id="3b9f6ce8-497f-807a-8323-ea1d1b824665" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Sistemas críticos.</li></ul><hr id="3b9f6ce8-497f-801c-8a46-c166fc50dd46" dir="auto"/><h1 id="3b9f6ce8-497f-80d5-b7fd-faf4805d1c28" class="" dir="auto">6. Microsoft SQL Server</h1><figure id="3b9f6ce8-497f-8061-bbfb-e915cc214927" class="image" data-notion-image="https://images.openai.com/static-rsc-4/0NkoKjPD0BNd1MyMIebT-gNOyOxlbQbNkEjHKKYK4Oumg0avkDTwA0dR8hGSGqDEYI9nQHpkPPojggsqFRAtAUW7Lo6K4D4YYss3ggzI8XrIeLvPeJfP4qRfNzOwFJCeiiRaioDCWVvq4A_UCWfX-AfM3dh-urEA9VG2_lqqlQeYJzDAofyZ4HpsXcTr8olq?purpose=fullsize" dir="ltr"><a href="https://images.openai.com/static-rsc-4/0NkoKjPD0BNd1MyMIebT-gNOyOxlbQbNkEjHKKYK4Oumg0avkDTwA0dR8hGSGqDEYI9nQHpkPPojggsqFRAtAUW7Lo6K4D4YYss3ggzI8XrIeLvPeJfP4qRfNzOwFJCeiiRaioDCWVvq4A_UCWfX-AfM3dh-urEA9VG2_lqqlQeYJzDAofyZ4HpsXcTr8olq?purpose=fullsize"><img src="https://images.openai.com/static-rsc-4/0NkoKjPD0BNd1MyMIebT-gNOyOxlbQbNkEjHKKYK4Oumg0avkDTwA0dR8hGSGqDEYI9nQHpkPPojggsqFRAtAUW7Lo6K4D4YYss3ggzI8XrIeLvPeJfP4qRfNzOwFJCeiiRaioDCWVvq4A_UCWfX-AfM3dh-urEA9VG2_lqqlQeYJzDAofyZ4HpsXcTr8olq?purpose=fullsize"/></a></figure><figure id="3b9f6ce8-497f-8089-a624-ca68e3206ae8" class="image" data-notion-image="https://images.openai.com/static-rsc-4/4SqpP19VBMocuYPjkxFx7299kdLFxzlUk6kCLx6qV1x_nJWHuvOdyO7XrGNT2jwp4rbh8YO5ejqEOf2zPBp7soQu-ss-EjcBwVKyXOUwcpsWFk7JzuoqD4LSweCfeJ2dJG7Qh9iwhukLwqNatOZ_dFlAPKqOhbnLW6IH7JUztC4JrSb0-ZA4H3PLQ-vFnPA_?purpose=fullsize" dir="ltr"><a href="https://images.openai.com/static-rsc-4/4SqpP19VBMocuYPjkxFx7299kdLFxzlUk6kCLx6qV1x_nJWHuvOdyO7XrGNT2jwp4rbh8YO5ejqEOf2zPBp7soQu-ss-EjcBwVKyXOUwcpsWFk7JzuoqD4LSweCfeJ2dJG7Qh9iwhukLwqNatOZ_dFlAPKqOhbnLW6IH7JUztC4JrSb0-ZA4H3PLQ-vFnPA_?purpose=fullsize"><img src="https://images.openai.com/static-rsc-4/4SqpP19VBMocuYPjkxFx7299kdLFxzlUk6kCLx6qV1x_nJWHuvOdyO7XrGNT2jwp4rbh8YO5ejqEOf2zPBp7soQu-ss-EjcBwVKyXOUwcpsWFk7JzuoqD4LSweCfeJ2dJG7Qh9iwhukLwqNatOZ_dFlAPKqOhbnLW6IH7JUztC4JrSb0-ZA4H3PLQ-vFnPA_?purpose=fullsize"/></a></figure><figure id="3b9f6ce8-497f-80f7-9d78-c58a58472d47" class="image" data-notion-image="https://images.openai.com/static-rsc-4/69NPKi0iHrj-TWBtx2f1DSm-W7itHTVnxauD76c_DRGAkE0Lt2iY950CZ0EiDGhJLJihrpqgOm-cBTGb17h0EMs9CygFMX-0DZLrfNi9_pcRLaVLGfZAXDJtpjjmd7UFg63yqmzqNloZCssUXix9bemmlGPV5-ZFMUXFx4aMHOg3PNtcII6smcZclVNyiwQM?purpose=fullsize" dir="ltr"><a href="https://images.openai.com/static-rsc-4/69NPKi0iHrj-TWBtx2f1DSm-W7itHTVnxauD76c_DRGAkE0Lt2iY950CZ0EiDGhJLJihrpqgOm-cBTGb17h0EMs9CygFMX-0DZLrfNi9_pcRLaVLGfZAXDJtpjjmd7UFg63yqmzqNloZCssUXix9bemmlGPV5-ZFMUXFx4aMHOg3PNtcII6smcZclVNyiwQM?purpose=fullsize"><img src="https://images.openai.com/static-rsc-4/69NPKi0iHrj-TWBtx2f1DSm-W7itHTVnxauD76c_DRGAkE0Lt2iY950CZ0EiDGhJLJihrpqgOm-cBTGb17h0EMs9CygFMX-0DZLrfNi9_pcRLaVLGfZAXDJtpjjmd7UFg63yqmzqNloZCssUXix9bemmlGPV5-ZFMUXFx4aMHOg3PNtcII6smcZclVNyiwQM?purpose=fullsize"/></a></figure><figure id="3b9f6ce8-497f-8065-89cc-f0d0aa701143" class="image" data-notion-image="https://images.openai.com/static-rsc-4/3bMudnqAhONPgf095amEZej44kh2_4XJdM9ic3d-1bL7h0UP9ivEP147A15wZ6tSTRd37YQhmZ4QYRIUPlbxeC5_Kx0WjZJ-4CCYrN6mRbry6eQ_YzPcRB-Mcb4UgwQWuSdeVFbJHL1bYdBepIIy3s5KoCV-MgKo4aqobPLj-mbXQ9eNdwGzadx8AWdo2-sy?purpose=fullsize" dir="ltr"><a href="https://images.openai.com/static-rsc-4/3bMudnqAhONPgf095amEZej44kh2_4XJdM9ic3d-1bL7h0UP9ivEP147A15wZ6tSTRd37YQhmZ4QYRIUPlbxeC5_Kx0WjZJ-4CCYrN6mRbry6eQ_YzPcRB-Mcb4UgwQWuSdeVFbJHL1bYdBepIIy3s5KoCV-MgKo4aqobPLj-mbXQ9eNdwGzadx8AWdo2-sy?purpose=fullsize"><img src="https://images.openai.com/static-rsc-4/3bMudnqAhONPgf095amEZej44kh2_4XJdM9ic3d-1bL7h0UP9ivEP147A15wZ6tSTRd37YQhmZ4QYRIUPlbxeC5_Kx0WjZJ-4CCYrN6mRbry6eQ_YzPcRB-Mcb4UgwQWuSdeVFbJHL1bYdBepIIy3s5KoCV-MgKo4aqobPLj-mbXQ9eNdwGzadx8AWdo2-sy?purpose=fullsize"/></a></figure><figure id="3b9f6ce8-497f-80f0-9cd3-eaa7d8a793f3" class="image" data-notion-image="https://images.openai.com/static-rsc-4/16UWCzNY_q6xDFxyVhnfpiWT8FeYyflcfbfm7zC6NDjjVZTcytQZz6wMg-BIB037eCt7VM03Quo4YJCBk5OO5To0G0R_9hNsZXBn-dbUFp1A2xR3s2vmmltAwbup13WF6E3kEqQs7tmova8GcI4RFlEqoejJ30W0-MeJqoXL5dlFCKoBii_95FcNWfxN9k_Z?purpose=fullsize" dir="ltr"><a href="https://images.openai.com/static-rsc-4/16UWCzNY_q6xDFxyVhnfpiWT8FeYyflcfbfm7zC6NDjjVZTcytQZz6wMg-BIB037eCt7VM03Quo4YJCBk5OO5To0G0R_9hNsZXBn-dbUFp1A2xR3s2vmmltAwbup13WF6E3kEqQs7tmova8GcI4RFlEqoejJ30W0-MeJqoXL5dlFCKoBii_95FcNWfxN9k_Z?purpose=fullsize"><img src="https://images.openai.com/static-rsc-4/16UWCzNY_q6xDFxyVhnfpiWT8FeYyflcfbfm7zC6NDjjVZTcytQZz6wMg-BIB037eCt7VM03Quo4YJCBk5OO5To0G0R_9hNsZXBn-dbUFp1A2xR3s2vmmltAwbup13WF6E3kEqQs7tmova8GcI4RFlEqoejJ30W0-MeJqoXL5dlFCKoBii_95FcNWfxN9k_Z?purpose=fullsize"/></a></figure><p id="3b9f6ce8-497f-8080-97a3-fd7d6f9e808e" class="" dir="auto">O <strong>Microsoft SQL Server</strong> é o SGBD relacional desenvolvido pela Microsoft.</p><p id="3b9f6ce8-497f-80b9-b830-da840fe81f2f" class="" dir="auto">Possui forte integração com o ecossistema Microsoft.</p><p id="3b9f6ce8-497f-80b4-828f-cedb297bf4f8" class="" dir="auto">É muito utilizado com:</p><ul id="3b9f6ce8-497f-8015-8a08-eaaa1e7d5f97" class="bulleted-list" dir="auto"><li style="list-style-type:disc">.NET;</li></ul><ul id="3b9f6ce8-497f-8013-826b-c681232e924e" class="bulleted-list" dir="auto"><li style="list-style-type:disc">C#;</li></ul><ul id="3b9f6ce8-497f-80b6-95af-ef5274723921" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Windows Server;</li></ul><ul id="3b9f6ce8-497f-8010-8182-f175da003ada" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Microsoft Azure;</li></ul><ul id="3b9f6ce8-497f-80c0-a327-de1b7c1f6a9c" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Power BI.</li></ul><h3 id="3b9f6ce8-497f-8045-9b7a-e68c05c520ed" class="" dir="auto">Características</h3><ul id="3b9f6ce8-497f-80b1-80eb-ed2c41a5df52" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Transações;</li></ul><ul id="3b9f6ce8-497f-804e-a7ee-d0f604ca5b9a" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Segurança;</li></ul><ul id="3b9f6ce8-497f-805b-9176-ffc94dbfd66a" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Alta disponibilidade;</li></ul><ul id="3b9f6ce8-497f-80b7-a7ed-fd21c3784ae3" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Backup e recuperação;</li></ul><ul id="3b9f6ce8-497f-8030-a54c-e14c6f22dbd0" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Ferramentas gráficas;</li></ul><ul id="3b9f6ce8-497f-80d7-9f67-c8d7aa159f0e" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Procedures;</li></ul><ul id="3b9f6ce8-497f-8065-b0d1-ef7c6b748dc0" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Triggers;</li></ul><ul id="3b9f6ce8-497f-8001-b686-ed0bdc310191" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Views;</li></ul><ul id="3b9f6ce8-497f-8008-87cb-faf52af14fbf" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Índices;</li></ul><ul id="3b9f6ce8-497f-807e-8d92-fccea97d48d0" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Integração com ferramentas de análise.</li></ul><p id="3b9f6ce8-497f-807b-ab3a-e1ca9163f387" class="" dir="auto">Uma ferramenta bastante conhecida é o <strong>SQL Server Management Studio (SSMS)</strong>.</p><h3 id="3b9f6ce8-497f-8010-9b0d-cc476ee1d45a" class="" dir="auto">Exemplo</h3><pre id="3b9f6ce8-497f-80b1-8195-c6b5a5c34e4d" class="code code-wrap" data-notion-code-syntax="sql"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">CREATE TABLE clientes (
+    id INT PRIMARY KEY,
+    nome VARCHAR(100),
+    email VARCHAR(150)
+);</code></pre><p id="3b9f6ce8-497f-80f7-9abc-eea7999c8f94" class="" dir="auto">Consulta:</p><pre id="3b9f6ce8-497f-8057-8e91-e7b6798846c8" class="code code-wrap" data-notion-code-syntax="sql"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">SELECT *
+FROM clientes;</code></pre><hr id="3b9f6ce8-497f-8053-90b7-c1e34fc81d1e" dir="auto"/><h1 id="3b9f6ce8-497f-80ce-a074-ecc37020e5fe" class="" dir="auto">7. MariaDB</h1><figure id="3b9f6ce8-497f-809e-a4e6-dd032e678691" class="image" data-notion-image="https://images.openai.com/static-rsc-4/ikPJcolK0Y0YIdlfTcKsOMsEA2vGt_V3lj8QC5wXTO6819QT_GW3FU94BV3-5812KJ8rcZPlR5K8FIBT67ctzOxvhFieAo0KfrtoILn9zYuHhzIXRowsjEuKy7vfLn_TSj-RCbz2atAonPgvM6qDCu_A6yyaNFq4wp0ngO9rdvPxGabnIFHBHjZKq15aTjFd?purpose=fullsize" dir="ltr"><a href="https://images.openai.com/static-rsc-4/ikPJcolK0Y0YIdlfTcKsOMsEA2vGt_V3lj8QC5wXTO6819QT_GW3FU94BV3-5812KJ8rcZPlR5K8FIBT67ctzOxvhFieAo0KfrtoILn9zYuHhzIXRowsjEuKy7vfLn_TSj-RCbz2atAonPgvM6qDCu_A6yyaNFq4wp0ngO9rdvPxGabnIFHBHjZKq15aTjFd?purpose=fullsize"><img src="https://images.openai.com/static-rsc-4/ikPJcolK0Y0YIdlfTcKsOMsEA2vGt_V3lj8QC5wXTO6819QT_GW3FU94BV3-5812KJ8rcZPlR5K8FIBT67ctzOxvhFieAo0KfrtoILn9zYuHhzIXRowsjEuKy7vfLn_TSj-RCbz2atAonPgvM6qDCu_A6yyaNFq4wp0ngO9rdvPxGabnIFHBHjZKq15aTjFd?purpose=fullsize"/></a></figure><figure id="3b9f6ce8-497f-8071-b768-eefef99a49f9" class="image" data-notion-image="https://images.openai.com/static-rsc-4/xYQ20QZL9NymL6h71wSkwZ0D1ZjCW0xmZNIBscEWgpNfHtNnC7hPReURVsdaXQRpXco1c71ZZxkm8IDu6dloYwQ-rSwc-oAM50MJwMRTc2gpkB07WwtUadf8uoh3o07D-2v-H7uF0tb7U8YrQzXB_DywP_3tEZvjkKAXEsVuvv7MtSzkzwwPECBl1wBL_1X6?purpose=fullsize" dir="ltr"><a href="https://images.openai.com/static-rsc-4/xYQ20QZL9NymL6h71wSkwZ0D1ZjCW0xmZNIBscEWgpNfHtNnC7hPReURVsdaXQRpXco1c71ZZxkm8IDu6dloYwQ-rSwc-oAM50MJwMRTc2gpkB07WwtUadf8uoh3o07D-2v-H7uF0tb7U8YrQzXB_DywP_3tEZvjkKAXEsVuvv7MtSzkzwwPECBl1wBL_1X6?purpose=fullsize"><img src="https://images.openai.com/static-rsc-4/xYQ20QZL9NymL6h71wSkwZ0D1ZjCW0xmZNIBscEWgpNfHtNnC7hPReURVsdaXQRpXco1c71ZZxkm8IDu6dloYwQ-rSwc-oAM50MJwMRTc2gpkB07WwtUadf8uoh3o07D-2v-H7uF0tb7U8YrQzXB_DywP_3tEZvjkKAXEsVuvv7MtSzkzwwPECBl1wBL_1X6?purpose=fullsize"/></a></figure><figure id="3b9f6ce8-497f-8077-8f51-ecbb057a567b" class="image" data-notion-image="https://images.openai.com/static-rsc-4/hs-0KHY9wqR8PBYsozQmokqlLmU3qOgxkfByO9Tcx6bIV6ONrrUEyNPlx6FHCsNaN6-GzA1IdBVd-A4KmCAXVGG1a1E9xiLniYT1NvJJDlSjmLNFkAo3yb90WZQ_h0LvhJ6MEpKl2i0LteCprAZTN5smj9bsRL7iurDduNNyNZe-B8sKJnr1eJJNzzQ7DxiH?purpose=fullsize" dir="ltr"><a href="https://images.openai.com/static-rsc-4/hs-0KHY9wqR8PBYsozQmokqlLmU3qOgxkfByO9Tcx6bIV6ONrrUEyNPlx6FHCsNaN6-GzA1IdBVd-A4KmCAXVGG1a1E9xiLniYT1NvJJDlSjmLNFkAo3yb90WZQ_h0LvhJ6MEpKl2i0LteCprAZTN5smj9bsRL7iurDduNNyNZe-B8sKJnr1eJJNzzQ7DxiH?purpose=fullsize"><img src="https://images.openai.com/static-rsc-4/hs-0KHY9wqR8PBYsozQmokqlLmU3qOgxkfByO9Tcx6bIV6ONrrUEyNPlx6FHCsNaN6-GzA1IdBVd-A4KmCAXVGG1a1E9xiLniYT1NvJJDlSjmLNFkAo3yb90WZQ_h0LvhJ6MEpKl2i0LteCprAZTN5smj9bsRL7iurDduNNyNZe-B8sKJnr1eJJNzzQ7DxiH?purpose=fullsize"/></a></figure><figure id="3b9f6ce8-497f-8092-909b-e0d821b39e44" class="image" data-notion-image="https://images.openai.com/static-rsc-4/Q4io1xTAuEpgRgcBwb-cBvXnWgNYjp_26cVHHO0VnA2oRTSYpA1SQ309oIozMmpkOsdJhuElC_GCYsTifQpFO4uRhwKuvRVk_XWrNymbPNsnql-jSLlvqDfrLWoToa0iK7rjOxMIBPTjUE18YNcikwx22X5aTH8JOnmk0qFLa2Ojp54uySEnPjt3uhMSnbKk?purpose=fullsize" dir="ltr"><a href="https://images.openai.com/static-rsc-4/Q4io1xTAuEpgRgcBwb-cBvXnWgNYjp_26cVHHO0VnA2oRTSYpA1SQ309oIozMmpkOsdJhuElC_GCYsTifQpFO4uRhwKuvRVk_XWrNymbPNsnql-jSLlvqDfrLWoToa0iK7rjOxMIBPTjUE18YNcikwx22X5aTH8JOnmk0qFLa2Ojp54uySEnPjt3uhMSnbKk?purpose=fullsize"><img src="https://images.openai.com/static-rsc-4/Q4io1xTAuEpgRgcBwb-cBvXnWgNYjp_26cVHHO0VnA2oRTSYpA1SQ309oIozMmpkOsdJhuElC_GCYsTifQpFO4uRhwKuvRVk_XWrNymbPNsnql-jSLlvqDfrLWoToa0iK7rjOxMIBPTjUE18YNcikwx22X5aTH8JOnmk0qFLa2Ojp54uySEnPjt3uhMSnbKk?purpose=fullsize"/></a></figure><p id="3b9f6ce8-497f-80b0-94d9-e085ec5b3a15" class="" dir="auto">O <strong>MariaDB</strong> é um SGBD relacional de código aberto que surgiu como um fork do MySQL.</p><p id="3b9f6ce8-497f-804b-9d10-c61a9ecbaef2" class="" dir="auto">Ele mantém grande compatibilidade com o ecossistema MySQL, embora os dois projetos tenham evoluído de forma independente.</p><h3 id="3b9f6ce8-497f-807c-b1cd-db7ec7c30bd4" class="" dir="auto">Características</h3><ul id="3b9f6ce8-497f-80ea-94fa-ff40fad1c6f5" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Código aberto;</li></ul><ul id="3b9f6ce8-497f-80b5-ac8b-e7348db997f0" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Compatibilidade com SQL;</li></ul><ul id="3b9f6ce8-497f-80c4-964a-c5aa6b01b91f" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Boa performance;</li></ul><ul id="3b9f6ce8-497f-8014-b419-edf6909b0ebd" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Suporte a transações;</li></ul><ul id="3b9f6ce8-497f-800b-a325-ecbf9d97adf3" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Replicação;</li></ul><ul id="3b9f6ce8-497f-8016-9af1-c1bb80d9803e" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Índices;</li></ul><ul id="3b9f6ce8-497f-805e-a497-e0900f859ff6" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Chaves estrangeiras;</li></ul><ul id="3b9f6ce8-497f-808e-ba08-ce66e08920bb" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Diversos mecanismos de armazenamento.</li></ul><p id="3b9f6ce8-497f-8063-8041-db54e1eea389" class="" dir="auto">É utilizado em:</p><ul id="3b9f6ce8-497f-80a0-b710-c5179127da42" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Aplicações Web;</li></ul><ul id="3b9f6ce8-497f-8050-9ad1-ea7d73e7582d" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Sistemas empresariais;</li></ul><ul id="3b9f6ce8-497f-8065-8812-f8c426772e8d" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Servidores Linux;</li></ul><ul id="3b9f6ce8-497f-800f-b851-fa1b849c0f46" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Hospedagem de sites.</li></ul><hr id="3b9f6ce8-497f-80f5-b74d-ed396247bfa4" dir="auto"/><h1 id="3b9f6ce8-497f-80af-8af7-e64ffc06aa2f" class="" dir="auto">8. SQLite</h1><figure id="3b9f6ce8-497f-804c-9ee6-e32a44126709" class="image" data-notion-image="https://images.openai.com/static-rsc-4/GriOnqJ8PnALiZRVX_lMKJDLuUdKqllxRRCU5F01VioS3LjK7jz4AmPKc_BWSjanGp5itRNlDv4VpXAtznZvTaLOxV9Pz9WH6Nfh6lP6gQvEzq3hmkFxYPJY90VfA1EWUBDd1m9G2v_DE1_OYMVVmDYzfCod2bVvV8YQ0geP6c6h7o3G-QJiyMQeUoyEHvYr?purpose=fullsize" dir="ltr"><a href="https://images.openai.com/static-rsc-4/GriOnqJ8PnALiZRVX_lMKJDLuUdKqllxRRCU5F01VioS3LjK7jz4AmPKc_BWSjanGp5itRNlDv4VpXAtznZvTaLOxV9Pz9WH6Nfh6lP6gQvEzq3hmkFxYPJY90VfA1EWUBDd1m9G2v_DE1_OYMVVmDYzfCod2bVvV8YQ0geP6c6h7o3G-QJiyMQeUoyEHvYr?purpose=fullsize"><img src="https://images.openai.com/static-rsc-4/GriOnqJ8PnALiZRVX_lMKJDLuUdKqllxRRCU5F01VioS3LjK7jz4AmPKc_BWSjanGp5itRNlDv4VpXAtznZvTaLOxV9Pz9WH6Nfh6lP6gQvEzq3hmkFxYPJY90VfA1EWUBDd1m9G2v_DE1_OYMVVmDYzfCod2bVvV8YQ0geP6c6h7o3G-QJiyMQeUoyEHvYr?purpose=fullsize"/></a></figure><figure id="3b9f6ce8-497f-80e0-9d19-edf78c1a01fa" class="image" data-notion-image="https://images.openai.com/static-rsc-4/ZQx0fjuO8OSNHUvIfwiExLxI26a3AIcFgPlTQGFiB1S65-rwDQjfxjI1u3b8iLDy_Mu2k6EBn6HHSv8MJ99FzVp70TBtbuCUwUjtJfxMT_R-raFSGl6BddpJ4FEdf4Gb-jKlN7YzrH0Vsxyb921D8uTZ3nSn7qcnu6lcqGRtMGVxfOYFEpJeZUZjW641lKev?purpose=fullsize" dir="ltr"><a href="https://images.openai.com/static-rsc-4/ZQx0fjuO8OSNHUvIfwiExLxI26a3AIcFgPlTQGFiB1S65-rwDQjfxjI1u3b8iLDy_Mu2k6EBn6HHSv8MJ99FzVp70TBtbuCUwUjtJfxMT_R-raFSGl6BddpJ4FEdf4Gb-jKlN7YzrH0Vsxyb921D8uTZ3nSn7qcnu6lcqGRtMGVxfOYFEpJeZUZjW641lKev?purpose=fullsize"><img src="https://images.openai.com/static-rsc-4/ZQx0fjuO8OSNHUvIfwiExLxI26a3AIcFgPlTQGFiB1S65-rwDQjfxjI1u3b8iLDy_Mu2k6EBn6HHSv8MJ99FzVp70TBtbuCUwUjtJfxMT_R-raFSGl6BddpJ4FEdf4Gb-jKlN7YzrH0Vsxyb921D8uTZ3nSn7qcnu6lcqGRtMGVxfOYFEpJeZUZjW641lKev?purpose=fullsize"/></a></figure><figure id="3b9f6ce8-497f-80f0-a594-dd575c2fc089" class="image" data-notion-image="https://images.openai.com/static-rsc-4/mX9muO0_Wcn7hTPSIBOXfwbWoDwWeHQDfZkyoVuUizOGN4wFh685nPN_kcQjJ3G1f1iB0YBBEx5BcvQtclUi1J5cOO40ms_V784ilo8wXJG77Th3oDKNtKY4y_VrI8fNPsdsoJFxBXVzMv3yqaSC4n5CG0xjH6M1dxTItIdiGrrnzx0uI_SoHxJtCVwkM0Pe?purpose=fullsize" dir="ltr"><a href="https://images.openai.com/static-rsc-4/mX9muO0_Wcn7hTPSIBOXfwbWoDwWeHQDfZkyoVuUizOGN4wFh685nPN_kcQjJ3G1f1iB0YBBEx5BcvQtclUi1J5cOO40ms_V784ilo8wXJG77Th3oDKNtKY4y_VrI8fNPsdsoJFxBXVzMv3yqaSC4n5CG0xjH6M1dxTItIdiGrrnzx0uI_SoHxJtCVwkM0Pe?purpose=fullsize"><img src="https://images.openai.com/static-rsc-4/mX9muO0_Wcn7hTPSIBOXfwbWoDwWeHQDfZkyoVuUizOGN4wFh685nPN_kcQjJ3G1f1iB0YBBEx5BcvQtclUi1J5cOO40ms_V784ilo8wXJG77Th3oDKNtKY4y_VrI8fNPsdsoJFxBXVzMv3yqaSC4n5CG0xjH6M1dxTItIdiGrrnzx0uI_SoHxJtCVwkM0Pe?purpose=fullsize"/></a></figure><figure id="3b9f6ce8-497f-8081-9a48-d34eb815fd48" class="image" data-notion-image="https://images.openai.com/static-rsc-4/txvL38K0g0kg8sc6SHSiJKk2BdVgN86SYVEzFtzHVNuBa-Bzo-bPt36dZ0gJQNdi8KaoMWixfUk7duLfgAPT_XkeV3uz9pdMxRYw9t73GcJ0LH1apI7Ow8_J95LefEEW72S-Ng7guEz6a7Ftrc_A4zmtMVvVI6GMNhlAlABOMHZyCeUoI0pwH1EDoYAE48T1?purpose=fullsize" dir="ltr"><a href="https://images.openai.com/static-rsc-4/txvL38K0g0kg8sc6SHSiJKk2BdVgN86SYVEzFtzHVNuBa-Bzo-bPt36dZ0gJQNdi8KaoMWixfUk7duLfgAPT_XkeV3uz9pdMxRYw9t73GcJ0LH1apI7Ow8_J95LefEEW72S-Ng7guEz6a7Ftrc_A4zmtMVvVI6GMNhlAlABOMHZyCeUoI0pwH1EDoYAE48T1?purpose=fullsize"><img src="https://images.openai.com/static-rsc-4/txvL38K0g0kg8sc6SHSiJKk2BdVgN86SYVEzFtzHVNuBa-Bzo-bPt36dZ0gJQNdi8KaoMWixfUk7duLfgAPT_XkeV3uz9pdMxRYw9t73GcJ0LH1apI7Ow8_J95LefEEW72S-Ng7guEz6a7Ftrc_A4zmtMVvVI6GMNhlAlABOMHZyCeUoI0pwH1EDoYAE48T1?purpose=fullsize"/></a></figure><p id="3b9f6ce8-497f-8005-926c-c178c8879ca2" class="" dir="auto">O <strong>SQLite</strong> é diferente dos SGBDs tradicionais porque é um banco de dados <strong>embutido (embedded)</strong>.</p><p id="3b9f6ce8-497f-8062-9389-d09c6ea41948" class="" dir="auto">Ele não precisa necessariamente de um servidor de banco de dados separado.</p><p id="3b9f6ce8-497f-804c-86eb-fc65de500d2a" class="" dir="auto">Os dados podem ser armazenados em um único arquivo.</p><pre id="3b9f6ce8-497f-80ca-bda9-cdf8c1a091e8" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Aplicação
+    │
+    ▼
+SQLite
+    │
+    ▼
+banco.db</code></pre><h3 id="3b9f6ce8-497f-806a-9b4a-e66b146d5f0d" class="" dir="auto">Características</h3><ul id="3b9f6ce8-497f-80c5-acb3-f8f5de537a49" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Leve;</li></ul><ul id="3b9f6ce8-497f-8046-bdeb-cf8c5fbe3bf9" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Simples;</li></ul><ul id="3b9f6ce8-497f-80c0-a29e-d95ca607fd19" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Código aberto;</li></ul><ul id="3b9f6ce8-497f-80a9-bcd0-db265cc3b29d" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Não exige servidor;</li></ul><ul id="3b9f6ce8-497f-8099-a2f8-e03fc2e38e6f" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Fácil distribuição;</li></ul><ul id="3b9f6ce8-497f-800c-9cc3-e5ef18bae67a" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Suporte a SQL;</li></ul><ul id="3b9f6ce8-497f-806b-8838-f291fa33594b" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Banco armazenado em arquivo.</li></ul><p id="3b9f6ce8-497f-80e7-82fc-e958fac0b371" class="" dir="auto">É muito utilizado em:</p><ul id="3b9f6ce8-497f-8093-9611-fc24895b878c" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Aplicativos móveis;</li></ul><ul id="3b9f6ce8-497f-8087-bd0a-dbe557c7d5fb" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Sistemas embarcados;</li></ul><ul id="3b9f6ce8-497f-80de-a0f7-fed8ce8ed254" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Aplicações desktop;</li></ul><ul id="3b9f6ce8-497f-80f1-8fc7-df36ff90e8e7" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Protótipos;</li></ul><ul id="3b9f6ce8-497f-809f-bcd0-f99161db895c" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Sistemas locais;</li></ul><ul id="3b9f6ce8-497f-80ea-9bac-cb226400340c" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Testes.</li></ul><hr id="3b9f6ce8-497f-8029-bb47-c7d5802915cd" dir="auto"/><h1 id="3b9f6ce8-497f-808f-bc7b-c8fd8c2b7012" class="" dir="auto">9. IBM Db2</h1><figure id="3b9f6ce8-497f-80c8-b271-e2661ce509d3" class="image" data-notion-image="https://images.openai.com/static-rsc-4/OB9OLKctjDx5golLgYAggpmJ3Foc5X_FnK1EgHpDw0CzGLQCR2zvGAwGGX4bru2iJmdIygFpLX3U-YU_UoBEoKV-IEKyl9KVXRueu2Fn7F9kE2lhrSFza35EJhi3JTZyqLPiUR_MV-x_jcdifXG3tucKq47eirTSRlJfBjMxD7o1-88TGNV8K0vzquOT7-TY?purpose=fullsize" dir="ltr"><a href="https://images.openai.com/static-rsc-4/OB9OLKctjDx5golLgYAggpmJ3Foc5X_FnK1EgHpDw0CzGLQCR2zvGAwGGX4bru2iJmdIygFpLX3U-YU_UoBEoKV-IEKyl9KVXRueu2Fn7F9kE2lhrSFza35EJhi3JTZyqLPiUR_MV-x_jcdifXG3tucKq47eirTSRlJfBjMxD7o1-88TGNV8K0vzquOT7-TY?purpose=fullsize"><img src="https://images.openai.com/static-rsc-4/OB9OLKctjDx5golLgYAggpmJ3Foc5X_FnK1EgHpDw0CzGLQCR2zvGAwGGX4bru2iJmdIygFpLX3U-YU_UoBEoKV-IEKyl9KVXRueu2Fn7F9kE2lhrSFza35EJhi3JTZyqLPiUR_MV-x_jcdifXG3tucKq47eirTSRlJfBjMxD7o1-88TGNV8K0vzquOT7-TY?purpose=fullsize"/></a></figure><figure id="3b9f6ce8-497f-8022-b162-d8009019c253" class="image" data-notion-image="https://images.openai.com/static-rsc-4/c-kkimYstn0l81Wf16qs8o9oqoa1p-GmzvaR9DPdF71dobwezmttGc4T5Sm19FD0fbubJD1ljnckygTkQTveqvJh3ijIYZsRjjxZbFHTQ8h4wfaRfySLTKG9jGnIF5fVUrjln5We5xxCqR1JrfNlLtpBnYg16QfPHUR9ir8hxZJbLm9L6M98wPoZhKmnGiHZ?purpose=fullsize" dir="ltr"><a href="https://images.openai.com/static-rsc-4/c-kkimYstn0l81Wf16qs8o9oqoa1p-GmzvaR9DPdF71dobwezmttGc4T5Sm19FD0fbubJD1ljnckygTkQTveqvJh3ijIYZsRjjxZbFHTQ8h4wfaRfySLTKG9jGnIF5fVUrjln5We5xxCqR1JrfNlLtpBnYg16QfPHUR9ir8hxZJbLm9L6M98wPoZhKmnGiHZ?purpose=fullsize"><img src="https://images.openai.com/static-rsc-4/c-kkimYstn0l81Wf16qs8o9oqoa1p-GmzvaR9DPdF71dobwezmttGc4T5Sm19FD0fbubJD1ljnckygTkQTveqvJh3ijIYZsRjjxZbFHTQ8h4wfaRfySLTKG9jGnIF5fVUrjln5We5xxCqR1JrfNlLtpBnYg16QfPHUR9ir8hxZJbLm9L6M98wPoZhKmnGiHZ?purpose=fullsize"/></a></figure><figure id="3b9f6ce8-497f-8013-b32f-db59badae0c1" class="image" data-notion-image="https://images.openai.com/static-rsc-4/dOkv3_hvo7dVWTMRUP4L6Yo6k6hN6sf2GhLFbEsRqw-x5VjK1IA3t5wL16C92Bl2cte9_ryK76Rca20hqfgPAV5kywPnorAHvSPNxAjzuK9FK4lf2GqAVYNNXDpuz4A6jaThXJs0cY4Sl9mUla4ENBYNoiQViO9hsOe6xPDHSulwu7eU1PveCaYJlf7f3i4h?purpose=fullsize" dir="ltr"><a href="https://images.openai.com/static-rsc-4/dOkv3_hvo7dVWTMRUP4L6Yo6k6hN6sf2GhLFbEsRqw-x5VjK1IA3t5wL16C92Bl2cte9_ryK76Rca20hqfgPAV5kywPnorAHvSPNxAjzuK9FK4lf2GqAVYNNXDpuz4A6jaThXJs0cY4Sl9mUla4ENBYNoiQViO9hsOe6xPDHSulwu7eU1PveCaYJlf7f3i4h?purpose=fullsize"><img src="https://images.openai.com/static-rsc-4/dOkv3_hvo7dVWTMRUP4L6Yo6k6hN6sf2GhLFbEsRqw-x5VjK1IA3t5wL16C92Bl2cte9_ryK76Rca20hqfgPAV5kywPnorAHvSPNxAjzuK9FK4lf2GqAVYNNXDpuz4A6jaThXJs0cY4Sl9mUla4ENBYNoiQViO9hsOe6xPDHSulwu7eU1PveCaYJlf7f3i4h?purpose=fullsize"/></a></figure><figure id="3b9f6ce8-497f-8048-86ad-f272bb6559ac" class="image" data-notion-image="https://images.openai.com/static-rsc-4/RmHivWeHeUDt6HEQxGvFy2VZ7LvGkuHtiYGb94IzRtILp7sIOWKW0P9pHEfocItfN-O5p8V9DbSipW87pDQIAf9UdLAw_2hxtlS4ClDD4TOAH0dbiDlROjp3hzoxFW5bbinwODDM2UKaJzd0AhDFDxygUID0PMtnKGJ9rvVUnTG5fuJ2nLoI-pHQLgxoaSzt?purpose=fullsize" dir="ltr"><a href="https://images.openai.com/static-rsc-4/RmHivWeHeUDt6HEQxGvFy2VZ7LvGkuHtiYGb94IzRtILp7sIOWKW0P9pHEfocItfN-O5p8V9DbSipW87pDQIAf9UdLAw_2hxtlS4ClDD4TOAH0dbiDlROjp3hzoxFW5bbinwODDM2UKaJzd0AhDFDxygUID0PMtnKGJ9rvVUnTG5fuJ2nLoI-pHQLgxoaSzt?purpose=fullsize"><img src="https://images.openai.com/static-rsc-4/RmHivWeHeUDt6HEQxGvFy2VZ7LvGkuHtiYGb94IzRtILp7sIOWKW0P9pHEfocItfN-O5p8V9DbSipW87pDQIAf9UdLAw_2hxtlS4ClDD4TOAH0dbiDlROjp3hzoxFW5bbinwODDM2UKaJzd0AhDFDxygUID0PMtnKGJ9rvVUnTG5fuJ2nLoI-pHQLgxoaSzt?purpose=fullsize"/></a></figure><figure id="3b9f6ce8-497f-80f7-b4cd-c10eafcc813a" class="image" data-notion-image="https://images.openai.com/static-rsc-4/YK8k-TtXcB8HfEIGCsNcrzH-M4KZMOd_kpxzpArPS2Yw01mQimMwnbscFawVk9CyRBQSdIYdStNZ-O_YAWIM3m3IseLOr1x_64UMrmC7FOkOq0gE6HP9NMzNZZgLaKif6N3B-DhwRmw_5-zd1ttl6D2-877WmqwDlM8xEjsFP_oM8Klf7jlzihYdYP8WSKj5?purpose=fullsize" dir="ltr"><a href="https://images.openai.com/static-rsc-4/YK8k-TtXcB8HfEIGCsNcrzH-M4KZMOd_kpxzpArPS2Yw01mQimMwnbscFawVk9CyRBQSdIYdStNZ-O_YAWIM3m3IseLOr1x_64UMrmC7FOkOq0gE6HP9NMzNZZgLaKif6N3B-DhwRmw_5-zd1ttl6D2-877WmqwDlM8xEjsFP_oM8Klf7jlzihYdYP8WSKj5?purpose=fullsize"><img src="https://images.openai.com/static-rsc-4/YK8k-TtXcB8HfEIGCsNcrzH-M4KZMOd_kpxzpArPS2Yw01mQimMwnbscFawVk9CyRBQSdIYdStNZ-O_YAWIM3m3IseLOr1x_64UMrmC7FOkOq0gE6HP9NMzNZZgLaKif6N3B-DhwRmw_5-zd1ttl6D2-877WmqwDlM8xEjsFP_oM8Klf7jlzihYdYP8WSKj5?purpose=fullsize"/></a></figure><p id="3b9f6ce8-497f-80ef-8552-fc246f4368c9" class="" dir="auto">O <strong>IBM Db2</strong> é um SGBD desenvolvido pela IBM.</p><p id="3b9f6ce8-497f-80d7-b39a-f87cf3e98911" class="" dir="auto">É conhecido por sua utilização em ambientes corporativos e sistemas de grande escala.</p><p id="3b9f6ce8-497f-806e-a099-e09fc466f793" class="" dir="auto">Possui versões e tecnologias destinadas a diferentes ambientes computacionais.</p><h3 id="3b9f6ce8-497f-8099-936e-e96954bf568a" class="" dir="auto">Características</h3><ul id="3b9f6ce8-497f-80b9-865e-eff4b598dbfb" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Alta disponibilidade;</li></ul><ul id="3b9f6ce8-497f-8053-9966-f9c391accb53" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Segurança;</li></ul><ul id="3b9f6ce8-497f-80a8-a6ea-f0a98f0fed09" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Processamento de grandes volumes;</li></ul><ul id="3b9f6ce8-497f-80d1-a819-f708ff641995" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Transações;</li></ul><ul id="3b9f6ce8-497f-809f-b232-eed4675ea8c2" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Otimização;</li></ul><ul id="3b9f6ce8-497f-80a7-997f-e3a835b874ff" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Integração com ambientes corporativos.</li></ul><p id="3b9f6ce8-497f-80d0-b624-c31f82d05a84" class="" dir="auto">É bastante associado a organizações que utilizam infraestrutura IBM e sistemas empresariais de grande porte.</p><hr id="3b9f6ce8-497f-804c-bedf-ec0f041fa0f4" dir="auto"/><h1 id="3b9f6ce8-497f-808f-8e5e-d3ef428b05fe" class="" dir="auto">10. Comparação entre os principais SGBDs</h1><table id="3b9f6ce8-497f-80d8-819e-ff710daec0b5" class="simple-table" dir="ltr"><thead class="simple-table-header"><tr id="3b9f6ce8-497f-8035-81d5-cf94b3f31590" dir="ltr"><th id="JwgV" class="simple-table-header-color simple-table-header">SGBD</th><th id="mpxt" class="simple-table-header-color simple-table-header">Código aberto</th><th id="EdPt" class="simple-table-header-color simple-table-header">Principal característica</th></tr></thead><tbody><tr id="3b9f6ce8-497f-8046-8f50-f1157fedcade" dir="ltr"><td id="JwgV" class="">MySQL</td><td id="mpxt" class="">Sim</td><td id="EdPt" class="">Web e aplicações gerais</td></tr><tr id="3b9f6ce8-497f-80f8-9756-fe4d293a2ab2" dir="ltr"><td id="JwgV" class="">PostgreSQL</td><td id="mpxt" class="">Sim</td><td id="EdPt" class="">Recursos avançados e extensibilidade</td></tr><tr id="3b9f6ce8-497f-80dc-831f-c04d621f971d" dir="ltr"><td id="JwgV" class="">Oracle Database</td><td id="mpxt" class="">Não*</td><td id="EdPt" class="">Ambientes corporativos e críticos</td></tr><tr id="3b9f6ce8-497f-8089-be16-e90a5b22ec12" dir="ltr"><td id="JwgV" class="">SQL Server</td><td id="mpxt" class="">Não*</td><td id="EdPt" class="">Ecossistema Microsoft</td></tr><tr id="3b9f6ce8-497f-8041-b24a-d8bb147da71d" dir="ltr"><td id="JwgV" class="">MariaDB</td><td id="mpxt" class="">Sim</td><td id="EdPt" class="">Alternativa ao MySQL</td></tr><tr id="3b9f6ce8-497f-804e-a76e-d11a801132e5" dir="ltr"><td id="JwgV" class="">SQLite</td><td id="mpxt" class="">Sim</td><td id="EdPt" class="">Banco embutido e aplicações locais</td></tr><tr id="3b9f6ce8-497f-80ad-8318-c40977e90af1" dir="ltr"><td id="JwgV" class="">IBM Db2</td><td id="mpxt" class="">Não*</td><td id="EdPt" class="">Ambientes corporativos de grande escala</td></tr></tbody></table><ul id="3b9f6ce8-497f-8091-bdf6-f267260ae7e3" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Existem edições, componentes ou modalidades específicas que podem possuir diferentes modelos de licenciamento.</li></ul><hr id="3b9f6ce8-497f-807f-bf51-e42fd934f3b4" dir="auto"/><h1 id="3b9f6ce8-497f-808e-965a-cc9db518c436" class="" dir="auto">11. MySQL × PostgreSQL</h1><p id="3b9f6ce8-497f-8016-ad5c-fa3a439c9ff5" class="" dir="auto">Essa é uma comparação muito comum para quem está estudando bancos de dados.</p><table id="3b9f6ce8-497f-80a5-a75b-d284fe14e6b4" class="simple-table" dir="ltr"><thead class="simple-table-header"><tr id="3b9f6ce8-497f-8024-881c-c0c7dda27259" dir="ltr"><th id="EQwB" class="simple-table-header-color simple-table-header">Característica</th><th id="`ONQ" class="simple-table-header-color simple-table-header">MySQL</th><th id="pM]q" class="simple-table-header-color simple-table-header">PostgreSQL</th></tr></thead><tbody><tr id="3b9f6ce8-497f-8025-8cad-f3805aef65e7" dir="ltr"><td id="EQwB" class="">Código aberto</td><td id="`ONQ" class="">Sim</td><td id="pM]q" class="">Sim</td></tr><tr id="3b9f6ce8-497f-8017-906e-d71104b03ce0" dir="ltr"><td id="EQwB" class="">SQL</td><td id="`ONQ" class="">Sim</td><td id="pM]q" class="">Sim</td></tr><tr id="3b9f6ce8-497f-8055-9252-e37d870d0706" dir="ltr"><td id="EQwB" class="">Transações</td><td id="`ONQ" class="">Sim</td><td id="pM]q" class="">Sim</td></tr><tr id="3b9f6ce8-497f-806d-b1d0-d55dc7ff2855" dir="ltr"><td id="EQwB" class="">Chaves estrangeiras</td><td id="`ONQ" class="">Sim</td><td id="pM]q" class="">Sim</td></tr><tr id="3b9f6ce8-497f-8049-ba00-ef7a2a282ee1" dir="ltr"><td id="EQwB" class="">Views</td><td id="`ONQ" class="">Sim</td><td id="pM]q" class="">Sim</td></tr><tr id="3b9f6ce8-497f-8074-bcbd-cdb179ed61e0" dir="ltr"><td id="EQwB" class="">Triggers</td><td id="`ONQ" class="">Sim</td><td id="pM]q" class="">Sim</td></tr><tr id="3b9f6ce8-497f-802b-aa84-c07b207f126b" dir="ltr"><td id="EQwB" class="">JSON</td><td id="`ONQ" class="">Sim</td><td id="pM]q" class="">Sim</td></tr><tr id="3b9f6ce8-497f-8038-bb8f-e04777bf2e3a" dir="ltr"><td id="EQwB" class="">Extensibilidade</td><td id="`ONQ" class="">Boa</td><td id="pM]q" class="">Muito forte</td></tr><tr id="3b9f6ce8-497f-80c7-a390-fd6c64f5c719" dir="ltr"><td id="EQwB" class="">Facilidade inicial</td><td id="`ONQ" class="">Alta</td><td id="pM]q" class="">Média</td></tr><tr id="3b9f6ce8-497f-80a9-ab85-e36943c7a006" dir="ltr"><td id="EQwB" class="">Uso Web</td><td id="`ONQ" class="">Muito comum</td><td id="pM]q" class="">Muito comum</td></tr></tbody></table><p id="3b9f6ce8-497f-8031-b275-f4537238aa84" class="" dir="auto">Não existe um vencedor absoluto.</p><p id="3b9f6ce8-497f-805e-b2ef-d6b9e90ce920" class="" dir="auto">A escolha depende das necessidades da aplicação.</p><hr id="3b9f6ce8-497f-802f-8923-dbae1bbc64bc" dir="auto"/><h1 id="3b9f6ce8-497f-8025-ac05-ce13e59d07b8" class="" dir="auto">12. SGBD × Banco de Dados</h1><p id="3b9f6ce8-497f-805e-8cb1-e17779fda688" class="" dir="auto">É importante não confundir esses dois conceitos.</p><h3 id="3b9f6ce8-497f-8042-9ead-d07758b95c31" class="" dir="auto">Banco de Dados</h3><p id="3b9f6ce8-497f-8081-b943-cd29153b0e0a" class="" dir="auto">É o conjunto de dados armazenados.</p><pre id="3b9f6ce8-497f-808d-a239-c5a309c44667" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Clientes
+Produtos
+Pedidos
+Funcionários</code></pre><h3 id="3b9f6ce8-497f-80f0-a79f-e944f84818bb" class="" dir="auto">SGBD</h3><p id="3b9f6ce8-497f-80c4-9f53-c8e438c797cf" class="" dir="auto">É o software que administra esses dados.</p><pre id="3b9f6ce8-497f-800a-be70-d1de31a91afc" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Aplicação
+    ↓
+SGBD
+    ↓
+Banco de Dados</code></pre><p id="3b9f6ce8-497f-80e7-a40f-ded62bc6b035" class="" dir="auto">Por exemplo:</p><p id="3b9f6ce8-497f-807a-9849-e9375ace3c57" class="" dir="auto"><strong>MySQL</strong> → SGBD</p><p id="3b9f6ce8-497f-806c-9baf-ee7d98f9baa2" class="" dir="auto"><strong>Loja</strong> → Banco de Dados</p><hr id="3b9f6ce8-497f-8032-ba17-cd6a5f6e3b94" dir="auto"/><h1 id="3b9f6ce8-497f-80d7-bde0-c767339a3235" class="" dir="auto">13. SGBD × SQL</h1><p id="3b9f6ce8-497f-8080-94ec-d86b4e4c3111" class="" dir="auto">Também são conceitos diferentes.</p><p id="3b9f6ce8-497f-8021-8aa5-c1644b49c437" class="" dir="auto"><strong>SGBD</strong> é o software responsável por gerenciar o banco.</p><p id="3b9f6ce8-497f-8097-a6e7-faa448a16c4e" class="" dir="auto"><strong>SQL</strong> é a linguagem utilizada para trabalhar com o banco.</p><p id="3b9f6ce8-497f-80e7-80ed-f8c565927f5c" class="" dir="auto">Por exemplo:</p><pre id="3b9f6ce8-497f-80af-956d-f4e13077b0e1" class="code code-wrap" data-notion-code-syntax="sql"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">SELECT *
+FROM clientes;</code></pre><p id="3b9f6ce8-497f-806a-a107-c16361f044cd" class="" dir="auto">O comando é SQL.</p><p id="3b9f6ce8-497f-8062-9072-d468748a742e" class="" dir="auto">Quem interpreta e executa esse comando é o SGBD.</p><hr id="3b9f6ce8-497f-800c-a950-d92c6ec8fc25" dir="auto"/><h1 id="3b9f6ce8-497f-802f-9ae1-edebe52b61f5" class="" dir="auto">14. Principais recursos dos SGBDs relacionais</h1><h2 id="3b9f6ce8-497f-80d4-bd64-e314594787dc" class="" dir="auto">Tabelas</h2><p id="3b9f6ce8-497f-8056-a06a-d75382346a5b" class="" dir="auto">Organizam os dados.</p><pre id="3b9f6ce8-497f-804f-82a2-e4ef195969f6" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Clientes
+Produtos
+Pedidos</code></pre><hr id="3b9f6ce8-497f-80db-97fa-fbcaae8f7424" dir="auto"/><h2 id="3b9f6ce8-497f-80da-92bf-c96ba2738091" class="" dir="auto">Chaves primárias</h2><p id="3b9f6ce8-497f-80aa-a9da-ed21a7d17aa1" class="" dir="auto">Identificam exclusivamente um registro.</p><pre id="3b9f6ce8-497f-80e7-8f0c-f8ef77026107" class="code code-wrap" data-notion-code-syntax="sql"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">id INT PRIMARY KEY</code></pre><hr id="3b9f6ce8-497f-8011-b48b-f4a536568a8c" dir="auto"/><h2 id="3b9f6ce8-497f-80c6-94b2-d7e915d7b8ff" class="" dir="auto">Chaves estrangeiras</h2><p id="3b9f6ce8-497f-80d5-8437-d7d4c7d8b9f3" class="" dir="auto">Criam relacionamentos entre tabelas.</p><pre id="3b9f6ce8-497f-809b-b2d9-d25af2123d54" class="code code-wrap" data-notion-code-syntax="sql"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">cliente_id INT,
+FOREIGN KEY (cliente_id)
+REFERENCES clientes(id)</code></pre><hr id="3b9f6ce8-497f-80c1-8f47-cf5c5fcaa169" dir="auto"/><h2 id="3b9f6ce8-497f-801f-810d-f4b064f55d70" class="" dir="auto">Índices</h2><p id="3b9f6ce8-497f-80a3-bdc8-c9a22466d27a" class="" dir="auto">Ajudam a acelerar determinadas consultas.</p><pre id="3b9f6ce8-497f-804d-b852-e34d22179a38" class="code code-wrap" data-notion-code-syntax="sql"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">CREATE INDEX idx_nome
+ON clientes(nome);</code></pre><hr id="3b9f6ce8-497f-80a9-97aa-e2808b873f23" dir="auto"/><h2 id="3b9f6ce8-497f-80e9-899c-ecbc6f71f2ee" class="" dir="auto">Views</h2><p id="3b9f6ce8-497f-80ed-848b-eef2c6fc5aa4" class="" dir="auto">Criam consultas que podem ser utilizadas como uma espécie de tabela virtual.</p><pre id="3b9f6ce8-497f-803d-9340-d52dc09de09d" class="code code-wrap" data-notion-code-syntax="sql"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">CREATE VIEW clientes_ativos AS
+SELECT *
+FROM clientes
+WHERE ativo = 1;</code></pre><hr id="3b9f6ce8-497f-8053-a3c0-e34820c0fa08" dir="auto"/><h2 id="3b9f6ce8-497f-800e-91a7-fe2666e007ee" class="" dir="auto">Triggers</h2><p id="3b9f6ce8-497f-8050-912d-ce0e12c25c2f" class="" dir="auto">Permitem executar ações automaticamente quando determinados eventos ocorrem.</p><p id="3b9f6ce8-497f-80b4-8345-eebd26195896" class="" dir="auto">Exemplo:</p><pre id="3b9f6ce8-497f-808d-93e1-ec7d65dc8537" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">INSERT
+   ↓
+Trigger
+   ↓
+Registrar alteração</code></pre><hr id="3b9f6ce8-497f-8080-bb4f-dd2a880d5354" dir="auto"/><h2 id="3b9f6ce8-497f-80b1-9394-e08c804e0bb9" class="" dir="auto">Procedures</h2><p id="3b9f6ce8-497f-80a7-aaba-edcec10e6541" class="" dir="auto">Permitem armazenar lógica diretamente no banco.</p><hr id="3b9f6ce8-497f-8006-9aad-e890f2aa46f8" dir="auto"/><h2 id="3b9f6ce8-497f-808d-9597-f088c16dabf3" class="" dir="auto">Transações</h2><p id="3b9f6ce8-497f-8038-b6a3-f06db57ddbc1" class="" dir="auto">Permitem executar várias operações como uma unidade lógica.</p><pre id="3b9f6ce8-497f-806e-9e2c-e7d6626d257f" class="code code-wrap" data-notion-code-syntax="sql"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">BEGIN;
+
+UPDATE contas
+SET saldo = saldo - 500
+WHERE id = 1;
+
+UPDATE contas
+SET saldo = saldo + 500
+WHERE id = 2;
+
+COMMIT;</code></pre><p id="3b9f6ce8-497f-803a-9841-d9d35385a253" class="" dir="auto">Caso ocorra um problema, dependendo do SGBD e da situação, pode-se utilizar:</p><pre id="3b9f6ce8-497f-80f1-baae-d7dc1e416c84" class="code code-wrap" data-notion-code-syntax="sql"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">ROLLBACK;</code></pre><hr id="3b9f6ce8-497f-8047-9316-fba7d8398290" dir="auto"/><h1 id="3b9f6ce8-497f-80b4-be8c-f95a16342d70" class="" dir="auto">15. Como escolher um SGBD?</h1><p id="3b9f6ce8-497f-80d7-b9a1-ede011fb48aa" class="" dir="auto">A escolha depende do projeto.</p><h3 id="3b9f6ce8-497f-8060-a8d4-dc32853a97d5" class="" dir="auto">Para aprender SQL e desenvolvimento Web</h3><p id="3b9f6ce8-497f-80ef-a267-d0b6311bdfa3" class="" dir="auto"><strong>MySQL</strong> é uma excelente opção.</p><h3 id="3b9f6ce8-497f-80e6-a0de-d2cb58c48a10" class="" dir="auto">Para recursos relacionais avançados</h3><p id="3b9f6ce8-497f-80b6-b96a-f939584bcc10" class="" dir="auto"><strong>PostgreSQL</strong> é uma opção muito forte.</p><h3 id="3b9f6ce8-497f-808e-97ec-f853b0dc5f37" class="" dir="auto">Para ambientes corporativos de grande escala</h3><p id="3b9f6ce8-497f-80eb-b21d-f3b8342357cd" class="" dir="auto"><strong>Oracle Database</strong>, <strong>SQL Server</strong> e <strong>Db2</strong> são opções importantes.</p><h3 id="3b9f6ce8-497f-8021-8c85-d4b81c9ced9e" class="" dir="auto">Para aplicações locais e móveis</h3><p id="3b9f6ce8-497f-805a-a1c4-f54079e3c775" class="" dir="auto"><strong>SQLite</strong> é extremamente conveniente.</p><h3 id="3b9f6ce8-497f-802e-942f-e7cfd84daf05" class="" dir="auto">Para aplicações que já utilizam o ecossistema MySQL</h3><p id="3b9f6ce8-497f-8052-8d43-f7c1aaf00752" class="" dir="auto"><strong>MariaDB</strong> pode ser uma alternativa interessante.</p><hr id="3b9f6ce8-497f-807a-800f-e6a2628f9ee9" dir="auto"/><h1 id="3b9f6ce8-497f-8009-9546-c141de080b93" class="" dir="auto">16. Qual SGBD aprender primeiro?</h1><p id="3b9f6ce8-497f-8043-a2a5-d65a2ca79ed8" class="" dir="auto">Para quem está começando em <strong>Banco de Dados + PHP + desenvolvimento Web</strong>, uma sequência bastante prática é:</p><pre id="3b9f6ce8-497f-80dd-8145-df673babb409" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Banco de Dados
+      ↓
+Modelo Relacional
+      ↓
+SQL
+      ↓
+MySQL
+      ↓
+PHP + MySQL
+      ↓
+PDO
+      ↓
+PostgreSQL
+      ↓
+Outros SGBDs</code></pre><p id="3b9f6ce8-497f-8068-8e90-f0eed72432dc" class="" dir="auto">O mais importante inicialmente não é decorar vários SGBDs, mas compreender os <strong>fundamentos dos bancos relacionais e da SQL</strong>.</p><p id="3b9f6ce8-497f-802e-9e9a-e89929ac7119" class="" dir="auto">Depois, aprender outro SGBD fica muito mais fácil porque os conceitos fundamentais são semelhantes.</p><hr id="3b9f6ce8-497f-80b7-a8bc-ee91e5a989b4" dir="auto"/><h1 id="3b9f6ce8-497f-8027-bba2-c1b94c8ead46" class="" dir="auto">Resumo</h1><p id="3b9f6ce8-497f-80d2-86b8-fa4719ccea26" class="" dir="auto">Os <strong>SGBDs relacionais</strong> são softwares responsáveis por gerenciar bancos de dados estruturados no modelo relacional. Eles organizam informações principalmente em <strong>tabelas</strong> e permitem estabelecer relacionamentos entre elas utilizando chaves.</p><p id="3b9f6ce8-497f-8068-a70d-ee67e80e1092" class="" dir="auto">Entre os principais estão:</p><ul id="3b9f6ce8-497f-8027-8fb8-f447f818cd33" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>MySQL</strong> — muito utilizado em aplicações Web.</li></ul><ul id="3b9f6ce8-497f-80e2-86c4-de0d119b592d" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>PostgreSQL</strong> — conhecido pelos recursos avançados e extensibilidade.</li></ul><ul id="3b9f6ce8-497f-8070-a827-c03614e502ae" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>Oracle Database</strong> — muito utilizado em ambientes corporativos e críticos.</li></ul><ul id="3b9f6ce8-497f-80e7-b351-fad922034423" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>SQL Server</strong> — forte integração com o ecossistema Microsoft.</li></ul><ul id="3b9f6ce8-497f-8058-b524-fa6387a49d53" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>MariaDB</strong> — SGBD de código aberto derivado do projeto MySQL.</li></ul><ul id="3b9f6ce8-497f-8088-a84c-e37319b68eb7" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>SQLite</strong> — leve e embutido, sem necessidade de um servidor separado.</li></ul><ul id="3b9f6ce8-497f-80f3-bbc4-c6028686119d" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>IBM Db2</strong> — voltado principalmente para ambientes corporativos e de grande escala.</li></ul><p id="3b9f6ce8-497f-80fe-996e-f436b77be88b" class="" dir="auto">Todos possuem diferenças de <strong>recursos, desempenho, administração, ecossistema e licenciamento</strong>, mas compartilham os principais conceitos do modelo relacional e utilizam SQL, com variações próprias de cada sistema.</p></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

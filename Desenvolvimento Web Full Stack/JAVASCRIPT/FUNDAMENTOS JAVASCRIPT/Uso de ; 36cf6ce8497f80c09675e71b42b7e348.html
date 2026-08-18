@@ -93,11 +93,38 @@ h3 {
 	border: 1px solid rgba(55, 53, 47, 0.09);
 }
 
-figure,
-aside,
-details {
+figure {
 	margin: 1.25em 0;
 	page-break-inside: avoid;
+}
+
+/*
+ * Toggles and callouts hold arbitrary content, so they can easily be taller
+ * than a page. They must stay breakable: avoiding breaks inside them makes
+ * Chromium push the whole block onto the next page, which leaves the previous
+ * page mostly empty before every long toggle.
+ */
+details,
+aside {
+	margin: 1.25em 0;
+}
+
+/* Keep a toggle's title on the same page as the start of its content. */
+summary {
+	page-break-after: avoid;
+	break-after: avoid;
+}
+
+/*
+ * Toggle headings render as <h1/h2/h3 style="display:inline-block"> inside
+ * <summary>. Without this reset, the heading's margin-top pushes it below the
+ * ::marker (▼), so the triangle and the title appear on separate lines.
+ */
+summary h1,
+summary h2,
+summary h3,
+summary h4 {
+	margin-top: 0;
 }
 
 figcaption {
@@ -766,7 +793,7 @@ blockquote.quote-large {
 	
 </style><style>@import url('https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex-swap.min.css')</style></head><body><article id="36cf6ce8-497f-80c0-9675-e71b42b7e348" class="page sans" data-notion-page-icon="/icons/command-line_yellow.svg"><header><div class="page-header-icon undefined"><img class="icon notion-static-icon" src="https://app.notion.com/icons/command-line_yellow.svg"/></div><h1 class="page-title" dir="auto">Uso de ;</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><p id="36cf6ce8-497f-80b0-9578-f6051299e9e0" class="" dir="auto">Em JavaScript, o ponto e vírgula (<code>;</code>) serve para indicar o fim de uma instrução.</p><p id="36cf6ce8-497f-8043-b1cb-e48db5db1309" class="" dir="auto">Exemplo:</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-jsx.min.js" integrity="sha512-m3JYEI6gx5fh9jF10FjGoMzVKcV2N6nchcDcqPCdI1L3R2WQV7br2XVNR8iTLb2daOMRl3zldbcfT40xU2ntVw==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="36cf6ce8-497f-8023-ae72-fbb15e754a73" class="code code-wrap" data-notion-code-syntax="jsx"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">let nome=&quot;Gustavo&quot;;
 console.log(nome);</code></pre><p id="36cf6ce8-497f-8073-abdb-e9bf96b14c41" class="" dir="auto">Mas no JavaScript, ele nem sempre é obrigatório, porque a linguagem possui um mecanismo chamado:</p><p id="36cf6ce8-497f-8069-bb4b-eb6189e1466a" class="" dir="auto">ASI  (Automatic  Semicolon  Insertion)ASI\;(Automatic\;Semicolon\;Insertion)ASI(AutomaticSemicolonInsertion)</p><p id="36cf6ce8-497f-8085-a15c-f355814474bb" class="" dir="auto">Esse mecanismo adiciona o <code>;</code> automaticamente em muitos casos:</p><pre id="36cf6ce8-497f-801b-a4cb-c5262a925322" class="code code-wrap" data-notion-code-syntax="jsx"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">let nome=&quot;Gustavo&quot;
-console.log(nome)</code></pre><p id="36cf6ce8-497f-8025-b7cf-f718adca8c24" class="" dir="auto">Esse código funciona normalmente.</p><hr id="36cf6ce8-497f-8051-a749-ccea8466e995" dir="auto"/><h2 id="36cf6ce8-497f-80b4-a924-c9a279403f53" style="display:inline-block" dir="auto">Então por que muita gente usa <code>;</code>?</h2><p id="36cf6ce8-497f-80ea-82e8-d3e08a4108c4" class="" dir="auto">Porque em algumas situações a ausência dele pode causar erros inesperados:</p><pre id="36cf6ce8-497f-8042-a189-eca7d821bb2e" class="code code-wrap" data-notion-code-syntax="jsx"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const nome=&quot;Gustavo&quot;
+console.log(nome)</code></pre><p id="36cf6ce8-497f-8025-b7cf-f718adca8c24" class="" dir="auto">Esse código funciona normalmente.</p><hr id="36cf6ce8-497f-8051-a749-ccea8466e995" dir="auto"/><h2 id="36cf6ce8-497f-80b4-a924-c9a279403f53" class="" dir="auto">Então por que muita gente usa <code>;</code>?</h2><p id="36cf6ce8-497f-80ea-82e8-d3e08a4108c4" class="" dir="auto">Porque em algumas situações a ausência dele pode causar erros inesperados:</p><pre id="36cf6ce8-497f-8042-a189-eca7d821bb2e" class="code code-wrap" data-notion-code-syntax="jsx"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const nome=&quot;Gustavo&quot;
 [1,2,3].forEach(n =&gt;console.log(n))</code></pre><p id="36cf6ce8-497f-8094-8478-d71f478233aa" class="" dir="auto">O JavaScript pode interpretar isso de forma errada.</p><p id="36cf6ce8-497f-8095-8d16-f9865fdc625a" class="" dir="auto">Com <code>;</code>:</p><pre id="36cf6ce8-497f-80cb-95cb-f4eed65663da" class="code code-wrap" data-notion-code-syntax="jsx"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const nome=&quot;Gustavo&quot;;
 
-[1,2,3].forEach(n =&gt;console.log(n));</code></pre><p id="36cf6ce8-497f-8069-86b7-ddc219caeacf" class="" dir="auto">Fica mais seguro e previsível.</p><hr id="36cf6ce8-497f-80de-8570-ebeb92aa9c45" dir="auto"/><h2 id="36cf6ce8-497f-8078-a1c0-e8b85a7a7d2d" style="display:inline-block" dir="auto">Resumindo</h2><ul id="36cf6ce8-497f-80b0-a9ed-e44735796cff" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Não é obrigatório em todos os casos</li></ul><ul id="36cf6ce8-497f-8046-9642-cf678c9665dc" class="bulleted-list" dir="auto"><li style="list-style-type:disc">O JavaScript consegue inserir automaticamente em muitas situações</li></ul><ul id="36cf6ce8-497f-801d-a76e-e9fcb32d4c68" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Usar <code>;</code> é considerado uma boa prática por muitos desenvolvedores</li></ul><ul id="36cf6ce8-497f-80bf-92c5-cc9734d4f817" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Em projetos profissionais, normalmente se mantém um padrão definido pelo time ou pelo formatador de código (como o Prettier)</li></ul></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>
+[1,2,3].forEach(n =&gt;console.log(n));</code></pre><p id="36cf6ce8-497f-8069-86b7-ddc219caeacf" class="" dir="auto">Fica mais seguro e previsível.</p><hr id="36cf6ce8-497f-80de-8570-ebeb92aa9c45" dir="auto"/><h2 id="36cf6ce8-497f-8078-a1c0-e8b85a7a7d2d" class="" dir="auto">Resumindo</h2><ul id="36cf6ce8-497f-80b0-a9ed-e44735796cff" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Não é obrigatório em todos os casos</li></ul><ul id="36cf6ce8-497f-8046-9642-cf678c9665dc" class="bulleted-list" dir="auto"><li style="list-style-type:disc">O JavaScript consegue inserir automaticamente em muitas situações</li></ul><ul id="36cf6ce8-497f-801d-a76e-e9fcb32d4c68" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Usar <code>;</code> é considerado uma boa prática por muitos desenvolvedores</li></ul><ul id="36cf6ce8-497f-80bf-92c5-cc9734d4f817" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Em projetos profissionais, normalmente se mantém um padrão definido pelo time ou pelo formatador de código (como o Prettier)</li></ul></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>
