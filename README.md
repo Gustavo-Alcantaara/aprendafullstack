@@ -1,4 +1,6 @@
 # Aprenda Full Stack
+## Sobre
+O Site conta com 26 conteúdos baseados em cursos e livros, do quais, 11 ja estão completos e 15 em desenvolvimento.
 ## Conteúdos
 - [ ] FUNDAMENTOS DA PROGRAMAÇÃO
     - [ ] Algoritmos
@@ -38,7 +40,7 @@
     - [ ] IONIC
 - [x] DEPLOY E INFRAESTRUTURA
     - [x] Publicação de Aplicações Web na Internet
-     
+
 **GitHub**: _gustavo-alcantaara_ \
 __Instagram__: *@gusta.allc* \
 _~~Segue lá~~_
