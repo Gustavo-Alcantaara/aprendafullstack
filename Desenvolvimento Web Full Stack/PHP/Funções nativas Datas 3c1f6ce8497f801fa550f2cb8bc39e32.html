@@ -1,0 +1,998 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Funções nativas Datas</title><meta name="data-notion-page-icon" content="/icons/elephant_purple.svg"/><link rel="icon" href="https://app.notion.com/icons/elephant_purple.svg"/><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+/* For default-background callouts, render the border outline. */
+.callout.block-color-default_background {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+/*
+ * Toggles and callouts hold arbitrary content, so they can easily be taller
+ * than a page. They must stay breakable: avoiding breaks inside them makes
+ * Chromium push the whole block onto the next page, which leaves the previous
+ * page mostly empty before every long toggle.
+ */
+details,
+aside {
+	margin: 1.25em 0;
+}
+
+/* Keep a toggle's title on the same page as the start of its content. */
+summary {
+	page-break-after: avoid;
+	break-after: avoid;
+}
+
+/*
+ * Toggle headings render as <h1/h2/h3 style="display:inline-block"> inside
+ * <summary>. Without this reset, the heading's margin-top pushes it below the
+ * ::marker (▼), so the triangle and the title appear on separate lines.
+ */
+summary h1,
+summary h2,
+summary h3,
+summary h4 {
+	margin-top: 0;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding-inline: 0.125rem;
+	padding-block: 0.375rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+/*
+ * Render emoji icons using a ::before pseudo-element to keep the glyph
+ * out of the DOM textContent traversal. This avoids double-rendering icons
+ * in callouts and page titles.
+ * NOTE(slim/html-export-pseudo-icons): I can't tagref this because it will
+ * flag as a duplicate tag after codegen.
+ */
+.icon[data-emoji]::before {
+	content: attr(data-emoji);
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	margin-right: 0.4em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.tab {
+	margin: 1.25em 0;
+	padding-inline: 1rem;
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style><style>@import url('https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex-swap.min.css')</style></head><body><article id="3c1f6ce8-497f-801f-a550-f2cb8bc39e32" class="page sans" data-notion-page-icon="/icons/elephant_purple.svg"><header><div class="page-header-icon undefined"><img class="icon notion-static-icon" src="https://app.notion.com/icons/elephant_purple.svg"/></div><h1 class="page-title" dir="auto">Funções nativas Datas</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><h1 id="3c1f6ce8-497f-80c9-97c7-c37debdb91c9" class="" dir="auto">Funções Nativas para Manipular Datas no PHP</h1><p id="3c1f6ce8-497f-8064-9db2-e98dcdb5980b" class="" dir="auto">O PHP possui diversas <strong>funções nativas para trabalhar com datas e horários</strong>. Elas permitem obter a data atual, formatar datas, converter textos em datas, comparar períodos, adicionar ou remover intervalos de tempo e calcular diferenças entre datas.</p><p id="3c1f6ce8-497f-8023-b940-f18cef0ae2ea" class="" dir="auto">Esse recurso é muito importante no desenvolvimento web, pois praticamente qualquer sistema utiliza datas: <strong>cadastros, pedidos, pagamentos, agendamentos, relatórios, mensagens, vencimentos, históricos, reservas</strong>, entre outros.</p><hr id="3c1f6ce8-497f-8017-9f08-e0084d08426c" dir="auto"/><h1 id="3c1f6ce8-497f-80c9-b61d-ccd6f401ec9e" class="" dir="auto">1. Data e hora no PHP</h1><p id="3c1f6ce8-497f-805c-83e5-fa089d351492" class="" dir="auto">Antes de conhecer as funções, é importante entender que o PHP trabalha com dois conceitos relacionados:</p><ul id="3c1f6ce8-497f-8054-ac80-f6a8c4cd06b6" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>Data</strong> → dia, mês e ano.</li></ul><ul id="3c1f6ce8-497f-802d-b344-e5aee6ff2dd2" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>Hora</strong> → horas, minutos e segundos.</li></ul><p id="3c1f6ce8-497f-80b7-9b93-f05e9b079927" class="" dir="auto">Por exemplo:</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="3c1f6ce8-497f-8074-9b1a-dca6fc4dd919" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">19/08/2026 15:30:45</code></pre><p id="3c1f6ce8-497f-8000-a6b6-ee1951a7949e" class="" dir="auto">Temos:</p><pre id="3c1f6ce8-497f-8004-b796-e895d6925ee9" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Data: 19/08/2026
+Hora: 15:30:45</code></pre><p id="3c1f6ce8-497f-8097-92dd-c24c641ecef3" class="" dir="auto">O PHP possui várias funções para manipular essas informações.</p><hr id="3c1f6ce8-497f-80c2-acc5-c776a5af522f" dir="auto"/><h1 id="3c1f6ce8-497f-805d-83eb-e3a69a88e385" class="" dir="auto">2. <code>date()</code> — Formatar uma data</h1><p id="3c1f6ce8-497f-8060-b4c0-fcb8e429db83" class="" dir="auto">Uma das funções mais importantes para trabalhar com datas no PHP é <code>date()</code>.</p><p id="3c1f6ce8-497f-804b-9b51-df929155f104" class="" dir="auto">Ela permite obter a data e/ou hora atual e formatá-la de acordo com o padrão desejado.</p><h3 id="3c1f6ce8-497f-80e0-af92-c544f8d28138" class="" dir="auto">Sintaxe</h3><pre id="3c1f6ce8-497f-80d3-8c09-dc9bb1b0341a" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">date(formato);</code></pre><h3 id="3c1f6ce8-497f-80e7-acf4-ca538738e1c2" class="" dir="auto">Exemplo</h3><pre id="3c1f6ce8-497f-8062-9871-c27825f0f84c" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">&lt;?php
+
+echo date(&quot;d/m/Y&quot;);</code></pre><p id="3c1f6ce8-497f-80e1-9bf8-c77608bdff7c" class="" dir="auto">Possível resultado:</p><pre id="3c1f6ce8-497f-8008-8bd3-ffcea1db79f2" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">19/08/2026</code></pre><p id="3c1f6ce8-497f-8037-b4cf-cb2fa349f8d1" class="" dir="auto">Nesse caso:</p><ul id="3c1f6ce8-497f-8058-bd8d-f469018b9fb8" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><code>d</code> → dia com dois dígitos</li></ul><ul id="3c1f6ce8-497f-80b9-af6d-d20d350241ad" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><code>m</code> → mês com dois dígitos</li></ul><ul id="3c1f6ce8-497f-80c5-b493-d9a09d68e13f" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><code>Y</code> → ano com quatro dígitos</li></ul><hr id="3c1f6ce8-497f-806d-8253-ff33c4e4cdd3" dir="auto"/><h1 id="3c1f6ce8-497f-803f-a259-e4d91d8858c7" class="" dir="auto">3. Principais caracteres de formatação</h1><p id="3c1f6ce8-497f-8087-a881-e28e83186b69" class="" dir="auto">A função <code>date()</code> utiliza caracteres especiais para determinar o que será exibido.</p><table id="3c1f6ce8-497f-804a-ad13-f9d94bdcd532" class="simple-table" dir="ltr"><thead class="simple-table-header"><tr id="3c1f6ce8-497f-8080-a54e-ff8ff0d9287a" dir="ltr"><th id="e|J=" class="simple-table-header-color simple-table-header">Código</th><th id="IVcR" class="simple-table-header-color simple-table-header">Significado</th><th id="pGBj" class="simple-table-header-color simple-table-header">Exemplo</th></tr></thead><tbody><tr id="3c1f6ce8-497f-80fb-9a51-dd08b2b81658" dir="ltr"><td id="e|J=" class=""><code>d</code></td><td id="IVcR" class="">Dia com 2 dígitos</td><td id="pGBj" class=""><code>19</code></td></tr><tr id="3c1f6ce8-497f-8069-a6e1-d2dbb29f1bc0" dir="ltr"><td id="e|J=" class=""><code>D</code></td><td id="IVcR" class="">Dia abreviado</td><td id="pGBj" class=""><code>Wed</code></td></tr><tr id="3c1f6ce8-497f-801e-a4e4-e4a36607cac5" dir="ltr"><td id="e|J=" class=""><code>j</code></td><td id="IVcR" class="">Dia sem zero</td><td id="pGBj" class=""><code>19</code></td></tr><tr id="3c1f6ce8-497f-8099-8d34-f7e4c32dad66" dir="ltr"><td id="e|J=" class=""><code>l</code></td><td id="IVcR" class="">Dia completo</td><td id="pGBj" class=""><code>Wednesday</code></td></tr><tr id="3c1f6ce8-497f-8099-b416-d9c31e05a056" dir="ltr"><td id="e|J=" class=""><code>m</code></td><td id="IVcR" class="">Mês com 2 dígitos</td><td id="pGBj" class=""><code>08</code></td></tr><tr id="3c1f6ce8-497f-805a-8edd-f2f2813ba309" dir="ltr"><td id="e|J=" class=""><code>M</code></td><td id="IVcR" class="">Mês abreviado</td><td id="pGBj" class=""><code>Aug</code></td></tr><tr id="3c1f6ce8-497f-80b0-bd4f-d510ae242900" dir="ltr"><td id="e|J=" class=""><code>F</code></td><td id="IVcR" class="">Mês completo</td><td id="pGBj" class=""><code>August</code></td></tr><tr id="3c1f6ce8-497f-80a3-baea-c3b9c28cbddc" dir="ltr"><td id="e|J=" class=""><code>n</code></td><td id="IVcR" class="">Mês sem zero</td><td id="pGBj" class=""><code>8</code></td></tr><tr id="3c1f6ce8-497f-8087-add2-efbe117a6522" dir="ltr"><td id="e|J=" class=""><code>Y</code></td><td id="IVcR" class="">Ano com 4 dígitos</td><td id="pGBj" class=""><code>2026</code></td></tr><tr id="3c1f6ce8-497f-803e-8af4-db9264954ee4" dir="ltr"><td id="e|J=" class=""><code>y</code></td><td id="IVcR" class="">Ano com 2 dígitos</td><td id="pGBj" class=""><code>26</code></td></tr><tr id="3c1f6ce8-497f-8036-9b32-e6fbe5801ed2" dir="ltr"><td id="e|J=" class=""><code>H</code></td><td id="IVcR" class="">Hora 00–23</td><td id="pGBj" class=""><code>15</code></td></tr><tr id="3c1f6ce8-497f-805c-8c08-cfc602c7dcb9" dir="ltr"><td id="e|J=" class=""><code>h</code></td><td id="IVcR" class="">Hora 01–12</td><td id="pGBj" class=""><code>03</code></td></tr><tr id="3c1f6ce8-497f-8042-bfd8-e71327874b7b" dir="ltr"><td id="e|J=" class=""><code>i</code></td><td id="IVcR" class="">Minutos</td><td id="pGBj" class=""><code>30</code></td></tr><tr id="3c1f6ce8-497f-804a-bbed-d9fa404dbda9" dir="ltr"><td id="e|J=" class=""><code>s</code></td><td id="IVcR" class="">Segundos</td><td id="pGBj" class=""><code>45</code></td></tr><tr id="3c1f6ce8-497f-8031-871d-e793f1ceeddc" dir="ltr"><td id="e|J=" class=""><code>A</code></td><td id="IVcR" class="">AM/PM</td><td id="pGBj" class=""><code>PM</code></td></tr></tbody></table><p id="3c1f6ce8-497f-8012-bfaa-d3a3c97fa5a4" class="" dir="auto">Por exemplo:</p><pre id="3c1f6ce8-497f-80dd-8e91-d729402768d5" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">echo date(&quot;d/m/Y&quot;);</code></pre><p id="3c1f6ce8-497f-802d-8c37-d288d8426d68" class="" dir="auto">Resultado:</p><pre id="3c1f6ce8-497f-80ee-8fef-ee7081fcf371" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">19/08/2026</code></pre><p id="3c1f6ce8-497f-80ca-ad3f-c56971d428a9" class="" dir="auto">Com hora:</p><pre id="3c1f6ce8-497f-809f-9e51-fba27e4d3e47" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">echo date(&quot;d/m/Y H:i:s&quot;);</code></pre><p id="3c1f6ce8-497f-802b-84ba-f41ca5d4ea2a" class="" dir="auto">Resultado:</p><pre id="3c1f6ce8-497f-8005-bd3f-ed58c9364560" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">19/08/2026 15:30:45</code></pre><hr id="3c1f6ce8-497f-806d-aa4c-c9603cf59a98" dir="auto"/><h1 id="3c1f6ce8-497f-80de-9abe-d611e744bcad" class="" dir="auto">4. Exibindo uma data por extenso</h1><p id="3c1f6ce8-497f-805a-964c-e2f1d53d7723" class="" dir="auto">Podemos utilizar <code>date()</code> para montar uma data mais legível:</p><pre id="3c1f6ce8-497f-8065-8d1f-c99458ce6cb5" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">echo date(&quot;d&quot;) . &quot; de &quot; . date(&quot;F&quot;) . &quot; de &quot; . date(&quot;Y&quot;);</code></pre><p id="3c1f6ce8-497f-8006-be3c-f4ee0bffc0fc" class="" dir="auto">Porém, os nomes dos meses retornados por <code>date()</code> dependem do formato e não são automaticamente traduzidos para português.</p><p id="3c1f6ce8-497f-8075-a718-c3aef65e4a19" class="" dir="auto">Para sistemas em português, normalmente é melhor criar uma conversão própria ou utilizar recursos de internacionalização.</p><hr id="3c1f6ce8-497f-806a-be56-c9691d3fffb0" dir="auto"/><h1 id="3c1f6ce8-497f-80b6-99f0-f2390675e55c" class="" dir="auto">5. <code>time()</code> — Timestamp atual</h1><p id="3c1f6ce8-497f-80c0-b4c9-ed61919fe502" class="" dir="auto">A função <code>time()</code> retorna o <strong>timestamp Unix atual</strong>.</p><pre id="3c1f6ce8-497f-80fb-b153-ddb608343aac" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">echo time();</code></pre><p id="3c1f6ce8-497f-802b-b42e-effe97b7ae28" class="" dir="auto">O resultado será um número semelhante a:</p><pre id="3c1f6ce8-497f-80e9-adb0-ca91ba5c45e1" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">1787152245</code></pre><p id="3c1f6ce8-497f-80df-aa08-f8649bf8cf78" class="" dir="auto">Esse número representa a quantidade de segundos desde o início da <strong>Unix Epoch</strong>, que começa em:</p><pre id="3c1f6ce8-497f-8074-a366-df58ca72ab3c" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">01/01/1970 00:00:00 UTC</code></pre><p id="3c1f6ce8-497f-8076-833b-ff0c7060ad74" class="" dir="auto">O timestamp é muito útil para realizar cálculos e comparações envolvendo datas.</p><hr id="3c1f6ce8-497f-80c5-9329-f24adcd9d302" dir="auto"/><h1 id="3c1f6ce8-497f-802a-8223-f3f07b3ecb8a" class="" dir="auto">6. Utilizando <code>time()</code> com <code>date()</code></h1><p id="3c1f6ce8-497f-8019-9a52-e072bb6040cf" class="" dir="auto">Podemos passar um timestamp para <code>date()</code>:</p><pre id="3c1f6ce8-497f-8065-ab28-f5f9422a0926" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">$agora = time();
+
+echo date(&quot;d/m/Y&quot;, $agora);</code></pre><p id="3c1f6ce8-497f-80bf-a61a-c6073fe96d33" class="" dir="auto">Isso permite transformar um timestamp em uma data legível.</p><p id="3c1f6ce8-497f-807f-ad53-e1798a466a2f" class="" dir="auto">Também podemos mostrar a hora:</p><pre id="3c1f6ce8-497f-80ff-9db8-f7ed3f320b34" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">echo date(&quot;H:i:s&quot;, time());</code></pre><hr id="3c1f6ce8-497f-80c6-ad9c-d7fcb5423ffb" dir="auto"/><h1 id="3c1f6ce8-497f-804c-96a9-fd4235b76ab8" class="" dir="auto">7. <code>mktime()</code> — Criar um timestamp</h1><p id="3c1f6ce8-497f-800d-b4e8-f945709184e4" class="" dir="auto">A função <code>mktime()</code> cria um timestamp a partir de uma determinada hora e data.</p><h3 id="3c1f6ce8-497f-8024-af04-f900dd58252e" class="" dir="auto">Sintaxe</h3><pre id="3c1f6ce8-497f-801b-9ac0-eb4bf0dd54d6" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">mktime(hora, minuto, segundo, mes, dia, ano);</code></pre><h3 id="3c1f6ce8-497f-8007-b550-e10722bb6918" class="" dir="auto">Exemplo</h3><pre id="3c1f6ce8-497f-8047-ae12-db4dc8835d8f" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">$data = mktime(15, 30, 0, 8, 19, 2026);
+
+echo date(&quot;d/m/Y H:i:s&quot;, $data);</code></pre><p id="3c1f6ce8-497f-8090-9e43-eacaeb060ee8" class="" dir="auto">Resultado:</p><pre id="3c1f6ce8-497f-80e3-8d13-d70502e12c51" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">19/08/2026 15:30:00</code></pre><p id="3c1f6ce8-497f-8090-9cf0-ca67c0e4e120" class="" dir="auto">Isso pode ser útil quando precisamos trabalhar com uma data específica.</p><hr id="3c1f6ce8-497f-80df-9621-d2e1708c6360" dir="auto"/><h1 id="3c1f6ce8-497f-806b-aa9d-d981feaf0b15" class="" dir="auto">8. <code>strtotime()</code> — Converter texto em timestamp</h1><p id="3c1f6ce8-497f-807a-a81f-cb138f3ea151" class="" dir="auto"><code>strtotime()</code> é uma das funções mais úteis para manipulação de datas.</p><p id="3c1f6ce8-497f-8063-a8ad-dbc50d155533" class="" dir="auto">Ela tenta interpretar uma string contendo uma data ou expressão relacionada a tempo e transforma essa informação em timestamp.</p><h3 id="3c1f6ce8-497f-804a-b040-d4b7a76cb395" class="" dir="auto">Exemplo</h3><pre id="3c1f6ce8-497f-803c-b5ba-fdd96fef6f2a" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">$data = strtotime(&quot;19 August 2026&quot;);
+
+echo date(&quot;d/m/Y&quot;, $data);</code></pre><p id="3c1f6ce8-497f-80da-b150-e38a91eaefb6" class="" dir="auto">Resultado:</p><pre id="3c1f6ce8-497f-8019-a80d-fcedc7e00990" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">19/08/2026</code></pre><hr id="3c1f6ce8-497f-80c7-9558-c3f82f22c30a" dir="auto"/><h1 id="3c1f6ce8-497f-8053-a8f4-c78c1529f669" class="" dir="auto">9. Usando expressões relativas</h1><p id="3c1f6ce8-497f-8001-90c4-ed3800a17e0a" class="" dir="auto">Uma das grandes vantagens de <code>strtotime()</code> é aceitar expressões como:</p><pre id="3c1f6ce8-497f-80e8-8f8b-e25a2f54b7bc" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">strtotime(&quot;tomorrow&quot;);</code></pre><pre id="3c1f6ce8-497f-80eb-9686-ca3ed9528f37" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">strtotime(&quot;yesterday&quot;);</code></pre><pre id="3c1f6ce8-497f-809f-8d0e-cb15f90b5cd7" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">strtotime(&quot;+1 day&quot;);</code></pre><pre id="3c1f6ce8-497f-807f-8aa6-dc8ae6c60bbc" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">strtotime(&quot;+7 days&quot;);</code></pre><pre id="3c1f6ce8-497f-8097-86f4-cd0341040830" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">strtotime(&quot;-1 month&quot;);</code></pre><p id="3c1f6ce8-497f-800c-8f2a-feba621376ac" class="" dir="auto">Por exemplo:</p><pre id="3c1f6ce8-497f-80a6-8670-e4f972cba1d8" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">$amanha = strtotime(&quot;+1 day&quot;);
+
+echo date(&quot;d/m/Y&quot;, $amanha);</code></pre><hr id="3c1f6ce8-497f-8088-9452-ef0bdadb89af" dir="auto"/><h1 id="3c1f6ce8-497f-8021-8690-d10483b01540" class="" dir="auto">10. Obtendo amanhã</h1><p id="3c1f6ce8-497f-802b-818f-cd96cba1bba8" class="" dir="auto">Podemos fazer:</p><pre id="3c1f6ce8-497f-80ec-ae72-de5028f7e458" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">$amanha = strtotime(&quot;tomorrow&quot;);
+
+echo date(&quot;d/m/Y&quot;, $amanha);</code></pre><p id="3c1f6ce8-497f-8049-9790-d0398dad2d1e" class="" dir="auto">Outra possibilidade:</p><pre id="3c1f6ce8-497f-8009-856a-c5b514262ecd" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">$amanha = strtotime(&quot;+1 day&quot;);
+
+echo date(&quot;d/m/Y&quot;, $amanha);</code></pre><p id="3c1f6ce8-497f-8090-a8bf-e0f04302667b" class="" dir="auto">Ambas expressam a ideia de obter o dia seguinte.</p><hr id="3c1f6ce8-497f-80b1-a707-f3540990d88e" dir="auto"/><h1 id="3c1f6ce8-497f-80b9-928e-e1f02c97484c" class="" dir="auto">11. Obtendo ontem</h1><pre id="3c1f6ce8-497f-8000-884c-e1b10040e8ef" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">$ontem = strtotime(&quot;yesterday&quot;);
+
+echo date(&quot;d/m/Y&quot;, $ontem);</code></pre><p id="3c1f6ce8-497f-8098-af8b-cf76677246c3" class="" dir="auto">Também:</p><pre id="3c1f6ce8-497f-8072-8a79-e0df56b65fb4" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">$ontem = strtotime(&quot;-1 day&quot;);
+
+echo date(&quot;d/m/Y&quot;, $ontem);</code></pre><hr id="3c1f6ce8-497f-8057-bf58-e06d7bc83498" dir="auto"/><h1 id="3c1f6ce8-497f-80af-8056-e2065e56fa1b" class="" dir="auto">12. Adicionando dias</h1><p id="3c1f6ce8-497f-80ba-8b94-e69677c2d399" class="" dir="auto">Podemos adicionar vários dias:</p><pre id="3c1f6ce8-497f-80fc-9cb1-db8a586609ac" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">$data = strtotime(&quot;+30 days&quot;);
+
+echo date(&quot;d/m/Y&quot;, $data);</code></pre><p id="3c1f6ce8-497f-80db-978d-cc5c642862d1" class="" dir="auto">Isso é muito útil para situações como:</p><ul id="3c1f6ce8-497f-8082-93b7-e69565fe8ace" class="bulleted-list" dir="auto"><li style="list-style-type:disc">vencimento;</li></ul><ul id="3c1f6ce8-497f-80a9-b878-f13225f8c506" class="bulleted-list" dir="auto"><li style="list-style-type:disc">prazo de pagamento;</li></ul><ul id="3c1f6ce8-497f-8016-9c52-dddd2256b1cc" class="bulleted-list" dir="auto"><li style="list-style-type:disc">validade;</li></ul><ul id="3c1f6ce8-497f-8076-a494-f74528804c49" class="bulleted-list" dir="auto"><li style="list-style-type:disc">período de teste;</li></ul><ul id="3c1f6ce8-497f-80eb-ba69-d350d575441a" class="bulleted-list" dir="auto"><li style="list-style-type:disc">prazo de entrega.</li></ul><p id="3c1f6ce8-497f-8074-980c-fee20d861369" class="" dir="auto">Por exemplo:</p><pre id="3c1f6ce8-497f-8086-84db-fe2a7aa0f0c8" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">$inicio = time();
+
+$vencimento = strtotime(&quot;+30 days&quot;);
+
+echo &quot;Vencimento: &quot; . date(&quot;d/m/Y&quot;, $vencimento);</code></pre><hr id="3c1f6ce8-497f-80b1-9ad8-d74439d7c8fb" dir="auto"/><h1 id="3c1f6ce8-497f-806a-a429-cba606ffb38d" class="" dir="auto">13. <code>strtotime()</code> com meses e anos</h1><p id="3c1f6ce8-497f-8076-af9b-df39c47588e4" class="" dir="auto">Também podemos trabalhar com meses:</p><pre id="3c1f6ce8-497f-807a-9e4d-c7314f532135" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">$data = strtotime(&quot;+2 months&quot;);
+
+echo date(&quot;d/m/Y&quot;, $data);</code></pre><p id="3c1f6ce8-497f-8068-a6cb-d86a2d3d490c" class="" dir="auto">Ou anos:</p><pre id="3c1f6ce8-497f-800e-97a4-d218d320da49" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">$data = strtotime(&quot;+1 year&quot;);
+
+echo date(&quot;d/m/Y&quot;, $data);</code></pre><p id="3c1f6ce8-497f-805c-a35a-d08e1bd157bc" class="" dir="auto">Também podemos subtrair:</p><pre id="3c1f6ce8-497f-80db-b361-df9d849f12e9" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">$data = strtotime(&quot;-3 months&quot;);
+
+echo date(&quot;d/m/Y&quot;, $data);</code></pre><hr id="3c1f6ce8-497f-801b-8b73-c81226e21757" dir="auto"/><h1 id="3c1f6ce8-497f-80d3-860f-f92186094dec" class="" dir="auto">14. <code>checkdate()</code> — Verificar uma data</h1><p id="3c1f6ce8-497f-8031-802e-f1d3085bf06a" class="" dir="auto">A função <code>checkdate()</code> verifica se uma determinada data é válida.</p><h3 id="3c1f6ce8-497f-80c5-aba7-f2e3c3219e4b" class="" dir="auto">Sintaxe</h3><pre id="3c1f6ce8-497f-80d1-ac5b-f1497ce2cd54" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">checkdate(mes, dia, ano);</code></pre><h3 id="3c1f6ce8-497f-801a-b7c7-ee76172cad66" class="" dir="auto">Exemplo</h3><pre id="3c1f6ce8-497f-8066-b543-e3b0aa9a165d" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">if (checkdate(8, 19, 2026)) {
+    echo &quot;Data válida&quot;;
+} else {
+    echo &quot;Data inválida&quot;;
+}</code></pre><p id="3c1f6ce8-497f-806c-952e-c187a44fcf26" class="" dir="auto">Resultado:</p><pre id="3c1f6ce8-497f-80d4-bcc5-f4af1450e3cf" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Data válida</code></pre><hr id="3c1f6ce8-497f-8033-b08e-fbe678a43b51" dir="auto"/><h1 id="3c1f6ce8-497f-803e-88a7-fce8d26844e1" class="" dir="auto">15. Verificando uma data inválida</h1><p id="3c1f6ce8-497f-8085-b944-c7e7186b3531" class="" dir="auto">Por exemplo:</p><pre id="3c1f6ce8-497f-80a2-88de-eb3010e3a128" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">if (checkdate(2, 31, 2026)) {
+    echo &quot;Data válida&quot;;
+} else {
+    echo &quot;Data inválida&quot;;
+}</code></pre><p id="3c1f6ce8-497f-807a-a094-c7fee0bfa94d" class="" dir="auto">Resultado:</p><pre id="3c1f6ce8-497f-80d3-9400-decd3ff19f26" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Data inválida</code></pre><p id="3c1f6ce8-497f-806f-a9df-d1d781050364" class="" dir="auto">Isso acontece porque fevereiro não possui 31 dias.</p><p id="3c1f6ce8-497f-8028-b65c-d9980803301b" class="" dir="auto">Essa função é especialmente útil na <strong>validação de informações recebidas de formulários</strong>.</p><hr id="3c1f6ce8-497f-807f-8473-e90787fe17d7" dir="auto"/><h1 id="3c1f6ce8-497f-804a-aeaa-d4c2ada9ed2a" class="" dir="auto">16. Ano bissexto</h1><p id="3c1f6ce8-497f-8082-8a41-f633b044309c" class="" dir="auto">O PHP possui a função <code>date()</code> e outras ferramentas para determinar características do calendário.</p><p id="3c1f6ce8-497f-8029-9606-dbde3e85d5a4" class="" dir="auto">Uma forma simples de verificar um ano bissexto é:</p><pre id="3c1f6ce8-497f-8010-a14e-e15b96f19ad5" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">$ano = 2028;
+
+if (date(&quot;L&quot;, strtotime(&quot;$ano-01-01&quot;))) {
+    echo &quot;Ano bissexto&quot;;
+} else {
+    echo &quot;Ano não bissexto&quot;;
+}</code></pre><p id="3c1f6ce8-497f-8014-9ca8-e0aaaf0de9a1" class="" dir="auto">O formato <code>L</code> retorna:</p><ul id="3c1f6ce8-497f-8041-8fe1-c8179adba833" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><code>1</code> → ano bissexto</li></ul><ul id="3c1f6ce8-497f-806d-9ca2-d66cb9afb169" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><code>0</code> → ano não bissexto</li></ul><p id="3c1f6ce8-497f-8016-8fd1-c87f1d5fb45f" class="" dir="auto">Por exemplo:</p><pre id="3c1f6ce8-497f-80e7-9548-c3814af01a04" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">2028 → bissexto
+2027 → não bissexto</code></pre><hr id="3c1f6ce8-497f-8060-84c8-d617c4fae11e" dir="auto"/><h1 id="3c1f6ce8-497f-8017-9c81-ffd12648ae03" class="" dir="auto">17. <code>date_default_timezone_set()</code> — Definir fuso horário</h1><p id="3c1f6ce8-497f-804d-ab3a-d58b70be6c51" class="" dir="auto">Um sistema precisa saber qual <strong>fuso horário</strong> deve utilizar.</p><p id="3c1f6ce8-497f-8014-b6a3-fa4a42170f41" class="" dir="auto">Podemos configurar isso com:</p><pre id="3c1f6ce8-497f-8039-a1bb-c507fdf2812e" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">date_default_timezone_set(&quot;America/Fortaleza&quot;);</code></pre><p id="3c1f6ce8-497f-805e-847a-e23726d9e7a0" class="" dir="auto">Depois:</p><pre id="3c1f6ce8-497f-800d-90c5-c7cc897aee18" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">echo date(&quot;d/m/Y H:i:s&quot;);</code></pre><p id="3c1f6ce8-497f-8095-a46a-e2a9db347c3b" class="" dir="auto">Para aplicações destinadas ao Brasil, é importante configurar explicitamente o fuso horário adequado ao contexto da aplicação.</p><p id="3c1f6ce8-497f-80d9-88e6-d10c48e7e4aa" class="" dir="auto">Por exemplo:</p><pre id="3c1f6ce8-497f-80fc-9343-f6106ded90f5" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">date_default_timezone_set(&quot;America/Sao_Paulo&quot;);</code></pre><p id="3c1f6ce8-497f-80ab-8877-c40cfd394c18" class="" dir="auto">A escolha do fuso deve considerar a região que o sistema realmente atende.</p><hr id="3c1f6ce8-497f-80e7-84c0-dfad1ab8978f" dir="auto"/><h1 id="3c1f6ce8-497f-8036-a9d6-ee57b02ec790" class="" dir="auto">18. <code>date_default_timezone_get()</code> — Consultar o fuso horário</h1><p id="3c1f6ce8-497f-805c-abd9-f4c18a90c770" class="" dir="auto">Podemos verificar qual fuso horário está configurado:</p><pre id="3c1f6ce8-497f-8082-9656-db79dd9b4ae0" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">echo date_default_timezone_get();</code></pre><p id="3c1f6ce8-497f-80fa-a7a7-dc09f874aa16" class="" dir="auto">Resultado, por exemplo:</p><pre id="3c1f6ce8-497f-80b7-bc26-e33de6382d24" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">America/Sao_Paulo</code></pre><p id="3c1f6ce8-497f-8070-b931-f940bcd5323e" class="" dir="auto">Isso pode ser útil durante testes e depuração.</p><hr id="3c1f6ce8-497f-8049-9e6d-e196b59dd121" dir="auto"/><h1 id="3c1f6ce8-497f-8073-af71-d9d360f83e0e" class="" dir="auto">19. <code>gmdate()</code> — Data em UTC</h1><p id="3c1f6ce8-497f-801f-ace7-d4b603fc2d53" class="" dir="auto">A função <code>gmdate()</code> funciona de maneira semelhante à <code>date()</code>, mas retorna a data/hora em <strong>UTC</strong>.</p><pre id="3c1f6ce8-497f-8072-99a7-f5e18bc7fb3c" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">echo gmdate(&quot;d/m/Y H:i:s&quot;);</code></pre><p id="3c1f6ce8-497f-80d8-aff3-d94ea74058b9" class="" dir="auto">Isso é útil em sistemas que trabalham com servidores e usuários localizados em diferentes regiões.</p><p id="3c1f6ce8-497f-801e-8301-ebd24dda1f4a" class="" dir="auto">Uma prática comum em sistemas distribuídos é armazenar horários em UTC e convertê-los para o fuso do usuário quando necessário.</p><hr id="3c1f6ce8-497f-80e0-b30d-e99f544761cc" dir="auto"/><h1 id="3c1f6ce8-497f-8016-8d88-f9eda33b2c0f" class="" dir="auto">20. <code>getdate()</code> — Obter informações detalhadas</h1><p id="3c1f6ce8-497f-800d-ab3f-eae3ecd03432" class="" dir="auto">A função <code>getdate()</code> retorna informações sobre uma determinada data em um array.</p><pre id="3c1f6ce8-497f-80da-a66f-c86835b80071" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">$data = getdate();
+
+print_r($data);</code></pre><p id="3c1f6ce8-497f-8083-a838-f7e23850c5cc" class="" dir="auto">O resultado contém informações como:</p><pre id="3c1f6ce8-497f-80f1-bac1-c46d91f79a3c" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">seconds
+minutes
+hours
+mday
+wday
+mon
+year
+yday
+weekday
+month
+0</code></pre><p id="3c1f6ce8-497f-807e-81f6-f74cfc5d6cdf" class="" dir="auto">Por exemplo:</p><pre id="3c1f6ce8-497f-8097-8562-dbf1316b2170" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">$data = getdate();
+
+echo $data[&quot;mday&quot;];
+echo $data[&quot;mon&quot;];
+echo $data[&quot;year&quot;];</code></pre><p id="3c1f6ce8-497f-80c6-b9fc-e63d0fd2dd19" class="" dir="auto">Isso permite acessar separadamente o dia, mês e ano.</p><hr id="3c1f6ce8-497f-8016-819c-ceec01e30af5" dir="auto"/><h1 id="3c1f6ce8-497f-8057-9056-c8cda56807bb" class="" dir="auto">21. <code>date_parse()</code> — Analisar uma data</h1><p id="3c1f6ce8-497f-80e5-b7b4-c06e2a1155aa" class="" dir="auto">A função <code>date_parse()</code> analisa uma string contendo uma data e retorna suas partes.</p><pre id="3c1f6ce8-497f-8068-b380-fc78a2bb7443" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">$data = date_parse(&quot;19-08-2026&quot;);
+
+print_r($data);</code></pre><p id="3c1f6ce8-497f-807b-b168-cf25a864f42e" class="" dir="auto">Ela fornece informações como:</p><pre id="3c1f6ce8-497f-8005-9a7e-eaa89a0d8780" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">year
+month
+day
+hour
+minute
+second</code></pre><p id="3c1f6ce8-497f-8051-b6a5-cd02b24c258a" class="" dir="auto">Podemos acessar:</p><pre id="3c1f6ce8-497f-80ff-b53c-feff9dfb9feb" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">$data = date_parse(&quot;19-08-2026&quot;);
+
+echo $data[&quot;day&quot;];
+echo $data[&quot;month&quot;];
+echo $data[&quot;year&quot;];</code></pre><p id="3c1f6ce8-497f-80f6-9e4e-e573d093a550" class="" dir="auto">Resultado:</p><pre id="3c1f6ce8-497f-80f6-9156-d1fa2140e6d4" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">19
+8
+2026</code></pre><hr id="3c1f6ce8-497f-8026-a04c-faee3d7cc7eb" dir="auto"/><h1 id="3c1f6ce8-497f-808a-9bd3-d241b218f911" class="" dir="auto">22. <code>date_create()</code> — Criar um objeto de data</h1><p id="3c1f6ce8-497f-80a5-91d3-c4fa94f83cb0" class="" dir="auto">O PHP também permite trabalhar com datas através da API de objetos.</p><pre id="3c1f6ce8-497f-80c8-b336-ddd73dfeb088" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">$data = date_create(&quot;2026-08-19&quot;);
+
+echo date_format($data, &quot;d/m/Y&quot;);</code></pre><p id="3c1f6ce8-497f-806d-bf9c-f9e8d2fd7954" class="" dir="auto">Resultado:</p><pre id="3c1f6ce8-497f-80b1-9d9f-c7c591451291" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">19/08/2026</code></pre><p id="3c1f6ce8-497f-80d0-9189-f071a78e005b" class="" dir="auto">Essa abordagem é especialmente interessante porque permite manipular datas de maneira mais organizada.</p><hr id="3c1f6ce8-497f-80f6-9876-e5b0a337c76b" dir="auto"/><h1 id="3c1f6ce8-497f-803c-9b6e-e53ace337044" class="" dir="auto">23. <code>date_format()</code> — Formatar um objeto de data</h1><p id="3c1f6ce8-497f-80b9-b7c3-cd26a38c9b32" class="" dir="auto">Depois de criar um objeto com <code>date_create()</code>, podemos formatá-lo usando <code>date_format()</code>.</p><pre id="3c1f6ce8-497f-8078-afed-f82212515e79" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">$data = date_create(&quot;2026-08-19&quot;);
+
+echo date_format($data, &quot;d/m/Y&quot;);</code></pre><p id="3c1f6ce8-497f-80a9-ae06-e2d44748aa1c" class="" dir="auto">Também podemos incluir o horário:</p><pre id="3c1f6ce8-497f-80dc-b354-d4c40c6dd553" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">$data = date_create(&quot;2026-08-19 15:30:00&quot;);
+
+echo date_format($data, &quot;d/m/Y H:i:s&quot;);</code></pre><p id="3c1f6ce8-497f-8074-8a9c-dbf2dae6a208" class="" dir="auto">Resultado:</p><pre id="3c1f6ce8-497f-803b-8385-c9ec78c74c45" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">19/08/2026 15:30:00</code></pre><hr id="3c1f6ce8-497f-80f0-827f-d2970b0d5694" dir="auto"/><h1 id="3c1f6ce8-497f-80fa-be53-e2cad56dc9dd" class="" dir="auto">24. <code>date_modify()</code> — Modificar uma data</h1><p id="3c1f6ce8-497f-8037-9b71-ffb1a0412e29" class="" dir="auto">A função <code>date_modify()</code> permite adicionar ou remover períodos de uma data.</p><pre id="3c1f6ce8-497f-808e-8306-ea41b47155dd" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">$data = date_create(&quot;2026-08-19&quot;);
+
+date_modify($data, &quot;+10 days&quot;);
+
+echo date_format($data, &quot;d/m/Y&quot;);</code></pre><p id="3c1f6ce8-497f-80c6-adde-ef1e407d0fe4" class="" dir="auto">Resultado:</p><pre id="3c1f6ce8-497f-8067-bc19-e19534e07a10" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">29/08/2026</code></pre><p id="3c1f6ce8-497f-8065-84cc-e115175820d9" class="" dir="auto">Também podemos remover:</p><pre id="3c1f6ce8-497f-80a4-82e0-f57898a34115" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">$data = date_create(&quot;2026-08-19&quot;);
+
+date_modify($data, &quot;-5 days&quot;);
+
+echo date_format($data, &quot;d/m/Y&quot;);</code></pre><p id="3c1f6ce8-497f-8040-bb58-c7f5519f0e5d" class="" dir="auto">Resultado:</p><pre id="3c1f6ce8-497f-806a-90a1-ea679ee70721" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">14/08/2026</code></pre><hr id="3c1f6ce8-497f-8026-8310-e5116e8a27b7" dir="auto"/><h1 id="3c1f6ce8-497f-809e-8c6b-d328a7d4cc3a" class="" dir="auto">25. <code>date_add()</code> — Adicionar um intervalo</h1><p id="3c1f6ce8-497f-8027-8bad-d609fa89c6c2" class="" dir="auto">Também podemos utilizar <code>date_add()</code> com <code>DateInterval</code>.</p><pre id="3c1f6ce8-497f-8031-9351-f6d1877ab731" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">$data = date_create(&quot;2026-08-19&quot;);
+
+$intervalo = new DateInterval(&quot;P10D&quot;);
+
+date_add($data, $intervalo);
+
+echo date_format($data, &quot;d/m/Y&quot;);</code></pre><p id="3c1f6ce8-497f-80b6-be5a-ef85fb819626" class="" dir="auto">Resultado:</p><pre id="3c1f6ce8-497f-8032-b830-c1a7857cfa64" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">29/08/2026</code></pre><p id="3c1f6ce8-497f-80ee-a95a-dcc6c8cb1fa1" class="" dir="auto">O <code>P10D</code> significa:</p><pre id="3c1f6ce8-497f-8065-b57c-ebc6dedb2739" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">P = período
+10 = quantidade
+D = dias</code></pre><hr id="3c1f6ce8-497f-80fd-b413-f3a74a3b7bf5" dir="auto"/><h1 id="3c1f6ce8-497f-80b9-be69-f99e8467f498" class="" dir="auto">26. <code>date_sub()</code> — Subtrair um intervalo</h1><p id="3c1f6ce8-497f-8044-9583-ea106f4734f7" class="" dir="auto">Para remover um intervalo:</p><pre id="3c1f6ce8-497f-80dd-ae97-e6096543a049" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">$data = date_create(&quot;2026-08-19&quot;);
+
+$intervalo = new DateInterval(&quot;P10D&quot;);
+
+date_sub($data, $intervalo);
+
+echo date_format($data, &quot;d/m/Y&quot;);</code></pre><p id="3c1f6ce8-497f-80f0-96ff-fc9295cc2aa0" class="" dir="auto">Resultado:</p><pre id="3c1f6ce8-497f-801f-82f0-f025beb5e11d" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">09/08/2026</code></pre><hr id="3c1f6ce8-497f-8020-8e83-ed0561098e7c" dir="auto"/><h1 id="3c1f6ce8-497f-800b-a9cd-c090a8f43114" class="" dir="auto">27. <code>date_diff()</code> — Calcular diferença entre datas</h1><p id="3c1f6ce8-497f-8031-9591-fbc954b1dd38" class="" dir="auto">Uma das funções mais importantes é <code>date_diff()</code>.</p><p id="3c1f6ce8-497f-8064-90e1-fbe0f902edc9" class="" dir="auto">Ela calcula a diferença entre duas datas.</p><pre id="3c1f6ce8-497f-80f2-8cbe-cd73a9efb248" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">$data1 = date_create(&quot;2026-08-01&quot;);
+$data2 = date_create(&quot;2026-08-19&quot;);
+
+$diferenca = date_diff($data1, $data2);
+
+echo $diferenca-&gt;days;</code></pre><p id="3c1f6ce8-497f-80bb-9c61-e6ab406ccdd4" class="" dir="auto">Resultado:</p><pre id="3c1f6ce8-497f-8016-8818-f9e728786ca3" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">18</code></pre><p id="3c1f6ce8-497f-80f0-97a0-fff74aa6ccb7" class="" dir="auto">Ou seja, existem <strong>18 dias de diferença</strong> entre as duas datas.</p><hr id="3c1f6ce8-497f-8067-b7eb-daefcd1ba9d1" dir="auto"/><h1 id="3c1f6ce8-497f-806b-9936-d2fcb264b326" class="" dir="auto">28. Obtendo anos, meses e dias de diferença</h1><p id="3c1f6ce8-497f-80ab-9aeb-dc14abf95b6a" class="" dir="auto">O objeto retornado por <code>date_diff()</code> possui várias informações.</p><pre id="3c1f6ce8-497f-8058-8758-eb0b9e737cc8" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">$data1 = date_create(&quot;2020-01-01&quot;);
+$data2 = date_create(&quot;2026-08-19&quot;);
+
+$diferenca = date_diff($data1, $data2);
+
+echo &quot;Anos: &quot; . $diferenca-&gt;y . &quot;&lt;br&gt;&quot;;
+echo &quot;Meses: &quot; . $diferenca-&gt;m . &quot;&lt;br&gt;&quot;;
+echo &quot;Dias: &quot; . $diferenca-&gt;d;</code></pre><p id="3c1f6ce8-497f-807f-a768-c40c1ae628be" class="" dir="auto">Podemos trabalhar com:</p><pre id="3c1f6ce8-497f-808f-ab09-c3c3c2a5ae74" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">y → anos
+m → meses
+d → dias
+h → horas
+i → minutos
+s → segundos</code></pre><hr id="3c1f6ce8-497f-8065-9a19-cbad2dc7266d" dir="auto"/><h1 id="3c1f6ce8-497f-8093-868d-c4bd3864d858" class="" dir="auto">29. Comparando duas datas</h1><p id="3c1f6ce8-497f-8010-9108-d7117536a7ca" class="" dir="auto">Datas criadas como objetos <code>DateTime</code> podem ser comparadas utilizando operadores.</p><pre id="3c1f6ce8-497f-8076-932c-d58c6abced36" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">$data1 = new DateTime(&quot;2026-08-19&quot;);
+$data2 = new DateTime(&quot;2026-08-25&quot;);
+
+if ($data1 &lt; $data2) {
+    echo &quot;A primeira data é anterior.&quot;;
+}</code></pre><p id="3c1f6ce8-497f-80e7-beac-c219d0fe9698" class="" dir="auto">Resultado:</p><pre id="3c1f6ce8-497f-800d-b072-da79be96f876" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">A primeira data é anterior.</code></pre><p id="3c1f6ce8-497f-8013-b0eb-f95b5717553a" class="" dir="auto">Podemos também verificar:</p><pre id="3c1f6ce8-497f-80c9-aeb9-fa44f2985a27" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">if ($data1 &gt; $data2) {
+    echo &quot;A primeira data é posterior.&quot;;
+}</code></pre><p id="3c1f6ce8-497f-80c5-9a93-eced808cf294" class="" dir="auto">Ou:</p><pre id="3c1f6ce8-497f-80de-9ac1-ed9e0588a0ab" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">if ($data1 == $data2) {
+    echo &quot;As datas são iguais.&quot;;
+}</code></pre><hr id="3c1f6ce8-497f-801b-b7bf-d841012b3b80" dir="auto"/><h1 id="3c1f6ce8-497f-8031-b580-c13c786fe318" class="" dir="auto">30. <code>DateTime</code> — Uma das formas mais importantes</h1><p id="3c1f6ce8-497f-807d-9708-d90e4097a354" class="" dir="auto">Embora <code>DateTime</code> não seja uma função, ele é uma das principais ferramentas do PHP moderno para manipulação de datas.</p><p id="3c1f6ce8-497f-80d6-83ab-e21495a24b1a" class="" dir="auto">Exemplo:</p><pre id="3c1f6ce8-497f-80cc-8f73-e3fda7a612d1" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">$data = new DateTime();
+
+echo $data-&gt;format(&quot;d/m/Y H:i:s&quot;);</code></pre><p id="3c1f6ce8-497f-8042-a634-df6961eca0b0" class="" dir="auto">Isso retorna a data e hora atuais.</p><p id="3c1f6ce8-497f-8004-8d43-ddf19742f105" class="" dir="auto">Podemos criar uma data específica:</p><pre id="3c1f6ce8-497f-80ff-8bf6-c8592a6185e5" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">$data = new DateTime(&quot;2026-12-25&quot;);
+
+echo $data-&gt;format(&quot;d/m/Y&quot;);</code></pre><p id="3c1f6ce8-497f-80a3-8efb-ee42b57479fa" class="" dir="auto">Resultado:</p><pre id="3c1f6ce8-497f-80f4-a2f5-fd71e726e693" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">25/12/2026</code></pre><hr id="3c1f6ce8-497f-805e-8207-eac5b94c4ce2" dir="auto"/><h1 id="3c1f6ce8-497f-8091-91e2-e3e0076f3b5e" class="" dir="auto">31. Adicionando tempo com <code>DateTime</code></h1><p id="3c1f6ce8-497f-807e-902e-e3db94611204" class="" dir="auto">Podemos utilizar <code>modify()</code>:</p><pre id="3c1f6ce8-497f-8060-97ea-e7437dd2b97a" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">$data = new DateTime(&quot;2026-08-19&quot;);
+
+$data-&gt;modify(&quot;+30 days&quot;);
+
+echo $data-&gt;format(&quot;d/m/Y&quot;);</code></pre><p id="3c1f6ce8-497f-8053-96b0-fc33af789901" class="" dir="auto">Resultado:</p><pre id="3c1f6ce8-497f-8024-bb97-c70f769a98be" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">18/09/2026</code></pre><p id="3c1f6ce8-497f-8000-aaa4-da0cdf8daffe" class="" dir="auto">Também:</p><pre id="3c1f6ce8-497f-807f-8d94-f42393de9f46" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">$data-&gt;modify(&quot;+2 months&quot;);</code></pre><p id="3c1f6ce8-497f-8074-85a6-e825a4df4928" class="" dir="auto">ou:</p><pre id="3c1f6ce8-497f-80e4-8195-d372baa1f8cc" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">$data-&gt;modify(&quot;-1 year&quot;);</code></pre><hr id="3c1f6ce8-497f-8088-817e-c47ef8875526" dir="auto"/><h1 id="3c1f6ce8-497f-80e2-a7ca-ece126048822" class="" dir="auto">32. <code>DateInterval</code> — Representar intervalos</h1><p id="3c1f6ce8-497f-8033-8d5e-e36cc871f462" class="" dir="auto"><code>DateInterval</code> representa uma quantidade de tempo.</p><p id="3c1f6ce8-497f-8063-983e-d16ab8af141d" class="" dir="auto">Por exemplo:</p><pre id="3c1f6ce8-497f-8043-abfe-ea3212dc62ab" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">$intervalo = new DateInterval(&quot;P1Y&quot;);</code></pre><p id="3c1f6ce8-497f-8066-814b-d49141523c2f" class="" dir="auto">Significa:</p><pre id="3c1f6ce8-497f-809f-b440-f26d54a5bf54" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">1 ano</code></pre><p id="3c1f6ce8-497f-8055-a3ef-cdc0819dab58" class="" dir="auto">Outro:</p><pre id="3c1f6ce8-497f-803d-a36e-edecc9155427" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">$intervalo = new DateInterval(&quot;P30D&quot;);</code></pre><p id="3c1f6ce8-497f-80bc-820a-eb0e3055271f" class="" dir="auto">Significa:</p><pre id="3c1f6ce8-497f-807b-a5ae-faa1316121c8" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">30 dias</code></pre><p id="3c1f6ce8-497f-80b2-97d1-d27d8fa85e9c" class="" dir="auto">Também podemos representar horas e minutos:</p><pre id="3c1f6ce8-497f-80f4-a546-c1302e988c01" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">$intervalo = new DateInterval(&quot;PT2H30M&quot;);</code></pre><p id="3c1f6ce8-497f-8084-9ee6-fa0327ff5382" class="" dir="auto">Significa:</p><pre id="3c1f6ce8-497f-801d-a946-f6d14eb2ef25" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">2 horas e 30 minutos</code></pre><hr id="3c1f6ce8-497f-80cf-b9f8-f27013bf43b8" dir="auto"/><h1 id="3c1f6ce8-497f-80e3-a6e9-cbedf15de6e0" class="" dir="auto">33. Formato ISO 8601</h1><p id="3c1f6ce8-497f-8014-804a-c5ed41448621" class="" dir="auto">Em aplicações web e APIs, é comum utilizar o padrão <strong>ISO 8601</strong>.</p><p id="3c1f6ce8-497f-809c-b534-f40772ca488a" class="" dir="auto">Exemplo:</p><pre id="3c1f6ce8-497f-8022-a3d0-e4f8dcbb2bd4" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">2026-08-19T15:30:00-03:00</code></pre><p id="3c1f6ce8-497f-801a-a14b-e4779bf1e176" class="" dir="auto">Com <code>DateTime</code>:</p><pre id="3c1f6ce8-497f-8014-adc5-d35e8ba64fcd" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">$data = new DateTime();
+
+echo $data-&gt;format(DateTime::ATOM);</code></pre><p id="3c1f6ce8-497f-8078-8f1f-d25770bafb3f" class="" dir="auto">Isso gera uma representação adequada para troca de informações entre sistemas.</p><hr id="3c1f6ce8-497f-80a8-a4e5-f85ece7f2b2c" dir="auto"/><h1 id="3c1f6ce8-497f-80c7-9186-c3a726f83cc3" class="" dir="auto">34. Formatos de data mais utilizados</h1><h3 id="3c1f6ce8-497f-80d7-a8c7-e86c7f116ed5" class="" dir="auto">Brasileiro</h3><pre id="3c1f6ce8-497f-803f-afbc-d2b6f253af6d" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">echo date(&quot;d/m/Y&quot;);</code></pre><p id="3c1f6ce8-497f-80ce-98be-d884bd20dac1" class="" dir="auto">Resultado:</p><pre id="3c1f6ce8-497f-805f-a7a2-dc60a01bc908" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">19/08/2026</code></pre><h3 id="3c1f6ce8-497f-8043-9b42-e0cfb6a34760" class="" dir="auto">Banco de dados</h3><p id="3c1f6ce8-497f-800b-9211-c8d638cdd343" class="" dir="auto">Um formato muito comum é:</p><pre id="3c1f6ce8-497f-8028-80b4-e49531f2294b" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">echo date(&quot;Y-m-d&quot;);</code></pre><p id="3c1f6ce8-497f-80b8-b6b2-d9d71ea3ec9f" class="" dir="auto">Resultado:</p><pre id="3c1f6ce8-497f-80d5-b422-c452dc4bead4" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">2026-08-19</code></pre><h3 id="3c1f6ce8-497f-8022-90ff-c273063c079f" class="" dir="auto">Data e hora</h3><pre id="3c1f6ce8-497f-80de-930b-d9c05d61adba" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">echo date(&quot;Y-m-d H:i:s&quot;);</code></pre><p id="3c1f6ce8-497f-80bf-9512-c641cd234e44" class="" dir="auto">Resultado:</p><pre id="3c1f6ce8-497f-80f4-9968-f2c2b59283ab" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">2026-08-19 15:30:45</code></pre><h3 id="3c1f6ce8-497f-80b3-8f9e-dc73d45c8d0b" class="" dir="auto">ISO 8601</h3><pre id="3c1f6ce8-497f-80a6-8bf6-c0442dbfa489" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">$data = new DateTime();
+
+echo $data-&gt;format(DateTime::ATOM);</code></pre><hr id="3c1f6ce8-497f-80c4-9db7-caa745573e80" dir="auto"/><h1 id="3c1f6ce8-497f-80c9-beb6-c48ec81cbf20" class="" dir="auto">35. Datas no MySQL</h1><p id="3c1f6ce8-497f-8068-8435-d60c5d894c28" class="" dir="auto">Ao trabalhar com PHP e MySQL, um formato muito comum é:</p><pre id="3c1f6ce8-497f-8039-b460-f8540ae070d6" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">YYYY-MM-DD</code></pre><p id="3c1f6ce8-497f-80dd-b68b-ebc80066c632" class="" dir="auto">Por exemplo:</p><pre id="3c1f6ce8-497f-80e9-937d-e18a6525d481" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">2026-08-19</code></pre><p id="3c1f6ce8-497f-8056-94f4-da7e9c93ddcf" class="" dir="auto">Para data e hora:</p><pre id="3c1f6ce8-497f-8080-9871-e71d9587c300" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">2026-08-19 15:30:45</code></pre><p id="3c1f6ce8-497f-8078-b893-ed41d6860335" class="" dir="auto">No PHP:</p><pre id="3c1f6ce8-497f-805e-a1f8-d83f6c4f35b1" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">$data = date(&quot;Y-m-d&quot;);</code></pre><p id="3c1f6ce8-497f-8045-a0ae-d380d3dc5f85" class="" dir="auto">E:</p><pre id="3c1f6ce8-497f-804b-9058-d46bd0e5f5bc" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">$dataHora = date(&quot;Y-m-d H:i:s&quot;);</code></pre><p id="3c1f6ce8-497f-808e-b47e-ce5240cd6046" class="" dir="auto">Isso é muito utilizado ao inserir registros no banco de dados.</p><hr id="3c1f6ce8-497f-80b7-b857-d8f7e3d4cb76" dir="auto"/><h1 id="3c1f6ce8-497f-809a-8700-fd26dc297c5a" class="" dir="auto">36. Exemplo prático: prazo de pagamento</h1><p id="3c1f6ce8-497f-8027-b1b5-dec61a3153f2" class="" dir="auto">Imagine um sistema que registra uma compra e determina que o pagamento deve ocorrer em 15 dias.</p><pre id="3c1f6ce8-497f-80ec-ab3d-eb68be0a45d7" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">$dataCompra = new DateTime();
+
+$dataVencimento = clone $dataCompra;
+
+$dataVencimento-&gt;modify(&quot;+15 days&quot;);
+
+echo &quot;Compra: &quot; . $dataCompra-&gt;format(&quot;d/m/Y&quot;) . &quot;&lt;br&gt;&quot;;
+echo &quot;Vencimento: &quot; . $dataVencimento-&gt;format(&quot;d/m/Y&quot;);</code></pre><p id="3c1f6ce8-497f-8066-86b6-eb7d505eccd9" class="" dir="auto">O resultado será semelhante a:</p><pre id="3c1f6ce8-497f-80ca-a949-c20de614a6da" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Compra: 19/08/2026
+Vencimento: 03/09/2026</code></pre><p id="3c1f6ce8-497f-805a-a70a-d85664a30ab4" class="" dir="auto">Esse tipo de cálculo aparece frequentemente em sistemas financeiros.</p><hr id="3c1f6ce8-497f-804e-8d48-f9d56102a70c" dir="auto"/><h1 id="3c1f6ce8-497f-8040-bca6-e756ad2c6951" class="" dir="auto">37. Exemplo prático: calcular idade</h1><p id="3c1f6ce8-497f-80b2-a979-d053ea16c42f" class="" dir="auto">Podemos utilizar <code>DateTime</code> e <code>diff()</code> para calcular a idade.</p><pre id="3c1f6ce8-497f-80d5-a37e-f56cf3d86fdb" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">$dataNascimento = new DateTime(&quot;2005-08-19&quot;);
+$dataAtual = new DateTime();
+
+$idade = $dataNascimento-&gt;diff($dataAtual);
+
+echo &quot;Idade: &quot; . $idade-&gt;y . &quot; anos&quot;;</code></pre><p id="3c1f6ce8-497f-8045-b52c-e32781ae5223" class="" dir="auto">O <code>y</code> representa a quantidade completa de anos entre as duas datas.</p><hr id="3c1f6ce8-497f-8089-9984-eb814b663e07" dir="auto"/><h1 id="3c1f6ce8-497f-809d-b331-ed8d76b1a3aa" class="" dir="auto">38. Exemplo prático: verificar vencimento</h1><p id="3c1f6ce8-497f-8097-b601-f2c637249278" class="" dir="auto">Podemos verificar se uma determinada data já passou:</p><pre id="3c1f6ce8-497f-80ca-9e0f-fc73c6410602" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">$hoje = new DateTime();
+$vencimento = new DateTime(&quot;2026-08-30&quot;);
+
+if ($hoje &gt; $vencimento) {
+    echo &quot;Vencido&quot;;
+} else {
+    echo &quot;Ainda está dentro do prazo&quot;;
+}</code></pre><p id="3c1f6ce8-497f-8011-9d88-dd778387d2f2" class="" dir="auto">Isso pode ser usado em:</p><ul id="3c1f6ce8-497f-8071-9974-f0a03ec33f25" class="bulleted-list" dir="auto"><li style="list-style-type:disc">boletos;</li></ul><ul id="3c1f6ce8-497f-80f1-8d65-f60c00a0db00" class="bulleted-list" dir="auto"><li style="list-style-type:disc">assinaturas;</li></ul><ul id="3c1f6ce8-497f-80f9-a481-cbce34261145" class="bulleted-list" dir="auto"><li style="list-style-type:disc">contratos;</li></ul><ul id="3c1f6ce8-497f-807f-937e-ee5f3f18c0d7" class="bulleted-list" dir="auto"><li style="list-style-type:disc">mensalidades;</li></ul><ul id="3c1f6ce8-497f-808f-ba7f-ef67c33fadd8" class="bulleted-list" dir="auto"><li style="list-style-type:disc">documentos;</li></ul><ul id="3c1f6ce8-497f-803f-b840-ddc0ffa417fe" class="bulleted-list" dir="auto"><li style="list-style-type:disc">promoções;</li></ul><ul id="3c1f6ce8-497f-803c-b91f-f2bd7075ec7c" class="bulleted-list" dir="auto"><li style="list-style-type:disc">certificados.</li></ul><hr id="3c1f6ce8-497f-8039-bb57-f447c137c62b" dir="auto"/><h1 id="3c1f6ce8-497f-8022-8d31-f8defca296f5" class="" dir="auto">39. Exemplo completo</h1><p id="3c1f6ce8-497f-80eb-a4d0-d2b68b6a2579" class="" dir="auto">Um pequeno sistema pode utilizar várias funcionalidades:</p><pre id="3c1f6ce8-497f-808e-a5d1-c46d1264f25c" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">&lt;?php
+
+date_default_timezone_set(&quot;America/Fortaleza&quot;);
+
+$hoje = new DateTime();
+
+$vencimento = clone $hoje;
+$vencimento-&gt;modify(&quot;+30 days&quot;);
+
+$diferenca = $hoje-&gt;diff($vencimento);
+
+echo &quot;Data atual: &quot; . $hoje-&gt;format(&quot;d/m/Y H:i:s&quot;) . &quot;&lt;br&gt;&quot;;
+
+echo &quot;Vencimento: &quot; . $vencimento-&gt;format(&quot;d/m/Y&quot;) . &quot;&lt;br&gt;&quot;;
+
+echo &quot;Dias restantes: &quot; . $diferenca-&gt;days;</code></pre><p id="3c1f6ce8-497f-8045-a428-da3df1e453ef" class="" dir="auto">Esse exemplo:</p><ol type="1" id="3c1f6ce8-497f-808d-8d47-f5093ef9d208" class="numbered-list" start="1" dir="auto"><li>Define o fuso horário;</li></ol><ol type="1" id="3c1f6ce8-497f-8047-bd5f-ecc25b19444d" class="numbered-list" start="2" dir="auto"><li>Obtém a data atual;</li></ol><ol type="1" id="3c1f6ce8-497f-8047-91fe-f7b52b3471ec" class="numbered-list" start="3" dir="auto"><li>Cria uma data de vencimento;</li></ol><ol type="1" id="3c1f6ce8-497f-80ac-b027-fe87f3e7de6d" class="numbered-list" start="4" dir="auto"><li>Adiciona 30 dias;</li></ol><ol type="1" id="3c1f6ce8-497f-80e5-8ac5-e3b92dae7883" class="numbered-list" start="5" dir="auto"><li>Calcula a diferença;</li></ol><ol type="1" id="3c1f6ce8-497f-8001-8272-e8dbd0a90bae" class="numbered-list" start="6" dir="auto"><li>Exibe as informações.</li></ol><hr id="3c1f6ce8-497f-8072-8c0a-e8353c39342e" dir="auto"/><h1 id="3c1f6ce8-497f-80d6-adbd-ce5cac63bc42" class="" dir="auto">40. Principais funções e classes</h1><table id="3c1f6ce8-497f-80a8-b83a-ec8d5038b2d3" class="simple-table" dir="ltr"><thead class="simple-table-header"><tr id="3c1f6ce8-497f-80fe-bd53-cfa4b6205322" dir="ltr"><th id="rvfu" class="simple-table-header-color simple-table-header">Recurso</th><th id="Z??|" class="simple-table-header-color simple-table-header">Finalidade</th></tr></thead><tbody><tr id="3c1f6ce8-497f-80b1-a865-c01472fef098" dir="ltr"><td id="rvfu" class=""><code>date()</code></td><td id="Z??|" class="">Formatar data/hora</td></tr><tr id="3c1f6ce8-497f-80ad-957d-fd44b98fd41b" dir="ltr"><td id="rvfu" class=""><code>time()</code></td><td id="Z??|" class="">Obter timestamp atual</td></tr><tr id="3c1f6ce8-497f-808c-9d12-ed3dfbc8c311" dir="ltr"><td id="rvfu" class=""><code>strtotime()</code></td><td id="Z??|" class="">Converter texto em timestamp</td></tr><tr id="3c1f6ce8-497f-807a-acde-c66938b85c42" dir="ltr"><td id="rvfu" class=""><code>mktime()</code></td><td id="Z??|" class="">Criar timestamp</td></tr><tr id="3c1f6ce8-497f-8022-a13f-e4c4fcb3006a" dir="ltr"><td id="rvfu" class=""><code>checkdate()</code></td><td id="Z??|" class="">Verificar se uma data é válida</td></tr><tr id="3c1f6ce8-497f-80ae-9158-e0ad649b2b47" dir="ltr"><td id="rvfu" class=""><code>getdate()</code></td><td id="Z??|" class="">Obter informações de uma data</td></tr><tr id="3c1f6ce8-497f-8038-bd7f-d43d0fc09722" dir="ltr"><td id="rvfu" class=""><code>date_parse()</code></td><td id="Z??|" class="">Analisar uma string de data</td></tr><tr id="3c1f6ce8-497f-80b7-9ef6-fe75173ae9f6" dir="ltr"><td id="rvfu" class=""><code>date_create()</code></td><td id="Z??|" class="">Criar objeto de data</td></tr><tr id="3c1f6ce8-497f-8070-a4c3-dc12ad4d37dd" dir="ltr"><td id="rvfu" class=""><code>date_format()</code></td><td id="Z??|" class="">Formatar objeto de data</td></tr><tr id="3c1f6ce8-497f-8004-b565-f4e248cf748a" dir="ltr"><td id="rvfu" class=""><code>date_modify()</code></td><td id="Z??|" class="">Modificar uma data</td></tr><tr id="3c1f6ce8-497f-808f-ad62-ee39f33a2dc0" dir="ltr"><td id="rvfu" class=""><code>date_add()</code></td><td id="Z??|" class="">Adicionar intervalo</td></tr><tr id="3c1f6ce8-497f-80b9-b63c-f93c603e9835" dir="ltr"><td id="rvfu" class=""><code>date_sub()</code></td><td id="Z??|" class="">Subtrair intervalo</td></tr><tr id="3c1f6ce8-497f-8046-9b5f-f975497e2930" dir="ltr"><td id="rvfu" class=""><code>date_diff()</code></td><td id="Z??|" class="">Calcular diferença entre datas</td></tr><tr id="3c1f6ce8-497f-80e8-ab33-fcf810a0de0e" dir="ltr"><td id="rvfu" class=""><code>DateTime</code></td><td id="Z??|" class="">Manipulação orientada a objetos</td></tr><tr id="3c1f6ce8-497f-8035-887d-dfa1b1ea8a42" dir="ltr"><td id="rvfu" class=""><code>DateInterval</code></td><td id="Z??|" class="">Representar intervalos de tempo</td></tr><tr id="3c1f6ce8-497f-8075-9faa-f83cd6669910" dir="ltr"><td id="rvfu" class=""><code>date_default_timezone_set()</code></td><td id="Z??|" class="">Definir fuso horário</td></tr><tr id="3c1f6ce8-497f-80e6-b69f-d083e00aa1f1" dir="ltr"><td id="rvfu" class=""><code>date_default_timezone_get()</code></td><td id="Z??|" class="">Consultar fuso horário</td></tr><tr id="3c1f6ce8-497f-8059-b9e8-c6177e71b0ba" dir="ltr"><td id="rvfu" class=""><code>gmdate()</code></td><td id="Z??|" class="">Trabalhar com UTC</td></tr></tbody></table><hr id="3c1f6ce8-497f-8057-a648-cbfd1aee3a08" dir="auto"/><h1 id="3c1f6ce8-497f-8066-addf-c3c9f99910e9" class="" dir="auto">41. O que é mais importante aprender?</h1><p id="3c1f6ce8-497f-8047-ab0a-eaf13169068d" class="" dir="auto">Para quem está começando com PHP, recomendo dominar primeiro:</p><h3 id="3c1f6ce8-497f-804d-a95e-fac87118443c" class="" dir="auto">Nível básico</h3><pre id="3c1f6ce8-497f-80bb-b6ac-e7f95a885f9f" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">date()
+time()
+strtotime()
+checkdate()</code></pre><h3 id="3c1f6ce8-497f-8055-a86b-fcc0829ed94a" class="" dir="auto">Nível intermediário</h3><pre id="3c1f6ce8-497f-800b-b3d5-ee50313c2c20" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">date_create()
+date_format()
+date_modify()
+date_add()
+date_sub()
+date_diff()</code></pre><h3 id="3c1f6ce8-497f-80af-9133-e0669697af16" class="" dir="auto">Nível mais avançado</h3><pre id="3c1f6ce8-497f-80f9-9875-ccb377762fe3" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">DateTime
+DateInterval
+DateTimeZone</code></pre><p id="3c1f6ce8-497f-8017-9a5e-f53b2b548dc7" class="" dir="auto">Principalmente em projetos modernos, <code><strong>DateTime</strong></code><strong>, </strong><code><strong>DateInterval</strong></code><strong> e </strong><code><strong>DateTimeZone</strong></code> são extremamente importantes porque permitem trabalhar de maneira mais organizada com datas, horários, fusos e intervalos.</p><hr id="3c1f6ce8-497f-8090-897e-c7588a32004a" dir="auto"/><h2 id="3c1f6ce8-497f-80e1-af52-f420602c8d63" class="" dir="auto">Resumo</h2><p id="3c1f6ce8-497f-80ed-a1d5-f8637aa4b63f" class="" dir="auto">As funções nativas de datas do PHP permitem realizar praticamente todas as operações comuns relacionadas a calendário e horário:</p><pre id="3c1f6ce8-497f-8084-b1d0-e453cf9f012e" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Obter data atual
+       ↓
+Formatar datas
+       ↓
+Converter strings em datas
+       ↓
+Adicionar/remover períodos
+       ↓
+Comparar datas
+       ↓
+Calcular diferenças
+       ↓
+Validar datas
+       ↓
+Trabalhar com fusos horários
+       ↓
+Integrar datas com bancos de dados e APIs</code></pre><p id="3c1f6ce8-497f-80cb-8643-fb929752ce4d" class="" dir="auto">Para aplicações reais, uma combinação muito importante é:</p><pre id="3c1f6ce8-497f-805e-9d16-dcf1a926ffad" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">DateTime
+DateInterval
+DateTimeZone</code></pre><p id="3c1f6ce8-497f-80bb-abc0-ea57d4e03306" class="" dir="auto">junto com <code>format()</code>, <code>modify()</code> e <code>diff()</code>. Essa abordagem é mais robusta para sistemas que precisam manipular <strong>vencimentos, prazos, agendamentos, períodos, horários e datas de usuários</strong>.</p></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

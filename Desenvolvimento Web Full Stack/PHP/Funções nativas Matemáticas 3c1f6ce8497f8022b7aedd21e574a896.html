@@ -1,0 +1,882 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Funções nativas Matemáticas</title><meta name="data-notion-page-icon" content="/icons/elephant_purple.svg"/><link rel="icon" href="https://app.notion.com/icons/elephant_purple.svg"/><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+/* For default-background callouts, render the border outline. */
+.callout.block-color-default_background {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+/*
+ * Toggles and callouts hold arbitrary content, so they can easily be taller
+ * than a page. They must stay breakable: avoiding breaks inside them makes
+ * Chromium push the whole block onto the next page, which leaves the previous
+ * page mostly empty before every long toggle.
+ */
+details,
+aside {
+	margin: 1.25em 0;
+}
+
+/* Keep a toggle's title on the same page as the start of its content. */
+summary {
+	page-break-after: avoid;
+	break-after: avoid;
+}
+
+/*
+ * Toggle headings render as <h1/h2/h3 style="display:inline-block"> inside
+ * <summary>. Without this reset, the heading's margin-top pushes it below the
+ * ::marker (▼), so the triangle and the title appear on separate lines.
+ */
+summary h1,
+summary h2,
+summary h3,
+summary h4 {
+	margin-top: 0;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding-inline: 0.125rem;
+	padding-block: 0.375rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+/*
+ * Render emoji icons using a ::before pseudo-element to keep the glyph
+ * out of the DOM textContent traversal. This avoids double-rendering icons
+ * in callouts and page titles.
+ * NOTE(slim/html-export-pseudo-icons): I can't tagref this because it will
+ * flag as a duplicate tag after codegen.
+ */
+.icon[data-emoji]::before {
+	content: attr(data-emoji);
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	margin-right: 0.4em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.tab {
+	margin: 1.25em 0;
+	padding-inline: 1rem;
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style><style>@import url('https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex-swap.min.css')</style></head><body><article id="3c1f6ce8-497f-8022-b7ae-dd21e574a896" class="page sans" data-notion-page-icon="/icons/elephant_purple.svg"><header><div class="page-header-icon undefined"><img class="icon notion-static-icon" src="https://app.notion.com/icons/elephant_purple.svg"/></div><h1 class="page-title" dir="auto">Funções nativas Matemáticas</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><h1 id="3c1f6ce8-497f-803d-8cc2-e44cdc04bfb4" class="" dir="auto">Funções Nativas para Tarefas Matemáticas no PHP</h1><p id="3c1f6ce8-497f-80f3-a4dd-ea497eb0950c" class="" dir="auto">O PHP possui diversas <strong>funções nativas para realizar operações matemáticas</strong>, desde cálculos simples, como arredondamento e valor absoluto, até operações mais avançadas, como potência, raiz quadrada, logaritmos e funções trigonométricas.</p><p id="3c1f6ce8-497f-80b4-bd94-f8d78c489841" class="" dir="auto">Essas funções fazem parte da própria linguagem, portanto, normalmente <strong>não é necessário instalar nenhuma biblioteca adicional</strong> para utilizá-las.</p><hr id="3c1f6ce8-497f-809b-89f7-fe26667bfca1" dir="auto"/><h2 id="3c1f6ce8-497f-80d9-a7c4-f49e2d4c97c0" class="" dir="auto">1. <code>abs()</code> — Valor absoluto</h2><p id="3c1f6ce8-497f-8022-9a2a-fbc181a965ea" class="" dir="auto">A função <code>abs()</code> retorna o <strong>valor absoluto</strong> de um número, ou seja, elimina o sinal negativo quando ele existe.</p><h3 id="3c1f6ce8-497f-8041-836e-ef5aa8375969" class="" dir="auto">Sintaxe</h3><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markup-templating.min.js" integrity="sha512-+8BiRfWso6waiFDv6tEmWF8yfPGgxAtOYLDUB0rRISLwtpxkJ9lpPNUhxwWlikn3qSO+4RQyzDppi62o3ON/AA==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-php.min.js" integrity="sha512-plzrTi61ltEMFf84gTVO9IkvIMfBu07bnDuahvdlIclmFWzXJ9VcRsny9d45sxFZRv3jJg/MHNyuxnUYEMxMEg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="3c1f6ce8-497f-80b9-a4e3-c832aacf2918" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">abs(numero);</code></pre><h3 id="3c1f6ce8-497f-8012-a5b3-dd515eabea06" class="" dir="auto">Exemplo</h3><pre id="3c1f6ce8-497f-80b1-9e32-dffe7e6b110f" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">&lt;?php
+
+echo abs(-50);</code></pre><p id="3c1f6ce8-497f-8032-8201-f1adac5e88fa" class="" dir="auto">Resultado:</p><pre id="3c1f6ce8-497f-800a-abbf-cd4cbfa5666b" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">50</code></pre><p id="3c1f6ce8-497f-8091-b780-d142c238dfca" class="" dir="auto">Outro exemplo:</p><pre id="3c1f6ce8-497f-809a-a275-c5d757b54088" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">$temperatura = -15;
+
+echo abs($temperatura);</code></pre><p id="3c1f6ce8-497f-808b-90ae-fdd447912771" class="" dir="auto">Resultado:</p><pre id="3c1f6ce8-497f-8086-95d6-ed53fbb5a34c" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">15</code></pre><p id="3c1f6ce8-497f-804c-9753-efa01f5a9a14" class="" dir="auto">É útil quando precisamos trabalhar apenas com a distância ou magnitude de um valor.</p><hr id="3c1f6ce8-497f-806e-9c2a-cba6e54304b0" dir="auto"/><h1 id="3c1f6ce8-497f-80ca-abb0-c40662d8ff08" class="" dir="auto">2. <code>pow()</code> — Potência</h1><p id="3c1f6ce8-497f-806f-9f91-f0625e15f7fc" class="" dir="auto">A função <code>pow()</code> calcula uma <strong>potência</strong>.</p><h3 id="3c1f6ce8-497f-80ae-b6d6-cbe7440eaede" class="" dir="auto">Sintaxe</h3><pre id="3c1f6ce8-497f-8048-86f0-ff107a606b2a" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">pow(base, expoente);</code></pre><h3 id="3c1f6ce8-497f-80e0-9740-c1fc7b5e1c33" class="" dir="auto">Exemplo</h3><pre id="3c1f6ce8-497f-80a9-8f83-c8e650348d65" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">&lt;?php
+
+echo pow(2, 3);</code></pre><p id="3c1f6ce8-497f-805f-b66f-c9e209fdcc70" class="" dir="auto">Resultado:</p><pre id="3c1f6ce8-497f-80cc-ab3f-f1d384b98867" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">8</code></pre><p id="3c1f6ce8-497f-8050-82e3-c59494cd2dca" class="" dir="auto">Porque:</p><pre id="3c1f6ce8-497f-80f7-ba7d-ee2a1585d701" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">2³ = 2 × 2 × 2 = 8</code></pre><p id="3c1f6ce8-497f-8058-808a-e06189f12238" class="" dir="auto">Também podemos armazenar o resultado:</p><pre id="3c1f6ce8-497f-80ca-a18b-ce8c62651b6f" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">$base = 5;
+$expoente = 2;
+
+$resultado = pow($base, $expoente);
+
+echo $resultado;</code></pre><p id="3c1f6ce8-497f-8002-bd09-ccf5b091c23b" class="" dir="auto">Resultado:</p><pre id="3c1f6ce8-497f-80a8-ae4b-f1edc30bd480" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">25</code></pre><h3 id="3c1f6ce8-497f-8099-a0ba-c91713fb005d" class="" dir="auto">Operador <code>*</code></h3><p id="3c1f6ce8-497f-80fe-9a21-fc66f08020b1" class="" dir="auto">No PHP também podemos utilizar o operador de exponenciação:</p><pre id="3c1f6ce8-497f-8009-9b2f-d86fbe099bbd" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">$resultado = 2 ** 3;
+
+echo $resultado;</code></pre><p id="3c1f6ce8-497f-800f-8654-d2479043878f" class="" dir="auto">Resultado:</p><pre id="3c1f6ce8-497f-8019-8907-f8c3cc4ad637" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">8</code></pre><p id="3c1f6ce8-497f-8052-8fdb-e9a29d5a6527" class="" dir="auto">Para operações simples, <code>**</code> costuma ser mais direto.</p><hr id="3c1f6ce8-497f-808b-b57d-e51a618067ce" dir="auto"/><h1 id="3c1f6ce8-497f-8025-9e1c-e5f1ce31add7" class="" dir="auto">3. <code>sqrt()</code> — Raiz quadrada</h1><p id="3c1f6ce8-497f-8014-beda-d8f0fa2e65ff" class="" dir="auto">A função <code>sqrt()</code> calcula a <strong>raiz quadrada</strong> de um número.</p><h3 id="3c1f6ce8-497f-80e9-8d3d-fa762e714964" class="" dir="auto">Sintaxe</h3><pre id="3c1f6ce8-497f-806a-bccd-c9ac2bf71ff2" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">sqrt(numero);</code></pre><h3 id="3c1f6ce8-497f-8015-be27-e2f1e5ef3e0f" class="" dir="auto">Exemplo</h3><pre id="3c1f6ce8-497f-8047-be44-eb1c793038fe" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">&lt;?php
+
+echo sqrt(25);</code></pre><p id="3c1f6ce8-497f-808d-a863-f7f5aa8aef8c" class="" dir="auto">Resultado:</p><pre id="3c1f6ce8-497f-8002-a24b-ec57a561d129" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">5</code></pre><p id="3c1f6ce8-497f-80a6-be1f-f500a1b0f008" class="" dir="auto">Outro exemplo:</p><pre id="3c1f6ce8-497f-803c-a1ab-d0cb8750dc1e" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">$resultado = sqrt(81);
+
+echo $resultado;</code></pre><p id="3c1f6ce8-497f-8019-8359-e98eca38fc8b" class="" dir="auto">Resultado:</p><pre id="3c1f6ce8-497f-8091-bd4f-ccc41b9444c6" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">9</code></pre><p id="3c1f6ce8-497f-8029-8182-e280ca92630b" class="" dir="auto">Também pode retornar números decimais:</p><pre id="3c1f6ce8-497f-80e6-9be8-e096258c212b" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">echo sqrt(2);</code></pre><p id="3c1f6ce8-497f-8012-9aae-cb43ab413c9e" class="" dir="auto">Resultado aproximado:</p><pre id="3c1f6ce8-497f-80c6-a729-e9e3c86d594e" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">1.4142135623731</code></pre><hr id="3c1f6ce8-497f-80a4-b8ed-f6e50a993c64" dir="auto"/><h1 id="3c1f6ce8-497f-80d6-9529-cd10726d9099" class="" dir="auto">4. <code>round()</code> — Arredondamento</h1><p id="3c1f6ce8-497f-80ff-9487-d45396f370fe" class="" dir="auto">A função <code>round()</code> arredonda um número para o valor inteiro mais próximo ou para uma quantidade determinada de casas decimais.</p><h3 id="3c1f6ce8-497f-8094-a7f4-dbee5ca8507f" class="" dir="auto">Sintaxe</h3><pre id="3c1f6ce8-497f-80a1-9f61-ece520561d66" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">round(numero, casas);</code></pre><h3 id="3c1f6ce8-497f-80dc-b978-f148076b6c4f" class="" dir="auto">Exemplo simples</h3><pre id="3c1f6ce8-497f-80c2-a329-dd7d3744ad68" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">echo round(10.6);</code></pre><p id="3c1f6ce8-497f-8084-9cec-fc45cd216e1f" class="" dir="auto">Resultado:</p><pre id="3c1f6ce8-497f-80ab-bf84-e75a6df5ebe8" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">11</code></pre><p id="3c1f6ce8-497f-809d-83a2-cc7612243706" class="" dir="auto">Outro:</p><pre id="3c1f6ce8-497f-8035-a5db-fb2e2c24fa96" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">echo round(10.4);</code></pre><p id="3c1f6ce8-497f-8043-81cb-f33c2c6f2e46" class="" dir="auto">Resultado:</p><pre id="3c1f6ce8-497f-8033-a5e5-d26549121035" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">10</code></pre><h3 id="3c1f6ce8-497f-804a-9c9f-ceeb60f7506d" class="" dir="auto">Definindo casas decimais</h3><pre id="3c1f6ce8-497f-80d4-982a-dfacfca9c615" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">$valor = 15.6789;
+
+echo round($valor, 2);</code></pre><p id="3c1f6ce8-497f-80ec-b2a9-fa1c9e564ce8" class="" dir="auto">Resultado:</p><pre id="3c1f6ce8-497f-80ed-bab2-d39a6ae5b065" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">15.68</code></pre><p id="3c1f6ce8-497f-80df-bc37-f5374db5919b" class="" dir="auto">Isso é bastante utilizado em cálculos financeiros e na apresentação de valores.</p><hr id="3c1f6ce8-497f-801c-9c7b-f2c8db75e13b" dir="auto"/><h1 id="3c1f6ce8-497f-80f5-b279-e0932bbe7090" class="" dir="auto">5. <code>ceil()</code> — Arredondamento para cima</h1><p id="3c1f6ce8-497f-8093-9c52-f6a934dff278" class="" dir="auto">A função <code>ceil()</code> sempre arredonda um número <strong>para cima</strong>.</p><h3 id="3c1f6ce8-497f-80d0-aff1-c4e0b792e49b" class="" dir="auto">Exemplo</h3><pre id="3c1f6ce8-497f-8004-bd4a-c68661e4321a" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">echo ceil(10.1);</code></pre><p id="3c1f6ce8-497f-8016-91ef-f5597e1ae05c" class="" dir="auto">Resultado:</p><pre id="3c1f6ce8-497f-80ca-95f3-f7559ff619c2" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">11</code></pre><p id="3c1f6ce8-497f-80ac-bb62-cca7a73e59c3" class="" dir="auto">Mesmo que o valor esteja muito próximo de 10:</p><pre id="3c1f6ce8-497f-80e5-9ae4-f2fd24a7a2a0" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">echo ceil(10.01);</code></pre><p id="3c1f6ce8-497f-801e-99a9-ed6c3a642929" class="" dir="auto">Resultado:</p><pre id="3c1f6ce8-497f-800b-afe7-d6c714b7da1e" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">11</code></pre><p id="3c1f6ce8-497f-8090-85bd-dcf3bbc954f8" class="" dir="auto">Também funciona com números negativos:</p><pre id="3c1f6ce8-497f-80aa-9d96-cac1d5ca5ed5" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">echo ceil(-10.8);</code></pre><p id="3c1f6ce8-497f-80c5-b1ec-ffe36af3f6fe" class="" dir="auto">Resultado:</p><pre id="3c1f6ce8-497f-8007-ad1e-f64727a40929" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">-10</code></pre><p id="3c1f6ce8-497f-80c0-9ef7-ed82c4b01d30" class="" dir="auto">Isso acontece porque o arredondamento é feito em direção ao infinito positivo.</p><hr id="3c1f6ce8-497f-80f2-bae9-ef17cf962b4c" dir="auto"/><h1 id="3c1f6ce8-497f-80f5-9345-f596471c3304" class="" dir="auto">6. <code>floor()</code> — Arredondamento para baixo</h1><p id="3c1f6ce8-497f-805e-86ff-f4a563e0feed" class="" dir="auto">A função <code>floor()</code> faz o contrário de <code>ceil()</code>: arredonda sempre <strong>para baixo</strong>.</p><pre id="3c1f6ce8-497f-8089-8a9c-f4fe690eb708" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">echo floor(10.9);</code></pre><p id="3c1f6ce8-497f-80dc-b3bc-ce886de84fdf" class="" dir="auto">Resultado:</p><pre id="3c1f6ce8-497f-80b1-b648-cbcb332b1440" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">10</code></pre><p id="3c1f6ce8-497f-806a-8136-caa08b83c6f0" class="" dir="auto">Outro exemplo:</p><pre id="3c1f6ce8-497f-805b-a97d-c6a417f135a9" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">echo floor(10.1);</code></pre><p id="3c1f6ce8-497f-80d7-84d7-cd41a1b22da7" class="" dir="auto">Resultado:</p><pre id="3c1f6ce8-497f-806d-a1de-ec7dc54ec4c2" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">10</code></pre><p id="3c1f6ce8-497f-800a-bef1-e11adbbba7ee" class="" dir="auto">Com números negativos:</p><pre id="3c1f6ce8-497f-80af-ac76-fdef031844fd" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">echo floor(-10.1);</code></pre><p id="3c1f6ce8-497f-80d2-b868-f31c940f6f11" class="" dir="auto">Resultado:</p><pre id="3c1f6ce8-497f-80df-b0a0-dbeb5af33708" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">-11</code></pre><hr id="3c1f6ce8-497f-80db-994e-dbdf5f8ee0ea" dir="auto"/><h1 id="3c1f6ce8-497f-80e0-8adf-d288378a2f5b" class="" dir="auto">7. Diferença entre <code>round()</code>, <code>ceil()</code> e <code>floor()</code></h1><p id="3c1f6ce8-497f-803a-8bce-ce726e3ba027" class="" dir="auto">Essas três funções são muito importantes:</p><table id="3c1f6ce8-497f-80c1-ae41-cf39231a679f" class="simple-table" dir="ltr"><thead class="simple-table-header"><tr id="3c1f6ce8-497f-80e1-8c69-d99e965f5b2f" dir="ltr"><th id="h&gt;TB" class="simple-table-header-color simple-table-header">Função</th><th id="JxvV" class="simple-table-header-color simple-table-header">Com <code>10.6</code></th><th id="`AxF" class="simple-table-header-color simple-table-header">Com <code>10.2</code></th></tr></thead><tbody><tr id="3c1f6ce8-497f-80a6-8436-d4a87ec61e4c" dir="ltr"><td id="h&gt;TB" class=""><code>round()</code></td><td id="JxvV" class="">11</td><td id="`AxF" class="">10</td></tr><tr id="3c1f6ce8-497f-8006-974d-d7d8fc3b3930" dir="ltr"><td id="h&gt;TB" class=""><code>ceil()</code></td><td id="JxvV" class="">11</td><td id="`AxF" class="">11</td></tr><tr id="3c1f6ce8-497f-8000-856e-ff41de143cad" dir="ltr"><td id="h&gt;TB" class=""><code>floor()</code></td><td id="JxvV" class="">10</td><td id="`AxF" class="">10</td></tr></tbody></table><p id="3c1f6ce8-497f-8047-bb43-cbbc481a4eb7" class="" dir="auto">Em resumo:</p><ul id="3c1f6ce8-497f-80ea-9e56-f087aaa6fe38" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><code>round()</code> → arredonda para o valor mais próximo.</li></ul><ul id="3c1f6ce8-497f-80a9-be7e-d1c405cfb5a5" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><code>ceil()</code> → sempre para cima.</li></ul><ul id="3c1f6ce8-497f-807c-bb3a-f68a29aabe5a" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><code>floor()</code> → sempre para baixo.</li></ul><hr id="3c1f6ce8-497f-80e4-ab37-cf66b626d28d" dir="auto"/><h1 id="3c1f6ce8-497f-8072-97c8-ffb121f4bea7" class="" dir="auto">8. <code>intdiv()</code> — Divisão inteira</h1><p id="3c1f6ce8-497f-808b-90c5-d755a57c993a" class="" dir="auto">A função <code>intdiv()</code> realiza uma divisão e retorna <strong>somente a parte inteira do resultado</strong>.</p><h3 id="3c1f6ce8-497f-8059-82df-ca8006675c25" class="" dir="auto">Exemplo</h3><pre id="3c1f6ce8-497f-8048-9eaf-f18d54c2c853" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">echo intdiv(10, 3);</code></pre><p id="3c1f6ce8-497f-8016-b3cb-d1a626441bff" class="" dir="auto">Resultado:</p><pre id="3c1f6ce8-497f-809c-8a4c-f8ba5e40819f" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">3</code></pre><p id="3c1f6ce8-497f-80b7-8663-c512746bd9c9" class="" dir="auto">A divisão normal seria:</p><pre id="3c1f6ce8-497f-800e-a7ea-e3daa137a7e3" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">10 / 3 = 3.333...</code></pre><p id="3c1f6ce8-497f-800a-895b-fbbf717b3901" class="" dir="auto">Mas <code>intdiv()</code> retorna apenas:</p><pre id="3c1f6ce8-497f-80cd-b9b5-e7124adcf90a" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">3</code></pre><p id="3c1f6ce8-497f-80c0-b1f3-f496021b1d58" class="" dir="auto">Outro exemplo:</p><pre id="3c1f6ce8-497f-8041-86f9-fbc87b43ef6b" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">$idade = 25;
+$grupos = intdiv($idade, 5);
+
+echo $grupos;</code></pre><p id="3c1f6ce8-497f-80b3-8ad2-e78f0be3f50a" class="" dir="auto">Resultado:</p><pre id="3c1f6ce8-497f-8066-b675-fde1c0af6605" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">5</code></pre><p id="3c1f6ce8-497f-806d-b463-cc7c756bd32d" class="" dir="auto">É bastante útil quando precisamos dividir elementos em grupos inteiros.</p><hr id="3c1f6ce8-497f-802c-9a98-fbbc3b1d387c" dir="auto"/><h1 id="3c1f6ce8-497f-800d-b20a-c0a229b31a8f" class="" dir="auto">9. Operador <code>%</code> — Resto da divisão</h1><p id="3c1f6ce8-497f-803d-a57c-dd664bd5273c" class="" dir="auto">O operador <code>%</code> retorna o <strong>resto de uma divisão inteira</strong>.</p><pre id="3c1f6ce8-497f-8097-9030-d5d691d14887" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">echo 10 % 3;</code></pre><p id="3c1f6ce8-497f-802d-ab65-fe3aa02d67f9" class="" dir="auto">Resultado:</p><pre id="3c1f6ce8-497f-8074-9296-f5a275381119" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">1</code></pre><p id="3c1f6ce8-497f-80e1-bc7a-de2f5cb83391" class="" dir="auto">Porque:</p><pre id="3c1f6ce8-497f-80a6-8019-fd20308b4252" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">10 ÷ 3 = 3
+resto = 1</code></pre><p id="3c1f6ce8-497f-800a-a2c3-cf046a1a39f5" class="" dir="auto">Um dos usos mais comuns é verificar se um número é par ou ímpar.</p><h3 id="3c1f6ce8-497f-80b6-94ef-e2f9546c4fdf" class="" dir="auto">Verificando se é par</h3><pre id="3c1f6ce8-497f-805f-a118-da2671d1942b" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">$numero = 10;
+
+if ($numero % 2 == 0) {
+    echo &quot;Número par&quot;;
+}</code></pre><h3 id="3c1f6ce8-497f-8064-94ea-c28735d2c2d5" class="" dir="auto">Verificando se é ímpar</h3><pre id="3c1f6ce8-497f-80f6-9228-ff7d93843ed9" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">$numero = 7;
+
+if ($numero % 2 != 0) {
+    echo &quot;Número ímpar&quot;;
+}</code></pre><hr id="3c1f6ce8-497f-8063-bf39-d84e9b981b4f" dir="auto"/><h1 id="3c1f6ce8-497f-800e-9c95-df47b9980646" class="" dir="auto">10. <code>min()</code> — Menor valor</h1><p id="3c1f6ce8-497f-80aa-832d-e2978361a311" class="" dir="auto">A função <code>min()</code> retorna o <strong>menor valor</strong> entre os valores fornecidos.</p><pre id="3c1f6ce8-497f-8021-b5bc-c3471f64eb52" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">echo min(10, 5, 20, 3, 8);</code></pre><p id="3c1f6ce8-497f-80f8-a957-dc78de56e6c7" class="" dir="auto">Resultado:</p><pre id="3c1f6ce8-497f-80cb-be34-f465ccc8baf8" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">3</code></pre><p id="3c1f6ce8-497f-80c3-b0a4-d2df2a95f8e4" class="" dir="auto">Também podemos utilizar arrays:</p><pre id="3c1f6ce8-497f-8016-85b6-ceb408943f46" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">$numeros = [10, 5, 20, 3, 8];
+
+echo min($numeros);</code></pre><p id="3c1f6ce8-497f-80ae-baad-e478719dd633" class="" dir="auto">Resultado:</p><pre id="3c1f6ce8-497f-80ee-8a79-d6bf325052ba" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">3</code></pre><hr id="3c1f6ce8-497f-805f-addc-ec7df6ed6b38" dir="auto"/><h1 id="3c1f6ce8-497f-8068-9127-f49b38bd9932" class="" dir="auto">11. <code>max()</code> — Maior valor</h1><p id="3c1f6ce8-497f-802a-a734-dc48e0eeef0a" class="" dir="auto">A função <code>max()</code> retorna o <strong>maior valor</strong>.</p><pre id="3c1f6ce8-497f-807e-852c-ec8f4798d414" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">echo max(10, 5, 20, 3, 8);</code></pre><p id="3c1f6ce8-497f-80d3-96e2-d602db138546" class="" dir="auto">Resultado:</p><pre id="3c1f6ce8-497f-8030-9184-c36ce5332774" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">20</code></pre><p id="3c1f6ce8-497f-80e1-8ee9-d9422f11676f" class="" dir="auto">Com array:</p><pre id="3c1f6ce8-497f-800d-afb6-d6e332b52160" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">$numeros = [10, 5, 20, 3, 8];
+
+echo max($numeros);</code></pre><p id="3c1f6ce8-497f-80f8-b7fc-fa68f061512c" class="" dir="auto">Resultado:</p><pre id="3c1f6ce8-497f-807e-821e-edf6dc455b72" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">20</code></pre><hr id="3c1f6ce8-497f-809b-a195-fe0b8143d2b8" dir="auto"/><h1 id="3c1f6ce8-497f-80f0-83d3-dca6b9c4ca9a" class="" dir="auto">12. <code>random_int()</code> — Número inteiro aleatório</h1><p id="3c1f6ce8-497f-80db-b393-f2056fce2a4c" class="" dir="auto"><code>random_int()</code> gera um número inteiro aleatório dentro de um intervalo.</p><h3 id="3c1f6ce8-497f-80ef-8042-cb188a810bbf" class="" dir="auto">Sintaxe</h3><pre id="3c1f6ce8-497f-802f-9beb-daa30935fde5" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">random_int(minimo, maximo);</code></pre><h3 id="3c1f6ce8-497f-8016-8b95-df153b419294" class="" dir="auto">Exemplo</h3><pre id="3c1f6ce8-497f-809c-9b6b-f7fc959d3297" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">$numero = random_int(1, 100);
+
+echo $numero;</code></pre><p id="3c1f6ce8-497f-8096-af38-d7e4f5fa7dd0" class="" dir="auto">Pode produzir, por exemplo:</p><pre id="3c1f6ce8-497f-80d4-b54d-e4ab31c59397" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">57</code></pre><p id="3c1f6ce8-497f-809d-bc70-e39cbe56755d" class="" dir="auto">Em outra execução:</p><pre id="3c1f6ce8-497f-80c8-a82d-ef7e241148b6" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">12</code></pre><p id="3c1f6ce8-497f-80e6-990d-ea1a62b8750e" class="" dir="auto">É diferente de simplesmente escolher um número fixo, pois o resultado varia a cada execução.</p><p id="3c1f6ce8-497f-8081-ae49-cfc0a2500de3" class="" dir="auto">É especialmente útil quando é necessário gerar valores aleatórios de maneira apropriada para situações que exigem segurança.</p><hr id="3c1f6ce8-497f-8007-b05d-c27c5498259f" dir="auto"/><h1 id="3c1f6ce8-497f-803a-a943-f0f31d82120a" class="" dir="auto">13. <code>rand()</code> — Número aleatório</h1><p id="3c1f6ce8-497f-804f-8511-df7416db5f4b" class="" dir="auto">Outra função tradicional para gerar números aleatórios é <code>rand()</code>.</p><pre id="3c1f6ce8-497f-80b6-ae56-f8446ed6c0ca" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">echo rand(1, 10);</code></pre><p id="3c1f6ce8-497f-80f7-8c1c-e38f890f375f" class="" dir="auto">Pode retornar:</p><pre id="3c1f6ce8-497f-80c8-8c6a-d5ac05984610" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">7</code></pre><p id="3c1f6ce8-497f-80aa-9eae-e7bfcef62318" class="" dir="auto">ou:</p><pre id="3c1f6ce8-497f-80bb-a5ab-f87d9e51438a" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">3</code></pre><p id="3c1f6ce8-497f-807d-bb88-e6a6aa420e1d" class="" dir="auto">ou qualquer outro número dentro do intervalo.</p><p id="3c1f6ce8-497f-8005-9d75-ef5706de25b0" class="" dir="auto">Entretanto, para geração de valores que tenham <strong>requisitos de segurança</strong>, é preferível utilizar <code>random_int()</code>.</p><hr id="3c1f6ce8-497f-80aa-8b38-d34fb568b49e" dir="auto"/><h1 id="3c1f6ce8-497f-80e9-a268-c8482e76f7a0" class="" dir="auto">14. <code>pi()</code> — Valor de π</h1><p id="3c1f6ce8-497f-8057-bf6a-c35e7737d7dd" class="" dir="auto">A função <code>pi()</code> retorna o valor da constante matemática <strong>π (pi)</strong>.</p><pre id="3c1f6ce8-497f-800a-abf1-dcabc6f94558" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">echo pi();</code></pre><p id="3c1f6ce8-497f-80cc-b3ce-f6fb98db6683" class="" dir="auto">Resultado aproximado:</p><pre id="3c1f6ce8-497f-80b4-b0a5-d94808b1b713" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">3.1415926535898</code></pre><p id="3c1f6ce8-497f-8013-9b4e-d165b8496853" class="" dir="auto">Pode ser utilizada para calcular a área de um círculo.</p><h3 id="3c1f6ce8-497f-8003-abd1-c486201c8bb2" class="" dir="auto">Exemplo</h3><pre id="3c1f6ce8-497f-80df-9de7-caed1bea3482" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">$raio = 5;
+
+$area = pi() * ($raio ** 2);
+
+echo $area;</code></pre><p id="3c1f6ce8-497f-8043-9d7c-d3ddc91862bc" class="" dir="auto">Resultado aproximado:</p><pre id="3c1f6ce8-497f-8066-b6ff-e6a400fe78d8" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">78.539816339745</code></pre><hr id="3c1f6ce8-497f-809d-acc7-f63303656bb2" dir="auto"/><h1 id="3c1f6ce8-497f-8006-b1ca-fe5b36a796ff" class="" dir="auto">15. Funções trigonométricas</h1><p id="3c1f6ce8-497f-80cd-9bd1-d84c955303f3" class="" dir="auto">O PHP também possui funções para cálculos de <strong>trigonometria</strong>.</p><p id="3c1f6ce8-497f-8047-b7f0-c9280a9ab392" class="" dir="auto">Entre elas estão:</p><pre id="3c1f6ce8-497f-80ab-a76c-d61b1104f4e0" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">sin()
+cos()
+tan()</code></pre><p id="3c1f6ce8-497f-809c-b2be-dd69959c411f" class="" dir="auto">Por exemplo:</p><pre id="3c1f6ce8-497f-800a-b474-f0969248edae" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">echo sin(0);</code></pre><p id="3c1f6ce8-497f-80e7-96ad-e61dd525f5eb" class="" dir="auto">Resultado:</p><pre id="3c1f6ce8-497f-800b-ab9e-f5f60be80f76" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">0</code></pre><h3 id="3c1f6ce8-497f-80f4-bff9-ff63ddf1f4cf" class="" dir="auto">Importante</h3><p id="3c1f6ce8-497f-80ad-9986-e3ba99968c49" class="" dir="auto">As funções trigonométricas do PHP trabalham com <strong>radianos</strong>, e não diretamente com graus.</p><p id="3c1f6ce8-497f-80ed-bc27-ce079e9f5ef4" class="" dir="auto">Para converter graus para radianos:</p><pre id="3c1f6ce8-497f-8050-b0b7-e4e5e21c27a6" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">$radianos = deg2rad(90);
+
+echo sin($radianos);</code></pre><p id="3c1f6ce8-497f-8035-af21-ef2bcef86470" class="" dir="auto">Resultado aproximado:</p><pre id="3c1f6ce8-497f-80b3-a074-c4ccb3d639cf" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">1</code></pre><hr id="3c1f6ce8-497f-80b0-b082-e89c6ef50574" dir="auto"/><h1 id="3c1f6ce8-497f-80b8-89c5-ddb0ff21b349" class="" dir="auto">16. <code>asin()</code>, <code>acos()</code> e <code>atan()</code></h1><p id="3c1f6ce8-497f-8053-9543-cf63bc8fdd36" class="" dir="auto">Também existem funções trigonométricas inversas:</p><pre id="3c1f6ce8-497f-80ea-9ae0-e1cf17fb5316" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">asin()
+acos()
+atan()</code></pre><p id="3c1f6ce8-497f-8019-96df-c484e7f9fad0" class="" dir="auto">Elas são utilizadas para obter ângulos a partir de determinados valores.</p><p id="3c1f6ce8-497f-80eb-a301-d406d5548021" class="" dir="auto">Exemplo:</p><pre id="3c1f6ce8-497f-804a-ad5c-db192ff31da7" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">$resultado = asin(1);
+
+echo $resultado;</code></pre><p id="3c1f6ce8-497f-8095-bd12-f71ce5af0f8c" class="" dir="auto">Resultado aproximado:</p><pre id="3c1f6ce8-497f-80d3-b8cf-f037bb21f378" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">1.5707963267949</code></pre><p id="3c1f6ce8-497f-80c5-a7ef-c5d9822b9bc9" class="" dir="auto">Esse valor está em radianos.</p><p id="3c1f6ce8-497f-805e-8496-f42ce54fff31" class="" dir="auto">Podemos convertê-lo para graus:</p><pre id="3c1f6ce8-497f-8029-ba63-df85176df0d8" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">$angulo = rad2deg(asin(1));
+
+echo $angulo;</code></pre><p id="3c1f6ce8-497f-8032-a2bd-f6d39cc0cfbe" class="" dir="auto">Resultado:</p><pre id="3c1f6ce8-497f-80d1-82d7-d061afbaa7c4" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">90</code></pre><hr id="3c1f6ce8-497f-80e0-acf2-d35c4f4da40a" dir="auto"/><h1 id="3c1f6ce8-497f-809d-9825-cacb6e1d5143" class="" dir="auto">17. <code>log()</code> — Logaritmo</h1><p id="3c1f6ce8-497f-808c-838d-d9c225af48c7" class="" dir="auto">A função <code>log()</code> calcula o <strong>logaritmo natural</strong> de um número.</p><pre id="3c1f6ce8-497f-802c-86e5-c8bbb85834b5" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">echo log(10);</code></pre><p id="3c1f6ce8-497f-8095-818b-eaae7cd26567" class="" dir="auto">Também podemos especificar uma base:</p><pre id="3c1f6ce8-497f-8039-a2dc-c59fe87e6a59" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">echo log(100, 10);</code></pre><p id="3c1f6ce8-497f-806b-81b6-ed509cd1c8e3" class="" dir="auto">Resultado:</p><pre id="3c1f6ce8-497f-808f-b2da-c523b426da9d" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">2</code></pre><p id="3c1f6ce8-497f-80d5-8f96-da8c1b2767b7" class="" dir="auto">Porque:</p><pre id="3c1f6ce8-497f-8009-9fe0-cec662db6093" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">10² = 100</code></pre><hr id="3c1f6ce8-497f-8088-8620-e1bd0532e7d4" dir="auto"/><h1 id="3c1f6ce8-497f-8055-80c8-c63f041ac8a3" class="" dir="auto">18. <code>log10()</code> — Logaritmo na base 10</h1><p id="3c1f6ce8-497f-8085-b5c9-ef3364d621bf" class="" dir="auto">Quando queremos especificamente o logaritmo na base 10, podemos utilizar <code>log10()</code>.</p><pre id="3c1f6ce8-497f-80f9-85c3-caaf6504212b" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">echo log10(1000);</code></pre><p id="3c1f6ce8-497f-8067-9ac2-d93a21fdaa15" class="" dir="auto">Resultado:</p><pre id="3c1f6ce8-497f-8038-b3b0-e827f11945d2" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">3</code></pre><p id="3c1f6ce8-497f-8064-a814-c3df4e488bc5" class="" dir="auto">Porque:</p><pre id="3c1f6ce8-497f-80f4-b953-d7521fb23854" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">10³ = 1000</code></pre><hr id="3c1f6ce8-497f-807b-ad6b-ebdecb063f69" dir="auto"/><h1 id="3c1f6ce8-497f-8031-bd79-cbccdc62a3fc" class="" dir="auto">19. <code>exp()</code> — Exponencial</h1><p id="3c1f6ce8-497f-80f4-9f15-c4763d2c61e6" class="" dir="auto">A função <code>exp()</code> calcula <strong>e elevado à potência fornecida</strong>.</p><pre id="3c1f6ce8-497f-805f-b0df-e63f907aa1eb" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">echo exp(1);</code></pre><p id="3c1f6ce8-497f-802c-8371-dfef40727c3e" class="" dir="auto">Resultado aproximado:</p><pre id="3c1f6ce8-497f-8090-bb47-cd7c51de505a" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">2.718281828459</code></pre><p id="3c1f6ce8-497f-80d8-846c-de5ba9db544b" class="" dir="auto">Esse valor corresponde à constante matemática <strong>e</strong>.</p><p id="3c1f6ce8-497f-80d0-9d33-d95f7e5374ab" class="" dir="auto">Por exemplo:</p><pre id="3c1f6ce8-497f-80d0-bbd6-f9001a783e7d" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">echo exp(2);</code></pre><p id="3c1f6ce8-497f-8046-b451-da0b8c36cc57" class="" dir="auto">É equivalente matematicamente a:</p><pre id="3c1f6ce8-497f-804c-bff9-ec7dfb06c484" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">e²</code></pre><hr id="3c1f6ce8-497f-80aa-8969-e897abc7a845" dir="auto"/><h1 id="3c1f6ce8-497f-80f5-892d-dea0ac60226f" class="" dir="auto">20. <code>fmod()</code> — Resto de divisão com números decimais</h1><p id="3c1f6ce8-497f-808b-a005-f7dc2f171324" class="" dir="auto">O operador <code>%</code> trabalha principalmente com valores inteiros. Para obter o resto de uma divisão envolvendo números de ponto flutuante, podemos utilizar <code>fmod()</code>.</p><pre id="3c1f6ce8-497f-80aa-b334-e4025190972d" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">echo fmod(10.5, 3);</code></pre><p id="3c1f6ce8-497f-80bd-8701-d2f9833ce28d" class="" dir="auto">Resultado:</p><pre id="3c1f6ce8-497f-80f3-bb3b-c990aaa46c12" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">1.5</code></pre><p id="3c1f6ce8-497f-800e-a869-e99fe5661aec" class="" dir="auto">Porque:</p><pre id="3c1f6ce8-497f-80a6-8607-f20387411d9c" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">10.5 = 3 × 3 + 1.5</code></pre><hr id="3c1f6ce8-497f-8085-ac52-c64627a04450" dir="auto"/><h1 id="3c1f6ce8-497f-802e-ad7a-c8e47054e6e5" class="" dir="auto">21. <code>hypot()</code> — Hipotenusa</h1><p id="3c1f6ce8-497f-8025-aa3d-dec561b22d1e" class="" dir="auto">A função <code>hypot()</code> calcula a hipotenusa de um triângulo retângulo.</p><pre id="3c1f6ce8-497f-806e-ac19-d3ea61176de7" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">echo hypot(3, 4);</code></pre><p id="3c1f6ce8-497f-80ac-88df-d4953e51b156" class="" dir="auto">Resultado:</p><pre id="3c1f6ce8-497f-8082-acc4-cefbf3efbdc3" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">5</code></pre><p id="3c1f6ce8-497f-8091-81bf-c31fda38ba01" class="" dir="auto">Matematicamente:</p><pre id="3c1f6ce8-497f-80a9-a56e-ff6870ef5e16" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">√(3² + 4²)
+= √(9 + 16)
+= √25
+= 5</code></pre><p id="3c1f6ce8-497f-80f0-af30-c3d20440eeec" class="" dir="auto">Isso é útil em cálculos envolvendo geometria, distâncias e coordenadas.</p><hr id="3c1f6ce8-497f-8099-8393-c2ee062d645c" dir="auto"/><h1 id="3c1f6ce8-497f-8014-9bcc-c61f148e11dd" class="" dir="auto">22. <code>is_finite()</code>, <code>is_infinite()</code> e <code>is_nan()</code></h1><p id="3c1f6ce8-497f-80cc-9f8a-c33ef0c48e5c" class="" dir="auto">O PHP também possui funções para verificar determinados estados de números.</p><h3 id="3c1f6ce8-497f-8049-bb96-ee07ad9b67dc" class="" dir="auto"><code>is_finite()</code></h3><p id="3c1f6ce8-497f-8041-8900-da9f3e3793c1" class="" dir="auto">Verifica se o valor é um número finito:</p><pre id="3c1f6ce8-497f-80b3-9957-c4f42dccc04f" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">$numero = 100;
+
+var_dump(is_finite($numero));</code></pre><p id="3c1f6ce8-497f-80d3-a756-d8d07ebcd785" class="" dir="auto">Resultado:</p><pre id="3c1f6ce8-497f-80f9-a94c-dcbae049b9b3" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">bool(true)</code></pre><h3 id="3c1f6ce8-497f-8087-ad1a-ca1f872e763e" class="" dir="auto"><code>is_infinite()</code></h3><p id="3c1f6ce8-497f-801e-8b7f-dce0105dd86c" class="" dir="auto">Verifica se o valor representa infinito:</p><pre id="3c1f6ce8-497f-802b-9fef-fcc8128e88c6" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">var_dump(is_infinite(INF));</code></pre><p id="3c1f6ce8-497f-8075-b8d5-c1b21bad2e1d" class="" dir="auto">Resultado:</p><pre id="3c1f6ce8-497f-805e-8db7-d00baef755c0" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">bool(true)</code></pre><h3 id="3c1f6ce8-497f-805c-bd5d-e2010df60316" class="" dir="auto"><code>is_nan()</code></h3><p id="3c1f6ce8-497f-8031-aef6-f043fa00de30" class="" dir="auto">Verifica se o valor é <strong>NaN (Not a Number)</strong>:</p><pre id="3c1f6ce8-497f-8087-8fcb-de62e0748c4c" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">var_dump(is_nan(NAN));</code></pre><p id="3c1f6ce8-497f-80a7-b61e-e8d27cefe6ea" class="" dir="auto">Resultado:</p><pre id="3c1f6ce8-497f-80b9-af54-c9612a6ca250" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">bool(true)</code></pre><p id="3c1f6ce8-497f-8001-af55-f5dbf601ebb9" class="" dir="auto">Essas funções são úteis para validar resultados de cálculos matemáticos.</p><hr id="3c1f6ce8-497f-807d-b88e-f8e9872fcfdb" dir="auto"/><h1 id="3c1f6ce8-497f-80ae-ba3f-d634648d826d" class="" dir="auto">23. Exemplo prático completo</h1><p id="3c1f6ce8-497f-80db-a8a2-c1a95968b1df" class="" dir="auto">Podemos combinar várias funções matemáticas em um programa.</p><pre id="3c1f6ce8-497f-80eb-b363-cab05bbf2727" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">&lt;?php
+
+$numero = -25;
+
+echo &quot;Valor absoluto: &quot; . abs($numero) . &quot;&lt;br&gt;&quot;;
+
+echo &quot;Raiz quadrada: &quot; . sqrt(25) . &quot;&lt;br&gt;&quot;;
+
+echo &quot;Potência: &quot; . pow(5, 2) . &quot;&lt;br&gt;&quot;;
+
+echo &quot;Arredondamento: &quot; . round(10.67) . &quot;&lt;br&gt;&quot;;
+
+echo &quot;Arredondamento para cima: &quot; . ceil(10.2) . &quot;&lt;br&gt;&quot;;
+
+echo &quot;Arredondamento para baixo: &quot; . floor(10.8) . &quot;&lt;br&gt;&quot;;
+
+echo &quot;Menor valor: &quot; . min(10, 20, 5, 30) . &quot;&lt;br&gt;&quot;;
+
+echo &quot;Maior valor: &quot; . max(10, 20, 5, 30) . &quot;&lt;br&gt;&quot;;
+
+echo &quot;Número aleatório: &quot; . random_int(1, 100) . &quot;&lt;br&gt;&quot;;
+
+echo &quot;Valor de PI: &quot; . pi();</code></pre><p id="3c1f6ce8-497f-8069-8b5d-c57d419f427c" class="" dir="auto">Esse exemplo demonstra como as funções matemáticas podem ser utilizadas em conjunto em uma aplicação PHP.</p><hr id="3c1f6ce8-497f-80a4-9e73-cf282db8f38e" dir="auto"/><h1 id="3c1f6ce8-497f-80d3-9ec7-ec1bf1ea7894" class="" dir="auto">24. Principais funções matemáticas do PHP</h1><table id="3c1f6ce8-497f-8068-8248-c2be49f52924" class="simple-table" dir="ltr"><thead class="simple-table-header"><tr id="3c1f6ce8-497f-8015-91b1-d382a05d54c7" dir="ltr"><th id="ithA" class="simple-table-header-color simple-table-header">Função</th><th id="BwyI" class="simple-table-header-color simple-table-header">Finalidade</th><th id="SPcm" class="simple-table-header-color simple-table-header">Exemplo</th></tr></thead><tbody><tr id="3c1f6ce8-497f-804b-b7bc-e5bb43e1fc14" dir="ltr"><td id="ithA" class=""><code>abs()</code></td><td id="BwyI" class="">Valor absoluto</td><td id="SPcm" class=""><code>abs(-10)</code></td></tr><tr id="3c1f6ce8-497f-80f0-87e6-e0f154c4f646" dir="ltr"><td id="ithA" class=""><code>pow()</code></td><td id="BwyI" class="">Potência</td><td id="SPcm" class=""><code>pow(2, 3)</code></td></tr><tr id="3c1f6ce8-497f-8090-a99a-cc38126e63c7" dir="ltr"><td id="ithA" class=""><code>sqrt()</code></td><td id="BwyI" class="">Raiz quadrada</td><td id="SPcm" class=""><code>sqrt(25)</code></td></tr><tr id="3c1f6ce8-497f-80d3-9da3-ce4406299367" dir="ltr"><td id="ithA" class=""><code>round()</code></td><td id="BwyI" class="">Arredondamento</td><td id="SPcm" class=""><code>round(10.6)</code></td></tr><tr id="3c1f6ce8-497f-80f9-bb5a-e5f5398dbefb" dir="ltr"><td id="ithA" class=""><code>ceil()</code></td><td id="BwyI" class="">Arredonda para cima</td><td id="SPcm" class=""><code>ceil(10.1)</code></td></tr><tr id="3c1f6ce8-497f-802c-8d72-c30c44c2e706" dir="ltr"><td id="ithA" class=""><code>floor()</code></td><td id="BwyI" class="">Arredonda para baixo</td><td id="SPcm" class=""><code>floor(10.9)</code></td></tr><tr id="3c1f6ce8-497f-80b8-a4e7-da6b5f51d37e" dir="ltr"><td id="ithA" class=""><code>intdiv()</code></td><td id="BwyI" class="">Divisão inteira</td><td id="SPcm" class=""><code>intdiv(10, 3)</code></td></tr><tr id="3c1f6ce8-497f-80d2-8959-d0ea82b74288" dir="ltr"><td id="ithA" class=""><code>%</code></td><td id="BwyI" class="">Resto da divisão</td><td id="SPcm" class=""><code>10 % 3</code></td></tr><tr id="3c1f6ce8-497f-80dd-8f57-d68ae5f69e53" dir="ltr"><td id="ithA" class=""><code>min()</code></td><td id="BwyI" class="">Menor valor</td><td id="SPcm" class=""><code>min(2, 5, 1)</code></td></tr><tr id="3c1f6ce8-497f-8026-9822-e913621344e0" dir="ltr"><td id="ithA" class=""><code>max()</code></td><td id="BwyI" class="">Maior valor</td><td id="SPcm" class=""><code>max(2, 5, 1)</code></td></tr><tr id="3c1f6ce8-497f-80d7-9b4e-e8843f076f1e" dir="ltr"><td id="ithA" class=""><code>random_int()</code></td><td id="BwyI" class="">Inteiro aleatório</td><td id="SPcm" class=""><code>random_int(1, 10)</code></td></tr><tr id="3c1f6ce8-497f-80a5-9c7a-c8448874d800" dir="ltr"><td id="ithA" class=""><code>rand()</code></td><td id="BwyI" class="">Número aleatório</td><td id="SPcm" class=""><code>rand(1, 10)</code></td></tr><tr id="3c1f6ce8-497f-80cf-9f87-c36c151285a6" dir="ltr"><td id="ithA" class=""><code>pi()</code></td><td id="BwyI" class="">Valor de π</td><td id="SPcm" class=""><code>pi()</code></td></tr><tr id="3c1f6ce8-497f-8068-b2ac-d55ddcb940c8" dir="ltr"><td id="ithA" class=""><code>sin()</code></td><td id="BwyI" class="">Seno</td><td id="SPcm" class=""><code>sin($x)</code></td></tr><tr id="3c1f6ce8-497f-800a-a0a2-cccb155bbc39" dir="ltr"><td id="ithA" class=""><code>cos()</code></td><td id="BwyI" class="">Cosseno</td><td id="SPcm" class=""><code>cos($x)</code></td></tr><tr id="3c1f6ce8-497f-800b-a0ef-fbf0aea5089d" dir="ltr"><td id="ithA" class=""><code>tan()</code></td><td id="BwyI" class="">Tangente</td><td id="SPcm" class=""><code>tan($x)</code></td></tr><tr id="3c1f6ce8-497f-8001-beb6-ced9a361b658" dir="ltr"><td id="ithA" class=""><code>log()</code></td><td id="BwyI" class="">Logaritmo</td><td id="SPcm" class=""><code>log(10)</code></td></tr><tr id="3c1f6ce8-497f-809e-a383-e08b8e85901f" dir="ltr"><td id="ithA" class=""><code>log10()</code></td><td id="BwyI" class="">Logaritmo base 10</td><td id="SPcm" class=""><code>log10(100)</code></td></tr><tr id="3c1f6ce8-497f-804b-a574-c829924a4c40" dir="ltr"><td id="ithA" class=""><code>exp()</code></td><td id="BwyI" class="">Exponencial</td><td id="SPcm" class=""><code>exp(2)</code></td></tr><tr id="3c1f6ce8-497f-80f4-a53e-def3ca5154fe" dir="ltr"><td id="ithA" class=""><code>fmod()</code></td><td id="BwyI" class="">Resto com decimais</td><td id="SPcm" class=""><code>fmod(10.5, 3)</code></td></tr><tr id="3c1f6ce8-497f-8072-9d77-c8d391e36dba" dir="ltr"><td id="ithA" class=""><code>hypot()</code></td><td id="BwyI" class="">Hipotenusa</td><td id="SPcm" class=""><code>hypot(3, 4)</code></td></tr></tbody></table><hr id="3c1f6ce8-497f-8081-9b56-c048b787b507" dir="auto"/><h2 id="3c1f6ce8-497f-802f-a384-dd15f56cb8bc" class="" dir="auto">Conclusão</h2><p id="3c1f6ce8-497f-80a2-8efc-fd6f49674516" class="" dir="auto">As <strong>funções nativas para tarefas matemáticas</strong> tornam o PHP capaz de realizar desde cálculos básicos até operações matemáticas mais complexas sem a necessidade de implementar essas operações manualmente.</p><p id="3c1f6ce8-497f-8049-98e1-fca7d1a9b7bb" class="" dir="auto">As mais importantes para dominar inicialmente são:</p><pre id="3c1f6ce8-497f-8034-af2c-e9a17710b09d" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">abs()
+pow()
+sqrt()
+round()
+ceil()
+floor()
+intdiv()
+min()
+max()
+random_int()
+pi()</code></pre><p id="3c1f6ce8-497f-80e3-8a35-e341e0942ee2" class="" dir="auto">Depois, conforme o nível aumenta, vale estudar também as funções <strong>trigonométricas, logarítmicas, exponenciais e de manipulação de números de ponto flutuante</strong>.</p></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

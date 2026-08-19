@@ -1,0 +1,984 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Funções</title><meta name="data-notion-page-icon" content="/icons/elephant_purple.svg"/><link rel="icon" href="https://app.notion.com/icons/elephant_purple.svg"/><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+/* For default-background callouts, render the border outline. */
+.callout.block-color-default_background {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+/*
+ * Toggles and callouts hold arbitrary content, so they can easily be taller
+ * than a page. They must stay breakable: avoiding breaks inside them makes
+ * Chromium push the whole block onto the next page, which leaves the previous
+ * page mostly empty before every long toggle.
+ */
+details,
+aside {
+	margin: 1.25em 0;
+}
+
+/* Keep a toggle's title on the same page as the start of its content. */
+summary {
+	page-break-after: avoid;
+	break-after: avoid;
+}
+
+/*
+ * Toggle headings render as <h1/h2/h3 style="display:inline-block"> inside
+ * <summary>. Without this reset, the heading's margin-top pushes it below the
+ * ::marker (▼), so the triangle and the title appear on separate lines.
+ */
+summary h1,
+summary h2,
+summary h3,
+summary h4 {
+	margin-top: 0;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding-inline: 0.125rem;
+	padding-block: 0.375rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+/*
+ * Render emoji icons using a ::before pseudo-element to keep the glyph
+ * out of the DOM textContent traversal. This avoids double-rendering icons
+ * in callouts and page titles.
+ * NOTE(slim/html-export-pseudo-icons): I can't tagref this because it will
+ * flag as a duplicate tag after codegen.
+ */
+.icon[data-emoji]::before {
+	content: attr(data-emoji);
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	margin-right: 0.4em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.tab {
+	margin: 1.25em 0;
+	padding-inline: 1rem;
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style><style>@import url('https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex-swap.min.css')</style></head><body><article id="3c1f6ce8-497f-804a-905d-c8a6efc20ca8" class="page sans" data-notion-page-icon="/icons/elephant_purple.svg"><header><div class="page-header-icon undefined"><img class="icon notion-static-icon" src="https://app.notion.com/icons/elephant_purple.svg"/></div><h1 class="page-title" dir="auto">Funções</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><h1 id="3c1f6ce8-497f-8086-a41c-c250ec13149e" class="" dir="auto">Funções no PHP</h1><p id="3c1f6ce8-497f-8060-8095-f28a54ca467a" class="" dir="auto">As <strong>funções</strong> são blocos de código criados para <strong>executar uma determinada tarefa</strong>. Elas permitem organizar o programa, evitar repetição de código e facilitar a manutenção da aplicação.</p><p id="3c1f6ce8-497f-805a-a0d2-ed64000194bd" class="" dir="auto">Em vez de escrever o mesmo código várias vezes, podemos criar uma função uma única vez e <strong>chamá-la sempre que precisarmos executar aquela tarefa</strong>.</p><hr id="3c1f6ce8-497f-80a9-ad56-f8a64f6af72d" dir="auto"/><h1 id="3c1f6ce8-497f-802f-96e3-d5e601123791" class="" dir="auto">O que é uma função?</h1><p id="3c1f6ce8-497f-8074-8e4f-c3415a34ef3f" class="" dir="auto">Uma função pode ser entendida como uma pequena &quot;unidade de trabalho&quot; dentro do programa.</p><p id="3c1f6ce8-497f-80d1-9b56-f44e24a5873c" class="" dir="auto">Por exemplo, podemos criar uma função para:</p><ul id="3c1f6ce8-497f-80ab-892a-f733959d4a2e" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Calcular uma média;</li></ul><ul id="3c1f6ce8-497f-80a6-b0cd-d98a81a2e18b" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Somar dois números;</li></ul><ul id="3c1f6ce8-497f-8047-b259-ec2bc4b83314" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Verificar se um usuário está logado;</li></ul><ul id="3c1f6ce8-497f-80aa-b803-ccc093d90d09" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Calcular um desconto;</li></ul><ul id="3c1f6ce8-497f-804e-974b-dedb906cc23e" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Validar um formulário;</li></ul><ul id="3c1f6ce8-497f-8017-b7c8-c450ddab67b8" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Exibir uma mensagem;</li></ul><ul id="3c1f6ce8-497f-80f8-8cd2-c7d99f171fa4" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Consultar informações no banco de dados.</li></ul><p id="3c1f6ce8-497f-80ae-b78a-d87132b52c29" class="" dir="auto">Uma função pode:</p><ol type="1" id="3c1f6ce8-497f-80c3-b04f-fd4507d57c57" class="numbered-list" start="1" dir="auto"><li>Receber dados;</li></ol><ol type="1" id="3c1f6ce8-497f-8087-a146-e82d07e6d322" class="numbered-list" start="2" dir="auto"><li>Processar esses dados;</li></ol><ol type="1" id="3c1f6ce8-497f-80e0-8e30-cb61b3d4f900" class="numbered-list" start="3" dir="auto"><li>Retornar um resultado.</li></ol><hr id="3c1f6ce8-497f-80af-8ffb-fde51203fd69" dir="auto"/><h1 id="3c1f6ce8-497f-804b-9e76-e48a4ff7a294" class="" dir="auto">Estrutura básica</h1><p id="3c1f6ce8-497f-80b7-8245-c01a462db002" class="" dir="auto">Para criar uma função no PHP, utilizamos a palavra-chave <code>function</code>.</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markup-templating.min.js" integrity="sha512-+8BiRfWso6waiFDv6tEmWF8yfPGgxAtOYLDUB0rRISLwtpxkJ9lpPNUhxwWlikn3qSO+4RQyzDppi62o3ON/AA==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-php.min.js" integrity="sha512-plzrTi61ltEMFf84gTVO9IkvIMfBu07bnDuahvdlIclmFWzXJ9VcRsny9d45sxFZRv3jJg/MHNyuxnUYEMxMEg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="3c1f6ce8-497f-8054-a488-d640a66739ec" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">function nomeDaFuncao() {
+    // código da função
+}</code></pre><p id="3c1f6ce8-497f-80c1-be26-e62104323219" class="" dir="auto">Exemplo:</p><pre id="3c1f6ce8-497f-8033-a51a-d3428ea554e2" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">&lt;?php
+
+function mensagem() {
+    echo &quot;Olá, mundo!&quot;;
+}</code></pre><p id="3c1f6ce8-497f-8093-9829-df7795ad610e" class="" dir="auto">Nesse momento, a função foi apenas <strong>declarada</strong>. Para executá-la, precisamos chamá-la:</p><pre id="3c1f6ce8-497f-80df-b86f-c542e76fce19" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">mensagem();</code></pre><p id="3c1f6ce8-497f-8010-82c8-f1eb953604e4" class="" dir="auto">Resultado:</p><pre id="3c1f6ce8-497f-802f-87cc-dd45ac5ecea5" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Olá, mundo!</code></pre><hr id="3c1f6ce8-497f-80f6-b3d8-e97239317dcb" dir="auto"/><h1 id="3c1f6ce8-497f-80b2-98f0-f3d7e67d5c76" class="" dir="auto">Declaração e chamada de uma função</h1><p id="3c1f6ce8-497f-80c4-b9c8-ed97a888e61d" class="" dir="auto">Existem duas etapas importantes.</p><h3 id="3c1f6ce8-497f-8073-908d-dfc46bbb1596" class="" dir="auto">1. Declaração</h3><pre id="3c1f6ce8-497f-805f-bb39-ec2317d923c9" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">function saudacao() {
+    echo &quot;Olá!&quot;;
+}</code></pre><h3 id="3c1f6ce8-497f-80c3-8dc8-cd6014aaf210" class="" dir="auto">2. Chamada</h3><pre id="3c1f6ce8-497f-80e8-bb1b-ccde24e6d54a" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">saudacao();</code></pre><p id="3c1f6ce8-497f-807a-b955-d02074a31fc8" class="" dir="auto">Exemplo completo:</p><pre id="3c1f6ce8-497f-806a-80e9-c86ae8ca7a0d" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">&lt;?php
+
+function saudacao() {
+    echo &quot;Olá!&quot;;
+}
+
+saudacao();</code></pre><hr id="3c1f6ce8-497f-808e-9e67-cf43fb4584f7" dir="auto"/><h1 id="3c1f6ce8-497f-80c5-9f02-e1d1cf4a217e" class="" dir="auto">Funções com parâmetros</h1><p id="3c1f6ce8-497f-80a5-8bef-daa5fd87a650" class="" dir="auto">Uma função pode receber informações externas através de <strong>parâmetros</strong>.</p><p id="3c1f6ce8-497f-8019-aafa-d0a8e71145b7" class="" dir="auto">Exemplo:</p><pre id="3c1f6ce8-497f-80d3-b8b9-d9c2d2a5e251" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">&lt;?php
+
+function saudacao($nome) {
+    echo &quot;Olá, &quot; . $nome;
+}
+
+saudacao(&quot;Gusta&quot;);</code></pre><p id="3c1f6ce8-497f-8017-b417-e72ed899c11b" class="" dir="auto">Resultado:</p><pre id="3c1f6ce8-497f-8048-9575-defeb7b1ac8f" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Olá, Gusta</code></pre><p id="3c1f6ce8-497f-80d4-b7dd-c131f061d3f6" class="" dir="auto">Nesse exemplo:</p><pre id="3c1f6ce8-497f-80dd-a553-ecd7d80dc918" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">$nome</code></pre><p id="3c1f6ce8-497f-805b-8b32-e216bccdb5b1" class="" dir="auto">é o <strong>parâmetro</strong> da função.</p><p id="3c1f6ce8-497f-80ca-98eb-e32ce5df9891" class="" dir="auto">Quando fazemos:</p><pre id="3c1f6ce8-497f-8016-8340-c987681348e4" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">saudacao(&quot;Gusta&quot;);</code></pre><p id="3c1f6ce8-497f-8050-81f1-d57233a9b31f" class="" dir="auto"><code>&quot;Gusta&quot;</code> é o <strong>argumento</strong> passado para a função.</p><h3 id="3c1f6ce8-497f-8011-9546-f60ebda2f006" class="" dir="auto">Diferença</h3><ul id="3c1f6ce8-497f-8095-b0eb-cbb75950e50b" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>Parâmetro:</strong> variável definida na declaração da função.</li></ul><ul id="3c1f6ce8-497f-803e-958a-dc21ce2d3c7c" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>Argumento:</strong> valor enviado quando a função é chamada.</li></ul><hr id="3c1f6ce8-497f-809e-9f7d-df7ae3a6bb02" dir="auto"/><h1 id="3c1f6ce8-497f-8014-a751-fac0d2f2233b" class="" dir="auto">Função com vários parâmetros</h1><p id="3c1f6ce8-497f-8064-8c8d-cac759ef9ca9" class="" dir="auto">Uma função pode receber vários parâmetros.</p><pre id="3c1f6ce8-497f-80ad-aebe-e6eaaa0fcea4" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">&lt;?php
+
+function apresentar($nome, $idade) {
+    echo &quot;Nome: &quot; . $nome . &quot;&lt;br&gt;&quot;;
+    echo &quot;Idade: &quot; . $idade;
+}
+
+apresentar(&quot;Gusta&quot;, 21);</code></pre><p id="3c1f6ce8-497f-8015-9898-d3d187199c5b" class="" dir="auto">Resultado:</p><pre id="3c1f6ce8-497f-8067-9988-f09ca9c55e01" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Nome: Gusta
+Idade: 21</code></pre><hr id="3c1f6ce8-497f-80fd-8b24-ec77051ef06e" dir="auto"/><h1 id="3c1f6ce8-497f-806a-9667-c481d052c76c" class="" dir="auto">Retorno de valores com <code>return</code></h1><p id="3c1f6ce8-497f-80d9-8e4d-e1a8ad2cac35" class="" dir="auto">Uma função pode <strong>retornar um valor</strong> utilizando <code>return</code>.</p><p id="3c1f6ce8-497f-8089-854e-e2d27597d7db" class="" dir="auto">Exemplo:</p><pre id="3c1f6ce8-497f-80d4-840a-ced025f05f61" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">&lt;?php
+
+function somar($a, $b) {
+    return $a + $b;
+}
+
+$resultado = somar(10, 5);
+
+echo $resultado;</code></pre><p id="3c1f6ce8-497f-802d-8e49-ecec4c128b3f" class="" dir="auto">Resultado:</p><pre id="3c1f6ce8-497f-804e-9ef7-c06871933d62" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">15</code></pre><p id="3c1f6ce8-497f-8015-b595-cecc9f880a6b" class="" dir="auto">Nesse caso, a função não imprime diretamente o resultado. Ela o <strong>devolve</strong> para quem chamou a função.</p><hr id="3c1f6ce8-497f-803e-b470-d36dd7ebde83" dir="auto"/><h1 id="3c1f6ce8-497f-80d6-b954-f3d4cadeb840" class="" dir="auto"><code>echo</code> x <code>return</code></h1><p id="3c1f6ce8-497f-801f-97ad-fc8f4f59d570" class="" dir="auto">É importante diferenciar os dois.</p><h3 id="3c1f6ce8-497f-80a0-b906-f21c4f472643" class="" dir="auto"><code>echo</code></h3><p id="3c1f6ce8-497f-80e8-b361-d9eb8ed11536" class="" dir="auto">Exibe algo na tela:</p><pre id="3c1f6ce8-497f-8091-b7b6-f4cddf77a0c4" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">function somar($a, $b) {
+    echo $a + $b;
+}</code></pre><h3 id="3c1f6ce8-497f-809b-9ee1-e304dc019062" class="" dir="auto"><code>return</code></h3><p id="3c1f6ce8-497f-8062-82f5-d480667f65ad" class="" dir="auto">Devolve o resultado para o código que chamou a função:</p><pre id="3c1f6ce8-497f-806d-be42-e51329d8bf10" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">function somar($a, $b) {
+    return $a + $b;
+}</code></pre><p id="3c1f6ce8-497f-80f3-bb12-fbe4bbca1ff2" class="" dir="auto">O <code>return</code> é geralmente mais flexível, pois permite armazenar e reutilizar o resultado:</p><pre id="3c1f6ce8-497f-8035-9aa8-d0e1a7cb08dd" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">$resultado = somar(10, 5);
+
+$total = $resultado * 2;</code></pre><hr id="3c1f6ce8-497f-8036-a493-dc81fa39db3e" dir="auto"/><h1 id="3c1f6ce8-497f-8066-8b45-cb71915d0b35" class="" dir="auto">Função sem parâmetros e sem retorno</h1><pre id="3c1f6ce8-497f-80e5-bda6-cba1a16c4efd" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">&lt;?php
+
+function mensagem() {
+    echo &quot;Bem-vindo ao sistema!&quot;;
+}
+
+mensagem();</code></pre><p id="3c1f6ce8-497f-803f-8c50-ccc872467d86" class="" dir="auto">É uma função simples que apenas executa uma ação.</p><hr id="3c1f6ce8-497f-809d-ac02-c160fdf8d0f0" dir="auto"/><h1 id="3c1f6ce8-497f-8056-b48a-db839570aad6" class="" dir="auto">Função com parâmetros e sem retorno</h1><pre id="3c1f6ce8-497f-8099-988c-de68248d2890" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">&lt;?php
+
+function mostrarNome($nome) {
+    echo &quot;Usuário: &quot; . $nome;
+}
+
+mostrarNome(&quot;Gusta&quot;);</code></pre><hr id="3c1f6ce8-497f-8081-b1b2-c8b4f870c841" dir="auto"/><h1 id="3c1f6ce8-497f-8062-bfdc-c427f25359ce" class="" dir="auto">Função sem parâmetros com retorno</h1><pre id="3c1f6ce8-497f-8099-9aaf-e29e384927e1" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">&lt;?php
+
+function obterNome() {
+    return &quot;Gusta&quot;;
+}
+
+$nome = obterNome();
+
+echo $nome;</code></pre><hr id="3c1f6ce8-497f-80fb-92c9-e0b50259b9f6" dir="auto"/><h1 id="3c1f6ce8-497f-80a5-825b-cee293398c41" class="" dir="auto">Função com parâmetros e retorno</h1><p id="3c1f6ce8-497f-8008-bfd4-e94d622762f4" class="" dir="auto">Esse é um dos formatos mais comuns:</p><pre id="3c1f6ce8-497f-805d-869b-cb8aca3bc735" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">&lt;?php
+
+function multiplicar($a, $b) {
+    return $a * $b;
+}
+
+$resultado = multiplicar(5, 4);
+
+echo $resultado;</code></pre><p id="3c1f6ce8-497f-80a4-b737-cb42cbe12ea0" class="" dir="auto">Resultado:</p><pre id="3c1f6ce8-497f-801a-a100-ef8436ef1c28" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">20</code></pre><hr id="3c1f6ce8-497f-80d8-963b-c83aa3475425" dir="auto"/><h1 id="3c1f6ce8-497f-80e0-8cf0-f7d8ee88610a" class="" dir="auto">Parâmetros com valores padrão</h1><p id="3c1f6ce8-497f-80ba-a356-feb15d043576" class="" dir="auto">Podemos definir um <strong>valor padrão</strong> para um parâmetro.</p><pre id="3c1f6ce8-497f-802b-aff6-de5ff375ef25" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">&lt;?php
+
+function saudacao($nome = &quot;Visitante&quot;) {
+    echo &quot;Olá, &quot; . $nome;
+}
+
+saudacao();</code></pre><p id="3c1f6ce8-497f-800b-82cf-f96bf7353ec0" class="" dir="auto">Resultado:</p><pre id="3c1f6ce8-497f-8041-92eb-edc32aaacf94" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Olá, Visitante</code></pre><p id="3c1f6ce8-497f-8092-9cb2-fef033507b29" class="" dir="auto">Se fornecermos um valor:</p><pre id="3c1f6ce8-497f-80bd-946d-f12cca51b650" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">saudacao(&quot;Gusta&quot;);</code></pre><p id="3c1f6ce8-497f-8014-b484-ccf1d5a5bb56" class="" dir="auto">Resultado:</p><pre id="3c1f6ce8-497f-8089-bb5d-df8254b16cbf" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Olá, Gusta</code></pre><hr id="3c1f6ce8-497f-8045-8bb0-efda897acbb7" dir="auto"/><h1 id="3c1f6ce8-497f-8066-aa6d-c5c5aab46bc1" class="" dir="auto">Tipagem dos parâmetros</h1><p id="3c1f6ce8-497f-80ed-9f8a-dee7b0431b84" class="" dir="auto">O PHP permite especificar o tipo esperado para um parâmetro.</p><pre id="3c1f6ce8-497f-8027-82b5-e4934a48caad" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">&lt;?php
+
+function somar(int $a, int $b) {
+    return $a + $b;
+}
+
+echo somar(10, 20);</code></pre><p id="3c1f6ce8-497f-8062-9a5a-f228f49629ae" class="" dir="auto">Nesse caso, a função espera valores do tipo <code>int</code>.</p><p id="3c1f6ce8-497f-809d-8096-dbf5a402daa3" class="" dir="auto">Podemos utilizar outros tipos:</p><pre id="3c1f6ce8-497f-8031-8c1b-dae61d61b3ab" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">function calcular(float $preco, int $quantidade) {
+    return $preco * $quantidade;
+}</code></pre><p id="3c1f6ce8-497f-8055-a4bc-cf3749453188" class="" dir="auto">Isso ajuda a tornar o código mais previsível.</p><hr id="3c1f6ce8-497f-8068-890f-ed60cdf23926" dir="auto"/><h1 id="3c1f6ce8-497f-8075-82ca-fb2a894a85ee" class="" dir="auto">Tipagem do retorno</h1><p id="3c1f6ce8-497f-803d-83d7-ef958bfc6137" class="" dir="auto">Também podemos informar o tipo que a função deve retornar.</p><p id="3c1f6ce8-497f-807d-87cb-ceb00f289921" class="" dir="auto">Utilizamos <code>:</code> após os parâmetros:</p><pre id="3c1f6ce8-497f-80fa-9145-d56ac4aba1c1" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">&lt;?php
+
+function somar(int $a, int $b): int {
+    return $a + $b;
+}</code></pre><p id="3c1f6ce8-497f-8062-bc46-dfcef863ee6f" class="" dir="auto">Nesse exemplo:</p><pre id="3c1f6ce8-497f-80d5-b756-da9eca6afe60" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">int $a
+int $b</code></pre><p id="3c1f6ce8-497f-8062-83cc-eae3ed02d7b2" class="" dir="auto">indica que os parâmetros devem ser inteiros.</p><p id="3c1f6ce8-497f-8018-ae22-f81f498ad0d7" class="" dir="auto">Já:</p><pre id="3c1f6ce8-497f-80b0-bb6d-f4a5c88648ef" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">): int</code></pre><p id="3c1f6ce8-497f-8055-b53d-d501c907b1d9" class="" dir="auto">indica que a função deve retornar um inteiro.</p><hr id="3c1f6ce8-497f-8071-9c8e-c621e314bb83" dir="auto"/><h1 id="3c1f6ce8-497f-809f-ba06-dbaf4003961e" class="" dir="auto">Exemplo com <code>float</code></h1><pre id="3c1f6ce8-497f-8014-ba9d-f66afa87c921" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">&lt;?php
+
+function calcularMedia(float $nota1, float $nota2): float {
+    return ($nota1 + $nota2) / 2;
+}
+
+$media = calcularMedia(8, 9);
+
+echo $media;</code></pre><p id="3c1f6ce8-497f-80e5-a0d5-e4a75d0aa027" class="" dir="auto">Resultado:</p><pre id="3c1f6ce8-497f-8074-b7b9-d8e0ba884bb3" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">8.5</code></pre><hr id="3c1f6ce8-497f-80ba-992e-d1dbf4c58685" dir="auto"/><h1 id="3c1f6ce8-497f-80fa-b511-e12ebec73b94" class="" dir="auto">Funções com vários parâmetros</h1><p id="3c1f6ce8-497f-80d2-b6dd-fad7871b4682" class="" dir="auto">Podemos criar funções que recebem diversas informações.</p><pre id="3c1f6ce8-497f-80b5-8db5-cef461cb57a6" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">&lt;?php
+
+function calcularSalario($salario, $bonus, $desconto) {
+    return $salario + $bonus - $desconto;
+}
+
+$resultado = calcularSalario(3000, 500, 200);
+
+echo $resultado;</code></pre><p id="3c1f6ce8-497f-80ce-aa6f-fa3990af4abf" class="" dir="auto">Resultado:</p><pre id="3c1f6ce8-497f-8017-a1c6-c29641dc3057" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">3300</code></pre><hr id="3c1f6ce8-497f-80b9-ba6a-ef680275b2e8" dir="auto"/><h1 id="3c1f6ce8-497f-80c9-8231-f20e9822dc16" class="" dir="auto">Escopo das variáveis</h1><p id="3c1f6ce8-497f-80f8-bc40-df4423a74c03" class="" dir="auto">As variáveis criadas dentro de uma função normalmente possuem <strong>escopo local</strong>.</p><p id="3c1f6ce8-497f-80d0-bc94-e5f632e53e5b" class="" dir="auto">Exemplo:</p><pre id="3c1f6ce8-497f-80ab-8ce2-d0544f7c2ca8" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">&lt;?php
+
+function teste() {
+    $numero = 10;
+
+    echo $numero;
+}
+
+teste();</code></pre><p id="3c1f6ce8-497f-805d-be20-cedea44a5f2f" class="" dir="auto">A variável <code>$numero</code> existe dentro da função.</p><p id="3c1f6ce8-497f-80e9-bc14-c4706e3b3043" class="" dir="auto">Ela não pode ser utilizada normalmente fora dela:</p><pre id="3c1f6ce8-497f-80a6-b180-e73d9861a6c8" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">echo $numero;</code></pre><p id="3c1f6ce8-497f-8096-a0b6-daefa8f89784" class="" dir="auto">Isso ocorre porque <code>$numero</code> pertence ao escopo da função.</p><hr id="3c1f6ce8-497f-8098-af85-cb56478deef0" dir="auto"/><h1 id="3c1f6ce8-497f-80ed-a53b-fb20f9dc1a91" class="" dir="auto">Variáveis globais</h1><p id="3c1f6ce8-497f-80b5-a6ef-e6234e0e07eb" class="" dir="auto">Uma variável criada fora de uma função possui escopo global.</p><pre id="3c1f6ce8-497f-80f1-b48f-e205e64f1329" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">&lt;?php
+
+$nome = &quot;Gusta&quot;;
+
+function mostrarNome() {
+    global $nome;
+
+    echo $nome;
+}
+
+mostrarNome();</code></pre><p id="3c1f6ce8-497f-8068-9a76-d59afabe7719" class="" dir="auto">Embora seja possível utilizar <code>global</code>, em aplicações maiores geralmente é melhor evitar depender excessivamente de variáveis globais. É preferível passar os valores necessários como parâmetros.</p><p id="3c1f6ce8-497f-8068-a600-ddc2234cd5fa" class="" dir="auto">Por exemplo:</p><pre id="3c1f6ce8-497f-806f-9603-e0f9772c6ff7" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">function mostrarNome($nome) {
+    echo $nome;
+}
+
+mostrarNome($nome);</code></pre><p id="3c1f6ce8-497f-8069-b1d5-f6b21f48fbf2" class="" dir="auto">Essa abordagem deixa a função mais independente e reutilizável.</p><hr id="3c1f6ce8-497f-800d-ab91-d611813311d5" dir="auto"/><h1 id="3c1f6ce8-497f-80d0-8f31-e302f0f52037" class="" dir="auto">Funções internas do PHP</h1><p id="3c1f6ce8-497f-804a-b63f-d8dc007c69a8" class="" dir="auto">O PHP já possui <strong>centenas de funções prontas</strong>, chamadas de <strong>funções internas</strong> (<em>built-in functions</em>).</p><p id="3c1f6ce8-497f-800d-b750-dca3629d0832" class="" dir="auto">Por exemplo:</p><h3 id="3c1f6ce8-497f-809d-82d1-e2d340cfc23d" class="" dir="auto"><code>strlen()</code></h3><p id="3c1f6ce8-497f-8027-952e-de926595fa2e" class="" dir="auto">Retorna o tamanho de uma string:</p><pre id="3c1f6ce8-497f-807d-8e93-d57a229444e8" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">&lt;?php
+
+$nome = &quot;Gusta&quot;;
+
+echo strlen($nome);</code></pre><p id="3c1f6ce8-497f-80da-b091-c706f70e9b19" class="" dir="auto">Resultado:</p><pre id="3c1f6ce8-497f-80d6-afc7-d1f66514b0db" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">5</code></pre><h3 id="3c1f6ce8-497f-80f8-98f2-d3eaea6f0c91" class="" dir="auto"><code>strtoupper()</code></h3><p id="3c1f6ce8-497f-806d-9f58-cc3f3bc1666e" class="" dir="auto">Converte uma string para letras maiúsculas:</p><pre id="3c1f6ce8-497f-8022-a501-ebbbe3b448ab" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">echo strtoupper(&quot;php&quot;);</code></pre><p id="3c1f6ce8-497f-80cc-8fb2-d202de9f02ba" class="" dir="auto">Resultado:</p><pre id="3c1f6ce8-497f-80bb-9afb-d9dd1b510910" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">PHP</code></pre><h3 id="3c1f6ce8-497f-8001-873e-fb39bcadf86a" class="" dir="auto"><code>count()</code></h3><p id="3c1f6ce8-497f-804a-a179-c8e98ecd2018" class="" dir="auto">Conta elementos de um array:</p><pre id="3c1f6ce8-497f-80d6-b350-ea1f864e6943" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">$nomes = [&quot;Ana&quot;, &quot;Carlos&quot;, &quot;João&quot;];
+
+echo count($nomes);</code></pre><p id="3c1f6ce8-497f-8077-b2b7-d00bebc34eb7" class="" dir="auto">Resultado:</p><pre id="3c1f6ce8-497f-8036-877a-e3caa414fc67" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">3</code></pre><hr id="3c1f6ce8-497f-8012-91ca-f6820a7c2ea2" dir="auto"/><h1 id="3c1f6ce8-497f-803d-99b8-cbcdb024dc5d" class="" dir="auto">Funções personalizadas</h1><p id="3c1f6ce8-497f-80c1-bdb6-fae0fea016ca" class="" dir="auto">Quando criamos nossas próprias funções, elas são chamadas de <strong>funções definidas pelo usuário</strong>.</p><p id="3c1f6ce8-497f-8098-81a4-f80ed62a02e3" class="" dir="auto">Exemplo:</p><pre id="3c1f6ce8-497f-80cc-8184-f89807628145" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">&lt;?php
+
+function calcularDesconto($preco, $percentual) {
+
+    $desconto = $preco * ($percentual / 100);
+
+    return $preco - $desconto;
+}
+
+echo calcularDesconto(100, 10);</code></pre><p id="3c1f6ce8-497f-80cb-97e0-e55d274899e4" class="" dir="auto">Resultado:</p><pre id="3c1f6ce8-497f-8080-a714-fd9cf982a6ee" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">90</code></pre><p id="3c1f6ce8-497f-807f-99b3-d313abea0063" class="" dir="auto">Essa função pode ser reutilizada:</p><pre id="3c1f6ce8-497f-8065-bd3a-ccbdca6910ce" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">calcularDesconto(200, 10);
+calcularDesconto(500, 20);
+calcularDesconto(1000, 15);</code></pre><hr id="3c1f6ce8-497f-802e-a112-cdda7b1cc7bd" dir="auto"/><h1 id="3c1f6ce8-497f-80c7-82fc-f4ee3f5efdc9" class="" dir="auto">Funções podem ser reutilizadas</h1><p id="3c1f6ce8-497f-8024-aaa6-cf512c96e71e" class="" dir="auto">Essa é uma das principais vantagens das funções.</p><p id="3c1f6ce8-497f-80fe-85d1-cd8bb6693848" class="" dir="auto">Sem função:</p><pre id="3c1f6ce8-497f-806b-8268-e37e7fb83471" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">$total1 = 100 * 1.10;
+$total2 = 200 * 1.10;
+$total3 = 300 * 1.10;</code></pre><p id="3c1f6ce8-497f-80e6-a699-e7a1e0c33461" class="" dir="auto">Com função:</p><pre id="3c1f6ce8-497f-80f4-829d-c33d17ac1763" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">function calcularPreco($valor) {
+    return $valor * 1.10;
+}
+
+$total1 = calcularPreco(100);
+$total2 = calcularPreco(200);
+$total3 = calcularPreco(300);</code></pre><p id="3c1f6ce8-497f-80fd-a8e3-cd680dafac1c" class="" dir="auto">O código fica mais organizado e evita repetição.</p><hr id="3c1f6ce8-497f-80c5-974b-fd6cdf462057" dir="auto"/><h1 id="3c1f6ce8-497f-80b1-90b2-cc6cb62bdbc3" class="" dir="auto">Funções anônimas</h1><p id="3c1f6ce8-497f-8029-9a59-f288342118f8" class="" dir="auto">O PHP também permite criar funções <strong>sem nome</strong>, chamadas de <strong>funções anônimas</strong>.</p><p id="3c1f6ce8-497f-802e-8fb4-c3bd66816c13" class="" dir="auto">Exemplo:</p><pre id="3c1f6ce8-497f-8087-bca6-d1c77039e6c4" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">&lt;?php
+
+$somar = function($a, $b) {
+    return $a + $b;
+};
+
+echo $somar(10, 5);</code></pre><p id="3c1f6ce8-497f-8061-89f4-d581fa0c4e2b" class="" dir="auto">Resultado:</p><pre id="3c1f6ce8-497f-800c-bf93-cc9e88cbf097" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">15</code></pre><p id="3c1f6ce8-497f-80b1-aa3b-cd62c42f89a0" class="" dir="auto">Nesse caso, a função foi armazenada na variável <code>$somar</code>.</p><hr id="3c1f6ce8-497f-8050-935b-e205cff614c3" dir="auto"/><h1 id="3c1f6ce8-497f-80e2-9a6e-cb26205fac5f" class="" dir="auto">Arrow Functions</h1><p id="3c1f6ce8-497f-80a4-96e6-f027e4a1e3a9" class="" dir="auto">O PHP também possui <strong>funções de seta</strong>, introduzidas no PHP 7.4.</p><p id="3c1f6ce8-497f-8059-8ec9-fb18bd5bb8b9" class="" dir="auto">Elas são uma forma compacta de escrever funções simples.</p><p id="3c1f6ce8-497f-806a-af62-e7105a01c7c2" class="" dir="auto">Em vez de:</p><pre id="3c1f6ce8-497f-8078-b1a2-dd2c966515ca" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">$somar = function($a, $b) {
+    return $a + $b;
+};</code></pre><p id="3c1f6ce8-497f-8091-bea3-fc592ffa5ef7" class="" dir="auto">podemos escrever:</p><pre id="3c1f6ce8-497f-802e-a7b2-c88ad1c8677a" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">$somar = fn($a, $b) =&gt; $a + $b;</code></pre><p id="3c1f6ce8-497f-80a5-ae06-d3b641e57c76" class="" dir="auto">E utilizar:</p><pre id="3c1f6ce8-497f-8053-b2bf-e03efbe2597d" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">echo $somar(10, 5);</code></pre><p id="3c1f6ce8-497f-80c6-8ade-eef1d62b72c6" class="" dir="auto">Resultado:</p><pre id="3c1f6ce8-497f-80c4-8ef8-cf22b8bec577" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">15</code></pre><p id="3c1f6ce8-497f-80ca-902c-e895ec900934" class="" dir="auto">São especialmente úteis em operações curtas e funções de callback.</p><hr id="3c1f6ce8-497f-80a7-a931-e75455ff9798" dir="auto"/><h1 id="3c1f6ce8-497f-8044-bd8d-dd66a2eabca5" class="" dir="auto">Por que utilizar funções?</h1><p id="3c1f6ce8-497f-809f-8e52-e5087d758d24" class="" dir="auto">As funções oferecem diversas vantagens:</p><h3 id="3c1f6ce8-497f-8056-8f2a-e98cc8328fde" class="" dir="auto">1. Reutilização</h3><p id="3c1f6ce8-497f-8024-af91-fc87aee4199b" class="" dir="auto">Uma função pode ser chamada várias vezes.</p><h3 id="3c1f6ce8-497f-80f0-85c0-d69acc1dfeb5" class="" dir="auto">2. Organização</h3><p id="3c1f6ce8-497f-8081-90b6-e142c3bca2b0" class="" dir="auto">O programa pode ser dividido em pequenas tarefas.</p><h3 id="3c1f6ce8-497f-8098-8360-f4fe19c8d90f" class="" dir="auto">3. Manutenção</h3><p id="3c1f6ce8-497f-8018-b704-cc245476d89c" class="" dir="auto">Se uma regra precisar ser alterada, podemos modificar a função em um único lugar.</p><h3 id="3c1f6ce8-497f-80b6-a841-c8e6cd828ba5" class="" dir="auto">4. Redução de repetição</h3><p id="3c1f6ce8-497f-803b-8e7d-e8f6822f13b0" class="" dir="auto">Evita escrever o mesmo código várias vezes.</p><h3 id="3c1f6ce8-497f-8074-bc54-e9604c2c7d97" class="" dir="auto">5. Legibilidade</h3><p id="3c1f6ce8-497f-80c5-9645-fbbf8b3c82e7" class="" dir="auto">Funções com bons nomes tornam o código mais fácil de entender.</p><p id="3c1f6ce8-497f-80e1-a279-fe94fdbf1ed6" class="" dir="auto">Por exemplo:</p><pre id="3c1f6ce8-497f-80ec-bf79-da84574d7e4d" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">calcularTotal();</code></pre><p id="3c1f6ce8-497f-8014-ac32-d36001b736c6" class="" dir="auto">é mais fácil de compreender do que encontrar várias linhas de cálculo espalhadas pelo código.</p><hr id="3c1f6ce8-497f-804f-a475-c78307fc39ab" dir="auto"/><h1 id="3c1f6ce8-497f-806a-81bb-ee9270246055" class="" dir="auto">Exemplo completo</h1><p id="3c1f6ce8-497f-80a6-8e0e-cd9bad5b0d90" class="" dir="auto">Imagine um sistema de vendas:</p><pre id="3c1f6ce8-497f-801c-8d29-c99d14cd17e9" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">&lt;?php
+
+function calcularSubtotal(float $preco, int $quantidade): float {
+    return $preco * $quantidade;
+}
+
+function aplicarDesconto(float $valor, float $percentual): float {
+    return $valor - ($valor * ($percentual / 100));
+}
+
+$preco = 50;
+$quantidade = 4;
+$desconto = 10;
+
+$subtotal = calcularSubtotal($preco, $quantidade);
+
+$total = aplicarDesconto($subtotal, $desconto);
+
+echo &quot;Subtotal: R$ &quot; . $subtotal . &quot;&lt;br&gt;&quot;;
+echo &quot;Total com desconto: R$ &quot; . $total;</code></pre><p id="3c1f6ce8-497f-80b4-91e5-cac09261d388" class="" dir="auto">Resultado:</p><pre id="3c1f6ce8-497f-8046-98ad-d72d35982236" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Subtotal: R$ 200
+Total com desconto: R$ 180</code></pre><p id="3c1f6ce8-497f-80ac-8f94-f08922a12af7" class="" dir="auto">Observe como o programa foi dividido em tarefas:</p><pre id="3c1f6ce8-497f-80de-b71a-fcc74071aa57" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">calcularSubtotal()
+        ↓
+calcular o subtotal
+
+aplicarDesconto()
+        ↓
+calcular o desconto
+
+resultado
+        ↓
+exibir o total</code></pre><p id="3c1f6ce8-497f-8069-bbfe-dac7f23f52e3" class="" dir="auto">Isso torna o código muito mais organizado.</p><hr id="3c1f6ce8-497f-802c-aa85-ec63d4026ab2" dir="auto"/><h1 id="3c1f6ce8-497f-80f2-a905-d0c683ed13fc" class="" dir="auto">Boas práticas</h1><p id="3c1f6ce8-497f-80b4-8b9a-f52c59a1c525" class="" dir="auto">Ao criar funções:</p><ul id="3c1f6ce8-497f-800c-9c0e-ce8c0b6c528e" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Dê nomes claros e descritivos.</li></ul><ul id="3c1f6ce8-497f-80f9-80e9-fad2dfb22de9" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Faça cada função realizar uma tarefa bem definida.</li></ul><ul id="3c1f6ce8-497f-8013-ad9c-f81d70cb41db" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Evite funções gigantes.</li></ul><ul id="3c1f6ce8-497f-8096-adfb-d85dfd40090a" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Utilize parâmetros em vez de depender de variáveis globais.</li></ul><ul id="3c1f6ce8-497f-80e1-b427-d4076206e067" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Utilize <code>return</code> quando precisar reutilizar o resultado.</li></ul><ul id="3c1f6ce8-497f-800a-a236-fc9444c0839b" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Use tipagem de parâmetros e retorno quando apropriado.</li></ul><ul id="3c1f6ce8-497f-807f-8f04-f4459a84a1e1" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Evite duplicação de código.</li></ul><ul id="3c1f6ce8-497f-8070-bde2-f740a17cb1cb" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Mantenha as funções independentes sempre que possível.</li></ul><hr id="3c1f6ce8-497f-8017-a60f-c1323acd8735" dir="auto"/><h1 id="3c1f6ce8-497f-802a-8849-d9211e80bb8c" class="" dir="auto">Resumo</h1><p id="3c1f6ce8-497f-80e5-86c6-d88f707de82b" class="" dir="auto">As <strong>funções</strong> são blocos de código reutilizáveis criados para executar tarefas específicas. Elas podem receber <strong>parâmetros</strong>, realizar operações e devolver resultados através do <code>return</code>. O PHP também possui diversas funções internas, como <code>strlen()</code>, <code>count()</code> e <code>strtoupper()</code>, além de permitir que o programador crie suas próprias funções.</p><p id="3c1f6ce8-497f-80fd-8208-cbd79d719efe" class="" dir="auto">O uso de funções é fundamental para desenvolver aplicações organizadas, pois permite <strong>reutilizar código, reduzir repetições, melhorar a legibilidade e facilitar a manutenção</strong>. Em PHP, também existem recursos mais avançados, como <strong>parâmetros tipados, tipos de retorno, funções anônimas e Arrow Functions</strong>, que tornam a programação mais estruturada e flexível.</p></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

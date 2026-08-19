@@ -1,0 +1,1005 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Funções nativas Strings</title><meta name="data-notion-page-icon" content="/icons/elephant_purple.svg"/><link rel="icon" href="https://app.notion.com/icons/elephant_purple.svg"/><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+/* For default-background callouts, render the border outline. */
+.callout.block-color-default_background {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+/*
+ * Toggles and callouts hold arbitrary content, so they can easily be taller
+ * than a page. They must stay breakable: avoiding breaks inside them makes
+ * Chromium push the whole block onto the next page, which leaves the previous
+ * page mostly empty before every long toggle.
+ */
+details,
+aside {
+	margin: 1.25em 0;
+}
+
+/* Keep a toggle's title on the same page as the start of its content. */
+summary {
+	page-break-after: avoid;
+	break-after: avoid;
+}
+
+/*
+ * Toggle headings render as <h1/h2/h3 style="display:inline-block"> inside
+ * <summary>. Without this reset, the heading's margin-top pushes it below the
+ * ::marker (▼), so the triangle and the title appear on separate lines.
+ */
+summary h1,
+summary h2,
+summary h3,
+summary h4 {
+	margin-top: 0;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding-inline: 0.125rem;
+	padding-block: 0.375rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+/*
+ * Render emoji icons using a ::before pseudo-element to keep the glyph
+ * out of the DOM textContent traversal. This avoids double-rendering icons
+ * in callouts and page titles.
+ * NOTE(slim/html-export-pseudo-icons): I can't tagref this because it will
+ * flag as a duplicate tag after codegen.
+ */
+.icon[data-emoji]::before {
+	content: attr(data-emoji);
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	margin-right: 0.4em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.tab {
+	margin: 1.25em 0;
+	padding-inline: 1rem;
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style><style>@import url('https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex-swap.min.css')</style></head><body><article id="3c1f6ce8-497f-80e9-9691-c432d874350d" class="page sans" data-notion-page-icon="/icons/elephant_purple.svg"><header><div class="page-header-icon undefined"><img class="icon notion-static-icon" src="https://app.notion.com/icons/elephant_purple.svg"/></div><h1 class="page-title" dir="auto">Funções nativas Strings</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><h1 id="3c1f6ce8-497f-8091-a123-c269e1b75477" class="" dir="auto">Funções nativas para manipular Strings no PHP</h1><p id="3c1f6ce8-497f-80eb-8354-f2a0fc06e313" class="" dir="auto">Em PHP, <strong>strings</strong> são sequências de caracteres utilizadas para representar textos. Durante o desenvolvimento de aplicações, é muito comum precisar <strong>alterar, pesquisar, comparar, dividir, substituir ou formatar textos</strong>.</p><p id="3c1f6ce8-497f-80ad-a9fe-f5433482673c" class="" dir="auto">Para facilitar essas tarefas, o PHP possui diversas <strong>funções nativas para manipulação de strings</strong>. Elas já fazem parte da linguagem e podem ser utilizadas diretamente, sem a instalação de bibliotecas adicionais.</p><hr id="3c1f6ce8-497f-80b7-b69f-ee2ac46bb342" dir="auto"/><h2 id="3c1f6ce8-497f-808e-85d9-f02cc2d2a6e1" class="" dir="auto">1. O que são funções para Strings?</h2><p id="3c1f6ce8-497f-808f-b0c8-fc02d19a667b" class="" dir="auto">São funções disponibilizadas pelo próprio PHP para trabalhar com valores do tipo <code>string</code>.</p><p id="3c1f6ce8-497f-800e-bc73-d59be1b5f62c" class="" dir="auto">Por exemplo:</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="3c1f6ce8-497f-80a7-a122-d7af09f83d6b" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">$nome = &quot;Gusta&quot;;
+
+echo strlen($nome);</code></pre><p id="3c1f6ce8-497f-803c-a191-d208f6ae26bd" class="" dir="auto">Resultado:</p><pre id="3c1f6ce8-497f-80cc-a255-d2d0738ded90" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">5</code></pre><p id="3c1f6ce8-497f-8084-9016-ee28254be4b8" class="" dir="auto">A função <code>strlen()</code> calcula a quantidade de caracteres da string.</p><hr id="3c1f6ce8-497f-8082-9a19-da87460c3602" dir="auto"/><h1 id="3c1f6ce8-497f-808d-8386-f223a7641277" class="" dir="auto">2. <code>strlen()</code> — tamanho da String</h1><p id="3c1f6ce8-497f-8053-a475-c12f45459ff6" class="" dir="auto">A função <code>strlen()</code> retorna o número de caracteres de uma string.</p><h3 id="3c1f6ce8-497f-80d1-8b07-e6e6b95b36bb" class="" dir="auto">Sintaxe</h3><pre id="3c1f6ce8-497f-8069-b3a2-f3743f6aff5c" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">strlen(string);</code></pre><h3 id="3c1f6ce8-497f-80a4-a3b2-ff16d9802e0c" class="" dir="auto">Exemplo</h3><pre id="3c1f6ce8-497f-80c8-9518-ce62c6b01920" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">$texto = &quot;Olá, mundo!&quot;;
+
+echo strlen($texto);</code></pre><p id="3c1f6ce8-497f-8086-97a0-e17a515bbda3" class="" dir="auto">Resultado:</p><pre id="3c1f6ce8-497f-80ee-bd29-fa494175725f" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">11</code></pre><p id="3c1f6ce8-497f-8011-88b0-ff755521369e" class="" dir="auto">É bastante utilizada para verificar o tamanho de textos, senhas, nomes etc.</p><h3 id="3c1f6ce8-497f-8027-a266-c9cb107c41ff" class="" dir="auto">Exemplo prático</h3><pre id="3c1f6ce8-497f-80c3-befe-e5a5e93607be" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">$senha = &quot;123456&quot;;
+
+if (strlen($senha) &gt;= 6) {
+    echo &quot;Senha válida&quot;;
+} else {
+    echo &quot;Senha muito curta&quot;;
+}</code></pre><hr id="3c1f6ce8-497f-80c1-bb6a-e8f839655158" dir="auto"/><h1 id="3c1f6ce8-497f-8028-bd32-e93da47512f2" class="" dir="auto">3. <code>strtoupper()</code> — transformar em maiúsculas</h1><p id="3c1f6ce8-497f-80e2-a8f6-d28785afa19c" class="" dir="auto">Converte uma string para letras maiúsculas.</p><pre id="3c1f6ce8-497f-8029-b120-c1b67e8b9eac" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">$nome = &quot;gusta&quot;;
+
+echo strtoupper($nome);</code></pre><p id="3c1f6ce8-497f-8066-aedd-dd6ee77709d1" class="" dir="auto">Resultado:</p><pre id="3c1f6ce8-497f-800c-a1a3-d9d739baf57c" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">GUSTA</code></pre><hr id="3c1f6ce8-497f-806a-87ed-ee6129a1e564" dir="auto"/><h1 id="3c1f6ce8-497f-8050-b60d-eac24bfba77c" class="" dir="auto">4. <code>strtolower()</code> — transformar em minúsculas</h1><p id="3c1f6ce8-497f-80b0-9038-e7cd3a1fa943" class="" dir="auto">Converte uma string para letras minúsculas.</p><pre id="3c1f6ce8-497f-8096-b698-d99c10d703e7" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">$nome = &quot;GUSTA&quot;;
+
+echo strtolower($nome);</code></pre><p id="3c1f6ce8-497f-804f-a45a-c512940f3d12" class="" dir="auto">Resultado:</p><pre id="3c1f6ce8-497f-8094-8cf6-d5113e494ad5" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">gusta</code></pre><h3 id="3c1f6ce8-497f-8084-aa2b-c1c66eaeae83" class="" dir="auto">Exemplo</h3><pre id="3c1f6ce8-497f-8072-86f6-ff7ea9f15a4e" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">$email = &quot;GUSTA@EMAIL.COM&quot;;
+
+$email = strtolower($email);
+
+echo $email;</code></pre><p id="3c1f6ce8-497f-80c7-883d-f53dbff0c0d7" class="" dir="auto">Resultado:</p><pre id="3c1f6ce8-497f-8005-b40b-d47b062c5943" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">gusta@email.com</code></pre><hr id="3c1f6ce8-497f-80ac-a6b6-e73bc07b17ff" dir="auto"/><h1 id="3c1f6ce8-497f-8032-ad78-f0be00ab6eb6" class="" dir="auto">5. <code>ucfirst()</code> — primeira letra maiúscula</h1><p id="3c1f6ce8-497f-805b-aa0d-f62ec8e4eb32" class="" dir="auto">A função <code>ucfirst()</code> transforma a <strong>primeira letra</strong> da string em maiúscula.</p><pre id="3c1f6ce8-497f-80c6-bf56-deee9a781540" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">$nome = &quot;gusta&quot;;
+
+echo ucfirst($nome);</code></pre><p id="3c1f6ce8-497f-80ce-8332-e9fea718b7ea" class="" dir="auto">Resultado:</p><pre id="3c1f6ce8-497f-8070-b77f-e29bed269387" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Gusta</code></pre><hr id="3c1f6ce8-497f-80a6-8f37-db4c0494eafe" dir="auto"/><h1 id="3c1f6ce8-497f-809a-b540-e9fa51cb855d" class="" dir="auto">6. <code>lcfirst()</code> — primeira letra minúscula</h1><p id="3c1f6ce8-497f-80f4-98d3-f5ef1bc3bd94" class="" dir="auto">Faz o contrário de <code>ucfirst()</code>.</p><pre id="3c1f6ce8-497f-805f-a4a9-f87975383115" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">$nome = &quot;Gusta&quot;;
+
+echo lcfirst($nome);</code></pre><p id="3c1f6ce8-497f-8081-ac94-e4c014253811" class="" dir="auto">Resultado:</p><pre id="3c1f6ce8-497f-8026-b929-dce652f7cfa8" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">gusta</code></pre><hr id="3c1f6ce8-497f-806b-89e9-c6e643a8d5dc" dir="auto"/><h1 id="3c1f6ce8-497f-8038-a272-e22f1334c662" class="" dir="auto">7. <code>ucwords()</code> — primeira letra de cada palavra</h1><p id="3c1f6ce8-497f-80d7-9b85-e6f2b200172d" class="" dir="auto">Transforma a primeira letra de cada palavra em maiúscula.</p><pre id="3c1f6ce8-497f-8053-a1cc-faf2fced988b" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">$nome = &quot;gusta alcântara&quot;;
+
+echo ucwords($nome);</code></pre><p id="3c1f6ce8-497f-8052-87ee-da79ecec065e" class="" dir="auto">Resultado:</p><pre id="3c1f6ce8-497f-8086-a884-fc181b9f9336" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Gusta Alcântara</code></pre><p id="3c1f6ce8-497f-808d-be01-d3ccb3312456" class="" dir="auto">É útil para formatação de nomes e títulos.</p><hr id="3c1f6ce8-497f-80ea-82e2-ef61f17ca631" dir="auto"/><h1 id="3c1f6ce8-497f-8067-8285-ed56099a49fc" class="" dir="auto">8. <code>trim()</code> — remover espaços</h1><p id="3c1f6ce8-497f-80e6-a04a-f4e6e93af4d2" class="" dir="auto">A função <code>trim()</code> remove espaços e determinados caracteres do <strong>início e do final</strong> de uma string.</p><pre id="3c1f6ce8-497f-80cd-9143-c8b38539ba51" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">$nome = &quot;   Gusta   &quot;;
+
+echo trim($nome);</code></pre><p id="3c1f6ce8-497f-807e-9f3f-c0efef7678e5" class="" dir="auto">Resultado:</p><pre id="3c1f6ce8-497f-807f-b366-fd06219c2ab7" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Gusta</code></pre><p id="3c1f6ce8-497f-80ea-8c4e-deed6fb4304a" class="" dir="auto">Isso é muito útil em formulários.</p><h3 id="3c1f6ce8-497f-8089-a7e9-cfcebf5f01f5" class="" dir="auto">Exemplo</h3><pre id="3c1f6ce8-497f-80c0-92fd-f06917b3b5a9" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">$nome = trim($_POST[&quot;nome&quot;]);</code></pre><p id="3c1f6ce8-497f-80b4-a380-de0c9c2c7209" class="" dir="auto">Se o usuário digitar:</p><pre id="3c1f6ce8-497f-8099-a6f6-e5eabec826d6" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">   Gusta</code></pre><p id="3c1f6ce8-497f-8038-93c2-ce9cfa2c435a" class="" dir="auto">o PHP poderá armazenar:</p><pre id="3c1f6ce8-497f-804f-866a-c4b88e9401ee" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Gusta</code></pre><hr id="3c1f6ce8-497f-8040-b2a4-c8ca70a9d197" dir="auto"/><h1 id="3c1f6ce8-497f-8043-b790-f3c5116ea3e8" class="" dir="auto">9. <code>ltrim()</code> — remover do lado esquerdo</h1><p id="3c1f6ce8-497f-80f1-b31a-f059be7c15e9" class="" dir="auto">Remove espaços ou caracteres do início da string.</p><pre id="3c1f6ce8-497f-805a-99d6-d32979192860" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">$texto = &quot;   PHP&quot;;
+
+echo ltrim($texto);</code></pre><p id="3c1f6ce8-497f-8080-9b63-fae80231d09a" class="" dir="auto">Resultado:</p><pre id="3c1f6ce8-497f-8007-8e6d-e5f55c3a5db9" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">PHP</code></pre><hr id="3c1f6ce8-497f-8057-b1dc-d4f7288f9892" dir="auto"/><h1 id="3c1f6ce8-497f-8002-86cc-c03d0b2f595a" class="" dir="auto">10. <code>rtrim()</code> — remover do lado direito</h1><p id="3c1f6ce8-497f-803e-86a3-fd73bc3b4f92" class="" dir="auto">Remove espaços ou caracteres do final da string.</p><pre id="3c1f6ce8-497f-8035-8ed9-cdeef6d35f09" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">$texto = &quot;PHP   &quot;;
+
+echo rtrim($texto);</code></pre><p id="3c1f6ce8-497f-80fc-b537-fef57cc352f7" class="" dir="auto">Resultado:</p><pre id="3c1f6ce8-497f-8069-b872-e25c784cd4a1" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">PHP</code></pre><hr id="3c1f6ce8-497f-8063-b1b6-e360d1c0bca7" dir="auto"/><h1 id="3c1f6ce8-497f-805a-b30f-daaca40e461d" class="" dir="auto">11. <code>str_replace()</code> — substituir texto</h1><p id="3c1f6ce8-497f-802a-b41d-d8146e2875a8" class="" dir="auto">Uma das funções mais importantes para manipulação de strings.</p><p id="3c1f6ce8-497f-8016-9639-f938aca48027" class="" dir="auto">Ela permite substituir uma parte de um texto por outra.</p><h3 id="3c1f6ce8-497f-8078-abbc-c0997aa980e8" class="" dir="auto">Sintaxe</h3><pre id="3c1f6ce8-497f-8091-b4e0-ef5ed752ddbd" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">str_replace(procurar, substituir, texto);</code></pre><h3 id="3c1f6ce8-497f-8023-a551-e4db7a31b4e4" class="" dir="auto">Exemplo</h3><pre id="3c1f6ce8-497f-802f-b53a-edf2c57362a0" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">$texto = &quot;Eu gosto de JavaScript&quot;;
+
+$texto = str_replace(&quot;JavaScript&quot;, &quot;PHP&quot;, $texto);
+
+echo $texto;</code></pre><p id="3c1f6ce8-497f-80f8-9773-e7b7d5f852e1" class="" dir="auto">Resultado:</p><pre id="3c1f6ce8-497f-8068-9c7b-f3e863ef5995" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Eu gosto de PHP</code></pre><h3 id="3c1f6ce8-497f-8026-93e0-e6cebc973c97" class="" dir="auto">Substituindo vários elementos</h3><pre id="3c1f6ce8-497f-8078-9e77-dfaffbe635e1" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">$texto = &quot;Olá, João!&quot;;
+
+$texto = str_replace(&quot;João&quot;, &quot;Gusta&quot;, $texto);
+
+echo $texto;</code></pre><hr id="3c1f6ce8-497f-80d5-91f5-c8839ef64136" dir="auto"/><h1 id="3c1f6ce8-497f-80f8-951a-d197f0786376" class="" dir="auto">12. <code>str_ireplace()</code> — substituição sem diferenciar maiúsculas e minúsculas</h1><p id="3c1f6ce8-497f-80c6-9a1e-c7a0fef8ffc2" class="" dir="auto">É semelhante ao <code>str_replace()</code>, mas <strong>não diferencia maiúsculas de minúsculas</strong>.</p><pre id="3c1f6ce8-497f-804f-af6c-cb9675879a88" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">$texto = &quot;Eu estudo PHP&quot;;
+
+echo str_ireplace(&quot;php&quot;, &quot;JavaScript&quot;, $texto);</code></pre><p id="3c1f6ce8-497f-8046-9055-d7ab7f3ab88a" class="" dir="auto">Resultado:</p><pre id="3c1f6ce8-497f-8066-bde6-dcce2c624a2a" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Eu estudo JavaScript</code></pre><hr id="3c1f6ce8-497f-80f7-add7-dc93a864a0b1" dir="auto"/><h1 id="3c1f6ce8-497f-8074-821f-f9a17711d264" class="" dir="auto">13. <code>substr()</code> — extrair parte de uma String</h1><p id="3c1f6ce8-497f-80b0-aa35-c5cb1a1aff64" class="" dir="auto">A função <code>substr()</code> permite obter uma parte de uma string.</p><h3 id="3c1f6ce8-497f-8067-be12-e89142d56efa" class="" dir="auto">Sintaxe</h3><pre id="3c1f6ce8-497f-8096-9d6a-c744ecba712c" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">substr(string, início, tamanho);</code></pre><h3 id="3c1f6ce8-497f-8089-91f3-f0b98a682d2a" class="" dir="auto">Exemplo</h3><pre id="3c1f6ce8-497f-800b-80ca-dc00f0814a32" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">$texto = &quot;Programação&quot;;
+
+echo substr($texto, 0, 5);</code></pre><p id="3c1f6ce8-497f-80bf-8b07-e3ac43c731d4" class="" dir="auto">Resultado:</p><pre id="3c1f6ce8-497f-807c-afc3-f2d5e858dc0d" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Progr</code></pre><p id="3c1f6ce8-497f-80e1-9f65-f2313c7283bd" class="" dir="auto">O primeiro índice é <code>0</code>.</p><pre id="3c1f6ce8-497f-8029-88ca-d2a92dd3cff8" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">P r o g r a m a ç ã o
+0 1 2 3 4 5 6 7 8 9 10</code></pre><h3 id="3c1f6ce8-497f-8059-87c7-cef85559b155" class="" dir="auto">Começando em determinada posição</h3><pre id="3c1f6ce8-497f-80f0-a7ff-c31dd4b014ee" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">$texto = &quot;Programação&quot;;
+
+echo substr($texto, 5);</code></pre><p id="3c1f6ce8-497f-8087-bac3-d9f96dc2db5f" class="" dir="auto">Resultado:</p><pre id="3c1f6ce8-497f-80c6-8594-f3b4b2353503" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">amação</code></pre><hr id="3c1f6ce8-497f-803b-9802-c7fd28ede82d" dir="auto"/><h1 id="3c1f6ce8-497f-80d3-9382-f50528c53ca1" class="" dir="auto">14. <code>strpos()</code> — encontrar posição de um texto</h1><p id="3c1f6ce8-497f-80c4-8188-d20580531d48" class="" dir="auto">A função <code>strpos()</code> procura uma string dentro de outra e retorna sua posição.</p><pre id="3c1f6ce8-497f-802a-b6ed-d701944d4cd7" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">$texto = &quot;Eu estudo PHP&quot;;
+
+$posicao = strpos($texto, &quot;PHP&quot;);
+
+echo $posicao;</code></pre><p id="3c1f6ce8-497f-80ed-a15a-d48704e7a882" class="" dir="auto">Resultado:</p><pre id="3c1f6ce8-497f-8083-809c-c69a6b899264" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">10</code></pre><p id="3c1f6ce8-497f-80e5-ba02-e1dd5d906539" class="" dir="auto">Isso acontece porque a contagem começa em <code>0</code>.</p><h3 id="3c1f6ce8-497f-80b6-805e-f60207ef07f9" class="" dir="auto">Importante</h3><p id="3c1f6ce8-497f-8037-b427-dab2a6b6ef60" class="" dir="auto"><code>strpos()</code> pode retornar <code>0</code> quando o texto pesquisado está no início.</p><p id="3c1f6ce8-497f-8000-9780-cee530a0ac72" class="" dir="auto">Por isso, evite:</p><pre id="3c1f6ce8-497f-80fe-a099-db3df9c88a7d" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">if (strpos($texto, &quot;PHP&quot;)) {
+    echo &quot;Encontrado&quot;;
+}</code></pre><p id="3c1f6ce8-497f-806d-8e07-f365af08dc32" class="" dir="auto">O mais correto é:</p><pre id="3c1f6ce8-497f-8065-ad9c-c603999da6d2" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">if (strpos($texto, &quot;PHP&quot;) !== false) {
+    echo &quot;Encontrado&quot;;
+}</code></pre><hr id="3c1f6ce8-497f-80b9-bc82-d3d3b9ffbae2" dir="auto"/><h1 id="3c1f6ce8-497f-8095-a9e3-f2a5323e1819" class="" dir="auto">15. <code>stripos()</code> — procurar ignorando maiúsculas/minúsculas</h1><p id="3c1f6ce8-497f-80ed-a232-c6cede0d564d" class="" dir="auto">É semelhante ao <code>strpos()</code>, mas não diferencia maiúsculas e minúsculas.</p><pre id="3c1f6ce8-497f-80d8-8c78-e41778bd4881" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">$texto = &quot;Eu estudo PHP&quot;;
+
+$posicao = stripos($texto, &quot;php&quot;);
+
+echo $posicao;</code></pre><p id="3c1f6ce8-497f-8095-afa2-d3170b5f2fbc" class="" dir="auto">Resultado:</p><pre id="3c1f6ce8-497f-80e5-a311-f0a3c84f991f" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">10</code></pre><hr id="3c1f6ce8-497f-8077-b1bc-f7275b3321fb" dir="auto"/><h1 id="3c1f6ce8-497f-802b-b29f-dd6c6dd4c9ac" class="" dir="auto">16. <code>str_contains()</code> — verificar se contém determinado texto</h1><p id="3c1f6ce8-497f-8010-87b3-fefd1a975297" class="" dir="auto">Disponível a partir do PHP 8, <code>str_contains()</code> verifica se uma string contém outra.</p><pre id="3c1f6ce8-497f-80b8-b5df-d9eb14f84fca" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">$texto = &quot;Eu estudo PHP&quot;;
+
+if (str_contains($texto, &quot;PHP&quot;)) {
+    echo &quot;O texto contém PHP&quot;;
+}</code></pre><p id="3c1f6ce8-497f-80ec-bd29-d9cb519b793a" class="" dir="auto">Resultado:</p><pre id="3c1f6ce8-497f-8028-af85-e30306cdd4de" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">O texto contém PHP</code></pre><p id="3c1f6ce8-497f-80b1-9665-fd311604b8e2" class="" dir="auto">Ela retorna:</p><pre id="3c1f6ce8-497f-8075-84c7-ecec46e66cbb" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">true</code></pre><p id="3c1f6ce8-497f-8062-9ae3-e1ed15b64d17" class="" dir="auto">ou:</p><pre id="3c1f6ce8-497f-8034-b948-ef05706b6167" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">false</code></pre><h3 id="3c1f6ce8-497f-8092-a663-cad9ef978d71" class="" dir="auto">Exemplo</h3><pre id="3c1f6ce8-497f-807f-96b5-d47a13a3805e" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">$email = &quot;gusta@gmail.com&quot;;
+
+if (str_contains($email, &quot;@&quot;)) {
+    echo &quot;E-mail aparentemente válido&quot;;
+}</code></pre><hr id="3c1f6ce8-497f-803f-b8de-e14e582a4280" dir="auto"/><h1 id="3c1f6ce8-497f-80ef-a6b0-fa9f1e43d8b2" class="" dir="auto">17. <code>str_starts_with()</code> — verificar o início</h1><p id="3c1f6ce8-497f-8042-8cf0-ddec9edb60d6" class="" dir="auto">Verifica se uma string começa com determinado conteúdo.</p><pre id="3c1f6ce8-497f-8031-bbae-ff6173b328f9" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">$url = &quot;https://google.com&quot;;
+
+if (str_starts_with($url, &quot;https://&quot;)) {
+    echo &quot;URL segura&quot;;
+}</code></pre><p id="3c1f6ce8-497f-8043-91b9-f225d6fd2a12" class="" dir="auto">Essa função também está disponível a partir do <strong>PHP 8</strong>.</p><hr id="3c1f6ce8-497f-8017-b8ad-ce14ff8c5d90" dir="auto"/><h1 id="3c1f6ce8-497f-80d9-9a20-e29ebe7d60de" class="" dir="auto">18. <code>str_ends_with()</code> — verificar o final</h1><p id="3c1f6ce8-497f-800b-bcae-c1490de515f0" class="" dir="auto">Verifica se uma string termina com determinado conteúdo.</p><pre id="3c1f6ce8-497f-8083-8bfe-cec6f2354e1d" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">$arquivo = &quot;documento.pdf&quot;;
+
+if (str_ends_with($arquivo, &quot;.pdf&quot;)) {
+    echo &quot;É um arquivo PDF&quot;;
+}</code></pre><hr id="3c1f6ce8-497f-805c-9653-cf32e7c4398f" dir="auto"/><h1 id="3c1f6ce8-497f-8055-9ab0-d8256c19f00f" class="" dir="auto">19. <code>explode()</code> — transformar String em Array</h1><p id="3c1f6ce8-497f-80ed-99b6-cf718b0c2c12" class="" dir="auto">A função <code>explode()</code> divide uma string utilizando um separador e retorna um <strong>array</strong>.</p><h3 id="3c1f6ce8-497f-8065-8448-d52fd305b9a5" class="" dir="auto">Exemplo</h3><pre id="3c1f6ce8-497f-8008-afed-c3b6b401fd80" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">$frutas = &quot;maçã,banana,laranja&quot;;
+
+$array = explode(&quot;,&quot;, $frutas);
+
+print_r($array);</code></pre><p id="3c1f6ce8-497f-806e-95bf-d8a021832802" class="" dir="auto">Resultado:</p><pre id="3c1f6ce8-497f-80d4-9f90-de0f75bcf8c2" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Array
+(
+    [0] =&gt; maçã
+    [1] =&gt; banana
+    [2] =&gt; laranja
+)</code></pre><p id="3c1f6ce8-497f-8045-987e-f6b7ef23f89e" class="" dir="auto">Isso é muito útil quando temos informações separadas por vírgulas, espaços, barras etc.</p><h3 id="3c1f6ce8-497f-807c-a956-eda7863aef69" class="" dir="auto">Outro exemplo</h3><pre id="3c1f6ce8-497f-80a2-94e0-eb0b0413a254" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">$data = &quot;19/08/2026&quot;;
+
+$partes = explode(&quot;/&quot;, $data);
+
+echo $partes[0];</code></pre><p id="3c1f6ce8-497f-8037-b238-d0e6294a182d" class="" dir="auto">Resultado:</p><pre id="3c1f6ce8-497f-8044-99b2-d333f35c9759" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">19</code></pre><hr id="3c1f6ce8-497f-802d-bd69-f41f1f837b62" dir="auto"/><h1 id="3c1f6ce8-497f-8023-9635-f308d04a0f01" class="" dir="auto">20. <code>implode()</code> — transformar Array em String</h1><p id="3c1f6ce8-497f-804e-a958-f4514f151163" class="" dir="auto">O <code>implode()</code> faz o processo contrário do <code>explode()</code>.</p><p id="3c1f6ce8-497f-8027-a5e1-f06ffe875e58" class="" dir="auto">Ele transforma um array em uma string.</p><pre id="3c1f6ce8-497f-803c-9e07-ebc6ce515026" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">$frutas = [&quot;maçã&quot;, &quot;banana&quot;, &quot;laranja&quot;];
+
+$texto = implode(&quot;, &quot;, $frutas);
+
+echo $texto;</code></pre><p id="3c1f6ce8-497f-8017-8a92-c4f4a19d30f5" class="" dir="auto">Resultado:</p><pre id="3c1f6ce8-497f-80fe-b048-f992c6795e05" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">maçã, banana, laranja</code></pre><h3 id="3c1f6ce8-497f-80b9-969f-ebd77eeb3c55" class="" dir="auto">Relação</h3><pre id="3c1f6ce8-497f-80df-82bb-ca2edba639a0" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">String
+   ↓
+explode()
+   ↓
+Array</code></pre><p id="3c1f6ce8-497f-8088-9169-c9b3d893fcfd" class="" dir="auto">E:</p><pre id="3c1f6ce8-497f-80ef-af86-e9b6d2693967" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Array
+   ↓
+implode()
+   ↓
+String</code></pre><hr id="3c1f6ce8-497f-8048-8a69-c351a5ff28a1" dir="auto"/><h1 id="3c1f6ce8-497f-8059-9acb-e34ac68c5fed" class="" dir="auto">21. <code>str_repeat()</code> — repetir uma String</h1><p id="3c1f6ce8-497f-80c4-b301-f62a290c4680" class="" dir="auto">Repete determinado texto uma quantidade de vezes.</p><pre id="3c1f6ce8-497f-80cc-9d6c-eef012ae33c8" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">echo str_repeat(&quot;PHP &quot;, 3);</code></pre><p id="3c1f6ce8-497f-8037-8687-c53c2e1b3de2" class="" dir="auto">Resultado:</p><pre id="3c1f6ce8-497f-80d9-a9b8-d19d7beaed48" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">PHP PHP PHP</code></pre><p id="3c1f6ce8-497f-80f4-b076-e5124f7ee1e4" class="" dir="auto">Outro exemplo:</p><pre id="3c1f6ce8-497f-8076-bff3-ea2a76479616" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">echo str_repeat(&quot;-&quot;, 20);</code></pre><p id="3c1f6ce8-497f-8047-a41d-efef90b735f3" class="" dir="auto">Resultado:</p><pre id="3c1f6ce8-497f-803e-8ba8-fb69b23884cf" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">--------------------</code></pre><p id="3c1f6ce8-497f-8070-bdbb-d1f6c174694e" class="" dir="auto">Pode ser útil para criar separadores no terminal.</p><hr id="3c1f6ce8-497f-8064-9957-f27dda9cf489" dir="auto"/><h1 id="3c1f6ce8-497f-80b1-97b4-c10f87314f52" class="" dir="auto">22. <code>str_pad()</code> — completar uma String</h1><p id="3c1f6ce8-497f-800f-8d02-ee7ec1f0dee7" class="" dir="auto">Adiciona caracteres ao início, ao final ou em ambos os lados de uma string.</p><pre id="3c1f6ce8-497f-8054-a11b-f1aa74258ce5" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">$numero = &quot;10&quot;;
+
+echo str_pad($numero, 5, &quot;0&quot;, STR_PAD_LEFT);</code></pre><p id="3c1f6ce8-497f-8007-8a16-d049c6faeae5" class="" dir="auto">Resultado:</p><pre id="3c1f6ce8-497f-8087-af3d-dec83a40b310" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">00010</code></pre><p id="3c1f6ce8-497f-806f-89a9-ee5ca507a758" class="" dir="auto">É útil para códigos, números formatados, identificadores etc.</p><hr id="3c1f6ce8-497f-80ea-9b88-e217f5f140be" dir="auto"/><h1 id="3c1f6ce8-497f-80ee-82a2-cf697b5352f7" class="" dir="auto">23. <code>strrev()</code> — inverter uma String</h1><p id="3c1f6ce8-497f-8083-ae5d-ed6db8babd99" class="" dir="auto">Inverte a ordem dos caracteres.</p><pre id="3c1f6ce8-497f-8034-af26-c61082b25651" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">$texto = &quot;PHP&quot;;
+
+echo strrev($texto);</code></pre><p id="3c1f6ce8-497f-80a4-82af-e2b37d807144" class="" dir="auto">Resultado:</p><pre id="3c1f6ce8-497f-8051-803d-da993c3de37e" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">PHP</code></pre><p id="3c1f6ce8-497f-80da-9ce9-ee65f54aac08" class="" dir="auto">Outro exemplo:</p><pre id="3c1f6ce8-497f-80f1-8576-cc53d35189b1" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">$texto = &quot;Gusta&quot;;
+
+echo strrev($texto);</code></pre><p id="3c1f6ce8-497f-8079-80bf-f807a3abe7eb" class="" dir="auto">Resultado:</p><pre id="3c1f6ce8-497f-80bd-bfc5-cc63375198e4" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">atsuG</code></pre><hr id="3c1f6ce8-497f-80c0-b7e6-dca5da9feff2" dir="auto"/><h1 id="3c1f6ce8-497f-8064-8084-cb0b4235d43c" class="" dir="auto">24. <code>strcmp()</code> — comparar Strings</h1><p id="3c1f6ce8-497f-8011-b269-cc6e711c829e" class="" dir="auto">A função <code>strcmp()</code> compara duas strings.</p><pre id="3c1f6ce8-497f-8047-9f88-c4ba5b861c3f" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">$resultado = strcmp(&quot;PHP&quot;, &quot;PHP&quot;);
+
+echo $resultado;</code></pre><p id="3c1f6ce8-497f-8008-baa1-d0a6e0e5ae9e" class="" dir="auto">Quando as strings são iguais, o resultado é:</p><pre id="3c1f6ce8-497f-8047-9f01-f3dafa561fc4" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">0</code></pre><p id="3c1f6ce8-497f-8060-8bd6-cc18a518db8d" class="" dir="auto">Quando são diferentes, retorna um valor diferente de <code>0</code>.</p><p id="3c1f6ce8-497f-806b-be4d-dab388273461" class="" dir="auto">Uma forma comum de utilização:</p><pre id="3c1f6ce8-497f-80ae-b9d7-d5740a311989" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">if (strcmp($senha1, $senha2) === 0) {
+    echo &quot;Senhas iguais&quot;;
+} else {
+    echo &quot;Senhas diferentes&quot;;
+}</code></pre><hr id="3c1f6ce8-497f-805a-b022-c5b527217aa3" dir="auto"/><h1 id="3c1f6ce8-497f-8088-b8df-f47046037b07" class="" dir="auto">25. <code>strcasecmp()</code> — comparação sem diferenciar maiúsculas/minúsculas</h1><pre id="3c1f6ce8-497f-807f-8c00-c3f8af423589" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">$resultado = strcasecmp(&quot;PHP&quot;, &quot;php&quot;);
+
+if ($resultado === 0) {
+    echo &quot;São iguais&quot;;
+}</code></pre><p id="3c1f6ce8-497f-80e9-9fec-c2fa45284a9d" class="" dir="auto">Nesse caso, <code>PHP</code> e <code>php</code> são considerados iguais.</p><hr id="3c1f6ce8-497f-8058-9bc6-cc230a400831" dir="auto"/><h1 id="3c1f6ce8-497f-8020-9856-f5090b170e53" class="" dir="auto">26. <code>str_word_count()</code> — contar palavras</h1><p id="3c1f6ce8-497f-8081-93f8-f8e37d41d595" class="" dir="auto">Conta a quantidade de palavras de uma string.</p><pre id="3c1f6ce8-497f-8019-884b-d2a44f7967dd" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">$texto = &quot;Eu estou estudando PHP&quot;;
+
+echo str_word_count($texto);</code></pre><p id="3c1f6ce8-497f-80a8-b8cf-c107e9e5567d" class="" dir="auto">Resultado:</p><pre id="3c1f6ce8-497f-8043-844c-fe31fd3a6c0d" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">4</code></pre><p id="3c1f6ce8-497f-804b-95e1-dcfafb7a4037" class="" dir="auto">Pode ser utilizada, por exemplo, para limitar textos.</p><hr id="3c1f6ce8-497f-8028-a2d0-e707faf7a02a" dir="auto"/><h1 id="3c1f6ce8-497f-8096-95ba-c1000b91eecb" class="" dir="auto">27. <code>str_split()</code> — dividir uma String em caracteres</h1><p id="3c1f6ce8-497f-8070-b7bf-cf3290e4dd45" class="" dir="auto">Transforma uma string em um array de caracteres.</p><pre id="3c1f6ce8-497f-804a-ab9c-e800116c5879" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">$texto = &quot;PHP&quot;;
+
+$array = str_split($texto);
+
+print_r($array);</code></pre><p id="3c1f6ce8-497f-8006-ac2c-d6ead0527443" class="" dir="auto">Resultado:</p><pre id="3c1f6ce8-497f-809b-8326-e465a6b1bbf9" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Array
+(
+    [0] =&gt; P
+    [1] =&gt; H
+    [2] =&gt; P
+)</code></pre><p id="3c1f6ce8-497f-80f8-9ad3-d383a9d050a2" class="" dir="auto">Também podemos definir o tamanho dos grupos:</p><pre id="3c1f6ce8-497f-80e6-a03c-ffe024e0e605" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">$texto = &quot;ABCDEFGHIJ&quot;;
+
+$array = str_split($texto, 2);
+
+print_r($array);</code></pre><p id="3c1f6ce8-497f-801e-8d99-f81ef3cb4ac9" class="" dir="auto">Resultado:</p><pre id="3c1f6ce8-497f-80b7-93d9-f7e450dfb8f5" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">AB
+CD
+EF
+GH
+IJ</code></pre><hr id="3c1f6ce8-497f-803a-9851-f845e471bad1" dir="auto"/><h1 id="3c1f6ce8-497f-805e-a38e-ea7a4e793726" class="" dir="auto">28. <code>nl2br()</code> — transformar quebras de linha em <code>&lt;br&gt;</code></h1><p id="3c1f6ce8-497f-803c-a2c0-c475ca48fe3e" class="" dir="auto">É muito utilizada quando trabalhamos com textos que serão exibidos em HTML.</p><pre id="3c1f6ce8-497f-8016-8cd5-c918d8170599" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">$texto = &quot;Olá!\nTudo bem?&quot;;
+
+echo nl2br($texto);</code></pre><p id="3c1f6ce8-497f-8010-99b8-ecf992f0547e" class="" dir="auto">O resultado HTML será equivalente a:</p><pre id="3c1f6ce8-497f-809a-86b8-c354ba1a1c92" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Olá!&lt;br&gt;
+Tudo bem?</code></pre><p id="3c1f6ce8-497f-8033-87b4-c0caef245680" class="" dir="auto">Isso é útil quando um texto possui quebras de linha e precisa ser exibido corretamente em uma página web.</p><hr id="3c1f6ce8-497f-8008-9894-f8c09ccad425" dir="auto"/><h1 id="3c1f6ce8-497f-80f1-b87c-e3177196f456" class="" dir="auto">29. <code>htmlspecialchars()</code> — proteger texto para HTML</h1><p id="3c1f6ce8-497f-8008-a902-d1ac9f0a06e8" class="" dir="auto">Essa função converte caracteres especiais em entidades HTML.</p><pre id="3c1f6ce8-497f-800c-9324-d745922a7c78" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">$texto = &quot;&lt;h1&gt;Olá&lt;/h1&gt;&quot;;
+
+echo htmlspecialchars($texto);</code></pre><p id="3c1f6ce8-497f-8085-b092-dda9e3262997" class="" dir="auto">Em vez de interpretar o HTML, o navegador exibirá o conteúdo como texto.</p><p id="3c1f6ce8-497f-807e-8a4c-c9a9a7fd02ad" class="" dir="auto">Isso é <strong>muito importante para segurança</strong>, especialmente quando trabalhamos com dados fornecidos pelo usuário.</p><p id="3c1f6ce8-497f-803a-96a0-c1ab20fbbcf1" class="" dir="auto">Exemplo:</p><pre id="3c1f6ce8-497f-80c5-924e-f1be57b5544a" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">$nome = $_POST[&quot;nome&quot;];
+
+echo htmlspecialchars($nome);</code></pre><p id="3c1f6ce8-497f-805b-b797-d435e59ff065" class="" dir="auto">Assim, caracteres especiais fornecidos pelo usuário podem ser tratados de forma mais segura ao serem exibidos em HTML.</p><hr id="3c1f6ce8-497f-8043-a704-f32393c28f09" dir="auto"/><h1 id="3c1f6ce8-497f-804e-ab11-ee08b64d992f" class="" dir="auto">30. <code>addslashes()</code> — adicionar barras</h1><p id="3c1f6ce8-497f-80b7-8ee6-d1544a275c25" class="" dir="auto">Adiciona barras invertidas antes de determinados caracteres.</p><pre id="3c1f6ce8-497f-8080-8afd-cc9430276960" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">$texto = &quot;O usuário disse: &#x27;Olá&#x27;&quot;;
+
+echo addslashes($texto);</code></pre><p id="3c1f6ce8-497f-80b4-9197-f2b43f8bb5fc" class="" dir="auto">Entretanto, é importante entender que <code><strong>addslashes()</strong></code><strong> não deve ser usado como proteção contra SQL Injection</strong>. Para banco de dados, o correto é utilizar mecanismos apropriados, como <strong>PDO com prepared statements</strong>.</p><hr id="3c1f6ce8-497f-806f-b42d-e680ba916420" dir="auto"/><h1 id="3c1f6ce8-497f-80c3-806a-cb268aa32bd6" class="" dir="auto">31. <code>sprintf()</code> — formatar Strings</h1><p id="3c1f6ce8-497f-80c3-ab0e-cdf4d71ecf63" class="" dir="auto"><code>sprintf()</code> permite criar strings utilizando valores inseridos em marcadores.</p><pre id="3c1f6ce8-497f-8002-8485-f785e7ab0f15" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">$nome = &quot;Gusta&quot;;
+$idade = 21;
+
+$texto = sprintf(&quot;Meu nome é %s e tenho %d anos.&quot;, $nome, $idade);
+
+echo $texto;</code></pre><p id="3c1f6ce8-497f-80ae-a7c8-fdff08b4d698" class="" dir="auto">Resultado:</p><pre id="3c1f6ce8-497f-80f1-9271-c3c8857278fb" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Meu nome é Gusta e tenho 21 anos.</code></pre><p id="3c1f6ce8-497f-8049-b6db-cb354db917d1" class="" dir="auto">Alguns marcadores comuns:</p><table id="3c1f6ce8-497f-80fc-8ffa-ff881808fcef" class="simple-table" dir="ltr"><thead class="simple-table-header"><tr id="3c1f6ce8-497f-80f0-9153-f7075a286056" dir="ltr"><th id="fpsd" class="simple-table-header-color simple-table-header">Marcador</th><th id="&gt;z|F" class="simple-table-header-color simple-table-header">Utilização</th></tr></thead><tbody><tr id="3c1f6ce8-497f-8058-b621-ff69c8400925" dir="ltr"><td id="fpsd" class=""><code>%s</code></td><td id="&gt;z|F" class="">String</td></tr><tr id="3c1f6ce8-497f-805b-954a-ef631e6552e3" dir="ltr"><td id="fpsd" class=""><code>%d</code></td><td id="&gt;z|F" class="">Número inteiro</td></tr><tr id="3c1f6ce8-497f-80a8-8c4c-f6a0e69e77c5" dir="ltr"><td id="fpsd" class=""><code>%f</code></td><td id="&gt;z|F" class="">Número decimal</td></tr><tr id="3c1f6ce8-497f-8029-a6e1-ead12277cac6" dir="ltr"><td id="fpsd" class=""><code>%%</code></td><td id="&gt;z|F" class="">Símbolo <code>%</code></td></tr></tbody></table><hr id="3c1f6ce8-497f-808c-9d24-d72dbf71b978" dir="auto"/><h1 id="3c1f6ce8-497f-803f-ad92-e75af1147d6d" class="" dir="auto">32. <code>strtolower()</code> e caracteres acentuados</h1><p id="3c1f6ce8-497f-8047-9c5a-cc5ca86bd32a" class="" dir="auto">Um detalhe importante é que algumas funções tradicionais de string do PHP foram originalmente projetadas para trabalhar com caracteres ASCII.</p><p id="3c1f6ce8-497f-8041-bb33-dc5f3e23c50a" class="" dir="auto">Por exemplo:</p><pre id="3c1f6ce8-497f-8003-b102-d4332b666cb5" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">$texto = &quot;ÁRVORE&quot;;</code></pre><p id="3c1f6ce8-497f-8028-b833-e3df68696d55" class="" dir="auto">Para trabalhar corretamente com <strong>acentos e Unicode</strong>, normalmente devemos utilizar as funções da extensão <strong>Multibyte String (</strong><code><strong>mbstring</strong></code><strong>)</strong>.</p><p id="3c1f6ce8-497f-80fb-a8bc-c48cde2cbf81" class="" dir="auto">Exemplo:</p><pre id="3c1f6ce8-497f-8028-a90c-c3f9a3cf894f" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">echo mb_strtolower(&quot;ÁRVORE&quot;, &quot;UTF-8&quot;);</code></pre><p id="3c1f6ce8-497f-80fe-8df4-d27c349d20f0" class="" dir="auto">Resultado:</p><pre id="3c1f6ce8-497f-8071-9557-f2db5a886ce1" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">árvore</code></pre><p id="3c1f6ce8-497f-8046-aa9a-f628ee3d9038" class="" dir="auto">Da mesma forma:</p><pre id="3c1f6ce8-497f-8037-add1-ee9f0c861d55" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">echo mb_strtoupper(&quot;árvore&quot;, &quot;UTF-8&quot;);</code></pre><p id="3c1f6ce8-497f-8070-8770-d7c571fc2c66" class="" dir="auto">Resultado:</p><pre id="3c1f6ce8-497f-80f2-b260-c3582111e707" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">ÁRVORE</code></pre><hr id="3c1f6ce8-497f-8062-bd8a-e88318a66354" dir="auto"/><h1 id="3c1f6ce8-497f-8030-8223-df28bb9d3899" class="" dir="auto">33. Funções <code>mb_*</code></h1><p id="3c1f6ce8-497f-80d9-a6a1-cc2c5ea8983c" class="" dir="auto">Quando trabalhamos com português, caracteres acentuados e outros alfabetos, as funções <code>mb_*</code> são muito importantes.</p><p id="3c1f6ce8-497f-8061-b6f9-cf1d502f6772" class="" dir="auto">Algumas delas:</p><pre id="3c1f6ce8-497f-80fb-922a-c1b2da64b731" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">mb_strlen()
+mb_strtolower()
+mb_strtoupper()
+mb_substr()
+mb_strpos()</code></pre><h3 id="3c1f6ce8-497f-8021-a1b6-dbe256383348" class="" dir="auto">Exemplo</h3><pre id="3c1f6ce8-497f-8048-a395-e6e6d552f3a9" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">$texto = &quot;Programação&quot;;
+
+echo mb_strlen($texto, &quot;UTF-8&quot;);</code></pre><p id="3c1f6ce8-497f-80bb-9153-ceff2dfeadc7" class="" dir="auto">A extensão <code>mbstring</code> trata melhor caracteres multibyte, como:</p><pre id="3c1f6ce8-497f-808f-91c8-d22af611137c" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">ã
+ç
+é
+ô
+á</code></pre><hr id="3c1f6ce8-497f-8074-b22b-da9a4435f27a" dir="auto"/><h1 id="3c1f6ce8-497f-804c-ba07-e98320ac4066" class="" dir="auto">34. Exemplo prático completo</h1><p id="3c1f6ce8-497f-8099-bc86-f80236fe8c32" class="" dir="auto">Imagine um formulário onde o usuário informa seu nome.</p><pre id="3c1f6ce8-497f-8014-a260-db3f24a506fd" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">$nome = &quot;   gusta alcântara   &quot;;</code></pre><p id="3c1f6ce8-497f-80d3-85f1-f336e3d171d2" class="" dir="auto">Podemos limpar e formatar o nome:</p><pre id="3c1f6ce8-497f-8063-9f3a-f50233bc8ea8" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">$nome = trim($nome);
+$nome = strtolower($nome);
+$nome = ucwords($nome);
+
+echo $nome;</code></pre><p id="3c1f6ce8-497f-804a-883a-fc86f8a1bb6b" class="" dir="auto">Resultado:</p><pre id="3c1f6ce8-497f-804f-90e4-daea31a01ff2" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Gusta Alcântara</code></pre><p id="3c1f6ce8-497f-800c-ba57-f6df0d4bc002" class="" dir="auto">Temos aqui três operações:</p><pre id="3c1f6ce8-497f-8024-9642-f1f8dff802f5" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">trim()
+   ↓
+remove espaços extras
+
+strtolower()
+   ↓
+transforma tudo em minúsculas
+
+ucwords()
+   ↓
+coloca a primeira letra de cada palavra em maiúscula</code></pre><hr id="3c1f6ce8-497f-8010-8974-e2632a6135e7" dir="auto"/><h1 id="3c1f6ce8-497f-809d-b08b-d37e5e54b44d" class="" dir="auto">35. Exemplo de validação de texto</h1><p id="3c1f6ce8-497f-802f-a04f-c4729badab79" class="" dir="auto">Podemos combinar várias funções:</p><pre id="3c1f6ce8-497f-80a1-a979-fa369441a6d2" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">$usuario = &quot;   Gusta123   &quot;;
+
+$usuario = trim($usuario);
+
+if (strlen($usuario) &gt;= 5) {
+    echo &quot;Usuário possui tamanho suficiente.&quot;;
+} else {
+    echo &quot;Usuário muito curto.&quot;;
+}</code></pre><hr id="3c1f6ce8-497f-8072-b76c-f328a131b3c3" dir="auto"/><h1 id="3c1f6ce8-497f-8082-95b5-dad91862514a" class="" dir="auto">36. Exemplo usando <code>str_contains()</code></h1><pre id="3c1f6ce8-497f-806c-bf29-ca2aa8acaa2c" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">$mensagem = &quot;Bem-vindo ao curso de PHP!&quot;;
+
+if (str_contains($mensagem, &quot;PHP&quot;)) {
+    echo &quot;A mensagem fala sobre PHP.&quot;;
+}</code></pre><hr id="3c1f6ce8-497f-8007-8f0e-eecc7667b2d9" dir="auto"/><h1 id="3c1f6ce8-497f-805d-a2c0-e1a53221e077" class="" dir="auto">37. Exemplo usando <code>explode()</code> e <code>implode()</code></h1><pre id="3c1f6ce8-497f-8020-b8fc-d58ac50248f7" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">$texto = &quot;HTML,CSS,JavaScript,PHP&quot;;
+
+$tecnologias = explode(&quot;,&quot;, $texto);
+
+print_r($tecnologias);</code></pre><p id="3c1f6ce8-497f-8084-8f62-f549fbcb902c" class="" dir="auto">Podemos modificar o array:</p><pre id="3c1f6ce8-497f-8032-98c6-fe4c524c9af1" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">$tecnologias[] = &quot;MySQL&quot;;</code></pre><p id="3c1f6ce8-497f-8054-900c-df53e3385b79" class="" dir="auto">E depois transformar novamente em texto:</p><pre id="3c1f6ce8-497f-8014-86d4-d4a19ec5bb6f" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">$texto = implode(&quot;, &quot;, $tecnologias);
+
+echo $texto;</code></pre><p id="3c1f6ce8-497f-80d6-bb30-eebb3f130355" class="" dir="auto">Resultado:</p><pre id="3c1f6ce8-497f-80a0-a161-d02f3b82f6ba" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">HTML, CSS, JavaScript, PHP, MySQL</code></pre><hr id="3c1f6ce8-497f-80b5-a10d-d0c58d764fe7" dir="auto"/><h1 id="3c1f6ce8-497f-8027-8a49-c8a6febb7a44" class="" dir="auto">38. Principais funções para memorizar</h1><p id="3c1f6ce8-497f-80c8-9d03-eac65a3f5a95" class="" dir="auto">Para quem está aprendendo PHP, estas são algumas das funções de manipulação de strings mais importantes:</p><table id="3c1f6ce8-497f-8002-9baf-f2c1af30f0a7" class="simple-table" dir="ltr"><thead class="simple-table-header"><tr id="3c1f6ce8-497f-805a-9921-f8700b3c9254" dir="ltr"><th id="zmHj" class="simple-table-header-color simple-table-header">Função</th><th id="\{nv" class="simple-table-header-color simple-table-header">Finalidade</th></tr></thead><tbody><tr id="3c1f6ce8-497f-80bf-b554-dffbf1a1f607" dir="ltr"><td id="zmHj" class=""><code>strlen()</code></td><td id="\{nv" class="">Conta caracteres</td></tr><tr id="3c1f6ce8-497f-808e-9e60-df52ce3ced24" dir="ltr"><td id="zmHj" class=""><code>strtoupper()</code></td><td id="\{nv" class="">Converte para maiúsculas</td></tr><tr id="3c1f6ce8-497f-8072-98f0-fe1cc3782e45" dir="ltr"><td id="zmHj" class=""><code>strtolower()</code></td><td id="\{nv" class="">Converte para minúsculas</td></tr><tr id="3c1f6ce8-497f-80e9-88c1-eda637780ee7" dir="ltr"><td id="zmHj" class=""><code>ucfirst()</code></td><td id="\{nv" class="">Primeira letra maiúscula</td></tr><tr id="3c1f6ce8-497f-8059-8c68-d6e4614581d1" dir="ltr"><td id="zmHj" class=""><code>ucwords()</code></td><td id="\{nv" class="">Primeira letra de cada palavra maiúscula</td></tr><tr id="3c1f6ce8-497f-8087-a0f8-c782ad74d7e3" dir="ltr"><td id="zmHj" class=""><code>trim()</code></td><td id="\{nv" class="">Remove espaços nas extremidades</td></tr><tr id="3c1f6ce8-497f-80d7-852e-d85719cbfdfa" dir="ltr"><td id="zmHj" class=""><code>str_replace()</code></td><td id="\{nv" class="">Substitui texto</td></tr><tr id="3c1f6ce8-497f-8048-969e-c7b2e8c0277e" dir="ltr"><td id="zmHj" class=""><code>substr()</code></td><td id="\{nv" class="">Extrai parte do texto</td></tr><tr id="3c1f6ce8-497f-808e-bd35-d91364d67bea" dir="ltr"><td id="zmHj" class=""><code>strpos()</code></td><td id="\{nv" class="">Procura a posição de um texto</td></tr><tr id="3c1f6ce8-497f-80d1-86d8-e96270939b38" dir="ltr"><td id="zmHj" class=""><code>str_contains()</code></td><td id="\{nv" class="">Verifica se contém um texto</td></tr><tr id="3c1f6ce8-497f-8045-86ee-ec48c7762c0e" dir="ltr"><td id="zmHj" class=""><code>str_starts_with()</code></td><td id="\{nv" class="">Verifica o início</td></tr><tr id="3c1f6ce8-497f-8043-8bdf-f33a38ad9237" dir="ltr"><td id="zmHj" class=""><code>str_ends_with()</code></td><td id="\{nv" class="">Verifica o final</td></tr><tr id="3c1f6ce8-497f-8003-9c6f-e481ef0016d9" dir="ltr"><td id="zmHj" class=""><code>explode()</code></td><td id="\{nv" class="">String → Array</td></tr><tr id="3c1f6ce8-497f-809d-a01b-e75c4fb03f3a" dir="ltr"><td id="zmHj" class=""><code>implode()</code></td><td id="\{nv" class="">Array → String</td></tr><tr id="3c1f6ce8-497f-806b-b641-f85ab13dd91c" dir="ltr"><td id="zmHj" class=""><code>str_repeat()</code></td><td id="\{nv" class="">Repete uma string</td></tr><tr id="3c1f6ce8-497f-802a-ba4c-f0200dc8b2e6" dir="ltr"><td id="zmHj" class=""><code>str_pad()</code></td><td id="\{nv" class="">Preenche uma string</td></tr><tr id="3c1f6ce8-497f-80d3-8072-f9fda60a3cd7" dir="ltr"><td id="zmHj" class=""><code>strrev()</code></td><td id="\{nv" class="">Inverte uma string</td></tr><tr id="3c1f6ce8-497f-80bc-b32d-cd2748de9228" dir="ltr"><td id="zmHj" class=""><code>strcmp()</code></td><td id="\{nv" class="">Compara strings</td></tr><tr id="3c1f6ce8-497f-8068-a420-c0f26d9c980f" dir="ltr"><td id="zmHj" class=""><code>str_word_count()</code></td><td id="\{nv" class="">Conta palavras</td></tr><tr id="3c1f6ce8-497f-8017-bba9-f834f8d48e41" dir="ltr"><td id="zmHj" class=""><code>str_split()</code></td><td id="\{nv" class="">Divide string em partes</td></tr><tr id="3c1f6ce8-497f-80fd-9eb5-d82c5bddc4b1" dir="ltr"><td id="zmHj" class=""><code>nl2br()</code></td><td id="\{nv" class="">Converte quebras de linha para <code>&lt;br&gt;</code></td></tr><tr id="3c1f6ce8-497f-8049-b02f-c9cf9768b998" dir="ltr"><td id="zmHj" class=""><code>htmlspecialchars()</code></td><td id="\{nv" class="">Escapa caracteres para HTML</td></tr><tr id="3c1f6ce8-497f-804a-87b5-f7972de1732c" dir="ltr"><td id="zmHj" class=""><code>sprintf()</code></td><td id="\{nv" class="">Formata strings</td></tr><tr id="3c1f6ce8-497f-8031-8bc2-f9bf218cbc07" dir="ltr"><td id="zmHj" class=""><code>mb_strlen()</code></td><td id="\{nv" class="">Conta caracteres multibyte</td></tr><tr id="3c1f6ce8-497f-80a1-8432-c9d73d7ae73e" dir="ltr"><td id="zmHj" class=""><code>mb_strtolower()</code></td><td id="\{nv" class="">Converte para minúsculas com suporte a Unicode</td></tr><tr id="3c1f6ce8-497f-80e6-9e48-e86b68aa95b1" dir="ltr"><td id="zmHj" class=""><code>mb_strtoupper()</code></td><td id="\{nv" class="">Converte para maiúsculas com suporte a Unicode</td></tr></tbody></table><hr id="3c1f6ce8-497f-8093-a4ed-e740df4cbc7c" dir="auto"/><h2 id="3c1f6ce8-497f-80c7-a21a-f7a494536b00" class="" dir="auto">Resumindo</h2><p id="3c1f6ce8-497f-8072-86f6-c4505d4eac65" class="" dir="auto">As funções nativas de strings são fundamentais no PHP porque permitem manipular informações textuais de maneira simples e eficiente.</p><p id="3c1f6ce8-497f-8045-9430-e47f968429c8" class="" dir="auto">Podemos dividir as principais funções em categorias:</p><p id="3c1f6ce8-497f-804d-a393-ca90241deb06" class="" dir="auto"><strong>Informações sobre texto:</strong></p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markup-templating.min.js" integrity="sha512-+8BiRfWso6waiFDv6tEmWF8yfPGgxAtOYLDUB0rRISLwtpxkJ9lpPNUhxwWlikn3qSO+4RQyzDppi62o3ON/AA==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-php.min.js" integrity="sha512-plzrTi61ltEMFf84gTVO9IkvIMfBu07bnDuahvdlIclmFWzXJ9VcRsny9d45sxFZRv3jJg/MHNyuxnUYEMxMEg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="3c1f6ce8-497f-80fe-9b6d-e9652decfc8a" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">strlen()
+str_word_count()</code></pre><p id="3c1f6ce8-497f-80c5-865a-eedfc9887413" class="" dir="auto"><strong>Alteração de texto:</strong></p><pre id="3c1f6ce8-497f-80f4-9ebb-ff02034b8202" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">strtoupper()
+strtolower()
+ucfirst()
+ucwords()
+str_replace()</code></pre><p id="3c1f6ce8-497f-80c7-ae03-d7801080403a" class="" dir="auto"><strong>Pesquisa:</strong></p><pre id="3c1f6ce8-497f-8085-9d52-f08221198bb2" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">strpos()
+stripos()
+str_contains()
+str_starts_with()
+str_ends_with()</code></pre><p id="3c1f6ce8-497f-8043-a6a8-e60655100192" class="" dir="auto"><strong>Extração e divisão:</strong></p><pre id="3c1f6ce8-497f-803d-a829-e8e25e6d175c" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">substr()
+explode()
+str_split()</code></pre><p id="3c1f6ce8-497f-8087-8055-ca3b2529989f" class="" dir="auto"><strong>Junção e formatação:</strong></p><pre id="3c1f6ce8-497f-80ef-ad3b-f703161e41b5" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">implode()
+str_pad()
+str_repeat()
+sprintf()</code></pre><p id="3c1f6ce8-497f-80cd-8bab-f45adb6595a4" class="" dir="auto"><strong>Comparação:</strong></p><pre id="3c1f6ce8-497f-8086-b681-d7986c104ee0" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">strcmp()
+strcasecmp()</code></pre><p id="3c1f6ce8-497f-80ff-814e-f36cb668a20e" class="" dir="auto"><strong>Limpeza e segurança para HTML:</strong></p><pre id="3c1f6ce8-497f-802a-b2ba-dead41f0f708" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">trim()
+ltrim()
+rtrim()
+htmlspecialchars()</code></pre><p id="3c1f6ce8-497f-8062-a9e4-cbb173333e8d" class="" dir="auto"><strong>Textos com acentos e Unicode:</strong></p><pre id="3c1f6ce8-497f-805e-ab9f-fcfb99fca073" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">mb_strlen()
+mb_strtolower()
+mb_strtoupper()
+mb_substr()
+mb_strpos()</code></pre><p id="3c1f6ce8-497f-80c6-a00c-d6fdaa492fa6" class="" dir="auto">Dominar essas funções é essencial para trabalhar com <strong>formulários, validações, usuários, senhas, URLs, arquivos, banco de dados e páginas web em PHP</strong>.</p></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>
