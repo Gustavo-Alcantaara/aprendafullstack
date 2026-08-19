@@ -1,6 +1,6 @@
 # Aprenda Full Stack
 ## Sobre
-O Site conta com 26 conteúdos baseados em cursos e livros, do quais, 11 ja estão completos e 15 em desenvolvimento.
+O Site conta com 26 conteúdos baseados em cursos e livros, do quais, 12 ja estão completos e 14 em desenvolvimento.
 ## Conteúdos
 - [ ] FUNDAMENTOS DA PROGRAMAÇÃO
     - [ ] Algoritmos
