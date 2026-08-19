@@ -1,0 +1,888 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Comando de Entrada e Operadores</title><meta name="data-notion-page-icon" content="/icons/gear_blue.svg"/><link rel="icon" href="https://app.notion.com/icons/gear_blue.svg"/><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+/* For default-background callouts, render the border outline. */
+.callout.block-color-default_background {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+/*
+ * Toggles and callouts hold arbitrary content, so they can easily be taller
+ * than a page. They must stay breakable: avoiding breaks inside them makes
+ * Chromium push the whole block onto the next page, which leaves the previous
+ * page mostly empty before every long toggle.
+ */
+details,
+aside {
+	margin: 1.25em 0;
+}
+
+/* Keep a toggle's title on the same page as the start of its content. */
+summary {
+	page-break-after: avoid;
+	break-after: avoid;
+}
+
+/*
+ * Toggle headings render as <h1/h2/h3 style="display:inline-block"> inside
+ * <summary>. Without this reset, the heading's margin-top pushes it below the
+ * ::marker (▼), so the triangle and the title appear on separate lines.
+ */
+summary h1,
+summary h2,
+summary h3,
+summary h4 {
+	margin-top: 0;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding-inline: 0.125rem;
+	padding-block: 0.375rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+/*
+ * Render emoji icons using a ::before pseudo-element to keep the glyph
+ * out of the DOM textContent traversal. This avoids double-rendering icons
+ * in callouts and page titles.
+ * NOTE(slim/html-export-pseudo-icons): I can't tagref this because it will
+ * flag as a duplicate tag after codegen.
+ */
+.icon[data-emoji]::before {
+	content: attr(data-emoji);
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	margin-right: 0.4em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.tab {
+	margin: 1.25em 0;
+	padding-inline: 1rem;
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style><style>@import url('https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex-swap.min.css')</style></head><body><article id="3c1f6ce8-497f-8006-b12e-d4e3ac6a43c1" class="page sans" data-notion-page-icon="/icons/gear_blue.svg"><header><div class="page-header-icon undefined"><img class="icon notion-static-icon" src="https://app.notion.com/icons/gear_blue.svg"/></div><h1 class="page-title" dir="auto">Comando de Entrada e Operadores</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><h1 id="3c1f6ce8-497f-80aa-8aa6-c0c95197bd94" class="" dir="auto">Comando de Entrada e Operadores</h1><p id="3c1f6ce8-497f-80a3-a557-ca035257b5dd" class="" dir="auto">Em <strong>Algoritmos</strong>, os <strong>comandos de entrada</strong> e os <strong>operadores</strong> são conceitos fundamentais para construir programas capazes de <strong>receber informações, processá-las e produzir resultados</strong>.</p><p id="3c1f6ce8-497f-801c-bc42-e50fa85d2681" class="" dir="auto">De maneira simplificada, podemos pensar em um algoritmo como um processo:</p><p id="3c1f6ce8-497f-8029-9c7e-c6184a77fdb0" class="" dir="auto"><strong>Entrada → Processamento → Saída</strong></p><ul id="3c1f6ce8-497f-8095-b468-e1e37ef5040d" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>Entrada:</strong> recebe os dados fornecidos pelo usuário.</li></ul><ul id="3c1f6ce8-497f-8011-902d-c62c2323bdfd" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>Processamento:</strong> utiliza operadores e outras instruções para manipular os dados.</li></ul><ul id="3c1f6ce8-497f-8057-b85b-f10371f82768" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>Saída:</strong> apresenta o resultado ao usuário.</li></ul><hr id="3c1f6ce8-497f-80b1-860f-efaeb4053816" dir="auto"/><h2 id="3c1f6ce8-497f-80fb-bf2e-d9b25d75e346" class="" dir="auto">1. Comando de Entrada</h2><p id="3c1f6ce8-497f-8082-8f8e-f6174b3c22d5" class="" dir="auto">O <strong>comando de entrada</strong> é utilizado para permitir que um algoritmo <strong>receba dados externos</strong>, normalmente fornecidos pelo usuário.</p><p id="3c1f6ce8-497f-805b-bbf6-fbb869127555" class="" dir="auto">Esses dados podem ser:</p><ul id="3c1f6ce8-497f-80f3-abba-c6dc1b5c9d42" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Números inteiros;</li></ul><ul id="3c1f6ce8-497f-8019-99ac-fb847c44fa63" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Números reais;</li></ul><ul id="3c1f6ce8-497f-8069-a02c-faacb412428f" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Textos;</li></ul><ul id="3c1f6ce8-497f-80c4-9dac-e89fbc329b24" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Caracteres;</li></ul><ul id="3c1f6ce8-497f-8044-912e-ecd51383447d" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Valores lógicos (<code>verdadeiro</code> ou <code>falso</code>).</li></ul><p id="3c1f6ce8-497f-805a-be5d-cc94219c0872" class="" dir="auto">Por exemplo, imagine um algoritmo que calcula a soma de dois números. Antes de realizar a soma, precisamos receber esses dois números.</p><h3 id="3c1f6ce8-497f-803e-9fce-d119d33e856c" class="" dir="auto">Exemplo em pseudocódigo</h3><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="3c1f6ce8-497f-8000-914b-c2403df20e34" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">algoritmo &quot;Soma&quot;
+
+var
+   numero1, numero2, resultado: inteiro
+
+inicio
+   leia(numero1)
+   leia(numero2)
+
+   resultado &lt;- numero1 + numero2
+
+   escreva(resultado)
+fimalgoritmo</code></pre><p id="3c1f6ce8-497f-80c1-a297-c27f25cea7a5" class="" dir="auto">Nesse exemplo:</p><ol type="1" id="3c1f6ce8-497f-80b9-a6b1-f55283a11860" class="numbered-list" start="1" dir="auto"><li><code>leia(numero1)</code> recebe o primeiro número.</li></ol><ol type="1" id="3c1f6ce8-497f-8011-8586-ea56f06e544d" class="numbered-list" start="2" dir="auto"><li><code>leia(numero2)</code> recebe o segundo número.</li></ol><ol type="1" id="3c1f6ce8-497f-8062-af8d-ddc6848d3a61" class="numbered-list" start="3" dir="auto"><li><code>numero1 + numero2</code> realiza a soma.</li></ol><ol type="1" id="3c1f6ce8-497f-803d-b99c-e54238c1efcd" class="numbered-list" start="4" dir="auto"><li><code>escreva(resultado)</code> apresenta o resultado.</li></ol><hr id="3c1f6ce8-497f-8091-a9b4-c3b57cbe35d7" dir="auto"/><h1 id="3c1f6ce8-497f-80bb-977f-f15013f234ec" class="" dir="auto">2. A instrução <code>leia</code></h1><p id="3c1f6ce8-497f-80bc-895d-fd0e87b26cfb" class="" dir="auto">Em muitos ambientes de pseudocódigo, especialmente no <strong>Portugol</strong>, utiliza-se o comando:</p><pre id="3c1f6ce8-497f-8057-a9fd-ca453d9d8151" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">leia()</code></pre><p id="3c1f6ce8-497f-800a-ad63-d010dad0b62d" class="" dir="auto">para receber informações.</p><h3 id="3c1f6ce8-497f-801c-979b-d204eed16fab" class="" dir="auto">Exemplo</h3><pre id="3c1f6ce8-497f-80bb-801a-c1d2aae172ed" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">leia(nome)</code></pre><p id="3c1f6ce8-497f-8024-b9ac-c9dd507761f2" class="" dir="auto">O algoritmo aguarda o usuário informar um valor e armazena esse valor na variável <code>nome</code>.</p><p id="3c1f6ce8-497f-8047-abdb-cd71f713540e" class="" dir="auto">Outro exemplo:</p><pre id="3c1f6ce8-497f-8089-b68e-f9de394eacfa" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">leia(idade)</code></pre><p id="3c1f6ce8-497f-8021-9036-e8c972aabc84" class="" dir="auto">Se o usuário digitar:</p><pre id="3c1f6ce8-497f-80fc-b47b-f4f630f7e412" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">21</code></pre><p id="3c1f6ce8-497f-80e1-8d5f-f6641a53edc4" class="" dir="auto">a variável <code>idade</code> passará a armazenar o valor <code>21</code>.</p><hr id="3c1f6ce8-497f-80e1-9834-fdff9739c825" dir="auto"/><h2 id="3c1f6ce8-497f-805a-8f56-d5b2b226a322" class="" dir="auto">3. Entrada de vários valores</h2><p id="3c1f6ce8-497f-803a-a9c4-e9d6a3a8e3e3" class="" dir="auto">Podemos utilizar vários comandos de entrada:</p><pre id="3c1f6ce8-497f-808c-8759-fe17af2e563a" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">leia(nome)
+leia(idade)
+leia(cidade)</code></pre><p id="3c1f6ce8-497f-8004-93f1-fa6f1b3b13fb" class="" dir="auto">Ou, dependendo do pseudocódigo utilizado:</p><pre id="3c1f6ce8-497f-8066-8fe7-e1f027c29845" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">leia(nome, idade, cidade)</code></pre><p id="3c1f6ce8-497f-802f-b657-e3011a5e844f" class="" dir="auto">O objetivo é o mesmo: <strong>obter dados para que o algoritmo possa trabalhar com eles</strong>.</p><hr id="3c1f6ce8-497f-8004-be91-e7ed7f2245d2" dir="auto"/><h1 id="3c1f6ce8-497f-8031-b795-f95c9675abbe" class="" dir="auto">4. Exemplo prático de entrada</h1><p id="3c1f6ce8-497f-80ef-975c-ce48b1fdd564" class="" dir="auto">Considere um algoritmo que calcula a média de um aluno.</p><pre id="3c1f6ce8-497f-804b-9ba8-d6a30ea32522" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">algoritmo &quot;Media&quot;
+
+var
+   nota1, nota2, media: real
+
+inicio
+   leia(nota1)
+   leia(nota2)
+
+   media &lt;- (nota1 + nota2) / 2
+
+   escreva(&quot;Média: &quot;, media)
+fimalgoritmo</code></pre><p id="3c1f6ce8-497f-805d-a21d-c015e2ddf7b8" class="" dir="auto">Se o usuário informar:</p><pre id="3c1f6ce8-497f-8018-9b9a-d68fd22a9115" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Nota 1: 8
+Nota 2: 6</code></pre><p id="3c1f6ce8-497f-809e-aef9-fdc2a5db6f55" class="" dir="auto">O algoritmo executará:</p><pre id="3c1f6ce8-497f-80fc-866c-ce82b1fe51a7" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">media = (8 + 6) / 2
+media = 14 / 2
+media = 7</code></pre><p id="3c1f6ce8-497f-80a1-92f6-f167b08f6964" class="" dir="auto">Resultado:</p><pre id="3c1f6ce8-497f-801e-aae5-d810d4a422bb" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Média: 7</code></pre><p id="3c1f6ce8-497f-809c-a9f9-d8a8fa40f73d" class="" dir="auto">Observe que o comando de entrada apenas <strong>recebe os dados</strong>. O cálculo é realizado posteriormente utilizando <strong>operadores</strong>.</p><hr id="3c1f6ce8-497f-808e-83d8-def64fd54b59" dir="auto"/><h1 id="3c1f6ce8-497f-8046-ad76-e6379370d0ec" class="" dir="auto">5. O que são operadores?</h1><p id="3c1f6ce8-497f-80dc-a426-fe7704805e74" class="" dir="auto">Os <strong>operadores</strong> são símbolos ou palavras utilizados para realizar operações sobre valores e variáveis.</p><p id="3c1f6ce8-497f-80f3-a490-cdc2e1a7fcce" class="" dir="auto">Eles permitem que um algoritmo:</p><ul id="3c1f6ce8-497f-8081-b84d-f242b5d1afe5" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Faça cálculos;</li></ul><ul id="3c1f6ce8-497f-80a8-9b4c-eb7d3b10f73e" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Compare valores;</li></ul><ul id="3c1f6ce8-497f-8042-9152-d0a9c2f16062" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Tome decisões;</li></ul><ul id="3c1f6ce8-497f-8023-8cde-c834c302a6d5" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Combine condições;</li></ul><ul id="3c1f6ce8-497f-8084-8797-fe4d3c0420aa" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Modifique valores;</li></ul><ul id="3c1f6ce8-497f-8023-8d55-cbccea1624a3" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Realize operações lógicas.</li></ul><p id="3c1f6ce8-497f-8028-9351-c121438c7ba3" class="" dir="auto">Por exemplo:</p><pre id="3c1f6ce8-497f-808c-a048-cdefb23e217e" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">10 + 5</code></pre><p id="3c1f6ce8-497f-8067-8a18-c3c9e9225e8a" class="" dir="auto">O símbolo <code>+</code> é um <strong>operador aritmético</strong>.</p><p id="3c1f6ce8-497f-8022-bae8-e0727bcf566b" class="" dir="auto">O resultado é:</p><pre id="3c1f6ce8-497f-8032-99f1-c2d003388cc8" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">15</code></pre><hr id="3c1f6ce8-497f-80d0-8e30-f3d65c8ee9f0" dir="auto"/><h1 id="3c1f6ce8-497f-8075-9716-f7b09d798e7d" class="" dir="auto">6. Principais tipos de operadores</h1><p id="3c1f6ce8-497f-8014-bbdf-ec362e0d8c2e" class="" dir="auto">Em algoritmos, os principais tipos são:</p><ol type="1" id="3c1f6ce8-497f-8080-84b7-fc09e86d0e2c" class="numbered-list" start="1" dir="auto"><li><strong>Operadores aritméticos</strong></li></ol><ol type="1" id="3c1f6ce8-497f-802c-98c3-cee40ff2f203" class="numbered-list" start="2" dir="auto"><li><strong>Operadores relacionais</strong></li></ol><ol type="1" id="3c1f6ce8-497f-80cd-8df8-f42afe993b7d" class="numbered-list" start="3" dir="auto"><li><strong>Operadores lógicos</strong></li></ol><ol type="1" id="3c1f6ce8-497f-800a-af3f-ee7fa0d38257" class="numbered-list" start="4" dir="auto"><li><strong>Operadores de atribuição</strong></li></ol><p id="3c1f6ce8-497f-8039-b47d-cb977704b43b" class="" dir="auto">Cada grupo possui uma finalidade diferente.</p><hr id="3c1f6ce8-497f-8055-9627-f2684f29f6d1" dir="auto"/><h1 id="3c1f6ce8-497f-8059-b6db-e9caef664534" class="" dir="auto">7. Operadores aritméticos</h1><p id="3c1f6ce8-497f-804d-8d3c-dadbfd375736" class="" dir="auto">Os operadores aritméticos são utilizados para realizar <strong>operações matemáticas</strong>.</p><table id="3c1f6ce8-497f-8044-a068-d083787e8c29" class="simple-table" dir="ltr"><thead class="simple-table-header"><tr id="3c1f6ce8-497f-80f2-aa75-d4a347f45562" dir="ltr"><th id="wvhU" class="simple-table-header-color simple-table-header">Operador</th><th id="K:AN" class="simple-table-header-color simple-table-header">Operação</th><th id="cSDz" class="simple-table-header-color simple-table-header">Exemplo</th><th id="y`Ou" class="simple-table-header-color simple-table-header">Resultado</th></tr></thead><tbody><tr id="3c1f6ce8-497f-80f3-acec-f64d794fc7dc" dir="ltr"><td id="wvhU" class=""><code>+</code></td><td id="K:AN" class="">Adição</td><td id="cSDz" class=""><code>10 + 5</code></td><td id="y`Ou" class=""><code>15</code></td></tr><tr id="3c1f6ce8-497f-8092-a9c2-f202bc9b4d40" dir="ltr"><td id="wvhU" class=""><code>-</code></td><td id="K:AN" class="">Subtração</td><td id="cSDz" class=""><code>10 - 5</code></td><td id="y`Ou" class=""><code>5</code></td></tr><tr id="3c1f6ce8-497f-8051-9b31-e10a923aafd6" dir="ltr"><td id="wvhU" class=""><code>*</code></td><td id="K:AN" class="">Multiplicação</td><td id="cSDz" class=""><code>10 * 5</code></td><td id="y`Ou" class=""><code>50</code></td></tr><tr id="3c1f6ce8-497f-80c1-8e1e-d78c0719fabf" dir="ltr"><td id="wvhU" class=""><code>/</code></td><td id="K:AN" class="">Divisão</td><td id="cSDz" class=""><code>10 / 5</code></td><td id="y`Ou" class=""><code>2</code></td></tr><tr id="3c1f6ce8-497f-8032-a3c9-cb0be6f5602a" dir="ltr"><td id="wvhU" class=""><code>%</code></td><td id="K:AN" class="">Resto da divisão</td><td id="cSDz" class=""><code>10 % 3</code></td><td id="y`Ou" class=""><code>1</code></td></tr></tbody></table><h3 id="3c1f6ce8-497f-807e-9349-ebd64c43f28d" class="" dir="auto">Adição</h3><pre id="3c1f6ce8-497f-80e2-a83b-ee6bfc3d2292" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">resultado &lt;- 10 + 5</code></pre><p id="3c1f6ce8-497f-80e6-8fc3-cfec747c533c" class="" dir="auto">Resultado:</p><pre id="3c1f6ce8-497f-80a3-9cee-fc35899e7a29" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">15</code></pre><h3 id="3c1f6ce8-497f-80ba-8f0b-fc2aa42689fc" class="" dir="auto">Subtração</h3><pre id="3c1f6ce8-497f-800f-bc5d-da18a35f1d8c" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">resultado &lt;- 10 - 5</code></pre><p id="3c1f6ce8-497f-80ec-9abb-f6834a71d44a" class="" dir="auto">Resultado:</p><pre id="3c1f6ce8-497f-8039-81fc-fe7623cec42a" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">5</code></pre><h3 id="3c1f6ce8-497f-8022-8ed9-f1b56beecf5a" class="" dir="auto">Multiplicação</h3><pre id="3c1f6ce8-497f-8017-b585-f034780627fd" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">resultado &lt;- 10 * 5</code></pre><p id="3c1f6ce8-497f-80b5-b04f-d13f608253ba" class="" dir="auto">Resultado:</p><pre id="3c1f6ce8-497f-8060-a326-d589fa95ff69" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">50</code></pre><h3 id="3c1f6ce8-497f-80e0-a749-c1eb2c4d465e" class="" dir="auto">Divisão</h3><pre id="3c1f6ce8-497f-808e-b6b6-fa67571c96f3" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">resultado &lt;- 10 / 5</code></pre><p id="3c1f6ce8-497f-8035-949c-cce3a12b3f3d" class="" dir="auto">Resultado:</p><pre id="3c1f6ce8-497f-80e2-a5f6-d38e5b8995a9" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">2</code></pre><h3 id="3c1f6ce8-497f-80de-b160-e4f9272ae0ba" class="" dir="auto">Módulo ou resto da divisão</h3><p id="3c1f6ce8-497f-80af-830f-cc9f9e09fc28" class="" dir="auto">O operador <code>%</code> retorna o <strong>resto de uma divisão inteira</strong>.</p><pre id="3c1f6ce8-497f-8086-8ae3-c7e49f6e53ff" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">resultado &lt;- 10 % 3</code></pre><p id="3c1f6ce8-497f-8027-b405-d17de0d67003" class="" dir="auto">Como:</p><pre id="3c1f6ce8-497f-80b5-b7ac-f4ccb9d8010a" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">10 ÷ 3 = 3</code></pre><p id="3c1f6ce8-497f-80c5-9057-e24774894d20" class="" dir="auto">com resto:</p><pre id="3c1f6ce8-497f-80ba-8970-f28733250269" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">1</code></pre><p id="3c1f6ce8-497f-8070-b692-fb8ecd4675ed" class="" dir="auto">então:</p><pre id="3c1f6ce8-497f-80b0-b483-dcbdad5df0ff" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">resultado = 1</code></pre><p id="3c1f6ce8-497f-80ac-90e9-cdd9dabc9eb2" class="" dir="auto">Esse operador é muito utilizado para descobrir se um número é <strong>par ou ímpar</strong>.</p><p id="3c1f6ce8-497f-80af-95cd-fa1452a5efac" class="" dir="auto">Exemplo:</p><pre id="3c1f6ce8-497f-8068-ac6c-d377f258c846" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">numero &lt;- 8
+
+se numero % 2 = 0 então
+   escreva(&quot;Número par&quot;)
+fimse</code></pre><p id="3c1f6ce8-497f-80ae-b386-fb3d3ce6ba45" class="" dir="auto">Como <code>8 % 2</code> é <code>0</code>, o número é par.</p><hr id="3c1f6ce8-497f-800b-905d-e205c0488b03" dir="auto"/><h1 id="3c1f6ce8-497f-8017-998d-e6a43e635d0d" class="" dir="auto">8. Operadores relacionais</h1><p id="3c1f6ce8-497f-8068-8864-fec322963631" class="" dir="auto">Os operadores relacionais são utilizados para <strong>comparar valores</strong>.</p><p id="3c1f6ce8-497f-8040-afb5-f7b9c5c9a3f5" class="" dir="auto">O resultado de uma comparação normalmente será um valor lógico:</p><pre id="3c1f6ce8-497f-80c5-baba-db4fe73a5d9a" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">verdadeiro</code></pre><p id="3c1f6ce8-497f-8039-b404-f35cb6d026f7" class="" dir="auto">ou</p><pre id="3c1f6ce8-497f-8029-a532-d3c9ea23f7eb" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">falso</code></pre><table id="3c1f6ce8-497f-80ec-b677-c91c1acf8bbb" class="simple-table" dir="ltr"><thead class="simple-table-header"><tr id="3c1f6ce8-497f-802b-b5b2-d825551c1994" dir="ltr"><th id="OyOU" class="simple-table-header-color simple-table-header">Operador</th><th id="lVRZ" class="simple-table-header-color simple-table-header">Significado</th><th id="QWUH" class="simple-table-header-color simple-table-header">Exemplo</th></tr></thead><tbody><tr id="3c1f6ce8-497f-80ff-ab27-f5aa6dc7f65c" dir="ltr"><td id="OyOU" class=""><code>=</code> ou <code>==</code></td><td id="lVRZ" class="">Igual a</td><td id="QWUH" class=""><code>5 == 5</code></td></tr><tr id="3c1f6ce8-497f-8076-8d8d-da7bc2cdc0da" dir="ltr"><td id="OyOU" class=""><code>&lt;&gt;</code> ou <code>!=</code></td><td id="lVRZ" class="">Diferente de</td><td id="QWUH" class=""><code>5 != 3</code></td></tr><tr id="3c1f6ce8-497f-8045-a3c4-eca243770743" dir="ltr"><td id="OyOU" class=""><code>&gt;</code></td><td id="lVRZ" class="">Maior que</td><td id="QWUH" class=""><code>10 &gt; 5</code></td></tr><tr id="3c1f6ce8-497f-80c5-b94a-e757438f70a9" dir="ltr"><td id="OyOU" class=""><code>&lt;</code></td><td id="lVRZ" class="">Menor que</td><td id="QWUH" class=""><code>3 &lt; 8</code></td></tr><tr id="3c1f6ce8-497f-803b-8e16-c1839ad7656f" dir="ltr"><td id="OyOU" class=""><code>&gt;=</code></td><td id="lVRZ" class="">Maior ou igual</td><td id="QWUH" class=""><code>10 &gt;= 10</code></td></tr><tr id="3c1f6ce8-497f-80b2-938f-e9dc1d2538fa" dir="ltr"><td id="OyOU" class=""><code>&lt;=</code></td><td id="lVRZ" class="">Menor ou igual</td><td id="QWUH" class=""><code>5 &lt;= 10</code></td></tr></tbody></table><p id="3c1f6ce8-497f-8090-8e28-f4476b14e394" class="" dir="auto">A representação pode variar conforme a linguagem ou pseudocódigo.</p><h3 id="3c1f6ce8-497f-8012-b6b3-d9f3927b32ac" class="" dir="auto">Exemplo</h3><pre id="3c1f6ce8-497f-8034-9561-e015ef03cb0a" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">idade &gt; 18</code></pre><p id="3c1f6ce8-497f-8044-bb91-f49ed344b084" class="" dir="auto">Se <code>idade</code> for <code>21</code>:</p><pre id="3c1f6ce8-497f-807d-8563-c3cf2b3b0251" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">21 &gt; 18</code></pre><p id="3c1f6ce8-497f-8074-8733-f42d0094ea1a" class="" dir="auto">Resultado:</p><pre id="3c1f6ce8-497f-80be-9ece-d95868b61978" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">verdadeiro</code></pre><p id="3c1f6ce8-497f-8005-a78d-d83f4861106f" class="" dir="auto">Se <code>idade</code> for <code>15</code>:</p><pre id="3c1f6ce8-497f-8063-8aad-e053e26f1aae" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">15 &gt; 18</code></pre><p id="3c1f6ce8-497f-805b-8e6e-f56045f9e586" class="" dir="auto">Resultado:</p><pre id="3c1f6ce8-497f-8089-a611-d97cced7f3dc" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">falso</code></pre><p id="3c1f6ce8-497f-80d4-befb-dbc22718d5a5" class="" dir="auto">Essas comparações são fundamentais para estruturas de decisão como <code>se</code>, <code>senão</code> e <code>switch/caso</code>.</p><hr id="3c1f6ce8-497f-80f8-8745-cc338ca05631" dir="auto"/><h1 id="3c1f6ce8-497f-80c1-8a8c-c0d0e3605d5e" class="" dir="auto">9. Operadores lógicos</h1><p id="3c1f6ce8-497f-80e8-8a5e-f9afd4b65856" class="" dir="auto">Os operadores lógicos permitem <strong>combinar ou modificar condições</strong>.</p><p id="3c1f6ce8-497f-8011-9441-ff939297b628" class="" dir="auto">Os principais são:</p><ul id="3c1f6ce8-497f-80c8-9f07-e7c51221d8cd" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>E (</strong><code><strong>E</strong></code><strong> / </strong><code><strong>AND</strong></code><strong>)</strong></li></ul><ul id="3c1f6ce8-497f-80b2-9c05-e5e73a1b7466" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>OU (</strong><code><strong>OU</strong></code><strong> / </strong><code><strong>OR</strong></code><strong>)</strong></li></ul><ul id="3c1f6ce8-497f-80ac-9134-efca9880e996" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>NÃO (</strong><code><strong>NÃO</strong></code><strong> / </strong><code><strong>NOT</strong></code><strong>)</strong></li></ul><hr id="3c1f6ce8-497f-80d9-8fdd-c2a65ee480cc" dir="auto"/><h2 id="3c1f6ce8-497f-80ee-a309-e2de46b72c5e" class="" dir="auto">9.1 Operador E</h2><p id="3c1f6ce8-497f-80f3-954a-deebfed8e688" class="" dir="auto">O operador <strong>E</strong> exige que <strong>todas as condições sejam verdadeiras</strong>.</p><p id="3c1f6ce8-497f-80d4-bd93-e68fa7139cc0" class="" dir="auto">Exemplo:</p><pre id="3c1f6ce8-497f-8074-a2ef-e8ff90fb54d3" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">idade &gt;= 18 E possui_carteira = verdadeiro</code></pre><p id="3c1f6ce8-497f-8037-b55b-f84d6cef72a1" class="" dir="auto">Para o resultado ser verdadeiro:</p><ul id="3c1f6ce8-497f-806e-975e-fe92a9a088e0" class="bulleted-list" dir="auto"><li style="list-style-type:disc">A pessoa precisa ter 18 anos ou mais;</li></ul><ul id="3c1f6ce8-497f-803f-bab8-dcb028ca76d6" class="bulleted-list" dir="auto"><li style="list-style-type:disc">E precisa possuir carteira.</li></ul><p id="3c1f6ce8-497f-8094-bfc5-ff6e430b34db" class="" dir="auto">Tabela:</p><table id="3c1f6ce8-497f-8094-9938-dd99bdeb33f0" class="simple-table" dir="ltr"><thead class="simple-table-header"><tr id="3c1f6ce8-497f-8020-9120-e1ccd89eb44e" dir="ltr"><th id="Pux=" class="simple-table-header-color simple-table-header">Condição 1</th><th id="LNfH" class="simple-table-header-color simple-table-header">Condição 2</th><th id="r@F;" class="simple-table-header-color simple-table-header">E</th></tr></thead><tbody><tr id="3c1f6ce8-497f-8085-95ba-fb3f63e05122" dir="ltr"><td id="Pux=" class="">V</td><td id="LNfH" class="">V</td><td id="r@F;" class="">V</td></tr><tr id="3c1f6ce8-497f-80b8-8a5d-e2ce68dd2763" dir="ltr"><td id="Pux=" class="">V</td><td id="LNfH" class="">F</td><td id="r@F;" class="">F</td></tr><tr id="3c1f6ce8-497f-8057-9544-e0d83bf9467d" dir="ltr"><td id="Pux=" class="">F</td><td id="LNfH" class="">V</td><td id="r@F;" class="">F</td></tr><tr id="3c1f6ce8-497f-80d4-bd45-fd40639b1c4c" dir="ltr"><td id="Pux=" class="">F</td><td id="LNfH" class="">F</td><td id="r@F;" class="">F</td></tr></tbody></table><hr id="3c1f6ce8-497f-8040-884a-df0fff8b8e2a" dir="auto"/><h2 id="3c1f6ce8-497f-800c-abdf-d4fece810cca" class="" dir="auto">9.2 Operador OU</h2><p id="3c1f6ce8-497f-808c-a6d2-f059e64a6f05" class="" dir="auto">O operador <strong>OU</strong> retorna verdadeiro quando <strong>pelo menos uma condição é verdadeira</strong>.</p><p id="3c1f6ce8-497f-8026-be0e-f13ff7fa1d79" class="" dir="auto">Exemplo:</p><pre id="3c1f6ce8-497f-80e7-95f8-fbb60dc57c70" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">idade &lt; 12 OU idade &gt; 60</code></pre><p id="3c1f6ce8-497f-8063-8136-eedaeea5e689" class="" dir="auto">Nesse caso, a condição será verdadeira se:</p><ul id="3c1f6ce8-497f-8030-b5be-e3696f58a43d" class="bulleted-list" dir="auto"><li style="list-style-type:disc">A pessoa tiver menos de 12 anos; <strong>ou</strong></li></ul><ul id="3c1f6ce8-497f-8034-98c3-f0b0520b38b1" class="bulleted-list" dir="auto"><li style="list-style-type:disc">tiver mais de 60 anos.</li></ul><p id="3c1f6ce8-497f-801a-a657-fda37fc995b3" class="" dir="auto">Tabela:</p><table id="3c1f6ce8-497f-802d-a224-dcd1ca2d708c" class="simple-table" dir="ltr"><thead class="simple-table-header"><tr id="3c1f6ce8-497f-8099-98eb-ff9a57773a20" dir="ltr"><th id="OLTF" class="simple-table-header-color simple-table-header">Condição 1</th><th id=";&lt;^:" class="simple-table-header-color simple-table-header">Condição 2</th><th id="mDV:" class="simple-table-header-color simple-table-header">OU</th></tr></thead><tbody><tr id="3c1f6ce8-497f-8004-8c00-c93229537a05" dir="ltr"><td id="OLTF" class="">V</td><td id=";&lt;^:" class="">V</td><td id="mDV:" class="">V</td></tr><tr id="3c1f6ce8-497f-80d1-8d0d-d02630b1d884" dir="ltr"><td id="OLTF" class="">V</td><td id=";&lt;^:" class="">F</td><td id="mDV:" class="">V</td></tr><tr id="3c1f6ce8-497f-800b-8c3f-c21e6c86be0a" dir="ltr"><td id="OLTF" class="">F</td><td id=";&lt;^:" class="">V</td><td id="mDV:" class="">V</td></tr><tr id="3c1f6ce8-497f-80a3-b704-c34d2d2a34c5" dir="ltr"><td id="OLTF" class="">F</td><td id=";&lt;^:" class="">F</td><td id="mDV:" class="">F</td></tr></tbody></table><hr id="3c1f6ce8-497f-80f4-a1c0-ff45a1e6c837" dir="auto"/><h2 id="3c1f6ce8-497f-8005-9d48-c286a15aaaf2" class="" dir="auto">9.3 Operador NÃO</h2><p id="3c1f6ce8-497f-804c-adff-ee9e42ece413" class="" dir="auto">O operador <strong>NÃO</strong> inverte o resultado lógico.</p><p id="3c1f6ce8-497f-806b-b5f0-c1e1db00fe60" class="" dir="auto">Se:</p><pre id="3c1f6ce8-497f-8086-b55b-c6de355ec02f" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">verdadeiro</code></pre><p id="3c1f6ce8-497f-802a-a72f-d43878d73a34" class="" dir="auto">passa a ser:</p><pre id="3c1f6ce8-497f-80ae-ba18-d4962fd482e6" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">falso</code></pre><p id="3c1f6ce8-497f-80c0-b4ae-f1960674ab7a" class="" dir="auto">E vice-versa.</p><p id="3c1f6ce8-497f-80be-8182-d1aca3ffc4b4" class="" dir="auto">Exemplo:</p><pre id="3c1f6ce8-497f-809f-a2ba-eec0f2c784c7" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">nao aprovado</code></pre><p id="3c1f6ce8-497f-8078-b952-c0972be14641" class="" dir="auto">Se <code>aprovado</code> for verdadeiro:</p><pre id="3c1f6ce8-497f-80fe-99da-d06247b9c607" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">NÃO verdadeiro = falso</code></pre><hr id="3c1f6ce8-497f-80c6-9b0c-c60c486fc6a1" dir="auto"/><h1 id="3c1f6ce8-497f-808b-a01a-e28b12306fdb" class="" dir="auto">10. Operador de atribuição</h1><p id="3c1f6ce8-497f-8083-9bca-d3badf77fa45" class="" dir="auto">O operador de atribuição é utilizado para <strong>armazenar um valor dentro de uma variável</strong>.</p><p id="3c1f6ce8-497f-80f4-9155-cbf626faef6b" class="" dir="auto">Em pseudocódigo, é comum utilizar:</p><pre id="3c1f6ce8-497f-8005-9c33-e39ab1689177" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">&lt;-</code></pre><p id="3c1f6ce8-497f-8015-9b78-c86277d7d5db" class="" dir="auto">Por exemplo:</p><pre id="3c1f6ce8-497f-8011-824a-f3790f863523" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">idade &lt;- 21</code></pre><p id="3c1f6ce8-497f-8024-974b-ce6d4d2d6002" class="" dir="auto">Isso significa:</p><blockquote id="3c1f6ce8-497f-8086-9b3c-e9a0490f6a0b" class="" dir="auto">A variável <code>idade</code> recebe o valor <code>21</code>.</blockquote><p id="3c1f6ce8-497f-8074-b380-dea0108103b2" class="" dir="auto">Outro exemplo:</p><pre id="3c1f6ce8-497f-8045-8abe-cdef3ee7ca06" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">nome &lt;- &quot;Gusta&quot;</code></pre><p id="3c1f6ce8-497f-8098-b269-d9557ae5f038" class="" dir="auto">Agora <code>nome</code> contém:</p><pre id="3c1f6ce8-497f-8098-8ef0-edf0d431b1a4" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">&quot;Gusta&quot;</code></pre><p id="3c1f6ce8-497f-8038-abf6-d22bd68f327b" class="" dir="auto">Também podemos atribuir o resultado de uma operação:</p><pre id="3c1f6ce8-497f-8094-a0ee-c06e53bf4682" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">soma &lt;- numero1 + numero2</code></pre><p id="3c1f6ce8-497f-80b8-9615-cb3c43026559" class="" dir="auto">Nesse caso, o algoritmo calcula:</p><pre id="3c1f6ce8-497f-8015-8fd4-e61a3bdcc6c9" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">numero1 + numero2</code></pre><p id="3c1f6ce8-497f-806b-b509-d02886f70753" class="" dir="auto">e armazena o resultado na variável <code>soma</code>.</p><hr id="3c1f6ce8-497f-80b5-9b18-da5213e8b0d0" dir="auto"/><h1 id="3c1f6ce8-497f-80a5-9bcd-e59a5b919405" class="" dir="auto">11. Diferença entre atribuição e comparação</h1><p id="3c1f6ce8-497f-8062-a9a9-ea97a904b327" class="" dir="auto">Essa é uma distinção <strong>muito importante em programação</strong>.</p><h3 id="3c1f6ce8-497f-800d-ad11-e082930d90d4" class="" dir="auto">Atribuição</h3><pre id="3c1f6ce8-497f-800b-aacf-ff16756033dc" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">idade &lt;- 21</code></pre><p id="3c1f6ce8-497f-805c-b680-e500b6311dfc" class="" dir="auto">Significa:</p><blockquote id="3c1f6ce8-497f-8098-9a6c-c01aad3dcd13" class="" dir="auto">Coloque 21 dentro de <code>idade</code>.</blockquote><h3 id="3c1f6ce8-497f-80bb-9b66-c2754f38d520" class="" dir="auto">Comparação</h3><pre id="3c1f6ce8-497f-809e-9025-ebedebbdecf2" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">idade = 21</code></pre><p id="3c1f6ce8-497f-809e-87a7-e0c3878baf2d" class="" dir="auto">Significa:</p><blockquote id="3c1f6ce8-497f-80e7-a2bb-ebe4c23f68fc" class="" dir="auto"><code>idade</code> é igual a 21?</blockquote><p id="3c1f6ce8-497f-8080-b56a-e1db7c303427" class="" dir="auto">Dependendo da linguagem, a comparação pode utilizar <code>==</code>:</p><pre id="3c1f6ce8-497f-8064-8419-f596e878631c" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">idade == 21</code></pre><p id="3c1f6ce8-497f-8039-b1b1-c09f29b670bd" class="" dir="auto">Portanto, é importante não confundir <strong>armazenar um valor</strong> com <strong>comparar valores</strong>.</p><hr id="3c1f6ce8-497f-80bd-94ea-ceb94a522d81" dir="auto"/><h1 id="3c1f6ce8-497f-805e-a93f-ebb990e4980c" class="" dir="auto">12. Utilizando entrada e operadores juntos</h1><p id="3c1f6ce8-497f-802f-bd5b-c1d9eb951bcf" class="" dir="auto">Uma das aplicações mais importantes desses conceitos é receber dados do usuário e depois processá-los.</p><h3 id="3c1f6ce8-497f-80f3-8323-f62af085c0a3" class="" dir="auto">Exemplo: calcular o dobro</h3><pre id="3c1f6ce8-497f-80e5-94e2-e91d4426bab7" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">algoritmo &quot;Dobro&quot;
+
+var
+   numero, dobro: real
+
+inicio
+   escreva(&quot;Digite um número: &quot;)
+   leia(numero)
+
+   dobro &lt;- numero * 2
+
+   escreva(&quot;O dobro é: &quot;, dobro)
+fimalgoritmo</code></pre><p id="3c1f6ce8-497f-8076-afd2-d2a7a5e0280e" class="" dir="auto">Se o usuário digitar:</p><pre id="3c1f6ce8-497f-804a-b2c5-cfc5f70f4339" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">10</code></pre><p id="3c1f6ce8-497f-8092-9d1a-e5166458d38e" class="" dir="auto">o algoritmo fará:</p><pre id="3c1f6ce8-497f-804f-8b71-de1aea4ba611" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">dobro &lt;- 10 * 2</code></pre><p id="3c1f6ce8-497f-8021-b8f7-c63eb490a32c" class="" dir="auto">Resultado:</p><pre id="3c1f6ce8-497f-8036-b44e-e4874ac377c9" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">O dobro é: 20</code></pre><hr id="3c1f6ce8-497f-8011-b054-f7cf2bb4a1ca" dir="auto"/><h1 id="3c1f6ce8-497f-801a-9d19-d746abdfb0a3" class="" dir="auto">13. Exemplo utilizando vários operadores</h1><p id="3c1f6ce8-497f-803b-8c8c-d02d894664c8" class="" dir="auto">Podemos combinar entrada, atribuição e operadores aritméticos.</p><pre id="3c1f6ce8-497f-8091-9c7d-c6dfb9a152f2" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">algoritmo &quot;Calculadora&quot;
+
+var
+   a, b, soma, subtracao, multiplicacao, divisao: real
+
+inicio
+   leia(a)
+   leia(b)
+
+   soma &lt;- a + b
+   subtracao &lt;- a - b
+   multiplicacao &lt;- a * b
+   divisao &lt;- a / b
+
+   escreva(&quot;Soma: &quot;, soma)
+   escreva(&quot;Subtração: &quot;, subtracao)
+   escreva(&quot;Multiplicação: &quot;, multiplicacao)
+   escreva(&quot;Divisão: &quot;, divisao)
+fimalgoritmo</code></pre><p id="3c1f6ce8-497f-80c4-ac66-fd5926ced371" class="" dir="auto">Se:</p><pre id="3c1f6ce8-497f-80e3-8344-e6adb9612248" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">a = 10
+b = 2</code></pre><p id="3c1f6ce8-497f-803a-a301-e62ded4f240d" class="" dir="auto">teremos:</p><pre id="3c1f6ce8-497f-80a4-b301-e3784102f7a4" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Soma: 15
+Subtração: 8
+Multiplicação: 20
+Divisão: 5</code></pre><hr id="3c1f6ce8-497f-8085-882e-d9a0ca1763ba" dir="auto"/><h1 id="3c1f6ce8-497f-80f2-ab9e-c63efca6570a" class="" dir="auto">14. Precedência dos operadores</h1><p id="3c1f6ce8-497f-80fc-9421-c72c90e6e8b5" class="" dir="auto">Quando uma expressão possui vários operadores, o algoritmo precisa determinar <strong>qual operação será realizada primeiro</strong>.</p><p id="3c1f6ce8-497f-801b-a445-d18848a49022" class="" dir="auto">Por exemplo:</p><pre id="3c1f6ce8-497f-805a-8b1e-eab1200671ef" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">2 + 3 * 4</code></pre><p id="3c1f6ce8-497f-80da-af5a-e6508e300c88" class="" dir="auto">A multiplicação é realizada antes da soma:</p><pre id="3c1f6ce8-497f-80b2-a1b3-d81029666a15" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">2 + 12</code></pre><p id="3c1f6ce8-497f-80ca-b784-c0eae1a558e2" class="" dir="auto">Resultado:</p><pre id="3c1f6ce8-497f-8041-8065-f810bdce416b" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">14</code></pre><p id="3c1f6ce8-497f-8033-8759-ce9e420710de" class="" dir="auto">Se quisermos realizar a soma primeiro, usamos parênteses:</p><pre id="3c1f6ce8-497f-8014-88c2-d566a952c0fd" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">(2 + 3) * 4</code></pre><p id="3c1f6ce8-497f-80f0-8c7e-f1539e8ac296" class="" dir="auto">Agora:</p><pre id="3c1f6ce8-497f-8000-a035-d121296dd780" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">5 * 4</code></pre><p id="3c1f6ce8-497f-80cc-9652-dd0107aaf2db" class="" dir="auto">Resultado:</p><pre id="3c1f6ce8-497f-8097-9719-e0c873d6c449" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">20</code></pre><p id="3c1f6ce8-497f-80a4-8848-dbaa1663ee0a" class="" dir="auto">De forma geral, temos:</p><ol type="1" id="3c1f6ce8-497f-80d4-b095-ffaee6c967b6" class="numbered-list" start="1" dir="auto"><li><strong>Parênteses</strong></li></ol><ol type="1" id="3c1f6ce8-497f-8002-afb5-dce0221770a7" class="numbered-list" start="2" dir="auto"><li><strong>Multiplicação, divisão e módulo</strong></li></ol><ol type="1" id="3c1f6ce8-497f-80cf-949b-e21b6f703a45" class="numbered-list" start="3" dir="auto"><li><strong>Adição e subtração</strong></li></ol><ol type="1" id="3c1f6ce8-497f-80d0-b851-ce3cdeb59884" class="numbered-list" start="4" dir="auto"><li><strong>Operadores relacionais</strong></li></ol><ol type="1" id="3c1f6ce8-497f-8002-bf36-e07b96244423" class="numbered-list" start="5" dir="auto"><li><strong>Operadores lógicos</strong></li></ol><p id="3c1f6ce8-497f-8047-a4b0-ce0c31a948c5" class="" dir="auto">A precedência exata pode variar entre linguagens, portanto é importante consultar as regras da linguagem utilizada.</p><hr id="3c1f6ce8-497f-80b3-ab55-cac6cdeab6e7" dir="auto"/><h1 id="3c1f6ce8-497f-8025-98e1-e0dc22a6c13f" class="" dir="auto">15. Exemplo completo</h1><p id="3c1f6ce8-497f-80d4-8d70-f5d19464f418" class="" dir="auto">Considere um algoritmo que recebe duas notas e verifica se o aluno foi aprovado.</p><pre id="3c1f6ce8-497f-8015-b07c-e350b8cdf49d" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">algoritmo &quot;Aprovacao&quot;
+
+var
+   nota1, nota2, media: real
+
+inicio
+   escreva(&quot;Digite a primeira nota: &quot;)
+   leia(nota1)
+
+   escreva(&quot;Digite a segunda nota: &quot;)
+   leia(nota2)
+
+   media &lt;- (nota1 + nota2) / 2
+
+   escreva(&quot;Média: &quot;, media)
+
+   se media &gt;= 7 então
+      escreva(&quot;Aluno aprovado!&quot;)
+   senao
+      escreva(&quot;Aluno reprovado!&quot;)
+   fimse
+
+fimalgoritmo</code></pre><p id="3c1f6ce8-497f-80d5-b7a0-e12f35980ad9" class="" dir="auto">Nesse algoritmo temos vários conceitos trabalhando juntos:</p><p id="3c1f6ce8-497f-800c-a141-f2ba559bc999" class="" dir="auto"><strong>Entrada:</strong></p><pre id="3c1f6ce8-497f-802b-af58-feabbec1aa59" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">leia(nota1)
+leia(nota2)</code></pre><p id="3c1f6ce8-497f-809f-b7aa-c2611d093a2e" class="" dir="auto"><strong>Operadores aritméticos:</strong></p><pre id="3c1f6ce8-497f-805b-a7a2-d21c156fe1c9" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">+
+/</code></pre><p id="3c1f6ce8-497f-8009-9f92-c46b893d62b8" class="" dir="auto"><strong>Atribuição:</strong></p><pre id="3c1f6ce8-497f-80ce-b6fe-fa41cda427db" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">media &lt;- ...</code></pre><p id="3c1f6ce8-497f-8005-b3de-c7074c71bae4" class="" dir="auto"><strong>Operador relacional:</strong></p><pre id="3c1f6ce8-497f-808f-81b6-e68d0c3534e4" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">&gt;=</code></pre><p id="3c1f6ce8-497f-80d2-b9d8-f373b51b31ce" class="" dir="auto"><strong>Saída:</strong></p><pre id="3c1f6ce8-497f-803c-8581-d7385af9223c" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">escreva()</code></pre><p id="3c1f6ce8-497f-80b4-b7cc-f00f95db9c46" class="" dir="auto">Isso demonstra como os comandos de entrada e os operadores fazem parte do <strong>processamento de informações dentro de um algoritmo</strong>.</p><hr id="3c1f6ce8-497f-8036-b24e-cb0a779e05c2" dir="auto"/><h1 id="3c1f6ce8-497f-8048-b3a2-d2a2c353eecd" class="" dir="auto">16. Importância desses conceitos</h1><p id="3c1f6ce8-497f-806f-91cd-f129a87b0733" class="" dir="auto">Os comandos de entrada e os operadores são essenciais porque permitem que os algoritmos deixem de trabalhar apenas com valores fixos e passem a <strong>interagir com dados reais</strong>.</p><p id="3c1f6ce8-497f-804a-9811-fd6fbc91b9e4" class="" dir="auto">Por exemplo, em vez de criar:</p><pre id="3c1f6ce8-497f-8016-983b-f74ce00c9525" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">soma &lt;- 10 + 20</code></pre><p id="3c1f6ce8-497f-808b-9a44-c263ada208fc" class="" dir="auto">podemos criar:</p><pre id="3c1f6ce8-497f-80e9-983a-d30f627d2c2e" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">leia(numero1)
+leia(numero2)
+
+soma &lt;- numero1 + numero2</code></pre><p id="3c1f6ce8-497f-805f-9285-ec78f5f3d816" class="" dir="auto">Assim, o mesmo algoritmo pode trabalhar com:</p><pre id="3c1f6ce8-497f-805d-beab-ce9b7df6daa2" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">5 e 8</code></pre><p id="3c1f6ce8-497f-8028-841a-d40d0af824c9" class="" dir="auto">ou:</p><pre id="3c1f6ce8-497f-8048-b680-cddb0eec1e3d" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">100 e 250</code></pre><p id="3c1f6ce8-497f-8055-867c-d4d88dac1bd8" class="" dir="auto">ou quaisquer outros valores fornecidos pelo usuário.</p><hr id="3c1f6ce8-497f-805a-901c-e3291c7a81e7" dir="auto"/><h2 id="3c1f6ce8-497f-805a-bd3a-f5e222c72ec3" class="" dir="auto">Resumo</h2><table id="3c1f6ce8-497f-8077-89ac-c6ccebb8b977" class="simple-table" dir="ltr"><thead class="simple-table-header"><tr id="3c1f6ce8-497f-8008-ac5e-d842d6e1f5a0" dir="ltr"><th id="eF_^" class="simple-table-header-color simple-table-header">Conceito</th><th id=":]g@" class="simple-table-header-color simple-table-header">Função</th></tr></thead><tbody><tr id="3c1f6ce8-497f-806c-bc15-cbf3efb2bb16" dir="ltr"><td id="eF_^" class=""><code>leia()</code></td><td id=":]g@" class="">Receber dados</td></tr><tr id="3c1f6ce8-497f-801e-b23a-cbb8ed557c0f" dir="ltr"><td id="eF_^" class=""><code>escreva()</code></td><td id=":]g@" class="">Exibir dados</td></tr><tr id="3c1f6ce8-497f-8076-afa4-e17a3abacda5" dir="ltr"><td id="eF_^" class=""><code>&lt;-</code></td><td id=":]g@" class="">Atribuir valores</td></tr><tr id="3c1f6ce8-497f-8088-9012-c3343e2ad51c" dir="ltr"><td id="eF_^" class=""><code>+</code></td><td id=":]g@" class="">Somar</td></tr><tr id="3c1f6ce8-497f-8088-b403-fd38d74b0b24" dir="ltr"><td id="eF_^" class=""><code>-</code></td><td id=":]g@" class="">Subtrair</td></tr><tr id="3c1f6ce8-497f-80e2-9fe2-e9815deb1a2c" dir="ltr"><td id="eF_^" class=""><code>*</code></td><td id=":]g@" class="">Multiplicar</td></tr><tr id="3c1f6ce8-497f-80ad-9a97-daee71e0403f" dir="ltr"><td id="eF_^" class=""><code>/</code></td><td id=":]g@" class="">Dividir</td></tr><tr id="3c1f6ce8-497f-807f-9cd6-d25ae429d06a" dir="ltr"><td id="eF_^" class=""><code>%</code></td><td id=":]g@" class="">Obter resto da divisão</td></tr><tr id="3c1f6ce8-497f-8050-a7c2-f178c7fc4a38" dir="ltr"><td id="eF_^" class=""><code>&gt;</code></td><td id=":]g@" class="">Maior que</td></tr><tr id="3c1f6ce8-497f-8027-91e9-e4f94b50d87b" dir="ltr"><td id="eF_^" class=""><code>&lt;</code></td><td id=":]g@" class="">Menor que</td></tr><tr id="3c1f6ce8-497f-8018-bb03-f7d74feac118" dir="ltr"><td id="eF_^" class=""><code>&gt;=</code></td><td id=":]g@" class="">Maior ou igual</td></tr><tr id="3c1f6ce8-497f-809f-afba-e404d86885ce" dir="ltr"><td id="eF_^" class=""><code>&lt;=</code></td><td id=":]g@" class="">Menor ou igual</td></tr><tr id="3c1f6ce8-497f-801f-8303-c33fe07e1d0d" dir="ltr"><td id="eF_^" class=""><code>=</code> / <code>==</code></td><td id=":]g@" class="">Comparar igualdade</td></tr><tr id="3c1f6ce8-497f-80fc-9794-ff4bbfecaf29" dir="ltr"><td id="eF_^" class=""><code>&lt;&gt;</code> / <code>!=</code></td><td id=":]g@" class="">Comparar diferença</td></tr><tr id="3c1f6ce8-497f-802d-8efd-fbdf3fd3eba2" dir="ltr"><td id="eF_^" class=""><code>E</code> / <code>AND</code></td><td id=":]g@" class="">Todas as condições devem ser verdadeiras</td></tr><tr id="3c1f6ce8-497f-805f-a44c-fb43e3dfdb40" dir="ltr"><td id="eF_^" class=""><code>OU</code> / <code>OR</code></td><td id=":]g@" class="">Pelo menos uma condição deve ser verdadeira</td></tr><tr id="3c1f6ce8-497f-805d-a1cd-ec5fed3824c5" dir="ltr"><td id="eF_^" class=""><code>NÃO</code> / <code>NOT</code></td><td id=":]g@" class="">Inverter uma condição</td></tr></tbody></table><p id="3c1f6ce8-497f-80f1-80c8-fa74efe60616" class="" dir="auto"><strong>Em resumo:</strong> o <strong>comando de entrada</strong> permite que o algoritmo receba informações, enquanto os <strong>operadores</strong> permitem que essas informações sejam calculadas, comparadas e manipuladas. Juntos, eles formam uma das bases para o desenvolvimento de algoritmos capazes de resolver problemas reais.</p></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

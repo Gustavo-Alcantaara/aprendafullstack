@@ -1,0 +1,1044 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Vetores</title><meta name="data-notion-page-icon" content="/icons/gear_blue.svg"/><link rel="icon" href="https://app.notion.com/icons/gear_blue.svg"/><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+/* For default-background callouts, render the border outline. */
+.callout.block-color-default_background {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+/*
+ * Toggles and callouts hold arbitrary content, so they can easily be taller
+ * than a page. They must stay breakable: avoiding breaks inside them makes
+ * Chromium push the whole block onto the next page, which leaves the previous
+ * page mostly empty before every long toggle.
+ */
+details,
+aside {
+	margin: 1.25em 0;
+}
+
+/* Keep a toggle's title on the same page as the start of its content. */
+summary {
+	page-break-after: avoid;
+	break-after: avoid;
+}
+
+/*
+ * Toggle headings render as <h1/h2/h3 style="display:inline-block"> inside
+ * <summary>. Without this reset, the heading's margin-top pushes it below the
+ * ::marker (▼), so the triangle and the title appear on separate lines.
+ */
+summary h1,
+summary h2,
+summary h3,
+summary h4 {
+	margin-top: 0;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding-inline: 0.125rem;
+	padding-block: 0.375rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+/*
+ * Render emoji icons using a ::before pseudo-element to keep the glyph
+ * out of the DOM textContent traversal. This avoids double-rendering icons
+ * in callouts and page titles.
+ * NOTE(slim/html-export-pseudo-icons): I can't tagref this because it will
+ * flag as a duplicate tag after codegen.
+ */
+.icon[data-emoji]::before {
+	content: attr(data-emoji);
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	margin-right: 0.4em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.tab {
+	margin: 1.25em 0;
+	padding-inline: 1rem;
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style><style>@import url('https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex-swap.min.css')</style></head><body><article id="3c1f6ce8-497f-804b-aef6-f92bd2f25b2f" class="page sans" data-notion-page-icon="/icons/gear_blue.svg"><header><div class="page-header-icon undefined"><img class="icon notion-static-icon" src="https://app.notion.com/icons/gear_blue.svg"/></div><h1 class="page-title" dir="auto">Vetores</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><h1 id="3c1f6ce8-497f-80df-bd36-fd7a49301292" class="" dir="auto">Vetores</h1><p id="3c1f6ce8-497f-8035-affd-e88b4567358d" class="" dir="auto">Os <strong>vetores</strong> são estruturas de dados fundamentais na programação e nos algoritmos. Eles permitem <strong>armazenar vários valores dentro de uma única estrutura</strong>, utilizando posições ou índices para acessar cada elemento.</p><p id="3c1f6ce8-497f-800e-8faa-c9db45954b1c" class="" dir="auto">Imagine que precisamos armazenar as notas de cinco alunos.</p><p id="3c1f6ce8-497f-80a8-b7ef-dc50f6cfacb5" class="" dir="auto">Sem um vetor, poderíamos criar:</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="3c1f6ce8-497f-8010-bdf4-e5b8d51d04e5" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">nota1 &lt;- 8
+nota2 &lt;- 7
+nota3 &lt;- 9
+nota4 &lt;- 6
+nota5 &lt;- 10</code></pre><p id="3c1f6ce8-497f-8064-b532-f80636ce96c0" class="" dir="auto">Com um vetor:</p><pre id="3c1f6ce8-497f-80b1-acf4-e06ec5856910" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">notas[1] &lt;- 8
+notas[2] &lt;- 7
+notas[3] &lt;- 9
+notas[4] &lt;- 6
+notas[5] &lt;- 10</code></pre><p id="3c1f6ce8-497f-80c6-8eb0-ddabbbcba38f" class="" dir="auto">Assim, todas as notas ficam organizadas dentro de uma única estrutura chamada <code>notas</code>.</p><hr id="3c1f6ce8-497f-808f-bb0c-d73fbdb32a81" dir="auto"/><h1 id="3c1f6ce8-497f-809e-8e91-cb9c02235d07" class="" dir="auto">1. O que é um vetor?</h1><p id="3c1f6ce8-497f-80d1-a811-ff7bc393f79b" class="" dir="auto">Um <strong>vetor</strong> é uma estrutura de dados capaz de armazenar uma <strong>sequência de elementos</strong>, normalmente do mesmo tipo, que podem ser acessados individualmente através de um <strong>índice</strong>.</p><p id="3c1f6ce8-497f-80f7-812d-c56d3673c8b6" class="" dir="auto">Podemos imaginar um vetor como uma sequência de caixas:</p><pre id="3c1f6ce8-497f-8015-9280-c92827938964" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">+-----+-----+-----+-----+-----+
+|  8  |  7  |  9  |  6  | 10  |
++-----+-----+-----+-----+-----+
+   1     2     3     4     5</code></pre><p id="3c1f6ce8-497f-803e-a6cb-e2e510c0bb36" class="" dir="auto">Cada caixa representa uma posição do vetor.</p><p id="3c1f6ce8-497f-80ee-95a6-e3dee6fc7c39" class="" dir="auto">Por exemplo:</p><pre id="3c1f6ce8-497f-8058-b40b-d37a70506cc5" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">notas[3]</code></pre><p id="3c1f6ce8-497f-803e-b2b9-c87c798d367e" class="" dir="auto">representa o terceiro elemento.</p><p id="3c1f6ce8-497f-8097-b001-d5485e62e1b4" class="" dir="auto">Nesse exemplo:</p><pre id="3c1f6ce8-497f-802f-bfa2-ff1f7dbe5d9a" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">notas[3] = 9</code></pre><hr id="3c1f6ce8-497f-806f-92b6-ffee46ae58c1" dir="auto"/><h1 id="3c1f6ce8-497f-808f-b625-fb9548792b44" class="" dir="auto">2. Por que utilizar vetores?</h1><p id="3c1f6ce8-497f-80a3-9db6-c2e659cbdb44" class="" dir="auto">Os vetores são úteis quando precisamos trabalhar com <strong>vários valores relacionados</strong>.</p><p id="3c1f6ce8-497f-801f-8260-d02785a77621" class="" dir="auto">Imagine um sistema que precisa armazenar:</p><ul id="3c1f6ce8-497f-80dc-844e-edcd9b17f986" class="bulleted-list" dir="auto"><li style="list-style-type:disc">100 nomes;</li></ul><ul id="3c1f6ce8-497f-8032-a7ea-cd48e3e29b53" class="bulleted-list" dir="auto"><li style="list-style-type:disc">50 notas;</li></ul><ul id="3c1f6ce8-497f-804b-abac-f28fa4bb0313" class="bulleted-list" dir="auto"><li style="list-style-type:disc">1.000 preços;</li></ul><ul id="3c1f6ce8-497f-80d4-97ec-d2a0e8f6a7c4" class="bulleted-list" dir="auto"><li style="list-style-type:disc">500 códigos de produtos;</li></ul><ul id="3c1f6ce8-497f-80c4-b219-f67c9713928d" class="bulleted-list" dir="auto"><li style="list-style-type:disc">365 temperaturas.</li></ul><p id="3c1f6ce8-497f-8090-a32b-f19b1d187e30" class="" dir="auto">Seria impraticável criar uma variável para cada valor.</p><p id="3c1f6ce8-497f-80f4-b5b5-c21ced0cc7ba" class="" dir="auto">Em vez disso:</p><pre id="3c1f6ce8-497f-8079-82b6-cf4ee66c878e" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">temperaturas[1]
+temperaturas[2]
+temperaturas[3]
+...
+temperaturas[365]</code></pre><p id="3c1f6ce8-497f-8009-9006-e1934c19f93e" class="" dir="auto">Dessa forma, conseguimos organizar e processar grandes quantidades de dados.</p><hr id="3c1f6ce8-497f-8024-8656-f37d4ceb887b" dir="auto"/><h1 id="3c1f6ce8-497f-8031-94f3-cf3a4e76ed83" class="" dir="auto">3. Exemplo simples</h1><p id="3c1f6ce8-497f-80c8-b692-c81f40c7dccb" class="" dir="auto">Podemos criar um vetor para armazenar cinco números:</p><pre id="3c1f6ce8-497f-80ac-9219-c8e4ea49d9f5" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">numeros[1] &lt;- 10
+numeros[2] &lt;- 20
+numeros[3] &lt;- 30
+numeros[4] &lt;- 40
+numeros[5] &lt;- 50</code></pre><p id="3c1f6ce8-497f-801f-a881-ef12c06245f4" class="" dir="auto">Visualmente:</p><pre id="3c1f6ce8-497f-804a-8763-fcac5609ffc9" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Índice:     1    2    3    4    5
+            ↓    ↓    ↓    ↓    ↓
+Valor:     10   20   30   40   50</code></pre><p id="3c1f6ce8-497f-8052-8617-cc6839644d23" class="" dir="auto">Para acessar o terceiro elemento:</p><pre id="3c1f6ce8-497f-80fc-9de4-e5b6ff047f66" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">escreva(numeros[3])</code></pre><p id="3c1f6ce8-497f-80d4-bb9c-e6f57da63279" class="" dir="auto">Resultado:</p><pre id="3c1f6ce8-497f-8040-bed5-d01916d6d208" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">30</code></pre><hr id="3c1f6ce8-497f-8098-88fc-e56168eee132" dir="auto"/><h1 id="3c1f6ce8-497f-80b6-baf7-f3533b49ca99" class="" dir="auto">4. Índices</h1><p id="3c1f6ce8-497f-80be-b481-e7f27137022c" class="" dir="auto">O <strong>índice</strong> é o número utilizado para identificar a posição de um elemento dentro do vetor.</p><p id="3c1f6ce8-497f-8084-948b-f04b704ea939" class="" dir="auto">Por exemplo:</p><pre id="3c1f6ce8-497f-80a4-8910-e77236d0a19e" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">numeros[1] = 10
+numeros[2] = 20
+numeros[3] = 30</code></pre><p id="3c1f6ce8-497f-8094-ade8-f9bdcfd5558f" class="" dir="auto">Nesse caso:</p><ul id="3c1f6ce8-497f-8085-9de6-c486cf4d1014" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><code>1</code> → índice do primeiro elemento;</li></ul><ul id="3c1f6ce8-497f-8054-9353-d36fa5ea343c" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><code>2</code> → índice do segundo;</li></ul><ul id="3c1f6ce8-497f-80b0-87d0-dbfeaf14395c" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><code>3</code> → índice do terceiro.</li></ul><h3 id="3c1f6ce8-497f-8070-b630-c61224b3f9a7" class="" dir="auto">Atenção</h3><p id="3c1f6ce8-497f-8036-8de0-cf1ff8527c12" class="" dir="auto">A forma de iniciar os índices depende da linguagem.</p><p id="3c1f6ce8-497f-80c0-ad71-c831c275708d" class="" dir="auto">Algumas linguagens começam em:</p><pre id="3c1f6ce8-497f-80d6-9c72-de02789f0960" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">0</code></pre><p id="3c1f6ce8-497f-80f8-8fe5-eb33649479e3" class="" dir="auto">Então teríamos:</p><pre id="3c1f6ce8-497f-801b-9fec-e86e31c1c829" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Índice:    0    1    2    3    4
+Valor:    10   20   30   40   50</code></pre><p id="3c1f6ce8-497f-8073-8458-cf9f05d9d796" class="" dir="auto">Outras abordagens ou pseudocódigos podem utilizar:</p><pre id="3c1f6ce8-497f-8070-8576-e88aefdb60a8" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">1</code></pre><p id="3c1f6ce8-497f-8098-b360-dd0f0d7f2ee2" class="" dir="auto">Portanto, é importante conhecer a convenção utilizada pela linguagem.</p><hr id="3c1f6ce8-497f-8061-be3d-c8340bb0bb27" dir="auto"/><h1 id="3c1f6ce8-497f-8098-9533-cf102c7a2238" class="" dir="auto">5. Declaração de um vetor</h1><p id="3c1f6ce8-497f-8086-b72c-fac894bc9927" class="" dir="auto">Em pseudocódigo, podemos declarar um vetor assim:</p><pre id="3c1f6ce8-497f-802b-9275-c5acfb070b32" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">vetor numeros[1..5] de inteiro</code></pre><p id="3c1f6ce8-497f-80d0-94f6-f0bf270896d1" class="" dir="auto">Isso significa:</p><blockquote id="3c1f6ce8-497f-801d-81ca-e5653b0e0c4f" class="" dir="auto">Criar um vetor chamado <code>numeros</code>, com cinco posições, que armazenará números inteiros.</blockquote><p id="3c1f6ce8-497f-8044-a649-e840e731e090" class="" dir="auto">Podemos então atribuir valores:</p><pre id="3c1f6ce8-497f-801f-ad47-c013437f1755" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">numeros[1] &lt;- 10
+numeros[2] &lt;- 20
+numeros[3] &lt;- 30
+numeros[4] &lt;- 40
+numeros[5] &lt;- 50</code></pre><hr id="3c1f6ce8-497f-80e2-8bee-ef6d73121355" dir="auto"/><h1 id="3c1f6ce8-497f-80d0-b1a2-cf3668d08b22" class="" dir="auto">6. Vetores e tipos de dados</h1><p id="3c1f6ce8-497f-8043-8084-ff3b9a57f585" class="" dir="auto">Um vetor normalmente é definido para armazenar elementos de determinado tipo.</p><h3 id="3c1f6ce8-497f-80cc-b853-e2a6209fe6ac" class="" dir="auto">Inteiros</h3><pre id="3c1f6ce8-497f-8098-b91e-c7e2f11bc529" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">idades[1..5] de inteiro</code></pre><h3 id="3c1f6ce8-497f-8016-a49c-f843135f99b6" class="" dir="auto">Reais</h3><pre id="3c1f6ce8-497f-8040-8f42-cffb95b1a7b5" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">precos[1..10] de real</code></pre><h3 id="3c1f6ce8-497f-80b6-879a-d16445a89de1" class="" dir="auto">Caracteres/textos</h3><pre id="3c1f6ce8-497f-8003-a893-e6eb6d7653a9" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">nomes[1..20] de caractere</code></pre><h3 id="3c1f6ce8-497f-8056-a48c-d5cbcf641113" class="" dir="auto">Lógicos</h3><pre id="3c1f6ce8-497f-809b-ae2a-d24979d0abd4" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">respostas[1..10] de logico</code></pre><p id="3c1f6ce8-497f-80e6-898e-ed0d6b102382" class="" dir="auto">O tipo dependerá dos dados que queremos armazenar.</p><hr id="3c1f6ce8-497f-8085-88f5-d3b337f30665" dir="auto"/><h1 id="3c1f6ce8-497f-8074-9429-d770c02a24f5" class="" dir="auto">7. Atribuindo valores</h1><p id="3c1f6ce8-497f-80e3-ade5-e8338974b55e" class="" dir="auto">Podemos preencher um vetor manualmente:</p><pre id="3c1f6ce8-497f-80cf-8833-c86121ad42df" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">notas[1] &lt;- 8
+notas[2] &lt;- 7
+notas[3] &lt;- 10
+notas[4] &lt;- 6
+notas[5] &lt;- 9</code></pre><p id="3c1f6ce8-497f-80ef-a9bd-c6a0952171ff" class="" dir="auto">Agora temos:</p><pre id="3c1f6ce8-497f-80d2-b13c-f3e7e447f41d" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">+---+---+----+---+---+
+| 8 | 7 | 10 | 6 | 9 |
++---+---+----+---+---+
+  1   2    3   4   5</code></pre><hr id="3c1f6ce8-497f-8011-b6e3-e615774cc9b8" dir="auto"/><h1 id="3c1f6ce8-497f-8078-9594-fb47f88881b6" class="" dir="auto">8. Lendo valores para um vetor</h1><p id="3c1f6ce8-497f-800a-9839-dbff95a8e81e" class="" dir="auto">Em situações reais, normalmente os valores são fornecidos pelo usuário ou obtidos de outra fonte.</p><p id="3c1f6ce8-497f-80db-b03a-d8076c1bf235" class="" dir="auto">Podemos utilizar uma estrutura de repetição:</p><pre id="3c1f6ce8-497f-8070-b677-ef74fc5bf4fe" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">para i de 1 até 5 faça
+    escreva(&quot;Digite a nota &quot;, i, &quot;: &quot;)
+    leia(notas[i])
+fimpara</code></pre><p id="3c1f6ce8-497f-8019-88a5-fe5498be8725" class="" dir="auto">Se o usuário informar:</p><pre id="3c1f6ce8-497f-8074-9199-e56925f09579" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">8
+7
+10
+6
+9</code></pre><p id="3c1f6ce8-497f-8044-85ad-c93230fe169b" class="" dir="auto">o vetor ficará:</p><pre id="3c1f6ce8-497f-8003-b6f9-e003f38c076b" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">notas[1] = 8
+notas[2] = 7
+notas[3] = 10
+notas[4] = 6
+notas[5] = 9</code></pre><p id="3c1f6ce8-497f-8058-b45f-db9724cc6aa1" class="" dir="auto">Essa combinação entre <strong>vetores e estruturas de repetição</strong> é extremamente importante.</p><hr id="3c1f6ce8-497f-8046-8ec4-f34ffb53e5d9" dir="auto"/><h1 id="3c1f6ce8-497f-80bf-af09-e8e9f2f5e530" class="" dir="auto">9. Percorrendo um vetor</h1><p id="3c1f6ce8-497f-800f-bc16-f72c8743a10b" class="" dir="auto">Para acessar todos os elementos de um vetor, normalmente utilizamos uma estrutura de repetição.</p><p id="3c1f6ce8-497f-8065-ac5f-c09e99b3e6b3" class="" dir="auto">Exemplo:</p><pre id="3c1f6ce8-497f-80ce-ac2e-daa52d20ed3c" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">para i de 1 até 5 faça
+    escreva(numeros[i])
+fimpara</code></pre><p id="3c1f6ce8-497f-80ba-a140-c62dce283d92" class="" dir="auto">Se o vetor for:</p><pre id="3c1f6ce8-497f-8095-86f6-f4b735f93ea8" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">10
+20
+30
+40
+50</code></pre><p id="3c1f6ce8-497f-80bc-b006-f227638dcffc" class="" dir="auto">o programa exibirá:</p><pre id="3c1f6ce8-497f-8065-8582-e227adc2566b" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">10
+20
+30
+40
+50</code></pre><p id="3c1f6ce8-497f-804b-a1f2-fd31fb465190" class="" dir="auto">A variável <code>i</code> funciona como um <strong>índice</strong>.</p><hr id="3c1f6ce8-497f-80e4-b498-ca622d691f36" dir="auto"/><h1 id="3c1f6ce8-497f-8021-9b83-f11fef25062e" class="" dir="auto">10. Vetor e <code>PARA</code></h1><p id="3c1f6ce8-497f-8061-b1fa-cf91a7037a75" class="" dir="auto">A estrutura <code>PARA</code> é muito utilizada para percorrer vetores.</p><p id="3c1f6ce8-497f-80d1-99d8-dc7c950ca93b" class="" dir="auto">Exemplo:</p><pre id="3c1f6ce8-497f-8031-8e63-d9dcda4cf227" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">para i de 1 até 10 faça
+    escreva(vetor[i])
+fimpara</code></pre><p id="3c1f6ce8-497f-8061-91a9-c5d6739bb082" class="" dir="auto">Podemos visualizar:</p><pre id="3c1f6ce8-497f-80fc-9917-f712b4098c8f" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">i = 1 → vetor[1]
+i = 2 → vetor[2]
+i = 3 → vetor[3]
+...
+i = 10 → vetor[10]</code></pre><p id="3c1f6ce8-497f-801c-8a31-c071b38b3304" class="" dir="auto">Assim, uma única estrutura de repetição consegue acessar todas as posições.</p><hr id="3c1f6ce8-497f-80b0-a138-e7588ad8b50b" dir="auto"/><h1 id="3c1f6ce8-497f-80df-a7df-c5216980fa79" class="" dir="auto">11. Calculando a soma dos elementos</h1><p id="3c1f6ce8-497f-8092-91b7-e38dc2283502" class="" dir="auto">Podemos utilizar um vetor para armazenar números e depois calcular sua soma.</p><pre id="3c1f6ce8-497f-8041-9ea2-f1e9aa50c2a3" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">soma &lt;- 0
+
+para i de 1 até 5 faça
+    soma &lt;- soma + numeros[i]
+fimpara</code></pre><p id="3c1f6ce8-497f-8012-82a1-c544846c0bc0" class="" dir="auto">Se:</p><pre id="3c1f6ce8-497f-8050-97f0-cd03322e75bc" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">numeros = [10, 20, 30, 40, 50]</code></pre><p id="3c1f6ce8-497f-800c-94c1-d2487ed26e19" class="" dir="auto">teremos:</p><pre id="3c1f6ce8-497f-80bc-842d-c4b22854de04" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">10 + 20 + 30 + 40 + 50</code></pre><p id="3c1f6ce8-497f-80bc-be22-ca742389b854" class="" dir="auto">Resultado:</p><pre id="3c1f6ce8-497f-8099-82c8-e532badfd1b0" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">150</code></pre><hr id="3c1f6ce8-497f-80b3-aa35-d715c546c957" dir="auto"/><h1 id="3c1f6ce8-497f-80f2-b45d-fe548277695d" class="" dir="auto">12. Calculando a média</h1><p id="3c1f6ce8-497f-80af-a05e-fa8a7c035d88" class="" dir="auto">Podemos calcular a média dos valores armazenados:</p><pre id="3c1f6ce8-497f-80f6-b46d-e9e88214921d" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">soma &lt;- 0
+
+para i de 1 até 5 faça
+    soma &lt;- soma + notas[i]
+fimpara
+
+media &lt;- soma / 5</code></pre><p id="3c1f6ce8-497f-801e-a100-e941600e4c86" class="" dir="auto">Por exemplo:</p><pre id="3c1f6ce8-497f-808e-b43c-f7a1ba9905dd" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">notas = [8, 7, 10, 6, 9]</code></pre><p id="3c1f6ce8-497f-80bd-9f09-fa913daa689a" class="" dir="auto">A soma será:</p><pre id="3c1f6ce8-497f-80fa-8ae7-f50c95432182" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">40</code></pre><p id="3c1f6ce8-497f-80d1-a4f8-c2319419c492" class="" dir="auto">E:</p><pre id="3c1f6ce8-497f-8005-a995-d17cd98d8334" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">40 / 5 = 8</code></pre><p id="3c1f6ce8-497f-80ff-8b31-c7a98028943c" class="" dir="auto">Portanto:</p><pre id="3c1f6ce8-497f-80a2-90f1-fd09c9ec2186" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">media = 8</code></pre><hr id="3c1f6ce8-497f-80b0-8c65-c61fcd909f9b" dir="auto"/><h1 id="3c1f6ce8-497f-8067-adf6-c2e0f8b02344" class="" dir="auto">13. Encontrando o maior valor</h1><p id="3c1f6ce8-497f-8067-96c2-f086620e8de0" class="" dir="auto">Os vetores também podem ser utilizados para encontrar o maior elemento.</p><p id="3c1f6ce8-497f-80e6-a4c5-ca905f8cc807" class="" dir="auto">Exemplo:</p><pre id="3c1f6ce8-497f-8078-b02f-c98f97f30450" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">maior &lt;- numeros[1]
+
+para i de 2 até 5 faça
+
+    se numeros[i] &gt; maior então
+        maior &lt;- numeros[i]
+    fimse
+
+fimpara</code></pre><p id="3c1f6ce8-497f-808e-92da-eb7cf8575285" class="" dir="auto">Se:</p><pre id="3c1f6ce8-497f-803c-bbc7-d90aa899bec0" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">numeros = [15, 8, 32, 20, 10]</code></pre><p id="3c1f6ce8-497f-8080-9149-fd4f95afdcc5" class="" dir="auto">o algoritmo encontrará:</p><pre id="3c1f6ce8-497f-8074-8870-df8289b6cc44" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">32</code></pre><hr id="3c1f6ce8-497f-80ed-9473-f8bf5672de31" dir="auto"/><h1 id="3c1f6ce8-497f-8083-9b35-e64ef8860dfd" class="" dir="auto">14. Encontrando o menor valor</h1><p id="3c1f6ce8-497f-80b7-b878-e1a9134dac84" class="" dir="auto">O mesmo princípio pode ser utilizado para encontrar o menor.</p><pre id="3c1f6ce8-497f-803b-90d5-f0bfdfc99478" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">menor &lt;- numeros[1]
+
+para i de 2 até 5 faça
+
+    se numeros[i] &lt; menor então
+        menor &lt;- numeros[i]
+    fimse
+
+fimpara</code></pre><p id="3c1f6ce8-497f-80cd-8c36-f2d60cd9915a" class="" dir="auto">Para:</p><pre id="3c1f6ce8-497f-806b-b7a0-d71d820d4d47" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">[15, 8, 32, 20, 10]</code></pre><p id="3c1f6ce8-497f-803c-9ac1-edd905f491a3" class="" dir="auto">o resultado será:</p><pre id="3c1f6ce8-497f-8059-aadf-cc82ad81e001" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">8</code></pre><hr id="3c1f6ce8-497f-808e-b11f-f20e647aac34" dir="auto"/><h1 id="3c1f6ce8-497f-80e8-b36d-f3c411eddb40" class="" dir="auto">15. Pesquisa em um vetor</h1><p id="3c1f6ce8-497f-80cc-ac82-edcd61b273a5" class="" dir="auto">Podemos procurar um determinado valor dentro do vetor.</p><p id="3c1f6ce8-497f-80ff-bff8-db96a5de4de1" class="" dir="auto">Por exemplo:</p><pre id="3c1f6ce8-497f-80ec-bc13-d17c19f420c1" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">numeros = [10, 20, 30, 40, 50]</code></pre><p id="3c1f6ce8-497f-80a2-9154-f32a17ffc3fc" class="" dir="auto">Queremos encontrar <code>30</code>.</p><p id="3c1f6ce8-497f-80e4-ab4c-d43554093ee0" class="" dir="auto">Podemos utilizar:</p><pre id="3c1f6ce8-497f-8096-86e8-c153d4e41ffb" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">encontrado &lt;- falso
+
+para i de 1 até 5 faça
+
+    se numeros[i] == 30 então
+        encontrado &lt;- verdadeiro
+    fimse
+
+fimpara</code></pre><p id="3c1f6ce8-497f-80ff-963a-ee5b790dd161" class="" dir="auto">No final:</p><pre id="3c1f6ce8-497f-80a3-b570-e7d54a1aa770" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">encontrado = verdadeiro</code></pre><hr id="3c1f6ce8-497f-807b-9273-ccb0818257a3" dir="auto"/><h1 id="3c1f6ce8-497f-80fd-920f-c81ae610edf3" class="" dir="auto">16. Descobrindo a posição de um elemento</h1><p id="3c1f6ce8-497f-803e-84bb-e26e3e1faa70" class="" dir="auto">Podemos também descobrir <strong>onde</strong> o elemento está.</p><pre id="3c1f6ce8-497f-80a2-9bd8-f35869e3f207" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">posicao &lt;- -1
+
+para i de 1 até 5 faça
+
+    se numeros[i] == 30 então
+        posicao &lt;- i
+    fimse
+
+fimpara</code></pre><p id="3c1f6ce8-497f-800d-9a41-ccd8a6373246" class="" dir="auto">Se:</p><pre id="3c1f6ce8-497f-806d-a728-f525352f56ee" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">numeros = [10, 20, 30, 40, 50]</code></pre><p id="3c1f6ce8-497f-80ef-85dc-f1145484e83c" class="" dir="auto">teremos:</p><pre id="3c1f6ce8-497f-805a-9504-d21eab61c129" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">posicao = 3</code></pre><p id="3c1f6ce8-497f-80d4-9b1f-c6e57ef5902c" class="" dir="auto">Isso significa que <code>30</code> está na terceira posição.</p><hr id="3c1f6ce8-497f-80d7-9deb-c4a98370634f" dir="auto"/><h1 id="3c1f6ce8-497f-809f-b522-c626d1610064" class="" dir="auto">17. Contando elementos que atendem a uma condição</h1><p id="3c1f6ce8-497f-8005-8841-d5d3e37c1813" class="" dir="auto">Podemos utilizar um vetor para descobrir quantos valores são maiores que determinado número.</p><pre id="3c1f6ce8-497f-806d-88b5-dead7813ec5e" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">contador &lt;- 0
+
+para i de 1 até 10 faça
+
+    se numeros[i] &gt; 50 então
+        contador &lt;- contador + 1
+    fimse
+
+fimpara</code></pre><p id="3c1f6ce8-497f-800c-8a64-d36af39ffed5" class="" dir="auto">Aqui utilizamos:</p><ul id="3c1f6ce8-497f-8041-a1ca-d64465975961" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Vetor;</li></ul><ul id="3c1f6ce8-497f-80fd-9d0b-c1c6704915e4" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Estrutura de repetição;</li></ul><ul id="3c1f6ce8-497f-80dd-a182-ed31730cb958" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Estrutura condicional;</li></ul><ul id="3c1f6ce8-497f-8067-8ae8-c0b18c76ca58" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Contador.</li></ul><p id="3c1f6ce8-497f-80b5-a215-f508c0aeec19" class="" dir="auto">Essa combinação é muito comum em algoritmos.</p><hr id="3c1f6ce8-497f-80fb-8e37-f87843328b32" dir="auto"/><h1 id="3c1f6ce8-497f-80bd-9063-fa73c50927d7" class="" dir="auto">18. Exemplo: notas dos alunos</h1><p id="3c1f6ce8-497f-8012-ba84-c16df4f37e4f" class="" dir="auto">Imagine:</p><pre id="3c1f6ce8-497f-8015-9c7a-dad111c73716" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">notas = [8, 5, 9, 4, 7]</code></pre><p id="3c1f6ce8-497f-8041-94eb-d9b041e33930" class="" dir="auto">Podemos verificar quais alunos foram aprovados:</p><pre id="3c1f6ce8-497f-80b5-a891-f613e7a0d3d9" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">para i de 1 até 5 faça
+
+    se notas[i] &gt;= 7 então
+        escreva(&quot;Aluno &quot;, i, &quot;: aprovado&quot;)
+    senao
+        escreva(&quot;Aluno &quot;, i, &quot;: reprovado&quot;)
+    fimse
+
+fimpara</code></pre><p id="3c1f6ce8-497f-80bf-ba0a-e33ef059f327" class="" dir="auto">Resultado:</p><pre id="3c1f6ce8-497f-804b-93d5-d8fe1401a004" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Aluno 1: aprovado
+Aluno 2: reprovado
+Aluno 3: aprovado
+Aluno 4: reprovado
+Aluno 5: aprovado</code></pre><hr id="3c1f6ce8-497f-8038-ada2-de2349317c4f" dir="auto"/><h1 id="3c1f6ce8-497f-80e6-9771-cc8d3f768847" class="" dir="auto">19. Alterando um elemento</h1><p id="3c1f6ce8-497f-801e-a597-f95916c92520" class="" dir="auto">Podemos modificar uma posição específica.</p><p id="3c1f6ce8-497f-80ee-9ccd-d027828d9eee" class="" dir="auto">Inicialmente:</p><pre id="3c1f6ce8-497f-8033-91f9-cbf151600f39" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">numeros = [10, 20, 30, 40, 50]</code></pre><p id="3c1f6ce8-497f-8093-a3ef-de53100b54b8" class="" dir="auto">Podemos fazer:</p><pre id="3c1f6ce8-497f-80cb-9ddc-d429e631b240" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">numeros[3] &lt;- 100</code></pre><p id="3c1f6ce8-497f-8026-81ad-fec79fdff6a7" class="" dir="auto">Agora:</p><pre id="3c1f6ce8-497f-8028-91b9-f98fe05ffc45" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">numeros = [10, 20, 100, 40, 50]</code></pre><p id="3c1f6ce8-497f-8020-b4d8-ecb23519283c" class="" dir="auto">Somente o terceiro elemento foi alterado.</p><hr id="3c1f6ce8-497f-8005-939d-c7d848576934" dir="auto"/><h1 id="3c1f6ce8-497f-8084-b104-cedee69bc3c2" class="" dir="auto">20. Vetores e memória</h1><p id="3c1f6ce8-497f-8032-8a8b-fef4b2174123" class="" dir="auto">Um vetor normalmente armazena seus elementos em posições relacionadas na memória.</p><p id="3c1f6ce8-497f-801f-a398-e025a7063011" class="" dir="auto">Podemos imaginar:</p><pre id="3c1f6ce8-497f-8054-873d-ddcc3aee1a38" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">+------+-------+
+| Índice | Valor |
++------+-------+
+|  0   |  10   |
+|  1   |  20   |
+|  2   |  30   |
+|  3   |  40   |
+|  4   |  50   |
++------+-------+</code></pre><p id="3c1f6ce8-497f-8031-80cb-c3e84129249b" class="" dir="auto">Isso permite que o programa identifique cada elemento por meio de seu índice.</p><p id="3c1f6ce8-497f-8000-ba4c-dec60af63f4e" class="" dir="auto">Em muitas linguagens, o acesso direto a uma posição de um vetor é muito eficiente.</p><hr id="3c1f6ce8-497f-80b0-8261-ce4b6d031af7" dir="auto"/><h1 id="3c1f6ce8-497f-80d3-8761-ce7efa87b209" class="" dir="auto">21. Vetores de caracteres</h1><p id="3c1f6ce8-497f-80fa-a636-fb3894238750" class="" dir="auto">Um vetor também pode armazenar textos ou caracteres, dependendo da linguagem.</p><p id="3c1f6ce8-497f-80d9-8be7-fe6e20a44eb2" class="" dir="auto">Por exemplo:</p><pre id="3c1f6ce8-497f-80ce-ac30-cec413f49407" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">nomes[1] &lt;- &quot;Ana&quot;
+nomes[2] &lt;- &quot;Carlos&quot;
+nomes[3] &lt;- &quot;Gusta&quot;
+nomes[4] &lt;- &quot;João&quot;</code></pre><p id="3c1f6ce8-497f-80d1-9963-def043b5c89d" class="" dir="auto">Podemos percorrê-lo:</p><pre id="3c1f6ce8-497f-805d-bbfd-c9b0d9de1d0e" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">para i de 1 até 4 faça
+    escreva(nomes[i])
+fimpara</code></pre><p id="3c1f6ce8-497f-805b-a68e-d48f90fcf7b3" class="" dir="auto">Resultado:</p><pre id="3c1f6ce8-497f-804d-ba8d-ce8e55d7ab08" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Ana
+Carlos
+Gusta
+João</code></pre><hr id="3c1f6ce8-497f-8032-a8b7-c23d43241a62" dir="auto"/><h1 id="3c1f6ce8-497f-8078-bb58-c300e0316714" class="" dir="auto">22. Vetores e funções</h1><p id="3c1f6ce8-497f-8054-bb24-f7449d3b7793" class="" dir="auto">Podemos enviar vetores para funções ou procedimentos.</p><p id="3c1f6ce8-497f-806f-ac6e-f285b45e24ec" class="" dir="auto">Por exemplo:</p><pre id="3c1f6ce8-497f-808f-b269-c47be6729fe1" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">função calcularMedia(notas, quantidade)
+
+    soma &lt;- 0
+
+    para i de 1 até quantidade faça
+        soma &lt;- soma + notas[i]
+    fimpara
+
+    retorne soma / quantidade
+
+fimfunção</code></pre><p id="3c1f6ce8-497f-80c5-9efb-dbe3040a201f" class="" dir="auto">Podemos então utilizar:</p><pre id="3c1f6ce8-497f-80e3-9701-f8c8f063fcba" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">notas = [8, 7, 9, 10]
+
+media &lt;- calcularMedia(notas, 4)</code></pre><p id="3c1f6ce8-497f-8062-a5f3-f5aeb0edfce4" class="" dir="auto">Resultado:</p><pre id="3c1f6ce8-497f-80fd-bc44-c775ddc9dccb" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">8,5</code></pre><p id="3c1f6ce8-497f-8034-a4b5-e27eb7545966" class="" dir="auto">Isso permite criar funções bastante reutilizáveis.</p><hr id="3c1f6ce8-497f-804a-9054-e998d70b70b4" dir="auto"/><h1 id="3c1f6ce8-497f-80f8-afc6-e7bf3a974103" class="" dir="auto">23. Vetores e procedimentos</h1><p id="3c1f6ce8-497f-8014-86ae-db4f13a054e8" class="" dir="auto">Também podemos criar procedimentos para exibir os elementos:</p><pre id="3c1f6ce8-497f-804e-9ae7-f89565f8bce5" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">procedimento mostrarVetor(vetor, quantidade)
+
+    para i de 1 até quantidade faça
+        escreva(vetor[i])
+    fimpara
+
+fimprocedimento</code></pre><p id="3c1f6ce8-497f-8077-bbde-cbed58df75b8" class="" dir="auto">Chamada:</p><pre id="3c1f6ce8-497f-80f8-9932-c470cfa4b625" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">mostrarVetor(numeros, 5)</code></pre><hr id="3c1f6ce8-497f-80cc-b60a-fc949348f6e8" dir="auto"/><h1 id="3c1f6ce8-497f-8099-b886-e0b1e2e944bb" class="" dir="auto">24. Vetores de tamanho fixo</h1><p id="3c1f6ce8-497f-806d-a0f0-dbb3bc68193c" class="" dir="auto">Em algumas linguagens, podemos criar vetores com tamanho definido.</p><p id="3c1f6ce8-497f-809d-81e1-c6119706fe1b" class="" dir="auto">Por exemplo:</p><pre id="3c1f6ce8-497f-80ab-bbf6-dc38388c5536" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">notas[1..10]</code></pre><p id="3c1f6ce8-497f-8006-bff4-fc32f45926bc" class="" dir="auto">Nesse caso, existem 10 posições.</p><p id="3c1f6ce8-497f-80d1-a58b-e344c70f5f59" class="" dir="auto">Podemos representar:</p><pre id="3c1f6ce8-497f-8010-af26-d91408bb63f3" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">[ _ ][ _ ][ _ ][ _ ][ _ ][ _ ][ _ ][ _ ][ _ ][ _ ]</code></pre><p id="3c1f6ce8-497f-80fd-9290-e368e8df288e" class="" dir="auto">Cada posição poderá receber um valor.</p><hr id="3c1f6ce8-497f-8000-8a71-efeef57b7ee1" dir="auto"/><h1 id="3c1f6ce8-497f-80df-8762-ead0f967aa9d" class="" dir="auto">25. Vetores dinâmicos</h1><p id="3c1f6ce8-497f-80ac-9bf8-e40775867942" class="" dir="auto">Algumas linguagens possuem estruturas semelhantes aos vetores que podem <strong>aumentar ou diminuir de tamanho durante a execução</strong>.</p><p id="3c1f6ce8-497f-8087-b4cc-dcbd9f7b8499" class="" dir="auto">Por exemplo, em JavaScript:</p><pre id="3c1f6ce8-497f-80dc-bbb1-d7840c2df047" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">let numeros = [10, 20, 30];
+
+numeros.push(40);</code></pre><p id="3c1f6ce8-497f-8016-8c76-c9b9bf560a44" class="" dir="auto">Agora:</p><pre id="3c1f6ce8-497f-8022-b93a-db1c1d913132" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">[10, 20, 30, 40]</code></pre><p id="3c1f6ce8-497f-80aa-84b7-fd6337866aac" class="" dir="auto">Em Python:</p><pre id="3c1f6ce8-497f-80fd-8b2d-d5f37726a789" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">numeros = [10, 20, 30]
+
+numeros.append(40)</code></pre><p id="3c1f6ce8-497f-80ae-b463-e089784652de" class="" dir="auto">Resultado:</p><pre id="3c1f6ce8-497f-805e-86a5-f67edb4093a6" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">[10, 20, 30, 40]</code></pre><p id="3c1f6ce8-497f-80d1-8135-f0453dd7e330" class="" dir="auto">Portanto, o conceito de vetor pode ser implementado de maneiras diferentes dependendo da linguagem.</p><hr id="3c1f6ce8-497f-80b5-88ba-fa4b89134ec2" dir="auto"/><h1 id="3c1f6ce8-497f-80d7-8968-ddf80311a446" class="" dir="auto">26. Vetores e listas</h1><p id="3c1f6ce8-497f-80a0-bf73-ee6da61b8ea4" class="" dir="auto">É importante entender que <strong>vetor e lista não são necessariamente a mesma estrutura</strong>, embora muitas vezes sejam usados de maneira semelhante.</p><p id="3c1f6ce8-497f-8026-85c5-d0df50f62ae2" class="" dir="auto">Um vetor tradicional geralmente possui:</p><ul id="3c1f6ce8-497f-80aa-99a7-f26e8e466b83" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Elementos organizados por índice;</li></ul><ul id="3c1f6ce8-497f-8084-a912-e76c2ed72403" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Tamanho definido ou características mais rígidas;</li></ul><ul id="3c1f6ce8-497f-804d-981b-eba324be6fd4" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Elementos normalmente do mesmo tipo em linguagens tipadas.</li></ul><p id="3c1f6ce8-497f-806d-81ac-d52efb154a66" class="" dir="auto">Uma lista geralmente possui maior flexibilidade, dependendo da linguagem.</p><p id="3c1f6ce8-497f-8076-a204-c1576fff272a" class="" dir="auto">Por exemplo, Python utiliza principalmente a estrutura <code>list</code>:</p><pre id="3c1f6ce8-497f-80bf-b7f7-c35c664e9431" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">numeros = [10, 20, 30]</code></pre><p id="3c1f6ce8-497f-8077-8785-ee986f0fb24d" class="" dir="auto">Java possui arrays tradicionais:</p><pre id="3c1f6ce8-497f-8026-ad95-f71aeab95986" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">int[] numeros = {10, 20, 30};</code></pre><p id="3c1f6ce8-497f-801e-b7ef-cb52caaeb710" class="" dir="auto">E também possui estruturas como <code>ArrayList</code>.</p><hr id="3c1f6ce8-497f-80c3-8fc6-e734335d10bc" dir="auto"/><h1 id="3c1f6ce8-497f-803a-916c-f0c89c64ea9c" class="" dir="auto">27. Vetores e algoritmos de busca</h1><p id="3c1f6ce8-497f-8090-bad7-e00fe4db8048" class="" dir="auto">Os vetores são fundamentais para algoritmos de busca.</p><p id="3c1f6ce8-497f-808b-8e7d-ebd6c423a976" class="" dir="auto">A busca mais simples é a <strong>busca linear</strong>.</p><p id="3c1f6ce8-497f-80f0-a52d-e5d0b46223b6" class="" dir="auto">Imagine:</p><pre id="3c1f6ce8-497f-80c7-a78e-e0e7dcde5548" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">[15, 8, 20, 30, 42]</code></pre><p id="3c1f6ce8-497f-8054-8934-fb9a2fc91044" class="" dir="auto">Queremos encontrar:</p><pre id="3c1f6ce8-497f-80ed-b486-c4c2a61452e1" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">30</code></pre><p id="3c1f6ce8-497f-80da-b596-ce11398011e0" class="" dir="auto">O algoritmo verifica:</p><pre id="3c1f6ce8-497f-80ed-9f43-edf1c315f3e2" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">15 → não
+8  → não
+20 → não
+30 → sim</code></pre><p id="3c1f6ce8-497f-80c4-afb8-ec251c172309" class="" dir="auto">Quando encontra o valor, podemos interromper a busca.</p><p id="3c1f6ce8-497f-80ac-a5c5-f1299f3be727" class="" dir="auto">Pseudocódigo:</p><pre id="3c1f6ce8-497f-8033-bf42-c86a1349887a" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">para i de 1 até 5 faça
+
+    se vetor[i] == valorProcurado então
+        escreva(&quot;Encontrado na posição &quot;, i)
+        pare
+    fimse
+
+fimpara</code></pre><p id="3c1f6ce8-497f-8040-ba16-e46e550fb194" class="" dir="auto">A busca linear é um dos primeiros algoritmos importantes que utilizam vetores.</p><hr id="3c1f6ce8-497f-80bf-bf71-c343514c4135" dir="auto"/><h1 id="3c1f6ce8-497f-80d9-b5ab-e7e7ca82bdf2" class="" dir="auto">28. Vetores e ordenação</h1><p id="3c1f6ce8-497f-80b3-84dd-e4b93cf58635" class="" dir="auto">Também podemos utilizar vetores para implementar algoritmos de ordenação.</p><p id="3c1f6ce8-497f-8052-be8e-da083b8ebc27" class="" dir="auto">Por exemplo:</p><pre id="3c1f6ce8-497f-80dc-9736-ed06223eb667" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">[5, 2, 8, 1, 3]</code></pre><p id="3c1f6ce8-497f-8073-937c-c8480f717d69" class="" dir="auto">Pode ser ordenado para:</p><pre id="3c1f6ce8-497f-8050-82ac-cc8cc021d200" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">[1, 2, 3, 5, 8]</code></pre><p id="3c1f6ce8-497f-80dc-a32a-c2b09a35df4d" class="" dir="auto">Algoritmos clássicos de ordenação incluem:</p><ul id="3c1f6ce8-497f-80a1-ba46-cd42c6410e3e" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Bubble Sort;</li></ul><ul id="3c1f6ce8-497f-80cb-9f63-cf3022e640a8" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Selection Sort;</li></ul><ul id="3c1f6ce8-497f-80e5-8f07-fb1910d93e65" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Insertion Sort;</li></ul><ul id="3c1f6ce8-497f-802c-ba07-df6c22ccac81" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Merge Sort;</li></ul><ul id="3c1f6ce8-497f-80c8-901c-c5ba5562dc85" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Quick Sort.</li></ul><p id="3c1f6ce8-497f-80d2-8833-ee58817c584e" class="" dir="auto">Os vetores são estruturas fundamentais para estudar esses algoritmos.</p><hr id="3c1f6ce8-497f-809c-a72f-c8bb1881c532" dir="auto"/><h1 id="3c1f6ce8-497f-8065-8b3f-d6414ebcad3d" class="" dir="auto">29. Vetores multidimensionais</h1><p id="3c1f6ce8-497f-80dc-8fe0-ed276ded610e" class="" dir="auto">Quando temos mais de uma dimensão, passamos a trabalhar com estruturas como <strong>matrizes</strong>.</p><p id="3c1f6ce8-497f-807c-b77d-d779173c2aac" class="" dir="auto">Um vetor possui uma dimensão:</p><pre id="3c1f6ce8-497f-80a2-adf1-ec46f836ee49" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">[10, 20, 30, 40]</code></pre><p id="3c1f6ce8-497f-801c-bd71-f201129f8b0a" class="" dir="auto">Uma matriz possui duas:</p><pre id="3c1f6ce8-497f-80af-a881-db9142702cf7" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">[ 10  20  30 ]
+[ 40  50  60 ]
+[ 70  80  90 ]</code></pre><p id="3c1f6ce8-497f-8097-a89e-de2c83309e7b" class="" dir="auto">Podemos acessar utilizando dois índices:</p><pre id="3c1f6ce8-497f-80cb-913f-d7a8351261be" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">matriz[linha][coluna]</code></pre><p id="3c1f6ce8-497f-80db-9a79-c3a61664cfd1" class="" dir="auto">Por exemplo:</p><pre id="3c1f6ce8-497f-809d-878d-d89f90b8ce5b" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">matriz[2][3]</code></pre><p id="3c1f6ce8-497f-80a4-a257-e720454820ee" class="" dir="auto">representaria a segunda linha e terceira coluna, dependendo da convenção de índices da linguagem.</p><p id="3c1f6ce8-497f-80fe-a270-c20efe99ac3d" class="" dir="auto">As matrizes são, portanto, uma extensão do conceito de estruturas indexadas para mais de uma dimensão.</p><hr id="3c1f6ce8-497f-808f-a57a-fd1630bc4297" dir="auto"/><h1 id="3c1f6ce8-497f-800c-9668-c745ce9a4a7f" class="" dir="auto">30. Vetores e estruturas de repetição</h1><p id="3c1f6ce8-497f-80a7-959f-e7a04acfd389" class="" dir="auto">Uma das combinações mais importantes da lógica de programação é:</p><pre id="3c1f6ce8-497f-80c0-a8b6-c8bc70831c3c" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Vetor + Repetição + Condição</code></pre><p id="3c1f6ce8-497f-80f9-ab60-f4c0d1173389" class="" dir="auto">Por exemplo:</p><pre id="3c1f6ce8-497f-8007-afb9-c9ecde2f58f9" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">para i de 1 até 10 faça
+
+    se numeros[i] &gt; 0 então
+        escreva(&quot;Positivo&quot;)
+    senao
+        escreva(&quot;Negativo&quot;)
+    fimse
+
+fimpara</code></pre><p id="3c1f6ce8-497f-80d0-83b1-f6767bb511be" class="" dir="auto">Essa combinação permite resolver uma enorme quantidade de problemas.</p><hr id="3c1f6ce8-497f-80a4-927b-ed055f8e7681" dir="auto"/><h1 id="3c1f6ce8-497f-8016-a2c8-d3b31977cbf5" class="" dir="auto">31. Exemplo completo</h1><p id="3c1f6ce8-497f-8007-b810-c6a6621821f6" class="" dir="auto">Vamos criar um algoritmo que:</p><ol type="1" id="3c1f6ce8-497f-80a0-8ce8-db9ff6f96558" class="numbered-list" start="1" dir="auto"><li>Recebe 5 números;</li></ol><ol type="1" id="3c1f6ce8-497f-803a-abee-d9d536f776a9" class="numbered-list" start="2" dir="auto"><li>Armazena-os em um vetor;</li></ol><ol type="1" id="3c1f6ce8-497f-8066-91c9-d08dd7b7af5b" class="numbered-list" start="3" dir="auto"><li>Calcula a soma;</li></ol><ol type="1" id="3c1f6ce8-497f-80fb-8d29-e66d25561388" class="numbered-list" start="4" dir="auto"><li>Calcula a média;</li></ol><ol type="1" id="3c1f6ce8-497f-8008-993e-ccaf5652a04e" class="numbered-list" start="5" dir="auto"><li>Encontra o maior número;</li></ol><ol type="1" id="3c1f6ce8-497f-80f6-a8fa-f70afa006eaf" class="numbered-list" start="6" dir="auto"><li>Encontra o menor número.</li></ol><pre id="3c1f6ce8-497f-8001-aa62-de293ee84d10" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">algoritmo &quot;AnaliseVetor&quot;
+
+var
+    numeros: vetor[1..5] de inteiro
+    i, soma, maior, menor: inteiro
+    media: real
+
+inicio
+
+    soma &lt;- 0
+
+    para i de 1 até 5 faça
+        escreva(&quot;Digite o &quot;, i, &quot;º número: &quot;)
+        leia(numeros[i])
+    fimpara
+
+    maior &lt;- numeros[1]
+    menor &lt;- numeros[1]
+
+    para i de 1 até 5 faça
+
+        soma &lt;- soma + numeros[i]
+
+        se numeros[i] &gt; maior então
+            maior &lt;- numeros[i]
+        fimse
+
+        se numeros[i] &lt; menor então
+            menor &lt;- numeros[i]
+        fimse
+
+    fimpara
+
+    media &lt;- soma / 5
+
+    escreva(&quot;Soma: &quot;, soma)
+    escreva(&quot;Média: &quot;, media)
+    escreva(&quot;Maior: &quot;, maior)
+    escreva(&quot;Menor: &quot;, menor)
+
+fimalgoritmo</code></pre><p id="3c1f6ce8-497f-80bb-832c-ec2e2dbc1cff" class="" dir="auto">Esse exemplo reúne vários conceitos:</p><pre id="3c1f6ce8-497f-80c7-819b-c3f3ac0a2b6e" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Vetor
+  +
+Repetição
+  +
+Condição
+  +
+Acumulador
+  +
+Comparação</code></pre><hr id="3c1f6ce8-497f-80ff-8d9e-f5e44ae37907" dir="auto"/><h1 id="3c1f6ce8-497f-80f1-ba6f-f741e6982504" class="" dir="auto">32. Erros comuns ao trabalhar com vetores</h1><h2 id="3c1f6ce8-497f-80f6-b8f9-e5ce2efb5f00" class="" dir="auto">32.1 Acessar uma posição inexistente</h2><p id="3c1f6ce8-497f-8089-a57e-c836277bb89a" class="" dir="auto">Se temos:</p><pre id="3c1f6ce8-497f-80db-9793-c0ad8f6466e3" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">numeros[1..5]</code></pre><p id="3c1f6ce8-497f-8052-bfb9-c866320c6916" class="" dir="auto">não podemos acessar:</p><pre id="3c1f6ce8-497f-8022-a765-e1be575ce282" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">numeros[6]</code></pre><p id="3c1f6ce8-497f-808c-984c-fcfd30580c88" class="" dir="auto">Isso representa uma posição que não existe.</p><p id="3c1f6ce8-497f-80ee-90f0-ee58a44db7a7" class="" dir="auto">Dependendo da linguagem, isso pode gerar um erro ou comportamento inesperado.</p><hr id="3c1f6ce8-497f-804b-97b6-e738a2946c78" dir="auto"/><h2 id="3c1f6ce8-497f-80ef-8e6b-e3c413f6d4a4" class="" dir="auto">32.2 Confundir índice com valor</h2><p id="3c1f6ce8-497f-80a7-bbb1-d2d5cbbf4373" class="" dir="auto">Considere:</p><pre id="3c1f6ce8-497f-80aa-b756-eb7867d848a4" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">[10, 20, 30]</code></pre><p id="3c1f6ce8-497f-8097-9b37-da62f1e49681" class="" dir="auto">O índice não é o valor.</p><p id="3c1f6ce8-497f-80bf-9052-cd46c67527b8" class="" dir="auto">Por exemplo:</p><pre id="3c1f6ce8-497f-80c3-bdb6-c5dc97748cff" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">vetor[2]</code></pre><p id="3c1f6ce8-497f-800e-b2ef-e01443d62d3c" class="" dir="auto">significa:</p><blockquote id="3c1f6ce8-497f-80bd-9538-d8c5e3ada7a5" class="" dir="auto">A posição 2.</blockquote><p id="3c1f6ce8-497f-8011-8cf8-d49d647af29b" class="" dir="auto">O valor armazenado nessa posição pode ser:</p><pre id="3c1f6ce8-497f-8089-8267-ef0dd97706a8" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">20</code></pre><hr id="3c1f6ce8-497f-80d8-8145-e73da67b95ee" dir="auto"/><h2 id="3c1f6ce8-497f-8026-b592-f90407390ee4" class="" dir="auto">32.3 Erro de limite</h2><p id="3c1f6ce8-497f-80d7-8c66-ccabf7e589e1" class="" dir="auto">Um erro muito comum é percorrer o vetor além do seu tamanho.</p><p id="3c1f6ce8-497f-80fc-a038-dfc6ba0320bb" class="" dir="auto">Por exemplo:</p><pre id="3c1f6ce8-497f-80d9-b23b-fc5fff5db2bc" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">para i de 1 até 10</code></pre><p id="3c1f6ce8-497f-80ee-87b2-e5c65df60724" class="" dir="auto">quando o vetor possui somente 5 elementos.</p><p id="3c1f6ce8-497f-80f9-a15a-fe0bdddd1855" class="" dir="auto">Isso pode causar acesso inválido.</p><hr id="3c1f6ce8-497f-800a-a289-e40087dbe8a9" dir="auto"/><h2 id="3c1f6ce8-497f-8099-b816-d4a640b48f45" class="" dir="auto">32.4 Esquecer a inicialização</h2><p id="3c1f6ce8-497f-80c7-b557-d85829f7e5e7" class="" dir="auto">Se queremos calcular uma soma:</p><pre id="3c1f6ce8-497f-8004-a672-f3f3c2f7b84f" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">soma &lt;- 0</code></pre><p id="3c1f6ce8-497f-804a-a4f4-e3e2b29a2acd" class="" dir="auto">é importante inicializar o acumulador antes de começar a repetição.</p><hr id="3c1f6ce8-497f-80ba-9a13-c4646576003d" dir="auto"/><h1 id="3c1f6ce8-497f-8045-aeeb-e9a66b4dec2c" class="" dir="auto">33. Vantagens dos vetores</h1><p id="3c1f6ce8-497f-80d2-b1d3-f1b3cd1540b8" class="" dir="auto">Os vetores oferecem várias vantagens:</p><ul id="3c1f6ce8-497f-8083-8ef2-f3791060e6c4" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Permitem armazenar muitos valores em uma única estrutura;</li></ul><ul id="3c1f6ce8-497f-8008-80fd-d2a5545451c6" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Facilitam o processamento de grandes quantidades de dados;</li></ul><ul id="3c1f6ce8-497f-8094-9dd1-edd6a71ff2e2" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Permitem acesso por índice;</li></ul><ul id="3c1f6ce8-497f-8022-92a3-db930bce1127" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Funcionam muito bem com estruturas de repetição;</li></ul><ul id="3c1f6ce8-497f-80a5-a439-e6718848b537" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Facilitam algoritmos de busca;</li></ul><ul id="3c1f6ce8-497f-8086-8c8c-eb9558272696" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Facilitam algoritmos de ordenação;</li></ul><ul id="3c1f6ce8-497f-802c-a11f-d40b48fea108" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Melhoram a organização dos dados;</li></ul><ul id="3c1f6ce8-497f-80d6-9d7e-e758c52154af" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Permitem criar estruturas mais complexas.</li></ul><hr id="3c1f6ce8-497f-8095-9bc5-f8a65f58e498" dir="auto"/><h1 id="3c1f6ce8-497f-8016-ac8d-f9af82bc2293" class="" dir="auto">34. Limitações dos vetores</h1><p id="3c1f6ce8-497f-80f9-85f9-ed02ad6387f1" class="" dir="auto">Dependendo da implementação, os vetores tradicionais também podem apresentar limitações.</p><h3 id="3c1f6ce8-497f-8076-96f5-d97c54e21d92" class="" dir="auto">Tamanho fixo</h3><p id="3c1f6ce8-497f-8092-8f5c-e01a23e8a143" class="" dir="auto">Em algumas linguagens, o tamanho precisa ser definido no momento da criação.</p><h3 id="3c1f6ce8-497f-80fc-a2cc-e193b6b86fb5" class="" dir="auto">Tipo dos elementos</h3><p id="3c1f6ce8-497f-80af-9aba-c464240c780d" class="" dir="auto">Em linguagens fortemente tipadas, os elementos geralmente precisam possuir o mesmo tipo.</p><h3 id="3c1f6ce8-497f-805f-820a-fea43e7d2080" class="" dir="auto">Inserções e remoções</h3><p id="3c1f6ce8-497f-8012-91a2-f747bd9a8fc5" class="" dir="auto">Inserir ou remover elementos no meio de um vetor pode exigir movimentação de outros elementos, dependendo da implementação.</p><p id="3c1f6ce8-497f-801d-872b-e444cc7301c2" class="" dir="auto">Por isso, existem outras estruturas de dados, como:</p><ul id="3c1f6ce8-497f-80ee-a4b1-c92b0c244f5f" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Listas;</li></ul><ul id="3c1f6ce8-497f-807f-93f6-f4676afce2cd" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Pilhas;</li></ul><ul id="3c1f6ce8-497f-8029-a4c7-c380e931fbb6" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Filas;</li></ul><ul id="3c1f6ce8-497f-807b-a918-e34a88288367" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Árvores;</li></ul><ul id="3c1f6ce8-497f-80b0-af37-d5238853f3f9" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Tabelas hash;</li></ul><ul id="3c1f6ce8-497f-80c9-b8ac-e6e0ef68cd23" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Grafos.</li></ul><p id="3c1f6ce8-497f-80f9-8400-d32010cd5e75" class="" dir="auto">Cada uma é adequada para diferentes tipos de problemas.</p><hr id="3c1f6ce8-497f-8002-b56c-c0c8c96501b5" dir="auto"/><h1 id="3c1f6ce8-497f-80b6-96aa-e354735160f5" class="" dir="auto">35. Vetores na programação</h1><p id="3c1f6ce8-497f-8071-ad6e-d2fcd655a267" class="" dir="auto">O conceito de vetor aparece praticamente em todas as linguagens.</p><h3 id="3c1f6ce8-497f-8055-9e51-fd8f108bdff9" class="" dir="auto">PHP</h3><pre id="3c1f6ce8-497f-80ae-a89c-db7ada5f49c1" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">$numeros = [10, 20, 30, 40];
+echo $numeros[2];</code></pre><h3 id="3c1f6ce8-497f-807f-a433-d9950f945d5e" class="" dir="auto">JavaScript</h3><pre id="3c1f6ce8-497f-8034-b3d0-cbe297307d09" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">let numeros = [10, 20, 30, 40];
+
+console.log(numeros[2]);</code></pre><h3 id="3c1f6ce8-497f-808c-a84e-c986717120aa" class="" dir="auto">Python</h3><pre id="3c1f6ce8-497f-80c8-96a6-d74811c2b6e8" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">numeros = [10, 20, 30, 40]
+
+print(numeros[2])</code></pre><h3 id="3c1f6ce8-497f-8029-af55-c4f33c44a81f" class="" dir="auto">Java</h3><pre id="3c1f6ce8-497f-80b0-952c-d00d2da4ab2b" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">int[] numeros = {10, 20, 30, 40};
+
+System.out.println(numeros[2]);</code></pre><p id="3c1f6ce8-497f-8067-a3c4-ec516011182e" class="" dir="auto">Nas linguagens que utilizam índices começando em <code>0</code>, o resultado de <code>[2]</code> será <code>30</code>.</p><hr id="3c1f6ce8-497f-80a3-b801-f4797b35db9e" dir="auto"/><h1 id="3c1f6ce8-497f-80f5-b7e3-f8bcfab24571" class="" dir="auto">36. Resumo dos principais conceitos</h1><table id="3c1f6ce8-497f-80ae-bb19-d66c24209cb2" class="simple-table" dir="ltr"><thead class="simple-table-header"><tr id="3c1f6ce8-497f-80cf-a468-d9ba1ec4ebcd" dir="ltr"><th id="Eg&gt;j" class="simple-table-header-color simple-table-header">Conceito</th><th id="`n|K" class="simple-table-header-color simple-table-header">Significado</th></tr></thead><tbody><tr id="3c1f6ce8-497f-8058-abba-dcf56de69ff1" dir="ltr"><td id="Eg&gt;j" class=""><strong>Vetor</strong></td><td id="`n|K" class="">Estrutura que armazena vários elementos</td></tr><tr id="3c1f6ce8-497f-8010-99a6-ebaa6185fc23" dir="ltr"><td id="Eg&gt;j" class=""><strong>Elemento</strong></td><td id="`n|K" class="">Um valor armazenado no vetor</td></tr><tr id="3c1f6ce8-497f-809c-9b78-f4e81382fd95" dir="ltr"><td id="Eg&gt;j" class=""><strong>Índice</strong></td><td id="`n|K" class="">Identifica a posição do elemento</td></tr><tr id="3c1f6ce8-497f-8012-a1f1-d80e1ec10c75" dir="ltr"><td id="Eg&gt;j" class=""><strong>Posição</strong></td><td id="`n|K" class="">Local onde o elemento está armazenado</td></tr><tr id="3c1f6ce8-497f-80ca-8187-d19c03865047" dir="ltr"><td id="Eg&gt;j" class=""><strong>Percorrer</strong></td><td id="`n|K" class="">Acessar os elementos, normalmente usando repetição</td></tr><tr id="3c1f6ce8-497f-8069-b117-c471b3c81460" dir="ltr"><td id="Eg&gt;j" class=""><strong>Busca</strong></td><td id="`n|K" class="">Procurar um determinado elemento</td></tr><tr id="3c1f6ce8-497f-8092-a354-eb9fd9416792" dir="ltr"><td id="Eg&gt;j" class=""><strong>Ordenação</strong></td><td id="`n|K" class="">Organizar os elementos</td></tr><tr id="3c1f6ce8-497f-804e-8a0f-c745bfd5e2de" dir="ltr"><td id="Eg&gt;j" class=""><strong>Acumulador</strong></td><td id="`n|K" class="">Variável usada para acumular valores</td></tr><tr id="3c1f6ce8-497f-80d1-a875-e52264b34324" dir="ltr"><td id="Eg&gt;j" class=""><strong>Contador</strong></td><td id="`n|K" class="">Variável usada para contar ocorrências</td></tr><tr id="3c1f6ce8-497f-8065-9fa7-f5973e624665" dir="ltr"><td id="Eg&gt;j" class=""><strong>Matriz</strong></td><td id="`n|K" class="">Estrutura com duas ou mais dimensões</td></tr></tbody></table><hr id="3c1f6ce8-497f-805a-b8d4-d649f12e6e23" dir="auto"/><h1 id="3c1f6ce8-497f-80e2-8397-f6c96998b123" class="" dir="auto">37. Resumo final</h1><p id="3c1f6ce8-497f-80c2-b40e-f50e99d7619a" class="" dir="auto">Os <strong>vetores</strong> são estruturas de dados utilizadas para <strong>armazenar vários valores relacionados em uma única estrutura</strong>, permitindo que cada elemento seja acessado por meio de um índice.</p><p id="3c1f6ce8-497f-80c5-add1-e0e65c8abbb9" class="" dir="auto">Por exemplo:</p><pre id="3c1f6ce8-497f-80c0-840e-d51f1c512bd9" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">notas = [8, 7, 10, 6, 9]</code></pre><p id="3c1f6ce8-497f-807c-a413-c2f613ca2fb4" class="" dir="auto">Podemos acessar:</p><pre id="3c1f6ce8-497f-80c0-97cc-f10329936e22" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">notas[1]
+notas[2]
+notas[3]
+...</code></pre><p id="3c1f6ce8-497f-8044-b2bf-fd371386dfe5" class="" dir="auto">E podemos percorrer todos os elementos:</p><pre id="3c1f6ce8-497f-80c3-8cdb-ec4b084ce806" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">para i de 1 até 5 faça
+    escreva(notas[i])
+fimpara</code></pre><p id="3c1f6ce8-497f-8062-b4b3-ec4449b11538" class="" dir="auto">Os vetores são especialmente importantes porque trabalham muito bem em conjunto com:</p><pre id="3c1f6ce8-497f-8075-b58e-e90608f206c9" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Vetores
+   ↓
+Estruturas de repetição
+   ↓
+Estruturas condicionais
+   ↓
+Funções
+   ↓
+Algoritmos de busca e ordenação</code></pre><p id="3c1f6ce8-497f-802f-8f16-d36cd7bfdc3a" class="" dir="auto">Por isso, o estudo de vetores é uma etapa fundamental da <strong>lógica de programação e das estruturas de dados</strong>. Depois de dominar vetores, conceitos como <strong>matrizes, busca linear, busca binária, ordenação, listas e outras estruturas de dados</strong> tornam-se muito mais fáceis de compreender.</p></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

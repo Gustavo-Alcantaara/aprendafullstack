@@ -1,0 +1,1065 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Estruturas de Repetição</title><meta name="data-notion-page-icon" content="/icons/gear_blue.svg"/><link rel="icon" href="https://app.notion.com/icons/gear_blue.svg"/><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+/* For default-background callouts, render the border outline. */
+.callout.block-color-default_background {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+/*
+ * Toggles and callouts hold arbitrary content, so they can easily be taller
+ * than a page. They must stay breakable: avoiding breaks inside them makes
+ * Chromium push the whole block onto the next page, which leaves the previous
+ * page mostly empty before every long toggle.
+ */
+details,
+aside {
+	margin: 1.25em 0;
+}
+
+/* Keep a toggle's title on the same page as the start of its content. */
+summary {
+	page-break-after: avoid;
+	break-after: avoid;
+}
+
+/*
+ * Toggle headings render as <h1/h2/h3 style="display:inline-block"> inside
+ * <summary>. Without this reset, the heading's margin-top pushes it below the
+ * ::marker (▼), so the triangle and the title appear on separate lines.
+ */
+summary h1,
+summary h2,
+summary h3,
+summary h4 {
+	margin-top: 0;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding-inline: 0.125rem;
+	padding-block: 0.375rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+/*
+ * Render emoji icons using a ::before pseudo-element to keep the glyph
+ * out of the DOM textContent traversal. This avoids double-rendering icons
+ * in callouts and page titles.
+ * NOTE(slim/html-export-pseudo-icons): I can't tagref this because it will
+ * flag as a duplicate tag after codegen.
+ */
+.icon[data-emoji]::before {
+	content: attr(data-emoji);
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	margin-right: 0.4em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.tab {
+	margin: 1.25em 0;
+	padding-inline: 1rem;
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style><style>@import url('https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex-swap.min.css')</style></head><body><article id="3c1f6ce8-497f-804b-a4fb-c1543f0477dc" class="page sans" data-notion-page-icon="/icons/gear_blue.svg"><header><div class="page-header-icon undefined"><img class="icon notion-static-icon" src="https://app.notion.com/icons/gear_blue.svg"/></div><h1 class="page-title" dir="auto">Estruturas de Repetição</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><h1 id="3c1f6ce8-497f-806a-a433-cd4a8e5822db" class="" dir="auto">Estruturas de Repetição</h1><p id="3c1f6ce8-497f-809e-be76-c71d137dc657" class="" dir="auto">As <strong>estruturas de repetição</strong>, também chamadas de <strong>laços de repetição</strong> ou <strong>loops</strong>, são estruturas fundamentais dos algoritmos utilizadas para <strong>executar um determinado conjunto de instruções várias vezes</strong>.</p><p id="3c1f6ce8-497f-80e4-99e1-d004948606d3" class="" dir="auto">Em vez de escrever a mesma instrução repetidamente, podemos criar um laço que executa automaticamente o bloco de código enquanto uma determinada condição for satisfeita ou durante uma quantidade determinada de vezes.</p><p id="3c1f6ce8-497f-808f-9b47-ff54f5927fb2" class="" dir="auto">Por exemplo, imagine que queremos mostrar os números de 1 a 5.</p><p id="3c1f6ce8-497f-8074-8b05-eccaf30e2c4b" class="" dir="auto">Sem uma estrutura de repetição:</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="3c1f6ce8-497f-8056-92dd-c6d0aaea10ed" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">escreva(1)
+escreva(2)
+escreva(3)
+escreva(4)
+escreva(5)</code></pre><p id="3c1f6ce8-497f-80ae-9f99-db31a4a90148" class="" dir="auto">Com uma estrutura de repetição:</p><pre id="3c1f6ce8-497f-80e5-a9aa-e24f25b4169a" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">para contador de 1 até 5 faça
+    escreva(contador)
+fimpara</code></pre><p id="3c1f6ce8-497f-8051-9d31-f15a7b910dc2" class="" dir="auto">O resultado é o mesmo, mas o segundo algoritmo é <strong>mais compacto, organizado e fácil de modificar</strong>.</p><hr id="3c1f6ce8-497f-80f5-99b2-f5b5863e5420" dir="auto"/><h1 id="3c1f6ce8-497f-8088-890f-c74fb49b9820" class="" dir="auto">1. O que são estruturas de repetição?</h1><p id="3c1f6ce8-497f-80f1-860d-f88c7ebbe2b2" class="" dir="auto">Uma estrutura de repetição permite que um algoritmo <strong>repita um conjunto de instruções</strong>.</p><p id="3c1f6ce8-497f-8060-81db-db10778f1553" class="" dir="auto">A repetição pode acontecer:</p><ul id="3c1f6ce8-497f-80ac-a2bc-f627fd4b97cb" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Uma quantidade determinada de vezes;</li></ul><ul id="3c1f6ce8-497f-80f2-9736-c173345928ea" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Enquanto uma condição for verdadeira;</li></ul><ul id="3c1f6ce8-497f-803b-a08e-d0c7366c6550" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Até que uma condição seja satisfeita;</li></ul><ul id="3c1f6ce8-497f-808d-bdd5-ed802678bf67" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Percorrendo elementos de uma estrutura de dados;</li></ul><ul id="3c1f6ce8-497f-8013-8ee2-d983157d57b7" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Até que o usuário forneça uma determinada informação.</li></ul><p id="3c1f6ce8-497f-80c3-a249-f95c1754167b" class="" dir="auto">A ideia geral pode ser representada como:</p><pre id="3c1f6ce8-497f-8007-818d-f11dbd0c4564" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Início
+   ↓
+Verificar condição
+   ↓
+Condição verdadeira?
+  ↙        ↘
+Sim         Não
+ ↓           ↓
+Executa      Fim
+ ↓
+Volta para a condição</code></pre><hr id="3c1f6ce8-497f-80df-81f0-cef93250529a" dir="auto"/><h1 id="3c1f6ce8-497f-807a-b6c2-df238407b01e" class="" dir="auto">2. Por que utilizar estruturas de repetição?</h1><p id="3c1f6ce8-497f-80c8-893a-c8a4de79b210" class="" dir="auto">Imagine que precisamos mostrar uma mensagem 100 vezes.</p><p id="3c1f6ce8-497f-808d-818b-f1a8d0db51c9" class="" dir="auto">Sem repetição, precisaríamos escrever:</p><pre id="3c1f6ce8-497f-8088-ab97-c2f837b65c84" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">escreva(&quot;Olá&quot;)
+escreva(&quot;Olá&quot;)
+escreva(&quot;Olá&quot;)
+...</code></pre><p id="3c1f6ce8-497f-8044-977f-dac40064be74" class="" dir="auto">Isso seria extremamente trabalhoso.</p><p id="3c1f6ce8-497f-802f-a0c2-e1565b853c28" class="" dir="auto">Com uma estrutura de repetição:</p><pre id="3c1f6ce8-497f-80ed-a0a9-c3a97fbda08b" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">para contador de 1 até 100 faça
+    escreva(&quot;Olá&quot;)
+fimpara</code></pre><p id="3c1f6ce8-497f-8002-944f-d6aa69dc0fa6" class="" dir="auto">podemos executar a mesma operação 100 vezes com poucas linhas.</p><p id="3c1f6ce8-497f-80a9-b729-fa9807455f0c" class="" dir="auto">As estruturas de repetição permitem:</p><ul id="3c1f6ce8-497f-8016-9daf-f0930eeeec64" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Evitar código duplicado;</li></ul><ul id="3c1f6ce8-497f-8007-8354-d58a29ccb95a" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Automatizar tarefas;</li></ul><ul id="3c1f6ce8-497f-804a-ac0b-cf0e013f09fb" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Processar grandes quantidades de dados;</li></ul><ul id="3c1f6ce8-497f-8065-ba5c-c1b2da260869" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Percorrer listas e vetores;</li></ul><ul id="3c1f6ce8-497f-801d-8cf8-fe8eaecc4882" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Criar menus;</li></ul><ul id="3c1f6ce8-497f-80ad-bab5-cb4f201234ac" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Fazer cálculos repetitivos;</li></ul><ul id="3c1f6ce8-497f-801f-9f67-e1fcf11f2740" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Validar informações;</li></ul><ul id="3c1f6ce8-497f-8098-adf8-c9e6cc2125a7" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Implementar algoritmos de busca e ordenação.</li></ul><hr id="3c1f6ce8-497f-8041-b776-cc4986215dd1" dir="auto"/><h1 id="3c1f6ce8-497f-80bb-bf67-c27691cb9f30" class="" dir="auto">3. Principais estruturas de repetição</h1><p id="3c1f6ce8-497f-8080-9a07-dcebff9ec0ab" class="" dir="auto">As estruturas mais comuns são:</p><ol type="1" id="3c1f6ce8-497f-8067-be04-dc363414be8d" class="numbered-list" start="1" dir="auto"><li><strong>ENQUANTO</strong></li></ol><ol type="1" id="3c1f6ce8-497f-8047-bf5e-c3d774bff37c" class="numbered-list" start="2" dir="auto"><li><strong>REPITA...ATÉ</strong></li></ol><ol type="1" id="3c1f6ce8-497f-8030-bc65-f3d7cc089322" class="numbered-list" start="3" dir="auto"><li><strong>PARA</strong></li></ol><p id="3c1f6ce8-497f-8087-9763-ebc746e3c0c7" class="" dir="auto">Em linguagens de programação, elas geralmente correspondem a:</p><table id="3c1f6ce8-497f-8020-9398-e060f3634691" class="simple-table" dir="ltr"><thead class="simple-table-header"><tr id="3c1f6ce8-497f-805e-a394-ff4c97b9fd69" dir="ltr"><th id="c=DQ" class="simple-table-header-color simple-table-header">Algoritmo</th><th id="[ugV" class="simple-table-header-color simple-table-header">Linguagens de programação</th></tr></thead><tbody><tr id="3c1f6ce8-497f-8097-b04e-f15f70639944" dir="ltr"><td id="c=DQ" class=""><code>enquanto</code></td><td id="[ugV" class=""><code>while</code></td></tr><tr id="3c1f6ce8-497f-80ed-b12c-e6e9aea50cb2" dir="ltr"><td id="c=DQ" class=""><code>repita...até</code></td><td id="[ugV" class=""><code>do...while</code></td></tr><tr id="3c1f6ce8-497f-80e9-97dd-d3d0a7de0120" dir="ltr"><td id="c=DQ" class=""><code>para</code></td><td id="[ugV" class=""><code>for</code></td></tr></tbody></table><p id="3c1f6ce8-497f-80b8-b1b3-c232e30bec8c" class="" dir="auto">A sintaxe pode mudar dependendo da linguagem, mas o conceito é praticamente o mesmo.</p><hr id="3c1f6ce8-497f-8093-98c0-e01dcb2fdb64" dir="auto"/><h1 id="3c1f6ce8-497f-80a1-9365-dda3f07fd89b" class="" dir="auto">4. Estrutura <code>ENQUANTO</code></h1><p id="3c1f6ce8-497f-80b0-8dfe-e578b061a950" class="" dir="auto">A estrutura <strong>ENQUANTO</strong> executa um bloco de instruções <strong>enquanto uma determinada condição for verdadeira</strong>.</p><p id="3c1f6ce8-497f-8068-b907-ef9728c5b1ab" class="" dir="auto">Sua estrutura conceitual é:</p><pre id="3c1f6ce8-497f-80c9-814e-e73f98c53b16" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">enquanto condição faça
+    instruções
+fimenquanto</code></pre><p id="3c1f6ce8-497f-802d-bd63-d73314095a20" class="" dir="auto">O funcionamento é:</p><ol type="1" id="3c1f6ce8-497f-8090-b4a8-c27a49dd65b3" class="numbered-list" start="1" dir="auto"><li>A condição é verificada.</li></ol><ol type="1" id="3c1f6ce8-497f-8085-ad8d-f2ac77f150e8" class="numbered-list" start="2" dir="auto"><li>Se for verdadeira, o bloco é executado.</li></ol><ol type="1" id="3c1f6ce8-497f-802f-bb4d-c58f36fcf854" class="numbered-list" start="3" dir="auto"><li>Depois, a condição é verificada novamente.</li></ol><ol type="1" id="3c1f6ce8-497f-8051-86ba-fd10296b89ac" class="numbered-list" start="4" dir="auto"><li>Se continuar verdadeira, o bloco é executado novamente.</li></ol><ol type="1" id="3c1f6ce8-497f-80c6-b4d7-cfee7a8ef73c" class="numbered-list" start="5" dir="auto"><li>Quando a condição se tornar falsa, o loop termina.</li></ol><hr id="3c1f6ce8-497f-80f5-8d6c-febc30f1a33c" dir="auto"/><h1 id="3c1f6ce8-497f-80f0-a29a-e0d31896bc3e" class="" dir="auto">5. Exemplo simples com <code>ENQUANTO</code></h1><p id="3c1f6ce8-497f-80fe-9578-cccead1b91e3" class="" dir="auto">Vamos mostrar os números de 1 a 5:</p><pre id="3c1f6ce8-497f-80d5-a1c1-ef4261334559" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">contador &lt;- 1
+
+enquanto contador &lt;= 5 faça
+    escreva(contador)
+    contador &lt;- contador + 1
+fimenquanto</code></pre><p id="3c1f6ce8-497f-8040-9f9f-d81fe135224e" class="" dir="auto">O resultado será:</p><pre id="3c1f6ce8-497f-80b1-8d6f-df7fa16c6041" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">1
+2
+3
+4
+5</code></pre><p id="3c1f6ce8-497f-801b-ac51-dfdebce50196" class="" dir="auto">Vamos acompanhar:</p><h3 id="3c1f6ce8-497f-8034-b791-f4bbaa89474f" class="" dir="auto">Primeira execução</h3><pre id="3c1f6ce8-497f-805e-abc2-da540ff2dc63" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">contador = 1</code></pre><p id="3c1f6ce8-497f-80f5-b688-f21ee58b54b3" class="" dir="auto">Verificação:</p><pre id="3c1f6ce8-497f-808d-a26c-e43f7588891d" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">1 &lt;= 5</code></pre><p id="3c1f6ce8-497f-8032-88c1-dc0649b3e569" class="" dir="auto">Verdadeiro.</p><p id="3c1f6ce8-497f-80fb-b199-ea89c1c28d87" class="" dir="auto">Mostra:</p><pre id="3c1f6ce8-497f-809e-8bb6-caf7b1a8f97f" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">1</code></pre><p id="3c1f6ce8-497f-8013-b0c3-ce5ac4487b7d" class="" dir="auto">Depois:</p><pre id="3c1f6ce8-497f-805d-ab95-ccee693cf22c" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">contador &lt;- contador + 1</code></pre><p id="3c1f6ce8-497f-8089-ac30-e4aed70cecb8" class="" dir="auto">Agora:</p><pre id="3c1f6ce8-497f-807f-b9d8-e26a42c8ed7b" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">contador = 2</code></pre><p id="3c1f6ce8-497f-80bb-a50b-d9c5b14d73bb" class="" dir="auto">O processo continua até:</p><pre id="3c1f6ce8-497f-80e3-9f43-dc03e5e37589" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">contador = 6</code></pre><p id="3c1f6ce8-497f-804a-bb0e-f5060eda5ce8" class="" dir="auto">Nesse momento:</p><pre id="3c1f6ce8-497f-80fd-a0b2-f7345141b8e5" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">6 &lt;= 5</code></pre><p id="3c1f6ce8-497f-80a7-8127-e116197a458e" class="" dir="auto">é falso.</p><p id="3c1f6ce8-497f-8088-80a3-da268d5da68f" class="" dir="auto">O loop termina.</p><hr id="3c1f6ce8-497f-80ad-a93e-c3ce2794c0d0" dir="auto"/><h1 id="3c1f6ce8-497f-80e3-81ae-df0b3e2cb432" class="" dir="auto">6. A importância de atualizar a variável</h1><p id="3c1f6ce8-497f-80fb-ab18-e7189e6611be" class="" dir="auto">Observe:</p><pre id="3c1f6ce8-497f-80bf-8b81-f4d0c3e25f2e" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">contador &lt;- contador + 1</code></pre><p id="3c1f6ce8-497f-8026-a5b5-ec8da9f7ba90" class="" dir="auto">Essa instrução é extremamente importante.</p><p id="3c1f6ce8-497f-80bf-9238-e20f8af9471c" class="" dir="auto">Se fizermos:</p><pre id="3c1f6ce8-497f-80ac-82b8-c72a9ab7b3c4" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">contador &lt;- 1
+
+enquanto contador &lt;= 5 faça
+    escreva(contador)
+fimenquanto</code></pre><p id="3c1f6ce8-497f-808c-a377-c563b00a9355" class="" dir="auto">a variável <code>contador</code> nunca mudará.</p><p id="3c1f6ce8-497f-806c-8df4-ebc7091343ea" class="" dir="auto">Ela continuará sendo:</p><pre id="3c1f6ce8-497f-80ce-9703-ef2c953a4a79" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">1</code></pre><p id="3c1f6ce8-497f-80fb-a7d5-eb2b025c92ac" class="" dir="auto">A condição:</p><pre id="3c1f6ce8-497f-802a-b0f9-e2fe6a39d40f" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">1 &lt;= 5</code></pre><p id="3c1f6ce8-497f-807e-aee2-ca4da1f732fa" class="" dir="auto">continuará verdadeira indefinidamente.</p><p id="3c1f6ce8-497f-80e5-846a-eec8166e491a" class="" dir="auto">Isso cria um <strong>loop infinito</strong>.</p><hr id="3c1f6ce8-497f-805d-89e1-e2d436a84870" dir="auto"/><h1 id="3c1f6ce8-497f-80ac-9188-e754048c4594" class="" dir="auto">7. Loop infinito</h1><p id="3c1f6ce8-497f-8028-a00c-fc59aaf6cbab" class="" dir="auto">Um <strong>loop infinito</strong> ocorre quando a condição de repetição nunca se torna falsa.</p><p id="3c1f6ce8-497f-804e-b58d-cf1db406e65e" class="" dir="auto">Exemplo:</p><pre id="3c1f6ce8-497f-8033-9804-e6e1f37ef7b9" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">contador &lt;- 1
+
+enquanto contador &lt;= 5 faça
+    escreva(contador)
+fimenquanto</code></pre><p id="3c1f6ce8-497f-8064-9802-c956a1dee0d4" class="" dir="auto">Como <code>contador</code> nunca é alterado, o programa continuará executando:</p><pre id="3c1f6ce8-497f-8052-af91-ef5482d8f778" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">1
+1
+1
+1
+1
+...</code></pre><p id="3c1f6ce8-497f-806f-aef6-c02cf4e12940" class="" dir="auto">Esse é um erro comum ao trabalhar com estruturas de repetição.</p><p id="3c1f6ce8-497f-80e1-9d7e-d06e5cd9dc81" class="" dir="auto">Para evitar isso, devemos garantir que alguma instrução dentro do loop altere a condição de forma que, eventualmente, ela se torne falsa.</p><hr id="3c1f6ce8-497f-8048-8d40-e79fa75d9e3b" dir="auto"/><h1 id="3c1f6ce8-497f-8061-91f2-ca26cc1b4840" class="" dir="auto">8. Estrutura <code>REPITA...ATÉ</code></h1><p id="3c1f6ce8-497f-8089-a17c-df5196f70934" class="" dir="auto">A estrutura <strong>REPITA...ATÉ</strong> funciona de maneira um pouco diferente.</p><p id="3c1f6ce8-497f-80aa-91d3-e3ecd558b8fc" class="" dir="auto">Ela executa o bloco <strong>pelo menos uma vez</strong> e continua repetindo até que uma condição seja verdadeira.</p><p id="3c1f6ce8-497f-8059-990c-d465d08f093b" class="" dir="auto">Forma geral:</p><pre id="3c1f6ce8-497f-8076-b0a1-c82de83b1699" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">repita
+    instruções
+até condição</code></pre><p id="3c1f6ce8-497f-802b-97a6-c867f1e7c807" class="" dir="auto">Por exemplo:</p><pre id="3c1f6ce8-497f-80c7-8eff-d0cfeee79da3" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">contador &lt;- 1
+
+repita
+    escreva(contador)
+    contador &lt;- contador + 1
+até contador &gt; 5</code></pre><p id="3c1f6ce8-497f-8074-8e3c-d64e35a8e852" class="" dir="auto">Resultado:</p><pre id="3c1f6ce8-497f-8019-885b-ffa71550e5ae" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">1
+2
+3
+4
+5</code></pre><hr id="3c1f6ce8-497f-80d4-b294-e692d6db70a1" dir="auto"/><h1 id="3c1f6ce8-497f-80d0-924d-d59d11764bee" class="" dir="auto">9. Diferença entre <code>ENQUANTO</code> e <code>REPITA...ATÉ</code></h1><p id="3c1f6ce8-497f-808d-b5bf-c9e72026d942" class="" dir="auto">A principal diferença está no momento em que a condição é verificada.</p><h3 id="3c1f6ce8-497f-8096-b248-ed9140a5cc57" class="" dir="auto"><code>ENQUANTO</code></h3><p id="3c1f6ce8-497f-8069-8ffb-f2cb2d42fc1d" class="" dir="auto">A condição é verificada <strong>antes</strong> da execução.</p><pre id="3c1f6ce8-497f-8030-95a1-cc2d2ca19dae" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">enquanto condição faça
+    instruções
+fimenquanto</code></pre><p id="3c1f6ce8-497f-800f-b22c-ccfc8985ea59" class="" dir="auto">Portanto, pode acontecer de o bloco <strong>não ser executado nenhuma vez</strong>.</p><h3 id="3c1f6ce8-497f-80cf-9836-ce25108bd319" class="" dir="auto"><code>REPITA...ATÉ</code></h3><p id="3c1f6ce8-497f-8051-87a3-c692d709b3d0" class="" dir="auto">A condição é verificada <strong>depois</strong> da execução.</p><pre id="3c1f6ce8-497f-80b1-97b2-fa65418e6f96" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">repita
+    instruções
+até condição</code></pre><p id="3c1f6ce8-497f-801b-825a-f8b7a413a3f0" class="" dir="auto">Portanto, o bloco será executado <strong>pelo menos uma vez</strong>.</p><hr id="3c1f6ce8-497f-80e0-9fa6-fd55970a7ab7" dir="auto"/><h1 id="3c1f6ce8-497f-80a5-b39b-fb9fef44240c" class="" dir="auto">10. Exemplo comparativo</h1><p id="3c1f6ce8-497f-80cb-83b6-c2ae78822996" class="" dir="auto">Considere:</p><pre id="3c1f6ce8-497f-8000-8daa-f6eff88d34da" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">contador &lt;- 10</code></pre><p id="3c1f6ce8-497f-80ce-80f1-ec01f0ba9634" class="" dir="auto">E a condição:</p><pre id="3c1f6ce8-497f-80d7-ada0-fd1ea9ed909d" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">contador &lt; 5</code></pre><p id="3c1f6ce8-497f-80a9-a869-e7435d796531" class="" dir="auto">Com <code>ENQUANTO</code>:</p><pre id="3c1f6ce8-497f-80d2-a431-fa1dd232e9e3" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">contador &lt;- 10
+
+enquanto contador &lt; 5 faça
+    escreva(contador)
+fimenquanto</code></pre><p id="3c1f6ce8-497f-8047-80f1-e3816f663506" class="" dir="auto">A condição já começa falsa:</p><pre id="3c1f6ce8-497f-8052-85f3-ebc6a4998233" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">10 &lt; 5</code></pre><p id="3c1f6ce8-497f-80d4-86b4-df42f328f721" class="" dir="auto">Portanto, o bloco não será executado.</p><p id="3c1f6ce8-497f-808a-8e8c-d5791ca5ee4e" class="" dir="auto">Agora:</p><pre id="3c1f6ce8-497f-806d-a178-e7f753a5c50d" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">contador &lt;- 10
+
+repita
+    escreva(contador)
+até contador &lt; 5</code></pre><p id="3c1f6ce8-497f-8068-a46b-d46e576905d5" class="" dir="auto">O bloco será executado primeiro.</p><p id="3c1f6ce8-497f-80f8-80e6-e6aab1a9d282" class="" dir="auto">Então será mostrado:</p><pre id="3c1f6ce8-497f-80fe-a001-e3bdc2e0bc5c" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">10</code></pre><p id="3c1f6ce8-497f-8002-b0fa-c26b6218356a" class="" dir="auto">e somente depois a condição será analisada.</p><p id="3c1f6ce8-497f-805a-bb9d-cdb7f6be6843" class="" dir="auto">Isso demonstra uma diferença fundamental entre os dois tipos de loop.</p><hr id="3c1f6ce8-497f-8099-9226-e65b1437aec4" dir="auto"/><h1 id="3c1f6ce8-497f-8049-8000-f2a8bde8b679" class="" dir="auto">11. Estrutura <code>PARA</code></h1><p id="3c1f6ce8-497f-80c9-aca6-e70a95c3c0c6" class="" dir="auto">A estrutura <strong>PARA</strong> é utilizada principalmente quando sabemos <strong>quantas vezes queremos repetir uma operação</strong>.</p><p id="3c1f6ce8-497f-807f-b3f8-d09399997ff6" class="" dir="auto">Sua forma conceitual é:</p><pre id="3c1f6ce8-497f-8091-b660-eedc6dba311b" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">para contador de inicio até fim faça
+    instruções
+fimpara</code></pre><p id="3c1f6ce8-497f-8036-903d-c4d4176002bc" class="" dir="auto">Exemplo:</p><pre id="3c1f6ce8-497f-800e-a52b-de6e8027e8d4" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">para contador de 1 até 5 faça
+    escreva(contador)
+fimpara</code></pre><p id="3c1f6ce8-497f-80c9-bdb9-dbede262ea90" class="" dir="auto">Resultado:</p><pre id="3c1f6ce8-497f-8079-a017-c82fa9ff68d1" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">1
+2
+3
+4
+5</code></pre><p id="3c1f6ce8-497f-806e-9b04-cc8280b88316" class="" dir="auto">Nesse caso, não precisamos criar manualmente a inicialização, a condição e a atualização do contador.</p><p id="3c1f6ce8-497f-80e3-aa02-f6c95ef17a96" class="" dir="auto">A própria estrutura <code>PARA</code> controla essas etapas.</p><hr id="3c1f6ce8-497f-80a2-aca0-fd514a678058" dir="auto"/><h1 id="3c1f6ce8-497f-8060-8a30-f1317a06857c" class="" dir="auto">12. Funcionamento do <code>PARA</code></h1><p id="3c1f6ce8-497f-806e-b5ad-ca2d4f3d3558" class="" dir="auto">Considere:</p><pre id="3c1f6ce8-497f-801c-9ede-c588603262c4" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">para contador de 1 até 5 faça
+    escreva(contador)
+fimpara</code></pre><p id="3c1f6ce8-497f-80e1-8a56-d088f9fb62d5" class="" dir="auto">Podemos imaginar o processo:</p><pre id="3c1f6ce8-497f-8097-a8d7-ec2c50f84104" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">contador = 1 → mostra 1
+contador = 2 → mostra 2
+contador = 3 → mostra 3
+contador = 4 → mostra 4
+contador = 5 → mostra 5</code></pre><p id="3c1f6ce8-497f-8048-9bdf-c812c6474275" class="" dir="auto">Depois disso, o loop termina.</p><hr id="3c1f6ce8-497f-80f1-92e2-c684f230ee79" dir="auto"/><h1 id="3c1f6ce8-497f-80e1-9d37-f6019ba728a6" class="" dir="auto">13. <code>PARA</code> e contador</h1><p id="3c1f6ce8-497f-801f-b5bf-f8459473b14b" class="" dir="auto">Uma característica importante do <code>PARA</code> é a utilização de uma <strong>variável de controle</strong>, geralmente chamada de <code>contador</code>.</p><p id="3c1f6ce8-497f-80a8-a438-fdcb0b8d2e55" class="" dir="auto">Exemplo:</p><pre id="3c1f6ce8-497f-80cd-a960-ec073d28fb06" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">para i de 1 até 10 faça
+    escreva(i)
+fimpara</code></pre><p id="3c1f6ce8-497f-8046-b799-e3575225ecb1" class="" dir="auto">Nesse caso:</p><pre id="3c1f6ce8-497f-8093-b000-e2c5943d3667" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">i</code></pre><p id="3c1f6ce8-497f-8010-9dd8-ed5b45ad7eff" class="" dir="auto">é a variável responsável por controlar as repetições.</p><p id="3c1f6ce8-497f-8021-b25a-e3030247c662" class="" dir="auto">Ela assume diferentes valores:</p><pre id="3c1f6ce8-497f-8054-89e9-fb38bd4cc742" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">1
+2
+3
+4
+5
+6
+7
+8
+9
+10</code></pre><hr id="3c1f6ce8-497f-808b-b241-e451e73e4f52" dir="auto"/><h1 id="3c1f6ce8-497f-8038-82f1-f4fa7e273bf8" class="" dir="auto">14. Contagem regressiva</h1><p id="3c1f6ce8-497f-80d7-abeb-f78848471755" class="" dir="auto">Também podemos utilizar uma estrutura de repetição para fazer uma contagem regressiva.</p><p id="3c1f6ce8-497f-80c5-b815-c766a58b1472" class="" dir="auto">Por exemplo:</p><pre id="3c1f6ce8-497f-80e4-9fe2-d37c37367ef9" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">para i de 10 até 1 passo -1 faça
+    escreva(i)
+fimpara</code></pre><p id="3c1f6ce8-497f-8036-86aa-f07cd212ccca" class="" dir="auto">Resultado:</p><pre id="3c1f6ce8-497f-80dc-bbd6-d4dae3e68fc2" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">10
+9
+8
+7
+6
+5
+4
+3
+2
+1</code></pre><p id="3c1f6ce8-497f-808a-b3b1-ca476510e418" class="" dir="auto">O conceito de <code>passo</code> pode variar conforme o pseudocódigo utilizado.</p><hr id="3c1f6ce8-497f-8030-bca3-d22a83c78c67" dir="auto"/><h1 id="3c1f6ce8-497f-8032-9d49-ed753c2339f9" class="" dir="auto">15. Repetição para calcular uma soma</h1><p id="3c1f6ce8-497f-8009-96c2-d9e05224d116" class="" dir="auto">As estruturas de repetição também são muito utilizadas em cálculos.</p><p id="3c1f6ce8-497f-8094-8d6b-faa6cad77770" class="" dir="auto">Por exemplo, calcular a soma dos números de 1 a 10:</p><pre id="3c1f6ce8-497f-8032-a3f2-d82798af3a93" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">soma &lt;- 0
+
+para i de 1 até 10 faça
+    soma &lt;- soma + i
+fimpara
+
+escreva(&quot;Soma: &quot;, soma)</code></pre><p id="3c1f6ce8-497f-8090-bd08-fb84097d9627" class="" dir="auto">O cálculo será:</p><pre id="3c1f6ce8-497f-800d-a913-f8405607041c" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">1 + 2 + 3 + 4 + 5 + 6 + 7 + 8 + 9 + 10</code></pre><p id="3c1f6ce8-497f-8044-9a62-c1f624e59071" class="" dir="auto">Resultado:</p><pre id="3c1f6ce8-497f-80d5-9986-e18ce907bb6f" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">55</code></pre><hr id="3c1f6ce8-497f-80ef-b3d0-df0a8d650fd9" dir="auto"/><h1 id="3c1f6ce8-497f-803c-88b8-d171097f068a" class="" dir="auto">16. Repetição com entrada de dados</h1><p id="3c1f6ce8-497f-80ee-a163-e6f8b527148d" class="" dir="auto">Podemos utilizar loops para solicitar vários valores ao usuário.</p><p id="3c1f6ce8-497f-80f3-affb-d24a3f5a0a01" class="" dir="auto">Por exemplo, receber cinco números:</p><pre id="3c1f6ce8-497f-8017-93b6-e6cbf3fea4ea" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">para i de 1 até 5 faça
+    escreva(&quot;Digite um número: &quot;)
+    leia(numero)
+fimpara</code></pre><p id="3c1f6ce8-497f-8051-9a7c-de5ba32d1a4d" class="" dir="auto">O programa solicitará cinco números.</p><p id="3c1f6ce8-497f-8018-8487-d65fc9890d29" class="" dir="auto">Podemos também acumular esses valores:</p><pre id="3c1f6ce8-497f-8012-affc-ede8d527368b" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">soma &lt;- 0
+
+para i de 1 até 5 faça
+    leia(numero)
+    soma &lt;- soma + numero
+fimpara
+
+escreva(&quot;Soma: &quot;, soma)</code></pre><hr id="3c1f6ce8-497f-8027-b36f-c14a1c0ce94d" dir="auto"/><h1 id="3c1f6ce8-497f-800c-ba3a-e89af4fb7419" class="" dir="auto">17. Exemplo: calcular média de vários números</h1><pre id="3c1f6ce8-497f-80c8-a524-c23d21d31a74" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">soma &lt;- 0
+
+para i de 1 até 5 faça
+    escreva(&quot;Digite a nota &quot;, i, &quot;: &quot;)
+    leia(nota)
+
+    soma &lt;- soma + nota
+fimpara
+
+media &lt;- soma / 5
+
+escreva(&quot;Média: &quot;, media)</code></pre><p id="3c1f6ce8-497f-80ee-8e65-ea38470e3b97" class="" dir="auto">O algoritmo:</p><ol type="1" id="3c1f6ce8-497f-801d-87c6-d3c65704cfe9" class="numbered-list" start="1" dir="auto"><li>Solicita a primeira nota;</li></ol><ol type="1" id="3c1f6ce8-497f-805c-8f40-ee6283046c85" class="numbered-list" start="2" dir="auto"><li>Soma ao acumulador;</li></ol><ol type="1" id="3c1f6ce8-497f-805c-824d-f2a88fbcce46" class="numbered-list" start="3" dir="auto"><li>Solicita a segunda;</li></ol><ol type="1" id="3c1f6ce8-497f-8010-b55c-ca796ecd71a0" class="numbered-list" start="4" dir="auto"><li>Soma novamente;</li></ol><ol type="1" id="3c1f6ce8-497f-8024-8354-d7fe4abdcf05" class="numbered-list" start="5" dir="auto"><li>Continua até a quinta;</li></ol><ol type="1" id="3c1f6ce8-497f-8098-80af-c38bc3620a33" class="numbered-list" start="6" dir="auto"><li>Divide a soma por 5.</li></ol><hr id="3c1f6ce8-497f-808d-876a-e4406e3f0aaa" dir="auto"/><h1 id="3c1f6ce8-497f-80c9-9533-d9d8e00602a7" class="" dir="auto">18. Acumuladores</h1><p id="3c1f6ce8-497f-80e1-9227-f90f371f6d78" class="" dir="auto">Um conceito muito importante nas estruturas de repetição é o <strong>acumulador</strong>.</p><p id="3c1f6ce8-497f-8071-ba56-e63da5ee20d0" class="" dir="auto">Um acumulador é uma variável utilizada para <strong>guardar progressivamente um resultado</strong>.</p><p id="3c1f6ce8-497f-80d5-9e1b-cb79bc9914c8" class="" dir="auto">Por exemplo:</p><pre id="3c1f6ce8-497f-8068-84d1-e89407beee2f" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">soma &lt;- 0</code></pre><p id="3c1f6ce8-497f-80ad-92bd-e509af369eb0" class="" dir="auto">Depois:</p><pre id="3c1f6ce8-497f-80a5-b639-ebcabd104385" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">soma &lt;- soma + numero</code></pre><p id="3c1f6ce8-497f-806c-9e6c-e8adfbf1a74e" class="" dir="auto">A cada repetição, o valor anterior é utilizado para calcular o novo valor.</p><p id="3c1f6ce8-497f-8006-9990-d694ea3e5413" class="" dir="auto">Imagine que recebemos:</p><pre id="3c1f6ce8-497f-807a-a065-f56e5484cc92" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">5
+10
+15</code></pre><p id="3c1f6ce8-497f-8029-8480-f2f3c08db348" class="" dir="auto">Teremos:</p><pre id="3c1f6ce8-497f-8074-b58a-fd4002287a13" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">soma = 0</code></pre><p id="3c1f6ce8-497f-8010-82dd-de68646f9160" class="" dir="auto">Depois:</p><pre id="3c1f6ce8-497f-80c7-8eaa-dbd6fc5cfdec" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">soma = 0 + 5
+soma = 5</code></pre><p id="3c1f6ce8-497f-80d5-af16-d124e6aa822c" class="" dir="auto">Depois:</p><pre id="3c1f6ce8-497f-80c2-9d76-c603d25e8f3e" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">soma = 5 + 10
+soma = 15</code></pre><p id="3c1f6ce8-497f-80ac-9be2-c00f8e623c00" class="" dir="auto">Finalmente:</p><pre id="3c1f6ce8-497f-80c1-9330-eb573fd97d10" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">soma = 15 + 15
+soma = 30</code></pre><p id="3c1f6ce8-497f-8096-8b8e-d123a7618b92" class="" dir="auto">Resultado:</p><pre id="3c1f6ce8-497f-80ab-b595-d271b2a873d6" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">30</code></pre><hr id="3c1f6ce8-497f-80b8-87bd-e6cccb6062d5" dir="auto"/><h1 id="3c1f6ce8-497f-80f4-9b12-de13cc95cec5" class="" dir="auto">19. Contadores</h1><p id="3c1f6ce8-497f-80c8-bcc7-f060c0e83fc7" class="" dir="auto">O <strong>contador</strong> é semelhante ao acumulador, mas geralmente é utilizado para <strong>contar ocorrências</strong>.</p><p id="3c1f6ce8-497f-8054-b94f-f9aadf4fcb57" class="" dir="auto">Exemplo:</p><pre id="3c1f6ce8-497f-803b-aff3-e5db4acd6e31" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">contador &lt;- 0
+
+para i de 1 até 10 faça
+    contador &lt;- contador + 1
+fimpara</code></pre><p id="3c1f6ce8-497f-807e-8a79-cb6bd46bee7e" class="" dir="auto">Ao final:</p><pre id="3c1f6ce8-497f-8078-9434-f4bfba1e22e5" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">contador = 10</code></pre><p id="3c1f6ce8-497f-80e5-ab05-c4cadc4fce2a" class="" dir="auto">Outro exemplo seria contar quantos números são pares:</p><pre id="3c1f6ce8-497f-8049-87f4-f31c45621f9c" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">contadorPares &lt;- 0
+
+para i de 1 até 20 faça
+
+    se i % 2 == 0 então
+        contadorPares &lt;- contadorPares + 1
+    fimse
+
+fimpara</code></pre><p id="3c1f6ce8-497f-8062-803d-de2e22b63bd3" class="" dir="auto">Resultado:</p><pre id="3c1f6ce8-497f-800c-be38-c74d58fc0a19" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">10</code></pre><hr id="3c1f6ce8-497f-8092-b620-c93ab86f3524" dir="auto"/><h1 id="3c1f6ce8-497f-80b8-882a-f4736ad7973b" class="" dir="auto">20. Estrutura de repetição com condição</h1><p id="3c1f6ce8-497f-80e8-8293-df08a6eeda93" class="" dir="auto">Podemos combinar estruturas condicionais e de repetição.</p><p id="3c1f6ce8-497f-80a7-89fd-c7fc47883f05" class="" dir="auto">Exemplo:</p><pre id="3c1f6ce8-497f-80aa-87e6-c1e10028c4c5" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">para i de 1 até 10 faça
+
+    se i % 2 == 0 então
+        escreva(i, &quot; é par.&quot;)
+    senao
+        escreva(i, &quot; é ímpar.&quot;)
+    fimse
+
+fimpara</code></pre><p id="3c1f6ce8-497f-800e-86b5-ec059f26b1b4" class="" dir="auto">Resultado:</p><pre id="3c1f6ce8-497f-8041-a54d-c48685e93c58" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">1 é ímpar.
+2 é par.
+3 é ímpar.
+4 é par.
+...
+10 é par.</code></pre><p id="3c1f6ce8-497f-80a2-af37-c8fd6c8ac8a2" class="" dir="auto">Aqui temos:</p><p id="3c1f6ce8-497f-8050-a233-ce48ab0bd0b6" class="" dir="auto"><strong>Repetição:</strong></p><pre id="3c1f6ce8-497f-8003-9f08-cd89368f239e" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">para</code></pre><p id="3c1f6ce8-497f-8090-abce-f1e8d5697a83" class="" dir="auto">e dentro dela:</p><p id="3c1f6ce8-497f-801b-a656-e3854f1c72a7" class="" dir="auto"><strong>Decisão:</strong></p><pre id="3c1f6ce8-497f-80da-a077-f13c9be65b3f" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">se...senao</code></pre><p id="3c1f6ce8-497f-80c7-b42d-d89574ff746b" class="" dir="auto">Essa combinação é muito comum em algoritmos.</p><hr id="3c1f6ce8-497f-8025-afe5-c7923386d722" dir="auto"/><h1 id="3c1f6ce8-497f-80ec-9ba6-d56152a78cec" class="" dir="auto">21. Estruturas de repetição aninhadas</h1><p id="3c1f6ce8-497f-8065-a762-cda082ee3212" class="" dir="auto">Também podemos colocar uma estrutura de repetição <strong>dentro de outra</strong>.</p><p id="3c1f6ce8-497f-80d0-be41-c17f91008d49" class="" dir="auto">Isso é chamado de <strong>repetição aninhada</strong>.</p><p id="3c1f6ce8-497f-8052-9cbc-f587012f32bb" class="" dir="auto">Por exemplo:</p><pre id="3c1f6ce8-497f-8093-87b8-e403d3958a44" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">para i de 1 até 3 faça
+
+    para j de 1 até 3 faça
+        escreva(i, &quot;,&quot;, j)
+    fimpara
+
+fimpara</code></pre><p id="3c1f6ce8-497f-80b1-89c6-d3318ef5129a" class="" dir="auto">O resultado será semelhante a:</p><pre id="3c1f6ce8-497f-805e-8da2-c1715dc62b78" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">1,1
+1,2
+1,3
+2,1
+2,2
+2,3
+3,1
+3,2
+3,3</code></pre><p id="3c1f6ce8-497f-80f3-a0a5-dd91384b6c14" class="" dir="auto">O <code>j</code> percorre todos os valores para cada valor de <code>i</code>.</p><hr id="3c1f6ce8-497f-8059-b4fe-dcef183a0071" dir="auto"/><h1 id="3c1f6ce8-497f-808e-9716-dbabf6531807" class="" dir="auto">22. Exemplo: tabuada</h1><p id="3c1f6ce8-497f-80f0-b6cc-c169d7ed612b" class="" dir="auto">Um ótimo exemplo de repetição é a criação de uma tabuada.</p><pre id="3c1f6ce8-497f-80be-8968-d1d21cb0862e" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">escreva(&quot;Digite um número: &quot;)
+leia(numero)
+
+para i de 1 até 10 faça
+    resultado &lt;- numero * i
+    escreva(numero, &quot; x &quot;, i, &quot; = &quot;, resultado)
+fimpara</code></pre><p id="3c1f6ce8-497f-8037-a3ce-e88174dabdcd" class="" dir="auto">Se o usuário informar:</p><pre id="3c1f6ce8-497f-8047-8d68-c57a2e5374d9" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">5</code></pre><p id="3c1f6ce8-497f-8009-967c-f888f114e3c7" class="" dir="auto">teremos:</p><pre id="3c1f6ce8-497f-80fd-9dda-f6ef41639b48" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">5 x 1 = 5
+5 x 2 = 10
+5 x 3 = 15
+5 x 4 = 20
+5 x 5 = 25
+5 x 6 = 30
+5 x 7 = 35
+5 x 8 = 40
+5 x 9 = 45
+5 x 10 = 50</code></pre><hr id="3c1f6ce8-497f-80e6-85fd-dae822bd9a82" dir="auto"/><h1 id="3c1f6ce8-497f-8048-bca2-c1a4a60308ae" class="" dir="auto">23. Repetição controlada por entrada do usuário</h1><p id="3c1f6ce8-497f-8031-abbb-cbf926c033d2" class="" dir="auto">Nem sempre sabemos previamente quantas vezes precisaremos repetir uma operação.</p><p id="3c1f6ce8-497f-8047-ae79-ec1b3f966013" class="" dir="auto">Por exemplo, podemos criar um programa que continua solicitando uma senha enquanto ela estiver incorreta.</p><pre id="3c1f6ce8-497f-80c6-ae2b-d5e165705c88" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">senha &lt;- &quot;&quot;
+
+enquanto senha != &quot;1234&quot; faça
+    escreva(&quot;Digite a senha: &quot;)
+    leia(senha)
+fimEnquanto
+
+escreva(&quot;Senha correta!&quot;)</code></pre><p id="3c1f6ce8-497f-80a9-be35-d0717359bb34" class="" dir="auto">Nesse caso, não sabemos quantas tentativas serão necessárias.</p><p id="3c1f6ce8-497f-8093-989d-e7e135bf41ce" class="" dir="auto">O usuário pode acertar:</p><ul id="3c1f6ce8-497f-800a-a403-e608c8683ed7" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Na primeira tentativa;</li></ul><ul id="3c1f6ce8-497f-8000-8dde-d343efdafe92" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Na terceira;</li></ul><ul id="3c1f6ce8-497f-807b-9c7f-d79478b71353" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Na décima;</li></ul><ul id="3c1f6ce8-497f-80d8-bec9-c5f7226aae48" class="bulleted-list" dir="auto"><li style="list-style-type:disc">etc.</li></ul><p id="3c1f6ce8-497f-8082-a342-f505760a8fff" class="" dir="auto">Por isso, <code>ENQUANTO</code> é mais apropriado do que <code>PARA</code>.</p><hr id="3c1f6ce8-497f-80cb-ac48-c03cd9325b59" dir="auto"/><h1 id="3c1f6ce8-497f-806f-b64c-dcd7e5732623" class="" dir="auto">24. Exemplo de menu</h1><p id="3c1f6ce8-497f-807f-89d8-ed2e105479e2" class="" dir="auto">Estruturas de repetição também são muito utilizadas em menus.</p><pre id="3c1f6ce8-497f-8056-bba1-f0fff69fddc9" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">opcao &lt;- 0
+
+enquanto opcao != 4 faça
+
+    escreva(&quot;1 - Cadastrar&quot;)
+    escreva(&quot;2 - Consultar&quot;)
+    escreva(&quot;3 - Alterar&quot;)
+    escreva(&quot;4 - Sair&quot;)
+
+    leia(opcao)
+
+fimEnquanto</code></pre><p id="3c1f6ce8-497f-8062-a501-ca991d2410ed" class="" dir="auto">O menu continuará sendo exibido enquanto o usuário não escolher:</p><pre id="3c1f6ce8-497f-801b-bb6f-f6498c3f26d5" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">4</code></pre><p id="3c1f6ce8-497f-809d-a54c-efdae03eaeaa" class="" dir="auto">Esse tipo de estrutura é muito comum em sistemas.</p><hr id="3c1f6ce8-497f-806a-a092-c7c354dcc8f6" dir="auto"/><h1 id="3c1f6ce8-497f-805a-a27f-c021fcb5843a" class="" dir="auto">25. Quando utilizar cada estrutura?</h1><p id="3c1f6ce8-497f-80da-9766-d038accb4ccd" class="" dir="auto">Uma das partes mais importantes é saber <strong>qual estrutura escolher</strong>.</p><h3 id="3c1f6ce8-497f-80e1-84cd-f98ce4a7bd83" class="" dir="auto">Use <code>PARA</code> quando:</h3><p id="3c1f6ce8-497f-8090-8edf-f0f32cdc39e4" class="" dir="auto">Você sabe aproximadamente <strong>quantas vezes</strong> a operação deve ser repetida.</p><p id="3c1f6ce8-497f-803e-87cc-ef8a7a645606" class="" dir="auto">Exemplo:</p><pre id="3c1f6ce8-497f-80ff-bdbb-d070e7d584cc" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">para i de 1 até 10 faça</code></pre><p id="3c1f6ce8-497f-80d0-a372-fa24fedae810" class="" dir="auto">Ideal para:</p><ul id="3c1f6ce8-497f-80f7-9eb7-cc3770788dc5" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Contagens;</li></ul><ul id="3c1f6ce8-497f-80c1-94b4-f1bfa3c0b929" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Tabuadas;</li></ul><ul id="3c1f6ce8-497f-8087-afe2-d4e761a0c802" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Percorrer vetores;</li></ul><ul id="3c1f6ce8-497f-80d9-88f1-cb5942aba09b" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Repetições determinadas.</li></ul><hr id="3c1f6ce8-497f-80b6-aae9-d6f9db95fc7f" dir="auto"/><h3 id="3c1f6ce8-497f-80ae-b5fc-f6270e0e462f" class="" dir="auto">Use <code>ENQUANTO</code> quando:</h3><p id="3c1f6ce8-497f-808d-9660-ccd26b7b9ff2" class="" dir="auto">A repetição depende de uma condição que deve ser verificada <strong>antes de executar</strong>.</p><p id="3c1f6ce8-497f-8011-ae81-c4b9c33efa4a" class="" dir="auto">Exemplo:</p><pre id="3c1f6ce8-497f-80da-889a-d59d701dfc3f" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">enquanto senha != correta faça</code></pre><p id="3c1f6ce8-497f-8037-8773-d62455b5e2dc" class="" dir="auto">Ideal para:</p><ul id="3c1f6ce8-497f-80ee-945c-dbd6390f5285" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Menus;</li></ul><ul id="3c1f6ce8-497f-800e-9548-e30ea7ce43b7" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Validações;</li></ul><ul id="3c1f6ce8-497f-80b7-9245-c366cd2b15b7" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Processos que podem terminar em momentos diferentes;</li></ul><ul id="3c1f6ce8-497f-804f-8e2c-e7e26090c2b8" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Repetições condicionais.</li></ul><hr id="3c1f6ce8-497f-803b-8874-c59c6e16d560" dir="auto"/><h3 id="3c1f6ce8-497f-8077-baac-fa37b939edb9" class="" dir="auto">Use <code>REPITA...ATÉ</code> quando:</h3><p id="3c1f6ce8-497f-8006-a02c-d9a0d74e5e60" class="" dir="auto">O bloco precisa ser executado <strong>pelo menos uma vez</strong>.</p><p id="3c1f6ce8-497f-80d6-bab8-dae0d5c617cd" class="" dir="auto">Exemplo:</p><pre id="3c1f6ce8-497f-8000-8106-e4b9ee82981b" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">repita
+    leia(opcao)
+até opcao &gt;= 1 E opcao &lt;= 4</code></pre><p id="3c1f6ce8-497f-8053-a7f8-f35394c78102" class="" dir="auto">Ideal para:</p><ul id="3c1f6ce8-497f-8056-8d99-d76ac38f2efc" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Menus;</li></ul><ul id="3c1f6ce8-497f-80dc-b7f0-f2beb465c293" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Solicitação de dados;</li></ul><ul id="3c1f6ce8-497f-8051-b55d-c262ea728443" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Validações;</li></ul><ul id="3c1f6ce8-497f-80ee-9bf8-cc79bb047b8f" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Processos que precisam acontecer pelo menos uma vez.</li></ul><hr id="3c1f6ce8-497f-8090-96b1-d0cbdfb558cf" dir="auto"/><h1 id="3c1f6ce8-497f-8057-959f-ffa81955ac7f" class="" dir="auto">26. Comparação entre as estruturas</h1><table id="3c1f6ce8-497f-8019-a6ce-cd21713d349a" class="simple-table" dir="ltr"><thead class="simple-table-header"><tr id="3c1f6ce8-497f-801f-aa79-d5a773a61954" dir="ltr"><th id="dLB\" class="simple-table-header-color simple-table-header">Estrutura</th><th id="ZnzU" class="simple-table-header-color simple-table-header">Condição</th><th id="=p:|" class="simple-table-header-color simple-table-header">Executa pelo menos uma vez?</th><th id="^FYm" class="simple-table-header-color simple-table-header">Uso comum</th></tr></thead><tbody><tr id="3c1f6ce8-497f-8038-9872-cbce5a837304" dir="ltr"><td id="dLB\" class=""><code>PARA</code></td><td id="ZnzU" class="">Controle por contador</td><td id="=p:|" class="">Geralmente não</td><td id="^FYm" class="">Repetições determinadas</td></tr><tr id="3c1f6ce8-497f-80ed-b3bf-e22a4a79f46f" dir="ltr"><td id="dLB\" class=""><code>ENQUANTO</code></td><td id="ZnzU" class="">Antes da execução</td><td id="=p:|" class="">Não</td><td id="^FYm" class="">Repetições condicionais</td></tr><tr id="3c1f6ce8-497f-80e1-9d4a-f838d4541053" dir="ltr"><td id="dLB\" class=""><code>REPITA...ATÉ</code></td><td id="ZnzU" class="">Depois da execução</td><td id="=p:|" class="">Sim</td><td id="^FYm" class="">Validações e menus</td></tr></tbody></table><hr id="3c1f6ce8-497f-80a7-9b1b-f81416ab2e1e" dir="auto"/><h1 id="3c1f6ce8-497f-800d-ab8c-f97470196a6f" class="" dir="auto">27. Diferença fundamental entre <code>ENQUANTO</code> e <code>REPITA</code></h1><p id="3c1f6ce8-497f-809f-8d46-c6f008ae7c4a" class="" dir="auto">Essa diferença merece atenção.</p><h3 id="3c1f6ce8-497f-8098-b8e0-ee132745ea40" class="" dir="auto"><code>ENQUANTO</code></h3><pre id="3c1f6ce8-497f-805f-9c46-f8270e4857f1" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">enquanto condição faça
+    ação
+fimenquanto</code></pre><p id="3c1f6ce8-497f-8064-b274-e4552ee6aae5" class="" dir="auto">A condição é testada <strong>antes</strong>.</p><p id="3c1f6ce8-497f-80c0-808b-ddaa4fbb7341" class="" dir="auto">Pode acontecer:</p><pre id="3c1f6ce8-497f-80d6-8ab1-c42e1d0bf431" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">0 execuções</code></pre><h3 id="3c1f6ce8-497f-8099-be58-f3bc926022f8" class="" dir="auto"><code>REPITA</code></h3><pre id="3c1f6ce8-497f-8080-99d8-cb2648135749" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">repita
+    ação
+até condição</code></pre><p id="3c1f6ce8-497f-8017-ad74-db95111a56fb" class="" dir="auto">A condição é testada <strong>depois</strong>.</p><p id="3c1f6ce8-497f-8022-88f0-dc1b83d157f7" class="" dir="auto">Sempre teremos:</p><pre id="3c1f6ce8-497f-8090-8e2d-cb704fd11794" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">1 ou mais execuções</code></pre><hr id="3c1f6ce8-497f-80d1-b220-d7432d0d8a64" dir="auto"/><h1 id="3c1f6ce8-497f-8012-aa56-d8e71ce04142" class="" dir="auto">28. Controle da repetição</h1><p id="3c1f6ce8-497f-80e5-b159-c7415a3f8fc3" class="" dir="auto">Uma estrutura de repetição normalmente possui três elementos importantes:</p><h3 id="3c1f6ce8-497f-80b6-af28-eea02b7a5d3a" class="" dir="auto">1. Inicialização</h3><p id="3c1f6ce8-497f-808d-86e0-ca1c4b22b43c" class="" dir="auto">Define o valor inicial.</p><pre id="3c1f6ce8-497f-8034-908e-ea1b8920eae9" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">contador &lt;- 1</code></pre><h3 id="3c1f6ce8-497f-8051-9f82-c41877dd2a11" class="" dir="auto">2. Condição</h3><p id="3c1f6ce8-497f-80d6-a574-ec531cbc4a4b" class="" dir="auto">Determina se o loop continua.</p><pre id="3c1f6ce8-497f-808c-b540-f9e42d40f15d" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">contador &lt;= 10</code></pre><h3 id="3c1f6ce8-497f-8096-b77f-dca57d47d40b" class="" dir="auto">3. Atualização</h3><p id="3c1f6ce8-497f-80ba-8f60-d6baba8e4cf0" class="" dir="auto">Modifica a variável de controle.</p><pre id="3c1f6ce8-497f-8095-8bf0-e715dedac204" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">contador &lt;- contador + 1</code></pre><p id="3c1f6ce8-497f-800e-8032-febee20e47bb" class="" dir="auto">Exemplo completo:</p><pre id="3c1f6ce8-497f-80c2-a23d-c6a3c2f56fa3" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">contador &lt;- 1
+
+enquanto contador &lt;= 10 faça
+    escreva(contador)
+    contador &lt;- contador + 1
+fimenquanto</code></pre><p id="3c1f6ce8-497f-8076-9df3-ec09566c9799" class="" dir="auto">Esses três elementos são fundamentais para evitar erros.</p><hr id="3c1f6ce8-497f-80bf-8ce6-f3480bde2e4b" dir="auto"/><h1 id="3c1f6ce8-497f-80cf-8899-f209ef2ee9c3" class="" dir="auto">29. Erros comuns</h1><h2 id="3c1f6ce8-497f-807d-8cc6-d7b1aab4f0de" class="" dir="auto">29.1 Esquecer de atualizar o contador</h2><p id="3c1f6ce8-497f-80f2-bd22-e0195d27f6e4" class="" dir="auto">Errado:</p><pre id="3c1f6ce8-497f-80c0-85c0-d832dedf6cc9" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">contador &lt;- 1
+
+enquanto contador &lt;= 10 faça
+    escreva(contador)
+fimenquanto</code></pre><p id="3c1f6ce8-497f-8005-bf6c-d6bd78bacc1b" class="" dir="auto">Isso pode causar um loop infinito.</p><p id="3c1f6ce8-497f-8053-8cc9-c87217d9562b" class="" dir="auto">Correto:</p><pre id="3c1f6ce8-497f-8096-a84d-dcddbd682885" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">contador &lt;- 1
+
+enquanto contador &lt;= 10 faça
+    escreva(contador)
+    contador &lt;- contador + 1
+fimenquanto</code></pre><hr id="3c1f6ce8-497f-802a-a817-d65ca879afbc" dir="auto"/><h2 id="3c1f6ce8-497f-80be-812f-ce49846837db" class="" dir="auto">29.2 Usar uma condição incorreta</h2><p id="3c1f6ce8-497f-8012-acbb-cf54f93b777c" class="" dir="auto">Por exemplo:</p><pre id="3c1f6ce8-497f-807d-a30e-ea195d1d90a3" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">contador &lt;- 1
+
+enquanto contador &gt;= 10 faça
+    escreva(contador)
+    contador &lt;- contador + 1
+fimenquanto</code></pre><p id="3c1f6ce8-497f-80ae-bc79-eb29f8c92754" class="" dir="auto">A condição já começa falsa:</p><pre id="3c1f6ce8-497f-80c0-815b-f3062f60bbe7" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">1 &gt;= 10</code></pre><p id="3c1f6ce8-497f-8021-b861-de021fcc8913" class="" dir="auto">Portanto, o loop não será executado.</p><hr id="3c1f6ce8-497f-8095-a1ba-e043ba6061ad" dir="auto"/><h2 id="3c1f6ce8-497f-8035-8a9c-f2e30d160377" class="" dir="auto">29.3 Alterar a variável na direção errada</h2><p id="3c1f6ce8-497f-80e1-9bf7-edb31d76e992" class="" dir="auto">Imagine:</p><pre id="3c1f6ce8-497f-8076-8998-ea4777293a90" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">contador &lt;- 10
+
+enquanto contador &gt;= 1 faça
+    escreva(contador)
+    contador &lt;- contador + 1
+fimenquanto</code></pre><p id="3c1f6ce8-497f-8071-a1a3-cc93398898c1" class="" dir="auto">O contador deveria diminuir, mas está aumentando.</p><p id="3c1f6ce8-497f-8057-8645-c7637faa207f" class="" dir="auto">O correto seria:</p><pre id="3c1f6ce8-497f-8047-8af0-e7dbdfdf709e" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">contador &lt;- contador - 1</code></pre><hr id="3c1f6ce8-497f-802d-b90d-dcafe3971230" dir="auto"/><h1 id="3c1f6ce8-497f-805f-aa7c-de433c2c0499" class="" dir="auto">30. Aplicações das estruturas de repetição</h1><p id="3c1f6ce8-497f-802b-b401-e2f34350fd44" class="" dir="auto">As estruturas de repetição aparecem em praticamente todos os tipos de software.</p><h3 id="3c1f6ce8-497f-80cc-b818-cd66eca62756" class="" dir="auto">Sistemas</h3><ul id="3c1f6ce8-497f-8023-adb9-f7e3cd4e26c4" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Processamento de usuários;</li></ul><ul id="3c1f6ce8-497f-809c-a02a-f9c205d03f8f" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Processamento de produtos;</li></ul><ul id="3c1f6ce8-497f-80ca-89c7-fd2731addb79" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Geração de relatórios;</li></ul><ul id="3c1f6ce8-497f-808c-8314-d34eb023185c" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Menus;</li></ul><ul id="3c1f6ce8-497f-8032-9c84-f8133d6643aa" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Validações.</li></ul><h3 id="3c1f6ce8-497f-80a7-b5cb-d1637d371961" class="" dir="auto">Desenvolvimento Web</h3><ul id="3c1f6ce8-497f-8028-8f94-dd6f06135ae0" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Percorrer resultados de banco de dados;</li></ul><ul id="3c1f6ce8-497f-8043-9b88-cde5ac51b7ca" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Criar listas;</li></ul><ul id="3c1f6ce8-497f-8020-b5ef-fb7ef0be21e8" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Exibir produtos;</li></ul><ul id="3c1f6ce8-497f-801f-a02f-e1568b9c27f9" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Processar formulários.</li></ul><h3 id="3c1f6ce8-497f-804f-8868-ed8c2e0401b3" class="" dir="auto">Aplicativos</h3><ul id="3c1f6ce8-497f-801c-9aee-ff7b25dcaf19" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Listar informações;</li></ul><ul id="3c1f6ce8-497f-8080-b7e0-ccc9a5a2f995" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Processar dados;</li></ul><ul id="3c1f6ce8-497f-804c-aa7f-cf95d2782a50" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Atualizar elementos da interface.</li></ul><h3 id="3c1f6ce8-497f-801f-9cf0-e627159a72a3" class="" dir="auto">Algoritmos</h3><ul id="3c1f6ce8-497f-80db-88ac-c57e9b4e88ff" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Busca;</li></ul><ul id="3c1f6ce8-497f-807f-9304-e02ae9df8fc8" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Ordenação;</li></ul><ul id="3c1f6ce8-497f-802d-8bae-c635bc2f5bdd" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Processamento de vetores;</li></ul><ul id="3c1f6ce8-497f-800c-bd14-e454ba810b6b" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Matrizes;</li></ul><ul id="3c1f6ce8-497f-80ae-b399-dd22da78912b" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Cálculos;</li></ul><ul id="3c1f6ce8-497f-800d-b752-d11ee5097c53" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Simulações.</li></ul><hr id="3c1f6ce8-497f-80a7-950a-f4e66765179a" dir="auto"/><h1 id="3c1f6ce8-497f-80bc-81ec-c535791aa9e2" class="" dir="auto">31. Exemplo completo</h1><p id="3c1f6ce8-497f-80a9-822f-ee08e4997c5d" class="" dir="auto">Vamos criar um algoritmo que recebe 10 números e informa quantos são positivos e quantos são negativos.</p><pre id="3c1f6ce8-497f-8073-bed3-d0876ead63d4" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">algoritmo &quot;PositivosNegativos&quot;
+
+var
+    i, numero, positivos, negativos: inteiro
+
+inicio
+
+    positivos &lt;- 0
+    negativos &lt;- 0
+
+    para i de 1 até 10 faça
+
+        escreva(&quot;Digite o &quot;, i, &quot;º número: &quot;)
+        leia(numero)
+
+        se numero &gt;= 0 então
+            positivos &lt;- positivos + 1
+        senao
+            negativos &lt;- negativos + 1
+        fimse
+
+    fimpara
+
+    escreva(&quot;Positivos: &quot;, positivos)
+    escreva(&quot;Negativos: &quot;, negativos)
+
+fimalgoritmo</code></pre><p id="3c1f6ce8-497f-80a3-9990-c2b489a1df9b" class="" dir="auto">Aqui temos três conceitos trabalhando juntos:</p><h3 id="3c1f6ce8-497f-80f9-845e-f91931f8f1d2" class="" dir="auto">Repetição</h3><pre id="3c1f6ce8-497f-8000-a2b7-e71ec24443fe" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">para i de 1 até 10</code></pre><h3 id="3c1f6ce8-497f-800a-a919-f562bd75610a" class="" dir="auto">Condição</h3><pre id="3c1f6ce8-497f-80c2-94bb-dbbc36575113" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">se numero &gt;= 0</code></pre><h3 id="3c1f6ce8-497f-802f-9e80-f082fef7eaf5" class="" dir="auto">Contadores</h3><pre id="3c1f6ce8-497f-80cd-8f34-ccb53291ba38" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">positivos &lt;- positivos + 1
+negativos &lt;- negativos + 1</code></pre><p id="3c1f6ce8-497f-80a6-bbf9-ed61be54511f" class="" dir="auto">Isso mostra como estruturas de repetição e estruturas condicionais podem trabalhar juntas.</p><hr id="3c1f6ce8-497f-8013-a9c2-f83d1a058aef" dir="auto"/><h1 id="3c1f6ce8-497f-8067-8251-c03239695ad1" class="" dir="auto">32. Resumo final</h1><p id="3c1f6ce8-497f-80ee-8de8-f74e9d21ebbd" class="" dir="auto">As <strong>estruturas de repetição</strong> permitem executar um conjunto de instruções várias vezes sem precisar escrever o mesmo código repetidamente.</p><p id="3c1f6ce8-497f-802d-a334-d9c60bf55960" class="" dir="auto">As três principais são:</p><h3 id="3c1f6ce8-497f-809f-a5ba-d80b2ff9d2bd" class="" dir="auto"><code>PARA</code></h3><p id="3c1f6ce8-497f-8037-9892-cc480975ec2b" class="" dir="auto">Utilizada principalmente quando sabemos a quantidade de repetições:</p><pre id="3c1f6ce8-497f-80f6-8133-c3f7ac37b657" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">para i de 1 até 10 faça
+    escreva(i)
+fimpara</code></pre><h3 id="3c1f6ce8-497f-8081-af04-e789f6342e70" class="" dir="auto"><code>ENQUANTO</code></h3><p id="3c1f6ce8-497f-80f1-b237-ec68b0286c1e" class="" dir="auto">Executa enquanto uma condição for verdadeira:</p><pre id="3c1f6ce8-497f-8099-aab4-fd0aea20d8bf" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">enquanto idade &lt; 18 faça
+    leia(idade)
+fimenquanto</code></pre><h3 id="3c1f6ce8-497f-80d5-9384-fa0a2a0e036a" class="" dir="auto"><code>REPITA...ATÉ</code></h3><p id="3c1f6ce8-497f-80fc-b694-ead7d91c8c89" class="" dir="auto">Executa pelo menos uma vez e continua até que a condição seja satisfeita:</p><pre id="3c1f6ce8-497f-80d8-83bf-f4ddfd606b86" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">repita
+    leia(opcao)
+até opcao == 0</code></pre><p id="3c1f6ce8-497f-80a3-87d7-d2914f1acf65" class="" dir="auto">A ideia principal pode ser resumida em:</p><p id="3c1f6ce8-497f-80ef-ab3c-e6c02f440e4a" class="" dir="auto"><strong>Condição → Repetição → Atualização → Nova verificação</strong></p><p id="3c1f6ce8-497f-8081-a145-c610ff5a4ce8" class="" dir="auto">Essas estruturas são essenciais porque permitem que algoritmos <strong>processem grandes quantidades de informações, automatizem tarefas repetitivas, percorram dados e executem operações até que uma determinada condição seja atingida</strong>.</p></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

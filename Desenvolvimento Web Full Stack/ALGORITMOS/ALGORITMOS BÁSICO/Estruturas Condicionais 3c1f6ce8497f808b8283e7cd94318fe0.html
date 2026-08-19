@@ -1,0 +1,999 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Estruturas Condicionais</title><meta name="data-notion-page-icon" content="/icons/gear_blue.svg"/><link rel="icon" href="https://app.notion.com/icons/gear_blue.svg"/><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+/* For default-background callouts, render the border outline. */
+.callout.block-color-default_background {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+/*
+ * Toggles and callouts hold arbitrary content, so they can easily be taller
+ * than a page. They must stay breakable: avoiding breaks inside them makes
+ * Chromium push the whole block onto the next page, which leaves the previous
+ * page mostly empty before every long toggle.
+ */
+details,
+aside {
+	margin: 1.25em 0;
+}
+
+/* Keep a toggle's title on the same page as the start of its content. */
+summary {
+	page-break-after: avoid;
+	break-after: avoid;
+}
+
+/*
+ * Toggle headings render as <h1/h2/h3 style="display:inline-block"> inside
+ * <summary>. Without this reset, the heading's margin-top pushes it below the
+ * ::marker (▼), so the triangle and the title appear on separate lines.
+ */
+summary h1,
+summary h2,
+summary h3,
+summary h4 {
+	margin-top: 0;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding-inline: 0.125rem;
+	padding-block: 0.375rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+/*
+ * Render emoji icons using a ::before pseudo-element to keep the glyph
+ * out of the DOM textContent traversal. This avoids double-rendering icons
+ * in callouts and page titles.
+ * NOTE(slim/html-export-pseudo-icons): I can't tagref this because it will
+ * flag as a duplicate tag after codegen.
+ */
+.icon[data-emoji]::before {
+	content: attr(data-emoji);
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	margin-right: 0.4em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.tab {
+	margin: 1.25em 0;
+	padding-inline: 1rem;
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style><style>@import url('https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex-swap.min.css')</style></head><body><article id="3c1f6ce8-497f-808b-8283-e7cd94318fe0" class="page sans" data-notion-page-icon="/icons/gear_blue.svg"><header><div class="page-header-icon undefined"><img class="icon notion-static-icon" src="https://app.notion.com/icons/gear_blue.svg"/></div><h1 class="page-title" dir="auto">Estruturas Condicionais</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><h1 id="3c1f6ce8-497f-8069-9529-cdb4658a5cba" class="" dir="auto">Estruturas Condicionais</h1><p id="3c1f6ce8-497f-8082-a44c-c5a8fc94c4c0" class="" dir="auto">As <strong>estruturas condicionais</strong> são mecanismos utilizados em algoritmos para permitir que um programa <strong>tome decisões</strong> de acordo com determinadas condições.</p><p id="3c1f6ce8-497f-8096-8e21-ee6f50aef777" class="" dir="auto">Na vida real, constantemente tomamos decisões baseadas em condições:</p><blockquote id="3c1f6ce8-497f-80bd-929f-d76054ff40a1" class="" dir="auto">Se estiver chovendo, levo um guarda-chuva.</blockquote><blockquote id="3c1f6ce8-497f-8033-972b-dd020c3fe35d" class="" dir="auto">Se a nota for maior ou igual a 7, o aluno será aprovado.</blockquote><blockquote id="3c1f6ce8-497f-80a2-9205-efdf33545268" class="" dir="auto">Se o usuário informar a senha correta, o acesso será permitido.</blockquote><p id="3c1f6ce8-497f-8088-a715-cc1ace9c34ec" class="" dir="auto">Nos algoritmos, esse mesmo conceito é representado por <strong>estruturas condicionais</strong>.</p><hr id="3c1f6ce8-497f-80b3-a4db-e04306679e05" dir="auto"/><h1 id="3c1f6ce8-497f-806d-82e5-d87d6319c1fe" class="" dir="auto">1. O que são estruturas condicionais?</h1><p id="3c1f6ce8-497f-80aa-9125-f0cbd0b5650a" class="" dir="auto">Uma estrutura condicional permite que o algoritmo <strong>avalie uma condição</strong> e escolha qual instrução deverá ser executada.</p><p id="3c1f6ce8-497f-80b5-bbce-f82fb5ca04b1" class="" dir="auto">A estrutura básica pode ser representada assim:</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="3c1f6ce8-497f-8070-9d75-da868cefcffe" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">SE condição ENTÃO
+    instruções
+FIMSE</code></pre><p id="3c1f6ce8-497f-80ae-9416-f3aa61166a90" class="" dir="auto">O algoritmo verifica a condição.</p><ul id="3c1f6ce8-497f-8068-8fab-c366e3ce09bc" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Se for <strong>verdadeira</strong>, executa as instruções.</li></ul><ul id="3c1f6ce8-497f-8022-ad41-ee0e85df75a2" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Se for <strong>falsa</strong>, não executa essas instruções.</li></ul><p id="3c1f6ce8-497f-80a0-9180-fdb7adf7d364" class="" dir="auto">Por exemplo:</p><pre id="3c1f6ce8-497f-803c-a2be-eb5df91b864f" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">se idade &gt;= 18 então
+    escreva(&quot;Maior de idade.&quot;)
+fimse</code></pre><p id="3c1f6ce8-497f-8010-a916-d3bf722e7da7" class="" dir="auto">Se <code>idade</code> for 20:</p><pre id="3c1f6ce8-497f-80f2-9063-f61dc71d317e" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">20 &gt;= 18</code></pre><p id="3c1f6ce8-497f-8066-bf30-d1739e8c4e3c" class="" dir="auto">Resultado:</p><pre id="3c1f6ce8-497f-802e-900b-c8af685403ee" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Verdadeiro</code></pre><p id="3c1f6ce8-497f-80e2-b47b-dc90ef74cbb3" class="" dir="auto">Então será exibido:</p><pre id="3c1f6ce8-497f-8044-b346-f1d5ab2e057c" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Maior de idade.</code></pre><hr id="3c1f6ce8-497f-8048-9acb-f1bc733a6036" dir="auto"/><h1 id="3c1f6ce8-497f-8050-a445-e6ac55cc358f" class="" dir="auto">2. Por que utilizar estruturas condicionais?</h1><p id="3c1f6ce8-497f-80ee-90ef-e5b8e021b1c4" class="" dir="auto">Sem estruturas condicionais, um algoritmo teria muita dificuldade para <strong>reagir de maneira diferente dependendo dos dados recebidos</strong>.</p><p id="3c1f6ce8-497f-80f8-940b-fefa9afed667" class="" dir="auto">Imagine um sistema de notas.</p><p id="3c1f6ce8-497f-80d7-9abe-da4f36b8913a" class="" dir="auto">Sem uma condição, o programa poderia simplesmente exibir:</p><pre id="3c1f6ce8-497f-80eb-b1d7-f654165d6f52" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Aluno aprovado.</code></pre><p id="3c1f6ce8-497f-80a0-8a6d-d73ffe7d8c8a" class="" dir="auto">para todos os alunos.</p><p id="3c1f6ce8-497f-80eb-8d9e-ed6b0020be1a" class="" dir="auto">Com uma estrutura condicional:</p><pre id="3c1f6ce8-497f-8098-b959-ca12b5cde0d8" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">se media &gt;= 7 então
+    escreva(&quot;Aprovado.&quot;)
+senao
+    escreva(&quot;Reprovado.&quot;)
+fimse</code></pre><p id="3c1f6ce8-497f-80ea-b9e0-ebbc1034286a" class="" dir="auto">o programa consegue analisar a média e tomar uma decisão automaticamente.</p><hr id="3c1f6ce8-497f-807e-86bc-d89d2bda1793" dir="auto"/><h1 id="3c1f6ce8-497f-8069-9009-c4eb6c5d6339" class="" dir="auto">3. Condições</h1><p id="3c1f6ce8-497f-803a-86f1-d9a3c195b57b" class="" dir="auto">Uma condição é uma expressão que pode produzir:</p><ul id="3c1f6ce8-497f-800c-87e0-e9729b1d09a2" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>Verdadeiro</strong></li></ul><ul id="3c1f6ce8-497f-80b3-a78d-e5056d37086a" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>Falso</strong></li></ul><p id="3c1f6ce8-497f-80cd-a1cc-f76daca836d2" class="" dir="auto">Normalmente, utilizamos <strong>operadores relacionais</strong> e <strong>operadores lógicos</strong> para construir essas condições.</p><h3 id="3c1f6ce8-497f-8020-9025-d5622e9132ea" class="" dir="auto">Exemplo:</h3><pre id="3c1f6ce8-497f-80e1-b2b8-dbf6a90242db" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">idade &gt;= 18</code></pre><h3 id="3c1f6ce8-497f-80b0-bd97-e214e67b6424" class="" dir="auto">Outro exemplo:</h3><pre id="3c1f6ce8-497f-80b6-b86a-c7657e5be456" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">nota &gt;= 7</code></pre><h3 id="3c1f6ce8-497f-804f-aec0-cd767062909c" class="" dir="auto">Com operador lógico:</h3><pre id="3c1f6ce8-497f-80f1-840a-ff9264d7b155" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">nota &gt;= 7 E frequencia &gt;= 75</code></pre><p id="3c1f6ce8-497f-802e-bd43-ffaff1fbc66a" class="" dir="auto">A condição pode ser simples ou composta.</p><hr id="3c1f6ce8-497f-80ad-b394-facb137559f4" dir="auto"/><h1 id="3c1f6ce8-497f-801a-9844-d842e9ae11d1" class="" dir="auto">4. Estrutura <code>SE</code></h1><p id="3c1f6ce8-497f-803f-bd76-dc30991a8ceb" class="" dir="auto">A estrutura <code>SE</code> é a forma mais básica de estrutura condicional.</p><p id="3c1f6ce8-497f-8042-b451-e81fa6ad6cf4" class="" dir="auto">Sua função é executar um conjunto de instruções <strong>somente quando uma condição for verdadeira</strong>.</p><p id="3c1f6ce8-497f-80bf-843a-cbb190fb58fc" class="" dir="auto">Sintaxe:</p><pre id="3c1f6ce8-497f-8007-83f5-ed99f447ff17" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">se condição então
+    instruções
+fimse</code></pre><h3 id="3c1f6ce8-497f-8042-8d9b-fde58d1e25dc" class="" dir="auto">Exemplo:</h3><pre id="3c1f6ce8-497f-8012-b98a-d01be4a97fad" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">se idade &gt;= 18 então
+    escreva(&quot;Você é maior de idade.&quot;)
+fimse</code></pre><p id="3c1f6ce8-497f-807e-b9b3-f68c1764ce47" class="" dir="auto">Se <code>idade</code> for 21:</p><pre id="3c1f6ce8-497f-809e-a724-d23f31619949" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">21 &gt;= 18</code></pre><p id="3c1f6ce8-497f-80a2-bc71-c3fb09f9afaa" class="" dir="auto">é verdadeiro.</p><p id="3c1f6ce8-497f-8087-8405-e6b522b0d3b8" class="" dir="auto">Portanto:</p><pre id="3c1f6ce8-497f-80e6-9b35-eb0169a87f38" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Você é maior de idade.</code></pre><p id="3c1f6ce8-497f-80ed-889c-f8b4c030fbd0" class="" dir="auto">será exibido.</p><hr id="3c1f6ce8-497f-8093-b08e-e1f696e06f6c" dir="auto"/><h1 id="3c1f6ce8-497f-80c0-95a3-cd006c548b24" class="" dir="auto">5. O que acontece quando a condição é falsa?</h1><p id="3c1f6ce8-497f-8077-aa99-c6cff446a1ef" class="" dir="auto">Se a condição for falsa, o bloco do <code>SE</code> simplesmente não será executado.</p><p id="3c1f6ce8-497f-80e7-bf12-cc5c1f6ba7b6" class="" dir="auto">Exemplo:</p><pre id="3c1f6ce8-497f-803b-b1b6-e5cec55d0ffb" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">idade &lt;- 15
+
+se idade &gt;= 18 então
+    escreva(&quot;Maior de idade.&quot;)
+fimse</code></pre><p id="3c1f6ce8-497f-8050-99e0-cae6c906e398" class="" dir="auto">A condição:</p><pre id="3c1f6ce8-497f-8055-9252-ca8faa87fb0c" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">15 &gt;= 18</code></pre><p id="3c1f6ce8-497f-8078-8a5e-d3571f43589f" class="" dir="auto">é falsa.</p><p id="3c1f6ce8-497f-80fc-a6bb-e6d73dd8d5a0" class="" dir="auto">Portanto, nada será exibido pelo <code>SE</code>.</p><p id="3c1f6ce8-497f-80a5-80ed-c889a83c71f0" class="" dir="auto">Essa é uma característica importante:</p><blockquote id="3c1f6ce8-497f-808f-b171-e15df9d8d74a" class="" dir="auto">O <code>SE</code> sozinho executa alguma coisa apenas quando a condição é verdadeira.</blockquote><hr id="3c1f6ce8-497f-8086-b7fa-ea1e10c97d7d" dir="auto"/><h1 id="3c1f6ce8-497f-80fa-8aa4-cb4affb93eb7" class="" dir="auto">6. Estrutura <code>SE...SENÃO</code></h1><p id="3c1f6ce8-497f-8036-b7f2-c8ec24652784" class="" dir="auto">Quando queremos executar uma ação quando a condição é verdadeira <strong>e outra ação quando ela é falsa</strong>, utilizamos <code>SENÃO</code>.</p><p id="3c1f6ce8-497f-8016-83e8-c64231dc2f73" class="" dir="auto">Estrutura:</p><pre id="3c1f6ce8-497f-808c-9731-e36c73f9b6d7" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">se condição então
+    instruções quando verdadeiro
+senao
+    instruções quando falso
+fimse</code></pre><h3 id="3c1f6ce8-497f-801b-ac87-cb61512d578a" class="" dir="auto">Exemplo:</h3><pre id="3c1f6ce8-497f-8020-ae8f-d7c1fe1582e0" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">se idade &gt;= 18 então
+    escreva(&quot;Maior de idade.&quot;)
+senao
+    escreva(&quot;Menor de idade.&quot;)
+fimse</code></pre><p id="3c1f6ce8-497f-80c9-aa57-ee0f7aa5be72" class="" dir="auto">Se:</p><pre id="3c1f6ce8-497f-80f8-afb6-d7c4e0e3cc72" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">idade = 20</code></pre><p id="3c1f6ce8-497f-80a7-a26b-efa210fd07d1" class="" dir="auto">resultado:</p><pre id="3c1f6ce8-497f-8047-bc0d-ce6fe2551782" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Maior de idade.</code></pre><p id="3c1f6ce8-497f-80e4-854c-f49e62392f9a" class="" dir="auto">Se:</p><pre id="3c1f6ce8-497f-800c-8872-ed1330011327" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">idade = 15</code></pre><p id="3c1f6ce8-497f-8052-a7e8-ef6e05ae1205" class="" dir="auto">resultado:</p><pre id="3c1f6ce8-497f-8020-8581-d72620537ba6" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Menor de idade.</code></pre><hr id="3c1f6ce8-497f-8040-9434-e283f5c50e7d" dir="auto"/><h1 id="3c1f6ce8-497f-80c7-8866-c5d90e43eb59" class="" dir="auto">7. Exemplo com notas</h1><p id="3c1f6ce8-497f-8095-a6d5-f59f09b931b7" class="" dir="auto">Um exemplo muito comum é verificar se um aluno foi aprovado.</p><pre id="3c1f6ce8-497f-8001-b9b4-cf21dda037e8" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">algoritmo &quot;Aprovacao&quot;
+
+var
+    nota: real
+
+inicio
+    escreva(&quot;Digite a nota: &quot;)
+    leia(nota)
+
+    se nota &gt;= 7 então
+        escreva(&quot;Aluno aprovado.&quot;)
+    senao
+        escreva(&quot;Aluno reprovado.&quot;)
+    fimse
+
+fimalgoritmo</code></pre><p id="3c1f6ce8-497f-80ac-9fd8-df54fa060819" class="" dir="auto">Se o usuário informar:</p><pre id="3c1f6ce8-497f-8035-8347-eb7e9959bdcf" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">8</code></pre><p id="3c1f6ce8-497f-8055-a8cf-fd2c5cfada7d" class="" dir="auto">o algoritmo verifica:</p><pre id="3c1f6ce8-497f-80c9-8669-cec6a186ffb8" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">8 &gt;= 7</code></pre><p id="3c1f6ce8-497f-80a1-968d-f873570b2055" class="" dir="auto">Resultado:</p><pre id="3c1f6ce8-497f-808e-a74c-e0e1796b694e" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Verdadeiro</code></pre><p id="3c1f6ce8-497f-8010-bb9b-c9d4caca8327" class="" dir="auto">Então:</p><pre id="3c1f6ce8-497f-8094-ad42-d7483d4f387a" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Aluno aprovado.</code></pre><p id="3c1f6ce8-497f-806b-8c8b-eae3e427879c" class="" dir="auto">Se informar:</p><pre id="3c1f6ce8-497f-8025-b2d9-e92675b7e239" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">5</code></pre><p id="3c1f6ce8-497f-80fa-a2a6-e8bad97cc120" class="" dir="auto">temos:</p><pre id="3c1f6ce8-497f-80b3-9497-c4f321a382e2" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">5 &gt;= 7</code></pre><p id="3c1f6ce8-497f-80a2-8409-e9142eaf06b7" class="" dir="auto">Resultado:</p><pre id="3c1f6ce8-497f-8087-84f7-e9bf24c8fdeb" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Falso</code></pre><p id="3c1f6ce8-497f-80a5-abd1-c7cfb1300bf9" class="" dir="auto">Então:</p><pre id="3c1f6ce8-497f-80bc-98cc-db264359378e" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Aluno reprovado.</code></pre><hr id="3c1f6ce8-497f-80af-9d43-fbdf18d310e0" dir="auto"/><h1 id="3c1f6ce8-497f-8058-b42f-c6f4a0b45c04" class="" dir="auto">8. Condições encadeadas</h1><p id="3c1f6ce8-497f-8066-b301-e5d91ba8376b" class="" dir="auto">Existem situações em que apenas duas possibilidades não são suficientes.</p><p id="3c1f6ce8-497f-80c2-9f0a-c244b3db5edb" class="" dir="auto">Por exemplo, imagine um sistema de classificação de notas:</p><ul id="3c1f6ce8-497f-80d9-8daf-d1b8867e6ea6" class="bulleted-list" dir="auto"><li style="list-style-type:disc">0 a 4,9 → Reprovado</li></ul><ul id="3c1f6ce8-497f-80ef-ae75-f6fd644e3266" class="bulleted-list" dir="auto"><li style="list-style-type:disc">5 a 6,9 → Recuperação</li></ul><ul id="3c1f6ce8-497f-80ef-a33a-e08424b1706e" class="bulleted-list" dir="auto"><li style="list-style-type:disc">7 a 10 → Aprovado</li></ul><p id="3c1f6ce8-497f-80cb-9593-f97b6f2f7609" class="" dir="auto">Nesse caso, podemos utilizar várias condições.</p><pre id="3c1f6ce8-497f-80f1-aea7-dd7103e5deb3" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">se nota &gt;= 7 então
+    escreva(&quot;Aprovado.&quot;)
+senao se nota &gt;= 5 então
+    escreva(&quot;Recuperação.&quot;)
+senao
+    escreva(&quot;Reprovado.&quot;)
+fimse</code></pre><p id="3c1f6ce8-497f-8056-b376-f3a45d2b2c19" class="" dir="auto">O algoritmo testa as condições <strong>em sequência</strong>.</p><hr id="3c1f6ce8-497f-8064-ba6d-c59fb9c1286b" dir="auto"/><h1 id="3c1f6ce8-497f-8009-9d1a-e4bbb554d6b8" class="" dir="auto">9. Como funciona o <code>SENÃO SE</code></h1><p id="3c1f6ce8-497f-8013-bdd1-d2fedc453748" class="" dir="auto">Considere:</p><pre id="3c1f6ce8-497f-807c-aca3-c3ddb414d5a9" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">nota = 6</code></pre><p id="3c1f6ce8-497f-8048-bfcd-d8ed0b8ace8b" class="" dir="auto">Primeiro:</p><pre id="3c1f6ce8-497f-8089-8296-f094dfe7c7a2" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">nota &gt;= 7</code></pre><p id="3c1f6ce8-497f-8030-8757-ecd643aa5bd2" class="" dir="auto">é falso.</p><p id="3c1f6ce8-497f-80c8-938b-cb45fecc9489" class="" dir="auto">Então o algoritmo verifica:</p><pre id="3c1f6ce8-497f-80e8-a83a-de73b31ae5b0" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">nota &gt;= 5</code></pre><p id="3c1f6ce8-497f-80a6-8392-fa7dcbff0812" class="" dir="auto">que é verdadeiro.</p><p id="3c1f6ce8-497f-808d-894a-f5dcf2339d9a" class="" dir="auto">Resultado:</p><pre id="3c1f6ce8-497f-8051-8916-ce476ac7bc29" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Recuperação.</code></pre><p id="3c1f6ce8-497f-80b2-970a-e376113612db" class="" dir="auto">Se:</p><pre id="3c1f6ce8-497f-80da-87c3-e8a2978b74b5" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">nota = 8</code></pre><p id="3c1f6ce8-497f-8075-bedb-d5f3429d9cce" class="" dir="auto">a primeira condição já será verdadeira:</p><pre id="3c1f6ce8-497f-8042-9967-ca64f6a6fc51" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">8 &gt;= 7</code></pre><p id="3c1f6ce8-497f-8014-8940-de4f993fa3e6" class="" dir="auto">Então o programa executará:</p><pre id="3c1f6ce8-497f-8016-a4b9-cf492e026ebe" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Aprovado.</code></pre><p id="3c1f6ce8-497f-80f7-9db7-ff3f6a9eb8ba" class="" dir="auto">e não precisará executar as condições seguintes.</p><hr id="3c1f6ce8-497f-80cd-8868-f48520723fcb" dir="auto"/><h1 id="3c1f6ce8-497f-8079-9081-cc36c8e06796" class="" dir="auto">10. Múltiplas condições</h1><p id="3c1f6ce8-497f-8095-964a-c1d7e15ce3c2" class="" dir="auto">Podemos combinar operadores relacionais e lógicos dentro de uma estrutura condicional.</p><p id="3c1f6ce8-497f-80b0-86d8-f402697de0dd" class="" dir="auto">Por exemplo:</p><pre id="3c1f6ce8-497f-807b-8dab-f721012bd9d0" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">se idade &gt;= 18 E possuiDocumento então
+    escreva(&quot;Entrada permitida.&quot;)
+senao
+    escreva(&quot;Entrada negada.&quot;)
+fimse</code></pre><p id="3c1f6ce8-497f-808e-bda4-f689116b5b4d" class="" dir="auto">Nesse caso, duas condições precisam ser verdadeiras:</p><pre id="3c1f6ce8-497f-8005-8ee6-dd9c5c06f2e2" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">idade &gt;= 18</code></pre><p id="3c1f6ce8-497f-80c9-bc2c-e25e794bf473" class="" dir="auto">e:</p><pre id="3c1f6ce8-497f-806b-931c-db5d467bce53" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">possuiDocumento</code></pre><p id="3c1f6ce8-497f-8002-ac38-fbbcccf69ef0" class="" dir="auto">O operador <code>E</code> determina que ambas precisam ser verdadeiras.</p><hr id="3c1f6ce8-497f-809c-9be3-cbfd0f570c63" dir="auto"/><h1 id="3c1f6ce8-497f-80b4-8b58-df6209339508" class="" dir="auto">11. Utilizando <code>OU</code></h1><p id="3c1f6ce8-497f-8014-b7b7-c8475d81d908" class="" dir="auto">Também podemos utilizar o operador <code>OU</code>.</p><p id="3c1f6ce8-497f-8089-bb94-c00c77940826" class="" dir="auto">Exemplo:</p><pre id="3c1f6ce8-497f-804e-8f5a-f21a4e9c19e3" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">se idade &lt; 18 OU idade &gt; 60 então
+    escreva(&quot;Desconto especial.&quot;)
+fimse</code></pre><p id="3c1f6ce8-497f-8090-a136-edd47244b818" class="" dir="auto">Nesse caso, basta uma das condições ser verdadeira.</p><p id="3c1f6ce8-497f-8072-b677-c016e5be9a26" class="" dir="auto">Se:</p><pre id="3c1f6ce8-497f-8049-a56f-c4fb8cd3c275" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">idade = 15</code></pre><p id="3c1f6ce8-497f-8078-ba00-ca4e5263b6a7" class="" dir="auto">temos:</p><pre id="3c1f6ce8-497f-80bb-ade5-e6a20c867c43" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">15 &lt; 18 → Verdadeiro</code></pre><p id="3c1f6ce8-497f-80d9-9380-f1ba3fe0974f" class="" dir="auto">Então o desconto será aplicado.</p><p id="3c1f6ce8-497f-8046-8ed1-cb8de0d8b176" class="" dir="auto">Se:</p><pre id="3c1f6ce8-497f-803d-8b46-e6f0849aa786" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">idade = 70</code></pre><p id="3c1f6ce8-497f-8062-b380-e8e4b2d2fd1c" class="" dir="auto">temos:</p><pre id="3c1f6ce8-497f-80e1-ad32-dc74f2ec3df1" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">70 &gt; 60 → Verdadeiro</code></pre><p id="3c1f6ce8-497f-8050-8b6d-d2962b406cb5" class="" dir="auto">Também será aplicado.</p><hr id="3c1f6ce8-497f-803c-b72d-ca6e806e2e3c" dir="auto"/><h1 id="3c1f6ce8-497f-8003-9857-df38a38d4d52" class="" dir="auto">12. Utilizando <code>NÃO</code></h1><p id="3c1f6ce8-497f-80e3-a4da-f237acadf208" class="" dir="auto">O operador <code>NÃO</code> pode inverter uma condição.</p><p id="3c1f6ce8-497f-80a1-baba-da91c75a78d2" class="" dir="auto">Exemplo:</p><pre id="3c1f6ce8-497f-809f-a7ae-c487a9e3a21e" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">se nao autorizado então
+    escreva(&quot;Acesso negado.&quot;)
+fimse</code></pre><p id="3c1f6ce8-497f-80b1-b117-edb3f9da351a" class="" dir="auto">Se <code>autorizado</code> for:</p><pre id="3c1f6ce8-497f-80cc-a849-f7148dd57823" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">falso</code></pre><p id="3c1f6ce8-497f-8001-9d11-f25ed2eb7f35" class="" dir="auto">então:</p><pre id="3c1f6ce8-497f-800d-beba-c4330bbee410" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">nao autorizado</code></pre><p id="3c1f6ce8-497f-80de-a5f1-c90464cfd9d5" class="" dir="auto">será:</p><pre id="3c1f6ce8-497f-80b2-a29d-c93021cdb286" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">verdadeiro</code></pre><p id="3c1f6ce8-497f-800c-b6c4-c94e17b4d9e0" class="" dir="auto">e o acesso será negado.</p><hr id="3c1f6ce8-497f-800d-ad6d-f81490b7cead" dir="auto"/><h1 id="3c1f6ce8-497f-8013-b69d-ce263e9a61b0" class="" dir="auto">13. Estruturas condicionais aninhadas</h1><p id="3c1f6ce8-497f-80d1-a91f-e4da3140e2a0" class="" dir="auto">Uma estrutura condicional pode existir <strong>dentro de outra estrutura condicional</strong>.</p><p id="3c1f6ce8-497f-80f2-85b9-fee3f4c2296c" class="" dir="auto">Isso é chamado de <strong>condicional aninhada</strong>.</p><p id="3c1f6ce8-497f-80c3-af88-fd20a02aed12" class="" dir="auto">Exemplo:</p><pre id="3c1f6ce8-497f-80a4-afcf-c79280622806" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">se idade &gt;= 18 então
+
+    se possuiDocumento então
+        escreva(&quot;Entrada permitida.&quot;)
+    senao
+        escreva(&quot;Documento necessário.&quot;)
+    fimse
+
+senao
+    escreva(&quot;Menor de idade.&quot;)
+fimse</code></pre><p id="3c1f6ce8-497f-807a-abbd-cdb910d5eee6" class="" dir="auto">O algoritmo primeiro verifica a idade.</p><p id="3c1f6ce8-497f-80c9-8888-d72b77243ba5" class="" dir="auto">Se a pessoa for maior de idade, ele realiza uma segunda verificação:</p><pre id="3c1f6ce8-497f-801d-bf7b-dc682e478291" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">possuiDocumento</code></pre><p id="3c1f6ce8-497f-8083-90da-c08c361e2484" class="" dir="auto">Isso permite criar regras mais detalhadas.</p><hr id="3c1f6ce8-497f-80fa-ba43-f13cf77a596b" dir="auto"/><h1 id="3c1f6ce8-497f-805f-8ca7-e40f3d82d9df" class="" dir="auto">14. Exemplo de condicional aninhada</h1><p id="3c1f6ce8-497f-80b6-acbf-cf69b57c692d" class="" dir="auto">Imagine um sistema de login:</p><pre id="3c1f6ce8-497f-8090-8549-f3644ac9b535" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">se usuarioExiste então
+
+    se senhaCorreta então
+        escreva(&quot;Login realizado.&quot;)
+    senao
+        escreva(&quot;Senha incorreta.&quot;)
+    fimse
+
+senao
+    escreva(&quot;Usuário não encontrado.&quot;)
+fimse</code></pre><p id="3c1f6ce8-497f-80f2-842e-e3bd9c4b880e" class="" dir="auto">Existem duas etapas:</p><h3 id="3c1f6ce8-497f-8088-8187-de3f40f03c5b" class="" dir="auto">Primeira condição</h3><pre id="3c1f6ce8-497f-8036-8725-ddf2ad68a174" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">usuarioExiste</code></pre><h3 id="3c1f6ce8-497f-8027-bb03-f9b4d607c743" class="" dir="auto">Segunda condição</h3><pre id="3c1f6ce8-497f-801a-a34c-eb6ecf2f7e4f" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">senhaCorreta</code></pre><p id="3c1f6ce8-497f-801d-91fa-f96b6a4eeaa4" class="" dir="auto">Somente se o usuário existir será necessário verificar a senha.</p><hr id="3c1f6ce8-497f-804b-96f0-ccb7fcea76e2" dir="auto"/><h1 id="3c1f6ce8-497f-8053-a1b8-cbf57fd1f65c" class="" dir="auto">15. Estrutura <code>ESCOLHA/CASO</code></h1><p id="3c1f6ce8-497f-8070-9a12-e0d646dbe0e7" class="" dir="auto">Além do <code>SE</code>, alguns pseudocódigos possuem uma estrutura chamada <code>ESCOLHA</code>, <code>CASO</code> ou <code>SWITCH</code>.</p><p id="3c1f6ce8-497f-8038-836c-f021dd77f2b9" class="" dir="auto">Ela é utilizada quando precisamos comparar uma variável com <strong>vários valores específicos</strong>.</p><p id="3c1f6ce8-497f-80fd-a8f8-c795a930b771" class="" dir="auto">Por exemplo, um menu:</p><pre id="3c1f6ce8-497f-80a5-9b00-f4cf18526cff" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">escolha opcao
+
+    caso 1:
+        escreva(&quot;Cadastrar usuário.&quot;)
+
+    caso 2:
+        escreva(&quot;Consultar usuário.&quot;)
+
+    caso 3:
+        escreva(&quot;Excluir usuário.&quot;)
+
+    caso contrario:
+        escreva(&quot;Opção inválida.&quot;)
+
+fimescolha</code></pre><p id="3c1f6ce8-497f-80fe-bdbd-edb95cf5873e" class="" dir="auto">Se:</p><pre id="3c1f6ce8-497f-807f-a142-cb053bb789a0" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">opcao = 2</code></pre><p id="3c1f6ce8-497f-8073-bd6f-da64538d25d5" class="" dir="auto">será executado:</p><pre id="3c1f6ce8-497f-8014-83c3-c6a47fdab14c" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Consultar usuário.</code></pre><hr id="3c1f6ce8-497f-80a0-9b9b-ec85cde59d8b" dir="auto"/><h1 id="3c1f6ce8-497f-80e8-a6f6-c87753ae0371" class="" dir="auto">16. Quando usar <code>SE</code> e quando usar <code>ESCOLHA</code></h1><p id="3c1f6ce8-497f-80c6-a1aa-dd6b214f456d" class="" dir="auto">As duas estruturas podem realizar decisões, mas possuem usos diferentes.</p><h3 id="3c1f6ce8-497f-8091-a2e3-e048b04b3557" class="" dir="auto"><code>SE</code></h3><p id="3c1f6ce8-497f-8080-8804-e95097ca1b14" class="" dir="auto">É mais apropriado para <strong>condições e comparações</strong>:</p><pre id="3c1f6ce8-497f-809a-aa9a-ccebe9d19872" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">se idade &gt;= 18 então</code></pre><p id="3c1f6ce8-497f-809d-b5b5-e4a8c30859dd" class="" dir="auto">ou:</p><pre id="3c1f6ce8-497f-802a-b0f5-de1bdbf9a41b" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">se nota &gt;= 7 E frequencia &gt;= 75 então</code></pre><h3 id="3c1f6ce8-497f-80b4-a988-f0e755ad4bbf" class="" dir="auto"><code>ESCOLHA/CASO</code></h3><p id="3c1f6ce8-497f-8019-ae40-fae4102865c3" class="" dir="auto">É mais apropriado quando temos <strong>vários valores específicos</strong>:</p><pre id="3c1f6ce8-497f-8068-924e-c650ba1d30bf" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">caso 1
+caso 2
+caso 3
+caso 4</code></pre><p id="3c1f6ce8-497f-80b2-8279-f4e8dfd2768c" class="" dir="auto">Por exemplo:</p><pre id="3c1f6ce8-497f-80f8-b8f1-dac9c4d65b7f" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">escolha opcao
+    caso 1:
+        ...
+    caso 2:
+        ...
+    caso 3:
+        ...
+fimescolha</code></pre><hr id="3c1f6ce8-497f-808b-ac69-fe6f639b395e" dir="auto"/><h1 id="3c1f6ce8-497f-8057-aa43-eec26a803675" class="" dir="auto">17. Estruturas condicionais em fluxogramas</h1><p id="3c1f6ce8-497f-8088-9073-f9703fd95a12" class="" dir="auto">As estruturas condicionais também podem ser representadas por <strong>fluxogramas</strong>.</p><p id="3c1f6ce8-497f-809e-b64e-cb471873fdaf" class="" dir="auto">O elemento mais importante é o <strong>losango</strong>, que representa uma decisão.</p><p id="3c1f6ce8-497f-8090-9018-efc333f5f2e0" class="" dir="auto">A lógica pode ser representada assim:</p><pre id="3c1f6ce8-497f-801b-a486-cbe1fe62ffe3" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">       Início
+          |
+          v
+   [Verificar condição]
+       /          \
+    Sim            Não
+     |              |
+     v              v
+ [Ação 1]        [Ação 2]
+     |              |
+     \______  ______/
+            \/
+           Fim</code></pre><p id="3c1f6ce8-497f-803d-8daa-ea20dd6a81cb" class="" dir="auto">Por exemplo:</p><pre id="3c1f6ce8-497f-80c0-adce-e43855d2b2cb" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">        Início
+          |
+          v
+      idade &gt;= 18?
+       /       \
+     Sim       Não
+      |          |
+      v          v
+   Adulto     Menor
+      \          /
+       \        /
+         Fim</code></pre><p id="3c1f6ce8-497f-80cf-86c6-d32f184e2a54" class="" dir="auto">O fluxograma facilita a visualização do <strong>caminho que o algoritmo seguirá</strong>.</p><hr id="3c1f6ce8-497f-807d-b5eb-ec903eede0c6" dir="auto"/><h1 id="3c1f6ce8-497f-802f-a90d-d8bdcb23995c" class="" dir="auto">18. Estruturas condicionais e fluxo de execução</h1><p id="3c1f6ce8-497f-805a-9720-d6ddd846257b" class="" dir="auto">Normalmente, um algoritmo executa as instruções <strong>de cima para baixo</strong>.</p><p id="3c1f6ce8-497f-80a1-9abe-d8afd37da246" class="" dir="auto">Por exemplo:</p><pre id="3c1f6ce8-497f-80d1-a840-e84c1ab73093" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">leia(idade)
+
+se idade &gt;= 18 então
+    escreva(&quot;Adulto.&quot;)
+senao
+    escreva(&quot;Menor.&quot;)
+fimse
+
+escreva(&quot;Fim.&quot;)</code></pre><p id="3c1f6ce8-497f-804d-8c30-fefe4e3cba0a" class="" dir="auto">Se <code>idade = 20</code>, a execução será:</p><pre id="3c1f6ce8-497f-8025-bf02-f85add89ec18" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">1. Receber idade
+2. Verificar idade &gt;= 18
+3. Executar &quot;Adulto&quot;
+4. Executar &quot;Fim&quot;</code></pre><p id="3c1f6ce8-497f-80d7-a6d6-e049675006a7" class="" dir="auto">Se <code>idade = 15</code>:</p><pre id="3c1f6ce8-497f-80f3-9e80-d3b702332068" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">1. Receber idade
+2. Verificar idade &gt;= 18
+3. Executar &quot;Menor&quot;
+4. Executar &quot;Fim&quot;</code></pre><p id="3c1f6ce8-497f-80ff-a22e-d785bb2a9ee6" class="" dir="auto">Portanto, a estrutura condicional <strong>altera o caminho de execução do algoritmo</strong>.</p><hr id="3c1f6ce8-497f-80ee-ad3f-e174196d82f7" dir="auto"/><h1 id="3c1f6ce8-497f-80b1-a304-de9b4a0759ad" class="" dir="auto">19. Exemplo completo: classificação de idade</h1><pre id="3c1f6ce8-497f-80e5-bd81-f18274655e30" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">algoritmo &quot;Classificacao&quot;
+
+var
+    idade: inteiro
+
+inicio
+
+    escreva(&quot;Digite sua idade: &quot;)
+    leia(idade)
+
+    se idade &lt; 12 então
+        escreva(&quot;Criança.&quot;)
+
+    senao se idade &lt; 18 então
+        escreva(&quot;Adolescente.&quot;)
+
+    senao se idade &lt; 60 então
+        escreva(&quot;Adulto.&quot;)
+
+    senao
+        escreva(&quot;Idoso.&quot;)
+
+    fimse
+
+fimalgoritmo</code></pre><p id="3c1f6ce8-497f-8040-a193-e20f166c4e41" class="" dir="auto">Se o usuário informar:</p><pre id="3c1f6ce8-497f-806e-b99c-e50c5555595a" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">10</code></pre><p id="3c1f6ce8-497f-808c-a786-de70fb5ab777" class="" dir="auto">resultado:</p><pre id="3c1f6ce8-497f-80d9-b060-e91d1b789416" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Criança.</code></pre><p id="3c1f6ce8-497f-8079-b5fe-fec09f071dcb" class="" dir="auto">Se informar:</p><pre id="3c1f6ce8-497f-800b-969d-ea8a2759096d" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">15</code></pre><p id="3c1f6ce8-497f-802d-97a4-c12f056cf928" class="" dir="auto">resultado:</p><pre id="3c1f6ce8-497f-80d3-8350-e4c7840e0441" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Adolescente.</code></pre><p id="3c1f6ce8-497f-8090-af4d-d6eefe012194" class="" dir="auto">Se informar:</p><pre id="3c1f6ce8-497f-80ca-9d1a-fb62a976548f" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">30</code></pre><p id="3c1f6ce8-497f-80f8-8749-fdd219151c6c" class="" dir="auto">resultado:</p><pre id="3c1f6ce8-497f-80b1-aa22-d780df9ca795" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Adulto.</code></pre><p id="3c1f6ce8-497f-80e6-a73a-f3ca32c85188" class="" dir="auto">Se informar:</p><pre id="3c1f6ce8-497f-80bf-a052-ca75bec5707f" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">70</code></pre><p id="3c1f6ce8-497f-8019-ac31-ddc7c68d15df" class="" dir="auto">resultado:</p><pre id="3c1f6ce8-497f-80e4-a2fc-f33d18deccd3" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Idoso.</code></pre><hr id="3c1f6ce8-497f-8025-ae7a-fa8a32680b23" dir="auto"/><h1 id="3c1f6ce8-497f-80e1-993d-df201559ac4c" class="" dir="auto">20. Validação de dados</h1><p id="3c1f6ce8-497f-80d6-91ee-f6c801f9b9b0" class="" dir="auto">Uma das aplicações mais importantes das estruturas condicionais é a <strong>validação de informações</strong>.</p><p id="3c1f6ce8-497f-80d5-9d69-e408ec012ac3" class="" dir="auto">Por exemplo, verificar se uma idade é válida:</p><pre id="3c1f6ce8-497f-8089-a79d-cbfdc10c8119" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">se idade &lt; 0 OU idade &gt; 120 então
+    escreva(&quot;Idade inválida.&quot;)
+senao
+    escreva(&quot;Idade válida.&quot;)
+fimse</code></pre><p id="3c1f6ce8-497f-80c5-aa08-c2061f1a26af" class="" dir="auto">Outro exemplo:</p><pre id="3c1f6ce8-497f-8051-b227-f7219f448163" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">se senha == &quot;&quot; então
+    escreva(&quot;A senha não pode ficar vazia.&quot;)
+fimse</code></pre><p id="3c1f6ce8-497f-8039-88be-c9fe037aff25" class="" dir="auto">Ou:</p><pre id="3c1f6ce8-497f-809e-b73c-f53f9cf52f0d" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">se salario &lt;= 0 então
+    escreva(&quot;Salário inválido.&quot;)
+fimse</code></pre><p id="3c1f6ce8-497f-8077-84cc-f83d610abe47" class="" dir="auto">Isso é muito importante em sistemas reais porque impede que informações incorretas sejam processadas.</p><hr id="3c1f6ce8-497f-8088-b485-c43f9065e3df" dir="auto"/><h1 id="3c1f6ce8-497f-80db-b1e4-d183a3bb9549" class="" dir="auto">21. Estruturas condicionais em problemas reais</h1><p id="3c1f6ce8-497f-80a0-ad4b-e7fa588881f3" class="" dir="auto">As estruturas condicionais aparecem em praticamente todos os sistemas.</p><h3 id="3c1f6ce8-497f-8035-b4d4-ce84cccf5c23" class="" dir="auto">Sistema bancário</h3><pre id="3c1f6ce8-497f-80c2-ad25-fc9633a5d445" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">se saldo &gt;= valorSaque então
+    realizarSaque()
+senao
+    informarSaldoInsuficiente()
+fimse</code></pre><h3 id="3c1f6ce8-497f-80da-858d-ec518d62957b" class="" dir="auto">Loja virtual</h3><pre id="3c1f6ce8-497f-802d-a753-fbf4d3d8872b" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">se estoque &gt; 0 então
+    permitirCompra()
+senao
+    informarIndisponibilidade()
+fimse</code></pre><h3 id="3c1f6ce8-497f-80c0-acd7-db5bf92597c3" class="" dir="auto">Sistema escolar</h3><pre id="3c1f6ce8-497f-80e5-8739-fb6a31043b7c" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">se media &gt;= 7 então
+    aprovado()
+senao
+    reprovado()
+fimse</code></pre><h3 id="3c1f6ce8-497f-80a0-9e26-c2cca26d41c1" class="" dir="auto">Sistema de login</h3><pre id="3c1f6ce8-497f-8036-ba2e-db08a25db4df" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">se usuarioCorreto E senhaCorreta então
+    permitirAcesso()
+senao
+    bloquearAcesso()
+fimse</code></pre><h3 id="3c1f6ce8-497f-80e9-9a36-c4455dd81fb0" class="" dir="auto">Sistema de descontos</h3><pre id="3c1f6ce8-497f-8076-942c-d1d552b60c00" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">se valorCompra &gt;= 500 então
+    desconto &lt;- 10%
+senao
+    desconto &lt;- 5%
+fimse</code></pre><hr id="3c1f6ce8-497f-80ce-b331-eea41418dd58" dir="auto"/><h1 id="3c1f6ce8-497f-8070-b5a3-d9c352fc52be" class="" dir="auto">22. Erros comuns</h1><h2 id="3c1f6ce8-497f-80ef-b5ea-fb87745cf244" class="" dir="auto">22.1 Confundir <code>=</code> com <code>==</code></h2><p id="3c1f6ce8-497f-803b-bbdb-e63e0de0d1e9" class="" dir="auto">Em várias linguagens:</p><pre id="3c1f6ce8-497f-8002-a6bb-f3503d793da5" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">=</code></pre><p id="3c1f6ce8-497f-80ad-bc34-c2cbe3dce8e9" class="" dir="auto">é usado para <strong>atribuição</strong>, enquanto:</p><pre id="3c1f6ce8-497f-8038-95bb-f3b503c2f99c" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">==</code></pre><p id="3c1f6ce8-497f-809a-aee3-ca8b635b1e39" class="" dir="auto">é usado para <strong>comparação de igualdade</strong>.</p><p id="3c1f6ce8-497f-809f-8d47-d623ac20f13d" class="" dir="auto">Por exemplo:</p><pre id="3c1f6ce8-497f-80da-8dfa-dc150c600da7" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">idade = 18</code></pre><p id="3c1f6ce8-497f-808a-b31f-daeff2b00959" class="" dir="auto">pode significar atribuição dependendo da linguagem.</p><p id="3c1f6ce8-497f-80eb-b5ed-e38c9a17d751" class="" dir="auto">Já:</p><pre id="3c1f6ce8-497f-802e-bb9b-d3d3727e716b" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">idade == 18</code></pre><p id="3c1f6ce8-497f-806c-9bb5-cfc278b94d14" class="" dir="auto">normalmente significa:</p><blockquote id="3c1f6ce8-497f-806f-aae7-e05b0cb70416" class="" dir="auto">Verificar se <code>idade</code> é igual a 18.</blockquote><hr id="3c1f6ce8-497f-80e9-8c0d-fc9e618fa956" dir="auto"/><h2 id="3c1f6ce8-497f-80c4-a701-cef7f635dd7e" class="" dir="auto">22.2 Esquecer os limites</h2><p id="3c1f6ce8-497f-80c1-b07a-c0c9ca5d3ad6" class="" dir="auto">Considere:</p><pre id="3c1f6ce8-497f-80d1-ba82-f70617e5b717" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">se nota &gt; 7 então</code></pre><p id="3c1f6ce8-497f-80bc-a3f0-fb6905d77806" class="" dir="auto">Isso significa que uma nota exatamente igual a <code>7</code> <strong>não será aceita</strong>.</p><p id="3c1f6ce8-497f-80c9-8de6-c36555cc813a" class="" dir="auto">Se a intenção é aceitar 7, devemos utilizar:</p><pre id="3c1f6ce8-497f-80b0-949e-f4625aedd3df" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">se nota &gt;= 7 então</code></pre><p id="3c1f6ce8-497f-80ff-8722-e942150b751b" class="" dir="auto">Essa diferença é pequena na escrita, mas pode alterar completamente o resultado do algoritmo.</p><hr id="3c1f6ce8-497f-80fe-964d-d1f6269095bd" dir="auto"/><h2 id="3c1f6ce8-497f-806a-8813-ed8a5a8c74ef" class="" dir="auto">22.3 Criar condições desnecessariamente complexas</h2><p id="3c1f6ce8-497f-8000-9334-dfdc78d3e3c3" class="" dir="auto">Uma condição como:</p><pre id="3c1f6ce8-497f-8052-b9d2-dff4dbd72fbd" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">se idade &gt;= 18 E idade &gt; 20 E idade &gt; 30 então</code></pre><p id="3c1f6ce8-497f-802f-a122-fe6f1278454b" class="" dir="auto">pode indicar uma lógica mal planejada.</p><p id="3c1f6ce8-497f-80c5-847e-e2021d3ba6d6" class="" dir="auto">É importante analisar se todas as condições realmente são necessárias.</p><hr id="3c1f6ce8-497f-80c5-9cfb-d1d9afab9abf" dir="auto"/><h2 id="3c1f6ce8-497f-8007-b5c8-e03ddb7e4feb" class="" dir="auto">22.4 Não utilizar parênteses quando necessário</h2><p id="3c1f6ce8-497f-8033-aae8-d55095c877c9" class="" dir="auto">Em condições complexas, os parênteses podem tornar a lógica muito mais clara.</p><p id="3c1f6ce8-497f-80f3-9f8c-d47d48549a37" class="" dir="auto">Em vez de:</p><pre id="3c1f6ce8-497f-8036-8468-e4cc62f3f1dc" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">idade &gt;= 18 E possuiDocumento OU autorizado</code></pre><p id="3c1f6ce8-497f-8091-80c5-da940245c879" class="" dir="auto">podemos escrever:</p><pre id="3c1f6ce8-497f-802c-a812-f3c5b03a19a2" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">(idade &gt;= 18 E possuiDocumento) OU autorizado</code></pre><p id="3c1f6ce8-497f-800e-a975-d1e8deecf155" class="" dir="auto">Assim, fica mais fácil entender a intenção.</p><hr id="3c1f6ce8-497f-80b1-bead-f0280be9e2f1" dir="auto"/><h1 id="3c1f6ce8-497f-8004-be78-d9f01f9f6963" class="" dir="auto">23. Vantagens das estruturas condicionais</h1><p id="3c1f6ce8-497f-80ee-88f6-fc19c3ab5182" class="" dir="auto">As estruturas condicionais permitem:</p><ul id="3c1f6ce8-497f-80b1-b7b0-e5503831c11f" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>Tomar decisões automaticamente</strong>;</li></ul><ul id="3c1f6ce8-497f-8053-a0d9-faa8e7e3beda" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Criar diferentes caminhos de execução;</li></ul><ul id="3c1f6ce8-497f-80d2-a19e-f4bd7348aec6" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Validar dados;</li></ul><ul id="3c1f6ce8-497f-8001-8fc6-e3487055ef11" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Implementar regras de negócio;</li></ul><ul id="3c1f6ce8-497f-809c-bce2-c2856fefe811" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Criar sistemas mais inteligentes;</li></ul><ul id="3c1f6ce8-497f-80eb-b73b-d14297ed776f" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Responder a diferentes situações;</li></ul><ul id="3c1f6ce8-497f-802f-8684-c3b6a05d24d9" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Controlar o comportamento do programa;</li></ul><ul id="3c1f6ce8-497f-8020-a2b2-f542de229418" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Evitar operações inválidas.</li></ul><hr id="3c1f6ce8-497f-8003-98ea-d7b5c973507a" dir="auto"/><h1 id="3c1f6ce8-497f-8061-8142-e2a1ffbc3fe5" class="" dir="auto">24. Resumo das principais estruturas</h1><table id="3c1f6ce8-497f-808a-8070-df997564e96a" class="simple-table" dir="ltr"><thead class="simple-table-header"><tr id="3c1f6ce8-497f-803b-8da8-d6f5504ff26b" dir="ltr"><th id="V^Me" class="simple-table-header-color simple-table-header">Estrutura</th><th id="nboQ" class="simple-table-header-color simple-table-header">Função</th></tr></thead><tbody><tr id="3c1f6ce8-497f-802e-a286-d3733c0ee9c4" dir="ltr"><td id="V^Me" class=""><code>SE</code></td><td id="nboQ" class="">Executar algo quando uma condição for verdadeira</td></tr><tr id="3c1f6ce8-497f-80f9-b018-c5d3a4f26a46" dir="ltr"><td id="V^Me" class=""><code>SE...SENÃO</code></td><td id="nboQ" class="">Escolher entre dois caminhos</td></tr><tr id="3c1f6ce8-497f-80a6-81de-ccbc64094d93" dir="ltr"><td id="V^Me" class=""><code>SE...SENÃO SE...SENÃO</code></td><td id="nboQ" class="">Escolher entre várias condições</td></tr><tr id="3c1f6ce8-497f-80c0-882d-ff9762f8743e" dir="ltr"><td id="V^Me" class=""><code>SE</code> aninhado</td><td id="nboQ" class="">Colocar uma condição dentro de outra</td></tr><tr id="3c1f6ce8-497f-80bd-9036-f772e1f81a1f" dir="ltr"><td id="V^Me" class=""><code>ESCOLHA/CASO</code></td><td id="nboQ" class="">Escolher entre vários valores específicos</td></tr></tbody></table><hr id="3c1f6ce8-497f-8053-9572-fca530ed04e3" dir="auto"/><h1 id="3c1f6ce8-497f-8032-bf35-c133a5df0b3b" class="" dir="auto">25. Resumo final</h1><p id="3c1f6ce8-497f-80ce-89a0-c16faf2628b7" class="" dir="auto">As <strong>estruturas condicionais</strong> são responsáveis por permitir que um algoritmo <strong>tome decisões com base em condições</strong>.</p><p id="3c1f6ce8-497f-807c-b11b-f7011c5a2a54" class="" dir="auto">A estrutura mais básica é:</p><pre id="3c1f6ce8-497f-804c-9d7c-d8059f15c451" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">se condição então
+    ação
+fimse</code></pre><p id="3c1f6ce8-497f-804c-b468-c83ee5c28a34" class="" dir="auto">Quando existem duas possibilidades:</p><pre id="3c1f6ce8-497f-80b0-8db1-df3bbc1709e9" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">se condição então
+    ação 1
+senao
+    ação 2
+fimse</code></pre><p id="3c1f6ce8-497f-8012-b2ce-de4eec5ffaa5" class="" dir="auto">Quando existem várias possibilidades:</p><pre id="3c1f6ce8-497f-808c-8140-dd2f72050b0c" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">se condição1 então
+    ação 1
+senao se condição2 então
+    ação 2
+senao
+    ação 3
+fimse</code></pre><p id="3c1f6ce8-497f-808a-813b-f39d72273dec" class="" dir="auto">E quando temos vários valores específicos, podemos utilizar:</p><pre id="3c1f6ce8-497f-802d-9255-ea78ba68e65f" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">escolha valor
+    caso 1:
+        ação 1
+    caso 2:
+        ação 2
+    caso 3:
+        ação 3
+fimescolha</code></pre><p id="3c1f6ce8-497f-80c0-b860-dd22c1759319" class="" dir="auto">Portanto, as estruturas condicionais são uma das <strong>bases da lógica de programação</strong>. Elas transformam um algoritmo de uma simples sequência de instruções em um sistema capaz de <strong>analisar situações, escolher caminhos e executar ações diferentes de acordo com os dados recebidos</strong>.</p></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

@@ -1,0 +1,1031 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Funções</title><meta name="data-notion-page-icon" content="/icons/gear_blue.svg"/><link rel="icon" href="https://app.notion.com/icons/gear_blue.svg"/><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+/* For default-background callouts, render the border outline. */
+.callout.block-color-default_background {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+/*
+ * Toggles and callouts hold arbitrary content, so they can easily be taller
+ * than a page. They must stay breakable: avoiding breaks inside them makes
+ * Chromium push the whole block onto the next page, which leaves the previous
+ * page mostly empty before every long toggle.
+ */
+details,
+aside {
+	margin: 1.25em 0;
+}
+
+/* Keep a toggle's title on the same page as the start of its content. */
+summary {
+	page-break-after: avoid;
+	break-after: avoid;
+}
+
+/*
+ * Toggle headings render as <h1/h2/h3 style="display:inline-block"> inside
+ * <summary>. Without this reset, the heading's margin-top pushes it below the
+ * ::marker (▼), so the triangle and the title appear on separate lines.
+ */
+summary h1,
+summary h2,
+summary h3,
+summary h4 {
+	margin-top: 0;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding-inline: 0.125rem;
+	padding-block: 0.375rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+/*
+ * Render emoji icons using a ::before pseudo-element to keep the glyph
+ * out of the DOM textContent traversal. This avoids double-rendering icons
+ * in callouts and page titles.
+ * NOTE(slim/html-export-pseudo-icons): I can't tagref this because it will
+ * flag as a duplicate tag after codegen.
+ */
+.icon[data-emoji]::before {
+	content: attr(data-emoji);
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	margin-right: 0.4em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.tab {
+	margin: 1.25em 0;
+	padding-inline: 1rem;
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style><style>@import url('https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex-swap.min.css')</style></head><body><article id="3c1f6ce8-497f-80e2-8cd5-f57005e55c13" class="page sans" data-notion-page-icon="/icons/gear_blue.svg"><header><div class="page-header-icon undefined"><img class="icon notion-static-icon" src="https://app.notion.com/icons/gear_blue.svg"/></div><h1 class="page-title" dir="auto">Funções</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><h1 id="3c1f6ce8-497f-8056-bcfa-ef6aa6618fdb" class="" dir="auto">Funções</h1><p id="3c1f6ce8-497f-80e5-8530-ec5148824e95" class="" dir="auto">As <strong>funções</strong> são estruturas fundamentais da lógica de programação utilizadas para <strong>organizar, reutilizar e executar um conjunto de instruções com o objetivo de produzir um resultado</strong>.</p><p id="3c1f6ce8-497f-802e-a054-fedeed9b1cdf" class="" dir="auto">Uma função pode receber dados, realizar algum processamento e <strong>retornar um valor</strong> para o local onde foi chamada.</p><p id="3c1f6ce8-497f-80f0-a84a-f2d581195b51" class="" dir="auto">Por exemplo, podemos criar uma função para somar dois números:</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="3c1f6ce8-497f-805b-958c-cdc726b13731" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">função somar(a, b)
+    retorne a + b
+fimfunção</code></pre><p id="3c1f6ce8-497f-807f-ae66-e6dc476ec8a5" class="" dir="auto">Depois podemos utilizá-la:</p><pre id="3c1f6ce8-497f-8089-93b3-da466c4c491d" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">resultado &lt;- somar(10, 20)</code></pre><p id="3c1f6ce8-497f-80b9-b4a9-d4586bc35496" class="" dir="auto">O resultado será:</p><pre id="3c1f6ce8-497f-809d-a9cd-c27a7bcf1a06" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">30</code></pre><p id="3c1f6ce8-497f-80d5-9af9-f0f38e834b6e" class="" dir="auto">A principal diferença em relação a um procedimento é que, na abordagem tradicional da lógica de programação, a <strong>função normalmente retorna um valor</strong>, enquanto o procedimento é utilizado principalmente para executar uma ação.</p><hr id="3c1f6ce8-497f-8098-8197-c4717f23cacb" dir="auto"/><h1 id="3c1f6ce8-497f-80c0-9d5a-cb447f716939" class="" dir="auto">1. O que é uma função?</h1><p id="3c1f6ce8-497f-80e0-b3f9-e3eab676fa09" class="" dir="auto">Uma função é um <strong>bloco de código identificado por um nome</strong>, criado para realizar uma tarefa específica e, normalmente, produzir um resultado.</p><p id="3c1f6ce8-497f-80d0-821b-ec624d0784f5" class="" dir="auto">Podemos representar uma função desta maneira:</p><pre id="3c1f6ce8-497f-8015-983c-ce1b61e8eed3" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Entrada → Processamento → Saída</code></pre><p id="3c1f6ce8-497f-804c-b7cd-cf17706aa790" class="" dir="auto">Por exemplo:</p><pre id="3c1f6ce8-497f-8010-bccd-f3cd40605d05" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">10 + 20 → cálculo → 30</code></pre><p id="3c1f6ce8-497f-8092-b79f-eece83b5fc13" class="" dir="auto">A função poderia ser:</p><pre id="3c1f6ce8-497f-809e-8ee4-de56f32d0f0d" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">função somar(a, b)
+    retorne a + b
+fimfunção</code></pre><p id="3c1f6ce8-497f-8095-8b2b-e067f782c62a" class="" dir="auto">Quando fazemos:</p><pre id="3c1f6ce8-497f-8015-a62d-c33bd8768837" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">somar(10, 20)</code></pre><p id="3c1f6ce8-497f-8028-a21b-e0a30908b8fb" class="" dir="auto">a função recebe <code>10</code> e <code>20</code>, realiza o cálculo e retorna <code>30</code>.</p><hr id="3c1f6ce8-497f-80f2-9d2b-fe52345b8e9d" dir="auto"/><h1 id="3c1f6ce8-497f-804e-b3e5-f2aadf4b9041" class="" dir="auto">2. Por que utilizar funções?</h1><p id="3c1f6ce8-497f-8096-b92e-e97b17b02812" class="" dir="auto">Imagine que um programa precisa calcular uma média várias vezes.</p><p id="3c1f6ce8-497f-8069-b8dd-f2c75c3789a5" class="" dir="auto">Sem uma função, poderíamos escrever:</p><pre id="3c1f6ce8-497f-804a-b804-e83921bb023e" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">media1 &lt;- (nota1 + nota2) / 2
+media2 &lt;- (nota3 + nota4) / 2
+media3 &lt;- (nota5 + nota6) / 2</code></pre><p id="3c1f6ce8-497f-8079-983d-c9f0001a5d68" class="" dir="auto">Com uma função:</p><pre id="3c1f6ce8-497f-8003-a062-ca712841fe05" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">função calcularMedia(nota1, nota2)
+    retorne (nota1 + nota2) / 2
+fimfunção</code></pre><p id="3c1f6ce8-497f-8090-8820-d24bbc807439" class="" dir="auto">Podemos fazer:</p><pre id="3c1f6ce8-497f-8091-816a-c6bcf8951d2e" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">media1 &lt;- calcularMedia(8, 7)
+media2 &lt;- calcularMedia(9, 6)
+media3 &lt;- calcularMedia(10, 8)</code></pre><p id="3c1f6ce8-497f-8099-94b9-c303279bce7d" class="" dir="auto">Isso reduz a repetição e deixa o algoritmo mais organizado.</p><hr id="3c1f6ce8-497f-8093-bc6c-d51fabed49c5" dir="auto"/><h1 id="3c1f6ce8-497f-80ce-847f-cde64f5c263d" class="" dir="auto">3. Estrutura básica de uma função</h1><p id="3c1f6ce8-497f-80a3-ae3b-cab872cf6b44" class="" dir="auto">Uma função pode ser representada de forma geral como:</p><pre id="3c1f6ce8-497f-8093-aa8d-ee3c79db565c" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">função nomeDaFuncao(parâmetros)
+    instruções
+    retorne resultado
+fimfunção</code></pre><p id="3c1f6ce8-497f-80fa-95d2-e063f44f04db" class="" dir="auto">Por exemplo:</p><pre id="3c1f6ce8-497f-807e-9fa4-f01f431ad107" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">função dobro(numero)
+    retorne numero * 2
+fimfunção</code></pre><p id="3c1f6ce8-497f-803d-b3ac-c52e36def6d6" class="" dir="auto">Chamando:</p><pre id="3c1f6ce8-497f-8030-9e17-e23c43e492af" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">resultado &lt;- dobro(5)</code></pre><p id="3c1f6ce8-497f-80d6-b7d5-eb47f36c45ed" class="" dir="auto">Temos:</p><pre id="3c1f6ce8-497f-80eb-9b49-fc7a97992092" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">resultado = 10</code></pre><hr id="3c1f6ce8-497f-80a4-b145-fd494a8ec116" dir="auto"/><h1 id="3c1f6ce8-497f-8062-a313-cb91971ab9f5" class="" dir="auto">4. Partes de uma função</h1><p id="3c1f6ce8-497f-8026-9f36-f2cd2397b625" class="" dir="auto">Uma função normalmente possui alguns elementos importantes:</p><pre id="3c1f6ce8-497f-8035-aed1-d227875e76a0" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">função somar(a, b)
+    retorne a + b
+fimfunção</code></pre><h3 id="3c1f6ce8-497f-8091-9a38-dab5e7219dc3" class="" dir="auto">Nome</h3><pre id="3c1f6ce8-497f-80f7-866c-da1c68e0e095" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">somar</code></pre><p id="3c1f6ce8-497f-8085-93fe-e6b402b8e345" class="" dir="auto">Identifica a função.</p><h3 id="3c1f6ce8-497f-80ea-a661-d9a6de6ec8b4" class="" dir="auto">Parâmetros</h3><pre id="3c1f6ce8-497f-8064-b02f-e0fbb2387fc0" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">a, b</code></pre><p id="3c1f6ce8-497f-80b7-8cc6-d7e1c3edd4dd" class="" dir="auto">São os dados que a função recebe.</p><h3 id="3c1f6ce8-497f-8055-8c22-d8222459e59b" class="" dir="auto">Processamento</h3><pre id="3c1f6ce8-497f-8064-b75e-e5f624ff53b0" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">a + b</code></pre><p id="3c1f6ce8-497f-80f3-bd7f-c54cac1c92ee" class="" dir="auto">É a operação realizada.</p><h3 id="3c1f6ce8-497f-80e3-b3b2-cef626feda0f" class="" dir="auto">Retorno</h3><pre id="3c1f6ce8-497f-807b-80a7-e83a94e28041" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">retorne</code></pre><p id="3c1f6ce8-497f-80cf-befe-f2733e0ac6c0" class="" dir="auto">Indica o valor que será devolvido.</p><hr id="3c1f6ce8-497f-8084-9cf8-f4c57bed0062" dir="auto"/><h1 id="3c1f6ce8-497f-80e9-b5ff-ff8ba2988be7" class="" dir="auto">5. Declaração de uma função</h1><p id="3c1f6ce8-497f-800a-96d3-d4c9fb7cc34a" class="" dir="auto">A <strong>declaração</strong> é o momento em que criamos a função.</p><p id="3c1f6ce8-497f-80f8-913c-c24330214ae3" class="" dir="auto">Exemplo:</p><pre id="3c1f6ce8-497f-8029-9d20-cac287755d24" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">função quadrado(numero)
+    retorne numero * numero
+fimfunção</code></pre><p id="3c1f6ce8-497f-804c-8bd4-f9f1d78cfd81" class="" dir="auto">Nesse momento estamos definindo:</p><blockquote id="3c1f6ce8-497f-8084-b06d-f8b9976d4c42" class="" dir="auto">&quot;Existe uma função chamada <code>quadrado</code> que recebe um número e retorna esse número multiplicado por ele mesmo.&quot;</blockquote><hr id="3c1f6ce8-497f-803f-9c2f-c04895da80db" dir="auto"/><h1 id="3c1f6ce8-497f-8088-88a0-fae17f7b414f" class="" dir="auto">6. Chamada de uma função</h1><p id="3c1f6ce8-497f-8075-8ead-d1f0faad2148" class="" dir="auto">Depois de declarar a função, podemos <strong>chamá-la</strong>.</p><pre id="3c1f6ce8-497f-80b1-b47d-c13cfa41b5b7" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">resultado &lt;- quadrado(5)</code></pre><p id="3c1f6ce8-497f-80ec-aa9d-ce74247fdc9b" class="" dir="auto">A função recebe:</p><pre id="3c1f6ce8-497f-80be-b77a-fd02dd919b32" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">5</code></pre><p id="3c1f6ce8-497f-8032-8c68-f22effb3c2c5" class="" dir="auto">Executa:</p><pre id="3c1f6ce8-497f-8081-97f3-de3bebe338f7" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">5 * 5</code></pre><p id="3c1f6ce8-497f-8076-84b7-ee1664d5eb76" class="" dir="auto">E retorna:</p><pre id="3c1f6ce8-497f-80d3-8e51-c9ed8cdea8a5" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">25</code></pre><p id="3c1f6ce8-497f-80ad-81f9-f5bdc64ee972" class="" dir="auto">Portanto:</p><pre id="3c1f6ce8-497f-8098-9e54-c70686472857" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">resultado = 25</code></pre><hr id="3c1f6ce8-497f-80b8-83c3-d1ddb48c7ce3" dir="auto"/><h1 id="3c1f6ce8-497f-80c6-9749-e626b189752c" class="" dir="auto">7. Parâmetros</h1><p id="3c1f6ce8-497f-8096-9ff1-e160d4ecdd8f" class="" dir="auto">Os <strong>parâmetros</strong> são valores que uma função recebe para realizar seu processamento.</p><p id="3c1f6ce8-497f-80d7-a644-ff7b4243ed9b" class="" dir="auto">Exemplo:</p><pre id="3c1f6ce8-497f-8035-8352-f241b36d784c" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">função multiplicar(a, b)
+    retorne a * b
+fimfunção</code></pre><p id="3c1f6ce8-497f-80c8-8376-ebeb23266d40" class="" dir="auto">Temos dois parâmetros:</p><pre id="3c1f6ce8-497f-80d5-8364-c437ba67a607" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">a
+b</code></pre><p id="3c1f6ce8-497f-80db-9c70-f7f4fdc05538" class="" dir="auto">Podemos chamar:</p><pre id="3c1f6ce8-497f-80e9-b1bd-cc35da5ac4c0" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">multiplicar(5, 4)</code></pre><p id="3c1f6ce8-497f-8022-a56c-fb702d8410ec" class="" dir="auto">Nesse caso:</p><pre id="3c1f6ce8-497f-8045-87c2-dbff34f51b15" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">a = 5
+b = 4</code></pre><p id="3c1f6ce8-497f-808a-b4ec-fda8be8ab907" class="" dir="auto">A função calcula:</p><pre id="3c1f6ce8-497f-8017-94d3-f5d81235c356" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">5 * 4</code></pre><p id="3c1f6ce8-497f-8002-9600-dde8d6e01628" class="" dir="auto">E retorna:</p><pre id="3c1f6ce8-497f-8078-9f71-e79fce9cb3a4" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">20</code></pre><hr id="3c1f6ce8-497f-80c1-958e-eee766c6e855" dir="auto"/><h1 id="3c1f6ce8-497f-8071-b5ca-d16d67f68c81" class="" dir="auto">8. Argumentos</h1><p id="3c1f6ce8-497f-805b-b938-eb17af92b9de" class="" dir="auto">É importante diferenciar <strong>parâmetro</strong> de <strong>argumento</strong>.</p><p id="3c1f6ce8-497f-80ad-aa6b-c097b8754c4c" class="" dir="auto">Na declaração:</p><pre id="3c1f6ce8-497f-803a-a3c4-eb594f50eaa6" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">função somar(a, b)</code></pre><p id="3c1f6ce8-497f-8016-8d5a-f9c1684c62ea" class="" dir="auto"><code>a</code> e <code>b</code> são <strong>parâmetros</strong>.</p><p id="3c1f6ce8-497f-8069-9fe3-c73a90ff5fcc" class="" dir="auto">Na chamada:</p><pre id="3c1f6ce8-497f-80c8-88b6-ef43adc03fbd" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">somar(10, 20)</code></pre><p id="3c1f6ce8-497f-80d6-8582-e4003d7ab328" class="" dir="auto"><code>10</code> e <code>20</code> são <strong>argumentos</strong>.</p><p id="3c1f6ce8-497f-8057-a0b7-ebc7c6969cd1" class="" dir="auto">Podemos resumir:</p><blockquote id="3c1f6ce8-497f-80a0-b0be-cf121f95da98" class="" dir="auto"><strong>Parâmetro:</strong> variável definida na função.</blockquote><blockquote id="3c1f6ce8-497f-8052-846f-e4540b27ac5e" class="" dir="auto"><strong>Argumento:</strong> valor enviado para a função.</blockquote><hr id="3c1f6ce8-497f-8028-b9f8-d73a33ce9932" dir="auto"/><h1 id="3c1f6ce8-497f-80a7-9282-fade2abb98b7" class="" dir="auto">9. Função sem parâmetros</h1><p id="3c1f6ce8-497f-8047-b706-fcdcc966d408" class="" dir="auto">Nem toda função precisa receber informações.</p><p id="3c1f6ce8-497f-8028-9337-eff033de9e23" class="" dir="auto">Exemplo:</p><pre id="3c1f6ce8-497f-80ee-b09a-c66cc6d3dab3" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">função obterNumero()
+    retorne 10
+fimfunção</code></pre><p id="3c1f6ce8-497f-8080-91fd-dd28dea1ccec" class="" dir="auto">Podemos chamar:</p><pre id="3c1f6ce8-497f-8088-8e8e-c8311b29d706" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">numero &lt;- obterNumero()</code></pre><p id="3c1f6ce8-497f-80b7-b9dd-f75f7df541b3" class="" dir="auto">Resultado:</p><pre id="3c1f6ce8-497f-80a7-b3e5-fc4e9aba0baf" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">10</code></pre><p id="3c1f6ce8-497f-8066-84bf-f86fff88f292" class="" dir="auto">Outro exemplo:</p><pre id="3c1f6ce8-497f-8064-9047-c3037b57f716" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">função obterNome()
+    retorne &quot;Gusta&quot;
+fimfunção</code></pre><p id="3c1f6ce8-497f-80bb-921c-ccb0b5094e98" class="" dir="auto">Chamada:</p><pre id="3c1f6ce8-497f-804c-909b-de9ffdb19270" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">nome &lt;- obterNome()</code></pre><p id="3c1f6ce8-497f-8015-9a72-e86eb96f4672" class="" dir="auto">Resultado:</p><pre id="3c1f6ce8-497f-8033-a2fb-d420f7512ce2" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Gusta</code></pre><hr id="3c1f6ce8-497f-8010-9162-d736f497956f" dir="auto"/><h1 id="3c1f6ce8-497f-80e8-9148-eecb0488f601" class="" dir="auto">10. Função com um parâmetro</h1><p id="3c1f6ce8-497f-8000-ab5c-e8498afb6f4e" class="" dir="auto">Exemplo:</p><pre id="3c1f6ce8-497f-8028-b555-d52a83826733" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">função dobro(numero)
+    retorne numero * 2
+fimfunção</code></pre><p id="3c1f6ce8-497f-800b-b1c2-eff13e467711" class="" dir="auto">Chamadas:</p><pre id="3c1f6ce8-497f-802f-9eb4-e9b2ab7ce35e" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">dobro(5)
+dobro(10)
+dobro(20)</code></pre><p id="3c1f6ce8-497f-80cc-9ccb-cc00cc7d14fe" class="" dir="auto">Resultados:</p><pre id="3c1f6ce8-497f-80d3-a186-f6943cb16e48" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">10
+20
+40</code></pre><p id="3c1f6ce8-497f-8051-99cf-c84d218c1d96" class="" dir="auto">A mesma função pode ser reutilizada com diferentes valores.</p><hr id="3c1f6ce8-497f-808f-ab41-fa7e9942e2dc" dir="auto"/><h1 id="3c1f6ce8-497f-80e7-bc0a-db7d22bf91fd" class="" dir="auto">11. Função com vários parâmetros</h1><p id="3c1f6ce8-497f-8069-87ba-cc15be48c370" class="" dir="auto">Uma função pode receber vários parâmetros.</p><pre id="3c1f6ce8-497f-804c-8564-dd732d706da6" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">função calcularMedia(nota1, nota2, nota3)
+    media &lt;- (nota1 + nota2 + nota3) / 3
+    retorne media
+fimfunção</code></pre><p id="3c1f6ce8-497f-8094-9c73-c5c6b0475b98" class="" dir="auto">Chamada:</p><pre id="3c1f6ce8-497f-8076-bb26-df3d2753667d" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">media &lt;- calcularMedia(8, 7, 9)</code></pre><p id="3c1f6ce8-497f-805d-97af-fb524b311f61" class="" dir="auto">Cálculo:</p><pre id="3c1f6ce8-497f-8003-9d61-c85fbe73ad80" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">(8 + 7 + 9) / 3</code></pre><p id="3c1f6ce8-497f-80d1-ad34-f25722c9635d" class="" dir="auto">Resultado:</p><pre id="3c1f6ce8-497f-805a-b790-c9eb9a1b1775" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">8</code></pre><hr id="3c1f6ce8-497f-8019-a6a9-e08df390dbe3" dir="auto"/><h1 id="3c1f6ce8-497f-80ba-96d1-db17ae504ca2" class="" dir="auto">12. O comando <code>RETORNE</code></h1><p id="3c1f6ce8-497f-80ed-b010-e22af6c127ee" class="" dir="auto">O comando <code>RETORNE</code> é utilizado para <strong>devolver um valor</strong> ao local onde a função foi chamada.</p><p id="3c1f6ce8-497f-80fa-b3b6-f4bd3d915b94" class="" dir="auto">Exemplo:</p><pre id="3c1f6ce8-497f-8017-a968-e28b890e6a70" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">função somar(a, b)
+    retorne a + b
+fimfunção</code></pre><p id="3c1f6ce8-497f-806a-88ca-e74d216a8a9e" class="" dir="auto">Quando fazemos:</p><pre id="3c1f6ce8-497f-804f-9fd3-fe3228644db2" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">resultado &lt;- somar(5, 3)</code></pre><p id="3c1f6ce8-497f-80bf-80a7-f27e2fd24dae" class="" dir="auto">a função retorna:</p><pre id="3c1f6ce8-497f-80a7-bdc3-d89d2c3fb5c9" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">8</code></pre><p id="3c1f6ce8-497f-80ce-a052-e6c3b394ed71" class="" dir="auto">Então:</p><pre id="3c1f6ce8-497f-80e2-8d15-c2a9a45c47c9" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">resultado = 8</code></pre><hr id="3c1f6ce8-497f-8091-aa48-d40d635615d3" dir="auto"/><h1 id="3c1f6ce8-497f-8091-bcdd-c925301ec72a" class="" dir="auto">13. Retorno como expressão</h1><p id="3c1f6ce8-497f-803b-bfae-d9a58c011573" class="" dir="auto">O valor retornado não precisa necessariamente estar armazenado em uma variável.</p><p id="3c1f6ce8-497f-8036-b91f-ca29b0a1f81b" class="" dir="auto">Podemos utilizar diretamente:</p><pre id="3c1f6ce8-497f-8091-8a8b-cebba40001c0" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">escreva(somar(10, 20))</code></pre><p id="3c1f6ce8-497f-806f-b4cd-e6f23ff17c95" class="" dir="auto">A função retorna:</p><pre id="3c1f6ce8-497f-8067-8843-d345ebe3d206" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">30</code></pre><p id="3c1f6ce8-497f-8051-bef8-f398612c0696" class="" dir="auto">E o programa exibe:</p><pre id="3c1f6ce8-497f-8076-ac1d-d829fa83f605" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">30</code></pre><p id="3c1f6ce8-497f-8052-ba24-d160857cb850" class="" dir="auto">Também podemos utilizar o resultado em outra operação:</p><pre id="3c1f6ce8-497f-80df-b935-d963504f17cf" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">resultado &lt;- somar(10, 20) * 2</code></pre><p id="3c1f6ce8-497f-80f0-abea-fb31e3766e53" class="" dir="auto">Primeiro:</p><pre id="3c1f6ce8-497f-80d1-bd17-ff29d933d911" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">somar(10, 20) = 30</code></pre><p id="3c1f6ce8-497f-8080-a316-fed8059b0389" class="" dir="auto">Depois:</p><pre id="3c1f6ce8-497f-808a-b10d-daf24717febb" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">30 * 2 = 60</code></pre><p id="3c1f6ce8-497f-806f-a459-d57193aba323" class="" dir="auto">Portanto:</p><pre id="3c1f6ce8-497f-8075-aae0-f99f95d3e2f7" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">resultado = 60</code></pre><hr id="3c1f6ce8-497f-8052-95ae-fa4e6de07435" dir="auto"/><h1 id="3c1f6ce8-497f-80f1-92d2-f9748b564661" class="" dir="auto">14. Tipos de retorno</h1><p id="3c1f6ce8-497f-8015-8261-ecb00fb6109a" class="" dir="auto">Uma função pode retornar diferentes tipos de dados.</p><h3 id="3c1f6ce8-497f-8082-b35b-ddabaa83815d" class="" dir="auto">Inteiro</h3><pre id="3c1f6ce8-497f-809e-b6b7-cf30c0da8687" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">função dobro(numero): inteiro
+    retorne numero * 2
+fimfunção</code></pre><h3 id="3c1f6ce8-497f-804b-85af-c3e6c347ad01" class="" dir="auto">Real</h3><pre id="3c1f6ce8-497f-80d1-a9de-fadcb3e57f8d" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">função calcularMedia(a, b): real
+    retorne (a + b) / 2
+fimfunção</code></pre><h3 id="3c1f6ce8-497f-80e3-9fa8-da4abdd30321" class="" dir="auto">Texto</h3><pre id="3c1f6ce8-497f-8053-b277-f42bcff5157f" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">função obterNome(): caractere
+    retorne &quot;Gusta&quot;
+fimfunção</code></pre><h3 id="3c1f6ce8-497f-8078-a72e-ff478e225671" class="" dir="auto">Booleano</h3><pre id="3c1f6ce8-497f-8057-aa0d-e1dd5578fd95" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">função maiorDeIdade(idade): logico
+    retorne idade &gt;= 18
+fimfunção</code></pre><p id="3c1f6ce8-497f-80dc-833d-d6c30f20164f" class="" dir="auto">O tipo exato e a forma de declaração dependem da linguagem ou do pseudocódigo utilizado.</p><hr id="3c1f6ce8-497f-803f-ae96-f5d304e72ca6" dir="auto"/><h1 id="3c1f6ce8-497f-80f1-8ab6-f7ef9acfcbc7" class="" dir="auto">15. Funções booleanas</h1><p id="3c1f6ce8-497f-8006-a53e-ca1ee3736aa1" class="" dir="auto">Uma função pode retornar <code>VERDADEIRO</code> ou <code>FALSO</code>.</p><p id="3c1f6ce8-497f-80b7-b4f2-d757d52181e1" class="" dir="auto">Por exemplo:</p><pre id="3c1f6ce8-497f-8064-80bd-fa6b7e9c48e8" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">função ehPar(numero): logico
+
+    se numero % 2 == 0 então
+        retorne verdadeiro
+    senao
+        retorne falso
+    fimse
+
+fimfunção</code></pre><p id="3c1f6ce8-497f-8026-8483-e4a3156d7269" class="" dir="auto">Podemos utilizar:</p><pre id="3c1f6ce8-497f-80a9-a4e8-cdced987154c" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">se ehPar(10) então
+    escreva(&quot;O número é par.&quot;)
+fimse</code></pre><p id="3c1f6ce8-497f-80e9-81c5-eb9a8e942ce5" class="" dir="auto">Como <code>10</code> é par, a função retorna:</p><pre id="3c1f6ce8-497f-807c-8a6a-eb9d87e13a62" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">VERDADEIRO</code></pre><hr id="3c1f6ce8-497f-80b1-8b7e-f9033485b940" dir="auto"/><h1 id="3c1f6ce8-497f-808a-8863-ef23925a8ffd" class="" dir="auto">16. Funções e estruturas condicionais</h1><p id="3c1f6ce8-497f-80d3-afdb-d8597afd23e1" class="" dir="auto">Uma função pode conter estruturas condicionais.</p><p id="3c1f6ce8-497f-805f-8404-e8251a29ea68" class="" dir="auto">Exemplo:</p><pre id="3c1f6ce8-497f-803d-ac12-dae6d1169825" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">função maiorDeIdade(idade): logico
+
+    se idade &gt;= 18 então
+        retorne verdadeiro
+    senao
+        retorne falso
+    fimse
+
+fimfunção</code></pre><p id="3c1f6ce8-497f-80bf-af8b-d795436654b7" class="" dir="auto">Podemos simplificar dependendo da linguagem:</p><pre id="3c1f6ce8-497f-8041-9bea-f98c828408f0" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">função maiorDeIdade(idade): logico
+    retorne idade &gt;= 18
+fimfunção</code></pre><p id="3c1f6ce8-497f-80e6-b1dd-e605d1ba97d7" class="" dir="auto">O resultado será:</p><pre id="3c1f6ce8-497f-80f0-8531-d3cd0a8e0bcd" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">maiorDeIdade(20) → verdadeiro
+maiorDeIdade(15) → falso</code></pre><hr id="3c1f6ce8-497f-8044-a430-da421fabd381" dir="auto"/><h1 id="3c1f6ce8-497f-804e-8ab6-f625e2ec561c" class="" dir="auto">17. Funções e estruturas de repetição</h1><p id="3c1f6ce8-497f-80c2-93e0-d6e92a94cefc" class="" dir="auto">As funções também podem utilizar loops.</p><p id="3c1f6ce8-497f-80d6-a889-e88f1229e502" class="" dir="auto">Exemplo: calcular a soma de 1 até <code>n</code>.</p><pre id="3c1f6ce8-497f-8092-8980-f7efd58948f1" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">função somaAte(n)
+
+    soma &lt;- 0
+
+    para i de 1 até n faça
+        soma &lt;- soma + i
+    fimpara
+
+    retorne soma
+
+fimfunção</code></pre><p id="3c1f6ce8-497f-80ae-8381-c4a335aba492" class="" dir="auto">Chamando:</p><pre id="3c1f6ce8-497f-80f0-89ae-dee84385b093" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">resultado &lt;- somaAte(5)</code></pre><p id="3c1f6ce8-497f-808d-8a32-f781e6dc516a" class="" dir="auto">Temos:</p><pre id="3c1f6ce8-497f-800e-bcbe-eb86e12abf69" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">1 + 2 + 3 + 4 + 5</code></pre><p id="3c1f6ce8-497f-80c0-934c-d34ae41d934b" class="" dir="auto">Resultado:</p><pre id="3c1f6ce8-497f-80e2-8be6-ea3a50220b6c" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">15</code></pre><hr id="3c1f6ce8-497f-8072-b968-e374544bab16" dir="auto"/><h1 id="3c1f6ce8-497f-801f-af96-fdbc5f78a648" class="" dir="auto">18. Funções e procedimentos</h1><p id="3c1f6ce8-497f-80df-becd-e6e3f75d6359" class="" dir="auto">Funções e procedimentos são conceitos muito próximos.</p><h3 id="3c1f6ce8-497f-8005-8c97-c2a8d2fc5de4" class="" dir="auto">Procedimento</h3><p id="3c1f6ce8-497f-805a-9bca-d569d6fb9fd6" class="" dir="auto">Normalmente executa uma ação:</p><pre id="3c1f6ce8-497f-80de-91fa-ff3ca902c12a" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">procedimento mostrarMensagem()
+    escreva(&quot;Olá!&quot;)
+fimprocedimento</code></pre><h3 id="3c1f6ce8-497f-808c-940d-d62afbf4b2cb" class="" dir="auto">Função</h3><p id="3c1f6ce8-497f-805f-b002-f2113f6ac3cd" class="" dir="auto">Normalmente produz e retorna um valor:</p><pre id="3c1f6ce8-497f-80f6-99ae-f1c1fc962c01" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">função somar(a, b)
+    retorne a + b
+fimfunção</code></pre><p id="3c1f6ce8-497f-801b-82a0-d0e9ce581693" class="" dir="auto">Uma forma simples de memorizar é:</p><blockquote id="3c1f6ce8-497f-8046-bcf8-dcdce7b06a81" class="" dir="auto"><strong>Procedimento → faz alguma coisa.</strong></blockquote><blockquote id="3c1f6ce8-497f-8047-b7d8-d1ff562352e5" class="" dir="auto"><strong>Função → calcula/produz alguma coisa e devolve um resultado.</strong></blockquote><p id="3c1f6ce8-497f-809c-b14f-dd2550974029" class="" dir="auto">Em linguagens modernas, entretanto, essa distinção pode não ser tão rígida, pois muitas linguagens utilizam o conceito geral de <strong>função</strong> para ambos os casos.</p><hr id="3c1f6ce8-497f-8033-a954-f3923aa22c75" dir="auto"/><h1 id="3c1f6ce8-497f-80d9-b885-cac115f21bad" class="" dir="auto">19. Exemplo comparativo</h1><p id="3c1f6ce8-497f-8009-bed8-d4a081ca7ab6" class="" dir="auto">Imagine que precisamos calcular o dobro de um número.</p><p id="3c1f6ce8-497f-809e-a110-dc5db28335d4" class="" dir="auto">Com procedimento:</p><pre id="3c1f6ce8-497f-8018-a1d9-eff7ae3ea217" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">procedimento mostrarDobro(numero)
+
+    dobro &lt;- numero * 2
+    escreva(dobro)
+
+fimprocedimento</code></pre><p id="3c1f6ce8-497f-80e8-a1f5-e85527da27de" class="" dir="auto">Ele mostra o resultado.</p><p id="3c1f6ce8-497f-80da-a910-e7afcfe4bc2f" class="" dir="auto">Com função:</p><pre id="3c1f6ce8-497f-80ba-9cdf-ecacce95c62f" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">função calcularDobro(numero)
+
+    retorne numero * 2
+
+fimfunção</code></pre><p id="3c1f6ce8-497f-8086-a2ff-f5a89c0a778c" class="" dir="auto">Podemos armazenar o resultado:</p><pre id="3c1f6ce8-497f-800d-aa20-e8fb64b448e8" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">resultado &lt;- calcularDobro(10)</code></pre><p id="3c1f6ce8-497f-8064-9087-c17e9e9ec1a3" class="" dir="auto">E depois utilizá-lo:</p><pre id="3c1f6ce8-497f-8004-aa3d-f84915ec9548" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">escreva(resultado)</code></pre><p id="3c1f6ce8-497f-801a-aa36-dbde70723935" class="" dir="auto">Isso proporciona maior flexibilidade.</p><hr id="3c1f6ce8-497f-80eb-b707-fb0f5446d21c" dir="auto"/><h1 id="3c1f6ce8-497f-804d-a490-e763374a42f6" class="" dir="auto">20. Variáveis locais</h1><p id="3c1f6ce8-497f-8038-9a0b-d9ac43a5d6e5" class="" dir="auto">Uma função pode criar variáveis utilizadas apenas durante sua execução.</p><p id="3c1f6ce8-497f-8080-a906-e1b2e0c3874f" class="" dir="auto">Exemplo:</p><pre id="3c1f6ce8-497f-80a0-9995-f4227c382097" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">função calcularMedia(a, b, c)
+
+    soma &lt;- a + b + c
+    media &lt;- soma / 3
+
+    retorne media
+
+fimfunção</code></pre><p id="3c1f6ce8-497f-80ec-a963-c452c2246711" class="" dir="auto">As variáveis:</p><pre id="3c1f6ce8-497f-8086-932e-e5f3eada123d" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">soma
+media</code></pre><p id="3c1f6ce8-497f-8058-8850-ef0edd5832e5" class="" dir="auto">são utilizadas internamente pela função.</p><p id="3c1f6ce8-497f-8012-8092-c474a62f6655" class="" dir="auto">Dependendo da linguagem, elas possuem <strong>escopo local</strong>, ou seja, não podem ser acessadas diretamente de qualquer parte do programa.</p><hr id="3c1f6ce8-497f-8089-a17e-d17bb92eff1b" dir="auto"/><h1 id="3c1f6ce8-497f-80eb-a2eb-e4cca8824800" class="" dir="auto">21. Escopo</h1><p id="3c1f6ce8-497f-80fc-a557-ec56c8c7cae5" class="" dir="auto">O <strong>escopo</strong> determina onde uma variável pode ser acessada.</p><p id="3c1f6ce8-497f-8080-ba5a-d70432d0aae2" class="" dir="auto">Por exemplo:</p><pre id="3c1f6ce8-497f-8065-845a-f7e26fb1a097" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">função calcular()
+
+    valor &lt;- 100
+
+    retorne valor
+
+fimfunção</code></pre><p id="3c1f6ce8-497f-80ce-90ec-dc6aa6b88117" class="" dir="auto">A variável <code>valor</code> pertence ao contexto da função.</p><p id="3c1f6ce8-497f-803c-96bb-edbcb961b608" class="" dir="auto">Fora dela, normalmente não podemos fazer:</p><pre id="3c1f6ce8-497f-80af-ab15-d8605c9ad710" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">escreva(valor)</code></pre><p id="3c1f6ce8-497f-8097-9530-d6f1f6ff44a6" class="" dir="auto">porque <code>valor</code> é uma variável local.</p><p id="3c1f6ce8-497f-802a-8d89-f0c4095a13c3" class="" dir="auto">Podemos, entretanto, obter seu conteúdo através do retorno:</p><pre id="3c1f6ce8-497f-80f9-8e5b-e20cd860215a" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">resultado &lt;- calcular()</code></pre><p id="3c1f6ce8-497f-80c4-bfb5-c9fb529bfcdc" class="" dir="auto">Agora:</p><pre id="3c1f6ce8-497f-80f8-8827-d1a6c0ab2083" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">resultado = 100</code></pre><hr id="3c1f6ce8-497f-80d0-9563-e8ce9d1c4f7b" dir="auto"/><h1 id="3c1f6ce8-497f-80e0-b42b-f755152962ad" class="" dir="auto">22. Funções reutilizáveis</h1><p id="3c1f6ce8-497f-80b6-80a6-ffb5cfe8a016" class="" dir="auto">Uma das principais vantagens das funções é a <strong>reutilização</strong>.</p><p id="3c1f6ce8-497f-8097-af19-c834b9e0a4e9" class="" dir="auto">Podemos criar:</p><pre id="3c1f6ce8-497f-80b2-be41-daa8df869483" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">função calcularDesconto(preco, percentual)
+    desconto &lt;- preco * percentual / 100
+    retorne preco - desconto
+fimfunção</code></pre><p id="3c1f6ce8-497f-8042-97b6-fdf3484423f7" class="" dir="auto">Depois podemos utilizá-la várias vezes:</p><pre id="3c1f6ce8-497f-807c-b16e-d3c4abe19d36" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">preco1 &lt;- calcularDesconto(100, 10)
+preco2 &lt;- calcularDesconto(500, 20)
+preco3 &lt;- calcularDesconto(1000, 15)</code></pre><p id="3c1f6ce8-497f-805c-bb45-f9c6fe411541" class="" dir="auto">A mesma lógica é reaproveitada para diferentes valores.</p><hr id="3c1f6ce8-497f-8013-bc50-fb80ae79b775" dir="auto"/><h1 id="3c1f6ce8-497f-8054-8ae2-ec96a40a70cc" class="" dir="auto">23. Funções para validação</h1><p id="3c1f6ce8-497f-8042-be1e-ef42b1e36d3c" class="" dir="auto">Funções são muito úteis para validar informações.</p><p id="3c1f6ce8-497f-8032-b046-cbb22468af8a" class="" dir="auto">Por exemplo:</p><pre id="3c1f6ce8-497f-8016-9dcd-f1c90337b496" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">função idadeValida(idade): logico
+
+    retorne idade &gt;= 0 E idade &lt;= 120
+
+fimfunção</code></pre><p id="3c1f6ce8-497f-802f-a1a0-d51a109d20d1" class="" dir="auto">Podemos utilizar:</p><pre id="3c1f6ce8-497f-8024-b2b1-d95cb44e4fc1" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">se idadeValida(idade) então
+    escreva(&quot;Idade válida.&quot;)
+senao
+    escreva(&quot;Idade inválida.&quot;)
+fimse</code></pre><p id="3c1f6ce8-497f-800e-b6c2-f15ecf5b0f61" class="" dir="auto">Isso deixa o programa principal mais limpo.</p><hr id="3c1f6ce8-497f-8063-9d6c-ee2dc60aa568" dir="auto"/><h1 id="3c1f6ce8-497f-804c-a1e8-fee8b2ef386e" class="" dir="auto">24. Funções para cálculos</h1><p id="3c1f6ce8-497f-80bb-9877-c57b1dd3ffbe" class="" dir="auto">Funções são especialmente úteis para operações matemáticas.</p><h3 id="3c1f6ce8-497f-804b-b615-f007cc5edbc1" class="" dir="auto">Soma</h3><pre id="3c1f6ce8-497f-80ec-80b6-ffa19157015d" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">função somar(a, b)
+    retorne a + b
+fimfunção</code></pre><h3 id="3c1f6ce8-497f-80b2-99de-ec74779ec236" class="" dir="auto">Subtração</h3><pre id="3c1f6ce8-497f-800a-8e05-d3e66bb7d136" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">função subtrair(a, b)
+    retorne a - b
+fimfunção</code></pre><h3 id="3c1f6ce8-497f-8059-a139-d3815459cfbc" class="" dir="auto">Multiplicação</h3><pre id="3c1f6ce8-497f-80b4-a102-dbb922967d05" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">função multiplicar(a, b)
+    retorne a * b
+fimfunção</code></pre><h3 id="3c1f6ce8-497f-80ac-9e3d-febe3dd161d9" class="" dir="auto">Divisão</h3><pre id="3c1f6ce8-497f-80a4-be1d-cf1c40a51582" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">função dividir(a, b)
+    retorne a / b
+fimfunção</code></pre><p id="3c1f6ce8-497f-80d7-9837-df9bab1fe644" class="" dir="auto">Assim podemos criar uma pequena biblioteca de operações.</p><hr id="3c1f6ce8-497f-807b-a3a5-dfb18762b5a0" dir="auto"/><h1 id="3c1f6ce8-497f-803f-bd4e-d111e992186c" class="" dir="auto">25. Exemplo: calculadora</h1><p id="3c1f6ce8-497f-806f-a1db-ef124aa52a1e" class="" dir="auto">Podemos criar:</p><pre id="3c1f6ce8-497f-8083-ae86-e0594780823e" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">função somar(a, b)
+    retorne a + b
+fimfunção
+
+função subtrair(a, b)
+    retorne a - b
+fimfunção
+
+função multiplicar(a, b)
+    retorne a * b
+fimfunção
+
+função dividir(a, b)
+    retorne a / b
+fimfunção</code></pre><p id="3c1f6ce8-497f-8010-8634-e6ebdfea3a2e" class="" dir="auto">Depois:</p><pre id="3c1f6ce8-497f-80a9-8a43-f8ee72b49271" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">resultado &lt;- somar(10, 5)</code></pre><p id="3c1f6ce8-497f-8095-a14d-f7e80591e912" class="" dir="auto">ou:</p><pre id="3c1f6ce8-497f-80a0-a2dd-ddab35f48994" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">resultado &lt;- multiplicar(10, 5)</code></pre><p id="3c1f6ce8-497f-805c-9d33-c801a2aaf13f" class="" dir="auto">Cada função possui uma responsabilidade específica.</p><hr id="3c1f6ce8-497f-80ee-bd4f-e6a470d6466c" dir="auto"/><h1 id="3c1f6ce8-497f-8014-8770-ce2b5c463f30" class="" dir="auto">26. Funções compostas</h1><p id="3c1f6ce8-497f-80c8-b38e-dd0671f577f9" class="" dir="auto">Uma função pode utilizar outra função.</p><p id="3c1f6ce8-497f-806d-865a-e8340de98e93" class="" dir="auto">Por exemplo:</p><pre id="3c1f6ce8-497f-80bc-a120-f73a859bdac0" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">função quadrado(numero)
+    retorne numero * numero
+fimfunção</code></pre><p id="3c1f6ce8-497f-804f-990f-f7f12253e539" class="" dir="auto">Podemos criar:</p><pre id="3c1f6ce8-497f-803a-a1ac-cf1c8f92f582" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">função somaDosQuadrados(a, b)
+
+    retorne quadrado(a) + quadrado(b)
+
+fimfunção</code></pre><p id="3c1f6ce8-497f-8081-9a9d-cf2ecaf73d45" class="" dir="auto">Chamando:</p><pre id="3c1f6ce8-497f-801f-af83-c88d06a23713" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">resultado &lt;- somaDosQuadrados(3, 4)</code></pre><p id="3c1f6ce8-497f-80e6-bea7-d7a22adf68b1" class="" dir="auto">Temos:</p><pre id="3c1f6ce8-497f-80fb-bb62-ea85177d5fe5" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">quadrado(3) = 9
+quadrado(4) = 16</code></pre><p id="3c1f6ce8-497f-80df-b209-e808ff3c7f4a" class="" dir="auto">Então:</p><pre id="3c1f6ce8-497f-8049-ac3b-dbe35dbf5b7f" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">9 + 16 = 25</code></pre><p id="3c1f6ce8-497f-80b3-a64f-f662a599ffa6" class="" dir="auto">Resultado:</p><pre id="3c1f6ce8-497f-8051-a20d-c2f943956024" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">25</code></pre><p id="3c1f6ce8-497f-808b-b6c3-e4a9ab5eabd2" class="" dir="auto">Esse tipo de composição permite construir algoritmos complexos a partir de funções menores.</p><hr id="3c1f6ce8-497f-80f4-8468-d05202356adf" dir="auto"/><h1 id="3c1f6ce8-497f-8077-b558-ee5dffbc0cca" class="" dir="auto">27. Funções recursivas</h1><p id="3c1f6ce8-497f-80a8-9429-f15e0248c063" class="" dir="auto">Uma função é chamada de <strong>recursiva</strong> quando ela chama a si mesma.</p><p id="3c1f6ce8-497f-80f9-90a3-d6102c24da81" class="" dir="auto">Um exemplo clássico é o cálculo do fatorial.</p><pre id="3c1f6ce8-497f-801b-b750-ffe7ee77e751" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">função fatorial(n)
+
+    se n == 0 então
+        retorne 1
+    senao
+        retorne n * fatorial(n - 1)
+    fimse
+
+fimfunção</code></pre><p id="3c1f6ce8-497f-8065-8c1c-c1115a033324" class="" dir="auto">Ao calcular:</p><pre id="3c1f6ce8-497f-803e-a286-d44f6d23f34a" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">fatorial(5)</code></pre><p id="3c1f6ce8-497f-80eb-b0f3-e1effd2c924e" class="" dir="auto">temos:</p><pre id="3c1f6ce8-497f-8047-a176-cb084dd0a975" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">5 × fatorial(4)</code></pre><p id="3c1f6ce8-497f-8033-bb21-ea9c1fe8d0cd" class="" dir="auto">que resulta em:</p><pre id="3c1f6ce8-497f-80d6-b51b-d72c8f2ed22a" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">5 × 4 × 3 × 2 × 1</code></pre><p id="3c1f6ce8-497f-80d1-a5fa-e2e8aed6ce4a" class="" dir="auto">Resultado:</p><pre id="3c1f6ce8-497f-8021-85eb-d3dd108f3647" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">120</code></pre><p id="3c1f6ce8-497f-80a3-8147-d27b4042faf6" class="" dir="auto">A recursividade é um conceito importante em algoritmos, mas deve ser utilizada com cuidado para evitar chamadas infinitas.</p><hr id="3c1f6ce8-497f-8013-8f77-cb4390d20e1f" dir="auto"/><h1 id="3c1f6ce8-497f-8065-b74f-ecf9ea2a24ab" class="" dir="auto">28. Condição de parada na recursividade</h1><p id="3c1f6ce8-497f-802c-b148-ff79013b4c17" class="" dir="auto">Uma função recursiva precisa possuir uma <strong>condição de parada</strong>.</p><p id="3c1f6ce8-497f-8035-8b9f-de66fe3896b1" class="" dir="auto">No exemplo:</p><pre id="3c1f6ce8-497f-8097-9fc7-ebee97250082" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">se n == 0 então
+    retorne 1</code></pre><p id="3c1f6ce8-497f-809d-ba78-da68399bea52" class="" dir="auto">Essa é a condição que interrompe a recursividade.</p><p id="3c1f6ce8-497f-800a-ae06-ca435f2b6c54" class="" dir="auto">Sem ela, poderíamos ter:</p><pre id="3c1f6ce8-497f-8021-bff4-f1b8e8ba4cd4" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">fatorial(5)
+→ fatorial(4)
+→ fatorial(3)
+→ fatorial(2)
+→ fatorial(1)
+→ fatorial(0)</code></pre><p id="3c1f6ce8-497f-80e8-989c-cee667fd7c2a" class="" dir="auto">e então parar.</p><p id="3c1f6ce8-497f-80c9-b5df-e081ae49b515" class="" dir="auto">Sem uma condição adequada, a função continuaria chamando a si mesma indefinidamente.</p><hr id="3c1f6ce8-497f-8092-bf6e-ea220eac9a12" dir="auto"/><h1 id="3c1f6ce8-497f-80ef-b7a6-d43bbca16a73" class="" dir="auto">29. Funções e abstração</h1><p id="3c1f6ce8-497f-80e3-8aa1-e63390d413c0" class="" dir="auto">As funções também são uma forma de <strong>abstração</strong>.</p><p id="3c1f6ce8-497f-8041-a09d-e4eb89a9220b" class="" dir="auto">Imagine que o programa precisa verificar se um usuário possui idade suficiente:</p><pre id="3c1f6ce8-497f-80db-9e0f-cc3674cac527" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">se maiorDeIdade(idade) então
+    ...
+fimse</code></pre><p id="3c1f6ce8-497f-805a-b2f3-d66d1233bee4" class="" dir="auto">O programa principal não precisa conhecer todos os detalhes internos.</p><p id="3c1f6ce8-497f-808a-bdc5-d387106ee854" class="" dir="auto">Ele simplesmente utiliza:</p><pre id="3c1f6ce8-497f-8014-bb80-ce49f9204e05" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">maiorDeIdade(idade)</code></pre><p id="3c1f6ce8-497f-80cd-9558-eed47c24035e" class="" dir="auto">Os detalhes ficam dentro da função.</p><p id="3c1f6ce8-497f-80a0-9559-e4f39530c4c5" class="" dir="auto">Isso permite que o algoritmo seja escrito de maneira mais próxima daquilo que queremos expressar.</p><hr id="3c1f6ce8-497f-807d-9aa1-cf21317cffed" dir="auto"/><h1 id="3c1f6ce8-497f-80ce-bf30-fd5bd7af4466" class="" dir="auto">30. Funções e modularização</h1><p id="3c1f6ce8-497f-802d-a2a8-d8376ec91ac6" class="" dir="auto">Funções ajudam a dividir um sistema em módulos.</p><p id="3c1f6ce8-497f-80e6-baa4-f26b287ec8b0" class="" dir="auto">Por exemplo:</p><pre id="3c1f6ce8-497f-8057-94f4-ecb43e214162" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Sistema
+│
+├── autenticarUsuario()
+├── validarEmail()
+├── cadastrarUsuario()
+├── calcularIdade()
+├── calcularPagamento()
+├── gerarRelatorio()
+└── enviarMensagem()</code></pre><p id="3c1f6ce8-497f-8094-8d7d-d789c37633a4" class="" dir="auto">Cada função possui uma responsabilidade.</p><p id="3c1f6ce8-497f-804c-8507-ea559ffeba71" class="" dir="auto">Essa organização facilita:</p><ul id="3c1f6ce8-497f-803d-bbbf-da851263cd05" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Desenvolvimento;</li></ul><ul id="3c1f6ce8-497f-80c0-a113-e8f4e11c47f5" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Testes;</li></ul><ul id="3c1f6ce8-497f-8087-b245-dc73f7f34323" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Manutenção;</li></ul><ul id="3c1f6ce8-497f-80ae-a7c2-d4d4d713f320" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Reutilização;</li></ul><ul id="3c1f6ce8-497f-80f3-839c-eb851b60ac7e" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Correção de erros.</li></ul><hr id="3c1f6ce8-497f-80d6-b672-e5a42cf05b8b" dir="auto"/><h1 id="3c1f6ce8-497f-80ac-a740-d5bfdb1af0f4" class="" dir="auto">31. Boas práticas ao criar funções</h1><h3 id="3c1f6ce8-497f-8010-bc46-cae2cd6069ff" class="" dir="auto">1. Use nomes claros</h3><p id="3c1f6ce8-497f-8085-941e-c2990b3fea85" class="" dir="auto">Evite:</p><pre id="3c1f6ce8-497f-800a-b74f-eaca94b16723" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">funcao f1()</code></pre><p id="3c1f6ce8-497f-80ef-9897-d2054ffbfa27" class="" dir="auto">Prefira:</p><pre id="3c1f6ce8-497f-80aa-a89d-ee23dddbcffc" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">funcao calcularMedia()</code></pre><hr id="3c1f6ce8-497f-8063-ab7a-df16a9282284" dir="auto"/><h3 id="3c1f6ce8-497f-80aa-8227-e788f95b78a3" class="" dir="auto">2. Dê uma responsabilidade específica</h3><p id="3c1f6ce8-497f-80be-a06e-f219241396ef" class="" dir="auto">Evite uma função que faça tudo:</p><pre id="3c1f6ce8-497f-8020-b8ab-e8bfd2e89925" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">processarSistema()</code></pre><p id="3c1f6ce8-497f-8037-b982-c5e7f0c3c165" class="" dir="auto">Prefira separar:</p><pre id="3c1f6ce8-497f-809e-a0b2-f6f3c446fea0" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">validarUsuario()
+calcularPagamento()
+gerarRelatorio()</code></pre><hr id="3c1f6ce8-497f-8044-8ce1-e8e90917206e" dir="auto"/><h3 id="3c1f6ce8-497f-8008-80be-e2b55895170b" class="" dir="auto">3. Evite funções enormes</h3><p id="3c1f6ce8-497f-80e9-aead-d3e70eab1f03" class="" dir="auto">Se uma função possui muitas responsabilidades, pode ser interessante dividi-la.</p><hr id="3c1f6ce8-497f-8086-a5b8-f2a698c5bd08" dir="auto"/><h3 id="3c1f6ce8-497f-801c-a0d8-e114fea6cc02" class="" dir="auto">4. Use parâmetros adequadamente</h3><p id="3c1f6ce8-497f-8063-a0f1-f5d838fef5f0" class="" dir="auto">Uma função deve receber somente os dados necessários para executar sua tarefa.</p><hr id="3c1f6ce8-497f-80da-9163-c00da6cbc359" dir="auto"/><h3 id="3c1f6ce8-497f-8017-809a-e0887d17ad82" class="" dir="auto">5. Evite dependências desnecessárias</h3><p id="3c1f6ce8-497f-8066-8dda-ff5e641947b0" class="" dir="auto">Quanto mais independente for uma função, mais fácil será reutilizá-la e testá-la.</p><hr id="3c1f6ce8-497f-8045-a52d-c85f48b52965" dir="auto"/><h1 id="3c1f6ce8-497f-8092-93b7-f09aff033f72" class="" dir="auto">32. Exemplo completo</h1><p id="3c1f6ce8-497f-801b-91c4-c4e247c293e0" class="" dir="auto">Vamos criar um algoritmo para calcular a situação de um aluno.</p><pre id="3c1f6ce8-497f-80d5-ba74-ca3233dd8631" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">função calcularMedia(nota1, nota2, nota3)
+
+    media &lt;- (nota1 + nota2 + nota3) / 3
+
+    retorne media
+
+fimfunção</code></pre><p id="3c1f6ce8-497f-8035-9e5b-d3bf713ac5b6" class="" dir="auto">Agora podemos criar uma segunda função:</p><pre id="3c1f6ce8-497f-8038-a3b4-ce3a0935137d" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">função verificarSituacao(media)
+
+    se media &gt;= 7 então
+        retorne &quot;Aprovado&quot;
+    senao se media &gt;= 5 então
+        retorne &quot;Recuperação&quot;
+    senao
+        retorne &quot;Reprovado&quot;
+    fimse
+
+fimfunção</code></pre><p id="3c1f6ce8-497f-8018-9acf-e87ae3a696f1" class="" dir="auto">No programa principal:</p><pre id="3c1f6ce8-497f-80d1-a78b-db9200e9bbe1" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">nota1 &lt;- 8
+nota2 &lt;- 7
+nota3 &lt;- 9
+
+media &lt;- calcularMedia(nota1, nota2, nota3)
+
+situacao &lt;- verificarSituacao(media)
+
+escreva(&quot;Média: &quot;, media)
+escreva(&quot;Situação: &quot;, situacao)</code></pre><p id="3c1f6ce8-497f-8020-86bc-c29d9c48e445" class="" dir="auto">Resultado:</p><pre id="3c1f6ce8-497f-80fa-b757-d7aa3a4ebc76" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Média: 8
+Situação: Aprovado</code></pre><p id="3c1f6ce8-497f-80d4-b907-f89f7e0a92cb" class="" dir="auto">Observe como o problema foi dividido:</p><pre id="3c1f6ce8-497f-802d-85f8-c7a4807db0ec" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">calcularMedia()
+        ↓
+verificarSituacao()
+        ↓
+resultado final</code></pre><p id="3c1f6ce8-497f-805b-801f-cf794d381ee8" class="" dir="auto">Isso é uma aplicação prática de <strong>modularização</strong>.</p><hr id="3c1f6ce8-497f-80f8-ba72-c9cdd284a98d" dir="auto"/><h1 id="3c1f6ce8-497f-8061-86f6-e62e35993193" class="" dir="auto">33. Vantagens das funções</h1><p id="3c1f6ce8-497f-8027-bf61-f8d2e030136c" class="" dir="auto">As principais vantagens são:</p><ul id="3c1f6ce8-497f-80de-97d6-ca537fec00b1" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>Reutilização de código</strong>;</li></ul><ul id="3c1f6ce8-497f-800c-b52c-d357828d4745" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>Redução de repetição</strong>;</li></ul><ul id="3c1f6ce8-497f-8047-83f8-f64c1e091aa4" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>Organização do algoritmo</strong>;</li></ul><ul id="3c1f6ce8-497f-80e0-8a12-d03587113aa9" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>Modularização</strong>;</li></ul><ul id="3c1f6ce8-497f-8049-b4f6-c2d116417a4d" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>Facilidade de manutenção</strong>;</li></ul><ul id="3c1f6ce8-497f-80c6-b1be-ddf0de5c38ea" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>Facilidade de testes</strong>;</li></ul><ul id="3c1f6ce8-497f-807b-9fc6-fb648d3aeaa7" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>Abstração de detalhes</strong>;</li></ul><ul id="3c1f6ce8-497f-80b0-a7db-dea29f744b0e" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>Maior legibilidade</strong>;</li></ul><ul id="3c1f6ce8-497f-8047-b3ae-c06e52a34928" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>Separação de responsabilidades</strong>;</li></ul><ul id="3c1f6ce8-497f-805a-a12c-d81415c25991" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Possibilidade de criar bibliotecas de funcionalidades reutilizáveis.</li></ul><hr id="3c1f6ce8-497f-808d-9277-f39f5eb61b65" dir="auto"/><h1 id="3c1f6ce8-497f-8022-9998-d056f126564d" class="" dir="auto">34. Erros comuns</h1><h2 id="3c1f6ce8-497f-8044-92e8-c77a8fe0cc44" class="" dir="auto">Esquecer o retorno</h2><p id="3c1f6ce8-497f-80f0-9eb3-cbfc2070b8f4" class="" dir="auto">Por exemplo:</p><pre id="3c1f6ce8-497f-808c-a1b3-d813a644c803" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">função somar(a, b)
+    a + b
+fimfunção</code></pre><p id="3c1f6ce8-497f-8032-aec6-fb5806146408" class="" dir="auto">Dependendo do pseudocódigo, isso não significa necessariamente que o resultado será retornado.</p><p id="3c1f6ce8-497f-8066-a9d0-e435b201c467" class="" dir="auto">O correto é utilizar explicitamente:</p><pre id="3c1f6ce8-497f-80de-9c8f-c196aa797310" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">retorne a + b</code></pre><hr id="3c1f6ce8-497f-8024-9f06-d27f90b55d40" dir="auto"/><h2 id="3c1f6ce8-497f-80e9-b5ce-fbbba1105269" class="" dir="auto">Retornar o valor errado</h2><p id="3c1f6ce8-497f-80a0-ae82-eeef853afc5b" class="" dir="auto">Exemplo:</p><pre id="3c1f6ce8-497f-8075-a51f-cee87b5d93c1" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">função dobro(numero)
+    retorne numero + numero
+fimfunção</code></pre><p id="3c1f6ce8-497f-8024-94a3-db788867c910" class="" dir="auto">Nesse caso, funciona matematicamente, mas se a intenção era calcular o quadrado, estaria errado.</p><p id="3c1f6ce8-497f-8014-8998-d1e5412bd64a" class="" dir="auto">A função precisa representar corretamente sua responsabilidade.</p><hr id="3c1f6ce8-497f-80dd-88b6-ef7795664984" dir="auto"/><h2 id="3c1f6ce8-497f-8033-b526-f93f5e774851" class="" dir="auto">Criar funções com responsabilidades demais</h2><p id="3c1f6ce8-497f-805a-818f-f38571a1dbea" class="" dir="auto">Uma função como:</p><pre id="3c1f6ce8-497f-807e-90e0-e06cc4e92b36" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">processarTudo()</code></pre><p id="3c1f6ce8-497f-8077-8ae5-f6f36e3c9b13" class="" dir="auto">pode esconder várias responsabilidades.</p><p id="3c1f6ce8-497f-80f4-bc06-dccfa7b1542c" class="" dir="auto">É melhor separar:</p><pre id="3c1f6ce8-497f-8081-b8ed-c67ef32fa7ff" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">validarDados()
+calcularValor()
+salvarDados()
+gerarRelatorio()</code></pre><hr id="3c1f6ce8-497f-8007-84cf-cfc1c558e9af" dir="auto"/><h1 id="3c1f6ce8-497f-803f-92a6-c021c30677ba" class="" dir="auto">35. Funções em diferentes linguagens</h1><p id="3c1f6ce8-497f-8008-b017-e501a2b8de11" class="" dir="auto">O conceito de função aparece em praticamente todas as linguagens de programação.</p><h3 id="3c1f6ce8-497f-801e-8710-eb670fac769b" class="" dir="auto">PHP</h3><pre id="3c1f6ce8-497f-8031-b8ee-c3b27353251f" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">function somar($a, $b) {
+    return $a + $b;
+}</code></pre><h3 id="3c1f6ce8-497f-8099-b1ff-d10bc1fa5d7a" class="" dir="auto">JavaScript</h3><pre id="3c1f6ce8-497f-80eb-8dbc-c9978d188a3e" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">function somar(a, b) {
+    return a + b;
+}</code></pre><h3 id="3c1f6ce8-497f-80e8-b0d3-e4d4f94d3add" class="" dir="auto">Python</h3><pre id="3c1f6ce8-497f-8097-865d-cd4ddf3896a3" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">def somar(a, b):
+    return a + b</code></pre><h3 id="3c1f6ce8-497f-809f-a58f-c49e348ecccb" class="" dir="auto">C</h3><pre id="3c1f6ce8-497f-80ec-8c51-f3bac93edfba" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">int somar(int a, int b) {
+    return a + b;
+}</code></pre><p id="3c1f6ce8-497f-809e-8f16-fe7302789a96" class="" dir="auto">Apesar da sintaxe mudar, a ideia permanece:</p><pre id="3c1f6ce8-497f-8006-a73d-c0ebb9e9707d" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Entrada → Processamento → Retorno</code></pre><hr id="3c1f6ce8-497f-808b-9342-c8fc5796918e" dir="auto"/><h1 id="3c1f6ce8-497f-808b-a64f-fe5200aedc37" class="" dir="auto">36. Funções como base da programação</h1><p id="3c1f6ce8-497f-807d-a8df-e824c028e4d4" class="" dir="auto">As funções são extremamente importantes porque permitem construir programas complexos a partir de <strong>pequenas unidades de código</strong>.</p><p id="3c1f6ce8-497f-8010-9427-cab3e4356589" class="" dir="auto">Por exemplo:</p><pre id="3c1f6ce8-497f-808c-b231-fad484788482" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Aplicação
+│
+├── autenticar()
+│   ├── validarUsuario()
+│   └── validarSenha()
+│
+├── vendas()
+│   ├── calcularSubtotal()
+│   ├── calcularDesconto()
+│   └── calcularTotal()
+│
+└── relatorios()
+    ├── gerarDados()
+    └── formatarRelatorio()</code></pre><p id="3c1f6ce8-497f-802a-a938-ef6e6e97c09d" class="" dir="auto">Cada função resolve uma parte específica do problema.</p><p id="3c1f6ce8-497f-8022-8a86-c1fcab566fc5" class="" dir="auto">Isso facilita muito a construção de aplicações grandes.</p><hr id="3c1f6ce8-497f-80c3-bc16-fe7ec0dee8ae" dir="auto"/><h1 id="3c1f6ce8-497f-802c-9866-eaa244e73d2e" class="" dir="auto">37. Resumo dos principais conceitos</h1><table id="3c1f6ce8-497f-80da-9a60-f79ad1cfb5fa" class="simple-table" dir="ltr"><thead class="simple-table-header"><tr id="3c1f6ce8-497f-806f-be22-fe34bdd12192" dir="ltr"><th id="SdAC" class="simple-table-header-color simple-table-header">Conceito</th><th id="bHS&gt;" class="simple-table-header-color simple-table-header">Significado</th></tr></thead><tbody><tr id="3c1f6ce8-497f-809e-bdf1-e2ea23acfd6f" dir="ltr"><td id="SdAC" class=""><strong>Função</strong></td><td id="bHS&gt;" class="">Bloco de código destinado a realizar uma tarefa</td></tr><tr id="3c1f6ce8-497f-8019-9325-e8b15851e79a" dir="ltr"><td id="SdAC" class=""><strong>Parâmetro</strong></td><td id="bHS&gt;" class="">Variável recebida pela função</td></tr><tr id="3c1f6ce8-497f-80f3-acfd-f7bf6b2abc66" dir="ltr"><td id="SdAC" class=""><strong>Argumento</strong></td><td id="bHS&gt;" class="">Valor enviado para um parâmetro</td></tr><tr id="3c1f6ce8-497f-80b8-a415-cdcbaa80409f" dir="ltr"><td id="SdAC" class=""><strong>Retorno</strong></td><td id="bHS&gt;" class="">Resultado devolvido pela função</td></tr><tr id="3c1f6ce8-497f-805f-bf91-ce0ac4289895" dir="ltr"><td id="SdAC" class=""><strong>Chamada</strong></td><td id="bHS&gt;" class="">Execução de uma função</td></tr><tr id="3c1f6ce8-497f-8001-af24-e88edcbde7d7" dir="ltr"><td id="SdAC" class=""><strong>Escopo</strong></td><td id="bHS&gt;" class="">Região onde uma variável pode ser acessada</td></tr><tr id="3c1f6ce8-497f-809e-a3d2-fba018c5ad6e" dir="ltr"><td id="SdAC" class=""><strong>Recursão</strong></td><td id="bHS&gt;" class="">Função que chama a si mesma</td></tr><tr id="3c1f6ce8-497f-807a-a08b-c27a44af0b4e" dir="ltr"><td id="SdAC" class=""><strong>Modularização</strong></td><td id="bHS&gt;" class="">Divisão do programa em partes menores</td></tr><tr id="3c1f6ce8-497f-802c-ac30-d511db562f4a" dir="ltr"><td id="SdAC" class=""><strong>Abstração</strong></td><td id="bHS&gt;" class="">Ocultação de detalhes internos desnecessários</td></tr></tbody></table><hr id="3c1f6ce8-497f-8072-89b2-ed10d146f705" dir="auto"/><h1 id="3c1f6ce8-497f-80fd-beda-c84428e61e5a" class="" dir="auto">38. Resumo final</h1><p id="3c1f6ce8-497f-802f-b532-ea64e7e7ff26" class="" dir="auto">As <strong>funções</strong> são estruturas fundamentais da programação utilizadas para <strong>encapsular uma determinada tarefa e, normalmente, retornar um resultado</strong>.</p><p id="3c1f6ce8-497f-80b1-8cc9-edf5727fbf3d" class="" dir="auto">Uma função básica pode ser:</p><pre id="3c1f6ce8-497f-80a1-ad5b-ea58936e85f4" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">função somar(a, b)
+    retorne a + b
+fimfunção</code></pre><p id="3c1f6ce8-497f-80ab-851d-c5806cb9a56d" class="" dir="auto">E pode ser utilizada:</p><pre id="3c1f6ce8-497f-80b4-973f-c62af06d24c7" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">resultado &lt;- somar(10, 20)</code></pre><p id="3c1f6ce8-497f-80e6-b1ef-d49b07d81d02" class="" dir="auto">O resultado será:</p><pre id="3c1f6ce8-497f-80d5-9a51-dca794bb5032" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">30</code></pre><p id="3c1f6ce8-497f-8005-b4b0-feed4350d9a0" class="" dir="auto">As funções podem:</p><ul id="3c1f6ce8-497f-8050-84f5-ff580133bb40" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Receber parâmetros;</li></ul><ul id="3c1f6ce8-497f-80b2-ae2f-f4145b46904e" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Realizar cálculos;</li></ul><ul id="3c1f6ce8-497f-80d1-928f-d46e060fe41d" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Utilizar condições;</li></ul><ul id="3c1f6ce8-497f-8089-a617-e5e9064a7263" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Utilizar estruturas de repetição;</li></ul><ul id="3c1f6ce8-497f-80d2-bf92-ce25a05311de" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Chamar outras funções;</li></ul><ul id="3c1f6ce8-497f-80cd-88cd-edb7c2724b19" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Retornar diferentes tipos de dados;</li></ul><ul id="3c1f6ce8-497f-800d-ba08-c66d15dea3e4" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Ser utilizadas de forma recursiva;</li></ul><ul id="3c1f6ce8-497f-802b-a3bd-f15d90bc76e4" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Ser reutilizadas várias vezes.</li></ul><p id="3c1f6ce8-497f-8033-8c79-de1c5edcf985" class="" dir="auto">A ideia central é:</p><pre id="3c1f6ce8-497f-80bc-afde-f89c348f6f1c" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">          FUNÇÃO
+             ↓
+      ┌──────────────┐
+Entrada → Processamento → Saída
+      └──────────────┘
+             ↓
+         Resultado</code></pre><p id="3c1f6ce8-497f-8054-8c13-c9e83872b629" class="" dir="auto">Por isso, dominar funções é essencial para avançar em <strong>lógica de programação, algoritmos e desenvolvimento de software</strong>, pois elas formam uma das principais ferramentas para transformar problemas grandes em <strong>pequenas partes organizadas, reutilizáveis e fáceis de compreender</strong>.</p></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

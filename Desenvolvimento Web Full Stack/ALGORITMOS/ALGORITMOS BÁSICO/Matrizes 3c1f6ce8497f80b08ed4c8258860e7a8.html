@@ -1,0 +1,1170 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Matrizes</title><meta name="data-notion-page-icon" content="/icons/gear_blue.svg"/><link rel="icon" href="https://app.notion.com/icons/gear_blue.svg"/><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+/* For default-background callouts, render the border outline. */
+.callout.block-color-default_background {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+/*
+ * Toggles and callouts hold arbitrary content, so they can easily be taller
+ * than a page. They must stay breakable: avoiding breaks inside them makes
+ * Chromium push the whole block onto the next page, which leaves the previous
+ * page mostly empty before every long toggle.
+ */
+details,
+aside {
+	margin: 1.25em 0;
+}
+
+/* Keep a toggle's title on the same page as the start of its content. */
+summary {
+	page-break-after: avoid;
+	break-after: avoid;
+}
+
+/*
+ * Toggle headings render as <h1/h2/h3 style="display:inline-block"> inside
+ * <summary>. Without this reset, the heading's margin-top pushes it below the
+ * ::marker (▼), so the triangle and the title appear on separate lines.
+ */
+summary h1,
+summary h2,
+summary h3,
+summary h4 {
+	margin-top: 0;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding-inline: 0.125rem;
+	padding-block: 0.375rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+/*
+ * Render emoji icons using a ::before pseudo-element to keep the glyph
+ * out of the DOM textContent traversal. This avoids double-rendering icons
+ * in callouts and page titles.
+ * NOTE(slim/html-export-pseudo-icons): I can't tagref this because it will
+ * flag as a duplicate tag after codegen.
+ */
+.icon[data-emoji]::before {
+	content: attr(data-emoji);
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	margin-right: 0.4em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.tab {
+	margin: 1.25em 0;
+	padding-inline: 1rem;
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style><style>@import url('https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex-swap.min.css')</style></head><body><article id="3c1f6ce8-497f-80b0-8ed4-c8258860e7a8" class="page sans" data-notion-page-icon="/icons/gear_blue.svg"><header><div class="page-header-icon undefined"><img class="icon notion-static-icon" src="https://app.notion.com/icons/gear_blue.svg"/></div><h1 class="page-title" dir="auto">Matrizes</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><h1 id="3c1f6ce8-497f-801a-a00b-ed51cbf118e9" class="" dir="auto">Matrizes</h1><p id="3c1f6ce8-497f-80f1-9e97-d2a4628f9be7" class="" dir="auto">As <strong>matrizes</strong> são estruturas de dados utilizadas para armazenar e organizar informações em <strong>duas ou mais dimensões</strong>. Na lógica de programação, a matriz mais comum é a <strong>bidimensional</strong>, formada por <strong>linhas e colunas</strong>.</p><p id="3c1f6ce8-497f-8026-8d60-d6885e848317" class="" dir="auto">Enquanto um vetor organiza dados em uma única dimensão:</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="3c1f6ce8-497f-8058-b199-edac5948280b" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">[10] [20] [30] [40]</code></pre><p id="3c1f6ce8-497f-805f-ae47-d79de3a7f89c" class="" dir="auto">uma matriz organiza os dados em duas dimensões:</p><pre id="3c1f6ce8-497f-803f-b16c-d46ee94b7897" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">[10] [20] [30]
+[40] [50] [60]
+[70] [80] [90]</code></pre><p id="3c1f6ce8-497f-8084-aee5-d1379b3d9ee3" class="" dir="auto">Nesse caso, temos <strong>3 linhas e 3 colunas</strong>.</p><p id="3c1f6ce8-497f-8025-b0c9-e7f97f49cdf3" class="" dir="auto">As matrizes são muito utilizadas para representar:</p><ul id="3c1f6ce8-497f-801d-8350-c99a4b8996a6" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Tabelas;</li></ul><ul id="3c1f6ce8-497f-8097-a1b5-f395e4d186e6" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Planilhas;</li></ul><ul id="3c1f6ce8-497f-8049-b0cb-d1164ab47de0" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Tabuleiros de jogos;</li></ul><ul id="3c1f6ce8-497f-804c-96eb-e606edc3acf2" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Mapas;</li></ul><ul id="3c1f6ce8-497f-802b-9c60-f1278e3ac73e" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Imagens;</li></ul><ul id="3c1f6ce8-497f-80bf-a1e3-f2f32e133b1e" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Dados estatísticos;</li></ul><ul id="3c1f6ce8-497f-80e7-af5a-d44bfff2c65b" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Notas de vários alunos;</li></ul><ul id="3c1f6ce8-497f-8041-bd2f-e1cc448db37b" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Sistemas de assentos;</li></ul><ul id="3c1f6ce8-497f-80cc-9f2c-cecb2e81d12c" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Grades e mapas;</li></ul><ul id="3c1f6ce8-497f-80e9-afd2-da4091bf0748" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Problemas matemáticos.</li></ul><hr id="3c1f6ce8-497f-8005-b7ab-e7eae0a9a754" dir="auto"/><h1 id="3c1f6ce8-497f-8026-ae21-f1dce53573ae" class="" dir="auto">1. O que é uma matriz?</h1><p id="3c1f6ce8-497f-80bd-b7d7-c9b8cb059254" class="" dir="auto">Uma <strong>matriz</strong> é uma estrutura composta por vários elementos organizados em <strong>linhas e colunas</strong>.</p><p id="3c1f6ce8-497f-8017-a9f7-e0703e786daf" class="" dir="auto">Por exemplo:</p><pre id="3c1f6ce8-497f-809d-b0cc-cc16d2fe47ad" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">        Colunas
+          ↓
+       1   2   3
+     +---+---+---+
+  1  |10 |20 |30 |
+     +---+---+---+
+  2  |40 |50 |60 |
+     +---+---+---+
+  3  |70 |80 |90 |
+     +---+---+---+
+     ↑
+   Linhas</code></pre><p id="3c1f6ce8-497f-8006-a856-e380ec41b277" class="" dir="auto">Cada elemento possui uma posição determinada por dois índices:</p><pre id="3c1f6ce8-497f-8041-ba13-d84a2472eeda" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">matriz[linha][coluna]</code></pre><p id="3c1f6ce8-497f-80e5-b157-f799097b7c2e" class="" dir="auto">Por exemplo:</p><pre id="3c1f6ce8-497f-8068-9ff5-d0378357b315" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">matriz[2][3]</code></pre><p id="3c1f6ce8-497f-800c-8548-e61561ed46d8" class="" dir="auto">representa o elemento localizado na <strong>linha 2, coluna 3</strong>.</p><p id="3c1f6ce8-497f-809f-b03c-e83db88fa57c" class="" dir="auto">Nesse exemplo:</p><pre id="3c1f6ce8-497f-8021-b10b-f00e4a41a319" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">matriz[2][3] = 60</code></pre><hr id="3c1f6ce8-497f-800f-81f2-ddc84d043158" dir="auto"/><h1 id="3c1f6ce8-497f-8081-bfd0-f10fc445d4c4" class="" dir="auto">2. Diferença entre vetor e matriz</h1><p id="3c1f6ce8-497f-80a2-b0e1-c4a74bd0f083" class="" dir="auto">A principal diferença está no número de dimensões.</p><h3 id="3c1f6ce8-497f-80ce-ba63-fc316a6fabdd" class="" dir="auto">Vetor</h3><p id="3c1f6ce8-497f-8092-a833-cd2224a85c96" class="" dir="auto">Possui uma dimensão:</p><pre id="3c1f6ce8-497f-80ed-9482-cca2737ac624" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">[10] [20] [30] [40]</code></pre><p id="3c1f6ce8-497f-80c8-a679-e7c28ceb3175" class="" dir="auto">Utilizamos apenas um índice:</p><pre id="3c1f6ce8-497f-8055-8803-d7b604bfb866" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">vetor[3]</code></pre><h3 id="3c1f6ce8-497f-8087-b503-c1aef2098e70" class="" dir="auto">Matriz</h3><p id="3c1f6ce8-497f-8002-b5fc-f035d62d3051" class="" dir="auto">Possui duas dimensões:</p><pre id="3c1f6ce8-497f-8014-bcd0-e51ddba96116" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">[10] [20] [30]
+[40] [50] [60]
+[70] [80] [90]</code></pre><p id="3c1f6ce8-497f-8070-94d0-ff9805e421e2" class="" dir="auto">Utilizamos dois índices:</p><pre id="3c1f6ce8-497f-80e0-ae4c-e48fdccf98e6" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">matriz[2][3]</code></pre><p id="3c1f6ce8-497f-8060-a74f-f9951bed415f" class="" dir="auto">Podemos representar:</p><pre id="3c1f6ce8-497f-80f0-8504-ce23931bf779" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Vetor:
+posição
+
+Matriz:
+linha + coluna</code></pre><hr id="3c1f6ce8-497f-8017-a3c6-f0b3f3917d4d" dir="auto"/><h1 id="3c1f6ce8-497f-8077-b345-da45cd83020c" class="" dir="auto">3. Linhas e colunas</h1><p id="3c1f6ce8-497f-8015-8c95-fa545fefd7fb" class="" dir="auto">As duas principais características de uma matriz são:</p><h3 id="3c1f6ce8-497f-8013-8156-d4e043c42fb8" class="" dir="auto">Linhas</h3><p id="3c1f6ce8-497f-80de-9cd8-c2cf3880ee53" class="" dir="auto">São as disposições horizontais.</p><pre id="3c1f6ce8-497f-80b2-9862-f7d8dc1be9af" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">[10] [20] [30] ← linha 1
+[40] [50] [60] ← linha 2
+[70] [80] [90] ← linha 3</code></pre><h3 id="3c1f6ce8-497f-80c4-a1a5-ef962b712d85" class="" dir="auto">Colunas</h3><p id="3c1f6ce8-497f-80de-8751-d987c4942316" class="" dir="auto">São as disposições verticais.</p><pre id="3c1f6ce8-497f-8057-8624-f114aa264de5" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">  ↓    ↓    ↓
+[10] [20] [30]
+[40] [50] [60]
+[70] [80] [90]</code></pre><p id="3c1f6ce8-497f-80fb-b308-f80088331322" class="" dir="auto">Nesse exemplo temos:</p><p id="3c1f6ce8-497f-80b7-8a68-f80a323fd338" class="" dir="auto"><strong>3 linhas × 3 colunas</strong></p><p id="3c1f6ce8-497f-8006-bf8b-fbc1f1d57425" class="" dir="auto">Portanto, a matriz possui:</p><pre id="3c1f6ce8-497f-8092-bfcc-cc99bca9eef6" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">3 × 3 = 9 elementos</code></pre><hr id="3c1f6ce8-497f-80e2-9162-c34e271364ec" dir="auto"/><h1 id="3c1f6ce8-497f-8028-afe8-c8adadfc03e5" class="" dir="auto">4. Índices da matriz</h1><p id="3c1f6ce8-497f-80fd-8b94-f8cad84b75f1" class="" dir="auto">Cada elemento é identificado pela combinação de:</p><pre id="3c1f6ce8-497f-8058-90c2-cca243bd3295" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">linha + coluna</code></pre><p id="3c1f6ce8-497f-80c0-87d4-e3dd66512a4f" class="" dir="auto">Considere:</p><pre id="3c1f6ce8-497f-800d-913d-e9bcb2c649ba" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">       Colunas
+       1   2   3
+     +---+---+---+
+  1  |10 |20 |30 |
+     +---+---+---+
+  2  |40 |50 |60 |
+     +---+---+---+
+  3  |70 |80 |90 |
+     +---+---+---+</code></pre><p id="3c1f6ce8-497f-8056-8aa3-d91128b771d4" class="" dir="auto">Temos:</p><pre id="3c1f6ce8-497f-80a8-85fb-c7d8ae9c75b5" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">matriz[1][1] = 10
+matriz[1][2] = 20
+matriz[1][3] = 30
+
+matriz[2][1] = 40
+matriz[2][2] = 50
+matriz[2][3] = 60
+
+matriz[3][1] = 70
+matriz[3][2] = 80
+matriz[3][3] = 90</code></pre><hr id="3c1f6ce8-497f-802d-9850-f08b61fe4b79" dir="auto"/><h1 id="3c1f6ce8-497f-8066-8f17-df9bd11a648a" class="" dir="auto">5. Índices começando em 0</h1><p id="3c1f6ce8-497f-805d-9af2-f9a24d02e5a7" class="" dir="auto">Assim como acontece com vetores, algumas linguagens começam os índices em <code>0</code>.</p><p id="3c1f6ce8-497f-806d-823f-e6b6104dc7b7" class="" dir="auto">Nesse caso:</p><pre id="3c1f6ce8-497f-8009-85e6-fe9ddadf054e" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">       0    1    2
+    +----+----+----+
+ 0  | 10 | 20 | 30 |
+    +----+----+----+
+ 1  | 40 | 50 | 60 |
+    +----+----+----+
+ 2  | 70 | 80 | 90 |
+    +----+----+----+</code></pre><p id="3c1f6ce8-497f-802b-9f2c-e0c97ce6c4e6" class="" dir="auto">Então:</p><pre id="3c1f6ce8-497f-80f2-84d8-da0632bc351e" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">matriz[0][0] = 10
+matriz[0][1] = 20
+matriz[1][2] = 60
+matriz[2][2] = 90</code></pre><p id="3c1f6ce8-497f-80e6-b2b6-d9fb31ab4313" class="" dir="auto">Isso é muito comum em linguagens como <strong>C, Java, JavaScript e Python</strong>.</p><hr id="3c1f6ce8-497f-80f1-9de3-ff966a26b349" dir="auto"/><h1 id="3c1f6ce8-497f-8006-8200-da71a6b48b23" class="" dir="auto">6. Declaração de uma matriz</h1><p id="3c1f6ce8-497f-80cc-a007-d068d801d4df" class="" dir="auto">Em pseudocódigo, podemos declarar:</p><pre id="3c1f6ce8-497f-80f2-b8fe-f499109e5b77" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">matriz[1..3][1..3] de inteiro</code></pre><p id="3c1f6ce8-497f-8099-bffb-cc01a1549216" class="" dir="auto">Isso significa:</p><blockquote id="3c1f6ce8-497f-802a-8c72-c7d3f24d9140" class="" dir="auto">Criar uma matriz de números inteiros com 3 linhas e 3 colunas.</blockquote><p id="3c1f6ce8-497f-8026-970f-c2f747db7efe" class="" dir="auto">Podemos representar:</p><pre id="3c1f6ce8-497f-80be-b8aa-f037b7614e90" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">matriz[3][3]</code></pre><p id="3c1f6ce8-497f-807c-ae8d-fad83a18bfdd" class="" dir="auto">Ou seja:</p><pre id="3c1f6ce8-497f-80f3-93af-ed41c11cb2ad" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">3 × 3</code></pre><hr id="3c1f6ce8-497f-8067-9950-e6d93d5fa1a8" dir="auto"/><h1 id="3c1f6ce8-497f-8090-9626-efcf409c0ad1" class="" dir="auto">7. Atribuindo valores</h1><p id="3c1f6ce8-497f-80eb-b4a1-f8840552285a" class="" dir="auto">Podemos preencher uma matriz manualmente:</p><pre id="3c1f6ce8-497f-8068-96e7-e86762a05aa7" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">matriz[1][1] &lt;- 10
+matriz[1][2] &lt;- 20
+matriz[1][3] &lt;- 30
+
+matriz[2][1] &lt;- 40
+matriz[2][2] &lt;- 50
+matriz[2][3] &lt;- 60
+
+matriz[3][1] &lt;- 70
+matriz[3][2] &lt;- 80
+matriz[3][3] &lt;- 90</code></pre><p id="3c1f6ce8-497f-8093-9aec-c4b546587554" class="" dir="auto">O resultado:</p><pre id="3c1f6ce8-497f-80da-9b60-d7a3c1cd6e5f" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">10  20  30
+40  50  60
+70  80  90</code></pre><hr id="3c1f6ce8-497f-8019-bca6-cf1315def2d6" dir="auto"/><h1 id="3c1f6ce8-497f-802a-bf70-cfdf9180fdc9" class="" dir="auto">8. Percorrendo uma matriz</h1><p id="3c1f6ce8-497f-803c-9768-f174b37d90f0" class="" dir="auto">Para percorrer uma matriz, normalmente precisamos de <strong>duas estruturas de repetição</strong>.</p><p id="3c1f6ce8-497f-80fd-a146-e705a540de20" class="" dir="auto">Uma controla as linhas e outra controla as colunas.</p><pre id="3c1f6ce8-497f-80d2-b4b5-c1ab2a5ee41f" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">para i de 1 até 3 faça
+
+    para j de 1 até 3 faça
+
+        escreva(matriz[i][j])
+
+    fimpara
+
+fimpara</code></pre><p id="3c1f6ce8-497f-8019-8c73-f74fe08b1d49" class="" dir="auto">Aqui:</p><pre id="3c1f6ce8-497f-808d-9370-dfe815430e6e" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">i</code></pre><p id="3c1f6ce8-497f-802a-b539-f06007663d34" class="" dir="auto">representa a linha.</p><p id="3c1f6ce8-497f-80cb-a904-da8bdf21aad4" class="" dir="auto">E:</p><pre id="3c1f6ce8-497f-8063-a45c-d62ae81c3fe3" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">j</code></pre><p id="3c1f6ce8-497f-8059-9441-e28af5d75061" class="" dir="auto">representa a coluna.</p><hr id="3c1f6ce8-497f-804f-9b48-c98bb7360013" dir="auto"/><h1 id="3c1f6ce8-497f-80a5-ab12-c534fe337d3f" class="" dir="auto">9. Entendendo os dois <code>PARA</code></h1><p id="3c1f6ce8-497f-80de-b91a-c4ebe0b84fb2" class="" dir="auto">Considere:</p><pre id="3c1f6ce8-497f-80b5-9d9f-fa59c20d192e" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">para i de 1 até 3 faça
+    para j de 1 até 3 faça
+        escreva(matriz[i][j])
+    fimpara
+fimpara</code></pre><p id="3c1f6ce8-497f-806a-bab5-e7c01a62fb7f" class="" dir="auto">Quando:</p><pre id="3c1f6ce8-497f-80cc-8e3c-db48a9e664d2" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">i = 1</code></pre><p id="3c1f6ce8-497f-800f-8086-fb11630700a0" class="" dir="auto">o segundo <code>PARA</code> percorre:</p><pre id="3c1f6ce8-497f-809a-9282-d1d99b21e69c" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">matriz[1][1]
+matriz[1][2]
+matriz[1][3]</code></pre><p id="3c1f6ce8-497f-80c2-b76e-f562b6492f07" class="" dir="auto">Depois:</p><pre id="3c1f6ce8-497f-80a3-86b6-c6da9ddcd54f" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">i = 2</code></pre><p id="3c1f6ce8-497f-809d-877f-dcf048c2c725" class="" dir="auto">percorre:</p><pre id="3c1f6ce8-497f-8024-858a-ddf881787a95" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">matriz[2][1]
+matriz[2][2]
+matriz[2][3]</code></pre><p id="3c1f6ce8-497f-80d1-922b-c744eb3b062d" class="" dir="auto">E finalmente:</p><pre id="3c1f6ce8-497f-8085-8e5a-ff3ea0b05504" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">i = 3</code></pre><p id="3c1f6ce8-497f-80e1-a533-d1cba4ccf10b" class="" dir="auto">percorre:</p><pre id="3c1f6ce8-497f-80b2-b5b8-e2128bfb0664" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">matriz[3][1]
+matriz[3][2]
+matriz[3][3]</code></pre><p id="3c1f6ce8-497f-808d-aa04-f2562d4603b4" class="" dir="auto">Assim, todos os elementos são acessados.</p><hr id="3c1f6ce8-497f-802a-a30e-c0f2a85cd087" dir="auto"/><h1 id="3c1f6ce8-497f-80bd-95fb-d56a6b72023e" class="" dir="auto">10. Exibindo uma matriz</h1><p id="3c1f6ce8-497f-8051-9422-d8c523e13136" class="" dir="auto">Podemos criar:</p><pre id="3c1f6ce8-497f-809a-a4a1-e7a884f55a8e" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">matriz =
+
+10 20 30
+40 50 60
+70 80 90</code></pre><p id="3c1f6ce8-497f-8049-84ea-e7ffaff96e64" class="" dir="auto">E utilizar:</p><pre id="3c1f6ce8-497f-80d1-a042-cb4802acc670" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">para i de 1 até 3 faça
+
+    para j de 1 até 3 faça
+        escreva(matriz[i][j], &quot; &quot;)
+    fimpara
+
+    escreva(&quot;\n&quot;)
+
+fimpara</code></pre><p id="3c1f6ce8-497f-802c-8a22-e2b76767365d" class="" dir="auto">O resultado será:</p><pre id="3c1f6ce8-497f-802d-9f67-ea628d366d83" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">10 20 30
+40 50 60
+70 80 90</code></pre><p id="3c1f6ce8-497f-8061-9ba9-d0fade79f70d" class="" dir="auto">O <code>\n</code> representa uma quebra de linha em muitas linguagens.</p><hr id="3c1f6ce8-497f-8090-9b86-d5687d3722f2" dir="auto"/><h1 id="3c1f6ce8-497f-804b-8aeb-e965796791c6" class="" dir="auto">11. Preenchendo uma matriz pelo usuário</h1><p id="3c1f6ce8-497f-80fb-9fc9-c5672473e901" class="" dir="auto">Podemos pedir que o usuário informe os valores:</p><pre id="3c1f6ce8-497f-808d-b0eb-cca54f30bede" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">para i de 1 até 3 faça
+
+    para j de 1 até 3 faça
+
+        escreva(&quot;Digite o valor [&quot;, i, &quot;][&quot;, j, &quot;]: &quot;)
+        leia(matriz[i][j])
+
+    fimpara
+
+fimpara</code></pre><p id="3c1f6ce8-497f-809b-9b8a-f764c23eb711" class="" dir="auto">O usuário poderá preencher:</p><pre id="3c1f6ce8-497f-80ca-98af-db81b0e9bdf3" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">1 2 3
+4 5 6
+7 8 9</code></pre><p id="3c1f6ce8-497f-8022-8ce8-f137df6f3b94" class="" dir="auto">A matriz será:</p><pre id="3c1f6ce8-497f-80c5-b932-eaff7a5355d5" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">1 2 3
+4 5 6
+7 8 9</code></pre><hr id="3c1f6ce8-497f-8000-b652-d6f18c393ec7" dir="auto"/><h1 id="3c1f6ce8-497f-8095-8c88-c63256b71bfc" class="" dir="auto">12. Somando todos os elementos</h1><p id="3c1f6ce8-497f-804b-827b-ca473b035a63" class="" dir="auto">Podemos calcular a soma de todos os elementos:</p><pre id="3c1f6ce8-497f-804b-b498-dc94ceaf69cb" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">soma &lt;- 0
+
+para i de 1 até 3 faça
+
+    para j de 1 até 3 faça
+
+        soma &lt;- soma + matriz[i][j]
+
+    fimpara
+
+fimpara</code></pre><p id="3c1f6ce8-497f-806f-9115-dc58b380bb54" class="" dir="auto">Para:</p><pre id="3c1f6ce8-497f-80ef-8aed-c0b41b2b8c5e" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">1 2 3
+4 5 6
+7 8 9</code></pre><p id="3c1f6ce8-497f-8019-8f4c-e2b9740f666f" class="" dir="auto">temos:</p><pre id="3c1f6ce8-497f-8049-8be7-dd65571399f9" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">1 + 2 + 3 + 4 + 5 + 6 + 7 + 8 + 9</code></pre><p id="3c1f6ce8-497f-8038-a94e-f23a6d7b671c" class="" dir="auto">Resultado:</p><pre id="3c1f6ce8-497f-80f0-8b99-dcd24de595bf" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">45</code></pre><hr id="3c1f6ce8-497f-804f-bcd9-c23fc44c4eb9" dir="auto"/><h1 id="3c1f6ce8-497f-80b7-810f-eea1e4ff683e" class="" dir="auto">13. Calculando a média</h1><p id="3c1f6ce8-497f-8098-a124-d8567e42e21d" class="" dir="auto">Podemos calcular a média de todos os elementos.</p><p id="3c1f6ce8-497f-8056-9dfa-f1cf2e1f805f" class="" dir="auto">Uma matriz <code>3 × 3</code> possui:</p><pre id="3c1f6ce8-497f-80be-9aab-fedb143c28c6" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">3 × 3 = 9</code></pre><p id="3c1f6ce8-497f-8087-a7a0-e8dc5513fa13" class="" dir="auto">elementos.</p><p id="3c1f6ce8-497f-8040-aaae-f13c0044b06a" class="" dir="auto">Então:</p><pre id="3c1f6ce8-497f-8050-8261-e3543bf6ab1c" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">media &lt;- soma / 9</code></pre><p id="3c1f6ce8-497f-801f-99b1-f04c8dda66e4" class="" dir="auto">Por exemplo:</p><pre id="3c1f6ce8-497f-8007-84e5-f168ed130b86" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">soma = 45</code></pre><p id="3c1f6ce8-497f-80d8-9005-d901d8283460" class="" dir="auto">Logo:</p><pre id="3c1f6ce8-497f-80f2-8aaf-d936fdb8b3ce" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">media = 45 / 9
+media = 5</code></pre><hr id="3c1f6ce8-497f-8020-8d62-c44a3670b200" dir="auto"/><h1 id="3c1f6ce8-497f-80b9-bb81-fb72a3243d15" class="" dir="auto">14. Encontrando o maior elemento</h1><p id="3c1f6ce8-497f-80a3-b53d-d1ae25723f80" class="" dir="auto">Podemos procurar o maior valor:</p><pre id="3c1f6ce8-497f-800b-894f-f791c6424d0f" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">maior &lt;- matriz[1][1]
+
+para i de 1 até 3 faça
+
+    para j de 1 até 3 faça
+
+        se matriz[i][j] &gt; maior então
+            maior &lt;- matriz[i][j]
+        fimse
+
+    fimpara
+
+fimpara</code></pre><p id="3c1f6ce8-497f-8097-856d-e51a0402d384" class="" dir="auto">Para:</p><pre id="3c1f6ce8-497f-8033-8422-e29dd99b7978" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">10 20 30
+40 50 60
+70 80 90</code></pre><p id="3c1f6ce8-497f-8052-9642-c4fe6eb6fff1" class="" dir="auto">o resultado será:</p><pre id="3c1f6ce8-497f-8003-a714-d0ea714215fe" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">90</code></pre><hr id="3c1f6ce8-497f-8022-98a6-c90fd5278b75" dir="auto"/><h1 id="3c1f6ce8-497f-80a4-8587-de210371373e" class="" dir="auto">15. Encontrando o menor elemento</h1><p id="3c1f6ce8-497f-8064-947f-c76840c74b9b" class="" dir="auto">O mesmo princípio pode ser utilizado:</p><pre id="3c1f6ce8-497f-8077-9ac3-db424521112a" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">menor &lt;- matriz[1][1]
+
+para i de 1 até 3 faça
+
+    para j de 1 até 3 faça
+
+        se matriz[i][j] &lt; menor então
+            menor &lt;- matriz[i][j]
+        fimse
+
+    fimpara
+
+fimpara</code></pre><p id="3c1f6ce8-497f-809f-a9f1-d05d924f056c" class="" dir="auto">Para:</p><pre id="3c1f6ce8-497f-80b2-9866-de01cae3b951" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">10 20 30
+40 50 60
+70 80 90</code></pre><p id="3c1f6ce8-497f-8067-b634-ef5a18028387" class="" dir="auto">o menor será:</p><pre id="3c1f6ce8-497f-8069-b29e-c6040c44573d" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">10</code></pre><hr id="3c1f6ce8-497f-804f-9f49-cb153cb5a95c" dir="auto"/><h1 id="3c1f6ce8-497f-800c-b786-c4660b80e12f" class="" dir="auto">16. Procurando um valor</h1><p id="3c1f6ce8-497f-8088-a10f-f9eac6839492" class="" dir="auto">Podemos pesquisar um determinado valor dentro da matriz.</p><p id="3c1f6ce8-497f-80b3-986a-d47f5d429eeb" class="" dir="auto">Por exemplo, procurar <code>50</code>:</p><pre id="3c1f6ce8-497f-803b-9ff8-c25dbc2577ee" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">para i de 1 até 3 faça
+
+    para j de 1 até 3 faça
+
+        se matriz[i][j] == 50 então
+            escreva(&quot;Encontrado na posição &quot;, i, &quot;, &quot;, j)
+        fimse
+
+    fimpara
+
+fimpara</code></pre><p id="3c1f6ce8-497f-8061-8c25-e54372bdbd72" class="" dir="auto">Resultado:</p><pre id="3c1f6ce8-497f-80d0-84a7-c89a728f4f5f" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Encontrado na posição 2, 2</code></pre><hr id="3c1f6ce8-497f-808e-9b98-fa63973f4ad5" dir="auto"/><h1 id="3c1f6ce8-497f-80b7-9294-e7e58ddf0c11" class="" dir="auto">17. Contando valores</h1><p id="3c1f6ce8-497f-80e5-8e9b-d9092adadf0b" class="" dir="auto">Podemos contar quantos elementos satisfazem determinada condição.</p><p id="3c1f6ce8-497f-8055-be45-f5c2aa217382" class="" dir="auto">Por exemplo, contar números pares:</p><pre id="3c1f6ce8-497f-8005-91d0-ecfcae2d1d6e" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">contador &lt;- 0
+
+para i de 1 até 3 faça
+
+    para j de 1 até 3 faça
+
+        se matriz[i][j] % 2 == 0 então
+            contador &lt;- contador + 1
+        fimse
+
+    fimpara
+
+fimpara</code></pre><p id="3c1f6ce8-497f-8070-8f69-ef8aa5c0f0e4" class="" dir="auto">Para:</p><pre id="3c1f6ce8-497f-801e-aa25-d0e7a65e847a" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">1 2 3
+4 5 6
+7 8 9</code></pre><p id="3c1f6ce8-497f-8000-b99d-e066081ea901" class="" dir="auto">os pares são:</p><pre id="3c1f6ce8-497f-80be-a8ec-c3fa608edff7" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">2, 4, 6, 8</code></pre><p id="3c1f6ce8-497f-8024-948a-e04c584675b0" class="" dir="auto">Portanto:</p><pre id="3c1f6ce8-497f-801b-9faa-c1a4f80e1d22" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">contador = 4</code></pre><hr id="3c1f6ce8-497f-8001-ae63-f8bba7140a69" dir="auto"/><h1 id="3c1f6ce8-497f-8060-9fb0-f080a95b92dd" class="" dir="auto">18. Matriz quadrada</h1><p id="3c1f6ce8-497f-808a-8e5e-dfe7c6b1da8b" class="" dir="auto">Uma <strong>matriz quadrada</strong> possui o mesmo número de linhas e colunas.</p><p id="3c1f6ce8-497f-8025-8a6c-e36a8875d7ae" class="" dir="auto">Exemplos:</p><pre id="3c1f6ce8-497f-8096-bcd7-d3d88a0a7e2d" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">2 × 2
+3 × 3
+4 × 4
+5 × 5</code></pre><p id="3c1f6ce8-497f-8035-8a5a-f7668a7e6491" class="" dir="auto">Por exemplo:</p><pre id="3c1f6ce8-497f-806a-a443-c03499ac67e3" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">1 2 3
+4 5 6
+7 8 9</code></pre><p id="3c1f6ce8-497f-8034-8dc6-c49560b69d54" class="" dir="auto">é uma matriz quadrada <code>3 × 3</code>.</p><p id="3c1f6ce8-497f-8067-931c-d06d55a45fcf" class="" dir="auto">Já:</p><pre id="3c1f6ce8-497f-8050-9766-dd7c86b78b68" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">1 2 3
+4 5 6</code></pre><p id="3c1f6ce8-497f-80a2-88ed-c6776e83c74b" class="" dir="auto">é uma matriz <code>2 × 3</code>, portanto <strong>não é quadrada</strong>.</p><hr id="3c1f6ce8-497f-804d-a4a7-d49cc981c404" dir="auto"/><h1 id="3c1f6ce8-497f-8003-b1c1-e228f0a0afc2" class="" dir="auto">19. Matriz retangular</h1><p id="3c1f6ce8-497f-808b-bffa-d7ca104bf6e8" class="" dir="auto">Uma matriz é <strong>retangular</strong> quando possui números diferentes de linhas e colunas.</p><p id="3c1f6ce8-497f-8069-9c5e-dfb7d64e695f" class="" dir="auto">Exemplo:</p><pre id="3c1f6ce8-497f-804d-8752-ecd8a8d20ce0" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">1 2 3 4
+5 6 7 8</code></pre><p id="3c1f6ce8-497f-80a8-84b7-d19b49f564e7" class="" dir="auto">Temos:</p><pre id="3c1f6ce8-497f-8072-8475-fa6815456006" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">2 linhas
+4 colunas</code></pre><p id="3c1f6ce8-497f-808c-9238-cc42d3189c14" class="" dir="auto">Portanto:</p><pre id="3c1f6ce8-497f-8059-941b-d2815521ef29" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">2 × 4</code></pre><hr id="3c1f6ce8-497f-8012-80f3-e0493e157b26" dir="auto"/><h1 id="3c1f6ce8-497f-804a-8f61-ed99eda427a1" class="" dir="auto">20. Diagonal principal</h1><p id="3c1f6ce8-497f-8025-8aa3-e25ae6c6eff3" class="" dir="auto">Em uma matriz quadrada, a <strong>diagonal principal</strong> é formada pelos elementos em que o índice da linha é igual ao índice da coluna.</p><p id="3c1f6ce8-497f-80a9-afc9-f8e7951473e3" class="" dir="auto">Considere:</p><pre id="3c1f6ce8-497f-8083-8ede-ccdb499d8540" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">1 2 3
+4 5 6
+7 8 9</code></pre><p id="3c1f6ce8-497f-8023-a354-e28b9f75c304" class="" dir="auto">A diagonal principal é:</p><pre id="3c1f6ce8-497f-8027-9b46-e229469b83ea" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">1
+   5
+      9</code></pre><p id="3c1f6ce8-497f-8015-a05c-dde7befd4c97" class="" dir="auto">Ou seja:</p><pre id="3c1f6ce8-497f-80cb-837f-cebb8cbdf5ba" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">matriz[1][1]
+matriz[2][2]
+matriz[3][3]</code></pre><p id="3c1f6ce8-497f-801d-93c5-cfbf15dbff1a" class="" dir="auto">Em linguagens com índices iniciando em <code>0</code>:</p><pre id="3c1f6ce8-497f-80c9-88f2-f0517f7e2be1" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">matriz[0][0]
+matriz[1][1]
+matriz[2][2]</code></pre><hr id="3c1f6ce8-497f-8062-be3c-c37fea7b1c21" dir="auto"/><h1 id="3c1f6ce8-497f-802f-afcb-d303274086b3" class="" dir="auto">21. Soma da diagonal principal</h1><p id="3c1f6ce8-497f-80d0-886c-d1cf4f33d71b" class="" dir="auto">Podemos calcular:</p><pre id="3c1f6ce8-497f-800a-8d94-dd2bc92c832c" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">soma &lt;- 0
+
+para i de 1 até 3 faça
+    soma &lt;- soma + matriz[i][i]
+fimpara</code></pre><p id="3c1f6ce8-497f-80ea-a0fa-d86e9b6ad02a" class="" dir="auto">Para:</p><pre id="3c1f6ce8-497f-8000-91ba-dfdafa7d7c63" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">1 2 3
+4 5 6
+7 8 9</code></pre><p id="3c1f6ce8-497f-80fa-9d19-fa33c805f441" class="" dir="auto">temos:</p><pre id="3c1f6ce8-497f-8019-a2dc-d16eac940c4f" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">1 + 5 + 9</code></pre><p id="3c1f6ce8-497f-80c0-82a3-e401e9c1279e" class="" dir="auto">Resultado:</p><pre id="3c1f6ce8-497f-80d9-8f9a-d22896849f0d" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">15</code></pre><p id="3c1f6ce8-497f-8040-999c-fb6eba0dcc7e" class="" dir="auto">Observe que não precisamos de dois <code>PARA</code> nesse caso, porque estamos interessados apenas nas posições em que:</p><pre id="3c1f6ce8-497f-80e1-b3c2-e9e977543dd6" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">linha = coluna</code></pre><hr id="3c1f6ce8-497f-8020-8f79-db3425d32786" dir="auto"/><h1 id="3c1f6ce8-497f-80f5-8f7c-ce33f83d0a67" class="" dir="auto">22. Diagonal secundária</h1><p id="3c1f6ce8-497f-8015-b140-da012666c3d9" class="" dir="auto">A <strong>diagonal secundária</strong> segue a direção oposta:</p><pre id="3c1f6ce8-497f-803b-a001-cac9507fc707" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">1 2 3
+4 5 6
+7 8 9</code></pre><p id="3c1f6ce8-497f-807e-9e82-d5e0ac448779" class="" dir="auto">Visualmente:</p><pre id="3c1f6ce8-497f-80d2-b668-cf070abe21f6" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">      3
+   5
+7</code></pre><p id="3c1f6ce8-497f-80f2-a72f-ee48d69609f8" class="" dir="auto">Os elementos são:</p><pre id="3c1f6ce8-497f-80b4-88bd-e78c9b4b67a9" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">3
+5
+7</code></pre><p id="3c1f6ce8-497f-800b-8b8c-ec4868391577" class="" dir="auto">Para uma matriz <code>3 × 3</code>, as posições são:</p><pre id="3c1f6ce8-497f-8062-b9eb-fffde6935826" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">matriz[1][3]
+matriz[2][2]
+matriz[3][1]</code></pre><p id="3c1f6ce8-497f-8022-8e06-ecbbf8ed3723" class="" dir="auto">A soma:</p><pre id="3c1f6ce8-497f-8075-8a85-e7b801777714" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">3 + 5 + 7 = 15</code></pre><hr id="3c1f6ce8-497f-80fd-9f45-c6f5d5f49693" dir="auto"/><h1 id="3c1f6ce8-497f-8020-bb15-e92dcad68ee3" class="" dir="auto">23. Matriz identidade</h1><p id="3c1f6ce8-497f-80ea-a13e-e38754dce73f" class="" dir="auto">Uma <strong>matriz identidade</strong> é uma matriz quadrada em que:</p><ul id="3c1f6ce8-497f-8089-9454-ec8c26118793" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Os elementos da diagonal principal são <code>1</code>;</li></ul><ul id="3c1f6ce8-497f-8051-9671-ce7156eb6b8a" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Os demais elementos são <code>0</code>.</li></ul><p id="3c1f6ce8-497f-8099-8e59-c219a32b2cdb" class="" dir="auto">Exemplo <code>3 × 3</code>:</p><pre id="3c1f6ce8-497f-80ab-ad78-d3cba4b60453" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">1 0 0
+0 1 0
+0 0 1</code></pre><p id="3c1f6ce8-497f-80bf-b4a6-cb23bd6f4476" class="" dir="auto">Podemos observar:</p><pre id="3c1f6ce8-497f-8039-94d9-ed8a83176b20" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">1
+   1
+      1</code></pre><p id="3c1f6ce8-497f-800d-a286-e11ef797fc11" class="" dir="auto">e todos os outros valores são <code>0</code>.</p><p id="3c1f6ce8-497f-8034-862f-ed55c93c42d2" class="" dir="auto">A matriz identidade possui grande importância na matemática e em áreas como computação gráfica e álgebra linear.</p><hr id="3c1f6ce8-497f-8093-bb60-e0fd5a6e0c4b" dir="auto"/><h1 id="3c1f6ce8-497f-8077-bdac-fe15d925c3c5" class="" dir="auto">24. Matriz transposta</h1><p id="3c1f6ce8-497f-8006-b7fe-ccee97510805" class="" dir="auto">A <strong>transposta</strong> de uma matriz é obtida trocando <strong>linhas por colunas</strong>.</p><p id="3c1f6ce8-497f-808b-b57e-f91cd1ee0316" class="" dir="auto">Considere:</p><pre id="3c1f6ce8-497f-803d-95f4-efb66a3236f8" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">1 2 3
+4 5 6</code></pre><p id="3c1f6ce8-497f-80bd-bfbd-e57354c05015" class="" dir="auto">Sua transposta será:</p><pre id="3c1f6ce8-497f-80c6-8b70-e4e02132414e" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">1 4
+2 5
+3 6</code></pre><p id="3c1f6ce8-497f-8084-a9e2-e3b447f4b979" class="" dir="auto">Ou seja:</p><pre id="3c1f6ce8-497f-80d0-b7df-f4b593fafe49" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">matriz[i][j]</code></pre><p id="3c1f6ce8-497f-8009-9c5f-cccd8d9723d0" class="" dir="auto">passa para:</p><pre id="3c1f6ce8-497f-8097-ae00-e6615b170cfc" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">transposta[j][i]</code></pre><p id="3c1f6ce8-497f-8099-a82e-fb2984e2f799" class="" dir="auto">Esse conceito é bastante importante em matemática e computação.</p><hr id="3c1f6ce8-497f-8005-88ff-da2bcbfaebc4" dir="auto"/><h1 id="3c1f6ce8-497f-808a-bed7-d19b66c62a78" class="" dir="auto">25. Matrizes e funções</h1><p id="3c1f6ce8-497f-80bb-b1e3-c9e421525a33" class="" dir="auto">Assim como os vetores, as matrizes podem ser utilizadas como parâmetros de funções.</p><p id="3c1f6ce8-497f-801d-8453-d46e3926721d" class="" dir="auto">Por exemplo:</p><pre id="3c1f6ce8-497f-802b-a5af-f9a61ce3eeb6" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">função somarMatriz(matriz, linhas, colunas)
+
+    soma &lt;- 0
+
+    para i de 1 até linhas faça
+
+        para j de 1 até colunas faça
+            soma &lt;- soma + matriz[i][j]
+        fimpara
+
+    fimpara
+
+    retorne soma
+
+fimfunção</code></pre><p id="3c1f6ce8-497f-808e-8c4f-f341d979cd97" class="" dir="auto">Podemos chamar:</p><pre id="3c1f6ce8-497f-800b-889e-d88625185f5a" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">resultado &lt;- somarMatriz(matriz, 3, 3)</code></pre><p id="3c1f6ce8-497f-800d-af6f-ed95d53da39f" class="" dir="auto">Isso torna o código mais reutilizável.</p><hr id="3c1f6ce8-497f-8075-95f5-dcb234fb6d84" dir="auto"/><h1 id="3c1f6ce8-497f-8019-92f7-f1ae1aa13357" class="" dir="auto">26. Matrizes e procedimentos</h1><p id="3c1f6ce8-497f-8025-b5ce-e30f55d8c636" class="" dir="auto">Também podemos criar um procedimento para exibir uma matriz:</p><pre id="3c1f6ce8-497f-803a-8ae2-d94abe62ac27" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">procedimento mostrarMatriz(matriz, linhas, colunas)
+
+    para i de 1 até linhas faça
+
+        para j de 1 até colunas faça
+            escreva(matriz[i][j], &quot; &quot;)
+        fimpara
+
+        escreva(&quot;\n&quot;)
+
+    fimpara
+
+fimprocedimento</code></pre><p id="3c1f6ce8-497f-80f9-8a98-f39451bc506b" class="" dir="auto">Depois:</p><pre id="3c1f6ce8-497f-809f-8629-eaf719fd9155" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">mostrarMatriz(matriz, 3, 3)</code></pre><hr id="3c1f6ce8-497f-80d4-9cdd-ca00cafe4e80" dir="auto"/><h1 id="3c1f6ce8-497f-80ec-8909-cbf6ff595aa5" class="" dir="auto">27. Exemplo: notas de alunos</h1><p id="3c1f6ce8-497f-80a7-91d0-faa25408cf32" class="" dir="auto">Imagine uma escola com:</p><ul id="3c1f6ce8-497f-80d5-a42c-d3d3abd3074b" class="bulleted-list" dir="auto"><li style="list-style-type:disc">3 alunos;</li></ul><ul id="3c1f6ce8-497f-80ef-b60e-fa8359c23c26" class="bulleted-list" dir="auto"><li style="list-style-type:disc">4 disciplinas.</li></ul><p id="3c1f6ce8-497f-803b-b31b-fbb6ed9a3d40" class="" dir="auto">Podemos armazenar as notas em uma matriz:</p><pre id="3c1f6ce8-497f-8061-b713-cc8f80930581" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">        Matemática Português História Informática
+
+Aluno 1    8          7         9         10
+Aluno 2    6          8         7          9
+Aluno 3    10         9         8          7</code></pre><p id="3c1f6ce8-497f-803f-bbd3-c3108d5aa9a1" class="" dir="auto">Representação:</p><pre id="3c1f6ce8-497f-80d1-acf3-f6771237e985" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">8   7   9   10
+6   8   7    9
+10  9   8    7</code></pre><p id="3c1f6ce8-497f-80ca-9359-c6bca92e8bf2" class="" dir="auto">Podemos interpretar:</p><pre id="3c1f6ce8-497f-80c2-b064-c73538d3d4a4" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">matriz[1][1]</code></pre><p id="3c1f6ce8-497f-80fe-a904-dc2e73048105" class="" dir="auto">como a nota do aluno 1 em Matemática.</p><p id="3c1f6ce8-497f-805e-b528-c8ebc08590f8" class="" dir="auto">E:</p><pre id="3c1f6ce8-497f-8096-a7d2-f396f66afa0f" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">matriz[3][4]</code></pre><p id="3c1f6ce8-497f-806c-84c6-fb08f4775932" class="" dir="auto">como a nota do aluno 3 em Informática.</p><hr id="3c1f6ce8-497f-803f-a084-fdd0f3253121" dir="auto"/><h1 id="3c1f6ce8-497f-8062-a0a3-dd6d19351434" class="" dir="auto">28. Calculando a média de cada aluno</h1><p id="3c1f6ce8-497f-8024-aa2a-cf8827f62a29" class="" dir="auto">Podemos percorrer cada linha:</p><pre id="3c1f6ce8-497f-808d-b3af-de59d30ade11" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">para aluno de 1 até 3 faça
+
+    soma &lt;- 0
+
+    para disciplina de 1 até 4 faça
+        soma &lt;- soma + notas[aluno][disciplina]
+    fimpara
+
+    media &lt;- soma / 4
+
+    escreva(&quot;Média do aluno &quot;, aluno, &quot;: &quot;, media)
+
+fimpara</code></pre><p id="3c1f6ce8-497f-8025-8509-dd0a4432b338" class="" dir="auto">Aqui:</p><pre id="3c1f6ce8-497f-803c-9f48-ec4acf84b26f" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">aluno</code></pre><p id="3c1f6ce8-497f-80e9-96aa-cc59dd53a5c2" class="" dir="auto">representa a linha.</p><p id="3c1f6ce8-497f-80be-b01a-dd94eb7d1a74" class="" dir="auto">E:</p><pre id="3c1f6ce8-497f-80b2-99da-c7b9acb5f120" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">disciplina</code></pre><p id="3c1f6ce8-497f-8096-8257-c5d17940de1f" class="" dir="auto">representa a coluna.</p><hr id="3c1f6ce8-497f-80f5-be4f-df078a4bebb2" dir="auto"/><h1 id="3c1f6ce8-497f-80fd-8bfa-c8ec68002eee" class="" dir="auto">29. Exemplo: tabuleiro de jogo</h1><p id="3c1f6ce8-497f-80b8-bfc8-c2bd796194e4" class="" dir="auto">Matrizes são muito utilizadas em jogos.</p><p id="3c1f6ce8-497f-80bf-be6a-ee4f831dcdf4" class="" dir="auto">Imagine um tabuleiro:</p><pre id="3c1f6ce8-497f-80ff-8bdf-e562cb64339d" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">X . .
+. O .
+. . X</code></pre><p id="3c1f6ce8-497f-8083-b7b1-f991b66c0fe9" class="" dir="auto">Podemos armazená-lo:</p><pre id="3c1f6ce8-497f-805f-89e4-c8488b45bb4a" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">tabuleiro[1][1] = &quot;X&quot;
+tabuleiro[1][2] = &quot;.&quot;
+tabuleiro[1][3] = &quot;.&quot;
+
+tabuleiro[2][1] = &quot;.&quot;
+tabuleiro[2][2] = &quot;O&quot;
+tabuleiro[2][3] = &quot;.&quot;
+
+tabuleiro[3][1] = &quot;.&quot;
+tabuleiro[3][2] = &quot;.&quot;
+tabuleiro[3][3] = &quot;X&quot;</code></pre><p id="3c1f6ce8-497f-80a2-a018-cc86e3e5fc64" class="" dir="auto">Esse é um exemplo de como matrizes podem representar o estado de um jogo.</p><hr id="3c1f6ce8-497f-801f-a6d3-d6cb42683c3b" dir="auto"/><h1 id="3c1f6ce8-497f-8062-96eb-df55e445b045" class="" dir="auto">30. Exemplo: mapa</h1><p id="3c1f6ce8-497f-80e0-aff5-fda5fe1d1418" class="" dir="auto">Uma matriz também pode representar um mapa:</p><pre id="3c1f6ce8-497f-804f-95ae-f564dd66f60c" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">0 0 1 0 0
+0 1 1 0 0
+0 0 0 0 1
+1 0 0 1 1</code></pre><p id="3c1f6ce8-497f-8084-93b0-c9acabeac925" class="" dir="auto">Podemos definir:</p><pre id="3c1f6ce8-497f-8047-892d-d993740aca1c" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">0 = caminho
+1 = obstáculo</code></pre><p id="3c1f6ce8-497f-80e4-a083-c58e253cfa05" class="" dir="auto">Então o algoritmo pode percorrer a matriz e identificar onde estão os obstáculos.</p><p id="3c1f6ce8-497f-8036-a7db-d9e96e658b9d" class="" dir="auto">Esse conceito aparece em:</p><ul id="3c1f6ce8-497f-804f-aa67-d7d99274cb0b" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Jogos;</li></ul><ul id="3c1f6ce8-497f-8043-9967-dea9f9c30304" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Inteligência artificial;</li></ul><ul id="3c1f6ce8-497f-8006-9308-d4fd86e284e4" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Robótica;</li></ul><ul id="3c1f6ce8-497f-80ae-9093-f25fa7d4d42b" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Sistemas de navegação;</li></ul><ul id="3c1f6ce8-497f-801d-95fe-ec4a7097e975" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Algoritmos de caminho.</li></ul><hr id="3c1f6ce8-497f-80f4-9755-e368dd049888" dir="auto"/><h1 id="3c1f6ce8-497f-80e6-b8e2-f2be22ff1ad3" class="" dir="auto">31. Exemplo completo em pseudocódigo</h1><p id="3c1f6ce8-497f-804e-bdc0-c7dfb407615f" class="" dir="auto">Vamos criar um algoritmo que recebe uma matriz <code>3 × 3</code>, mostra seus valores e calcula a soma.</p><pre id="3c1f6ce8-497f-80a5-8bd3-eaa9c457011b" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">algoritmo &quot;Matriz&quot;
+
+var
+    matriz: vetor[1..3, 1..3] de inteiro
+    i, j, soma: inteiro
+
+inicio
+
+    soma &lt;- 0
+
+    para i de 1 até 3 faça
+
+        para j de 1 até 3 faça
+
+            escreva(&quot;Digite o valor [&quot;, i, &quot;][&quot;, j, &quot;]: &quot;)
+            leia(matriz[i][j])
+
+        fimpara
+
+    fimpara
+
+    escreva(&quot;Matriz:&quot;)
+
+    para i de 1 até 3 faça
+
+        para j de 1 até 3 faça
+            escreva(matriz[i][j], &quot; &quot;)
+        fimpara
+
+        escreva(&quot;\n&quot;)
+
+    fimpara
+
+    para i de 1 até 3 faça
+
+        para j de 1 até 3 faça
+            soma &lt;- soma + matriz[i][j]
+        fimpara
+
+    fimpara
+
+    escreva(&quot;Soma: &quot;, soma)
+
+fimalgoritmo</code></pre><p id="3c1f6ce8-497f-80b3-bfa6-e6f066ebe735" class="" dir="auto">Esse algoritmo utiliza vários conceitos estudados anteriormente:</p><pre id="3c1f6ce8-497f-80d9-9f68-d2f6760cc126" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Matriz
+  ↓
+Variáveis
+  ↓
+Entrada de dados
+  ↓
+Estrutura de repetição
+  ↓
+Índices
+  ↓
+Acumulador
+  ↓
+Saída de dados</code></pre><hr id="3c1f6ce8-497f-80a7-90dc-c74b4c55e9fb" dir="auto"/><h1 id="3c1f6ce8-497f-8058-9c3f-d16c59a9c24a" class="" dir="auto">32. Matrizes tridimensionais</h1><p id="3c1f6ce8-497f-80a8-be52-fc200ee1fdcc" class="" dir="auto">Embora a matriz bidimensional seja a mais comum, podemos ter estruturas com três dimensões.</p><p id="3c1f6ce8-497f-8024-a5d6-d6a86b88d9b2" class="" dir="auto">Por exemplo:</p><pre id="3c1f6ce8-497f-8052-b80b-ea4238523210" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">dados[camada][linha][coluna]</code></pre><p id="3c1f6ce8-497f-8043-ba7e-e76469d78e56" class="" dir="auto">Imagine três tabuleiros:</p><pre id="3c1f6ce8-497f-805c-8f70-ffea22f6cc2d" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Camada 1
+1 2
+3 4
+
+Camada 2
+5 6
+7 8
+
+Camada 3
+9 10
+11 12</code></pre><p id="3c1f6ce8-497f-807c-a587-daf8cec6f1ee" class="" dir="auto">Nesse caso, precisamos de três índices:</p><pre id="3c1f6ce8-497f-8007-87f9-e8e3332afe78" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">dados[camada][linha][coluna]</code></pre><p id="3c1f6ce8-497f-801d-984c-ffcb86ed51d1" class="" dir="auto">Estruturas multidimensionais podem ser úteis para representar dados mais complexos.</p><hr id="3c1f6ce8-497f-80a8-a390-fbd1b31546c2" dir="auto"/><h1 id="3c1f6ce8-497f-807f-9f7b-e948270519a5" class="" dir="auto">33. Matrizes em diferentes linguagens</h1><h3 id="3c1f6ce8-497f-804a-8550-efb1e2929b16" class="" dir="auto">PHP</h3><pre id="3c1f6ce8-497f-80fb-b7f8-ec81441e8dea" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">$matriz = [
+    [10, 20, 30],
+    [40, 50, 60],
+    [70, 80, 90]
+];
+
+echo $matriz[1][2];</code></pre><p id="3c1f6ce8-497f-8011-b0df-d57b2191bfdd" class="" dir="auto">Resultado:</p><pre id="3c1f6ce8-497f-804e-9685-f739eb9dc0ba" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">60</code></pre><hr id="3c1f6ce8-497f-80b7-9b2e-f27864ad00c5" dir="auto"/><h3 id="3c1f6ce8-497f-808a-9ff9-f6f62489629d" class="" dir="auto">JavaScript</h3><pre id="3c1f6ce8-497f-8030-8d5a-fda333352293" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">let matriz = [
+    [10, 20, 30],
+    [40, 50, 60],
+    [70, 80, 90]
+];
+
+console.log(matriz[1][2]);</code></pre><p id="3c1f6ce8-497f-806c-b2a0-ede7d7f2d978" class="" dir="auto">Resultado:</p><pre id="3c1f6ce8-497f-80ec-8441-e5d9b4f101e1" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">60</code></pre><hr id="3c1f6ce8-497f-80ae-aa58-d011ecf27f5c" dir="auto"/><h3 id="3c1f6ce8-497f-80d6-9e51-ef17b762b4f0" class="" dir="auto">Python</h3><pre id="3c1f6ce8-497f-8082-a370-d679c8742866" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">matriz = [
+    [10, 20, 30],
+    [40, 50, 60],
+    [70, 80, 90]
+]
+
+print(matriz[1][2])</code></pre><p id="3c1f6ce8-497f-8076-99f7-cd82e08246fe" class="" dir="auto">Resultado:</p><pre id="3c1f6ce8-497f-80bb-be01-d66e90265a1e" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">60</code></pre><p id="3c1f6ce8-497f-80c4-88a4-c0085ec1739d" class="" dir="auto">Observe que essas linguagens utilizam índices começando em <code>0</code>.</p><hr id="3c1f6ce8-497f-80b4-b28c-c40521894480" dir="auto"/><h1 id="3c1f6ce8-497f-808f-a4d1-d3475a5d6ae6" class="" dir="auto">34. Complexidade ao percorrer matrizes</h1><p id="3c1f6ce8-497f-802d-ba60-c55ca5477d6a" class="" dir="auto">Uma matriz com <code>L</code> linhas e <code>C</code> colunas possui:</p><pre id="3c1f6ce8-497f-8094-b28e-ef83fc27a6a5" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">L × C</code></pre><p id="3c1f6ce8-497f-8072-ae0a-ca64f4f215f6" class="" dir="auto">elementos.</p><p id="3c1f6ce8-497f-80ee-bbae-f8ad614f7cc8" class="" dir="auto">Se precisamos visitar todos os elementos:</p><pre id="3c1f6ce8-497f-805a-8d30-c5c4e205497c" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">para i de 1 até L
+    para j de 1 até C
+        ...</code></pre><p id="3c1f6ce8-497f-802f-9a3b-f4d03df2701d" class="" dir="auto">a quantidade de operações cresce proporcionalmente a:</p><pre id="3c1f6ce8-497f-806e-9d26-e60bac51dbac" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">O(L × C)</code></pre><p id="3c1f6ce8-497f-80d3-8add-f8eef7b0e34a" class="" dir="auto">Para uma matriz quadrada de tamanho <code>N × N</code>:</p><pre id="3c1f6ce8-497f-8089-812f-d2f86fd040b7" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">O(N²)</code></pre><p id="3c1f6ce8-497f-803e-aebd-c6d3d7b83b72" class="" dir="auto">Esse conceito será importante quando estudarmos <strong>complexidade de algoritmos</strong>.</p><hr id="3c1f6ce8-497f-8097-9c55-c4f4bb6c049a" dir="auto"/><h1 id="3c1f6ce8-497f-80d2-8053-dcf7de6e0111" class="" dir="auto">35. Erros comuns com matrizes</h1><h3 id="3c1f6ce8-497f-80f4-b4b7-f0800d82eaad" class="" dir="auto">1. Confundir linha e coluna</h3><p id="3c1f6ce8-497f-805a-8738-d46a868b8dfd" class="" dir="auto">Considere:</p><pre id="3c1f6ce8-497f-807a-bd94-d8a1d57cd2b6" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">matriz[2][3]</code></pre><p id="3c1f6ce8-497f-8093-921d-e3518695c678" class="" dir="auto">O primeiro índice representa normalmente a <strong>linha</strong> e o segundo a <strong>coluna</strong>.</p><hr id="3c1f6ce8-497f-807d-b3b9-cdd986ac6c3f" dir="auto"/><h3 id="3c1f6ce8-497f-80e0-a4cf-d1ed91011d45" class="" dir="auto">2. Usar limites incorretos</h3><p id="3c1f6ce8-497f-803c-92a5-dc1b11169841" class="" dir="auto">Se a matriz possui 3 linhas:</p><pre id="3c1f6ce8-497f-80d5-8af6-fd8140d315b4" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">1..3</code></pre><p id="3c1f6ce8-497f-8093-bd33-e1fe5b081003" class="" dir="auto">não devemos tentar acessar:</p><pre id="3c1f6ce8-497f-808c-a0bc-ffa1541366c3" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">matriz[4][1]</code></pre><hr id="3c1f6ce8-497f-80be-9b00-ce93df6cac3e" dir="auto"/><h3 id="3c1f6ce8-497f-8014-a0f7-d257126973b9" class="" dir="auto">3. Esquecer o segundo loop</h3><p id="3c1f6ce8-497f-80c7-a20e-e909e398b27c" class="" dir="auto">Para percorrer uma matriz bidimensional, normalmente precisamos de dois níveis de repetição:</p><pre id="3c1f6ce8-497f-807f-95db-f74c73e1cf10" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">para linha
+    para coluna</code></pre><hr id="3c1f6ce8-497f-80ff-9d2e-d0b0c9efa894" dir="auto"/><h3 id="3c1f6ce8-497f-8050-8bc9-d0d671c9dfac" class="" dir="auto">4. Confundir matriz com vetor</h3><p id="3c1f6ce8-497f-8036-96c4-fc4e9ab7fd2f" class="" dir="auto">Vetor:</p><pre id="3c1f6ce8-497f-8012-89a2-c6ff7d4fd890" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">vetor[i]</code></pre><p id="3c1f6ce8-497f-8008-93b3-de4535b08980" class="" dir="auto">Matriz:</p><pre id="3c1f6ce8-497f-8031-a951-db51090195c5" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">matriz[i][j]</code></pre><p id="3c1f6ce8-497f-80eb-9ab8-defebb4cdd50" class="" dir="auto">O vetor possui uma dimensão, enquanto a matriz possui pelo menos duas.</p><hr id="3c1f6ce8-497f-80b1-848a-dba5581c93ef" dir="auto"/><h1 id="3c1f6ce8-497f-805b-974b-c56112ced0d2" class="" dir="auto">36. Vantagens das matrizes</h1><p id="3c1f6ce8-497f-8044-9e1a-f3581cb22cff" class="" dir="auto">As principais vantagens são:</p><ul id="3c1f6ce8-497f-8019-b88f-e8c5489ac931" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Organização dos dados em linhas e colunas;</li></ul><ul id="3c1f6ce8-497f-80cb-9e64-f0848df4b8b0" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Facilidade para representar tabelas;</li></ul><ul id="3c1f6ce8-497f-80b4-a5fb-d7e2a7feb5f4" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Acesso aos elementos por índices;</li></ul><ul id="3c1f6ce8-497f-8075-bb57-d704f6bc8c4b" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Facilidade para trabalhar com dados bidimensionais;</li></ul><ul id="3c1f6ce8-497f-803b-a19d-f8a9ec3a3134" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Integração com estruturas de repetição;</li></ul><ul id="3c1f6ce8-497f-80cd-8b8b-f29850aed9b6" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Aplicação em jogos e mapas;</li></ul><ul id="3c1f6ce8-497f-803b-b85c-dfa4f6d0ded5" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Aplicação em matemática;</li></ul><ul id="3c1f6ce8-497f-808b-8e41-fa080d0c2dcb" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Utilização em processamento de imagens;</li></ul><ul id="3c1f6ce8-497f-8027-afea-c32b172ffcc1" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Base para diversos algoritmos.</li></ul><hr id="3c1f6ce8-497f-8040-9b7b-fb9d911328c3" dir="auto"/><h1 id="3c1f6ce8-497f-8048-9b62-d23a1e51bc5e" class="" dir="auto">37. Aplicações práticas</h1><p id="3c1f6ce8-497f-807d-9875-f865735bfdeb" class="" dir="auto">Matrizes aparecem em muitas áreas da computação.</p><h3 id="3c1f6ce8-497f-80ac-851f-fa0d7d41bad1" class="" dir="auto">Jogos</h3><pre id="3c1f6ce8-497f-80d3-94c9-f733f480ea7e" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">tabuleiro[linha][coluna]</code></pre><h3 id="3c1f6ce8-497f-80ba-80e5-d97f54d6502f" class="" dir="auto">Imagens</h3><p id="3c1f6ce8-497f-8063-9289-cba3c1e35b0f" class="" dir="auto">Uma imagem pode ser representada como uma grade de pixels:</p><pre id="3c1f6ce8-497f-80e8-a29a-d30dcd56ff91" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">pixel[linha][coluna]</code></pre><h3 id="3c1f6ce8-497f-8050-848c-c841c122fffa" class="" dir="auto">Planilhas</h3><pre id="3c1f6ce8-497f-8088-a262-e990a29bff41" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">célula[linha][coluna]</code></pre><h3 id="3c1f6ce8-497f-8022-b26f-df8b99db43c3" class="" dir="auto">Matemática</h3><p id="3c1f6ce8-497f-80df-b410-dcafe260afb0" class="" dir="auto">Operações com matrizes, vetores e sistemas lineares.</p><h3 id="3c1f6ce8-497f-8071-a747-ffd69efc3a51" class="" dir="auto">Inteligência Artificial</h3><p id="3c1f6ce8-497f-80e6-91ef-dae745936bf4" class="" dir="auto">Matrizes são utilizadas para representar dados e operações numéricas.</p><h3 id="3c1f6ce8-497f-804d-911a-eab9dfbd9814" class="" dir="auto">Computação gráfica</h3><p id="3c1f6ce8-497f-805d-ba42-fede37cf5a63" class="" dir="auto">São utilizadas em transformações, coordenadas e operações geométricas.</p><h3 id="3c1f6ce8-497f-8001-bf66-c97bc7b30689" class="" dir="auto">Mapas</h3><p id="3c1f6ce8-497f-80f9-a031-e93c6b5f65a2" class="" dir="auto">Podem representar terrenos, obstáculos e posições.</p><hr id="3c1f6ce8-497f-80f6-90f2-da487011d540" dir="auto"/><h1 id="3c1f6ce8-497f-808d-8dbf-f003102aa1c8" class="" dir="auto">38. Resumo dos principais conceitos</h1><table id="3c1f6ce8-497f-80b4-9bc1-ecc6a7759b35" class="simple-table" dir="ltr"><thead class="simple-table-header"><tr id="3c1f6ce8-497f-809b-a0df-e3d203b95b23" dir="ltr"><th id="vE:M" class="simple-table-header-color simple-table-header">Conceito</th><th id="Jdpv" class="simple-table-header-color simple-table-header">Significado</th></tr></thead><tbody><tr id="3c1f6ce8-497f-805f-80e1-ea88e744aaad" dir="ltr"><td id="vE:M" class=""><strong>Matriz</strong></td><td id="Jdpv" class="">Estrutura de dados multidimensional</td></tr><tr id="3c1f6ce8-497f-8060-8141-f17182815a1b" dir="ltr"><td id="vE:M" class=""><strong>Linha</strong></td><td id="Jdpv" class="">Organização horizontal</td></tr><tr id="3c1f6ce8-497f-80eb-a947-fca7ab56a24b" dir="ltr"><td id="vE:M" class=""><strong>Coluna</strong></td><td id="Jdpv" class="">Organização vertical</td></tr><tr id="3c1f6ce8-497f-8081-b204-db2fe5ca09fb" dir="ltr"><td id="vE:M" class=""><strong>Elemento</strong></td><td id="Jdpv" class="">Valor armazenado na matriz</td></tr><tr id="3c1f6ce8-497f-80ad-a17b-f471f54f30dc" dir="ltr"><td id="vE:M" class=""><strong>Índice</strong></td><td id="Jdpv" class="">Identifica a posição</td></tr><tr id="3c1f6ce8-497f-8016-8a3f-c4c18393af4b" dir="ltr"><td id="vE:M" class=""><strong>Matriz quadrada</strong></td><td id="Jdpv" class="">Possui o mesmo número de linhas e colunas</td></tr><tr id="3c1f6ce8-497f-80ac-a3bd-ff3a24605376" dir="ltr"><td id="vE:M" class=""><strong>Diagonal principal</strong></td><td id="Jdpv" class="">Elementos em que linha = coluna</td></tr><tr id="3c1f6ce8-497f-804f-a596-c22a6da9da05" dir="ltr"><td id="vE:M" class=""><strong>Diagonal secundária</strong></td><td id="Jdpv" class="">Diagonal que segue o sentido oposto</td></tr><tr id="3c1f6ce8-497f-808d-b091-f162e2f0a125" dir="ltr"><td id="vE:M" class=""><strong>Matriz identidade</strong></td><td id="Jdpv" class="">Diagonal principal com 1 e demais elementos com 0</td></tr><tr id="3c1f6ce8-497f-8077-9a7e-e3b63ae54861" dir="ltr"><td id="vE:M" class=""><strong>Transposta</strong></td><td id="Jdpv" class="">Troca linhas por colunas</td></tr></tbody></table><hr id="3c1f6ce8-497f-8043-a101-fc03183d7b60" dir="auto"/><h1 id="3c1f6ce8-497f-8034-8a3b-f425455ee991" class="" dir="auto">39. Resumo final</h1><p id="3c1f6ce8-497f-8048-a0d5-da20a58c5bbe" class="" dir="auto">As <strong>matrizes</strong> são estruturas de dados utilizadas para organizar informações em <strong>linhas e colunas</strong>. Cada elemento é acessado por dois índices:</p><pre id="3c1f6ce8-497f-800d-a505-f937724887d5" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">matriz[linha][coluna]</code></pre><p id="3c1f6ce8-497f-80a1-9b83-f670e709b741" class="" dir="auto">Por exemplo:</p><pre id="3c1f6ce8-497f-80fe-9489-fb941ad1b425" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">10 20 30
+40 50 60
+70 80 90</code></pre><p id="3c1f6ce8-497f-8043-87f3-f0e147f639d0" class="" dir="auto">Podemos acessar:</p><pre id="3c1f6ce8-497f-80bd-8dc6-fa12999cfd71" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">matriz[2][3]</code></pre><p id="3c1f6ce8-497f-8035-b537-cf3eed131f4d" class="" dir="auto">que representa:</p><pre id="3c1f6ce8-497f-80db-b589-ee96f25f3c44" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">60</code></pre><p id="3c1f6ce8-497f-808b-96f2-fb7ea9bdfeb1" class="" dir="auto">Para percorrer toda a matriz, normalmente utilizamos <strong>estruturas de repetição aninhadas</strong>:</p><pre id="3c1f6ce8-497f-80f0-889f-f037af6087f3" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">para i de 1 até linhas faça
+    para j de 1 até colunas faça
+        escreva(matriz[i][j])
+    fimpara
+fimpara</code></pre><p id="3c1f6ce8-497f-80c6-b536-c4480661e41b" class="" dir="auto">A ideia principal é:</p><pre id="3c1f6ce8-497f-803a-b0f2-e0fff975febb" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">                 MATRIZ
+                    ↓
+          ┌─────────────────┐
+          │ Linhas × Colunas│
+          └─────────────────┘
+                    ↓
+             matriz[i][j]
+                    ↓
+          ┌─────────────────┐
+          │   Elementos     │
+          └─────────────────┘
+                    ↓
+       Busca • Soma • Média
+       Ordenação • Comparação</code></pre><p id="3c1f6ce8-497f-80a5-918d-fd1499dbf488" class="" dir="auto">O domínio de matrizes é muito importante para avançar em <strong>algoritmos e estruturas de dados</strong>, principalmente porque elas introduzem o conceito de <strong>múltiplas dimensões</strong> e preparam o caminho para assuntos como <strong>matrizes multidimensionais, algoritmos de busca, ordenação, processamento de imagens, grafos e estruturas de dados mais avançadas</strong>.</p></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

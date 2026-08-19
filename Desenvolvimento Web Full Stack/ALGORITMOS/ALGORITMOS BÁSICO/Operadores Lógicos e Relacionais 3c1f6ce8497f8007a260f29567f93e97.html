@@ -1,0 +1,873 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Operadores Lógicos e Relacionais</title><meta name="data-notion-page-icon" content="/icons/gear_blue.svg"/><link rel="icon" href="https://app.notion.com/icons/gear_blue.svg"/><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+/* For default-background callouts, render the border outline. */
+.callout.block-color-default_background {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+/*
+ * Toggles and callouts hold arbitrary content, so they can easily be taller
+ * than a page. They must stay breakable: avoiding breaks inside them makes
+ * Chromium push the whole block onto the next page, which leaves the previous
+ * page mostly empty before every long toggle.
+ */
+details,
+aside {
+	margin: 1.25em 0;
+}
+
+/* Keep a toggle's title on the same page as the start of its content. */
+summary {
+	page-break-after: avoid;
+	break-after: avoid;
+}
+
+/*
+ * Toggle headings render as <h1/h2/h3 style="display:inline-block"> inside
+ * <summary>. Without this reset, the heading's margin-top pushes it below the
+ * ::marker (▼), so the triangle and the title appear on separate lines.
+ */
+summary h1,
+summary h2,
+summary h3,
+summary h4 {
+	margin-top: 0;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding-inline: 0.125rem;
+	padding-block: 0.375rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+/*
+ * Render emoji icons using a ::before pseudo-element to keep the glyph
+ * out of the DOM textContent traversal. This avoids double-rendering icons
+ * in callouts and page titles.
+ * NOTE(slim/html-export-pseudo-icons): I can't tagref this because it will
+ * flag as a duplicate tag after codegen.
+ */
+.icon[data-emoji]::before {
+	content: attr(data-emoji);
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	margin-right: 0.4em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.tab {
+	margin: 1.25em 0;
+	padding-inline: 1rem;
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style><style>@import url('https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex-swap.min.css')</style></head><body><article id="3c1f6ce8-497f-8007-a260-f29567f93e97" class="page sans" data-notion-page-icon="/icons/gear_blue.svg"><header><div class="page-header-icon undefined"><img class="icon notion-static-icon" src="https://app.notion.com/icons/gear_blue.svg"/></div><h1 class="page-title" dir="auto">Operadores Lógicos e Relacionais</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><h1 id="3c1f6ce8-497f-8046-99eb-d2f557772afb" class="" dir="auto">Operadores Lógicos e Relacionais</h1><p id="3c1f6ce8-497f-8080-9e9f-cb35c5552395" class="" dir="auto">Os <strong>operadores relacionais e lógicos</strong> são fundamentais na construção de algoritmos, principalmente quando precisamos <strong>comparar valores, verificar condições e tomar decisões</strong>.</p><p id="3c1f6ce8-497f-8076-ad9b-ef12b444685e" class="" dir="auto">Eles aparecem constantemente em estruturas como:</p><ul id="3c1f6ce8-497f-8064-bf84-dccee6575924" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><code>se / então / senão</code>;</li></ul><ul id="3c1f6ce8-497f-80a9-a539-f5e526684d35" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><code>enquanto</code>;</li></ul><ul id="3c1f6ce8-497f-8071-a4b6-e6e0756b04cc" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><code>para</code>;</li></ul><ul id="3c1f6ce8-497f-80fd-b1e1-e3b7702a598d" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><code>repita</code>;</li></ul><ul id="3c1f6ce8-497f-802c-9eef-ca030c780be6" class="bulleted-list" dir="auto"><li style="list-style-type:disc">validações de dados;</li></ul><ul id="3c1f6ce8-497f-80a0-a71a-fc6cc487d452" class="bulleted-list" dir="auto"><li style="list-style-type:disc">sistemas de login;</li></ul><ul id="3c1f6ce8-497f-80a5-84d9-f5a4a35e241f" class="bulleted-list" dir="auto"><li style="list-style-type:disc">cálculos;</li></ul><ul id="3c1f6ce8-497f-80c8-a6db-d520fb4b30ca" class="bulleted-list" dir="auto"><li style="list-style-type:disc">filtros;</li></ul><ul id="3c1f6ce8-497f-8010-b2c2-d306dc971d60" class="bulleted-list" dir="auto"><li style="list-style-type:disc">regras de negócio.</li></ul><p id="3c1f6ce8-497f-80fc-9140-d75759ffab75" class="" dir="auto">A principal diferença é:</p><blockquote id="3c1f6ce8-497f-8003-8c1e-e8f3e8720a6b" class="" dir="auto"><strong>Operadores relacionais comparam valores. Operadores lógicos combinam ou modificam condições.</strong></blockquote><hr id="3c1f6ce8-497f-8095-a8f0-d912288c1f05" dir="auto"/><h1 id="3c1f6ce8-497f-800e-b9f8-d0a3132f3c3d" class="" dir="auto">1. Operadores Relacionais</h1><p id="3c1f6ce8-497f-802d-9098-e4ffc3f43a77" class="" dir="auto">Os <strong>operadores relacionais</strong> são utilizados para comparar dois valores.</p><p id="3c1f6ce8-497f-80a6-b1fa-d35ca79c77b7" class="" dir="auto">O resultado de uma comparação é sempre um <strong>valor lógico</strong>, normalmente:</p><ul id="3c1f6ce8-497f-80ff-91fd-d7a862fe7334" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>Verdadeiro (</strong><code><strong>V</strong></code><strong>)</strong></li></ul><ul id="3c1f6ce8-497f-803a-8b25-c507fe053c9e" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>Falso (</strong><code><strong>F</strong></code><strong>)</strong></li></ul><p id="3c1f6ce8-497f-8089-ade7-e2674ef4119f" class="" dir="auto">Por exemplo:</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="3c1f6ce8-497f-802c-8b99-e4d17a6ec138" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">10 &gt; 5</code></pre><p id="3c1f6ce8-497f-8045-b49e-f9dd37b24d97" class="" dir="auto">Como 10 é maior que 5, o resultado é:</p><pre id="3c1f6ce8-497f-8004-aaf6-d334ebe56ebe" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Verdadeiro</code></pre><p id="3c1f6ce8-497f-8085-b5a3-fe93ad91ae0c" class="" dir="auto">Já:</p><pre id="3c1f6ce8-497f-8046-ae0e-c60aefd12b18" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">3 &gt; 8</code></pre><p id="3c1f6ce8-497f-8080-a650-dc53f9419b59" class="" dir="auto">resulta em:</p><pre id="3c1f6ce8-497f-80ba-8029-ecb3b7183fc5" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Falso</code></pre><hr id="3c1f6ce8-497f-8052-9814-c4126034e2e7" dir="auto"/><h2 id="3c1f6ce8-497f-806a-8c99-feaa5e3fe323" class="" dir="auto">2. Principais operadores relacionais</h2><table id="3c1f6ce8-497f-80f6-9417-e849f7bccd2a" class="simple-table" dir="ltr"><thead class="simple-table-header"><tr id="3c1f6ce8-497f-80b2-9864-e009d91c95f7" dir="ltr"><th id="tqhG" class="simple-table-header-color simple-table-header">Operador</th><th id="fKsN" class="simple-table-header-color simple-table-header">Significado</th><th id="vN|D" class="simple-table-header-color simple-table-header">Exemplo</th><th id="va^Z" class="simple-table-header-color simple-table-header">Resultado</th></tr></thead><tbody><tr id="3c1f6ce8-497f-80ce-96d6-ddde6b53434b" dir="ltr"><td id="tqhG" class=""><code>=</code> ou <code>==</code></td><td id="fKsN" class="">Igual a</td><td id="vN|D" class=""><code>10 == 10</code></td><td id="va^Z" class="">Verdadeiro</td></tr><tr id="3c1f6ce8-497f-80cb-b33d-e906484c6b86" dir="ltr"><td id="tqhG" class=""><code>&lt;&gt;</code> ou <code>!=</code></td><td id="fKsN" class="">Diferente de</td><td id="vN|D" class=""><code>10 != 5</code></td><td id="va^Z" class="">Verdadeiro</td></tr><tr id="3c1f6ce8-497f-80fe-b883-d225bf33d80a" dir="ltr"><td id="tqhG" class=""><code>&gt;</code></td><td id="fKsN" class="">Maior que</td><td id="vN|D" class=""><code>10 &gt; 5</code></td><td id="va^Z" class="">Verdadeiro</td></tr><tr id="3c1f6ce8-497f-8029-8804-fce9e1761f00" dir="ltr"><td id="tqhG" class=""><code>&lt;</code></td><td id="fKsN" class="">Menor que</td><td id="vN|D" class=""><code>5 &lt; 10</code></td><td id="va^Z" class="">Verdadeiro</td></tr><tr id="3c1f6ce8-497f-80ec-a586-e599c92ce5b8" dir="ltr"><td id="tqhG" class=""><code>&gt;=</code></td><td id="fKsN" class="">Maior ou igual</td><td id="vN|D" class=""><code>10 &gt;= 10</code></td><td id="va^Z" class="">Verdadeiro</td></tr><tr id="3c1f6ce8-497f-80ff-b3b8-d3a6516381cb" dir="ltr"><td id="tqhG" class=""><code>&lt;=</code></td><td id="fKsN" class="">Menor ou igual</td><td id="vN|D" class=""><code>5 &lt;= 10</code></td><td id="va^Z" class="">Verdadeiro</td></tr></tbody></table><p id="3c1f6ce8-497f-808e-af63-f635122a1542" class="" dir="auto">A representação exata pode mudar conforme a linguagem. Por exemplo, em muitas linguagens de programação, <code>==</code> é usado para igualdade, enquanto em alguns pseudocódigos utiliza-se <code>=</code>.</p><hr id="3c1f6ce8-497f-8093-b915-d01b799c6a5b" dir="auto"/><h1 id="3c1f6ce8-497f-80fb-9717-ec4af137ddf1" class="" dir="auto">3. Operador de igualdade</h1><p id="3c1f6ce8-497f-801a-bf58-c9553d4288a1" class="" dir="auto">O operador de igualdade verifica se dois valores são iguais.</p><p id="3c1f6ce8-497f-80d8-9178-f6c54cb1a7af" class="" dir="auto">Exemplo:</p><pre id="3c1f6ce8-497f-8056-ab77-d7d1215ac522" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">10 == 10</code></pre><p id="3c1f6ce8-497f-8065-b386-d5ecfbb5a8f5" class="" dir="auto">Resultado:</p><pre id="3c1f6ce8-497f-802a-869c-fa5a88df8047" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Verdadeiro</code></pre><p id="3c1f6ce8-497f-8046-9dfb-ec8201a7a065" class="" dir="auto">Outro exemplo:</p><pre id="3c1f6ce8-497f-80af-bfbc-fb83f89a751c" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">idade == 18</code></pre><p id="3c1f6ce8-497f-80a4-ad28-edade3878f0e" class="" dir="auto">Se:</p><pre id="3c1f6ce8-497f-80ff-a651-fd36be9297c1" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">idade = 18</code></pre><p id="3c1f6ce8-497f-805d-afa6-de1b5c05ccb1" class="" dir="auto">a condição será verdadeira.</p><p id="3c1f6ce8-497f-8079-a926-c1e76453c97c" class="" dir="auto">Se:</p><pre id="3c1f6ce8-497f-80a5-943b-e11a3af853d6" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">idade = 20</code></pre><p id="3c1f6ce8-497f-80a5-ab86-db3adb346ee3" class="" dir="auto">será falsa.</p><h3 id="3c1f6ce8-497f-80c6-bd8c-efe173cea773" class="" dir="auto">Exemplo em algoritmo</h3><pre id="3c1f6ce8-497f-8070-8e8d-e1ed2c5b75ad" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">se idade == 18 então
+    escreva(&quot;Você tem exatamente 18 anos.&quot;)
+fimse</code></pre><hr id="3c1f6ce8-497f-809f-9736-c5f77c6aa975" dir="auto"/><h1 id="3c1f6ce8-497f-809f-a5e4-feb3395320e7" class="" dir="auto">4. Operador de diferença</h1><p id="3c1f6ce8-497f-8041-af1e-f8ffd61b3798" class="" dir="auto">O operador de diferença verifica se dois valores são diferentes.</p><p id="3c1f6ce8-497f-803c-ad95-c0b53c5c1b1b" class="" dir="auto">Exemplo:</p><pre id="3c1f6ce8-497f-809e-b881-fdb8e48cd9e8" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">10 != 5</code></pre><p id="3c1f6ce8-497f-8011-9281-ecd12fac9f5a" class="" dir="auto">Resultado:</p><pre id="3c1f6ce8-497f-80b4-835d-e0091e30b32e" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Verdadeiro</code></pre><p id="3c1f6ce8-497f-80c0-8284-ca63484c9fdc" class="" dir="auto">Porque 10 é diferente de 5.</p><p id="3c1f6ce8-497f-80eb-9a59-cc9cf432d352" class="" dir="auto">Em pseudocódigo, também podemos encontrar:</p><pre id="3c1f6ce8-497f-80dd-9f82-dba69e193341" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">10 &lt;&gt; 5</code></pre><h3 id="3c1f6ce8-497f-80a7-8bc0-f87a34a092cc" class="" dir="auto">Exemplo</h3><pre id="3c1f6ce8-497f-80d6-b8a1-d6086f50ff65" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">se senha != senhaCorreta então
+    escreva(&quot;Senha incorreta.&quot;)
+fimse</code></pre><hr id="3c1f6ce8-497f-80be-92bf-e105ebbbe6ba" dir="auto"/><h1 id="3c1f6ce8-497f-8084-b8c9-cf1b7082c5b4" class="" dir="auto">5. Operador maior que</h1><p id="3c1f6ce8-497f-8037-8736-cf41db83a772" class="" dir="auto">O operador <code>&gt;</code> verifica se o valor da esquerda é <strong>maior</strong> que o valor da direita.</p><pre id="3c1f6ce8-497f-80aa-b522-fb54bdf42feb" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">10 &gt; 5</code></pre><p id="3c1f6ce8-497f-8040-b2ee-d31c3c852848" class="" dir="auto">Resultado:</p><pre id="3c1f6ce8-497f-809f-b00f-d3d074fc32d2" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Verdadeiro</code></pre><p id="3c1f6ce8-497f-80a7-a18e-dd5e99c2f8cf" class="" dir="auto">Enquanto:</p><pre id="3c1f6ce8-497f-8079-a4ad-c7fe51b2c61d" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">3 &gt; 8</code></pre><p id="3c1f6ce8-497f-8045-815e-f2a536efab03" class="" dir="auto">resulta em:</p><pre id="3c1f6ce8-497f-80cf-a855-d5c26e121d8e" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Falso</code></pre><h3 id="3c1f6ce8-497f-8051-97ef-e8f18ede6a8f" class="" dir="auto">Exemplo</h3><pre id="3c1f6ce8-497f-80b2-af5b-d7b1019be53b" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">se idade &gt; 18 então
+    escreva(&quot;Maior de idade.&quot;)
+fimse</code></pre><p id="3c1f6ce8-497f-8097-9a54-eeec54956855" class="" dir="auto">Observe que <code>&gt;</code> significa <strong>estritamente maior</strong>.</p><p id="3c1f6ce8-497f-809b-b8f9-c8695398e335" class="" dir="auto">Portanto:</p><pre id="3c1f6ce8-497f-8089-a2c9-d693c649bb59" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">18 &gt; 18</code></pre><p id="3c1f6ce8-497f-8090-8a73-dea155f158b9" class="" dir="auto">é falso.</p><hr id="3c1f6ce8-497f-8082-a0de-ebc0e36e8dd8" dir="auto"/><h1 id="3c1f6ce8-497f-8041-916d-d18f8f4d92f1" class="" dir="auto">6. Operador menor que</h1><p id="3c1f6ce8-497f-80d7-a839-f824e0898f4c" class="" dir="auto">O operador <code>&lt;</code> verifica se o valor da esquerda é <strong>menor</strong> que o valor da direita.</p><pre id="3c1f6ce8-497f-80ff-9aba-c381483064c5" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">5 &lt; 10</code></pre><p id="3c1f6ce8-497f-802f-93c0-cd65c0be336d" class="" dir="auto">Resultado:</p><pre id="3c1f6ce8-497f-8040-b17d-d7e52440a9d4" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Verdadeiro</code></pre><p id="3c1f6ce8-497f-8013-9553-ef76d3c9db67" class="" dir="auto">Porém:</p><pre id="3c1f6ce8-497f-80ca-9b9e-c7d412108264" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">10 &lt; 5</code></pre><p id="3c1f6ce8-497f-8066-bca5-c79ef7e9db9f" class="" dir="auto">resulta em:</p><pre id="3c1f6ce8-497f-80e8-a589-e6b350de6635" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Falso</code></pre><h3 id="3c1f6ce8-497f-80cf-82f4-df09f778fab7" class="" dir="auto">Exemplo</h3><pre id="3c1f6ce8-497f-804e-bd42-da3ac777e878" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">se idade &lt; 18 então
+    escreva(&quot;Menor de idade.&quot;)
+fimse</code></pre><hr id="3c1f6ce8-497f-8012-9b5c-c2f4846a34f1" dir="auto"/><h1 id="3c1f6ce8-497f-8013-a9f7-d9c445f1d191" class="" dir="auto">7. Operador maior ou igual</h1><p id="3c1f6ce8-497f-804d-bb88-cab69f312f17" class="" dir="auto">O operador <code>&gt;=</code> verifica se um valor é <strong>maior ou igual</strong> a outro.</p><p id="3c1f6ce8-497f-8045-873a-fbed335b9d11" class="" dir="auto">Por exemplo:</p><pre id="3c1f6ce8-497f-8005-8456-e74b484cfe25" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">10 &gt;= 10</code></pre><p id="3c1f6ce8-497f-80d3-911d-d27d2e9bb99f" class="" dir="auto">é verdadeiro.</p><p id="3c1f6ce8-497f-80c6-8d2e-ec90e1158a20" class="" dir="auto">Também:</p><pre id="3c1f6ce8-497f-805a-a0bb-eaa64f0c0adb" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">15 &gt;= 10</code></pre><p id="3c1f6ce8-497f-806b-870e-e22aba73fa29" class="" dir="auto">é verdadeiro.</p><p id="3c1f6ce8-497f-8090-a13a-ec10e0fbc3df" class="" dir="auto">Mas:</p><pre id="3c1f6ce8-497f-8072-b343-dc212e02fc8a" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">5 &gt;= 10</code></pre><p id="3c1f6ce8-497f-8084-986c-d308a7c4a993" class="" dir="auto">é falso.</p><h3 id="3c1f6ce8-497f-804d-82ea-d87f15d12fa9" class="" dir="auto">Exemplo</h3><pre id="3c1f6ce8-497f-805e-85a4-f65bb6f44230" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">se nota &gt;= 7 então
+    escreva(&quot;Aprovado.&quot;)
+fimse</code></pre><p id="3c1f6ce8-497f-803c-8de9-f4b123fdc5f6" class="" dir="auto">Nesse caso, um aluno com nota:</p><pre id="3c1f6ce8-497f-8018-83b7-de569855ec61" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">7</code></pre><p id="3c1f6ce8-497f-80c8-91b5-e262a75e3602" class="" dir="auto">será aprovado.</p><p id="3c1f6ce8-497f-80de-bc6a-e9057fed2b25" class="" dir="auto">Um aluno com:</p><pre id="3c1f6ce8-497f-802b-9594-dc41f5a9f124" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">8</code></pre><p id="3c1f6ce8-497f-80e8-ade6-efb3a6092a34" class="" dir="auto">também.</p><p id="3c1f6ce8-497f-801c-a2e6-f1eb7ef2745f" class="" dir="auto">Mas um aluno com:</p><pre id="3c1f6ce8-497f-805e-9590-f6e87d0d7ef1" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">6</code></pre><p id="3c1f6ce8-497f-80aa-813c-c33cc271c115" class="" dir="auto">não será.</p><hr id="3c1f6ce8-497f-80bd-abc5-e94bdf831f98" dir="auto"/><h1 id="3c1f6ce8-497f-80e0-981e-d87a6839acf7" class="" dir="auto">8. Operador menor ou igual</h1><p id="3c1f6ce8-497f-80ab-b583-c93b6c49955d" class="" dir="auto">O operador <code>&lt;=</code> verifica se um valor é <strong>menor ou igual</strong> a outro.</p><p id="3c1f6ce8-497f-8093-95da-d71e503c072b" class="" dir="auto">Exemplos:</p><pre id="3c1f6ce8-497f-80f6-93b5-fe435d13a6f7" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">5 &lt;= 10</code></pre><p id="3c1f6ce8-497f-805e-8ce2-d4dc4385db4b" class="" dir="auto">Verdadeiro.</p><pre id="3c1f6ce8-497f-80d9-ab4e-e476db3aece7" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">10 &lt;= 10</code></pre><p id="3c1f6ce8-497f-8011-8d1a-de9d691f260f" class="" dir="auto">Verdadeiro.</p><pre id="3c1f6ce8-497f-80b4-88ed-e43a41500854" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">15 &lt;= 10</code></pre><p id="3c1f6ce8-497f-803c-8727-eface0029b43" class="" dir="auto">Falso.</p><h3 id="3c1f6ce8-497f-808c-b631-c1e7588c4daf" class="" dir="auto">Exemplo</h3><pre id="3c1f6ce8-497f-80ed-8368-d3701c76a15d" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">se idade &lt;= 12 então
+    escreva(&quot;Criança.&quot;)
+fimse</code></pre><hr id="3c1f6ce8-497f-80aa-8660-d48a3abe5928" dir="auto"/><h1 id="3c1f6ce8-497f-806b-8b08-d5993a728f69" class="" dir="auto">9. Tabela dos operadores relacionais</h1><p id="3c1f6ce8-497f-80bd-92c3-f2ed9c5068e3" class="" dir="auto">Considere:</p><pre id="3c1f6ce8-497f-80a0-a54c-e173f3fe0aed" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">A = 10
+B = 5</code></pre><table id="3c1f6ce8-497f-802d-a206-df680eae0aab" class="simple-table" dir="ltr"><thead class="simple-table-header"><tr id="3c1f6ce8-497f-80d7-a5c7-c5adaed78e5e" dir="ltr"><th id="jpx_" class="simple-table-header-color simple-table-header">Expressão</th><th id="c{Pz" class="simple-table-header-color simple-table-header">Resultado</th></tr></thead><tbody><tr id="3c1f6ce8-497f-8033-bb55-d7e7db0135a2" dir="ltr"><td id="jpx_" class=""><code>A == B</code></td><td id="c{Pz" class="">Falso</td></tr><tr id="3c1f6ce8-497f-80f2-99e6-c64c052e5b8d" dir="ltr"><td id="jpx_" class=""><code>A != B</code></td><td id="c{Pz" class="">Verdadeiro</td></tr><tr id="3c1f6ce8-497f-802c-a6a4-f1c786be89be" dir="ltr"><td id="jpx_" class=""><code>A &gt; B</code></td><td id="c{Pz" class="">Verdadeiro</td></tr><tr id="3c1f6ce8-497f-8012-b6e4-d02fc262da24" dir="ltr"><td id="jpx_" class=""><code>A &lt; B</code></td><td id="c{Pz" class="">Falso</td></tr><tr id="3c1f6ce8-497f-80d5-bd92-db9b0921c907" dir="ltr"><td id="jpx_" class=""><code>A &gt;= B</code></td><td id="c{Pz" class="">Verdadeiro</td></tr><tr id="3c1f6ce8-497f-80fa-a02e-f44456c82319" dir="ltr"><td id="jpx_" class=""><code>A &lt;= B</code></td><td id="c{Pz" class="">Falso</td></tr></tbody></table><p id="3c1f6ce8-497f-80cd-9aca-c6977fdc6ec2" class="" dir="auto">Esses resultados podem posteriormente ser utilizados por <strong>operadores lógicos</strong>.</p><hr id="3c1f6ce8-497f-8081-8834-ea1ea03b2eb3" dir="auto"/><h1 id="3c1f6ce8-497f-80d1-9654-c19b1c97a6ed" class="" dir="auto">10. O que são Operadores Lógicos?</h1><p id="3c1f6ce8-497f-8051-b4ac-d10b5b3f0a33" class="" dir="auto">Os <strong>operadores lógicos</strong> permitem combinar ou modificar <strong>expressões relacionais ou valores booleanos</strong>.</p><p id="3c1f6ce8-497f-8092-89f1-cdbb6643a7f2" class="" dir="auto">Os três principais são:</p><ul id="3c1f6ce8-497f-8051-a60d-d8d0aab6721e" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>E (</strong><code><strong>AND</strong></code><strong>)</strong></li></ul><ul id="3c1f6ce8-497f-8044-bc33-e7f1f6e9f316" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>OU (</strong><code><strong>OR</strong></code><strong>)</strong></li></ul><ul id="3c1f6ce8-497f-80a5-839b-ddfff4d9b1e9" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>NÃO (</strong><code><strong>NOT</strong></code><strong>)</strong></li></ul><p id="3c1f6ce8-497f-805e-891e-fdedaf275595" class="" dir="auto">Eles são extremamente importantes quando uma decisão depende de <strong>mais de uma condição</strong>.</p><p id="3c1f6ce8-497f-80a5-93d1-ec08be10dfb1" class="" dir="auto">Por exemplo:</p><pre id="3c1f6ce8-497f-80f3-b639-f87d4521a6a4" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">idade &gt;= 18 E possuiDocumento = verdadeiro</code></pre><p id="3c1f6ce8-497f-8044-a3c8-fdd2abd67c77" class="" dir="auto">Nesse caso, não basta ter 18 anos. As <strong>duas condições</strong> precisam ser verdadeiras.</p><hr id="3c1f6ce8-497f-806c-8018-ce570e4e0044" dir="auto"/><h1 id="3c1f6ce8-497f-802e-bde7-d2fab0774ef4" class="" dir="auto">11. Operador lógico E</h1><p id="3c1f6ce8-497f-8057-b12a-d495f9ea5d3b" class="" dir="auto">O operador <strong>E</strong> (<code>AND</code>) somente produz verdadeiro quando <strong>todas as condições forem verdadeiras</strong>.</p><p id="3c1f6ce8-497f-8053-bc9c-dd0d7ef39757" class="" dir="auto">Imagine:</p><pre id="3c1f6ce8-497f-80a1-9825-e46c6741081a" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">A = verdadeiro
+B = verdadeiro</code></pre><p id="3c1f6ce8-497f-8073-b74d-f195c0957a4f" class="" dir="auto">Então:</p><pre id="3c1f6ce8-497f-8051-b9d2-c72a4562bfd6" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">A E B</code></pre><p id="3c1f6ce8-497f-8004-b49c-e5ee83904a1a" class="" dir="auto">resulta em:</p><pre id="3c1f6ce8-497f-8017-9a44-d7ea301460d4" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Verdadeiro</code></pre><h3 id="3c1f6ce8-497f-8019-84cb-dc7cfa92cfdd" class="" dir="auto">Tabela verdade</h3><table id="3c1f6ce8-497f-8018-bd2a-dbb44bc74998" class="simple-table" dir="ltr"><thead class="simple-table-header"><tr id="3c1f6ce8-497f-8009-aed3-f32789322065" dir="ltr"><th id="JdjL" class="simple-table-header-color simple-table-header">A</th><th id="K[mO" class="simple-table-header-color simple-table-header">B</th><th id="wc{M" class="simple-table-header-color simple-table-header">A E B</th></tr></thead><tbody><tr id="3c1f6ce8-497f-8003-b39c-cec7ef257a49" dir="ltr"><td id="JdjL" class="">V</td><td id="K[mO" class="">V</td><td id="wc{M" class="">V</td></tr><tr id="3c1f6ce8-497f-80c4-a782-fa41d184991d" dir="ltr"><td id="JdjL" class="">V</td><td id="K[mO" class="">F</td><td id="wc{M" class="">F</td></tr><tr id="3c1f6ce8-497f-804d-a320-d4d6a42c1ab3" dir="ltr"><td id="JdjL" class="">F</td><td id="K[mO" class="">V</td><td id="wc{M" class="">F</td></tr><tr id="3c1f6ce8-497f-80d7-b0b2-dfb2952a5f96" dir="ltr"><td id="JdjL" class="">F</td><td id="K[mO" class="">F</td><td id="wc{M" class="">F</td></tr></tbody></table><p id="3c1f6ce8-497f-8022-b678-cd834d58810d" class="" dir="auto">Portanto, o <strong>E</strong> é bastante restritivo.</p><h3 id="3c1f6ce8-497f-80f3-ab3d-f195f622fb1c" class="" dir="auto">Exemplo</h3><p id="3c1f6ce8-497f-80d6-830f-f77e18bb0ca4" class="" dir="auto">Imagine que uma pessoa precisa:</p><ul id="3c1f6ce8-497f-8036-a8fd-cb9f822f0b0e" class="bulleted-list" dir="auto"><li style="list-style-type:disc">ter 18 anos ou mais;</li></ul><ul id="3c1f6ce8-497f-8019-af3c-dba41c4ca411" class="bulleted-list" dir="auto"><li style="list-style-type:disc">possuir documento.</li></ul><p id="3c1f6ce8-497f-8023-bcfb-e42b78e3bd90" class="" dir="auto">Podemos escrever:</p><pre id="3c1f6ce8-497f-805b-ab51-f2044acd6231" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">idade &gt;= 18 E possuiDocumento == verdadeiro</code></pre><p id="3c1f6ce8-497f-80cb-a852-f49425cf5fc4" class="" dir="auto">A pessoa somente será autorizada quando as duas condições forem verdadeiras.</p><hr id="3c1f6ce8-497f-806a-b2e4-e94a029c083a" dir="auto"/><h1 id="3c1f6ce8-497f-803f-ab2e-dad34a43eb99" class="" dir="auto">12. Operador lógico OU</h1><p id="3c1f6ce8-497f-80f1-97ef-ea95cbc6a780" class="" dir="auto">O operador <strong>OU</strong> (<code>OR</code>) retorna verdadeiro quando <strong>pelo menos uma condição é verdadeira</strong>.</p><h3 id="3c1f6ce8-497f-80a5-b835-f80b74bac2f0" class="" dir="auto">Tabela verdade</h3><table id="3c1f6ce8-497f-80e6-b206-efa08646ed27" class="simple-table" dir="ltr"><thead class="simple-table-header"><tr id="3c1f6ce8-497f-8034-99b4-fff6d158f841" dir="ltr"><th id="YWT?" class="simple-table-header-color simple-table-header">A</th><th id="j`UN" class="simple-table-header-color simple-table-header">B</th><th id="uWRa" class="simple-table-header-color simple-table-header">A OU B</th></tr></thead><tbody><tr id="3c1f6ce8-497f-802e-82a2-f3b3b5793851" dir="ltr"><td id="YWT?" class="">V</td><td id="j`UN" class="">V</td><td id="uWRa" class="">V</td></tr><tr id="3c1f6ce8-497f-803f-a766-c73041203dc3" dir="ltr"><td id="YWT?" class="">V</td><td id="j`UN" class="">F</td><td id="uWRa" class="">V</td></tr><tr id="3c1f6ce8-497f-80a6-a66a-e30fa048bd00" dir="ltr"><td id="YWT?" class="">F</td><td id="j`UN" class="">V</td><td id="uWRa" class="">V</td></tr><tr id="3c1f6ce8-497f-80ee-a24b-c412116656ce" dir="ltr"><td id="YWT?" class="">F</td><td id="j`UN" class="">F</td><td id="uWRa" class="">F</td></tr></tbody></table><p id="3c1f6ce8-497f-80c3-9e74-f49fa921d5fc" class="" dir="auto">Apenas quando <strong>todas as condições forem falsas</strong> o resultado será falso.</p><h3 id="3c1f6ce8-497f-8094-aaf1-f63f6433bf98" class="" dir="auto">Exemplo</h3><p id="3c1f6ce8-497f-80d4-964c-ef5fa1e08055" class="" dir="auto">Imagine:</p><pre id="3c1f6ce8-497f-8012-b7b5-f1817d1915da" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">idade &lt; 12 OU idade &gt; 60</code></pre><p id="3c1f6ce8-497f-80d8-9245-e32b14c44786" class="" dir="auto">A condição será verdadeira se a pessoa:</p><ul id="3c1f6ce8-497f-8083-8339-f9c88e223912" class="bulleted-list" dir="auto"><li style="list-style-type:disc">tiver menos de 12 anos;</li></ul><p id="3c1f6ce8-497f-8090-b13e-c1b03170b50c" class="" dir="auto"><strong>ou</strong></p><ul id="3c1f6ce8-497f-809a-9f17-fa8ea97f8146" class="bulleted-list" dir="auto"><li style="list-style-type:disc">tiver mais de 60 anos.</li></ul><hr id="3c1f6ce8-497f-80af-8158-fb3a49e15879" dir="auto"/><h1 id="3c1f6ce8-497f-8059-b47e-c2d553ae5bef" class="" dir="auto">13. Operador lógico NÃO</h1><p id="3c1f6ce8-497f-8097-aaac-fbc2e6bc8255" class="" dir="auto">O operador <strong>NÃO</strong> (<code>NOT</code>) serve para <strong>inverter um valor lógico</strong>.</p><p id="3c1f6ce8-497f-80e9-8ed6-e87f3b173715" class="" dir="auto">Se temos:</p><pre id="3c1f6ce8-497f-80c6-8488-c2f86369d014" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Verdadeiro</code></pre><p id="3c1f6ce8-497f-80b6-936e-c64fdc5f0c35" class="" dir="auto">aplicando <code>NÃO</code>:</p><pre id="3c1f6ce8-497f-80d1-be1e-e2f3b78c3e1e" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">NÃO verdadeiro</code></pre><p id="3c1f6ce8-497f-80af-917f-ee2974af0fc3" class="" dir="auto">teremos:</p><pre id="3c1f6ce8-497f-8042-b3f3-d374f493888a" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Falso</code></pre><p id="3c1f6ce8-497f-8022-a5af-ede4c72952cb" class="" dir="auto">Da mesma maneira:</p><pre id="3c1f6ce8-497f-807b-820e-f8a8c15d3b9a" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">NÃO falso</code></pre><p id="3c1f6ce8-497f-80e8-8c4b-d31492915b94" class="" dir="auto">resulta em:</p><pre id="3c1f6ce8-497f-80ea-916a-dbde9c24e63f" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Verdadeiro</code></pre><h3 id="3c1f6ce8-497f-8041-80b3-e1090aba8281" class="" dir="auto">Tabela verdade</h3><table id="3c1f6ce8-497f-8034-9d11-fee0ddbcdac4" class="simple-table" dir="ltr"><thead class="simple-table-header"><tr id="3c1f6ce8-497f-80c3-8386-fb71d2c2b3d1" dir="ltr"><th id="a[bS" class="simple-table-header-color simple-table-header">A</th><th id="Gv~~" class="simple-table-header-color simple-table-header">NÃO A</th></tr></thead><tbody><tr id="3c1f6ce8-497f-8021-b0b7-fa3787676000" dir="ltr"><td id="a[bS" class="">V</td><td id="Gv~~" class="">F</td></tr><tr id="3c1f6ce8-497f-8031-b027-dd50bdf2317d" dir="ltr"><td id="a[bS" class="">F</td><td id="Gv~~" class="">V</td></tr></tbody></table><h3 id="3c1f6ce8-497f-807f-aad6-e76f1621fc38" class="" dir="auto">Exemplo</h3><pre id="3c1f6ce8-497f-808d-9947-f2284df99958" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">se nao bloqueado então
+    escreva(&quot;Acesso permitido.&quot;)
+fimse</code></pre><p id="3c1f6ce8-497f-80f0-a510-cebc2cdcebe5" class="" dir="auto">Se <code>bloqueado</code> for falso, <code>nao bloqueado</code> será verdadeiro.</p><hr id="3c1f6ce8-497f-80a2-b5a2-e209bf7af597" dir="auto"/><h1 id="3c1f6ce8-497f-8064-a978-fc5181730617" class="" dir="auto">14. Diferença entre operadores relacionais e lógicos</h1><p id="3c1f6ce8-497f-802c-88d1-dae8cea1e9b0" class="" dir="auto">Essa diferença é muito importante.</p><h3 id="3c1f6ce8-497f-80e7-acb3-c1ba460ea3b2" class="" dir="auto">Relacionais</h3><p id="3c1f6ce8-497f-80d7-9a76-f3ed4fe6dd17" class="" dir="auto"><strong>Comparam valores.</strong></p><p id="3c1f6ce8-497f-80da-8081-eede423ffa5f" class="" dir="auto">Exemplo:</p><pre id="3c1f6ce8-497f-8048-aabd-e19092a099ad" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">idade &gt;= 18</code></pre><p id="3c1f6ce8-497f-80f9-9124-f15720d46cbe" class="" dir="auto">Aqui estamos comparando <code>idade</code> com <code>18</code>.</p><h3 id="3c1f6ce8-497f-80eb-b033-dfffbe0d321b" class="" dir="auto">Lógicos</h3><p id="3c1f6ce8-497f-80ab-bad9-d01167c5bb06" class="" dir="auto"><strong>Combinam ou modificam condições.</strong></p><p id="3c1f6ce8-497f-8065-8f76-d8024f19a1fe" class="" dir="auto">Exemplo:</p><pre id="3c1f6ce8-497f-803d-a74b-e7d86c2228db" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">idade &gt;= 18 E possuiDocumento</code></pre><p id="3c1f6ce8-497f-80ac-a159-c4cd06ba39b7" class="" dir="auto">Temos duas condições combinadas pelo operador <code>E</code>.</p><p id="3c1f6ce8-497f-8024-af07-d46125054017" class="" dir="auto">Portanto:</p><pre id="3c1f6ce8-497f-80ef-916b-d299d10dc555" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">10 &gt; 5</code></pre><p id="3c1f6ce8-497f-8029-b69b-fa5aee090309" class="" dir="auto">é uma <strong>expressão relacional</strong>.</p><p id="3c1f6ce8-497f-80ed-94e9-d747c4496506" class="" dir="auto">Já:</p><pre id="3c1f6ce8-497f-80a9-b492-f94f7616e13c" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">10 &gt; 5 E 20 &gt; 10</code></pre><p id="3c1f6ce8-497f-800b-968c-f7b7397063a1" class="" dir="auto">é uma <strong>expressão lógica composta</strong>.</p><hr id="3c1f6ce8-497f-80d3-84df-c476328b9101" dir="auto"/><h1 id="3c1f6ce8-497f-807f-a062-f26f7a1717f9" class="" dir="auto">15. Utilizando vários operadores juntos</h1><p id="3c1f6ce8-497f-80bc-98f0-c88bf74c1536" class="" dir="auto">Podemos combinar vários operadores.</p><p id="3c1f6ce8-497f-80dc-b454-c5243b42f400" class="" dir="auto">Exemplo:</p><pre id="3c1f6ce8-497f-8011-8599-d8b836b4d5b0" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">idade &gt;= 18 E idade &lt;= 60</code></pre><p id="3c1f6ce8-497f-80e3-a211-d1fa543b0a5c" class="" dir="auto">Essa expressão verifica se a idade está entre 18 e 60 anos, incluindo os extremos.</p><p id="3c1f6ce8-497f-8031-b6cf-e1f12f2b5f11" class="" dir="auto">Se:</p><pre id="3c1f6ce8-497f-805a-9a7e-c4869ad80d3f" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">idade = 30</code></pre><p id="3c1f6ce8-497f-8032-9676-eb2ca800d989" class="" dir="auto">temos:</p><pre id="3c1f6ce8-497f-805a-bf54-d2acd9e66d55" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">30 &gt;= 18 → Verdadeiro
+30 &lt;= 60 → Verdadeiro</code></pre><p id="3c1f6ce8-497f-80e7-9e39-fc2c3025557c" class="" dir="auto">Então:</p><pre id="3c1f6ce8-497f-8057-8fa9-d405047620fe" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Verdadeiro E Verdadeiro</code></pre><p id="3c1f6ce8-497f-80a4-8fc2-d9ebd2aff228" class="" dir="auto">Resultado:</p><pre id="3c1f6ce8-497f-80c9-b189-fa16048741cf" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Verdadeiro</code></pre><hr id="3c1f6ce8-497f-80c4-a4c2-dffacffbc965" dir="auto"/><h1 id="3c1f6ce8-497f-8036-a8af-c3a0676fa563" class="" dir="auto">16. Exemplo com entrada de dados</h1><p id="3c1f6ce8-497f-8014-9d9d-d8760e60e162" class="" dir="auto">Podemos receber informações do usuário e utilizar operadores relacionais e lógicos.</p><pre id="3c1f6ce8-497f-8053-9342-dae13e797da9" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">algoritmo &quot;Verificacao&quot;
+
+var
+    idade: inteiro
+
+inicio
+    escreva(&quot;Digite sua idade: &quot;)
+    leia(idade)
+
+    se idade &gt;= 18 E idade &lt;= 60 então
+        escreva(&quot;Idade dentro do intervalo.&quot;)
+    senao
+        escreva(&quot;Idade fora do intervalo.&quot;)
+    fimse
+
+fimalgoritmo</code></pre><p id="3c1f6ce8-497f-8055-988f-dd7760b918f0" class="" dir="auto">Se o usuário informar:</p><pre id="3c1f6ce8-497f-8095-9784-fb10dbfd3b7f" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">25</code></pre><p id="3c1f6ce8-497f-80bd-83f4-ff64a5434bff" class="" dir="auto">teremos:</p><pre id="3c1f6ce8-497f-80e8-91b5-d831c8331807" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">25 &gt;= 18 → Verdadeiro
+25 &lt;= 60 → Verdadeiro</code></pre><p id="3c1f6ce8-497f-8082-9a63-d8a078f56123" class="" dir="auto">Então:</p><pre id="3c1f6ce8-497f-8078-95cf-f5ebe159cc6a" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Verdadeiro E Verdadeiro</code></pre><p id="3c1f6ce8-497f-8073-ab61-cc22440707d9" class="" dir="auto">Resultado:</p><pre id="3c1f6ce8-497f-80e4-8c56-c1ed1323aa19" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Idade dentro do intervalo.</code></pre><hr id="3c1f6ce8-497f-80cd-b08c-ed05d29e36d3" dir="auto"/><h1 id="3c1f6ce8-497f-8070-b7e7-d837bebcaa66" class="" dir="auto">17. Exemplo utilizando OU</h1><p id="3c1f6ce8-497f-8088-ba89-e18fbb97373e" class="" dir="auto">Imagine um sistema que concede desconto para pessoas com menos de 18 anos ou maiores de 60.</p><pre id="3c1f6ce8-497f-80ab-8a97-e4f05d76bcb0" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">algoritmo &quot;Desconto&quot;
+
+var
+    idade: inteiro
+
+inicio
+    leia(idade)
+
+    se idade &lt; 18 OU idade &gt; 60 então
+        escreva(&quot;Desconto disponível.&quot;)
+    senao
+        escreva(&quot;Sem desconto.&quot;)
+    fimse
+
+fimalgoritmo</code></pre><p id="3c1f6ce8-497f-80c7-b291-e0b5949a4552" class="" dir="auto">Se:</p><pre id="3c1f6ce8-497f-80d1-bfe1-e17e54818021" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">idade = 15</code></pre><p id="3c1f6ce8-497f-8094-b0ec-e8d33cccb261" class="" dir="auto">temos:</p><pre id="3c1f6ce8-497f-805b-9bd7-c22fcb0bccc8" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">15 &lt; 18 → Verdadeiro</code></pre><p id="3c1f6ce8-497f-8027-bf78-dba5522a746c" class="" dir="auto">Portanto:</p><pre id="3c1f6ce8-497f-806d-8fe3-e03693ff1e59" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Verdadeiro OU Falso</code></pre><p id="3c1f6ce8-497f-8039-a68d-ff0bf8cd47e8" class="" dir="auto">resulta em:</p><pre id="3c1f6ce8-497f-8025-b070-e37c446b8247" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Verdadeiro</code></pre><hr id="3c1f6ce8-497f-80a1-88b9-c1c3f896d746" dir="auto"/><h1 id="3c1f6ce8-497f-8058-b716-c0373fe79f78" class="" dir="auto">18. Utilizando NÃO</h1><p id="3c1f6ce8-497f-8090-940f-d409f8d8bec6" class="" dir="auto">Podemos também negar uma condição.</p><pre id="3c1f6ce8-497f-8022-a63c-fcc1c1c94053" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">algoritmo &quot;Acesso&quot;
+
+var
+    bloqueado: logico
+
+inicio
+    leia(bloqueado)
+
+    se nao bloqueado então
+        escreva(&quot;Acesso permitido.&quot;)
+    senao
+        escreva(&quot;Acesso bloqueado.&quot;)
+    fimse
+
+fimalgoritmo</code></pre><p id="3c1f6ce8-497f-80a2-8de9-df43ba351bad" class="" dir="auto">Se:</p><pre id="3c1f6ce8-497f-80e0-a52e-cd8f93eeb668" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">bloqueado = falso</code></pre><p id="3c1f6ce8-497f-8011-a758-cbc9c6e156ec" class="" dir="auto">então:</p><pre id="3c1f6ce8-497f-801a-ac8e-d21bbcdda293" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">nao bloqueado = verdadeiro</code></pre><p id="3c1f6ce8-497f-803c-bd2c-e44b61e17ab2" class="" dir="auto">e o acesso será permitido.</p><hr id="3c1f6ce8-497f-806d-97cd-f3756365ff66" dir="auto"/><h1 id="3c1f6ce8-497f-80eb-a71a-d4d53efb413b" class="" dir="auto">19. Combinação de E e OU</h1><p id="3c1f6ce8-497f-8005-afef-c379b8f6a3bc" class="" dir="auto">Em algoritmos mais complexos, podemos utilizar diferentes operadores lógicos na mesma expressão.</p><p id="3c1f6ce8-497f-80eb-bd0e-dce1e1ed3191" class="" dir="auto">Por exemplo:</p><pre id="3c1f6ce8-497f-8061-a689-c9c937954533" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">idade &gt;= 18 E possuiDocumento OU possuiAutorizacao</code></pre><p id="3c1f6ce8-497f-804f-9962-edb13e6c09b9" class="" dir="auto">Uma forma mais clara de escrever seria utilizando parênteses:</p><pre id="3c1f6ce8-497f-80f2-82f7-d849bee5fe80" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">(idade &gt;= 18 E possuiDocumento) OU possuiAutorizacao</code></pre><p id="3c1f6ce8-497f-80d1-bd33-f538f48e1971" class="" dir="auto">Isso significa:</p><blockquote id="3c1f6ce8-497f-8089-bd49-f2a2c76abe0c" class="" dir="auto">A pessoa precisa ser maior de idade e possuir documento, <strong>ou</strong> possuir autorização.</blockquote><p id="3c1f6ce8-497f-801e-b465-fbef5fd4a99f" class="" dir="auto">Os parênteses são importantes porque deixam explícita a ordem desejada das operações.</p><hr id="3c1f6ce8-497f-8049-93bf-fb444d6861f0" dir="auto"/><h1 id="3c1f6ce8-497f-80a5-ad29-f0e9348bde51" class="" dir="auto">20. Exemplo prático: sistema de login</h1><p id="3c1f6ce8-497f-8011-91b9-ec9331ea7eca" class="" dir="auto">Os operadores relacionais e lógicos são muito utilizados em sistemas de autenticação.</p><pre id="3c1f6ce8-497f-80b7-8c16-c5f1862d2ad2" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">se usuario == &quot;admin&quot; E senha == &quot;1234&quot; então
+    escreva(&quot;Login realizado.&quot;)
+senao
+    escreva(&quot;Usuário ou senha incorretos.&quot;)
+fimse</code></pre><p id="3c1f6ce8-497f-80ea-a624-e712b7129fd4" class="" dir="auto">Aqui temos duas comparações:</p><pre id="3c1f6ce8-497f-80a0-9fc6-f9897c472bc2" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">usuario == &quot;admin&quot;</code></pre><p id="3c1f6ce8-497f-80cc-b80e-f596cd8464d6" class="" dir="auto">e:</p><pre id="3c1f6ce8-497f-80ad-9755-fd9b052a4f4c" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">senha == &quot;1234&quot;</code></pre><p id="3c1f6ce8-497f-8097-a66f-ebf623063001" class="" dir="auto">Elas são combinadas pelo:</p><pre id="3c1f6ce8-497f-80cd-b6ad-f33b40ef20dd" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">E</code></pre><p id="3c1f6ce8-497f-80a9-9840-ffe04d72da37" class="" dir="auto">Portanto, <strong>as duas condições precisam ser verdadeiras</strong>.</p><hr id="3c1f6ce8-497f-8096-9786-cc85cd70a2f6" dir="auto"/><h1 id="3c1f6ce8-497f-802a-bc0e-ce79f6c9f1b5" class="" dir="auto">21. Exemplo prático: aprovação de aluno</h1><p id="3c1f6ce8-497f-8089-ae8e-fa70b3ae67f3" class="" dir="auto">Podemos utilizar vários operadores:</p><pre id="3c1f6ce8-497f-8005-afc8-e334bd7c5fbb" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">se media &gt;= 7 E frequencia &gt;= 75 então
+    escreva(&quot;Aluno aprovado.&quot;)
+senao
+    escreva(&quot;Aluno reprovado.&quot;)
+fimse</code></pre><p id="3c1f6ce8-497f-806a-b701-c1c6e04fa93d" class="" dir="auto">Nesse caso, o aluno precisa:</p><ul id="3c1f6ce8-497f-8025-aeab-d36ff9aa73bc" class="bulleted-list" dir="auto"><li style="list-style-type:disc">ter média maior ou igual a 7;</li></ul><ul id="3c1f6ce8-497f-8058-bb72-e289a79b5b63" class="bulleted-list" dir="auto"><li style="list-style-type:disc">ter frequência maior ou igual a 75%.</li></ul><p id="3c1f6ce8-497f-8096-bed0-cb4678f7781a" class="" dir="auto">Se apenas uma condição for atendida, o aluno será reprovado.</p><hr id="3c1f6ce8-497f-805a-a04e-fc4803b91ce8" dir="auto"/><h1 id="3c1f6ce8-497f-8049-b406-d928c848cbdb" class="" dir="auto">22. Exemplo prático: validação de idade</h1><p id="3c1f6ce8-497f-809e-9336-ff93ff7fc9e2" class="" dir="auto">Podemos utilizar <code>OU</code>:</p><pre id="3c1f6ce8-497f-8053-9c56-cf05213c18f4" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">se idade &lt; 0 OU idade &gt; 120 então
+    escreva(&quot;Idade inválida.&quot;)
+senao
+    escreva(&quot;Idade válida.&quot;)
+fimse</code></pre><p id="3c1f6ce8-497f-80ad-80fe-f51f7a73d85f" class="" dir="auto">O algoritmo verifica duas situações impossíveis:</p><pre id="3c1f6ce8-497f-80da-90d3-df78c31421cc" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">idade &lt; 0</code></pre><p id="3c1f6ce8-497f-8096-a127-c01627a5b242" class="" dir="auto">ou:</p><pre id="3c1f6ce8-497f-80d3-9e75-eb32d64dfd55" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">idade &gt; 120</code></pre><p id="3c1f6ce8-497f-8012-aeb4-e05ebb2ade9a" class="" dir="auto">Se qualquer uma for verdadeira, a idade será considerada inválida.</p><hr id="3c1f6ce8-497f-801d-ade4-f1ccc4093f05" dir="auto"/><h1 id="3c1f6ce8-497f-800e-abb4-df8562548fe9" class="" dir="auto">23. Precedência dos operadores</h1><p id="3c1f6ce8-497f-80c5-97db-db625b1652df" class="" dir="auto">Quando uma expressão possui vários operadores, é importante saber <strong>qual operação será realizada primeiro</strong>.</p><p id="3c1f6ce8-497f-8090-8343-dc3ed4ba21ba" class="" dir="auto">Por exemplo:</p><pre id="3c1f6ce8-497f-803e-b8b2-c82513e3a32f" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">A OU B E C</code></pre><p id="3c1f6ce8-497f-80bb-9779-cec97f98d382" class="" dir="auto">Normalmente, o operador <code>E</code> possui prioridade maior que <code>OU</code>.</p><p id="3c1f6ce8-497f-80fd-bb14-c922e60e6387" class="" dir="auto">Assim, a expressão pode ser interpretada como:</p><pre id="3c1f6ce8-497f-8051-b2c9-ca4157ce241a" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">A OU (B E C)</code></pre><p id="3c1f6ce8-497f-8084-8771-e5f09f309088" class="" dir="auto">Mesmo assim, <strong>usar parênteses é uma boa prática</strong>, pois torna o algoritmo mais fácil de entender:</p><pre id="3c1f6ce8-497f-80d3-a96e-ea70f0903881" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">(A) OU (B E C)</code></pre><p id="3c1f6ce8-497f-80d5-b819-c851c70321cf" class="" dir="auto">Ou, se essa for a lógica desejada:</p><pre id="3c1f6ce8-497f-80bb-aca5-c81b3b7addd9" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">(A OU B) E C</code></pre><p id="3c1f6ce8-497f-801f-b745-ffb4658fd58b" class="" dir="auto">Essas duas expressões podem produzir resultados completamente diferentes.</p><hr id="3c1f6ce8-497f-80eb-90df-cad173f11666" dir="auto"/><h1 id="3c1f6ce8-497f-8016-addd-e94b0685c7df" class="" dir="auto">24. Tabela-resumo dos operadores lógicos</h1><table id="3c1f6ce8-497f-8017-a3d5-e7dc73403a00" class="simple-table" dir="ltr"><thead class="simple-table-header"><tr id="3c1f6ce8-497f-80e1-a688-d24ba6e52b68" dir="ltr"><th id="yUn{" class="simple-table-header-color simple-table-header">Operador</th><th id="_W[a" class="simple-table-header-color simple-table-header">Nome</th><th id="hrU`" class="simple-table-header-color simple-table-header">Função</th></tr></thead><tbody><tr id="3c1f6ce8-497f-80f9-9c04-dcc90ec3df68" dir="ltr"><td id="yUn{" class=""><code>E</code> / <code>AND</code></td><td id="_W[a" class="">Conjunção</td><td id="hrU`" class="">Todas as condições devem ser verdadeiras</td></tr><tr id="3c1f6ce8-497f-8031-80d3-e39b43eae745" dir="ltr"><td id="yUn{" class=""><code>OU</code> / <code>OR</code></td><td id="_W[a" class="">Disjunção</td><td id="hrU`" class="">Pelo menos uma condição deve ser verdadeira</td></tr><tr id="3c1f6ce8-497f-808a-9894-c807c58bb753" dir="ltr"><td id="yUn{" class=""><code>NÃO</code> / <code>NOT</code></td><td id="_W[a" class="">Negação</td><td id="hrU`" class="">Inverte o valor lógico</td></tr></tbody></table><hr id="3c1f6ce8-497f-804d-a2eb-fed4a52aa084" dir="auto"/><h1 id="3c1f6ce8-497f-8045-b753-cfa4be950545" class="" dir="auto">25. Tabela-resumo dos operadores relacionais</h1><table id="3c1f6ce8-497f-80aa-9c6f-c570922a793c" class="simple-table" dir="ltr"><thead class="simple-table-header"><tr id="3c1f6ce8-497f-805d-a188-e344c4f418e9" dir="ltr"><th id="P^T?" class="simple-table-header-color simple-table-header">Operador</th><th id="meHB" class="simple-table-header-color simple-table-header">Função</th></tr></thead><tbody><tr id="3c1f6ce8-497f-80e5-812d-e9a8da0f530b" dir="ltr"><td id="P^T?" class=""><code>==</code></td><td id="meHB" class="">Igual</td></tr><tr id="3c1f6ce8-497f-80c5-8a87-c89c912ddea4" dir="ltr"><td id="P^T?" class=""><code>!=</code></td><td id="meHB" class="">Diferente</td></tr><tr id="3c1f6ce8-497f-8011-bbbb-f135cd00063e" dir="ltr"><td id="P^T?" class=""><code>&gt;</code></td><td id="meHB" class="">Maior</td></tr><tr id="3c1f6ce8-497f-8009-b247-d63690ed1621" dir="ltr"><td id="P^T?" class=""><code>&lt;</code></td><td id="meHB" class="">Menor</td></tr><tr id="3c1f6ce8-497f-80ee-9673-f0bf54387f70" dir="ltr"><td id="P^T?" class=""><code>&gt;=</code></td><td id="meHB" class="">Maior ou igual</td></tr><tr id="3c1f6ce8-497f-80bd-81b8-e41eeb925225" dir="ltr"><td id="P^T?" class=""><code>&lt;=</code></td><td id="meHB" class="">Menor ou igual</td></tr></tbody></table><p id="3c1f6ce8-497f-80f0-a8c6-ed48cbe521cc" class="" dir="auto">Em pseudocódigo, algumas representações podem ser diferentes, como <code>=</code> para igualdade e <code>&lt;&gt;</code> para diferença.</p><hr id="3c1f6ce8-497f-8059-a4ae-c77cf5c7686f" dir="auto"/><h1 id="3c1f6ce8-497f-803b-bc4a-fb267e2bb1bb" class="" dir="auto">26. Relação com estruturas de decisão</h1><p id="3c1f6ce8-497f-8072-a078-f8814bc279f9" class="" dir="auto">Os operadores relacionais e lógicos são especialmente importantes nas <strong>estruturas condicionais</strong>.</p><p id="3c1f6ce8-497f-80c5-b323-dbd697dd6c39" class="" dir="auto">Por exemplo:</p><pre id="3c1f6ce8-497f-80cc-9eca-c9be50b271bb" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">se idade &gt;= 18 então
+    escreva(&quot;Maior de idade.&quot;)
+fimse</code></pre><p id="3c1f6ce8-497f-800e-8e64-ec8b1f98f4a0" class="" dir="auto">A condição:</p><pre id="3c1f6ce8-497f-8043-bf5e-c8d93f787f44" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">idade &gt;= 18</code></pre><p id="3c1f6ce8-497f-804f-83a2-db0092185924" class="" dir="auto">é avaliada como verdadeira ou falsa.</p><p id="3c1f6ce8-497f-8022-94af-ffe035745cc0" class="" dir="auto">Com operadores lógicos:</p><pre id="3c1f6ce8-497f-8086-8187-ecf856a990b4" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">se idade &gt;= 18 E possuiDocumento então
+    escreva(&quot;Entrada permitida.&quot;)
+fimse</code></pre><p id="3c1f6ce8-497f-80f9-b76c-cb33c011cbe8" class="" dir="auto">Agora o algoritmo possui uma decisão baseada em <strong>duas condições</strong>.</p><hr id="3c1f6ce8-497f-808e-b344-f3d4ef5db973" dir="auto"/><h1 id="3c1f6ce8-497f-800f-922e-ca51b05f1483" class="" dir="auto">27. Relação com algoritmos do mundo real</h1><p id="3c1f6ce8-497f-8078-b6fc-e00fef0c2bbd" class="" dir="auto">Esses operadores aparecem em praticamente todos os tipos de sistemas.</p><h3 id="3c1f6ce8-497f-80d8-8415-eccee93a418e" class="" dir="auto">Sistema bancário</h3><pre id="3c1f6ce8-497f-8074-9ba7-ec975a4ba395" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">saldo &gt;= valorSaque</code></pre><h3 id="3c1f6ce8-497f-8058-af96-e0634bcc1be1" class="" dir="auto">Loja virtual</h3><pre id="3c1f6ce8-497f-800a-a459-f288d66d7b33" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">estoque &gt; 0</code></pre><h3 id="3c1f6ce8-497f-808c-87f9-ddbfed3daa09" class="" dir="auto">Sistema de login</h3><pre id="3c1f6ce8-497f-80c0-ba8b-e5c43d5fa5a1" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">usuario == cadastrado E senha == correta</code></pre><h3 id="3c1f6ce8-497f-8024-b59a-ceecb9edd896" class="" dir="auto">Sistema escolar</h3><pre id="3c1f6ce8-497f-8053-a842-e4ef2d42e673" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">media &gt;= 7 E frequencia &gt;= 75</code></pre><h3 id="3c1f6ce8-497f-8078-be10-de602aa29df4" class="" dir="auto">Controle de acesso</h3><pre id="3c1f6ce8-497f-80e9-bc4d-d31a7cafceee" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">idade &gt;= 18 E possuiPermissao</code></pre><h3 id="3c1f6ce8-497f-8072-8f64-edc3f8d21309" class="" dir="auto">Validação</h3><pre id="3c1f6ce8-497f-803b-9b84-d04651125114" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">idade &lt; 0 OU idade &gt; 120</code></pre><p id="3c1f6ce8-497f-80d5-b9f2-d0d35d3b48ce" class="" dir="auto">Portanto, aprender esses operadores é essencial para compreender como os programas <strong>tomam decisões automaticamente</strong>.</p><hr id="3c1f6ce8-497f-80b1-9979-c11a108122c7" dir="auto"/><h1 id="3c1f6ce8-497f-80da-84e8-e444fcd79ed0" class="" dir="auto">28. Resumo final</h1><p id="3c1f6ce8-497f-80fd-ac07-d5dd445335a1" class="" dir="auto">Os <strong>operadores relacionais</strong> são responsáveis por <strong>comparar valores</strong> e produzir um resultado lógico.</p><p id="3c1f6ce8-497f-8091-9f2a-f4889a057bb6" class="" dir="auto">Exemplo:</p><pre id="3c1f6ce8-497f-809f-a5f0-e11e32ea6c84" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">idade &gt;= 18</code></pre><p id="3c1f6ce8-497f-8026-8411-f9b878589cf1" class="" dir="auto">Os <strong>operadores lógicos</strong> são responsáveis por <strong>combinar ou inverter condições</strong>.</p><p id="3c1f6ce8-497f-80ad-8cbd-f53a622c2d88" class="" dir="auto">Exemplo:</p><pre id="3c1f6ce8-497f-808f-a844-ea9651645c27" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">idade &gt;= 18 E possuiDocumento</code></pre><p id="3c1f6ce8-497f-8094-9be8-e6f152533aa1" class="" dir="auto">A lógica pode ser resumida assim:</p><p id="3c1f6ce8-497f-809f-b96f-cf08589f0289" class="" dir="auto"><strong>Operador relacional → cria uma condição</strong></p><pre id="3c1f6ce8-497f-8075-9832-eaecef320b28" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">nota &gt;= 7</code></pre><p id="3c1f6ce8-497f-8052-b019-db037fa5723f" class="" dir="auto">↓</p><p id="3c1f6ce8-497f-8063-b50b-dfc3611ac40b" class="" dir="auto"><strong>Operador lógico → combina condições</strong></p><pre id="3c1f6ce8-497f-80d7-a6c3-c4cfc46f08eb" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">nota &gt;= 7 E frequencia &gt;= 75</code></pre><p id="3c1f6ce8-497f-80f2-b4fb-d58f6ad1cd61" class="" dir="auto">↓</p><p id="3c1f6ce8-497f-809d-9c12-d27ddcf0febb" class="" dir="auto"><strong>Estrutura de decisão → utiliza o resultado</strong></p><pre id="3c1f6ce8-497f-804a-9120-d9205f671bbe" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">se nota &gt;= 7 E frequencia &gt;= 75 então
+    escreva(&quot;Aprovado&quot;)
+fimse</code></pre><p id="3c1f6ce8-497f-80f8-a20e-e6f9c34c6b2f" class="" dir="auto">Assim, <strong>operadores relacionais e lógicos formam a base da tomada de decisões em algoritmos</strong>, permitindo que um programa analise dados, compare informações e execute diferentes ações de acordo com as condições encontradas.</p></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

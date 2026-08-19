@@ -1,0 +1,998 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Procedimentos</title><meta name="data-notion-page-icon" content="/icons/gear_blue.svg"/><link rel="icon" href="https://app.notion.com/icons/gear_blue.svg"/><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+/* For default-background callouts, render the border outline. */
+.callout.block-color-default_background {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+/*
+ * Toggles and callouts hold arbitrary content, so they can easily be taller
+ * than a page. They must stay breakable: avoiding breaks inside them makes
+ * Chromium push the whole block onto the next page, which leaves the previous
+ * page mostly empty before every long toggle.
+ */
+details,
+aside {
+	margin: 1.25em 0;
+}
+
+/* Keep a toggle's title on the same page as the start of its content. */
+summary {
+	page-break-after: avoid;
+	break-after: avoid;
+}
+
+/*
+ * Toggle headings render as <h1/h2/h3 style="display:inline-block"> inside
+ * <summary>. Without this reset, the heading's margin-top pushes it below the
+ * ::marker (▼), so the triangle and the title appear on separate lines.
+ */
+summary h1,
+summary h2,
+summary h3,
+summary h4 {
+	margin-top: 0;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding-inline: 0.125rem;
+	padding-block: 0.375rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+/*
+ * Render emoji icons using a ::before pseudo-element to keep the glyph
+ * out of the DOM textContent traversal. This avoids double-rendering icons
+ * in callouts and page titles.
+ * NOTE(slim/html-export-pseudo-icons): I can't tagref this because it will
+ * flag as a duplicate tag after codegen.
+ */
+.icon[data-emoji]::before {
+	content: attr(data-emoji);
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	margin-right: 0.4em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.tab {
+	margin: 1.25em 0;
+	padding-inline: 1rem;
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style><style>@import url('https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex-swap.min.css')</style></head><body><article id="3c1f6ce8-497f-80fc-8162-c7ea9aa87823" class="page sans" data-notion-page-icon="/icons/gear_blue.svg"><header><div class="page-header-icon undefined"><img class="icon notion-static-icon" src="https://app.notion.com/icons/gear_blue.svg"/></div><h1 class="page-title" dir="auto">Procedimentos</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><h1 id="3c1f6ce8-497f-8045-8690-e47f30c23067" class="" dir="auto">Procedimentos</h1><p id="3c1f6ce8-497f-8035-ae6e-ff728fa31dac" class="" dir="auto">Os <strong>procedimentos</strong> são estruturas utilizadas em algoritmos para <strong>organizar um conjunto de instruções que realiza uma determinada tarefa</strong>.</p><p id="3c1f6ce8-497f-800d-8066-defe80c86670" class="" dir="auto">Eles são muito importantes porque permitem dividir um algoritmo grande em partes menores, tornando o código:</p><ul id="3c1f6ce8-497f-80df-b590-f0aa4019a424" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Mais organizado;</li></ul><ul id="3c1f6ce8-497f-804c-b654-f252bada8c3b" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Mais fácil de entender;</li></ul><ul id="3c1f6ce8-497f-805d-9ce6-f520e7f239d0" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Mais fácil de testar;</li></ul><ul id="3c1f6ce8-497f-8067-80a2-e13b2ac08a95" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Mais fácil de corrigir;</li></ul><ul id="3c1f6ce8-497f-80e5-80da-d42b1897608e" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Mais fácil de reutilizar;</li></ul><ul id="3c1f6ce8-497f-8053-a841-cac4330faefb" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Mais fácil de manter.</li></ul><p id="3c1f6ce8-497f-805d-84ea-ef0d590e8714" class="" dir="auto">Em outras palavras, um procedimento permite <strong>agrupar instruções relacionadas a uma determinada tarefa e executá-las quando necessário</strong>.</p><hr id="3c1f6ce8-497f-80d7-8565-fb81a0c322dc" dir="auto"/><h1 id="3c1f6ce8-497f-80a1-aa36-e7f0ab4612ca" class="" dir="auto">1. O que é um procedimento?</h1><p id="3c1f6ce8-497f-80f1-8471-db7ebc7bbce1" class="" dir="auto">Um procedimento pode ser entendido como um <strong>bloco de instruções com um nome</strong>.</p><p id="3c1f6ce8-497f-80e6-b73e-fec65f7400cd" class="" dir="auto">Por exemplo, podemos criar um procedimento chamado:</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="3c1f6ce8-497f-80d6-b314-c50ff34112f0" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">mostrarMenu</code></pre><p id="3c1f6ce8-497f-808a-8a5a-d8b8d6f0fa73" class="" dir="auto">Esse procedimento pode conter todas as instruções necessárias para exibir um menu.</p><p id="3c1f6ce8-497f-80d6-88da-eabd8ab11596" class="" dir="auto">Em vez de escrever:</p><pre id="3c1f6ce8-497f-803a-bce8-cb21dc8f70c0" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">escreva(&quot;1 - Cadastrar&quot;)
+escreva(&quot;2 - Consultar&quot;)
+escreva(&quot;3 - Sair&quot;)</code></pre><p id="3c1f6ce8-497f-8080-a6ed-c194871edc12" class="" dir="auto">várias vezes no algoritmo, podemos criar:</p><pre id="3c1f6ce8-497f-8034-8906-fb858a0ea3e5" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">procedimento mostrarMenu()
+    escreva(&quot;1 - Cadastrar&quot;)
+    escreva(&quot;2 - Consultar&quot;)
+    escreva(&quot;3 - Sair&quot;)
+fimprocedimento</code></pre><p id="3c1f6ce8-497f-8043-aaf8-f56f32a30863" class="" dir="auto">E depois simplesmente chamar:</p><pre id="3c1f6ce8-497f-8006-b16e-f990a7161f31" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">mostrarMenu()</code></pre><hr id="3c1f6ce8-497f-805e-986e-d09a2a305316" dir="auto"/><h1 id="3c1f6ce8-497f-80a4-9c31-fcb3caeabd30" class="" dir="auto">2. Por que utilizar procedimentos?</h1><p id="3c1f6ce8-497f-80fa-9b3b-dc76e9d2254a" class="" dir="auto">Imagine um algoritmo muito grande que possui centenas de linhas.</p><p id="3c1f6ce8-497f-80d6-99f4-ec94874cb551" class="" dir="auto">Se todas as instruções estiverem dentro do programa principal, será difícil descobrir:</p><ul id="3c1f6ce8-497f-806c-b362-eff7bebe548d" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Onde começa cada tarefa;</li></ul><ul id="3c1f6ce8-497f-80d2-8302-dac2ffe4dc48" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Onde termina;</li></ul><ul id="3c1f6ce8-497f-8055-a586-faf61cfd43de" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Qual parte é responsável por determinada operação;</li></ul><ul id="3c1f6ce8-497f-80ec-baee-e781bb5d4dd4" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Onde corrigir um erro;</li></ul><ul id="3c1f6ce8-497f-8065-b54c-fd258115596e" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Quais partes podem ser reutilizadas.</li></ul><p id="3c1f6ce8-497f-80cf-9423-f1195598c15e" class="" dir="auto">Os procedimentos permitem dividir o problema.</p><p id="3c1f6ce8-497f-805d-86a4-fcc54770fc8c" class="" dir="auto">Por exemplo:</p><pre id="3c1f6ce8-497f-8068-b106-f4341320ab07" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Programa
+│
+├── cadastrarUsuario()
+├── consultarUsuario()
+├── alterarUsuario()
+├── excluirUsuario()
+└── mostrarMenu()</code></pre><p id="3c1f6ce8-497f-807f-adff-e98c3c64b152" class="" dir="auto">Cada procedimento possui uma <strong>responsabilidade específica</strong>.</p><p id="3c1f6ce8-497f-8087-85bd-ffc8f563dbcb" class="" dir="auto">Isso é chamado de <strong>modularização</strong>.</p><hr id="3c1f6ce8-497f-8084-900b-e0b81dedbcd3" dir="auto"/><h1 id="3c1f6ce8-497f-807b-9136-f9b6f79c8614" class="" dir="auto">3. Modularização</h1><p id="3c1f6ce8-497f-800d-bae7-c1aff7b35705" class="" dir="auto">A <strong>modularização</strong> consiste em dividir um problema grande em problemas menores.</p><p id="3c1f6ce8-497f-8018-a8d0-df40c639a1c0" class="" dir="auto">Imagine um sistema de loja.</p><p id="3c1f6ce8-497f-806c-963f-f54175c7cc79" class="" dir="auto">Em vez de criar um algoritmo enorme:</p><pre id="3c1f6ce8-497f-80ff-82d5-d9b0e454477a" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Sistema inteiro</code></pre><p id="3c1f6ce8-497f-8020-9ac7-eebe85092c93" class="" dir="auto">podemos dividi-lo:</p><pre id="3c1f6ce8-497f-80fb-8633-d5dfaf7d8b75" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">cadastrarProduto()
+listarProdutos()
+buscarProduto()
+alterarProduto()
+excluirProduto()
+calcularTotal()
+mostrarMenu()</code></pre><p id="3c1f6ce8-497f-80de-92d7-f214c1f1312a" class="" dir="auto">Cada procedimento fica responsável por uma tarefa.</p><p id="3c1f6ce8-497f-805b-9372-dd066374d9a9" class="" dir="auto">Essa abordagem facilita bastante o desenvolvimento de sistemas.</p><hr id="3c1f6ce8-497f-80e8-85c4-f8377667ac58" dir="auto"/><h1 id="3c1f6ce8-497f-804f-ac85-cee57201b9bf" class="" dir="auto">4. Estrutura básica de um procedimento</h1><p id="3c1f6ce8-497f-8038-8bee-c404885ffe09" class="" dir="auto">Em pseudocódigo, podemos representar um procedimento assim:</p><pre id="3c1f6ce8-497f-8054-abbf-fe91ccebc65c" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">procedimento nomeDoProcedimento()
+    instruções
+fimprocedimento</code></pre><p id="3c1f6ce8-497f-8059-a2ee-d278a57ae463" class="" dir="auto">Por exemplo:</p><pre id="3c1f6ce8-497f-8018-87e7-f3cdc0c9041f" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">procedimento saudacao()
+    escreva(&quot;Olá, seja bem-vindo!&quot;)
+fimprocedimento</code></pre><p id="3c1f6ce8-497f-80aa-84fb-c6014dda23bd" class="" dir="auto">Depois podemos chamar o procedimento:</p><pre id="3c1f6ce8-497f-8001-b079-d6b05887899c" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">saudacao()</code></pre><p id="3c1f6ce8-497f-8076-9571-f44c000cda08" class="" dir="auto">Resultado:</p><pre id="3c1f6ce8-497f-80d7-a51b-e5e85193984e" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Olá, seja bem-vindo!</code></pre><hr id="3c1f6ce8-497f-80d7-a84a-e135e22b1623" dir="auto"/><h1 id="3c1f6ce8-497f-80e6-b148-cfc27607b109" class="" dir="auto">5. Declaração e chamada</h1><p id="3c1f6ce8-497f-806a-81e1-e26b13d85725" class="" dir="auto">É importante diferenciar duas coisas:</p><h3 id="3c1f6ce8-497f-808d-9de3-c43ea8e28092" class="" dir="auto">Declaração</h3><p id="3c1f6ce8-497f-80f1-9474-cdf717e87227" class="" dir="auto">É quando criamos o procedimento:</p><pre id="3c1f6ce8-497f-8057-b59b-c6eca21e8682" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">procedimento saudacao()
+    escreva(&quot;Olá!&quot;)
+fimprocedimento</code></pre><h3 id="3c1f6ce8-497f-8002-83cb-dadb7ece1e02" class="" dir="auto">Chamada</h3><p id="3c1f6ce8-497f-809d-afcf-dcfe1f5624a6" class="" dir="auto">É quando solicitamos que o procedimento seja executado:</p><pre id="3c1f6ce8-497f-8072-966f-f3e1a44c8ee0" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">saudacao()</code></pre><p id="3c1f6ce8-497f-8075-b509-c82df9481494" class="" dir="auto">Portanto:</p><blockquote id="3c1f6ce8-497f-8078-915e-f6a8f5823528" class="" dir="auto"><strong>Declarar é criar o procedimento. Chamar é executar o procedimento.</strong></blockquote><hr id="3c1f6ce8-497f-806e-ad84-f288e91f8d21" dir="auto"/><h1 id="3c1f6ce8-497f-80eb-b74f-f0aa3e03cac8" class="" dir="auto">6. Procedimento sem parâmetros</h1><p id="3c1f6ce8-497f-8052-8497-ff417d49afd4" class="" dir="auto">O procedimento mais simples não recebe informações externas.</p><p id="3c1f6ce8-497f-806a-9791-cb9dc59e3b40" class="" dir="auto">Exemplo:</p><pre id="3c1f6ce8-497f-80af-83d7-e64e4fd072e4" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">procedimento mostrarMensagem()
+    escreva(&quot;Bem-vindo ao sistema!&quot;)
+fimprocedimento</code></pre><p id="3c1f6ce8-497f-8025-8062-d8eb40cd6836" class="" dir="auto">Podemos chamá-lo:</p><pre id="3c1f6ce8-497f-80c4-b07a-c084297b3de2" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">mostrarMensagem()</code></pre><p id="3c1f6ce8-497f-8024-9914-fcda8f5e8549" class="" dir="auto">Ele sempre executará as mesmas instruções.</p><hr id="3c1f6ce8-497f-8054-ba7b-fd2aa67d8ca5" dir="auto"/><h1 id="3c1f6ce8-497f-8011-98bc-e49d4321265a" class="" dir="auto">7. Procedimentos com parâmetros</h1><p id="3c1f6ce8-497f-80c2-9471-fc584ab4907a" class="" dir="auto">Um procedimento também pode receber <strong>dados de entrada</strong>.</p><p id="3c1f6ce8-497f-8083-8bd3-d1d23f210f60" class="" dir="auto">Esses dados são chamados de <strong>parâmetros</strong>.</p><p id="3c1f6ce8-497f-8052-bcd1-c013e9116e86" class="" dir="auto">Exemplo:</p><pre id="3c1f6ce8-497f-80c8-bb80-dffa3ed24b16" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">procedimento saudar(nome)
+    escreva(&quot;Olá, &quot;, nome)
+fimprocedimento</code></pre><p id="3c1f6ce8-497f-8022-8bfc-c99d9e0344a4" class="" dir="auto">Agora podemos chamar:</p><pre id="3c1f6ce8-497f-809d-b93e-ef4899bd22ac" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">saudar(&quot;Gusta&quot;)</code></pre><p id="3c1f6ce8-497f-8080-9e3b-e2c8f8b9f14e" class="" dir="auto">Resultado:</p><pre id="3c1f6ce8-497f-80a0-9162-c40085be18dd" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Olá, Gusta</code></pre><p id="3c1f6ce8-497f-80bf-90b1-c441d9177cbe" class="" dir="auto">Também podemos chamar:</p><pre id="3c1f6ce8-497f-8035-a34b-e8e4819723d5" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">saudar(&quot;Carlos&quot;)</code></pre><p id="3c1f6ce8-497f-800e-8842-dd2a5bd5b10e" class="" dir="auto">Resultado:</p><pre id="3c1f6ce8-497f-80e9-93df-f2aeaf2baa14" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Olá, Carlos</code></pre><p id="3c1f6ce8-497f-80b1-b1f9-fd748b6f44a6" class="" dir="auto">O procedimento é o mesmo, mas recebe informações diferentes.</p><hr id="3c1f6ce8-497f-8008-bce4-f04bea5b84c7" dir="auto"/><h1 id="3c1f6ce8-497f-8007-8fd1-f9ef2977587b" class="" dir="auto">8. O que são parâmetros?</h1><p id="3c1f6ce8-497f-80ac-bc16-e2e12cb1210f" class="" dir="auto">Os <strong>parâmetros</strong> são variáveis declaradas na definição do procedimento que permitem receber valores quando ele é chamado.</p><p id="3c1f6ce8-497f-80da-be04-c36f01b8f4ae" class="" dir="auto">Por exemplo:</p><pre id="3c1f6ce8-497f-8000-8053-ef0d60ddda51" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">procedimento mostrarIdade(idade)
+    escreva(&quot;Idade: &quot;, idade)
+fimprocedimento</code></pre><p id="3c1f6ce8-497f-8068-83d8-ee751b97b014" class="" dir="auto">O parâmetro é:</p><pre id="3c1f6ce8-497f-807c-9f73-e520a565aeea" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">idade</code></pre><p id="3c1f6ce8-497f-80b3-bcd0-e4345b5c22b8" class="" dir="auto">Quando chamamos:</p><pre id="3c1f6ce8-497f-806f-bb8c-cd613ee2f4a4" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">mostrarIdade(21)</code></pre><p id="3c1f6ce8-497f-8042-bec9-c2fc572e266a" class="" dir="auto">o valor <code>21</code> é enviado para o parâmetro <code>idade</code>.</p><p id="3c1f6ce8-497f-8038-acde-f5f4e1a764d5" class="" dir="auto">Resultado:</p><pre id="3c1f6ce8-497f-8040-a306-df665b5efab5" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Idade: 21</code></pre><hr id="3c1f6ce8-497f-80b6-a188-cc2f6825f718" dir="auto"/><h1 id="3c1f6ce8-497f-80a1-a4ae-d1a1a2ff0bc5" class="" dir="auto">9. Parâmetro e argumento</h1><p id="3c1f6ce8-497f-80fa-93e9-d11e42fa4c92" class="" dir="auto">Esses dois termos são parecidos, mas possuem uma diferença.</p><p id="3c1f6ce8-497f-80b1-9a71-c17c1bad351d" class="" dir="auto">Na declaração:</p><pre id="3c1f6ce8-497f-806a-98c0-cac8dc55774c" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">procedimento saudar(nome)</code></pre><p id="3c1f6ce8-497f-802b-ae4a-de167c10a464" class="" dir="auto"><code>nome</code> é um <strong>parâmetro</strong>.</p><p id="3c1f6ce8-497f-8000-abca-d575844425e6" class="" dir="auto">Na chamada:</p><pre id="3c1f6ce8-497f-803a-9849-f9566c8f116a" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">saudar(&quot;Gusta&quot;)</code></pre><p id="3c1f6ce8-497f-80d8-8ca3-f37d00cec729" class="" dir="auto"><code>&quot;Gusta&quot;</code> é um <strong>argumento</strong>.</p><p id="3c1f6ce8-497f-8072-960e-ed9473f6d6bf" class="" dir="auto">Podemos pensar assim:</p><blockquote id="3c1f6ce8-497f-8089-ad25-ee751574cf0c" class="" dir="auto"><strong>Parâmetro:</strong> variável que recebe o valor.</blockquote><blockquote id="3c1f6ce8-497f-80df-9be6-fa6e21da6c5e" class="" dir="auto"><strong>Argumento:</strong> valor enviado para o parâmetro.</blockquote><hr id="3c1f6ce8-497f-8030-84a0-fcb5e893fd5d" dir="auto"/><h1 id="3c1f6ce8-497f-8034-a8c2-cd8f6ac969ed" class="" dir="auto">10. Procedimento com vários parâmetros</h1><p id="3c1f6ce8-497f-80dc-be98-fe24e633ec32" class="" dir="auto">Podemos utilizar vários parâmetros.</p><pre id="3c1f6ce8-497f-80c5-8236-cf29688fa337" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">procedimento apresentar(nome, idade, cidade)
+
+    escreva(&quot;Nome: &quot;, nome)
+    escreva(&quot;Idade: &quot;, idade)
+    escreva(&quot;Cidade: &quot;, cidade)
+
+fimprocedimento</code></pre><p id="3c1f6ce8-497f-80a1-b42c-e98343deea5f" class="" dir="auto">Chamada:</p><pre id="3c1f6ce8-497f-80b2-bdd1-f3feb8313df3" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">apresentar(&quot;Gusta&quot;, 21, &quot;Fortaleza&quot;)</code></pre><p id="3c1f6ce8-497f-800b-ac88-f4de38f6d894" class="" dir="auto">Resultado:</p><pre id="3c1f6ce8-497f-8028-b599-e632506bb5fc" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Nome: Gusta
+Idade: 21
+Cidade: Fortaleza</code></pre><hr id="3c1f6ce8-497f-80f2-9f3b-e8b3cfc9cf42" dir="auto"/><h1 id="3c1f6ce8-497f-80fa-a952-eabd25aed045" class="" dir="auto">11. Procedimentos e tipos de dados</h1><p id="3c1f6ce8-497f-80bd-bc1c-ef9365797057" class="" dir="auto">Os parâmetros podem possuir diferentes tipos de dados.</p><p id="3c1f6ce8-497f-807a-a602-d59313c5b791" class="" dir="auto">Por exemplo:</p><pre id="3c1f6ce8-497f-80ba-8d4a-dbf5f232548d" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">procedimento mostrarAluno(nome: caractere, idade: inteiro, nota: real)
+
+    escreva(nome)
+    escreva(idade)
+    escreva(nota)
+
+fimprocedimento</code></pre><p id="3c1f6ce8-497f-8049-9391-f374b6c4c601" class="" dir="auto">Nesse caso:</p><ul id="3c1f6ce8-497f-80bb-a340-dc160d58059f" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><code>nome</code> → texto;</li></ul><ul id="3c1f6ce8-497f-80ea-99fb-f1119981e0c7" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><code>idade</code> → inteiro;</li></ul><ul id="3c1f6ce8-497f-8088-b5bd-d41691ed5933" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><code>nota</code> → número real.</li></ul><p id="3c1f6ce8-497f-803f-a453-e6c66282ad16" class="" dir="auto">A sintaxe exata pode variar de acordo com o pseudocódigo ou linguagem utilizada.</p><hr id="3c1f6ce8-497f-8009-97c1-de1a38182dad" dir="auto"/><h1 id="3c1f6ce8-497f-80c2-a4c0-c10f038126aa" class="" dir="auto">12. Procedimento para calcular algo</h1><p id="3c1f6ce8-497f-80c3-a30a-d0ac620dd632" class="" dir="auto">Um procedimento também pode realizar operações.</p><p id="3c1f6ce8-497f-80ce-a063-d8e11075121d" class="" dir="auto">Por exemplo:</p><pre id="3c1f6ce8-497f-8095-a8b7-cb33d42bc00f" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">procedimento calcularMedia(nota1, nota2)
+
+    media &lt;- (nota1 + nota2) / 2
+
+    escreva(&quot;Média: &quot;, media)
+
+fimprocedimento</code></pre><p id="3c1f6ce8-497f-80d5-954c-d83d0c74fc94" class="" dir="auto">Chamada:</p><pre id="3c1f6ce8-497f-8030-8e60-d7fac3849022" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">calcularMedia(8, 6)</code></pre><p id="3c1f6ce8-497f-8007-9bc1-e5125983818f" class="" dir="auto">Resultado:</p><pre id="3c1f6ce8-497f-8065-a1c8-deb1e5c32ec3" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Média: 7</code></pre><p id="3c1f6ce8-497f-8086-bf4b-da4bc3ae2c19" class="" dir="auto">Observe que o procedimento executa uma tarefa específica: <strong>calcular e apresentar uma média</strong>.</p><hr id="3c1f6ce8-497f-80e1-93b3-f8af0799b1fb" dir="auto"/><h1 id="3c1f6ce8-497f-8026-8353-fe9321fbf15a" class="" dir="auto">13. Procedimento não retorna um valor</h1><p id="3c1f6ce8-497f-804c-b9bb-d89de2e7f164" class="" dir="auto">Uma característica tradicional dos procedimentos é que eles são utilizados para <strong>executar ações</strong>, e não necessariamente para devolver um resultado ao ponto onde foram chamados.</p><p id="3c1f6ce8-497f-80ae-992e-d937dc6aa05d" class="" dir="auto">Por exemplo:</p><pre id="3c1f6ce8-497f-80fc-a805-f63e09b102f1" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">procedimento mostrarMensagem()
+    escreva(&quot;Olá!&quot;)
+fimprocedimento</code></pre><p id="3c1f6ce8-497f-8010-ab40-f9e346069faf" class="" dir="auto">O procedimento realiza uma ação:</p><pre id="3c1f6ce8-497f-8065-957f-e8a2b00cf5c5" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">mostrar uma mensagem</code></pre><p id="3c1f6ce8-497f-802f-905c-dc2219bd1258" class="" dir="auto">Se precisarmos criar uma estrutura que <strong>calcule algo e devolva um valor</strong>, normalmente utilizamos o conceito de <strong>função</strong>.</p><hr id="3c1f6ce8-497f-801b-8953-d0ade2f9d00d" dir="auto"/><h1 id="3c1f6ce8-497f-806a-8e74-db518eba3663" class="" dir="auto">14. Procedimento x Função</h1><p id="3c1f6ce8-497f-805e-a464-f20465c891c4" class="" dir="auto">Essa é uma diferença muito importante.</p><h3 id="3c1f6ce8-497f-806a-8efa-c599bdeb7b72" class="" dir="auto">Procedimento</h3><p id="3c1f6ce8-497f-8016-a1eb-e810f4ac3bbc" class="" dir="auto">É utilizado principalmente para executar uma tarefa.</p><pre id="3c1f6ce8-497f-80d9-8f38-f0cf2c8350ba" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">procedimento mostrarMensagem()
+    escreva(&quot;Olá!&quot;)
+fimprocedimento</code></pre><h3 id="3c1f6ce8-497f-8025-9bc9-f849ac148f71" class="" dir="auto">Função</h3><p id="3c1f6ce8-497f-80ad-9eb6-c91206f4b797" class="" dir="auto">É utilizada para executar uma tarefa e <strong>retornar um valor</strong>.</p><p id="3c1f6ce8-497f-8066-a8c0-e8d648517b4d" class="" dir="auto">Por exemplo:</p><pre id="3c1f6ce8-497f-80ad-9ba0-cf9ce1bb34d2" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">funcao somar(a, b): inteiro
+
+    retorne a + b
+
+fimfuncao</code></pre><p id="3c1f6ce8-497f-804f-a212-cfafe2950dfa" class="" dir="auto">Podemos então utilizar:</p><pre id="3c1f6ce8-497f-80c6-aef6-dd6925679c7b" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">resultado &lt;- somar(10, 20)</code></pre><p id="3c1f6ce8-497f-80a7-96cd-f09b7099c9ed" class="" dir="auto">O resultado será:</p><pre id="3c1f6ce8-497f-803e-8f93-d92730a6b6c6" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">30</code></pre><p id="3c1f6ce8-497f-8034-9f0e-f453b64ddaf1" class="" dir="auto">A distinção exata entre procedimento e função depende da linguagem, mas essa é a ideia tradicional na lógica de programação.</p><hr id="3c1f6ce8-497f-8071-8c0b-d34f19371c10" dir="auto"/><h1 id="3c1f6ce8-497f-80e8-a083-dc4da0c27fdf" class="" dir="auto">15. Exemplo comparativo</h1><h3 id="3c1f6ce8-497f-8047-b724-ea184b7a0136" class="" dir="auto">Procedimento</h3><pre id="3c1f6ce8-497f-8046-9870-d3b0788d995a" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">procedimento exibirSoma(a, b)
+
+    soma &lt;- a + b
+
+    escreva(&quot;Resultado: &quot;, soma)
+
+fimprocedimento</code></pre><p id="3c1f6ce8-497f-80c5-a8c8-c8a535e9b250" class="" dir="auto">Chamada:</p><pre id="3c1f6ce8-497f-804f-b758-d9fe2024d658" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">exibirSoma(10, 20)</code></pre><p id="3c1f6ce8-497f-8013-97f6-e8004e7c198b" class="" dir="auto">Ele simplesmente exibe:</p><pre id="3c1f6ce8-497f-8042-9547-c41ecd75a6bc" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Resultado: 30</code></pre><h3 id="3c1f6ce8-497f-8083-9d38-d7acfa541222" class="" dir="auto">Função</h3><pre id="3c1f6ce8-497f-80df-b897-c5457ce84708" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">funcao somar(a, b): inteiro
+
+    retorne a + b
+
+fimfuncao</code></pre><p id="3c1f6ce8-497f-80ab-aca5-f4d1b8b41be7" class="" dir="auto">Chamada:</p><pre id="3c1f6ce8-497f-8086-b1c6-d955789ec574" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">resultado &lt;- somar(10, 20)</code></pre><p id="3c1f6ce8-497f-8000-b8e4-eab0212957bc" class="" dir="auto">Agora o valor <code>30</code> pode ser armazenado e utilizado posteriormente.</p><hr id="3c1f6ce8-497f-80af-a64e-ff42f228d9c0" dir="auto"/><h1 id="3c1f6ce8-497f-8092-92ac-f72dafe79168" class="" dir="auto">16. Procedimentos com estruturas condicionais</h1><p id="3c1f6ce8-497f-8006-8cf3-de914852d063" class="" dir="auto">Um procedimento pode conter qualquer estrutura de algoritmo necessária para realizar sua tarefa.</p><p id="3c1f6ce8-497f-80fd-ac48-df86fe3fae2c" class="" dir="auto">Por exemplo:</p><pre id="3c1f6ce8-497f-8017-8104-c873ec55e67e" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">procedimento verificarIdade(idade)
+
+    se idade &gt;= 18 então
+        escreva(&quot;Maior de idade.&quot;)
+    senao
+        escreva(&quot;Menor de idade.&quot;)
+    fimse
+
+fimprocedimento</code></pre><p id="3c1f6ce8-497f-80db-9d96-dda0fc824e74" class="" dir="auto">Chamada:</p><pre id="3c1f6ce8-497f-803e-b70f-d17e15b52d1f" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">verificarIdade(21)</code></pre><p id="3c1f6ce8-497f-805c-b670-fc080189f169" class="" dir="auto">Resultado:</p><pre id="3c1f6ce8-497f-802b-9bf0-d6edfdb0691b" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Maior de idade.</code></pre><hr id="3c1f6ce8-497f-802d-8226-e60393a5edc9" dir="auto"/><h1 id="3c1f6ce8-497f-80e8-8e63-fe9b2e4a960a" class="" dir="auto">17. Procedimentos com estruturas de repetição</h1><p id="3c1f6ce8-497f-803f-9d4f-d4638a86fb02" class="" dir="auto">Também podemos utilizar loops dentro de procedimentos.</p><p id="3c1f6ce8-497f-80d5-b079-d05ddc0b1a4b" class="" dir="auto">Exemplo:</p><pre id="3c1f6ce8-497f-80ea-a708-e12c0c26f6b7" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">procedimento mostrarNumeros()
+
+    para i de 1 até 10 faça
+        escreva(i)
+    fimpara
+
+fimprocedimento</code></pre><p id="3c1f6ce8-497f-8042-9014-f49c089fb3eb" class="" dir="auto">Chamada:</p><pre id="3c1f6ce8-497f-80a0-8846-f33f63ac3685" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">mostrarNumeros()</code></pre><p id="3c1f6ce8-497f-80c0-b098-c2ab7986c4bb" class="" dir="auto">Resultado:</p><pre id="3c1f6ce8-497f-8055-b3a6-f4c5f6ee4a29" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">1
+2
+3
+4
+5
+6
+7
+8
+9
+10</code></pre><hr id="3c1f6ce8-497f-8040-b515-ce2822bb815c" dir="auto"/><h1 id="3c1f6ce8-497f-8089-b3a4-e6d6d16ddceb" class="" dir="auto">18. Procedimentos e variáveis</h1><p id="3c1f6ce8-497f-8096-85d4-d130bb1ef259" class="" dir="auto">Podemos ter variáveis dentro de procedimentos.</p><p id="3c1f6ce8-497f-80de-9547-f475b4970a78" class="" dir="auto">Exemplo:</p><pre id="3c1f6ce8-497f-80fe-b53b-c2ad8762bc3a" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">procedimento calcularDobro(numero)
+
+    dobro &lt;- numero * 2
+
+    escreva(&quot;Dobro: &quot;, dobro)
+
+fimprocedimento</code></pre><p id="3c1f6ce8-497f-8058-8183-f29bfa8fe94a" class="" dir="auto">A variável:</p><pre id="3c1f6ce8-497f-8022-ab4c-f9c33608a2c2" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">dobro</code></pre><p id="3c1f6ce8-497f-80d6-82db-da504ff4af23" class="" dir="auto">é utilizada para armazenar o resultado do cálculo.</p><p id="3c1f6ce8-497f-80f6-a5ce-f452bc449c13" class="" dir="auto">Dependendo da linguagem e do local onde a variável é declarada, ela pode possuir um <strong>escopo específico</strong>.</p><hr id="3c1f6ce8-497f-802c-9dbc-f914fcd0947a" dir="auto"/><h1 id="3c1f6ce8-497f-8034-83bd-d6f451330fd8" class="" dir="auto">19. Escopo de variáveis</h1><p id="3c1f6ce8-497f-806a-a8b4-ca41d726d236" class="" dir="auto">O <strong>escopo</strong> determina onde uma variável pode ser utilizada.</p><p id="3c1f6ce8-497f-801f-a8ec-dcc073c68a14" class="" dir="auto">Por exemplo:</p><pre id="3c1f6ce8-497f-801d-9e02-c3c965708357" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">procedimento exemplo()
+
+    valor &lt;- 10
+
+    escreva(valor)
+
+fimprocedimento</code></pre><p id="3c1f6ce8-497f-8007-bb69-d6d1979bbb92" class="" dir="auto">A variável <code>valor</code> pode ser considerada uma variável <strong>local ao procedimento</strong>, dependendo da linguagem e da declaração utilizada.</p><p id="3c1f6ce8-497f-80d6-81f1-f84d163e6824" class="" dir="auto">Isso significa que ela pertence àquele contexto.</p><p id="3c1f6ce8-497f-80aa-8328-da0a439188f4" class="" dir="auto">Por outro lado, uma variável declarada fora do procedimento pode possuir um escopo mais amplo.</p><hr id="3c1f6ce8-497f-8048-8bc2-d444bbe1aa81" dir="auto"/><h1 id="3c1f6ce8-497f-80ab-9a54-e5b046e9e6b5" class="" dir="auto">20. Procedimentos e programa principal</h1><p id="3c1f6ce8-497f-8041-a6a1-f2fb4b13cd69" class="" dir="auto">Um algoritmo pode possuir vários procedimentos e um programa principal responsável por organizá-los.</p><p id="3c1f6ce8-497f-805c-aa17-f4a21cde6d06" class="" dir="auto">Exemplo:</p><pre id="3c1f6ce8-497f-8050-845e-faa70a07f13b" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">procedimento mostrarMenu()
+    escreva(&quot;1 - Cadastrar&quot;)
+    escreva(&quot;2 - Consultar&quot;)
+    escreva(&quot;3 - Sair&quot;)
+fimprocedimento
+
+
+procedimento cadastrar()
+    escreva(&quot;Cadastro realizado.&quot;)
+fimprocedimento
+
+
+procedimento consultar()
+    escreva(&quot;Consulta realizada.&quot;)
+fimprocedimento
+
+
+inicio
+
+    mostrarMenu()
+
+fimalgoritmo</code></pre><p id="3c1f6ce8-497f-802c-941e-e82792205735" class="" dir="auto">A ideia é separar cada responsabilidade.</p><hr id="3c1f6ce8-497f-80cb-b007-c9f27aefb6da" dir="auto"/><h1 id="3c1f6ce8-497f-80f1-8adb-d926652561c4" class="" dir="auto">21. Exemplo de sistema modular</h1><p id="3c1f6ce8-497f-8040-a9a4-e39d8342e95a" class="" dir="auto">Imagine um sistema simples de cadastro.</p><p id="3c1f6ce8-497f-8049-909c-c640c1db55b6" class="" dir="auto">Podemos dividi-lo em:</p><pre id="3c1f6ce8-497f-80d6-9209-ccedf357b1b2" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">procedimento cadastrarUsuario()
+    ...
+fimprocedimento
+
+procedimento listarUsuarios()
+    ...
+fimprocedimento
+
+procedimento buscarUsuario()
+    ...
+fimprocedimento
+
+procedimento excluirUsuario()
+    ...
+fimprocedimento
+
+procedimento mostrarMenu()
+    ...
+fimprocedimento</code></pre><p id="3c1f6ce8-497f-8021-8b89-c973eae7201a" class="" dir="auto">O programa principal pode chamar esses procedimentos conforme a escolha do usuário.</p><p id="3c1f6ce8-497f-80c0-b55b-db5e47de970e" class="" dir="auto">Isso torna o algoritmo muito mais organizado.</p><hr id="3c1f6ce8-497f-8063-8b78-e237f39cbce0" dir="auto"/><h1 id="3c1f6ce8-497f-800b-9bb6-f019d29e1a19" class="" dir="auto">22. Procedimentos e reutilização</h1><p id="3c1f6ce8-497f-8016-b616-e3e80c4ca4a6" class="" dir="auto">Uma das maiores vantagens dos procedimentos é a <strong>reutilização</strong>.</p><p id="3c1f6ce8-497f-80e1-8f04-d9a160872c30" class="" dir="auto">Imagine que precisamos mostrar uma mensagem de boas-vindas em vários pontos do programa.</p><p id="3c1f6ce8-497f-800c-9973-f310e84d4406" class="" dir="auto">Sem procedimento:</p><pre id="3c1f6ce8-497f-8077-97be-c0469a1b2a47" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">escreva(&quot;Bem-vindo ao sistema!&quot;)
+...
+escreva(&quot;Bem-vindo ao sistema!&quot;)
+...
+escreva(&quot;Bem-vindo ao sistema!&quot;)</code></pre><p id="3c1f6ce8-497f-80a6-923d-c599c9a0e9b3" class="" dir="auto">Com procedimento:</p><pre id="3c1f6ce8-497f-8048-ab3e-ee0d09234ac7" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">procedimento boasVindas()
+    escreva(&quot;Bem-vindo ao sistema!&quot;)
+fimprocedimento</code></pre><p id="3c1f6ce8-497f-80e6-83a7-cc403edd96b9" class="" dir="auto">Depois:</p><pre id="3c1f6ce8-497f-8054-8670-f65e77de1754" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">boasVindas()</code></pre><p id="3c1f6ce8-497f-8037-8798-dda6465d12c2" class="" dir="auto">Podemos chamar quantas vezes forem necessárias.</p><hr id="3c1f6ce8-497f-8052-91fc-c6eecafa9c02" dir="auto"/><h1 id="3c1f6ce8-497f-8063-a9a6-fb227bf8779f" class="" dir="auto">23. Exemplo completo</h1><p id="3c1f6ce8-497f-80bf-9e87-e49bfc12b750" class="" dir="auto">Vamos criar um pequeno algoritmo utilizando procedimentos.</p><pre id="3c1f6ce8-497f-809d-8ee0-f6288d25ab5b" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">algoritmo &quot;Sistema&quot;
+
+procedimento mostrarMenu()
+    escreva(&quot;===== MENU =====&quot;)
+    escreva(&quot;1 - Cadastrar&quot;)
+    escreva(&quot;2 - Consultar&quot;)
+    escreva(&quot;3 - Sair&quot;)
+fimprocedimento
+
+
+procedimento cadastrar()
+    escreva(&quot;Usuário cadastrado com sucesso!&quot;)
+fimprocedimento
+
+
+procedimento consultar()
+    escreva(&quot;Consultando usuários...&quot;)
+fimprocedimento
+
+
+inicio
+
+    mostrarMenu()
+
+fimalgoritmo</code></pre><p id="3c1f6ce8-497f-80cf-b19f-edf33eff6fd0" class="" dir="auto">Nesse exemplo temos três procedimentos:</p><pre id="3c1f6ce8-497f-80b0-b201-d11a669e7d41" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">mostrarMenu()
+cadastrar()
+consultar()</code></pre><p id="3c1f6ce8-497f-802c-8e6a-c528bcc23bcc" class="" dir="auto">Cada um possui uma responsabilidade diferente.</p><hr id="3c1f6ce8-497f-80e2-995e-f85987b110bc" dir="auto"/><h1 id="3c1f6ce8-497f-802c-9beb-d6e5f8df04b9" class="" dir="auto">24. Procedimentos com parâmetros na prática</h1><p id="3c1f6ce8-497f-80d0-9621-d0c62cd53c07" class="" dir="auto">Agora podemos melhorar o exemplo:</p><pre id="3c1f6ce8-497f-80df-90c5-d4c321b2ce60" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">procedimento cadastrar(nome, idade)
+
+    escreva(&quot;Usuário: &quot;, nome)
+    escreva(&quot;Idade: &quot;, idade)
+    escreva(&quot;Cadastro realizado!&quot;)
+
+fimprocedimento</code></pre><p id="3c1f6ce8-497f-806b-91b1-e6eaf4d2eb93" class="" dir="auto">Chamada:</p><pre id="3c1f6ce8-497f-80a6-8a22-f9e9d2d1ffe4" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">cadastrar(&quot;Gusta&quot;, 21)</code></pre><p id="3c1f6ce8-497f-80f5-a7fc-f2f32eb38032" class="" dir="auto">Resultado:</p><pre id="3c1f6ce8-497f-8007-bfee-ca769d034a60" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Usuário: Gusta
+Idade: 21
+Cadastro realizado!</code></pre><p id="3c1f6ce8-497f-80b1-8d28-dba273d7dd21" class="" dir="auto">Podemos chamar novamente:</p><pre id="3c1f6ce8-497f-80b1-8917-fd98a55d8a01" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">cadastrar(&quot;Carlos&quot;, 25)</code></pre><p id="3c1f6ce8-497f-80c2-b4ab-dc82ce0a0c2a" class="" dir="auto">E o mesmo procedimento poderá trabalhar com dados diferentes.</p><hr id="3c1f6ce8-497f-8006-b9d1-feffad267916" dir="auto"/><h1 id="3c1f6ce8-497f-80a8-bf88-c99327d57e1e" class="" dir="auto">25. Vantagens dos procedimentos</h1><p id="3c1f6ce8-497f-80e7-85d7-c1df760fe460" class="" dir="auto">Os procedimentos oferecem diversas vantagens.</p><h3 id="3c1f6ce8-497f-808e-acc3-e693be862634" class="" dir="auto">1. Organização</h3><p id="3c1f6ce8-497f-80a4-a772-dfc8eea1d824" class="" dir="auto">Dividem um algoritmo grande em partes menores.</p><h3 id="3c1f6ce8-497f-8016-97e9-c4efb30e7ea3" class="" dir="auto">2. Reutilização</h3><p id="3c1f6ce8-497f-80fe-929a-f5ce5ca3a0fc" class="" dir="auto">O mesmo procedimento pode ser chamado várias vezes.</p><h3 id="3c1f6ce8-497f-807a-9627-d9a7f4ab2785" class="" dir="auto">3. Manutenção</h3><p id="3c1f6ce8-497f-80f7-be76-cde81dd64ace" class="" dir="auto">Se precisarmos modificar uma tarefa, podemos alterar apenas o procedimento responsável por ela.</p><h3 id="3c1f6ce8-497f-80ed-a635-c0cd2b3c55ad" class="" dir="auto">4. Legibilidade</h3><p id="3c1f6ce8-497f-80a5-b483-e7d410ec3385" class="" dir="auto">O código fica mais fácil de compreender.</p><h3 id="3c1f6ce8-497f-80af-a50b-c61df9f65f84" class="" dir="auto">5. Redução de repetição</h3><p id="3c1f6ce8-497f-8044-bfb8-f877ef66bf96" class="" dir="auto">Evita escrever o mesmo conjunto de instruções várias vezes.</p><h3 id="3c1f6ce8-497f-8013-b2b1-fbd7625f3723" class="" dir="auto">6. Testes</h3><p id="3c1f6ce8-497f-8070-a55a-d2f004fc29be" class="" dir="auto">Cada procedimento pode ser testado de maneira mais isolada.</p><h3 id="3c1f6ce8-497f-800c-a42f-d3f939772b1a" class="" dir="auto">7. Modularização</h3><p id="3c1f6ce8-497f-802b-a93b-ddd297520eb6" class="" dir="auto">Permite dividir um problema complexo em partes menores.</p><hr id="3c1f6ce8-497f-80d8-b478-de850b607723" dir="auto"/><h1 id="3c1f6ce8-497f-80e3-88c0-fbe3345895f6" class="" dir="auto">26. Desvantagens e cuidados</h1><p id="3c1f6ce8-497f-80c7-9941-c4a5178c561a" class="" dir="auto">Apesar das vantagens, alguns cuidados são importantes.</p><h3 id="3c1f6ce8-497f-8020-a006-e5534ef86329" class="" dir="auto">Procedimentos muito grandes</h3><p id="3c1f6ce8-497f-807f-8372-c2f607ae1861" class="" dir="auto">Um procedimento que contém centenas de linhas pode acabar ficando difícil de entender.</p><p id="3c1f6ce8-497f-806e-ba6b-fdfc0db3bd1c" class="" dir="auto">O ideal é que cada procedimento tenha uma <strong>responsabilidade bem definida</strong>.</p><h3 id="3c1f6ce8-497f-80e1-811f-dbf88f062253" class="" dir="auto">Excesso de procedimentos</h3><p id="3c1f6ce8-497f-8000-bbd3-dc17564ca115" class="" dir="auto">Criar procedimentos para absolutamente tudo também pode deixar o programa difícil de acompanhar.</p><p id="3c1f6ce8-497f-8010-bf18-d7093889cbc2" class="" dir="auto">É importante encontrar um equilíbrio.</p><h3 id="3c1f6ce8-497f-8032-a031-d1fe59f28279" class="" dir="auto">Parâmetros demais</h3><p id="3c1f6ce8-497f-8099-8122-d8f7003089cc" class="" dir="auto">Um procedimento que recebe muitos parâmetros pode indicar que sua responsabilidade está muito ampla.</p><p id="3c1f6ce8-497f-802a-9e95-e970cc9957c3" class="" dir="auto">Por exemplo:</p><pre id="3c1f6ce8-497f-806a-a0a8-d637b8fc38b3" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">procedimento cadastrar(nome, idade, cpf, telefone, email, cidade, estado, ...)</code></pre><p id="3c1f6ce8-497f-8040-8114-dd3f2a5173ef" class="" dir="auto">Pode ser necessário reorganizar a estrutura do programa.</p><hr id="3c1f6ce8-497f-8057-921c-ce74b34c866f" dir="auto"/><h1 id="3c1f6ce8-497f-800b-a7d4-f2f37e17aadf" class="" dir="auto">27. Boas práticas</h1><p id="3c1f6ce8-497f-805a-9bc3-e37e404ec271" class="" dir="auto">Ao criar procedimentos, algumas boas práticas são:</p><h3 id="3c1f6ce8-497f-805e-80ca-cf4fb7710af1" class="" dir="auto">Dar nomes claros</h3><p id="3c1f6ce8-497f-8043-a0ee-cf788af8fe4d" class="" dir="auto">Evite:</p><pre id="3c1f6ce8-497f-80f8-ab79-c36442891c9b" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">procedimento p1()</code></pre><p id="3c1f6ce8-497f-8050-a3b1-ffadc8883cfb" class="" dir="auto">Prefira:</p><pre id="3c1f6ce8-497f-80ba-b14e-fd668c2ca358" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">procedimento mostrarMenu()</code></pre><h3 id="3c1f6ce8-497f-805e-8bf0-c759caecdd08" class="" dir="auto">Uma responsabilidade por procedimento</h3><p id="3c1f6ce8-497f-807b-b808-c2b9cda89c8c" class="" dir="auto">Por exemplo:</p><pre id="3c1f6ce8-497f-80e5-a8b7-ef267c62db8f" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">calcularMedia()</code></pre><p id="3c1f6ce8-497f-80a4-8415-fbdc50d2ae91" class="" dir="auto">deve estar relacionado principalmente ao cálculo da média.</p><h3 id="3c1f6ce8-497f-8089-9317-d223e1ea99d3" class="" dir="auto">Evitar procedimentos gigantes</h3><p id="3c1f6ce8-497f-80f9-92a4-de08123edf1f" class="" dir="auto">Divida tarefas grandes em partes menores.</p><h3 id="3c1f6ce8-497f-800a-8eb6-d45cd171faa1" class="" dir="auto">Utilizar parâmetros quando necessário</h3><p id="3c1f6ce8-497f-8072-9af5-de74552a17f1" class="" dir="auto">Isso torna o procedimento mais reutilizável.</p><p id="3c1f6ce8-497f-8022-aacb-c1df31efdfe1" class="" dir="auto">Por exemplo:</p><pre id="3c1f6ce8-497f-80ac-bbc7-e25b7185f4cc" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">mostrarUsuario(nome)</code></pre><p id="3c1f6ce8-497f-80fb-9353-d8c2b9af5742" class="" dir="auto">é mais flexível que:</p><pre id="3c1f6ce8-497f-80e1-afac-e2fa78898d68" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">mostrarUsuario()</code></pre><p id="3c1f6ce8-497f-80e8-8742-cf1a0a0700cf" class="" dir="auto">quando precisamos trabalhar com vários usuários.</p><hr id="3c1f6ce8-497f-801b-92ed-ff9d95c29120" dir="auto"/><h1 id="3c1f6ce8-497f-8024-a07d-f9eba7e46ac4" class="" dir="auto">28. Procedimentos na programação</h1><p id="3c1f6ce8-497f-80af-8288-ee43540b4923" class="" dir="auto">O conceito de procedimento está presente em várias linguagens de programação, embora cada linguagem possa utilizar uma nomenclatura diferente.</p><p id="3c1f6ce8-497f-80c4-b831-c7f3613378f7" class="" dir="auto">Por exemplo:</p><ul id="3c1f6ce8-497f-800e-b28d-df7435fb4c1e" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>Pascal</strong> → <code>procedure</code>;</li></ul><ul id="3c1f6ce8-497f-80fb-bb56-e2d5962b34c0" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>Visual Basic</strong> → <code>Sub</code>;</li></ul><ul id="3c1f6ce8-497f-8084-b4e4-d252dc259891" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>Python</strong> → normalmente utiliza-se uma função com <code>def</code> sem retorno explícito;</li></ul><ul id="3c1f6ce8-497f-80bc-b4ce-e43420891dd6" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>PHP</strong> → funções com <code>function</code>;</li></ul><ul id="3c1f6ce8-497f-8045-84e1-fbdbacf02ee7" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>JavaScript</strong> → funções;</li></ul><ul id="3c1f6ce8-497f-80f7-bacf-ef9f91f09a0e" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>C</strong> → funções que podem não retornar um valor (<code>void</code>);</li></ul><ul id="3c1f6ce8-497f-8034-a538-f2bfa456568a" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>Java</strong> → métodos <code>void</code>, entre outros.</li></ul><p id="3c1f6ce8-497f-8005-ad90-e45d5b24e8dc" class="" dir="auto">Portanto, mesmo quando uma linguagem não possui uma palavra-chave chamada literalmente <code>procedure</code>, o <strong>conceito de encapsular instruções em uma unidade reutilizável</strong> continua existindo.</p><hr id="3c1f6ce8-497f-80fe-b0ee-ce8fc0f88ac2" dir="auto"/><h1 id="3c1f6ce8-497f-80d9-9b43-e6663956293c" class="" dir="auto">29. Procedimentos e abstração</h1><p id="3c1f6ce8-497f-80a8-b068-eec62422b8f0" class="" dir="auto">Procedimentos também ajudam a aplicar o conceito de <strong>abstração</strong>.</p><p id="3c1f6ce8-497f-806b-9238-dc94c43b06bf" class="" dir="auto">Imagine que temos:</p><pre id="3c1f6ce8-497f-80bc-8549-fdd2e6b28f70" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">calcularPagamento()</code></pre><p id="3c1f6ce8-497f-8021-8ef5-f4cc22bae04d" class="" dir="auto">O programa principal não precisa necessariamente conhecer todos os detalhes internos do cálculo.</p><p id="3c1f6ce8-497f-801a-9223-e71a6bebe452" class="" dir="auto">Ele simplesmente solicita:</p><pre id="3c1f6ce8-497f-80ba-966c-e1f6dfd98a54" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">calcularPagamento()</code></pre><p id="3c1f6ce8-497f-800d-913d-d5db0bfb67a4" class="" dir="auto">O procedimento pode internamente executar:</p><pre id="3c1f6ce8-497f-807d-9e9d-ff78f389f243" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">calcular salário
+calcular descontos
+calcular impostos
+calcular benefícios
+calcular valor final</code></pre><p id="3c1f6ce8-497f-8052-8c30-e2ddfd3bf8dc" class="" dir="auto">Isso permite esconder detalhes desnecessários do restante do algoritmo.</p><hr id="3c1f6ce8-497f-805e-9192-daf046dcca2d" dir="auto"/><h1 id="3c1f6ce8-497f-8056-b699-f87da05e0002" class="" dir="auto">30. Procedimentos em algoritmos complexos</h1><p id="3c1f6ce8-497f-8044-8c45-d7d651223ccd" class="" dir="auto">Em problemas maiores, os procedimentos podem representar diferentes partes do sistema.</p><p id="3c1f6ce8-497f-806f-aeb4-f9bbec885298" class="" dir="auto">Por exemplo:</p><pre id="3c1f6ce8-497f-8049-82a7-e7e79db3b930" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Sistema de Loja
+│
+├── mostrarMenu()
+│
+├── cadastrarProduto()
+│
+├── listarProdutos()
+│
+├── buscarProduto()
+│
+├── atualizarProduto()
+│
+├── excluirProduto()
+│
+└── calcularTotal()</code></pre><p id="3c1f6ce8-497f-8060-b8f1-c561903ce47c" class="" dir="auto">Cada procedimento possui uma função específica.</p><p id="3c1f6ce8-497f-8033-a533-dec989084994" class="" dir="auto">Essa organização é muito próxima da forma como sistemas reais são desenvolvidos.</p><hr id="3c1f6ce8-497f-803a-8fae-f169acaaaed5" dir="auto"/><h1 id="3c1f6ce8-497f-8038-938b-d4c133bf6487" class="" dir="auto">31. Resumo</h1><table id="3c1f6ce8-497f-80e8-87ae-f5b5d00ff005" class="simple-table" dir="ltr"><thead class="simple-table-header"><tr id="3c1f6ce8-497f-80ae-b8ba-c8446d25d2ec" dir="ltr"><th id="nim\" class="simple-table-header-color simple-table-header">Conceito</th><th id="qe}c" class="simple-table-header-color simple-table-header">Significado</th></tr></thead><tbody><tr id="3c1f6ce8-497f-801f-a652-e20199debf1e" dir="ltr"><td id="nim\" class="">Procedimento</td><td id="qe}c" class="">Bloco de instruções que realiza uma tarefa</td></tr><tr id="3c1f6ce8-497f-8081-9e81-ee7831249bf3" dir="ltr"><td id="nim\" class="">Declaração</td><td id="qe}c" class="">Criação do procedimento</td></tr><tr id="3c1f6ce8-497f-8006-8bc7-e6a747940cb1" dir="ltr"><td id="nim\" class="">Chamada</td><td id="qe}c" class="">Execução do procedimento</td></tr><tr id="3c1f6ce8-497f-807d-b45e-de2ccffed7d5" dir="ltr"><td id="nim\" class="">Parâmetro</td><td id="qe}c" class="">Dado que o procedimento recebe</td></tr><tr id="3c1f6ce8-497f-80db-9ca3-f74fa614974b" dir="ltr"><td id="nim\" class="">Argumento</td><td id="qe}c" class="">Valor enviado ao parâmetro</td></tr><tr id="3c1f6ce8-497f-8051-b374-fb61869b6ffe" dir="ltr"><td id="nim\" class="">Modularização</td><td id="qe}c" class="">Divisão do programa em partes menores</td></tr><tr id="3c1f6ce8-497f-80a8-ad39-fd783b8a728e" dir="ltr"><td id="nim\" class="">Escopo</td><td id="qe}c" class="">Região onde uma variável pode ser utilizada</td></tr><tr id="3c1f6ce8-497f-80d8-abdb-f9e352367e8f" dir="ltr"><td id="nim\" class="">Função</td><td id="qe}c" class="">Estrutura semelhante que normalmente retorna um valor</td></tr></tbody></table><hr id="3c1f6ce8-497f-8014-a298-c8337e35442f" dir="auto"/><h1 id="3c1f6ce8-497f-804c-9c34-dbf32028e19e" class="" dir="auto">32. Resumo final</h1><p id="3c1f6ce8-497f-8000-b2c8-f7e863bee4b3" class="" dir="auto">Os <strong>procedimentos</strong> são uma ferramenta essencial para a construção de algoritmos organizados e modulares. Eles permitem <strong>agrupar instruções relacionadas a uma tarefa específica</strong>, atribuir um nome a esse conjunto de instruções e executá-lo sempre que necessário.</p><p id="3c1f6ce8-497f-8036-8d49-e7cdae646ca4" class="" dir="auto">Um procedimento simples pode ser:</p><pre id="3c1f6ce8-497f-809e-8280-f78f837deb62" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">procedimento mostrarMensagem()
+    escreva(&quot;Olá!&quot;)
+fimprocedimento</code></pre><p id="3c1f6ce8-497f-8065-8df8-db567c30dada" class="" dir="auto">E pode ser chamado:</p><pre id="3c1f6ce8-497f-807c-b98c-f810f14a62a7" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">mostrarMensagem()</code></pre><p id="3c1f6ce8-497f-802a-81e6-e8bb106b9ad6" class="" dir="auto">Também pode receber parâmetros:</p><pre id="3c1f6ce8-497f-8024-9415-d528f2c39cdc" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">procedimento saudar(nome)
+    escreva(&quot;Olá, &quot;, nome)
+fimprocedimento</code></pre><p id="3c1f6ce8-497f-80be-ba5a-d801696492b7" class="" dir="auto">Chamando:</p><pre id="3c1f6ce8-497f-805a-923d-db0858f9653e" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">saudar(&quot;Gusta&quot;)</code></pre><p id="3c1f6ce8-497f-80a9-ab01-f62713cc6748" class="" dir="auto">O principal objetivo dos procedimentos é <strong>dividir problemas complexos em partes menores e reutilizáveis</strong>. Dessa maneira, eles contribuem para a <strong>organização, legibilidade, manutenção, reutilização e modularização dos algoritmos</strong>.</p><p id="3c1f6ce8-497f-8005-9824-da1bc6c3f5d1" class="" dir="auto">Em um projeto maior, em vez de criar um único algoritmo enorme, podemos dividi-lo em vários procedimentos, cada um responsável por uma tarefa específica. Esse conceito é uma das bases da <strong>programação estruturada e da programação modular</strong>.</p></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>
