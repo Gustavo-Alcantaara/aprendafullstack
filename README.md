@@ -1,7 +1,7 @@
 # Aprenda Full Stack
 ## Conteúdos
-- [] Fundamentos da Programação
-    - [] Algoritmos
+- [ ] Fundamentos da Programação
+    - [ ] Algoritmos
 - [x] Engenharia de Software
     - [x] Engenharia de Software
 
