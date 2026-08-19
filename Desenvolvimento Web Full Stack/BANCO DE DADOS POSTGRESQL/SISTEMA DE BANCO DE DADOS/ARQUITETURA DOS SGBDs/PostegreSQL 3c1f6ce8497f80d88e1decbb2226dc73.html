@@ -1,0 +1,958 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>PostegreSQL</title><meta name="data-notion-page-icon" content="/icons/elephant_blue.svg"/><link rel="icon" href="https://app.notion.com/icons/elephant_blue.svg"/><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+/* For default-background callouts, render the border outline. */
+.callout.block-color-default_background {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+/*
+ * Toggles and callouts hold arbitrary content, so they can easily be taller
+ * than a page. They must stay breakable: avoiding breaks inside them makes
+ * Chromium push the whole block onto the next page, which leaves the previous
+ * page mostly empty before every long toggle.
+ */
+details,
+aside {
+	margin: 1.25em 0;
+}
+
+/* Keep a toggle's title on the same page as the start of its content. */
+summary {
+	page-break-after: avoid;
+	break-after: avoid;
+}
+
+/*
+ * Toggle headings render as <h1/h2/h3 style="display:inline-block"> inside
+ * <summary>. Without this reset, the heading's margin-top pushes it below the
+ * ::marker (▼), so the triangle and the title appear on separate lines.
+ */
+summary h1,
+summary h2,
+summary h3,
+summary h4 {
+	margin-top: 0;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding-inline: 0.125rem;
+	padding-block: 0.375rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+/*
+ * Render emoji icons using a ::before pseudo-element to keep the glyph
+ * out of the DOM textContent traversal. This avoids double-rendering icons
+ * in callouts and page titles.
+ * NOTE(slim/html-export-pseudo-icons): I can't tagref this because it will
+ * flag as a duplicate tag after codegen.
+ */
+.icon[data-emoji]::before {
+	content: attr(data-emoji);
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	margin-right: 0.4em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.tab {
+	margin: 1.25em 0;
+	padding-inline: 1rem;
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style><style>@import url('https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex-swap.min.css')</style></head><body><article id="3c1f6ce8-497f-80d8-8e1d-ecbb2226dc73" class="page sans" data-notion-page-icon="/icons/elephant_blue.svg"><header><div class="page-header-icon undefined"><img class="icon notion-static-icon" src="https://app.notion.com/icons/elephant_blue.svg"/></div><h1 class="page-title" dir="auto">PostegreSQL</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><h1 id="3c1f6ce8-497f-8070-bea2-ebeae5d09da1" class="" dir="auto">PostgreSQL</h1><figure id="3c1f6ce8-497f-80ea-916e-cd02a4a0c14d" class="image" data-notion-image="https://images.openai.com/static-rsc-4/Z-sEwAEl9LjoJSCMQQ7ngrZ2gxakVm_Sy14ZorDQWvkPx6xp5F2KpOnE86hcvA6CcpjlqtzQVLkPyMwpNEl5YyxuFWUamq8oWYzZlYzfirbRsvXgu3LRX6VKPw8vvCibTEUUgBj2q47PCFeqdn6bqtJ_2jqU2ktW--B3gy4FI-PLgF95Pv-SthvADgSIxKtG?purpose=fullsize" dir="ltr"><a href="https://images.openai.com/static-rsc-4/Z-sEwAEl9LjoJSCMQQ7ngrZ2gxakVm_Sy14ZorDQWvkPx6xp5F2KpOnE86hcvA6CcpjlqtzQVLkPyMwpNEl5YyxuFWUamq8oWYzZlYzfirbRsvXgu3LRX6VKPw8vvCibTEUUgBj2q47PCFeqdn6bqtJ_2jqU2ktW--B3gy4FI-PLgF95Pv-SthvADgSIxKtG?purpose=fullsize"><img src="https://images.openai.com/static-rsc-4/Z-sEwAEl9LjoJSCMQQ7ngrZ2gxakVm_Sy14ZorDQWvkPx6xp5F2KpOnE86hcvA6CcpjlqtzQVLkPyMwpNEl5YyxuFWUamq8oWYzZlYzfirbRsvXgu3LRX6VKPw8vvCibTEUUgBj2q47PCFeqdn6bqtJ_2jqU2ktW--B3gy4FI-PLgF95Pv-SthvADgSIxKtG?purpose=fullsize"/></a></figure><figure id="3c1f6ce8-497f-8012-8c42-ce627e84414e" class="image" data-notion-image="https://images.openai.com/static-rsc-4/Z8buyLRx_kdHSNeFlI3wZAoiJZz5hxvW8okY5Ype9gDGKSguV8p1x8vOIS819_6RgGlwJa3zG6TC0dd3I8d7OrndcYelyaT_pecS6DEI5aIJWiMNRlA_pIa5AwnX1VG6rfdRw9r2XRB7lJUDrJnponlLqYZpZlBNtUFMfSfmFfrzIMAwG3Rlu_vTEb_0sjSr?purpose=fullsize" dir="ltr"><a href="https://images.openai.com/static-rsc-4/Z8buyLRx_kdHSNeFlI3wZAoiJZz5hxvW8okY5Ype9gDGKSguV8p1x8vOIS819_6RgGlwJa3zG6TC0dd3I8d7OrndcYelyaT_pecS6DEI5aIJWiMNRlA_pIa5AwnX1VG6rfdRw9r2XRB7lJUDrJnponlLqYZpZlBNtUFMfSfmFfrzIMAwG3Rlu_vTEb_0sjSr?purpose=fullsize"><img src="https://images.openai.com/static-rsc-4/Z8buyLRx_kdHSNeFlI3wZAoiJZz5hxvW8okY5Ype9gDGKSguV8p1x8vOIS819_6RgGlwJa3zG6TC0dd3I8d7OrndcYelyaT_pecS6DEI5aIJWiMNRlA_pIa5AwnX1VG6rfdRw9r2XRB7lJUDrJnponlLqYZpZlBNtUFMfSfmFfrzIMAwG3Rlu_vTEb_0sjSr?purpose=fullsize"/></a></figure><figure id="3c1f6ce8-497f-8005-9aac-fe5685599127" class="image" data-notion-image="https://images.openai.com/static-rsc-4/vlgNo_6zbipidf7bNU6uc_V0OuGYxaaej7XtjD5vXRQBceZy44NeJGYrXS4u8hkxcbpIoeRCTkpA2qzwhRnH6gEBcoSMgLgVfqrZC0jZnAxOMeuGkPO85g0SoZeSt4E4epZ3OmJF7YhuDDrYIgNt5fwJSQ1MiBcybg82XvDwJoVV_dDbXUSY2m6sH5RS60Rt?purpose=fullsize" dir="ltr"><a href="https://images.openai.com/static-rsc-4/vlgNo_6zbipidf7bNU6uc_V0OuGYxaaej7XtjD5vXRQBceZy44NeJGYrXS4u8hkxcbpIoeRCTkpA2qzwhRnH6gEBcoSMgLgVfqrZC0jZnAxOMeuGkPO85g0SoZeSt4E4epZ3OmJF7YhuDDrYIgNt5fwJSQ1MiBcybg82XvDwJoVV_dDbXUSY2m6sH5RS60Rt?purpose=fullsize"><img src="https://images.openai.com/static-rsc-4/vlgNo_6zbipidf7bNU6uc_V0OuGYxaaej7XtjD5vXRQBceZy44NeJGYrXS4u8hkxcbpIoeRCTkpA2qzwhRnH6gEBcoSMgLgVfqrZC0jZnAxOMeuGkPO85g0SoZeSt4E4epZ3OmJF7YhuDDrYIgNt5fwJSQ1MiBcybg82XvDwJoVV_dDbXUSY2m6sH5RS60Rt?purpose=fullsize"/></a></figure><figure id="3c1f6ce8-497f-80ed-b539-dc601188acf0" class="image" data-notion-image="https://images.openai.com/static-rsc-4/kvDiO5tvsp48_YYyZ8IV4mBMpJinJLpa4ZOQ0ncvBYwASrhMfIAFDd9SB57lbhX22UCjEX-_lpMGotPe-3aN1T_X2SBrvY5PkVytVuSvNWJLdKyNnWI0Ad4-W-sp_z49cmIGoMwzqSss1WTPT7QTMlK3GZJQHpiqlbO54ce6UclBw0TmBiZZh38M1gHR6Ob7?purpose=fullsize" dir="ltr"><a href="https://images.openai.com/static-rsc-4/kvDiO5tvsp48_YYyZ8IV4mBMpJinJLpa4ZOQ0ncvBYwASrhMfIAFDd9SB57lbhX22UCjEX-_lpMGotPe-3aN1T_X2SBrvY5PkVytVuSvNWJLdKyNnWI0Ad4-W-sp_z49cmIGoMwzqSss1WTPT7QTMlK3GZJQHpiqlbO54ce6UclBw0TmBiZZh38M1gHR6Ob7?purpose=fullsize"><img src="https://images.openai.com/static-rsc-4/kvDiO5tvsp48_YYyZ8IV4mBMpJinJLpa4ZOQ0ncvBYwASrhMfIAFDd9SB57lbhX22UCjEX-_lpMGotPe-3aN1T_X2SBrvY5PkVytVuSvNWJLdKyNnWI0Ad4-W-sp_z49cmIGoMwzqSss1WTPT7QTMlK3GZJQHpiqlbO54ce6UclBw0TmBiZZh38M1gHR6Ob7?purpose=fullsize"/></a></figure><figure id="3c1f6ce8-497f-80df-a0b8-dcc989d375d9" class="image" data-notion-image="https://images.openai.com/static-rsc-4/gb9yaBPuyzaB0w2npmzHFwambLb6AJKrYFdkLdUTWB9B9-y97wHkz1OPGmHGvKJiZ-ewre834Yg5xqO1pRQUrR8hoosgtX4j6nWuS990rXloeftBmm0EoKgeoi8NFs5yy_WEO03smkqWWqWzbPpcbNFlaR5r-G1h4m4AOlEbtFdQytFr9xjq4D8vSdLskUQY?purpose=fullsize" dir="ltr"><a href="https://images.openai.com/static-rsc-4/gb9yaBPuyzaB0w2npmzHFwambLb6AJKrYFdkLdUTWB9B9-y97wHkz1OPGmHGvKJiZ-ewre834Yg5xqO1pRQUrR8hoosgtX4j6nWuS990rXloeftBmm0EoKgeoi8NFs5yy_WEO03smkqWWqWzbPpcbNFlaR5r-G1h4m4AOlEbtFdQytFr9xjq4D8vSdLskUQY?purpose=fullsize"><img src="https://images.openai.com/static-rsc-4/gb9yaBPuyzaB0w2npmzHFwambLb6AJKrYFdkLdUTWB9B9-y97wHkz1OPGmHGvKJiZ-ewre834Yg5xqO1pRQUrR8hoosgtX4j6nWuS990rXloeftBmm0EoKgeoi8NFs5yy_WEO03smkqWWqWzbPpcbNFlaR5r-G1h4m4AOlEbtFdQytFr9xjq4D8vSdLskUQY?purpose=fullsize"/></a></figure><p id="3c1f6ce8-497f-8037-a6b0-cd0be52d0c70" class="" dir="auto">O <strong>PostgreSQL</strong> é um dos principais <strong>Sistemas Gerenciadores de Banco de Dados Relacionais (SGBDs)</strong> de código aberto. Ele utiliza SQL para manipulação dos dados e é conhecido por sua <strong>robustez, segurança, confiabilidade, extensibilidade e suporte a recursos avançados</strong>.</p><p id="3c1f6ce8-497f-80b2-96f9-ea7f5a3a5a84" class="" dir="auto">É muito utilizado em aplicações Web, sistemas empresariais, APIs, aplicações financeiras, sistemas de análise de dados e diversos outros projetos.</p><hr id="3c1f6ce8-497f-80ce-9a58-d124b0ee3f0b" dir="auto"/><h1 id="3c1f6ce8-497f-80df-97a8-cc0dd7f43129" class="" dir="auto">1. O que é PostgreSQL?</h1><p id="3c1f6ce8-497f-806d-8e4e-ddb3d950fbc3" class="" dir="auto">O PostgreSQL é um <strong>SGBD objeto-relacional</strong>, ou seja, possui uma forte base no modelo relacional, mas oferece recursos que vão além do modelo relacional tradicional.</p><p id="3c1f6ce8-497f-80b3-8805-d3991a579f4a" class="" dir="auto">Sua estrutura básica é:</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="3c1f6ce8-497f-80a6-b7a4-d2567114d420" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Aplicação
+    ↓
+PostgreSQL
+    ↓
+Banco de Dados
+    ↓
+Tabelas
+    ↓
+Dados</code></pre><p id="3c1f6ce8-497f-8058-88c4-ec959c31ae5d" class="" dir="auto">Uma aplicação pode utilizar PostgreSQL através de diferentes linguagens, como:</p><ul id="3c1f6ce8-497f-80a5-97fc-e9641b0548e8" class="bulleted-list" dir="auto"><li style="list-style-type:disc">PHP;</li></ul><ul id="3c1f6ce8-497f-804f-a691-d1e1ca6f25ed" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Python;</li></ul><ul id="3c1f6ce8-497f-8029-a253-e08041f2e08c" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Java;</li></ul><ul id="3c1f6ce8-497f-8096-962d-d45a1e8aed4e" class="bulleted-list" dir="auto"><li style="list-style-type:disc">C#;</li></ul><ul id="3c1f6ce8-497f-8007-88fa-e29bf55af086" class="bulleted-list" dir="auto"><li style="list-style-type:disc">JavaScript/Node.js;</li></ul><ul id="3c1f6ce8-497f-8033-a923-db54c929fb75" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Ruby;</li></ul><ul id="3c1f6ce8-497f-8046-b839-dac670eb83dc" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Go.</li></ul><hr id="3c1f6ce8-497f-8068-a3d6-f12139e257be" dir="auto"/><h1 id="3c1f6ce8-497f-8074-8e52-f90b382eef5b" class="" dir="auto">2. Origem do PostgreSQL</h1><p id="3c1f6ce8-497f-803f-bb4e-e9d811f49c6f" class="" dir="auto">O PostgreSQL tem suas raízes no projeto <strong>POSTGRES</strong>, desenvolvido na Universidade da Califórnia, Berkeley, a partir da década de 1980.</p><p id="3c1f6ce8-497f-8080-b386-ddcdea179dd3" class="" dir="auto">O projeto foi liderado por <strong>Michael Stonebraker</strong> e tinha como objetivo desenvolver um sistema de banco de dados mais avançado que os sistemas existentes na época.</p><p id="3c1f6ce8-497f-8063-8675-e7cc759ff534" class="" dir="auto">Posteriormente, o projeto passou por mudanças e recebeu suporte à linguagem SQL, dando origem ao nome <strong>PostgreSQL</strong>.</p><p id="3c1f6ce8-497f-806a-ad3c-fdb818deecc0" class="" dir="auto">Sua evolução fez com que se tornasse um dos SGBDs de código aberto mais importantes da atualidade.</p><hr id="3c1f6ce8-497f-809d-86ca-d7bfd43cee21" dir="auto"/><h1 id="3c1f6ce8-497f-8024-a635-fe086bd20689" class="" dir="auto">3. Característica de código aberto</h1><p id="3c1f6ce8-497f-80fc-a146-f8d2df6d9f34" class="" dir="auto">Uma das características mais importantes do PostgreSQL é ser <strong>open source</strong>.</p><p id="3c1f6ce8-497f-805b-ba56-c14464ee49b3" class="" dir="auto">Isso significa que seu código-fonte pode ser estudado, modificado e distribuído de acordo com sua licença.</p><p id="3c1f6ce8-497f-8032-a44a-fecc35ca98f4" class="" dir="auto">Isso contribuiu para a criação de uma grande comunidade ao redor do projeto.</p><p id="3c1f6ce8-497f-806c-bc83-fea5907f1a59" class="" dir="auto">Entre as vantagens estão:</p><ul id="3c1f6ce8-497f-80e9-8adb-fbabedeb2a98" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Liberdade de uso;</li></ul><ul id="3c1f6ce8-497f-80db-9e1a-ed84ca2dd03a" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Comunidade ativa;</li></ul><ul id="3c1f6ce8-497f-8065-958c-dff7fac3c407" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Grande quantidade de documentação;</li></ul><ul id="3c1f6ce8-497f-80ab-8b67-e8a7ad7bcd5e" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Desenvolvimento colaborativo;</li></ul><ul id="3c1f6ce8-497f-8063-bfa1-d44121bc9606" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Ausência de dependência obrigatória de uma licença proprietária.</li></ul><hr id="3c1f6ce8-497f-80f4-b8b4-dcf36caff863" dir="auto"/><h1 id="3c1f6ce8-497f-80e3-ac07-eb69db3cfe2e" class="" dir="auto">4. Modelo relacional</h1><p id="3c1f6ce8-497f-80ea-821c-c77de891e9c0" class="" dir="auto">O PostgreSQL utiliza principalmente o <strong>modelo relacional</strong>.</p><p id="3c1f6ce8-497f-8001-b31c-ec470c7c6a37" class="" dir="auto">Os dados são organizados em tabelas.</p><p id="3c1f6ce8-497f-80c1-94ba-dc5907bce21e" class="" dir="auto">Exemplo:</p><h3 id="3c1f6ce8-497f-8087-91c2-d9adbc2eca57" class="" dir="auto">clientes</h3><table id="3c1f6ce8-497f-8045-920e-ca9ac0b7a858" class="simple-table" dir="ltr"><thead class="simple-table-header"><tr id="3c1f6ce8-497f-808d-8a26-d230f845aa05" dir="ltr"><th id="HfAQ" class="simple-table-header-color simple-table-header">id</th><th id="DPji" class="simple-table-header-color simple-table-header">nome</th><th id="Pdxf" class="simple-table-header-color simple-table-header">email</th></tr></thead><tbody><tr id="3c1f6ce8-497f-804a-b712-c797e2a1cc3c" dir="ltr"><td id="HfAQ" class="">1</td><td id="DPji" class="">João</td><td id="Pdxf" class=""><a href="mailto:joao@email.com">joao@email.com</a></td></tr><tr id="3c1f6ce8-497f-80c6-9b02-dc74075f78ee" dir="ltr"><td id="HfAQ" class="">2</td><td id="DPji" class="">Maria</td><td id="Pdxf" class=""><a href="mailto:maria@email.com">maria@email.com</a></td></tr></tbody></table><h3 id="3c1f6ce8-497f-803c-b891-f90e52fc05a8" class="" dir="auto">produtos</h3><table id="3c1f6ce8-497f-806e-9bc5-e53d44490857" class="simple-table" dir="ltr"><thead class="simple-table-header"><tr id="3c1f6ce8-497f-806b-b6a0-ca28877d34d2" dir="ltr"><th id="NIW`" class="simple-table-header-color simple-table-header">id</th><th id="]~r_" class="simple-table-header-color simple-table-header">nome</th><th id="&gt;^L{" class="simple-table-header-color simple-table-header">preco</th></tr></thead><tbody><tr id="3c1f6ce8-497f-808a-80a1-f85a6225a21f" dir="ltr"><td id="NIW`" class="">1</td><td id="]~r_" class="">Notebook</td><td id="&gt;^L{" class="">3500.00</td></tr><tr id="3c1f6ce8-497f-8026-9676-e76875441986" dir="ltr"><td id="NIW`" class="">2</td><td id="]~r_" class="">Mouse</td><td id="&gt;^L{" class="">80.00</td></tr></tbody></table><p id="3c1f6ce8-497f-80d7-b964-ea5a57f48533" class="" dir="auto">As tabelas podem ser relacionadas por meio de chaves.</p><hr id="3c1f6ce8-497f-80af-946d-c2f2e31a6727" dir="auto"/><h1 id="3c1f6ce8-497f-800f-8af0-e20728dc6ce1" class="" dir="auto">5. SQL no PostgreSQL</h1><p id="3c1f6ce8-497f-809d-90f0-e0a4f19e48b5" class="" dir="auto">O PostgreSQL utiliza SQL para criar e manipular os dados.</p><h3 id="3c1f6ce8-497f-8038-a2a1-f1bd6ac3a46b" class="" dir="auto">Criando uma tabela</h3><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-sql.min.js" integrity="sha512-sijCOJblSCXYYmXdwvqV0tak8QJW5iy2yLB1wAbbLc3OOIueqymizRFWUS/mwKctnzPKpNdPJV3aK1zlDMJmXQ==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="3c1f6ce8-497f-8014-a94c-eec63719bd8a" class="code code-wrap" data-notion-code-syntax="sql"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">CREATE TABLE clientes (
+    id SERIAL PRIMARY KEY,
+    nome VARCHAR(100) NOT NULL,
+    email VARCHAR(150)
+);</code></pre><h3 id="3c1f6ce8-497f-802a-88dc-ddb33aa3be57" class="" dir="auto">Inserindo dados</h3><pre id="3c1f6ce8-497f-8085-8acd-cf303686cd8e" class="code code-wrap" data-notion-code-syntax="sql"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">INSERT INTO clientes (nome, email)
+VALUES (&#x27;João&#x27;, &#x27;joao@email.com&#x27;);</code></pre><h3 id="3c1f6ce8-497f-8023-9cbf-c5c225b522d9" class="" dir="auto">Consultando</h3><pre id="3c1f6ce8-497f-8090-8941-e92d25d145b0" class="code code-wrap" data-notion-code-syntax="sql"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">SELECT *
+FROM clientes;</code></pre><h3 id="3c1f6ce8-497f-80d7-b7f4-ca7e21f2724f" class="" dir="auto">Atualizando</h3><pre id="3c1f6ce8-497f-8030-80a7-e083e268fca7" class="code code-wrap" data-notion-code-syntax="sql"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">UPDATE clientes
+SET email = &#x27;novo@email.com&#x27;
+WHERE id = 1;</code></pre><h3 id="3c1f6ce8-497f-80cb-a4a9-e133e485cf09" class="" dir="auto">Excluindo</h3><pre id="3c1f6ce8-497f-80df-8f45-e5544491cac4" class="code code-wrap" data-notion-code-syntax="sql"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">DELETE FROM clientes
+WHERE id = 1;</code></pre><p id="3c1f6ce8-497f-80e6-90bb-d76713e092ea" class="" dir="auto">Esses comandos formam parte das operações fundamentais de SQL:</p><pre id="3c1f6ce8-497f-8058-9289-e124f5eb8548" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">SELECT  → Consultar
+INSERT  → Inserir
+UPDATE  → Atualizar
+DELETE  → Excluir</code></pre><hr id="3c1f6ce8-497f-8034-968e-e839e36d64c9" dir="auto"/><h1 id="3c1f6ce8-497f-807f-947c-e211fa213044" class="" dir="auto">6. Principais características do PostgreSQL</h1><p id="3c1f6ce8-497f-8044-b601-faa3932f38d3" class="" dir="auto">O PostgreSQL possui diversos recursos avançados.</p><p id="3c1f6ce8-497f-80b6-a3b1-e00310b64942" class="" dir="auto">Entre os principais estão:</p><ul id="3c1f6ce8-497f-80b7-a1ff-faa209fcacb5" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Transações;</li></ul><ul id="3c1f6ce8-497f-80df-8f78-ea77236f37d7" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Chaves primárias;</li></ul><ul id="3c1f6ce8-497f-8096-85f6-e0fc2e6ff9c8" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Chaves estrangeiras;</li></ul><ul id="3c1f6ce8-497f-8050-8edc-fa0df0cc37f2" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Índices;</li></ul><ul id="3c1f6ce8-497f-8057-ade2-cc25a17b9953" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Views;</li></ul><ul id="3c1f6ce8-497f-806f-b33a-e14ef270e93c" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Triggers;</li></ul><ul id="3c1f6ce8-497f-80b8-ae4b-cddf9c7dc96b" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Functions;</li></ul><ul id="3c1f6ce8-497f-80b1-8649-e1db328ae2e9" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Procedures;</li></ul><ul id="3c1f6ce8-497f-8084-aec8-f5ed2f08a926" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Constraints;</li></ul><ul id="3c1f6ce8-497f-80eb-b84c-dbee2ed2501b" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Controle de concorrência;</li></ul><ul id="3c1f6ce8-497f-805b-99a1-c37655463ccf" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Controle de usuários;</li></ul><ul id="3c1f6ce8-497f-80bb-9f48-d8b10e34cda4" class="bulleted-list" dir="auto"><li style="list-style-type:disc">JSON e JSONB;</li></ul><ul id="3c1f6ce8-497f-8097-b397-f6c50dfc95ad" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Arrays;</li></ul><ul id="3c1f6ce8-497f-804d-93c0-c691c08e1de5" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Tipos de dados personalizados;</li></ul><ul id="3c1f6ce8-497f-8083-a039-c02a1f3fc93b" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Extensões;</li></ul><ul id="3c1f6ce8-497f-8041-a757-c00142ad3c98" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Particionamento;</li></ul><ul id="3c1f6ce8-497f-8096-814f-d08a8324acc8" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Replicação.</li></ul><hr id="3c1f6ce8-497f-8057-a77e-c46ecf7b0f29" dir="auto"/><h1 id="3c1f6ce8-497f-80fc-89cf-d012435423d9" class="" dir="auto">7. Transações</h1><p id="3c1f6ce8-497f-80d6-aca9-fee9bde815a3" class="" dir="auto">O PostgreSQL possui suporte completo a transações.</p><p id="3c1f6ce8-497f-80af-8933-e3efba94b720" class="" dir="auto">Uma transação permite agrupar várias operações em uma unidade lógica.</p><p id="3c1f6ce8-497f-8055-ab6a-fa2755904283" class="" dir="auto">Exemplo:</p><pre id="3c1f6ce8-497f-80d5-ac35-cbdcdedbcd61" class="code code-wrap" data-notion-code-syntax="sql"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">BEGIN;
+
+UPDATE contas
+SET saldo = saldo - 500
+WHERE id = 1;
+
+UPDATE contas
+SET saldo = saldo + 500
+WHERE id = 2;
+
+COMMIT;</code></pre><p id="3c1f6ce8-497f-80f1-ae67-ec8357d1ccd9" class="" dir="auto">Se ocorrer algum problema, podemos cancelar a transação:</p><pre id="3c1f6ce8-497f-806b-afda-f02481402c4a" class="code code-wrap" data-notion-code-syntax="sql"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">ROLLBACK;</code></pre><p id="3c1f6ce8-497f-8094-a36e-d2a690b0350b" class="" dir="auto">Isso é muito importante para sistemas que precisam garantir consistência.</p><hr id="3c1f6ce8-497f-80cb-9ebd-cea7d7110481" dir="auto"/><h1 id="3c1f6ce8-497f-8061-b092-e1470cb8548e" class="" dir="auto">8. Integridade dos dados</h1><p id="3c1f6ce8-497f-807f-ab7a-e1d65e15bda5" class="" dir="auto">O PostgreSQL permite definir regras que ajudam a impedir dados inválidos.</p><p id="3c1f6ce8-497f-804f-b4ae-fb673a927a3e" class="" dir="auto">Exemplo:</p><pre id="3c1f6ce8-497f-80b4-921d-f742cb46b07e" class="code code-wrap" data-notion-code-syntax="sql"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">CREATE TABLE usuarios (
+    id INTEGER PRIMARY KEY,
+    nome VARCHAR(100) NOT NULL,
+    email VARCHAR(150) UNIQUE,
+    idade INTEGER CHECK (idade &gt;= 18)
+);</code></pre><p id="3c1f6ce8-497f-80a8-9101-c9400012fac4" class="" dir="auto">Nesse exemplo:</p><ul id="3c1f6ce8-497f-8084-9c4e-c61fe1d3abe1" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><code>PRIMARY KEY</code> identifica cada registro;</li></ul><ul id="3c1f6ce8-497f-8040-aba7-f0b78e47b9ca" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><code>NOT NULL</code> exige um valor;</li></ul><ul id="3c1f6ce8-497f-80af-845c-dace24b779c9" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><code>UNIQUE</code> impede duplicidade;</li></ul><ul id="3c1f6ce8-497f-808e-b00e-cb665b374479" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><code>CHECK</code> estabelece uma condição.</li></ul><hr id="3c1f6ce8-497f-808c-b13f-c4b32783fee2" dir="auto"/><h1 id="3c1f6ce8-497f-804a-9965-c80e32865e1f" class="" dir="auto">9. Chaves estrangeiras</h1><p id="3c1f6ce8-497f-80d3-937c-e796fe548021" class="" dir="auto">O PostgreSQL permite criar relacionamentos entre tabelas.</p><p id="3c1f6ce8-497f-8049-b830-e5e0cefd6c79" class="" dir="auto">Exemplo:</p><pre id="3c1f6ce8-497f-80d4-a351-ef020d6c5e75" class="code code-wrap" data-notion-code-syntax="sql"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">CREATE TABLE pedidos (
+    id INTEGER PRIMARY KEY,
+    cliente_id INTEGER,
+
+    FOREIGN KEY (cliente_id)
+    REFERENCES clientes(id)
+);</code></pre><p id="3c1f6ce8-497f-804c-b421-eda3ee31e1df" class="" dir="auto">Assim:</p><pre id="3c1f6ce8-497f-80f0-b2bd-ccd93a419a53" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Clientes
+   │
+   │ 1
+   │
+   └──────────&lt; N
+              Pedidos</code></pre><p id="3c1f6ce8-497f-804b-8617-e5e33f931eb3" class="" dir="auto">Um cliente pode possuir vários pedidos.</p><hr id="3c1f6ce8-497f-8046-a25d-d94ccafb42a5" dir="auto"/><h1 id="3c1f6ce8-497f-8067-bb17-f3a2b280cd5a" class="" dir="auto">10. Tipos de dados</h1><p id="3c1f6ce8-497f-8074-b5c0-f1470ce246c0" class="" dir="auto">Uma das características interessantes do PostgreSQL é sua grande variedade de tipos de dados.</p><p id="3c1f6ce8-497f-8072-a007-ef4ec5d4599c" class="" dir="auto">Alguns exemplos:</p><pre id="3c1f6ce8-497f-80d2-99ba-e04ab01cc8c9" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">INTEGER
+NUMERIC
+VARCHAR
+TEXT
+BOOLEAN
+DATE
+TIME
+TIMESTAMP
+UUID
+JSON
+JSONB
+ARRAY</code></pre><p id="3c1f6ce8-497f-80a4-a8b8-f339cb47a072" class="" dir="auto">Exemplo:</p><pre id="3c1f6ce8-497f-80c7-82ad-f70fd1a696a7" class="code code-wrap" data-notion-code-syntax="sql"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">CREATE TABLE produtos (
+    id UUID PRIMARY KEY,
+    nome TEXT,
+    preco NUMERIC(10,2),
+    ativo BOOLEAN,
+    criado_em TIMESTAMP
+);</code></pre><hr id="3c1f6ce8-497f-802b-856b-e31a9e027732" dir="auto"/><h1 id="3c1f6ce8-497f-808f-b92b-d1c173317693" class="" dir="auto">11. JSON e JSONB</h1><p id="3c1f6ce8-497f-8025-a9f3-e0c77fb83e1b" class="" dir="auto">O PostgreSQL possui suporte importante para dados JSON.</p><p id="3c1f6ce8-497f-80e0-9d83-ebebbb32f65c" class="" dir="auto">Por exemplo:</p><pre id="3c1f6ce8-497f-80a1-a949-f3a7cd8d5085" class="code code-wrap" data-notion-code-syntax="sql"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">CREATE TABLE usuarios (
+    id SERIAL PRIMARY KEY,
+    nome TEXT,
+    dados JSONB
+);</code></pre><p id="3c1f6ce8-497f-8092-b3b1-cbe858bd74ba" class="" dir="auto">Podemos armazenar:</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-json.min.js" integrity="sha512-QXFMVAusM85vUYDaNgcYeU3rzSlc+bTV4JvkfJhjxSHlQEo+ig53BtnGkvFTiNJh8D+wv6uWAQ2vJaVmxe8d3w==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="3c1f6ce8-497f-80da-8f96-fd5d55c4cfa9" class="code code-wrap" data-notion-code-syntax="json"><code class="language-json" style="white-space:pre-wrap;word-break:break-all">{
+    &quot;telefone&quot;: &quot;99999-1111&quot;,
+    &quot;cidade&quot;: &quot;Fortaleza&quot;,
+    &quot;interesses&quot;: [&quot;programação&quot;, &quot;banco de dados&quot;]
+}</code></pre><p id="3c1f6ce8-497f-80f4-a080-e3ffec4010d3" class="" dir="auto">O <strong>JSONB</strong> é especialmente interessante porque permite armazenar e consultar estruturas JSON de forma eficiente dentro do PostgreSQL.</p><p id="3c1f6ce8-497f-80c2-bc7e-f6df15413fb8" class="" dir="auto">Isso possibilita combinar:</p><pre id="3c1f6ce8-497f-800a-9a13-dbeb422a3dcb" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Modelo Relacional
+       +
+     JSON</code></pre><p id="3c1f6ce8-497f-80ff-b4c5-f4c2c6f21567" class="" dir="auto">em uma mesma aplicação.</p><hr id="3c1f6ce8-497f-80cd-baee-d9ec9acd4754" dir="auto"/><h1 id="3c1f6ce8-497f-80c9-8dfa-df383841523f" class="" dir="auto">12. Views</h1><p id="3c1f6ce8-497f-80cd-a033-d3be247ae60d" class="" dir="auto">Uma <strong>VIEW</strong> é uma consulta armazenada que pode ser utilizada como uma tabela virtual.</p><p id="3c1f6ce8-497f-8026-8ec8-e29290c80eb1" class="" dir="auto">Exemplo:</p><pre id="3c1f6ce8-497f-8031-bd19-c0b119f3a749" class="code code-wrap" data-notion-code-syntax="sql"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">CREATE VIEW clientes_ativos AS
+SELECT id, nome, email
+FROM clientes
+WHERE ativo = TRUE;</code></pre><p id="3c1f6ce8-497f-806a-999e-edd49e9db3a2" class="" dir="auto">Depois:</p><pre id="3c1f6ce8-497f-8044-a232-e078beeef525" class="code code-wrap" data-notion-code-syntax="sql"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">SELECT *
+FROM clientes_ativos;</code></pre><p id="3c1f6ce8-497f-80f9-8de2-c7a8971291f8" class="" dir="auto">Views podem ajudar a:</p><ul id="3c1f6ce8-497f-80c6-b8a0-eb8079217b4c" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Simplificar consultas;</li></ul><ul id="3c1f6ce8-497f-806a-b763-ea3b6c5fa02d" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Controlar acesso;</li></ul><ul id="3c1f6ce8-497f-80a5-857d-d83c32271577" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Organizar a lógica de consulta.</li></ul><hr id="3c1f6ce8-497f-80aa-9957-d841281b79ef" dir="auto"/><h1 id="3c1f6ce8-497f-8030-86d2-fae47eb1ee56" class="" dir="auto">13. Triggers</h1><p id="3c1f6ce8-497f-806f-8518-f9e7b078a046" class="" dir="auto">Os <strong>triggers</strong> permitem executar determinadas ações automaticamente quando eventos acontecem no banco.</p><p id="3c1f6ce8-497f-80ab-853b-f9a8f508d601" class="" dir="auto">Por exemplo:</p><pre id="3c1f6ce8-497f-806e-acff-e6e47957f364" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">INSERT
+  ↓
+Trigger
+  ↓
+Registrar alteração</code></pre><p id="3c1f6ce8-497f-80cd-8947-f7149a826932" class="" dir="auto">Podem ser utilizados para:</p><ul id="3c1f6ce8-497f-80aa-8a56-e340aa83cd20" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Auditoria;</li></ul><ul id="3c1f6ce8-497f-80a3-b48c-f04815e3e83e" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Registro de alterações;</li></ul><ul id="3c1f6ce8-497f-80a0-9e53-d1b293a038da" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Validações;</li></ul><ul id="3c1f6ce8-497f-8071-a303-fb33a2be02ad" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Automatização de processos.</li></ul><hr id="3c1f6ce8-497f-8019-9f2f-ebf9c6b390f5" dir="auto"/><h1 id="3c1f6ce8-497f-8041-ae00-e08ff5833eb7" class="" dir="auto">14. Funções e Procedures</h1><p id="3c1f6ce8-497f-80c0-b464-dabbc4760df4" class="" dir="auto">O PostgreSQL permite criar lógica diretamente no banco.</p><p id="3c1f6ce8-497f-800d-95f3-ec2fb196e468" class="" dir="auto">Por exemplo, uma função pode realizar cálculos ou processar informações.</p><pre id="3c1f6ce8-497f-8006-8bb1-d59429940c97" class="code code-wrap" data-notion-code-syntax="sql"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">CREATE FUNCTION somar(a INTEGER, b INTEGER)
+RETURNS INTEGER
+AS $$
+BEGIN
+    RETURN a + b;
+END;
+$$ LANGUAGE plpgsql;</code></pre><p id="3c1f6ce8-497f-80c1-9ff1-d4fd644eee5f" class="" dir="auto">Depois:</p><pre id="3c1f6ce8-497f-803f-af2e-dbf4917dfbb5" class="code code-wrap" data-notion-code-syntax="sql"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">SELECT somar(10, 20);</code></pre><p id="3c1f6ce8-497f-80f2-aa92-c2f686fe9d9d" class="" dir="auto">Resultado:</p><pre id="3c1f6ce8-497f-80a7-a910-d710a324cb41" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">30</code></pre><p id="3c1f6ce8-497f-8052-866e-eca27174ad65" class="" dir="auto">O PostgreSQL possui sua própria linguagem procedural chamada <strong>PL/pgSQL</strong>, embora também ofereça suporte a outras linguagens em determinados contextos.</p><hr id="3c1f6ce8-497f-80d8-baf7-e84bfe145dc5" dir="auto"/><h1 id="3c1f6ce8-497f-80cb-9e25-cab24188f19c" class="" dir="auto">15. Índices</h1><p id="3c1f6ce8-497f-8079-bfc2-fa419f474561" class="" dir="auto">Os índices são utilizados para melhorar o desempenho de determinadas consultas.</p><p id="3c1f6ce8-497f-8085-bb5e-c0e78a0613e4" class="" dir="auto">Por exemplo:</p><pre id="3c1f6ce8-497f-8058-80df-c4b74d4bad50" class="code code-wrap" data-notion-code-syntax="sql"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">CREATE INDEX idx_clientes_nome
+ON clientes(nome);</code></pre><p id="3c1f6ce8-497f-8058-bd53-d4e99802fedb" class="" dir="auto">Quando uma tabela possui muitos registros, índices adequadamente planejados podem acelerar consultas.</p><p id="3c1f6ce8-497f-8086-8c38-e551ac52d6bd" class="" dir="auto">Porém, índices também possuem custo de armazenamento e podem aumentar o trabalho necessário para determinadas operações de escrita.</p><p id="3c1f6ce8-497f-80d7-bc45-f30974bc7d78" class="" dir="auto">Por isso, não devemos criar índices indiscriminadamente.</p><hr id="3c1f6ce8-497f-80e9-9f78-e654d74901dc" dir="auto"/><h1 id="3c1f6ce8-497f-80e0-b296-cd2ff85e3bef" class="" dir="auto">16. Concorrência</h1><p id="3c1f6ce8-497f-805c-bdf7-e7f56cc9ca83" class="" dir="auto">O PostgreSQL foi projetado para permitir que vários usuários trabalhem simultaneamente.</p><p id="3c1f6ce8-497f-80c1-b33a-e5774f242469" class="" dir="auto">Por exemplo:</p><pre id="3c1f6ce8-497f-8041-90a3-f00bcef6355b" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Usuário A ──┐
+Usuário B ──┤
+Usuário C ──┼──→ PostgreSQL
+Usuário D ──┘</code></pre><p id="3c1f6ce8-497f-8010-af3c-ddd7886a34f5" class="" dir="auto">O banco utiliza mecanismos de controle de concorrência para manter a consistência dos dados.</p><p id="3c1f6ce8-497f-8056-b409-fe4ea72144da" class="" dir="auto">Um conceito importante no PostgreSQL é o <strong>MVCC (Multi-Version Concurrency Control)</strong>, que permite que diferentes transações trabalhem com versões apropriadas dos dados sem depender exclusivamente de bloqueios tradicionais.</p><hr id="3c1f6ce8-497f-80a2-afdb-c494cc8db702" dir="auto"/><h1 id="3c1f6ce8-497f-80b0-a891-dca01b01ee9d" class="" dir="auto">17. Segurança</h1><p id="3c1f6ce8-497f-80b7-a4e8-dc32c309c4a6" class="" dir="auto">O PostgreSQL possui recursos para controlar o acesso aos dados.</p><p id="3c1f6ce8-497f-80ab-a5b7-c3039b38d653" class="" dir="auto">Podemos trabalhar com:</p><ul id="3c1f6ce8-497f-80ea-b4d6-d8a6d610bb60" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Usuários;</li></ul><ul id="3c1f6ce8-497f-80bf-bb06-c358a2183a87" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Roles;</li></ul><ul id="3c1f6ce8-497f-8051-a1a4-eecc6eae0e03" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Permissões;</li></ul><ul id="3c1f6ce8-497f-80fa-baf9-ee348e359793" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Autenticação;</li></ul><ul id="3c1f6ce8-497f-804d-89c8-d55144157c4b" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Controle de acesso;</li></ul><ul id="3c1f6ce8-497f-8026-b2b1-ded1eb7f5301" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Criptografia em conexões;</li></ul><ul id="3c1f6ce8-497f-8096-a69b-f7727d8fb937" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Auditoria através de recursos e extensões apropriados.</li></ul><p id="3c1f6ce8-497f-80cf-b0f1-ee47d9864bf5" class="" dir="auto">Por exemplo:</p><pre id="3c1f6ce8-497f-80b9-b2e7-d2abaf84c897" class="code code-wrap" data-notion-code-syntax="sql"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">CREATE ROLE usuario_app LOGIN PASSWORD &#x27;senha&#x27;;</code></pre><p id="3c1f6ce8-497f-80ed-b545-da4954f38113" class="" dir="auto">E podemos conceder permissões:</p><pre id="3c1f6ce8-497f-80ba-86fc-cb580e7bdfa8" class="code code-wrap" data-notion-code-syntax="sql"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">GRANT SELECT ON clientes
+TO usuario_app;</code></pre><p id="3c1f6ce8-497f-80cd-8ed2-f26291cea56e" class="" dir="auto">Em sistemas reais, senhas e credenciais devem ser tratadas com segurança e nunca expostas diretamente no código-fonte.</p><hr id="3c1f6ce8-497f-80bb-ba94-fef3e09143c6" dir="auto"/><h1 id="3c1f6ce8-497f-8025-951f-d90c17d5892e" class="" dir="auto">18. Extensões</h1><p id="3c1f6ce8-497f-80c8-b27e-f31876bdb13e" class="" dir="auto">Uma das características mais interessantes do PostgreSQL é sua <strong>extensibilidade</strong>.</p><p id="3c1f6ce8-497f-801b-8eb3-ccf3f47a7381" class="" dir="auto">É possível adicionar funcionalidades através de extensões.</p><p id="3c1f6ce8-497f-802c-a582-c20bc108ae4e" class="" dir="auto">Um exemplo muito conhecido é o <strong>PostGIS</strong>, utilizado para trabalhar com dados geográficos.</p><p id="3c1f6ce8-497f-80dd-a189-c830125fc413" class="" dir="auto">Assim, o PostgreSQL pode ser utilizado em aplicações envolvendo:</p><ul id="3c1f6ce8-497f-806f-ada6-e9d5f9247f55" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Mapas;</li></ul><ul id="3c1f6ce8-497f-80a5-b699-d13d0574bbd7" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Coordenadas;</li></ul><ul id="3c1f6ce8-497f-80b2-968f-e639f69f51a8" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Geolocalização;</li></ul><ul id="3c1f6ce8-497f-8043-a19c-c79eaacd2ca2" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Sistemas GIS;</li></ul><ul id="3c1f6ce8-497f-805f-80b7-ce6bc0e9afff" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Análise espacial.</li></ul><hr id="3c1f6ce8-497f-80a5-b266-f2db34e216a0" dir="auto"/><h1 id="3c1f6ce8-497f-8084-8039-c74b2afb0def" class="" dir="auto">19. pgAdmin</h1><figure id="3c1f6ce8-497f-8048-ad47-f3e364269a09" class="image" data-notion-image="https://images.openai.com/static-rsc-4/n0l-eyw2JMWg1c9iI56aLINF0Ij0rwEmQq5YWa1eA-V8-M2lFnl65CywhrPQekZx4oCYCGt-8QEDTDG4xdj90lw98JaR2RLWdgFq4XEH9GqVQPhFHjVAP9jv3qyqeAlG98NEVTMC2RACPcRcUHhpA53gSiSXIZEq3UAZCsamFBVEs5sa1O0lPzK9_83OR-N1?purpose=fullsize" dir="ltr"><a href="https://images.openai.com/static-rsc-4/n0l-eyw2JMWg1c9iI56aLINF0Ij0rwEmQq5YWa1eA-V8-M2lFnl65CywhrPQekZx4oCYCGt-8QEDTDG4xdj90lw98JaR2RLWdgFq4XEH9GqVQPhFHjVAP9jv3qyqeAlG98NEVTMC2RACPcRcUHhpA53gSiSXIZEq3UAZCsamFBVEs5sa1O0lPzK9_83OR-N1?purpose=fullsize"><img src="https://images.openai.com/static-rsc-4/n0l-eyw2JMWg1c9iI56aLINF0Ij0rwEmQq5YWa1eA-V8-M2lFnl65CywhrPQekZx4oCYCGt-8QEDTDG4xdj90lw98JaR2RLWdgFq4XEH9GqVQPhFHjVAP9jv3qyqeAlG98NEVTMC2RACPcRcUHhpA53gSiSXIZEq3UAZCsamFBVEs5sa1O0lPzK9_83OR-N1?purpose=fullsize"/></a></figure><figure id="3c1f6ce8-497f-807b-af2f-fe35570fd635" class="image" data-notion-image="https://images.openai.com/static-rsc-4/QtdFAYd2tWt98pZuYXo-7U5aPkvWwMJrbdrNdlZN26qDyak0sb7wYgkz8CMvBfPpLe4cHfrAeX_LAQ6sZ7B0vrPq51dKLauuKu9cTLSVL2qzLOGtQULZHdvCDkl3C0KsxMIIK14o4xDPHkjfn8lS1-mEjKLLuNihEphkGE6RQ-QCLiMi0z1MnhJjSmWk7toD?purpose=fullsize" dir="ltr"><a href="https://images.openai.com/static-rsc-4/QtdFAYd2tWt98pZuYXo-7U5aPkvWwMJrbdrNdlZN26qDyak0sb7wYgkz8CMvBfPpLe4cHfrAeX_LAQ6sZ7B0vrPq51dKLauuKu9cTLSVL2qzLOGtQULZHdvCDkl3C0KsxMIIK14o4xDPHkjfn8lS1-mEjKLLuNihEphkGE6RQ-QCLiMi0z1MnhJjSmWk7toD?purpose=fullsize"><img src="https://images.openai.com/static-rsc-4/QtdFAYd2tWt98pZuYXo-7U5aPkvWwMJrbdrNdlZN26qDyak0sb7wYgkz8CMvBfPpLe4cHfrAeX_LAQ6sZ7B0vrPq51dKLauuKu9cTLSVL2qzLOGtQULZHdvCDkl3C0KsxMIIK14o4xDPHkjfn8lS1-mEjKLLuNihEphkGE6RQ-QCLiMi0z1MnhJjSmWk7toD?purpose=fullsize"/></a></figure><figure id="3c1f6ce8-497f-8076-96bb-e5983ba9b07a" class="image" data-notion-image="https://images.openai.com/static-rsc-4/OSRY9BjUjAyuJanVAmCXJHjFZ84wR9BeBB_RvA7O9CMDn1CiXWzCmcQE3SAu_zKrE_QtYKzA4Np0-3hUZBXwfgIC75SqUtMyD5tCyGNj9cr0_Tff_Tgch_hl7fUjy4wpnir3FjOE81bODJ4Tn5pCVsW6MjKtuar4vJCT3vWzB0aclq3FLuAWSVkhm0kur9oO?purpose=fullsize" dir="ltr"><a href="https://images.openai.com/static-rsc-4/OSRY9BjUjAyuJanVAmCXJHjFZ84wR9BeBB_RvA7O9CMDn1CiXWzCmcQE3SAu_zKrE_QtYKzA4Np0-3hUZBXwfgIC75SqUtMyD5tCyGNj9cr0_Tff_Tgch_hl7fUjy4wpnir3FjOE81bODJ4Tn5pCVsW6MjKtuar4vJCT3vWzB0aclq3FLuAWSVkhm0kur9oO?purpose=fullsize"><img src="https://images.openai.com/static-rsc-4/OSRY9BjUjAyuJanVAmCXJHjFZ84wR9BeBB_RvA7O9CMDn1CiXWzCmcQE3SAu_zKrE_QtYKzA4Np0-3hUZBXwfgIC75SqUtMyD5tCyGNj9cr0_Tff_Tgch_hl7fUjy4wpnir3FjOE81bODJ4Tn5pCVsW6MjKtuar4vJCT3vWzB0aclq3FLuAWSVkhm0kur9oO?purpose=fullsize"/></a></figure><figure id="3c1f6ce8-497f-80a9-b0b3-ccf4ba42a723" class="image" data-notion-image="https://images.openai.com/static-rsc-4/JoGrxPFL3N2-sfFmqWXQH5aAtPm1HDFshuNOpa5cPFz2hzEIhHaoyFDf4ly5JXLP0aA91YtoNcYkRhTL78M6Hwm5oGw0b6auzJNrKpf2DTBQ4JrJFamGMH_RyHrRv-VcI39r2dMfkAkejtBDGXlOk2CyEDEMIYgn3lQm4c3VT6dRM2dnZHi0W-DbGiHfRY9u?purpose=fullsize" dir="ltr"><a href="https://images.openai.com/static-rsc-4/JoGrxPFL3N2-sfFmqWXQH5aAtPm1HDFshuNOpa5cPFz2hzEIhHaoyFDf4ly5JXLP0aA91YtoNcYkRhTL78M6Hwm5oGw0b6auzJNrKpf2DTBQ4JrJFamGMH_RyHrRv-VcI39r2dMfkAkejtBDGXlOk2CyEDEMIYgn3lQm4c3VT6dRM2dnZHi0W-DbGiHfRY9u?purpose=fullsize"><img src="https://images.openai.com/static-rsc-4/JoGrxPFL3N2-sfFmqWXQH5aAtPm1HDFshuNOpa5cPFz2hzEIhHaoyFDf4ly5JXLP0aA91YtoNcYkRhTL78M6Hwm5oGw0b6auzJNrKpf2DTBQ4JrJFamGMH_RyHrRv-VcI39r2dMfkAkejtBDGXlOk2CyEDEMIYgn3lQm4c3VT6dRM2dnZHi0W-DbGiHfRY9u?purpose=fullsize"/></a></figure><figure id="3c1f6ce8-497f-809d-be07-c8d6674fde30" class="image" data-notion-image="https://images.openai.com/static-rsc-4/9qTUKZ9NlSNu8ajR3HviYMFAhHHlTiN-MlL81QN0lryTAjTdakJfsvEKoRk_rh7YGv-RlbPBTPxTt-zkKM6sfKyd5mxEDr1GLQUVjCEG-UVP9p-rUmUqJoJN7GoJFAkLZ40uM-DZR_AiD34TXO2_ad9QBLLMDlhUdTijmMWqyp2EP4RzVnd6l44hlZl3e2j3?purpose=fullsize" dir="ltr"><a href="https://images.openai.com/static-rsc-4/9qTUKZ9NlSNu8ajR3HviYMFAhHHlTiN-MlL81QN0lryTAjTdakJfsvEKoRk_rh7YGv-RlbPBTPxTt-zkKM6sfKyd5mxEDr1GLQUVjCEG-UVP9p-rUmUqJoJN7GoJFAkLZ40uM-DZR_AiD34TXO2_ad9QBLLMDlhUdTijmMWqyp2EP4RzVnd6l44hlZl3e2j3?purpose=fullsize"><img src="https://images.openai.com/static-rsc-4/9qTUKZ9NlSNu8ajR3HviYMFAhHHlTiN-MlL81QN0lryTAjTdakJfsvEKoRk_rh7YGv-RlbPBTPxTt-zkKM6sfKyd5mxEDr1GLQUVjCEG-UVP9p-rUmUqJoJN7GoJFAkLZ40uM-DZR_AiD34TXO2_ad9QBLLMDlhUdTijmMWqyp2EP4RzVnd6l44hlZl3e2j3?purpose=fullsize"/></a></figure><p id="3c1f6ce8-497f-8052-bc87-d5207f2f99b1" class="" dir="auto">O <strong>pgAdmin</strong> é uma ferramenta gráfica muito utilizada para administrar PostgreSQL.</p><p id="3c1f6ce8-497f-807e-abae-ffaa2f2a2327" class="" dir="auto">Com ele podemos:</p><ul id="3c1f6ce8-497f-8056-ac02-d3f38203e436" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Criar bancos;</li></ul><ul id="3c1f6ce8-497f-8077-9ded-d42ca27d4b55" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Criar tabelas;</li></ul><ul id="3c1f6ce8-497f-8036-9a34-ccdeb7caccf1" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Executar SQL;</li></ul><ul id="3c1f6ce8-497f-80de-b433-d101496d1649" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Gerenciar usuários;</li></ul><ul id="3c1f6ce8-497f-806e-b706-dbea5a99c3a8" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Visualizar objetos;</li></ul><ul id="3c1f6ce8-497f-8001-bffd-d79c1a1c1b12" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Administrar servidores;</li></ul><ul id="3c1f6ce8-497f-80d3-8409-e55a6985f105" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Inspecionar dados.</li></ul><p id="3c1f6ce8-497f-801e-b383-caa964835ce8" class="" dir="auto">Para quem está começando, uma ferramenta gráfica como o pgAdmin pode facilitar bastante o aprendizado.</p><hr id="3c1f6ce8-497f-80db-a6d2-d982badf51fe" dir="auto"/><h1 id="3c1f6ce8-497f-802c-bea3-c05975eae4fa" class="" dir="auto">20. PostgreSQL × MySQL</h1><p id="3c1f6ce8-497f-8066-8618-e18707b02cd1" class="" dir="auto">Os dois são excelentes SGBDs relacionais, mas possuem diferenças.</p><table id="3c1f6ce8-497f-8062-93c4-dd468fe8f04b" class="simple-table" dir="ltr"><thead class="simple-table-header"><tr id="3c1f6ce8-497f-8090-954c-f622771bfdb7" dir="ltr"><th id="B[kF" class="simple-table-header-color simple-table-header">Característica</th><th id=":&gt;Y~" class="simple-table-header-color simple-table-header">PostgreSQL</th><th id="C|P[" class="simple-table-header-color simple-table-header">MySQL</th></tr></thead><tbody><tr id="3c1f6ce8-497f-80a8-bc10-e665534de35b" dir="ltr"><td id="B[kF" class="">Código aberto</td><td id=":&gt;Y~" class="">Sim</td><td id="C|P[" class="">Sim</td></tr><tr id="3c1f6ce8-497f-80f5-a684-cdbdb97bde77" dir="ltr"><td id="B[kF" class="">SQL</td><td id=":&gt;Y~" class="">Sim</td><td id="C|P[" class="">Sim</td></tr><tr id="3c1f6ce8-497f-80bd-bff1-cd59c800a57a" dir="ltr"><td id="B[kF" class="">Transações</td><td id=":&gt;Y~" class="">Sim</td><td id="C|P[" class="">Sim</td></tr><tr id="3c1f6ce8-497f-8043-8638-cd8852cacd07" dir="ltr"><td id="B[kF" class="">JSON/JSONB</td><td id=":&gt;Y~" class="">Sim</td><td id="C|P[" class="">Sim</td></tr><tr id="3c1f6ce8-497f-80ce-92ab-da0774430fba" dir="ltr"><td id="B[kF" class="">Extensibilidade</td><td id=":&gt;Y~" class="">Muito forte</td><td id="C|P[" class="">Boa</td></tr><tr id="3c1f6ce8-497f-8044-ad4a-e93695c4aee0" dir="ltr"><td id="B[kF" class="">Recursos SQL avançados</td><td id=":&gt;Y~" class="">Muito forte</td><td id="C|P[" class="">Forte</td></tr><tr id="3c1f6ce8-497f-8036-b5ba-e245697b82ba" dir="ltr"><td id="B[kF" class="">Uso Web</td><td id=":&gt;Y~" class="">Muito comum</td><td id="C|P[" class="">Muito comum</td></tr><tr id="3c1f6ce8-497f-8064-8ec5-e23889fbd4ad" dir="ltr"><td id="B[kF" class="">Facilidade inicial</td><td id=":&gt;Y~" class="">Boa</td><td id="C|P[" class="">Muito boa</td></tr><tr id="3c1f6ce8-497f-807c-b46c-f90ee7f5ee5d" dir="ltr"><td id="B[kF" class="">Geodados</td><td id=":&gt;Y~" class="">PostGIS é destaque</td><td id="C|P[" class="">Possui suporte espacial</td></tr></tbody></table><p id="3c1f6ce8-497f-8050-9119-ee26966165d9" class="" dir="auto">Não existe um SGBD universalmente melhor.</p><p id="3c1f6ce8-497f-8098-ba09-d349fd90729d" class="" dir="auto">A escolha depende do projeto.</p><hr id="3c1f6ce8-497f-80fd-ba41-df9944d1c2fd" dir="auto"/><h1 id="3c1f6ce8-497f-8042-abce-f26f847044f3" class="" dir="auto">21. Vantagens do PostgreSQL</h1><h3 id="3c1f6ce8-497f-8045-b1d1-d884c1be9985" class="" dir="auto">Principais vantagens:</h3><p id="3c1f6ce8-497f-8090-9c2c-f201122812bc" class="" dir="auto"><strong>1. Código aberto</strong></p><p id="3c1f6ce8-497f-80a9-996d-fc66b9b1b612" class="" dir="auto">Pode ser utilizado sem depender de licenças proprietárias tradicionais.</p><p id="3c1f6ce8-497f-80de-aaeb-e7d61a6aacb6" class="" dir="auto"><strong>2. Robustez</strong></p><p id="3c1f6ce8-497f-8022-998e-f8af78e88a3b" class="" dir="auto">É adequado para aplicações que precisam de confiabilidade.</p><p id="3c1f6ce8-497f-80ee-9918-ed57f2358087" class="" dir="auto"><strong>3. Recursos avançados</strong></p><p id="3c1f6ce8-497f-80e4-bc31-fac4b9e247e3" class="" dir="auto">Oferece uma grande variedade de recursos SQL e de banco de dados.</p><p id="3c1f6ce8-497f-808b-9e2b-cca958c12789" class="" dir="auto"><strong>4. Extensibilidade</strong></p><p id="3c1f6ce8-497f-80ea-bbd6-e122c8ba60d5" class="" dir="auto">Pode ser expandido através de extensões.</p><p id="3c1f6ce8-497f-8078-87af-e017c7e09bb0" class="" dir="auto"><strong>5. Excelente suporte a transações</strong></p><p id="3c1f6ce8-497f-8042-8147-f25b1a6ee3a5" class="" dir="auto">Adequado para sistemas que exigem consistência.</p><p id="3c1f6ce8-497f-800a-af1d-c691d7601bf0" class="" dir="auto"><strong>6. Grande variedade de tipos de dados</strong></p><p id="3c1f6ce8-497f-8093-8754-de0bc7e67a1c" class="" dir="auto">Oferece tipos tradicionais e recursos mais avançados.</p><p id="3c1f6ce8-497f-80f4-ab6c-e3d8a8219eee" class="" dir="auto"><strong>7. Comunidade</strong></p><p id="3c1f6ce8-497f-809c-9b0d-e561e558ebd7" class="" dir="auto">Possui uma comunidade grande e bastante ativa.</p><hr id="3c1f6ce8-497f-8048-8986-cd585ab970e9" dir="auto"/><h1 id="3c1f6ce8-497f-8020-b314-c1334dcca948" class="" dir="auto">22. Desvantagens</h1><p id="3c1f6ce8-497f-8062-bb65-cd6e299633ff" class="" dir="auto">Apesar de suas vantagens, existem alguns pontos que devem ser considerados:</p><ul id="3c1f6ce8-497f-8095-8969-d569b7b0a5cb" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Pode ser mais complexo para iniciantes do que soluções mais simples;</li></ul><ul id="3c1f6ce8-497f-8090-831d-e4630de22d62" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Alguns recursos avançados exigem conhecimento especializado;</li></ul><ul id="3c1f6ce8-497f-80b8-bfa5-db88925b586c" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Administração e otimização podem exigir experiência;</li></ul><ul id="3c1f6ce8-497f-80bd-9cc5-ea628cd46728" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Migrações de outros SGBDs podem exigir adaptações;</li></ul><ul id="3c1f6ce8-497f-8031-81da-f56683ee718a" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Não é necessariamente a melhor escolha para todos os tipos de aplicações.</li></ul><hr id="3c1f6ce8-497f-80db-98cb-e3cf6e16db64" dir="auto"/><h1 id="3c1f6ce8-497f-807c-8f91-d5043580965a" class="" dir="auto">23. Onde o PostgreSQL é utilizado?</h1><p id="3c1f6ce8-497f-8042-add8-e1bd7de1026c" class="" dir="auto">O PostgreSQL pode ser encontrado em diversos tipos de aplicações:</p><pre id="3c1f6ce8-497f-8015-bc26-fbebad6818a1" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Aplicações Web
+      ↓
+APIs
+      ↓
+Sistemas empresariais
+      ↓
+Sistemas financeiros
+      ↓
+Análise de dados
+      ↓
+Sistemas geográficos
+      ↓
+Aplicações em nuvem</code></pre><p id="3c1f6ce8-497f-809c-93c4-c138e0bc2988" class="" dir="auto">Também é bastante utilizado em projetos que precisam combinar <strong>dados relacionais tradicionais com estruturas mais flexíveis, como JSON</strong>.</p><hr id="3c1f6ce8-497f-80d7-8944-d492eb1ba537" dir="auto"/><h1 id="3c1f6ce8-497f-80cd-ab84-d517f4232a23" class="" dir="auto">24. PostgreSQL em uma aplicação PHP</h1><p id="3c1f6ce8-497f-8035-ac54-f3774f395f0d" class="" dir="auto">Como você está estudando <strong>PHP</strong>, é importante entender que o PostgreSQL pode ser utilizado diretamente com PHP.</p><p id="3c1f6ce8-497f-80b7-b891-d14e6f9592be" class="" dir="auto">A arquitetura pode ser:</p><pre id="3c1f6ce8-497f-8082-9506-f5e06c6d7cfc" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Usuário
+   ↓
+HTML/CSS/JavaScript
+   ↓
+PHP
+   ↓
+PDO
+   ↓
+PostgreSQL
+   ↓
+Banco de Dados</code></pre><p id="3c1f6ce8-497f-80c7-a351-eb0d36017222" class="" dir="auto">Exemplo utilizando PDO:</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markup-templating.min.js" integrity="sha512-+8BiRfWso6waiFDv6tEmWF8yfPGgxAtOYLDUB0rRISLwtpxkJ9lpPNUhxwWlikn3qSO+4RQyzDppi62o3ON/AA==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-php.min.js" integrity="sha512-plzrTi61ltEMFf84gTVO9IkvIMfBu07bnDuahvdlIclmFWzXJ9VcRsny9d45sxFZRv3jJg/MHNyuxnUYEMxMEg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="3c1f6ce8-497f-80f9-8f80-eafd7bb6d37d" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">&lt;?php
+
+$pdo = new PDO(
+    &quot;pgsql:host=localhost;dbname=loja&quot;,
+    &quot;postgres&quot;,
+    &quot;senha&quot;
+);
+
+$stmt = $pdo-&gt;query(&quot;SELECT * FROM clientes&quot;);
+
+$clientes = $stmt-&gt;fetchAll(PDO::FETCH_ASSOC);
+
+print_r($clientes);</code></pre><p id="3c1f6ce8-497f-80a3-9f8e-ef85d535ff9c" class="" dir="auto">O <strong>PDO</strong> permite que o PHP trabalhe com diferentes bancos de dados através de uma interface relativamente uniforme.</p><hr id="3c1f6ce8-497f-80ec-b69a-cb0857926a12" dir="auto"/><h1 id="3c1f6ce8-497f-800b-8bc9-f12a194172f5" class="" dir="auto">25. PostgreSQL na prática</h1><p id="3c1f6ce8-497f-808e-b87a-dd004da92b28" class="" dir="auto">Imagine um sistema de vendas.</p><p id="3c1f6ce8-497f-80ff-932c-ea1852f83d99" class="" dir="auto">O banco poderia possuir:</p><pre id="3c1f6ce8-497f-80dc-9db1-e7d4aa055c9c" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">clientes
+├── id
+├── nome
+└── email
+
+produtos
+├── id
+├── nome
+└── preco
+
+pedidos
+├── id
+├── cliente_id
+└── data
+
+itens_pedido
+├── id
+├── pedido_id
+├── produto_id
+└── quantidade</code></pre><p id="3c1f6ce8-497f-800d-a32b-d1f52fe0b693" class="" dir="auto">Os relacionamentos seriam:</p><pre id="3c1f6ce8-497f-80e6-a932-d225876fc753" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Clientes
+   │
+   │ 1:N
+   ↓
+Pedidos
+   │
+   │ 1:N
+   ↓
+Itens_Pedido
+   ↑
+   │ N:1
+Produtos</code></pre><p id="3c1f6ce8-497f-8050-a06f-f900b2db7a2f" class="" dir="auto">O PostgreSQL seria responsável por armazenar e gerenciar toda essa estrutura.</p><hr id="3c1f6ce8-497f-803e-a990-c3c77fe83a62" dir="auto"/><h1 id="3c1f6ce8-497f-80b3-ac9e-cb48c49d011d" class="" dir="auto">Resumo</h1><p id="3c1f6ce8-497f-800a-b5ae-eb5a7dcc7e38" class="" dir="auto">O <strong>PostgreSQL</strong> é um SGBD <strong>objeto-relacional, open source e altamente extensível</strong>, baseado principalmente no modelo relacional.</p><p id="3c1f6ce8-497f-8095-b7d3-c8a10e95475c" class="" dir="auto">Suas principais características são:</p><ul id="3c1f6ce8-497f-8024-af67-f4bada1426e4" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Utilização de SQL;</li></ul><ul id="3c1f6ce8-497f-80c2-8ce4-f2a85f66d4bb" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Transações e propriedades ACID;</li></ul><ul id="3c1f6ce8-497f-80fa-a8f7-e2187d5e3767" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Controle de concorrência;</li></ul><ul id="3c1f6ce8-497f-8039-a5fa-f50d47151df7" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Chaves e constraints;</li></ul><ul id="3c1f6ce8-497f-80d4-b201-d0788772ac1f" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Views;</li></ul><ul id="3c1f6ce8-497f-80f5-92d6-c1c9381e21a8" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Triggers;</li></ul><ul id="3c1f6ce8-497f-8052-afe4-ccc3838e11d7" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Functions e Procedures;</li></ul><ul id="3c1f6ce8-497f-8096-a3f8-f10c27385ed7" class="bulleted-list" dir="auto"><li style="list-style-type:disc">JSON/JSONB;</li></ul><ul id="3c1f6ce8-497f-80a5-9d6b-d7579cdc5c79" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Índices;</li></ul><ul id="3c1f6ce8-497f-8024-be1e-f86978c6722e" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Segurança;</li></ul><ul id="3c1f6ce8-497f-8061-8681-f99dd3c6e5dd" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Extensões;</li></ul><ul id="3c1f6ce8-497f-8075-b513-ecd020511b42" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Suporte a grandes volumes de dados;</li></ul><ul id="3c1f6ce8-497f-807d-8dfd-e483bd69d015" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Integração com diversas linguagens e aplicações.</li></ul><p id="3c1f6ce8-497f-80a8-a4a5-f4c2de5c405b" class="" dir="auto">Sua estrutura básica é:</p><pre id="3c1f6ce8-497f-8072-81a0-ff6d620ab8cc" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Aplicação
+    ↓
+Driver / PDO
+    ↓
+PostgreSQL
+    ↓
+Banco de Dados
+    ↓
+Tabelas + Índices + Dados</code></pre><p id="3c1f6ce8-497f-803b-a108-c3deed1f17d1" class="" dir="auto"><strong>Para quem está estudando Banco de Dados, PostgreSQL é especialmente importante porque permite aprender não apenas SQL e o modelo relacional, mas também diversos recursos avançados encontrados em SGBDs profissionais.</strong></p></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

@@ -1,0 +1,858 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>SGBD</title><meta name="data-notion-page-icon" content="/icons/elephant_blue.svg"/><link rel="icon" href="https://app.notion.com/icons/elephant_blue.svg"/><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+/* For default-background callouts, render the border outline. */
+.callout.block-color-default_background {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+/*
+ * Toggles and callouts hold arbitrary content, so they can easily be taller
+ * than a page. They must stay breakable: avoiding breaks inside them makes
+ * Chromium push the whole block onto the next page, which leaves the previous
+ * page mostly empty before every long toggle.
+ */
+details,
+aside {
+	margin: 1.25em 0;
+}
+
+/* Keep a toggle's title on the same page as the start of its content. */
+summary {
+	page-break-after: avoid;
+	break-after: avoid;
+}
+
+/*
+ * Toggle headings render as <h1/h2/h3 style="display:inline-block"> inside
+ * <summary>. Without this reset, the heading's margin-top pushes it below the
+ * ::marker (▼), so the triangle and the title appear on separate lines.
+ */
+summary h1,
+summary h2,
+summary h3,
+summary h4 {
+	margin-top: 0;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding-inline: 0.125rem;
+	padding-block: 0.375rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+/*
+ * Render emoji icons using a ::before pseudo-element to keep the glyph
+ * out of the DOM textContent traversal. This avoids double-rendering icons
+ * in callouts and page titles.
+ * NOTE(slim/html-export-pseudo-icons): I can't tagref this because it will
+ * flag as a duplicate tag after codegen.
+ */
+.icon[data-emoji]::before {
+	content: attr(data-emoji);
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	margin-right: 0.4em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.tab {
+	margin: 1.25em 0;
+	padding-inline: 1rem;
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style><style>@import url('https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex-swap.min.css')</style></head><body><article id="3c1f6ce8-497f-8015-af25-f16a4053da56" class="page sans" data-notion-page-icon="/icons/elephant_blue.svg"><header><div class="page-header-icon undefined"><img class="icon notion-static-icon" src="https://app.notion.com/icons/elephant_blue.svg"/></div><h1 class="page-title" dir="auto">SGBD</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><h1 id="3c1f6ce8-497f-80fc-8f94-f6f09c22f1c9" class="" dir="auto">Sistema de Gerência de Banco de Dados (SGBD)</h1><p id="3c1f6ce8-497f-8066-8570-ceb858582526" class="" dir="auto">O <strong>Sistema de Gerência de Banco de Dados</strong>, mais conhecido como <strong>SGBD (Sistema Gerenciador de Banco de Dados)</strong>, é o software responsável por <strong>gerenciar o armazenamento, organização, acesso e segurança dos dados</strong> de um banco de dados.</p><p id="3c1f6ce8-497f-80f9-b434-c0ad236b55ff" class="" dir="auto">Ele funciona como uma camada entre as <strong>aplicações/usuários</strong> e o <strong>banco de dados</strong>.</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="3c1f6ce8-497f-806c-86c4-faf3cd458a5f" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Usuário
+   ↓
+Aplicação
+   ↓
+SGBD
+   ↓
+Banco de Dados</code></pre><hr id="3c1f6ce8-497f-80d5-a944-cbb281a15cda" dir="auto"/><h2 id="3c1f6ce8-497f-8091-81fc-fd161fff0963" class="" dir="auto">1. Principais funções do SGBD</h2><p id="3c1f6ce8-497f-80b0-9f7e-e48820db7071" class="" dir="auto">Um SGBD é responsável por várias tarefas importantes.</p><h3 id="3c1f6ce8-497f-80a1-b5b0-c45d407a097a" class="" dir="auto">Armazenamento e gerenciamento</h3><p id="3c1f6ce8-497f-801e-be94-f06cacffd70b" class="" dir="auto">Controla como os dados são armazenados e organizados.</p><h3 id="3c1f6ce8-497f-8014-8409-f6f6b8a70236" class="" dir="auto">Consulta</h3><p id="3c1f6ce8-497f-8004-823d-f43d8cd5d011" class="" dir="auto">Permite recuperar informações utilizando linguagens como SQL.</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-sql.min.js" integrity="sha512-sijCOJblSCXYYmXdwvqV0tak8QJW5iy2yLB1wAbbLc3OOIueqymizRFWUS/mwKctnzPKpNdPJV3aK1zlDMJmXQ==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="3c1f6ce8-497f-8080-87b6-e59193825801" class="code code-wrap" data-notion-code-syntax="sql"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">SELECT *
+FROM clientes;</code></pre><h3 id="3c1f6ce8-497f-8020-95f9-f28f6d606174" class="" dir="auto">Inserção, alteração e exclusão</h3><p id="3c1f6ce8-497f-8070-a525-fc5305215b55" class="" dir="auto">Permite manipular os dados:</p><pre id="3c1f6ce8-497f-8004-ac6d-fa07079cc807" class="code code-wrap" data-notion-code-syntax="sql"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">INSERT INTO clientes (nome)
+VALUES (&#x27;João&#x27;);</code></pre><pre id="3c1f6ce8-497f-803a-8208-e7607e25a905" class="code code-wrap" data-notion-code-syntax="sql"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">UPDATE clientes
+SET nome = &#x27;Carlos&#x27;
+WHERE id = 1;</code></pre><pre id="3c1f6ce8-497f-8087-8f8c-c2d52d24b130" class="code code-wrap" data-notion-code-syntax="sql"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">DELETE FROM clientes
+WHERE id = 1;</code></pre><h3 id="3c1f6ce8-497f-800b-b063-ea0fd74a886f" class="" dir="auto">Segurança</h3><p id="3c1f6ce8-497f-80e1-b1c0-f020880aa11c" class="" dir="auto">Controla:</p><ul id="3c1f6ce8-497f-80e0-92f1-c15081e78c14" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Usuários;</li></ul><ul id="3c1f6ce8-497f-80ec-8dc4-ca41724da601" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Senhas;</li></ul><ul id="3c1f6ce8-497f-8072-a77d-c886d17105dd" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Permissões;</li></ul><ul id="3c1f6ce8-497f-8061-9218-c04c973393ee" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Acesso às tabelas e dados.</li></ul><h3 id="3c1f6ce8-497f-8067-b6fb-ebb9acc7fe26" class="" dir="auto">Integridade</h3><p id="3c1f6ce8-497f-8055-9da3-f7aa3baad44e" class="" dir="auto">Impõe regras para evitar dados inválidos ou inconsistentes.</p><p id="3c1f6ce8-497f-806d-b19f-c66454aa77be" class="" dir="auto">Exemplo:</p><pre id="3c1f6ce8-497f-8095-8cf1-da7c77707638" class="code code-wrap" data-notion-code-syntax="sql"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">id INT PRIMARY KEY</code></pre><p id="3c1f6ce8-497f-80bb-b8a7-c7518d3fd660" class="" dir="auto">A chave primária impede que dois registros tenham o mesmo identificador.</p><h3 id="3c1f6ce8-497f-805e-b90f-e4ad1c7bae8d" class="" dir="auto">Controle de concorrência</h3><p id="3c1f6ce8-497f-80b9-9f4c-f3531c559fef" class="" dir="auto">Permite que vários usuários utilizem o banco simultaneamente, controlando possíveis conflitos.</p><h3 id="3c1f6ce8-497f-8082-935b-ee42594ca19c" class="" dir="auto">Transações</h3><p id="3c1f6ce8-497f-808a-950d-d95ac6fe1631" class="" dir="auto">Garante que operações relacionadas sejam executadas de maneira consistente.</p><pre id="3c1f6ce8-497f-80ce-a933-de289f538164" class="code code-wrap" data-notion-code-syntax="sql"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">BEGIN;
+
+-- operações
+
+COMMIT;</code></pre><p id="3c1f6ce8-497f-80d0-af6e-f562fbba8d63" class="" dir="auto">Caso seja necessário cancelar:</p><pre id="3c1f6ce8-497f-80ef-87ad-c59ff99a435c" class="code code-wrap" data-notion-code-syntax="sql"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">ROLLBACK;</code></pre><h3 id="3c1f6ce8-497f-8028-8fbb-c93a232e270b" class="" dir="auto">Backup e recuperação</h3><p id="3c1f6ce8-497f-80b7-9644-f91acdfa7faf" class="" dir="auto">Fornece recursos para proteger os dados e recuperá-los após falhas.</p><hr id="3c1f6ce8-497f-8058-8219-c52810d3700f" dir="auto"/><h1 id="3c1f6ce8-497f-80f4-a74a-df6c385dab82" class="" dir="auto">2. Arquitetura básica</h1><p id="3c1f6ce8-497f-80f6-886e-fedbd2b2bab6" class="" dir="auto">O funcionamento pode ser representado assim:</p><pre id="3c1f6ce8-497f-8076-aa8f-e61a8f0cead7" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">             Usuário
+                ↓
+            Aplicação
+                ↓
+        ┌───────────────┐
+        │     SGBD      │
+        │               │
+        │ Consultas     │
+        │ Segurança     │
+        │ Transações    │
+        │ Integridade   │
+        │ Concorrência  │
+        └───────┬───────┘
+                ↓
+        Banco de Dados</code></pre><p id="3c1f6ce8-497f-8066-9e37-f091ffc4c08d" class="" dir="auto">O SGBD recebe as solicitações, processa as operações e interage com os dados armazenados.</p><hr id="3c1f6ce8-497f-806e-9298-c28980620eec" dir="auto"/><h1 id="3c1f6ce8-497f-80db-a1ad-f473d3eea2cc" class="" dir="auto">3. Exemplos de SGBDs</h1><p id="3c1f6ce8-497f-80eb-86f3-ecaf9ba82e09" class="" dir="auto">Existem diversos SGBDs, principalmente relacionais:</p><ul id="3c1f6ce8-497f-80d8-9195-fe94b29d4c65" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>MySQL</strong></li></ul><ul id="3c1f6ce8-497f-80f6-acfa-ff5d95ff7e73" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>PostgreSQL</strong></li></ul><ul id="3c1f6ce8-497f-803f-b854-c22c5e824748" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>Oracle Database</strong></li></ul><ul id="3c1f6ce8-497f-8061-9fbc-f0a285803bac" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>Microsoft SQL Server</strong></li></ul><ul id="3c1f6ce8-497f-8080-8ea1-c748a55c273d" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>MariaDB</strong></li></ul><ul id="3c1f6ce8-497f-8091-a9e7-cf1e8d1f6817" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>SQLite</strong></li></ul><ul id="3c1f6ce8-497f-809d-83bb-ef1868c8ae7f" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>IBM Db2</strong></li></ul><p id="3c1f6ce8-497f-807c-9f18-d61e41d85b88" class="" dir="auto">Também existem SGBDs de outros modelos, como:</p><ul id="3c1f6ce8-497f-80a6-ad2f-c54bbef9c553" class="bulleted-list" dir="auto"><li style="list-style-type:disc">MongoDB → documentos;</li></ul><ul id="3c1f6ce8-497f-80fd-823d-c6209db3eec4" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Redis → chave-valor;</li></ul><ul id="3c1f6ce8-497f-80e7-8d09-fc627fb2f71b" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Neo4j → grafos.</li></ul><hr id="3c1f6ce8-497f-804c-864e-c5cd7763afec" dir="auto"/><h1 id="3c1f6ce8-497f-8020-9774-d0725fc08590" class="" dir="auto">4. SGBD e SQL</h1><p id="3c1f6ce8-497f-8078-bd88-e26a287d7ee4" class="" dir="auto">É importante não confundir <strong>SGBD</strong> com <strong>SQL</strong>.</p><h3 id="3c1f6ce8-497f-80d3-b7d4-dbe2339a2ffb" class="" dir="auto">SGBD</h3><p id="3c1f6ce8-497f-8068-b641-f1a946fab37a" class="" dir="auto">É o <strong>software que gerencia o banco</strong>.</p><p id="3c1f6ce8-497f-8076-8e6e-c36e41fcabed" class="" dir="auto">Exemplo:</p><pre id="3c1f6ce8-497f-802e-b607-fa47debd83f7" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">MySQL
+PostgreSQL
+Oracle</code></pre><h3 id="3c1f6ce8-497f-8051-9768-f6b27b64ad20" class="" dir="auto">SQL</h3><p id="3c1f6ce8-497f-80b6-97e6-fa107b2bb5f2" class="" dir="auto">É uma <strong>linguagem utilizada para trabalhar com dados</strong>.</p><p id="3c1f6ce8-497f-8026-b69a-e2be0a4f4580" class="" dir="auto">Exemplo:</p><pre id="3c1f6ce8-497f-80aa-acc5-c93147914914" class="code code-wrap" data-notion-code-syntax="sql"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">SELECT nome
+FROM clientes;</code></pre><p id="3c1f6ce8-497f-80dc-9ee8-e4e35e57d123" class="" dir="auto">Podemos representar:</p><pre id="3c1f6ce8-497f-80fc-a682-c2209c180a07" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">SQL
+ ↓
+SGBD
+ ↓
+Banco de Dados</code></pre><hr id="3c1f6ce8-497f-8025-96e7-c41264886aec" dir="auto"/><h1 id="3c1f6ce8-497f-80bc-b405-cc4d9baa5a70" class="" dir="auto">5. Vantagens de utilizar um SGBD</h1><p id="3c1f6ce8-497f-80d4-b115-db968015f6b6" class="" dir="auto">Os principais benefícios são:</p><ul id="3c1f6ce8-497f-809f-9610-d3959c0dba54" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Redução da redundância;</li></ul><ul id="3c1f6ce8-497f-802f-bb8d-ca205fd5f3b5" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Maior segurança;</li></ul><ul id="3c1f6ce8-497f-80ce-97c2-e34c6550a7fc" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Controle de acesso;</li></ul><ul id="3c1f6ce8-497f-8017-b61c-ccade8cba8d9" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Integridade dos dados;</li></ul><ul id="3c1f6ce8-497f-8059-b6b3-cf5a962fc003" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Compartilhamento de informações;</li></ul><ul id="3c1f6ce8-497f-8086-a7c4-cf17695563a0" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Controle de concorrência;</li></ul><ul id="3c1f6ce8-497f-8060-ab08-c4413ce1260f" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Suporte a transações;</li></ul><ul id="3c1f6ce8-497f-80b1-87f3-f5dbc1a36a42" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Backup e recuperação;</li></ul><ul id="3c1f6ce8-497f-8020-a069-cc946c467ab2" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Facilidade de consulta;</li></ul><ul id="3c1f6ce8-497f-80a8-b584-c9348de9c373" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Melhor gerenciamento dos dados.</li></ul><hr id="3c1f6ce8-497f-80e1-9a6b-ebda165c6e97" dir="auto"/><h1 id="3c1f6ce8-497f-80a9-92ef-d69221d17449" class="" dir="auto">6. SGBD × Sistema de Banco de Dados</h1><p id="3c1f6ce8-497f-8015-859e-f97d404eacdc" class="" dir="auto">Também é importante diferenciar os conceitos.</p><h3 id="3c1f6ce8-497f-8091-b409-c63454cc9197" class="" dir="auto">Banco de Dados</h3><p id="3c1f6ce8-497f-8082-8808-e7a2bd605b85" class="" dir="auto">É o conjunto de dados armazenados.</p><pre id="3c1f6ce8-497f-80ef-a9c4-f28392d0c8f7" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Clientes
+Produtos
+Pedidos</code></pre><h3 id="3c1f6ce8-497f-805b-b784-f44932b2feaf" class="" dir="auto">SGBD</h3><p id="3c1f6ce8-497f-80b6-b1c6-fd64ebf067cd" class="" dir="auto">É o software que gerencia esses dados.</p><pre id="3c1f6ce8-497f-80e8-85a2-f52fc27721ab" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">MySQL
+PostgreSQL
+Oracle</code></pre><h3 id="3c1f6ce8-497f-80c0-9645-c0708632b801" class="" dir="auto">Sistema de Banco de Dados</h3><p id="3c1f6ce8-497f-805c-9d44-e2c84b014264" class="" dir="auto">É o conjunto completo:</p><pre id="3c1f6ce8-497f-804f-a408-c13d8a7f5a7b" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Usuários
+   +
+Aplicações
+   +
+SGBD
+   +
+Banco de Dados
+   +
+Hardware
+   +
+Procedimentos</code></pre><hr id="3c1f6ce8-497f-8040-8a83-ec2fe389e233" dir="auto"/><h1 id="3c1f6ce8-497f-801d-9f6a-dcd259eb12b2" class="" dir="auto">7. Exemplo prático</h1><p id="3c1f6ce8-497f-8078-9afb-f8e6a34f5a3f" class="" dir="auto">Imagine um sistema de uma loja.</p><p id="3c1f6ce8-497f-8052-824c-d9516d2f8b84" class="" dir="auto">O cliente compra um produto:</p><pre id="3c1f6ce8-497f-8041-b314-f69bf5c28543" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Cliente
+   ↓
+Sistema de Vendas
+   ↓
+SGBD
+   ↓
+Banco de Dados</code></pre><p id="3c1f6ce8-497f-8095-8ab8-f074a6f3adbe" class="" dir="auto">O SGBD pode:</p><ol type="1" id="3c1f6ce8-497f-8053-bf52-f8c882104345" class="numbered-list" start="1" dir="auto"><li>Registrar a venda;</li></ol><ol type="1" id="3c1f6ce8-497f-805e-95d5-c9ab6c1d816f" class="numbered-list" start="2" dir="auto"><li>Atualizar o estoque;</li></ol><ol type="1" id="3c1f6ce8-497f-80ca-86e5-e53286d27102" class="numbered-list" start="3" dir="auto"><li>Registrar o pagamento;</li></ol><ol type="1" id="3c1f6ce8-497f-8071-8ac7-cab77bc8989a" class="numbered-list" start="4" dir="auto"><li>Garantir a integridade das informações;</li></ol><ol type="1" id="3c1f6ce8-497f-8016-aafa-e744619c454a" class="numbered-list" start="5" dir="auto"><li>Controlar o acesso;</li></ol><ol type="1" id="3c1f6ce8-497f-80a6-882e-d5731f408b48" class="numbered-list" start="6" dir="auto"><li>Confirmar a transação.</li></ol><p id="3c1f6ce8-497f-8081-a6a1-f2205a6977e5" class="" dir="auto">Por exemplo:</p><pre id="3c1f6ce8-497f-80c2-86a2-cdc326956516" class="code code-wrap" data-notion-code-syntax="sql"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">UPDATE produtos
+SET estoque = estoque - 1
+WHERE id = 10;</code></pre><p id="3c1f6ce8-497f-8021-93f0-eea052d46154" class="" dir="auto">Assim, a aplicação não precisa controlar diretamente todos os detalhes do armazenamento.</p><hr id="3c1f6ce8-497f-8079-834a-c10f80f53b19" dir="auto"/><h1 id="3c1f6ce8-497f-80f3-9cbf-f23be947cd85" class="" dir="auto">Resumo</h1><p id="3c1f6ce8-497f-802b-a98c-ddb92cee01f3" class="" dir="auto">O <strong>SGBD é o software central responsável pelo gerenciamento do banco de dados</strong>. Ele atua entre as aplicações e os dados, fornecendo mecanismos para <strong>armazenamento, consulta, alteração, segurança, integridade, concorrência, transações, backup e recuperação</strong>.</p><p id="3c1f6ce8-497f-80ac-bef3-ee15839e33de" class="" dir="auto">A estrutura fundamental é:</p><pre id="3c1f6ce8-497f-80ce-91aa-e1838b84a5ae" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">USUÁRIO
+   ↓
+APLICAÇÃO
+   ↓
+SGBD
+   ↓
+BANCO DE DADOS</code></pre><p id="3c1f6ce8-497f-802c-b7b6-f6112a273629" class="" dir="auto"><strong>Sem o SGBD, as aplicações precisariam assumir diretamente grande parte das responsabilidades de armazenamento e gerenciamento dos dados.</strong></p></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>
