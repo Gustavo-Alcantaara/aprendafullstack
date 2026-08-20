@@ -1,0 +1,794 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Ataques de Negação de Serviço</title><meta name="data-notion-page-icon" content="/icons/lock_blue.svg"/><link rel="icon" href="https://app.notion.com/icons/lock_blue.svg"/><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+/* For default-background callouts, render the border outline. */
+.callout.block-color-default_background {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+/*
+ * Toggles and callouts hold arbitrary content, so they can easily be taller
+ * than a page. They must stay breakable: avoiding breaks inside them makes
+ * Chromium push the whole block onto the next page, which leaves the previous
+ * page mostly empty before every long toggle.
+ */
+details,
+aside {
+	margin: 1.25em 0;
+}
+
+/* Keep a toggle's title on the same page as the start of its content. */
+summary {
+	page-break-after: avoid;
+	break-after: avoid;
+}
+
+/*
+ * Toggle headings render as <h1/h2/h3 style="display:inline-block"> inside
+ * <summary>. Without this reset, the heading's margin-top pushes it below the
+ * ::marker (▼), so the triangle and the title appear on separate lines.
+ */
+summary h1,
+summary h2,
+summary h3,
+summary h4 {
+	margin-top: 0;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding-inline: 0.125rem;
+	padding-block: 0.375rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+/*
+ * Render emoji icons using a ::before pseudo-element to keep the glyph
+ * out of the DOM textContent traversal. This avoids double-rendering icons
+ * in callouts and page titles.
+ * NOTE(slim/html-export-pseudo-icons): I can't tagref this because it will
+ * flag as a duplicate tag after codegen.
+ */
+.icon[data-emoji]::before {
+	content: attr(data-emoji);
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	margin-right: 0.4em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.tab {
+	margin: 1.25em 0;
+	padding-inline: 1rem;
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style><style>@import url('https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex-swap.min.css')</style></head><body><article id="3c2f6ce8-497f-8009-a1b7-ccb6c92a8b95" class="page sans" data-notion-page-icon="/icons/lock_blue.svg"><header><div class="page-header-icon undefined"><img class="icon notion-static-icon" src="https://app.notion.com/icons/lock_blue.svg"/></div><h1 class="page-title" dir="auto">Ataques de Negação de Serviço</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><h1 id="3c2f6ce8-497f-80da-8d34-dba6baff58e8" class="" dir="auto">Ataques de Negação de Serviço</h1><p id="3c2f6ce8-497f-80f6-a8f1-e7db86a647a2" class="" dir="auto">Os <strong>Ataques de Negação de Serviço</strong>, conhecidos como <strong>DoS (Denial of Service)</strong>, são ataques cujo objetivo é fazer com que um sistema, servidor, aplicação, rede ou serviço fique <strong>indisponível ou tenha seu desempenho significativamente reduzido</strong> para usuários legítimos.</p><p id="3c2f6ce8-497f-8035-a212-d693b0f83117" class="" dir="auto">O princípio básico é explorar ou sobrecarregar algum recurso limitado do alvo, fazendo com que ele não consiga atender normalmente às solicitações legítimas.</p><hr id="3c2f6ce8-497f-8047-ae08-ececa7d29240" dir="auto"/><h2 id="3c2f6ce8-497f-80d8-80c4-e51962b5c30e" class="" dir="auto">1. O que é um ataque DoS?</h2><p id="3c2f6ce8-497f-804a-9f5c-e753390ab9ef" class="" dir="auto">Em condições normais, temos:</p><p id="3c2f6ce8-497f-8056-813b-e76a6262cb01" class="" dir="auto"><strong>Usuário → Servidor → Resposta</strong></p><p id="3c2f6ce8-497f-805c-8b48-cedb104c256d" class="" dir="auto">O servidor recebe uma solicitação, processa e devolve uma resposta.</p><p id="3c2f6ce8-497f-8047-b425-c90b2c585e06" class="" dir="auto">Em um ataque de DoS, o atacante tenta fazer com que o servidor receba uma quantidade ou tipo de solicitações que ultrapasse sua capacidade.</p><p id="3c2f6ce8-497f-80da-ae70-ca93bc76abde" class="" dir="auto">O resultado pode ser:</p><p id="3c2f6ce8-497f-8031-9ea0-dd83fd9d04f8" class="" dir="auto"><strong>Solicitações excessivas → Esgotamento de recursos → Lentidão → Indisponibilidade</strong></p><p id="3c2f6ce8-497f-806d-b015-d47014336ce1" class="" dir="auto">Os recursos que podem ser consumidos incluem:</p><ul id="3c2f6ce8-497f-8015-a6bd-c94fe41aae1f" class="bulleted-list" dir="auto"><li style="list-style-type:disc">CPU;</li></ul><ul id="3c2f6ce8-497f-80df-8c27-c7dca362d244" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Memória RAM;</li></ul><ul id="3c2f6ce8-497f-80b4-a575-d935e2e496ee" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Largura de banda;</li></ul><ul id="3c2f6ce8-497f-8054-99d3-cceb15e338f4" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Conexões simultâneas;</li></ul><ul id="3c2f6ce8-497f-8024-b889-f9e7b26be7e9" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Processos;</li></ul><ul id="3c2f6ce8-497f-8070-ba72-e800c01c4283" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Espaço de armazenamento;</li></ul><ul id="3c2f6ce8-497f-80ab-8b08-dd0a9ab7dab7" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Recursos de uma aplicação ou banco de dados.</li></ul><hr id="3c2f6ce8-497f-801a-96d0-cb32856b1f0d" dir="auto"/><h1 id="3c2f6ce8-497f-804f-be73-f07e3680f934" class="" dir="auto">2. DoS × DDoS</h1><p id="3c2f6ce8-497f-80a3-8ae4-ca18c89a01d4" class="" dir="auto">Essa é uma das diferenças mais importantes.</p><h3 id="3c2f6ce8-497f-807f-9024-d7ae28da205f" class="" dir="auto">DoS — Denial of Service</h3><p id="3c2f6ce8-497f-80d0-be28-eba3bd6a34a7" class="" dir="auto">No <strong>DoS</strong>, o ataque geralmente parte de uma única origem ou de uma quantidade limitada de fontes.</p><p id="3c2f6ce8-497f-8042-b141-db1d6947743b" class="" dir="auto"><strong>Atacante → Alvo</strong></p><hr id="3c2f6ce8-497f-8088-b3fa-f430833d2760" dir="auto"/><h3 id="3c2f6ce8-497f-80f9-b2fa-f3f4d929779e" class="" dir="auto">DDoS — Distributed Denial of Service</h3><p id="3c2f6ce8-497f-80b9-9b7b-fbc483241053" class="" dir="auto">No <strong>DDoS</strong>, o ataque é distribuído entre vários dispositivos ou fontes.</p><p id="3c2f6ce8-497f-8088-a4f1-e609017d4b41" class="" dir="auto"><strong>Dispositivo 1 ─┐</strong></p><p id="3c2f6ce8-497f-80dd-8090-cf94b7815b36" class="" dir="auto"><strong>Dispositivo 2 ─┤</strong></p><p id="3c2f6ce8-497f-801d-8df9-e4615ed624a9" class="" dir="auto"><strong>Dispositivo 3 ─┼→ Alvo</strong></p><p id="3c2f6ce8-497f-8070-8e91-e57d6eb96bbf" class="" dir="auto"><strong>Dispositivo 4 ─┤</strong></p><p id="3c2f6ce8-497f-8087-8592-ece8849a56a4" class="" dir="auto"><strong>Dispositivo 5 ─┘</strong></p><p id="3c2f6ce8-497f-801d-8066-e33cb0e03c65" class="" dir="auto">Isso torna a defesa mais complexa, pois bloquear uma única origem não é suficiente.</p><hr id="3c2f6ce8-497f-80b6-afdb-cec63df3b5d1" dir="auto"/><h1 id="3c2f6ce8-497f-80bf-b14d-f15c0436e20f" class="" dir="auto">3. Objetivo principal</h1><p id="3c2f6ce8-497f-8010-be03-e3b38313b8b5" class="" dir="auto">O principal objetivo é comprometer a <strong>disponibilidade</strong>.</p><p id="3c2f6ce8-497f-808d-ae15-c0f6b5a881f9" class="" dir="auto">Isso está diretamente relacionado à <strong>Tríade CIA</strong>:</p><ul id="3c2f6ce8-497f-8024-984f-d1ad8db1cdc1" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>Confidencialidade</strong> → proteger informações contra acesso indevido;</li></ul><ul id="3c2f6ce8-497f-80dc-a8d3-c35362280eb7" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>Integridade</strong> → impedir alterações indevidas;</li></ul><ul id="3c2f6ce8-497f-8014-a953-e609cb50811f" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>Disponibilidade</strong> → garantir que serviços estejam acessíveis.</li></ul><p id="3c2f6ce8-497f-807b-abd6-cdc3937cb8b8" class="" dir="auto">O DoS/DDoS ataca principalmente o terceiro princípio.</p><h3 id="3c2f6ce8-497f-8078-ae6c-f8e4d97387b2" class="" dir="auto">Exemplo</h3><p id="3c2f6ce8-497f-8023-89e4-fe629065bf2b" class="" dir="auto">Imagine um site de uma loja virtual que normalmente atende milhares de clientes.</p><p id="3c2f6ce8-497f-80b0-99ae-c94d89fcf18d" class="" dir="auto">Durante um ataque, o servidor recebe uma quantidade enorme de solicitações e começa a ficar sobrecarregado.</p><p id="3c2f6ce8-497f-80d9-b70e-dad52f78fb09" class="" dir="auto">Consequentemente:</p><ul id="3c2f6ce8-497f-8008-9f64-ea676adcf1af" class="bulleted-list" dir="auto"><li style="list-style-type:disc">O site fica lento;</li></ul><ul id="3c2f6ce8-497f-809e-96db-daabaeb079e9" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Algumas requisições falham;</li></ul><ul id="3c2f6ce8-497f-8093-9a85-d8172e625b70" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Usuários não conseguem acessar páginas;</li></ul><ul id="3c2f6ce8-497f-800c-a56b-fa2f61a8f8ff" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Compras podem ser interrompidas.</li></ul><hr id="3c2f6ce8-497f-8063-9511-cf50cb2f6266" dir="auto"/><h1 id="3c2f6ce8-497f-8054-9409-fd04aa1e51c9" class="" dir="auto">4. Principais tipos de ataques DoS/DDoS</h1><p id="3c2f6ce8-497f-80ac-9084-e422221d9fe6" class="" dir="auto">Os ataques podem ser classificados de diferentes maneiras.</p><h2 id="3c2f6ce8-497f-8088-942b-d414be3d227a" class="" dir="auto">Ataques volumétricos</h2><p id="3c2f6ce8-497f-8066-ba61-ff7f013f8113" class="" dir="auto">Buscam consumir a <strong>largura de banda</strong> disponível.</p><p id="3c2f6ce8-497f-80f8-be78-e1af6860ed4c" class="" dir="auto">O objetivo é gerar uma quantidade muito grande de tráfego em direção ao alvo.</p><p id="3c2f6ce8-497f-80d1-9b68-ff0eaf140e4a" class="" dir="auto">Consequência:</p><blockquote id="3c2f6ce8-497f-80cc-8856-e4ed653b6b84" class="" dir="auto">A conexão do alvo fica saturada.</blockquote><hr id="3c2f6ce8-497f-8081-a2a3-f3ecb480d803" dir="auto"/><h2 id="3c2f6ce8-497f-808e-82c9-c92839442d50" class="" dir="auto">Ataques de protocolo</h2><p id="3c2f6ce8-497f-8037-b773-d7896e749ccc" class="" dir="auto">Exploram características ou limitações de protocolos de comunicação e equipamentos de rede.</p><p id="3c2f6ce8-497f-80f7-9a8b-cf6a8b6c36ed" class="" dir="auto">Podem consumir recursos de:</p><ul id="3c2f6ce8-497f-80a4-967e-d614ee93f8ea" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Firewalls;</li></ul><ul id="3c2f6ce8-497f-802d-9848-f89db66ba102" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Balanceadores;</li></ul><ul id="3c2f6ce8-497f-80c1-8cb9-da9194411db0" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Servidores;</li></ul><ul id="3c2f6ce8-497f-8025-95dd-dbc7a098d0d1" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Roteadores;</li></ul><ul id="3c2f6ce8-497f-8037-88fa-fe7431a04f48" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Sistemas de gerenciamento de conexões.</li></ul><hr id="3c2f6ce8-497f-807c-9928-f1a84c4e68b9" dir="auto"/><h2 id="3c2f6ce8-497f-8030-999c-c9f3c6edaffb" class="" dir="auto">Ataques à camada de aplicação</h2><p id="3c2f6ce8-497f-803c-abe3-cafdde116460" class="" dir="auto">São direcionados diretamente ao funcionamento de uma aplicação.</p><p id="3c2f6ce8-497f-80e2-84bf-c487428bd7c2" class="" dir="auto">Podem tentar consumir recursos como:</p><ul id="3c2f6ce8-497f-80bc-983d-e680182b1e5f" class="bulleted-list" dir="auto"><li style="list-style-type:disc">CPU;</li></ul><ul id="3c2f6ce8-497f-8062-9468-dda066b29e70" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Memória;</li></ul><ul id="3c2f6ce8-497f-8028-9d80-f035165cf652" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Banco de dados;</li></ul><ul id="3c2f6ce8-497f-80d4-b198-f2df357358d2" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Processos;</li></ul><ul id="3c2f6ce8-497f-8072-bf38-dfef72656cc6" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Threads;</li></ul><ul id="3c2f6ce8-497f-80f5-93aa-cdbb260e830b" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Conexões.</li></ul><p id="3c2f6ce8-497f-8007-b3b6-cd986454f00d" class="" dir="auto">Uma característica importante é que <strong>nem sempre é necessário um volume gigantesco de tráfego</strong>.</p><p id="3c2f6ce8-497f-8060-98c4-d95609acaf21" class="" dir="auto">Uma requisição aparentemente normal pode exigir um processamento muito pesado do servidor.</p><hr id="3c2f6ce8-497f-8034-b5d2-cee6f21062b7" dir="auto"/><h1 id="3c2f6ce8-497f-80c5-ae50-fa108c113cb6" class="" dir="auto">5. Ataques DDoS e botnets</h1><p id="3c2f6ce8-497f-80b4-9c12-cc4646ba4bff" class="" dir="auto">Um dos conceitos mais importantes relacionados a DDoS é a <strong>botnet</strong>.</p><p id="3c2f6ce8-497f-8002-9d28-f72fbc0d9751" class="" dir="auto">Uma botnet é uma rede de dispositivos comprometidos que pode ser controlada por um atacante.</p><p id="3c2f6ce8-497f-800c-8071-dbdbab3480bb" class="" dir="auto">Esses dispositivos podem incluir:</p><ul id="3c2f6ce8-497f-8057-a4c5-e4de995cb323" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Computadores;</li></ul><ul id="3c2f6ce8-497f-808a-8e8d-d62434ab3e5b" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Servidores;</li></ul><ul id="3c2f6ce8-497f-8049-b0ac-ccb269486505" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Roteadores;</li></ul><ul id="3c2f6ce8-497f-80b1-9f76-e7bd503a511f" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Câmeras;</li></ul><ul id="3c2f6ce8-497f-80c3-804f-c50d00a16d39" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Dispositivos IoT.</li></ul><p id="3c2f6ce8-497f-808a-a6fd-d6cdff0ea8d1" class="" dir="auto">Em um DDoS, vários dispositivos podem enviar tráfego para um mesmo alvo.</p><p id="3c2f6ce8-497f-8075-bdde-d5c6b41ee938" class="" dir="auto"><strong>Botnet → Tráfego distribuído → Servidor alvo</strong></p><p id="3c2f6ce8-497f-80d8-b04b-d50f1d8449bb" class="" dir="auto">Isso explica o termo <strong>Distributed</strong>, de DDoS.</p><hr id="3c2f6ce8-497f-8043-9d2b-cd5fe1563f1d" dir="auto"/><h1 id="3c2f6ce8-497f-8039-b702-d340a6b4a904" class="" dir="auto">6. Como um ataque DDoS pode acontecer?</h1><p id="3c2f6ce8-497f-806b-a19e-d987edac21f1" class="" dir="auto">De maneira conceitual, podemos dividir o processo em algumas etapas:</p><h3 id="3c2f6ce8-497f-802c-b316-d6bb215f87fb" class="" dir="auto">1. Comprometimento de dispositivos</h3><p id="3c2f6ce8-497f-80a3-a0f1-d686a261d0c7" class="" dir="auto">O atacante consegue controlar diversos dispositivos vulneráveis.</p><h3 id="3c2f6ce8-497f-8085-8510-d007c6f1c27a" class="" dir="auto">2. Formação da botnet</h3><p id="3c2f6ce8-497f-80e8-9828-c5f986d7c9dd" class="" dir="auto">Os dispositivos comprometidos passam a fazer parte de uma infraestrutura controlada pelo atacante.</p><h3 id="3c2f6ce8-497f-8005-8806-eabef0f6a7f8" class="" dir="auto">3. Escolha do alvo</h3><p id="3c2f6ce8-497f-80c3-a96e-e5d843e382af" class="" dir="auto">O atacante escolhe um:</p><ul id="3c2f6ce8-497f-80b8-b389-dc49ef02001a" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Site;</li></ul><ul id="3c2f6ce8-497f-80ee-b0ca-dffb1b4bc681" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Servidor;</li></ul><ul id="3c2f6ce8-497f-80e3-a327-f6a1e0ecc303" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Serviço;</li></ul><ul id="3c2f6ce8-497f-80e4-95be-ef92e78ea095" class="bulleted-list" dir="auto"><li style="list-style-type:disc">API;</li></ul><ul id="3c2f6ce8-497f-8014-9b4b-e1c3d9bcd916" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Sistema.</li></ul><h3 id="3c2f6ce8-497f-80b2-8fbc-ea8b130e0a5f" class="" dir="auto">4. Geração do tráfego</h3><p id="3c2f6ce8-497f-8056-b98b-cb5b36f5d162" class="" dir="auto">Os dispositivos comprometidos passam a enviar solicitações ou tráfego para o alvo.</p><h3 id="3c2f6ce8-497f-802f-9fba-eb963159086c" class="" dir="auto">5. Sobrecarga</h3><p id="3c2f6ce8-497f-8005-aa52-f638c4d105f3" class="" dir="auto">Os recursos disponíveis começam a ser consumidos.</p><h3 id="3c2f6ce8-497f-8096-a7ea-dec69f90bc8f" class="" dir="auto">6. Indisponibilidade</h3><p id="3c2f6ce8-497f-80ae-aa09-dad277ba979a" class="" dir="auto">Usuários legítimos passam a enfrentar:</p><ul id="3c2f6ce8-497f-80e3-9c50-f1f2ca45b2e6" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Lentidão;</li></ul><ul id="3c2f6ce8-497f-80d4-a2d8-d8abae2a21cb" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Erros;</li></ul><ul id="3c2f6ce8-497f-800e-8a54-decfa7482746" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Timeouts;</li></ul><ul id="3c2f6ce8-497f-80a9-aed1-e4a7d06a25a5" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Impossibilidade de acesso.</li></ul><hr id="3c2f6ce8-497f-8046-99fa-fe80e427757c" dir="auto"/><h1 id="3c2f6ce8-497f-801b-a8ae-ddd7faf30a5b" class="" dir="auto">7. Ataques de reflexão e amplificação</h1><p id="3c2f6ce8-497f-80f7-8af0-c9b4cc08a752" class="" dir="auto">Alguns ataques DDoS utilizam <strong>reflexão</strong>.</p><p id="3c2f6ce8-497f-8063-a083-fca1676991e9" class="" dir="auto">Nesse modelo, o atacante não precisa necessariamente enviar diretamente todo o tráfego ao alvo.</p><p id="3c2f6ce8-497f-8061-9024-ed20a018404e" class="" dir="auto">Ele pode abusar de determinados serviços para fazer com que respostas sejam direcionadas ao alvo.</p><h3 id="3c2f6ce8-497f-80c3-9602-f1333920c3f0" class="" dir="auto">Amplificação</h3><p id="3c2f6ce8-497f-808b-9208-c9f7097712bf" class="" dir="auto">Além da reflexão, alguns protocolos podem produzir uma resposta maior que a solicitação original.</p><p id="3c2f6ce8-497f-80b1-86f5-f85971f99770" class="" dir="auto">Assim, uma pequena quantidade de tráfego pode resultar em uma quantidade significativamente maior de tráfego direcionada à vítima.</p><p id="3c2f6ce8-497f-809f-b658-ed0c958965ef" class="" dir="auto">Conceitualmente:</p><p id="3c2f6ce8-497f-806a-8851-fccd237faf98" class="" dir="auto"><strong>Solicitação pequena → Serviço intermediário → Resposta maior → Alvo</strong></p><p id="3c2f6ce8-497f-802a-a888-ccbeae43ec9c" class="" dir="auto">Esses ataques podem causar grandes volumes de tráfego sem que o atacante precise gerar sozinho todo esse volume.</p><hr id="3c2f6ce8-497f-8066-8751-f0393fd3c81f" dir="auto"/><h1 id="3c2f6ce8-497f-80c1-97ad-d9f3890c1cf3" class="" dir="auto">8. Impactos de um ataque DDoS</h1><p id="3c2f6ce8-497f-800e-bd55-d0b93e64d9a8" class="" dir="auto">Os prejuízos podem ser significativos.</p><h2 id="3c2f6ce8-497f-801d-b020-f3b34e7c5d6f" class="" dir="auto">Financeiros</h2><p id="3c2f6ce8-497f-80ea-8b92-ca9462719eef" class="" dir="auto">Uma empresa pode perder vendas durante o período de indisponibilidade.</p><hr id="3c2f6ce8-497f-8092-83d2-f95586258f9f" dir="auto"/><h2 id="3c2f6ce8-497f-80c6-9758-c387d9182d52" class="" dir="auto">Operacionais</h2><p id="3c2f6ce8-497f-80c1-a706-cc3ee7776e59" class="" dir="auto">Sistemas internos podem ficar inacessíveis.</p><hr id="3c2f6ce8-497f-8015-acdb-cdb3934676b0" dir="auto"/><h2 id="3c2f6ce8-497f-8065-aec2-fd855cf0e4a0" class="" dir="auto">Reputacionais</h2><p id="3c2f6ce8-497f-80e4-be5f-cc3995241658" class="" dir="auto">Clientes podem perder confiança na empresa.</p><hr id="3c2f6ce8-497f-8098-a573-e0de43d88b84" dir="auto"/><h2 id="3c2f6ce8-497f-8079-8da0-e7200d080526" class="" dir="auto">Técnicos</h2><p id="3c2f6ce8-497f-8007-afe9-cc4545c323c2" class="" dir="auto">Pode ocorrer:</p><ul id="3c2f6ce8-497f-8069-86b6-ed58586534d4" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Saturação de servidores;</li></ul><ul id="3c2f6ce8-497f-80dc-8bd5-d4a2537cdb76" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Sobrecarga de infraestrutura;</li></ul><ul id="3c2f6ce8-497f-8080-8ce8-f6911221ffe1" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Aumento do consumo de recursos;</li></ul><ul id="3c2f6ce8-497f-803b-83b6-cf049c4136bc" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Falhas em serviços dependentes.</li></ul><hr id="3c2f6ce8-497f-809c-9c00-c688479af67d" dir="auto"/><h2 id="3c2f6ce8-497f-80ca-ac2d-e7673bdb8221" class="" dir="auto">Segurança</h2><p id="3c2f6ce8-497f-8072-b0c3-e594002e03db" class="" dir="auto">Em alguns cenários, um DDoS também pode ser utilizado como <strong>distração</strong>.</p><p id="3c2f6ce8-497f-80e3-bf4a-f1e41a911075" class="" dir="auto">Enquanto a equipe está concentrada em recuperar um serviço indisponível, outro ataque pode estar acontecendo simultaneamente em outro ponto da infraestrutura.</p><p id="3c2f6ce8-497f-80e0-88fe-ff42f25311bf" class="" dir="auto">Por isso, um incidente DDoS não deve fazer a equipe ignorar os demais sistemas.</p><hr id="3c2f6ce8-497f-807a-bf72-d9521738a6c2" dir="auto"/><h1 id="3c2f6ce8-497f-8083-92fa-ce7e6d14cd6e" class="" dir="auto">9. Como detectar um ataque DDoS?</h1><p id="3c2f6ce8-497f-800c-a973-f05bebdc085a" class="" dir="auto">Alguns sinais podem indicar um possível ataque:</p><ul id="3c2f6ce8-497f-808f-b179-e33a8c532973" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Aumento repentino de tráfego;</li></ul><ul id="3c2f6ce8-497f-8072-bbb9-db65a36f8531" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Grande quantidade de solicitações;</li></ul><ul id="3c2f6ce8-497f-80b6-a1c0-d071927c2365" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Queda anormal de desempenho;</li></ul><ul id="3c2f6ce8-497f-8009-9551-c86ff9d785dd" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Aumento de erros HTTP;</li></ul><ul id="3c2f6ce8-497f-80ac-90c0-d117126ba7d9" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Muitos timeouts;</li></ul><ul id="3c2f6ce8-497f-800f-83e9-e33cace58776" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Consumo elevado de CPU;</li></ul><ul id="3c2f6ce8-497f-8000-8f72-ee1bc174ea93" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Consumo elevado de memória;</li></ul><ul id="3c2f6ce8-497f-8023-8baf-f3e6bf471e46" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Saturação de conexões;</li></ul><ul id="3c2f6ce8-497f-8054-8e3a-eb4b61ada9a9" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Padrões incomuns de origem do tráfego.</li></ul><p id="3c2f6ce8-497f-808f-a0c0-eeb1d6d6b40d" class="" dir="auto">Entretanto, <strong>nem todo aumento de tráfego é um ataque</strong>.</p><p id="3c2f6ce8-497f-80a5-9c00-da93b44ec4aa" class="" dir="auto">Um site pode receber um pico legítimo por causa de:</p><ul id="3c2f6ce8-497f-8099-9e79-f115e536c01f" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Uma campanha publicitária;</li></ul><ul id="3c2f6ce8-497f-80a1-a69c-fbdceaa5c99b" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Um produto viral;</li></ul><ul id="3c2f6ce8-497f-80f1-972c-c1a33010b571" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Uma notícia;</li></ul><ul id="3c2f6ce8-497f-8011-97fc-d44ec608f3cd" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Uma promoção;</li></ul><ul id="3c2f6ce8-497f-8036-afe8-e69fd2889857" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Um evento.</li></ul><p id="3c2f6ce8-497f-808a-99c1-f640d8a5769a" class="" dir="auto">Por isso, é necessário analisar o comportamento do tráfego.</p><hr id="3c2f6ce8-497f-802d-97b9-dbefbb03ad6c" dir="auto"/><h1 id="3c2f6ce8-497f-8063-818a-fc7994607fc9" class="" dir="auto">10. Como se proteger contra DoS e DDoS?</h1><p id="3c2f6ce8-497f-8010-be43-d02c6b14f3eb" class="" dir="auto">A proteção normalmente utiliza várias camadas.</p><h2 id="3c2f6ce8-497f-80cf-a6d5-f07e1f2e0d91" class="" dir="auto">Firewall</h2><p id="3c2f6ce8-497f-80a2-b464-caac09476810" class="" dir="auto">Pode bloquear ou filtrar determinados tipos de tráfego.</p><hr id="3c2f6ce8-497f-80ba-ace8-ccae569c1337" dir="auto"/><h2 id="3c2f6ce8-497f-8052-b1d2-c5d1e8487dba" class="" dir="auto">Rate Limiting</h2><p id="3c2f6ce8-497f-8000-b7cd-f2bd00b6ac60" class="" dir="auto">Limita a quantidade de solicitações que determinado cliente pode realizar em determinado período.</p><p id="3c2f6ce8-497f-803f-a244-c6cfa0438c4b" class="" dir="auto">Por exemplo:</p><blockquote id="3c2f6ce8-497f-80ce-b566-fe87afe64931" class="" dir="auto">Uma API pode limitar a quantidade de requisições permitidas por usuário ou endereço IP.</blockquote><p id="3c2f6ce8-497f-80f4-93a6-f8301138d5f7" class="" dir="auto">Isso ajuda principalmente contra abusos na camada de aplicação.</p><hr id="3c2f6ce8-497f-8088-a716-d1f0c7cdfd1e" dir="auto"/><h2 id="3c2f6ce8-497f-809f-a58d-f4f3163bfc84" class="" dir="auto">CDN</h2><p id="3c2f6ce8-497f-80e5-93c4-fdc5f02da758" class="" dir="auto">Uma <strong>Content Delivery Network (CDN)</strong> distribui conteúdo através de diversos pontos de presença.</p><p id="3c2f6ce8-497f-8001-893a-fd871894f619" class="" dir="auto">Além de melhorar desempenho, algumas CDNs oferecem mecanismos de mitigação contra DDoS.</p><hr id="3c2f6ce8-497f-80eb-8790-c5723ea22f43" dir="auto"/><h2 id="3c2f6ce8-497f-80b9-8861-cc9c53bc6bc1" class="" dir="auto">WAF</h2><p id="3c2f6ce8-497f-80e8-93f2-d0c2964c4a72" class="" dir="auto">Um <strong>Web Application Firewall</strong> pode analisar requisições HTTP/HTTPS e bloquear determinados padrões maliciosos.</p><hr id="3c2f6ce8-497f-802d-8ac9-c02686c351ce" dir="auto"/><h2 id="3c2f6ce8-497f-8005-8fdf-de27b9028bf8" class="" dir="auto">Load Balancer</h2><p id="3c2f6ce8-497f-8079-9ac3-efa178e92fec" class="" dir="auto">Um balanceador de carga distribui requisições entre diferentes servidores.</p><p id="3c2f6ce8-497f-80bc-ba2c-e18bd33820ae" class="" dir="auto">Isso pode ajudar a evitar que um único servidor concentre todo o processamento.</p><hr id="3c2f6ce8-497f-80de-bfdd-f4ab08e31dd5" dir="auto"/><h2 id="3c2f6ce8-497f-8006-805d-c8c5642f16e9" class="" dir="auto">Redundância</h2><p id="3c2f6ce8-497f-80c6-b067-e3fc88a29db4" class="" dir="auto">Manter infraestrutura redundante permite que o serviço continue funcionando mesmo quando determinados componentes ficam indisponíveis.</p><hr id="3c2f6ce8-497f-808e-991c-e9d53ae21b5f" dir="auto"/><h2 id="3c2f6ce8-497f-80e4-a152-da496e091f81" class="" dir="auto">Monitoramento</h2><p id="3c2f6ce8-497f-80c0-abdd-f3959122f4a3" class="" dir="auto">Sistemas de monitoramento ajudam a detectar alterações anormais no tráfego.</p><p id="3c2f6ce8-497f-800c-9cf2-f2ab502fac77" class="" dir="auto">É importante acompanhar:</p><ul id="3c2f6ce8-497f-80cc-8232-f52b4d77e5c8" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Tráfego;</li></ul><ul id="3c2f6ce8-497f-8057-b215-f2430aba754c" class="bulleted-list" dir="auto"><li style="list-style-type:disc">CPU;</li></ul><ul id="3c2f6ce8-497f-808e-80ff-cd5053301192" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Memória;</li></ul><ul id="3c2f6ce8-497f-803f-9b40-d75c8e60377c" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Conexões;</li></ul><ul id="3c2f6ce8-497f-80d3-b421-c23a164c5022" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Latência;</li></ul><ul id="3c2f6ce8-497f-80a5-a614-e627d77dc7c7" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Taxa de erros.</li></ul><hr id="3c2f6ce8-497f-80dc-af1c-d99775ab9275" dir="auto"/><h1 id="3c2f6ce8-497f-806e-bb90-d8f15c0d579c" class="" dir="auto">11. Rate Limiting</h1><p id="3c2f6ce8-497f-80da-8b46-e11d94070e83" class="" dir="auto">O <strong>Rate Limiting</strong> merece atenção especial porque é muito utilizado na segurança de APIs e aplicações Web.</p><p id="3c2f6ce8-497f-807c-905d-f5c6c12880ab" class="" dir="auto">Imagine uma API que normalmente recebe poucas solicitações por usuário.</p><p id="3c2f6ce8-497f-80f7-aae8-e696c8427cec" class="" dir="auto">Uma aplicação mal configurada poderia permitir solicitações ilimitadas.</p><p id="3c2f6ce8-497f-80a4-89d1-ea1ac18ef464" class="" dir="auto">Com Rate Limiting, pode existir uma política como:</p><p id="3c2f6ce8-497f-80a5-add1-cc020532c319" class="" dir="auto"><strong>Cliente → limite de requisições → API</strong></p><p id="3c2f6ce8-497f-80cd-94d8-d32a5f6122c8" class="" dir="auto">Quando o limite é ultrapassado, novas requisições podem ser temporariamente rejeitadas ou controladas.</p><p id="3c2f6ce8-497f-8072-a228-c67b17f36130" class="" dir="auto">Isso ajuda a reduzir:</p><ul id="3c2f6ce8-497f-80d0-b09d-ed32122dcc3f" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Abuso;</li></ul><ul id="3c2f6ce8-497f-8086-a3a9-e45ebd231553" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Sobrecarga;</li></ul><ul id="3c2f6ce8-497f-80d9-83cd-c799300baf0d" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Automação excessiva;</li></ul><ul id="3c2f6ce8-497f-8004-b22a-f6012dc4886a" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Consumo desnecessário de recursos.</li></ul><hr id="3c2f6ce8-497f-80bd-b95f-d2f6db0c5114" dir="auto"/><h1 id="3c2f6ce8-497f-8052-a8f7-f5f66ecf60bc" class="" dir="auto">12. Proteção em diferentes camadas</h1><p id="3c2f6ce8-497f-8024-9e59-cae1c6d56e5b" class="" dir="auto">A defesa contra DDoS não deve depender de uma única ferramenta.</p><p id="3c2f6ce8-497f-8017-ab30-ea5a5f48c184" class="" dir="auto">Uma arquitetura pode utilizar:</p><p id="3c2f6ce8-497f-80c0-8c03-c7ba73bc26d0" class="" dir="auto"><strong>Internet</strong></p><p id="3c2f6ce8-497f-80c0-ab63-c43a6ad15b23" class="" dir="auto">↓</p><p id="3c2f6ce8-497f-8054-9bd5-cb887b3c6c3c" class="" dir="auto"><strong>Proteção anti-DDoS</strong></p><p id="3c2f6ce8-497f-8073-8557-da8a4f5d9b83" class="" dir="auto">↓</p><p id="3c2f6ce8-497f-80bb-a5df-c47b1a6958a0" class="" dir="auto"><strong>CDN / WAF</strong></p><p id="3c2f6ce8-497f-8083-94ff-d3820d79df6f" class="" dir="auto">↓</p><p id="3c2f6ce8-497f-80b5-96ea-c6fb4e07d354" class="" dir="auto"><strong>Firewall</strong></p><p id="3c2f6ce8-497f-80ee-b204-f0145b594c14" class="" dir="auto">↓</p><p id="3c2f6ce8-497f-804c-a79b-c858fa36cd84" class="" dir="auto"><strong>Load Balancer</strong></p><p id="3c2f6ce8-497f-80d8-ab16-c01ef48b7565" class="" dir="auto">↓</p><p id="3c2f6ce8-497f-80de-aeca-e83727765aa2" class="" dir="auto"><strong>Servidores</strong></p><p id="3c2f6ce8-497f-8040-ae64-dd7693dcdab9" class="" dir="auto">↓</p><p id="3c2f6ce8-497f-80f6-83af-e571ea43bf2e" class="" dir="auto"><strong>Aplicação</strong></p><p id="3c2f6ce8-497f-8029-8536-c2461fe69346" class="" dir="auto">Cada camada possui uma função diferente.</p><p id="3c2f6ce8-497f-80a5-8930-d6e125631f79" class="" dir="auto">Esse conceito é conhecido como <strong>defesa em profundidade (Defense in Depth)</strong>.</p><hr id="3c2f6ce8-497f-80be-836d-d3cf63e02a04" dir="auto"/><h1 id="3c2f6ce8-497f-8022-b468-fbc170ae617d" class="" dir="auto">13. DDoS na camada de aplicação</h1><p id="3c2f6ce8-497f-8019-b5bb-ecc97a280f4f" class="" dir="auto">Um ponto importante é que nem todo DDoS é caracterizado por um volume gigantesco de dados.</p><p id="3c2f6ce8-497f-8034-964c-dcaf2ba56573" class="" dir="auto">Considere uma aplicação que possui uma operação extremamente pesada:</p><blockquote id="3c2f6ce8-497f-806b-ae94-f4658c173804" class="" dir="auto">Gerar um relatório complexo consultando milhões de registros.</blockquote><p id="3c2f6ce8-497f-8014-a40b-cdeb648c4966" class="" dir="auto">Se uma pequena quantidade de clientes solicitar esse relatório repetidamente, o servidor poderá gastar muitos recursos processando essas solicitações.</p><p id="3c2f6ce8-497f-8008-8401-f007b3398526" class="" dir="auto">Nesse cenário, o problema pode estar relacionado ao <strong>custo computacional das requisições</strong>, e não apenas à quantidade de tráfego.</p><p id="3c2f6ce8-497f-8063-8cc5-fbc8d29d1434" class="" dir="auto">Medidas como:</p><ul id="3c2f6ce8-497f-80a4-97ba-d09a876872da" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Cache;</li></ul><ul id="3c2f6ce8-497f-80fa-8640-e662f3eaf0d7" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Rate Limiting;</li></ul><ul id="3c2f6ce8-497f-8039-9bee-e970f08ae9b6" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Filas;</li></ul><ul id="3c2f6ce8-497f-807b-881f-cee16fb3eefc" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Otimização de consultas;</li></ul><ul id="3c2f6ce8-497f-80c3-8ebb-e759c93028c9" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Paginação;</li></ul><ul id="3c2f6ce8-497f-8036-b222-f61020e89108" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Controle de concorrência</li></ul><p id="3c2f6ce8-497f-809f-b0c0-f729cccf6758" class="" dir="auto">podem ajudar.</p><hr id="3c2f6ce8-497f-80ec-a109-d03d1fb47ccc" dir="auto"/><h1 id="3c2f6ce8-497f-806a-93ce-d3700ef4040e" class="" dir="auto">14. DDoS × ataque comum</h1><p id="3c2f6ce8-497f-80ec-aac5-d0e3fa249455" class="" dir="auto">É importante não confundir DDoS com outros ataques.</p><table id="3c2f6ce8-497f-80b3-8d16-e49f087d1459" class="simple-table" dir="ltr"><thead class="simple-table-header"><tr id="3c2f6ce8-497f-8070-8c61-d36452f52a66" dir="ltr"><th id="o@`;" class="simple-table-header-color simple-table-header">Ataque</th><th id="Aso&lt;" class="simple-table-header-color simple-table-header">Principal objetivo</th></tr></thead><tbody><tr id="3c2f6ce8-497f-80e1-a5da-f0e0c366c44b" dir="ltr"><td id="o@`;" class=""><strong>DDoS</strong></td><td id="Aso&lt;" class="">Indisponibilidade</td></tr><tr id="3c2f6ce8-497f-8033-ade1-e7ed55303e8b" dir="ltr"><td id="o@`;" class=""><strong>Phishing</strong></td><td id="Aso&lt;" class="">Enganar e obter informações</td></tr><tr id="3c2f6ce8-497f-8099-9c9e-e8987f19efc6" dir="ltr"><td id="o@`;" class=""><strong>Ransomware</strong></td><td id="Aso&lt;" class="">Bloquear/criptografar dados e exigir pagamento</td></tr><tr id="3c2f6ce8-497f-809a-b51c-e602b374ebec" dir="ltr"><td id="o@`;" class=""><strong>SQL Injection</strong></td><td id="Aso&lt;" class="">Explorar entrada/consultas de aplicações</td></tr><tr id="3c2f6ce8-497f-8074-b9f6-df7333a014e0" dir="ltr"><td id="o@`;" class=""><strong>Credential Stuffing</strong></td><td id="Aso&lt;" class="">Usar credenciais vazadas para tentar acessar contas</td></tr><tr id="3c2f6ce8-497f-80d4-b510-deeb0574124a" dir="ltr"><td id="o@`;" class=""><strong>Malware</strong></td><td id="Aso&lt;" class="">Executar ações maliciosas por meio de software</td></tr></tbody></table><p id="3c2f6ce8-497f-8067-b545-c2d23f0f7e3b" class="" dir="auto">Um ataque pode, inclusive, combinar diferentes técnicas.</p><hr id="3c2f6ce8-497f-8086-bc3a-cf9cfb3363a4" dir="auto"/><h1 id="3c2f6ce8-497f-80df-915d-f4b1a7766945" class="" dir="auto">15. DoS acidental</h1><p id="3c2f6ce8-497f-80f5-b52c-c1da9e9288ed" class="" dir="auto">Nem toda indisponibilidade é causada por um atacante.</p><p id="3c2f6ce8-497f-803b-ac06-f141224fff6c" class="" dir="auto">Uma aplicação mal dimensionada pode sofrer uma espécie de &quot;negação de serviço acidental&quot; durante um grande pico legítimo.</p><p id="3c2f6ce8-497f-80d9-b999-c8caff453d91" class="" dir="auto">Por exemplo:</p><p id="3c2f6ce8-497f-8077-8a44-fc0fc4830617" class="" dir="auto">Uma empresa lança um produto às 10h.</p><p id="3c2f6ce8-497f-808e-8f9d-c8cf541e90b6" class="" dir="auto">Milhões de pessoas acessam o site simultaneamente.</p><p id="3c2f6ce8-497f-8004-896b-ed5dd41a469c" class="" dir="auto">O servidor não consegue suportar a demanda e fica indisponível.</p><p id="3c2f6ce8-497f-805d-805f-eb3995aa196c" class="" dir="auto">Não houve necessariamente um ataque.</p><p id="3c2f6ce8-497f-80e9-941b-ef321b729d25" class="" dir="auto">Isso mostra a importância de:</p><ul id="3c2f6ce8-497f-80e0-9deb-e6d2735aac54" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Escalabilidade;</li></ul><ul id="3c2f6ce8-497f-8001-ba91-eff11c8253a3" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Testes de carga;</li></ul><ul id="3c2f6ce8-497f-80ac-b345-df9d6da962a9" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Balanceamento;</li></ul><ul id="3c2f6ce8-497f-8014-9ba4-c122aaf67848" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Cache;</li></ul><ul id="3c2f6ce8-497f-80ac-8089-d4ccb4389481" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Auto scaling;</li></ul><ul id="3c2f6ce8-497f-803d-8aa9-f7bab07c9480" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Planejamento de capacidade.</li></ul><hr id="3c2f6ce8-497f-8086-be7d-eec741eb50ea" dir="auto"/><h1 id="3c2f6ce8-497f-80dd-b684-fd8fefa8ac81" class="" dir="auto">16. O que fazer durante um ataque?</h1><p id="3c2f6ce8-497f-8037-a3fc-eb3e531d56ff" class="" dir="auto">Uma organização que identifica um possível DDoS deve possuir um <strong>plano de resposta a incidentes</strong>.</p><p id="3c2f6ce8-497f-80d0-a5ff-e23727252a60" class="" dir="auto">De maneira geral:</p><h3 id="3c2f6ce8-497f-8075-8442-cf47cbcb5ce5" class="" dir="auto">1. Detectar</h3><p id="3c2f6ce8-497f-8070-9fa3-c44ffc740948" class="" dir="auto">Confirmar que existe comportamento anormal.</p><h3 id="3c2f6ce8-497f-803c-9e29-de2b49752f84" class="" dir="auto">2. Analisar</h3><p id="3c2f6ce8-497f-80ca-96f0-dbf408008070" class="" dir="auto">Identificar:</p><ul id="3c2f6ce8-497f-80b5-916d-c2af1a1e859e" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Tipo de tráfego;</li></ul><ul id="3c2f6ce8-497f-80e7-a887-c32d041e6b64" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Serviços afetados;</li></ul><ul id="3c2f6ce8-497f-800b-9f98-c3530eb3806a" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Intensidade;</li></ul><ul id="3c2f6ce8-497f-805e-8c8c-ca1d60d07c0d" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Origem aparente;</li></ul><ul id="3c2f6ce8-497f-80be-a867-c45175887a07" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Impacto.</li></ul><h3 id="3c2f6ce8-497f-8094-a3f8-d677ee1c7a45" class="" dir="auto">3. Mitigar</h3><p id="3c2f6ce8-497f-8048-a851-c7754b388387" class="" dir="auto">Aplicar mecanismos apropriados, como:</p><ul id="3c2f6ce8-497f-80a4-b43e-fda3e2e307e9" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Filtragem;</li></ul><ul id="3c2f6ce8-497f-809c-b7ff-e96bd2f9440e" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Rate Limiting;</li></ul><ul id="3c2f6ce8-497f-807a-9d1b-c9d850b5da72" class="bulleted-list" dir="auto"><li style="list-style-type:disc">WAF;</li></ul><ul id="3c2f6ce8-497f-801b-ab80-cb30a7a07ec4" class="bulleted-list" dir="auto"><li style="list-style-type:disc">CDN;</li></ul><ul id="3c2f6ce8-497f-80fd-839a-f0f5da7d74f2" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Proteção anti-DDoS;</li></ul><ul id="3c2f6ce8-497f-80a2-9f3c-f462b5f83eca" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Redirecionamento de tráfego.</li></ul><h3 id="3c2f6ce8-497f-801e-9d6a-fc83bdd06cca" class="" dir="auto">4. Monitorar</h3><p id="3c2f6ce8-497f-807e-a112-eb9684374e63" class="" dir="auto">Verificar se o serviço está se recuperando.</p><h3 id="3c2f6ce8-497f-803f-9b9d-c51a92fca0e4" class="" dir="auto">5. Recuperar</h3><p id="3c2f6ce8-497f-8020-b8d4-de377d1b4a6e" class="" dir="auto">Restabelecer completamente a operação normal.</p><h3 id="3c2f6ce8-497f-8058-94a2-c4d30ebfb926" class="" dir="auto">6. Analisar posteriormente</h3><p id="3c2f6ce8-497f-8090-baa7-ec5cff611d7a" class="" dir="auto">Depois do incidente, identificar:</p><ul id="3c2f6ce8-497f-80cd-8ae2-e00e4c1a87d5" class="bulleted-list" dir="auto"><li style="list-style-type:disc">O que aconteceu;</li></ul><ul id="3c2f6ce8-497f-801c-858c-d20acbcf39f6" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Por que aconteceu;</li></ul><ul id="3c2f6ce8-497f-802d-a76f-c60d66433fba" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Quais controles funcionaram;</li></ul><ul id="3c2f6ce8-497f-80ae-9267-fb2aabbac334" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Quais falharam;</li></ul><ul id="3c2f6ce8-497f-8054-9bc8-dde74251ba70" class="bulleted-list" dir="auto"><li style="list-style-type:disc">O que precisa ser melhorado.</li></ul><hr id="3c2f6ce8-497f-80cd-ae98-cb1db0f60ab4" dir="auto"/><h1 id="3c2f6ce8-497f-8036-a57e-f125ec50dba7" class="" dir="auto">17. Como profissionais de segurança estudam DDoS?</h1><p id="3c2f6ce8-497f-8013-8e53-e07220d175b8" class="" dir="auto">Em ambientes controlados e autorizados, profissionais podem estudar:</p><ul id="3c2f6ce8-497f-809f-b99a-da2d037ae35b" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Comportamento de redes;</li></ul><ul id="3c2f6ce8-497f-80c7-9261-e20591307d1c" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Capacidade dos servidores;</li></ul><ul id="3c2f6ce8-497f-8040-9ee6-fec2f1c00072" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Limites de infraestrutura;</li></ul><ul id="3c2f6ce8-497f-80d1-a0b0-eeb8a1c6e958" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Sistemas de monitoramento;</li></ul><ul id="3c2f6ce8-497f-8075-a9b6-fc6787510cde" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Rate Limiting;</li></ul><ul id="3c2f6ce8-497f-807b-bd7b-d71a2dc6fd7f" class="bulleted-list" dir="auto"><li style="list-style-type:disc">WAF;</li></ul><ul id="3c2f6ce8-497f-8018-8c65-fcd04b451260" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Balanceadores;</li></ul><ul id="3c2f6ce8-497f-8092-9aa1-cca2ab284ccb" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Mecanismos de mitigação.</li></ul><p id="3c2f6ce8-497f-804a-8971-c1d270fa8174" class="" dir="auto">É importante que testes de carga ou simulações sejam realizados <strong>somente em ambientes próprios ou com autorização explícita</strong>, pois gerar tráfego malicioso contra sistemas de terceiros pode causar indisponibilidade real.</p><hr id="3c2f6ce8-497f-809d-9495-eab58a7f26c0" dir="auto"/><h1 id="3c2f6ce8-497f-80f8-a1a6-c860075b2396" class="" dir="auto">18. Exemplo prático</h1><p id="3c2f6ce8-497f-8061-85ba-c215a0166c06" class="" dir="auto">Imagine uma empresa que possui:</p><ul id="3c2f6ce8-497f-8022-a486-d8ca4b381481" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Um site;</li></ul><ul id="3c2f6ce8-497f-80d9-82db-d91beae976ab" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Uma API;</li></ul><ul id="3c2f6ce8-497f-80f3-82b0-f6cc15ef79e5" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Dois servidores;</li></ul><ul id="3c2f6ce8-497f-8080-8990-d1bc2944c218" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Um banco de dados.</li></ul><p id="3c2f6ce8-497f-8030-8465-dad3413ccf3c" class="" dir="auto">Durante um ataque, o tráfego aumenta rapidamente.</p><p id="3c2f6ce8-497f-80fc-a330-f857351eb18f" class="" dir="auto">Sem proteção:</p><p id="3c2f6ce8-497f-80e9-8b0d-eba1a2f11bc3" class="" dir="auto"><strong>Internet → Servidor → Sobrecarga → Site indisponível</strong></p><p id="3c2f6ce8-497f-80bc-9f69-fe7477bb3c84" class="" dir="auto">Com uma arquitetura mais preparada:</p><p id="3c2f6ce8-497f-8093-87e3-ec05cdc435f8" class="" dir="auto"><strong>Internet → Proteção DDoS → CDN/WAF → Load Balancer → Servidores</strong></p><p id="3c2f6ce8-497f-80b9-9305-d01f4dda0d5b" class="" dir="auto">O tráfego suspeito pode ser filtrado antes de chegar à infraestrutura principal, enquanto o tráfego legítimo continua sendo encaminhado.</p><hr id="3c2f6ce8-497f-8018-93f5-d4956bf87a55" dir="auto"/><h1 id="3c2f6ce8-497f-808d-99c5-c579640d01b6" class="" dir="auto">Resumo</h1><p id="3c2f6ce8-497f-8052-97f2-e2948198d9b4" class="" dir="auto">Os <strong>Ataques de Negação de Serviço (DoS)</strong> têm como principal objetivo prejudicar a <strong>disponibilidade</strong> de um sistema ou serviço.</p><p id="3c2f6ce8-497f-8052-bc1a-e5a03bcd1205" class="" dir="auto">O <strong>DDoS</strong> é uma evolução distribuída do conceito, utilizando múltiplas fontes para gerar tráfego ou solicitações contra o alvo.</p><p id="3c2f6ce8-497f-800f-af67-d9bdd284acb6" class="" dir="auto">Os principais tipos são:</p><ul id="3c2f6ce8-497f-806c-8e1b-cb315b829b6c" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>Volumétricos</strong>;</li></ul><ul id="3c2f6ce8-497f-80d0-9e3b-d3759208f12c" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>Ataques de protocolo</strong>;</li></ul><ul id="3c2f6ce8-497f-802d-b60d-f5a9bfe681c6" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>Ataques à camada de aplicação</strong>;</li></ul><ul id="3c2f6ce8-497f-80d5-ba5a-f66e98149b86" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>Reflexão e amplificação</strong>.</li></ul><p id="3c2f6ce8-497f-80dc-b860-d82a5caeb5c7" class="" dir="auto">As principais defesas incluem:</p><ul id="3c2f6ce8-497f-8040-ad00-fe6186fc56d5" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Firewall;</li></ul><ul id="3c2f6ce8-497f-8045-889c-e7cc3bbdf7f9" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Rate Limiting;</li></ul><ul id="3c2f6ce8-497f-8039-8809-ca5a1f6b5b43" class="bulleted-list" dir="auto"><li style="list-style-type:disc">CDN;</li></ul><ul id="3c2f6ce8-497f-8011-b595-f2eedb21d659" class="bulleted-list" dir="auto"><li style="list-style-type:disc">WAF;</li></ul><ul id="3c2f6ce8-497f-8011-ac8e-de44f4d7f6ea" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Load Balancer;</li></ul><ul id="3c2f6ce8-497f-806e-89a9-dff046fbe218" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Monitoramento;</li></ul><ul id="3c2f6ce8-497f-803f-b612-e8a30104fb12" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Redundância;</li></ul><ul id="3c2f6ce8-497f-8013-b2cc-d321852cf066" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Proteção especializada contra DDoS;</li></ul><ul id="3c2f6ce8-497f-80e8-ae79-df828c411c0c" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Planejamento de capacidade.</li></ul><h3 id="3c2f6ce8-497f-809d-afa6-e52aa0d40767" class="" dir="auto">Para memorizar</h3><p id="3c2f6ce8-497f-805b-9e7e-eb9739984285" class="" dir="auto"><strong>DoS:</strong> uma origem ou poucas fontes → sobrecarregar o alvo.</p><p id="3c2f6ce8-497f-8021-b464-ec05680ac290" class="" dir="auto"><strong>DDoS:</strong> várias fontes distribuídas → sobrecarregar o alvo.</p><p id="3c2f6ce8-497f-8084-bd38-e9c2974699c1" class="" dir="auto"><strong>Objetivo principal:</strong> comprometer a <strong>disponibilidade</strong>.</p><p id="3c2f6ce8-497f-8028-b62a-cea0047986ca" class="" dir="auto"><strong>Defesa:</strong> detectar → filtrar → limitar → distribuir → absorver → recuperar.</p></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

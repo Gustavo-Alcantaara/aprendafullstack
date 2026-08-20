@@ -1,0 +1,794 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Ataque a redes sem fio</title><meta name="data-notion-page-icon" content="/icons/lock_blue.svg"/><link rel="icon" href="https://app.notion.com/icons/lock_blue.svg"/><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+/* For default-background callouts, render the border outline. */
+.callout.block-color-default_background {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+/*
+ * Toggles and callouts hold arbitrary content, so they can easily be taller
+ * than a page. They must stay breakable: avoiding breaks inside them makes
+ * Chromium push the whole block onto the next page, which leaves the previous
+ * page mostly empty before every long toggle.
+ */
+details,
+aside {
+	margin: 1.25em 0;
+}
+
+/* Keep a toggle's title on the same page as the start of its content. */
+summary {
+	page-break-after: avoid;
+	break-after: avoid;
+}
+
+/*
+ * Toggle headings render as <h1/h2/h3 style="display:inline-block"> inside
+ * <summary>. Without this reset, the heading's margin-top pushes it below the
+ * ::marker (▼), so the triangle and the title appear on separate lines.
+ */
+summary h1,
+summary h2,
+summary h3,
+summary h4 {
+	margin-top: 0;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding-inline: 0.125rem;
+	padding-block: 0.375rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+/*
+ * Render emoji icons using a ::before pseudo-element to keep the glyph
+ * out of the DOM textContent traversal. This avoids double-rendering icons
+ * in callouts and page titles.
+ * NOTE(slim/html-export-pseudo-icons): I can't tagref this because it will
+ * flag as a duplicate tag after codegen.
+ */
+.icon[data-emoji]::before {
+	content: attr(data-emoji);
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	margin-right: 0.4em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.tab {
+	margin: 1.25em 0;
+	padding-inline: 1rem;
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style><style>@import url('https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex-swap.min.css')</style></head><body><article id="3c2f6ce8-497f-8080-83b1-ebc7eecb59b4" class="page sans" data-notion-page-icon="/icons/lock_blue.svg"><header><div class="page-header-icon undefined"><img class="icon notion-static-icon" src="https://app.notion.com/icons/lock_blue.svg"/></div><h1 class="page-title" dir="auto">Ataque a redes sem fio</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><h1 id="3c2f6ce8-497f-8079-b0e1-f9e9d3a4662d" class="" dir="auto">Ataques a Redes Sem Fio</h1><p id="3c2f6ce8-497f-8092-8dd9-edcefe255313" class="" dir="auto">Os <strong>ataques a redes sem fio</strong> são técnicas utilizadas para comprometer a <strong>confidencialidade, integridade ou disponibilidade</strong> de uma rede Wi-Fi ou dos dispositivos conectados a ela.</p><p id="3c2f6ce8-497f-8070-9808-d7c69524a063" class="" dir="auto">Como a comunicação Wi-Fi utiliza ondas de rádio, um atacante não precisa necessariamente estar conectado fisicamente à rede para tentar identificá-la, interferir nela ou explorar alguma vulnerabilidade.</p><blockquote id="3c2f6ce8-497f-800b-9582-d1ac012cdad9" class="" dir="auto"><strong>Observação:</strong> os exemplos abaixo são apresentados para fins educacionais e de defesa, sem instruções práticas para realizar ataques contra redes reais.</blockquote><hr id="3c2f6ce8-497f-809d-b512-d1a751df5fcb" dir="auto"/><h1 id="3c2f6ce8-497f-80e5-ac15-d9487742982b" class="" dir="auto">1. Principais objetivos dos ataques Wi-Fi</h1><p id="3c2f6ce8-497f-80a6-8fbd-e0c091d830e4" class="" dir="auto">Um ataque contra uma rede sem fio pode buscar diferentes objetivos:</p><h3 id="3c2f6ce8-497f-80dd-b531-fbf2e223bcfe" class="" dir="auto">Obter acesso não autorizado</h3><p id="3c2f6ce8-497f-80e4-9223-c158d608c96b" class="" dir="auto">O atacante tenta entrar na rede sem possuir autorização.</p><h3 id="3c2f6ce8-497f-8064-9117-c082ce352138" class="" dir="auto">Roubar informações</h3><p id="3c2f6ce8-497f-8085-ba24-caca06e234b1" class="" dir="auto">Pode tentar obter credenciais ou outros dados transmitidos.</p><h3 id="3c2f6ce8-497f-8038-89a9-e4ad722d8a2a" class="" dir="auto">Espionar comunicações</h3><p id="3c2f6ce8-497f-80f4-9432-fb1072a07dff" class="" dir="auto">Busca observar informações que trafegam pela rede.</p><h3 id="3c2f6ce8-497f-80b4-bf97-d25d6987830f" class="" dir="auto">Interromper o serviço</h3><p id="3c2f6ce8-497f-80bb-b164-f1a0eca84249" class="" dir="auto">O objetivo pode ser deixar a rede indisponível.</p><h3 id="3c2f6ce8-497f-80fb-8baa-fd2daa8a3052" class="" dir="auto">Comprometer dispositivos</h3><p id="3c2f6ce8-497f-801e-b841-ea6ba9887119" class="" dir="auto">O Wi-Fi pode ser utilizado como ponto de entrada para atacar computadores, smartphones, servidores ou dispositivos IoT.</p><h3 id="3c2f6ce8-497f-80d3-947b-d15bd1ca91a2" class="" dir="auto">Enganar usuários</h3><p id="3c2f6ce8-497f-800f-82d6-e4eca08e4c5c" class="" dir="auto">O atacante pode criar uma rede falsa para induzir vítimas a se conectarem a ela.</p><hr id="3c2f6ce8-497f-805e-ae17-ecf180bca4fd" dir="auto"/><h1 id="3c2f6ce8-497f-8099-810b-f13ef3abfe9a" class="" dir="auto">2. Ataques de força bruta e dicionário</h1><p id="3c2f6ce8-497f-800f-baaa-f1f06af7009f" class="" dir="auto">Um dos ataques mais conhecidos contra redes Wi-Fi consiste em tentar descobrir a senha.</p><h3 id="3c2f6ce8-497f-8002-92d7-c6700d016014" class="" dir="auto">Força bruta</h3><p id="3c2f6ce8-497f-804b-99e5-f35d5ae7994e" class="" dir="auto">Consiste conceitualmente em testar diversas combinações possíveis até encontrar uma que funcione.</p><p id="3c2f6ce8-497f-80c9-82a6-c0fd2f7d86ae" class="" dir="auto"><strong>Tentativa → tentativa → tentativa → ... → senha correta</strong></p><p id="3c2f6ce8-497f-801a-8c0f-f9a429d1f282" class="" dir="auto">Esse processo pode ser extremamente demorado quando a senha é suficientemente longa e aleatória.</p><h3 id="3c2f6ce8-497f-80f8-b15c-cfe2aa136f68" class="" dir="auto">Ataque de dicionário</h3><p id="3c2f6ce8-497f-80f0-bf27-dcb108949e48" class="" dir="auto">Em vez de testar todas as combinações possíveis, são utilizadas listas de senhas comuns ou prováveis.</p><p id="3c2f6ce8-497f-8068-adac-cf37888d89ad" class="" dir="auto">Por exemplo, senhas como:</p><ul id="3c2f6ce8-497f-8091-8f3e-e5ce7df3b5b0" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><code>12345678</code>;</li></ul><ul id="3c2f6ce8-497f-80f1-9e1f-fe5e91383d0a" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><code>password</code>;</li></ul><ul id="3c2f6ce8-497f-804d-8625-ecacf3fc9001" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><code>qwerty123</code>;</li></ul><ul id="3c2f6ce8-497f-80f5-aa33-e38843554463" class="bulleted-list" dir="auto"><li style="list-style-type:disc">nomes;</li></ul><ul id="3c2f6ce8-497f-8038-a2af-d7e6d8f339a6" class="bulleted-list" dir="auto"><li style="list-style-type:disc">datas.</li></ul><h3 id="3c2f6ce8-497f-800f-973f-fd2f4b965895" class="" dir="auto">Proteção</h3><p id="3c2f6ce8-497f-80be-bca8-f0e017246962" class="" dir="auto">A principal proteção é utilizar uma <strong>senha longa, forte e imprevisível</strong>.</p><hr id="3c2f6ce8-497f-80ee-8863-c14b2f945fb3" dir="auto"/><h1 id="3c2f6ce8-497f-80ec-9c6d-d4f4a7778cb3" class="" dir="auto">3. Evil Twin</h1><p id="3c2f6ce8-497f-80eb-8177-e8ded48af083" class="" dir="auto">O <strong>Evil Twin</strong> é um dos ataques mais importantes para entender em Segurança Cibernética.</p><p id="3c2f6ce8-497f-8098-aead-f0fd3b699e3a" class="" dir="auto">Nesse ataque, o criminoso cria uma rede Wi-Fi falsa que tenta imitar uma rede legítima.</p><h3 id="3c2f6ce8-497f-806d-9178-c0405cccafcc" class="" dir="auto">Exemplo</h3><p id="3c2f6ce8-497f-80f4-a6be-e51c6d6d6a29" class="" dir="auto">Rede legítima:</p><p id="3c2f6ce8-497f-8025-84ef-d3779c8a90a8" class="" dir="auto"><strong>Shopping_WiFi</strong></p><p id="3c2f6ce8-497f-8097-907e-e3e90cb95f00" class="" dir="auto">Rede falsa:</p><p id="3c2f6ce8-497f-806a-9924-c3cf78465351" class="" dir="auto"><strong>Shopping_WiFi</strong></p><p id="3c2f6ce8-497f-80b3-8fe5-f1785534e2f3" class="" dir="auto">O usuário pode não perceber a diferença e se conectar à rede controlada pelo atacante.</p><h3 id="3c2f6ce8-497f-80e4-82cf-faeea846efc5" class="" dir="auto">Objetivos possíveis</h3><p id="3c2f6ce8-497f-80b3-ae6e-e51ae6faffef" class="" dir="auto">O atacante pode tentar:</p><ul id="3c2f6ce8-497f-8089-9f0f-c4fec1d55804" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Enganar usuários;</li></ul><ul id="3c2f6ce8-497f-80fc-af1f-dd480716dbf5" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Redirecioná-los para páginas falsas;</li></ul><ul id="3c2f6ce8-497f-8083-baa0-e62c61dea097" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Coletar informações;</li></ul><ul id="3c2f6ce8-497f-806a-a84a-c846b627b73f" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Realizar phishing;</li></ul><ul id="3c2f6ce8-497f-801f-9cc6-ed9f49dbb145" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Observar determinados metadados de conexão;</li></ul><ul id="3c2f6ce8-497f-807a-ad6f-cd8bba144622" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Explorar dispositivos vulneráveis.</li></ul><h3 id="3c2f6ce8-497f-807d-ba24-f18d6a42b11d" class="" dir="auto">Proteção</h3><ul id="3c2f6ce8-497f-80ff-93db-e1fb9550f3b4" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Confirmar o SSID correto;</li></ul><ul id="3c2f6ce8-497f-8054-9f72-c5cb47d57832" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Evitar redes desconhecidas;</li></ul><ul id="3c2f6ce8-497f-802e-829d-e8ec63abf8b0" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Utilizar HTTPS;</li></ul><ul id="3c2f6ce8-497f-807e-9445-c12bc4f93e51" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Utilizar MFA;</li></ul><ul id="3c2f6ce8-497f-80de-bb4c-efb627271b4b" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Não aceitar certificados suspeitos;</li></ul><ul id="3c2f6ce8-497f-808a-8f99-df09d111c083" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Desativar conexão automática a redes desconhecidas.</li></ul><hr id="3c2f6ce8-497f-80ec-a82e-c664c547eafe" dir="auto"/><h1 id="3c2f6ce8-497f-8063-a79c-f32e367e27e7" class="" dir="auto">4. Rogue Access Point</h1><p id="3c2f6ce8-497f-808f-82ac-d06e90ea55aa" class="" dir="auto">Um <strong>Rogue Access Point</strong> é um ponto de acesso não autorizado.</p><p id="3c2f6ce8-497f-80ec-b0d7-edcfb57d0d8d" class="" dir="auto">Imagine uma empresa com uma infraestrutura Wi-Fi controlada pelo departamento de TI.</p><p id="3c2f6ce8-497f-804d-be9b-d72504c6beb5" class="" dir="auto">Um funcionário conecta um roteador pessoal à rede corporativa sem autorização.</p><p id="3c2f6ce8-497f-8093-882b-f52bbe25d70c" class="" dir="auto">Isso cria:</p><p id="3c2f6ce8-497f-8031-87d0-dfc591afcec8" class="" dir="auto"><strong>Rede corporativa → Access Point não autorizado</strong></p><p id="3c2f6ce8-497f-8081-9d45-ef39407fa8d5" class="" dir="auto">Esse equipamento pode criar uma vulnerabilidade na infraestrutura.</p><h3 id="3c2f6ce8-497f-80e4-b65d-fb445781f565" class="" dir="auto">Riscos</h3><ul id="3c2f6ce8-497f-80b8-8f32-c5215ce63d58" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Acesso não autorizado;</li></ul><ul id="3c2f6ce8-497f-80aa-9db1-f749890f5022" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Falhas de configuração;</li></ul><ul id="3c2f6ce8-497f-80af-ba44-c9b8efef3d8d" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Bypass de controles de segurança;</li></ul><ul id="3c2f6ce8-497f-8079-bd1a-f6d2e77bc8cb" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Exposição da rede interna.</li></ul><h3 id="3c2f6ce8-497f-807c-a5bc-c8d2e8ec5cad" class="" dir="auto">Proteção</h3><p id="3c2f6ce8-497f-805e-94ca-e157a03e912f" class="" dir="auto">Empresas podem utilizar:</p><ul id="3c2f6ce8-497f-8054-89c6-e0db129f3e97" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Monitoramento de Access Points;</li></ul><ul id="3c2f6ce8-497f-80e8-8017-cfd4aed75dd5" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Controle de portas de rede;</li></ul><ul id="3c2f6ce8-497f-80b6-8da2-d74d745e542e" class="bulleted-list" dir="auto"><li style="list-style-type:disc">NAC;</li></ul><ul id="3c2f6ce8-497f-8000-bab1-df39a78fa095" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Segmentação;</li></ul><ul id="3c2f6ce8-497f-8037-84a1-f4e8826e6ac5" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Auditorias;</li></ul><ul id="3c2f6ce8-497f-80b7-ae1a-c93bd78bbc3c" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Sistemas de detecção de redes não autorizadas.</li></ul><hr id="3c2f6ce8-497f-805e-bbcc-d33a2fcd6f62" dir="auto"/><h1 id="3c2f6ce8-497f-80c4-93f5-d914beca8c3b" class="" dir="auto">5. Ataques de desautenticação</h1><p id="3c2f6ce8-497f-803c-b839-eeca5c3298e6" class="" dir="auto">Redes Wi-Fi possuem mensagens de gerenciamento utilizadas para controlar determinadas etapas da conexão.</p><p id="3c2f6ce8-497f-8015-a1ba-d3da457b2b9b" class="" dir="auto">Historicamente, algumas dessas mensagens poderiam ser abusadas para provocar a <strong>desconexão de dispositivos</strong>.</p><p id="3c2f6ce8-497f-803d-babf-fb97e0562fa3" class="" dir="auto">O resultado pode ser:</p><p id="3c2f6ce8-497f-80ce-b7bb-c74aa2e83af8" class="" dir="auto"><strong>Dispositivo conectado → ataque → desconexão → indisponibilidade</strong></p><p id="3c2f6ce8-497f-8041-8ad5-d7f21cd9dcb8" class="" dir="auto">Além da interrupção do serviço, esse tipo de ataque pode ser utilizado como parte de uma cadeia de ataque mais ampla.</p><h3 id="3c2f6ce8-497f-80e7-b57f-cf076d06c330" class="" dir="auto">Proteção</h3><p id="3c2f6ce8-497f-806c-b9a2-f751edc3c3cc" class="" dir="auto">Mecanismos como <strong>Protected Management Frames (PMF)</strong>, associados ao padrão <strong>802.11w</strong>, ajudam a proteger determinadas mensagens de gerenciamento.</p><hr id="3c2f6ce8-497f-80c4-9e6a-eb00771a3c8b" dir="auto"/><h1 id="3c2f6ce8-497f-80b4-90fd-ead82c57135c" class="" dir="auto">6. Ataques de negação de serviço</h1><p id="3c2f6ce8-497f-80aa-9703-e9cd6c5f161a" class="" dir="auto">Um atacante pode tentar impedir que usuários legítimos utilizem a rede.</p><p id="3c2f6ce8-497f-806f-ada3-dad6214cbd41" class="" dir="auto">Esse tipo de ataque é chamado de <strong>DoS (Denial of Service)</strong>.</p><p id="3c2f6ce8-497f-80a5-a0db-e16c35903319" class="" dir="auto">Em redes sem fio, isso pode ocorrer de diferentes formas.</p><p id="3c2f6ce8-497f-805f-ad66-f71cc85c6abb" class="" dir="auto">O objetivo geral é:</p><p id="3c2f6ce8-497f-808c-85da-f04ad780febb" class="" dir="auto"><strong>Usuário legítimo → tenta acessar a rede → serviço indisponível</strong></p><p id="3c2f6ce8-497f-807d-b975-f9da7641df05" class="" dir="auto">Os ataques podem explorar:</p><ul id="3c2f6ce8-497f-80d0-924f-d07d2527c7fa" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Protocolos;</li></ul><ul id="3c2f6ce8-497f-8072-b1f1-e3c4850c779c" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Equipamentos;</li></ul><ul id="3c2f6ce8-497f-80f0-af91-ee5709666784" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Canais de rádio;</li></ul><ul id="3c2f6ce8-497f-8010-be75-da801763c77d" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Mensagens de gerenciamento;</li></ul><ul id="3c2f6ce8-497f-8032-8298-d5e5f6bcab62" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Recursos do Access Point.</li></ul><hr id="3c2f6ce8-497f-8063-a275-f2e9db8111cd" dir="auto"/><h1 id="3c2f6ce8-497f-8011-8e07-e78d5252f858" class="" dir="auto">7. Jamming</h1><p id="3c2f6ce8-497f-802d-b340-eb861b137d54" class="" dir="auto"><strong>Jamming</strong> é uma forma de interferência intencional no sinal de rádio.</p><p id="3c2f6ce8-497f-806c-9daf-c459f6c20f10" class="" dir="auto">O atacante gera sinais que interferem na comunicação legítima.</p><p id="3c2f6ce8-497f-805d-8d7b-db1a0d1afd9d" class="" dir="auto">De forma simplificada:</p><p id="3c2f6ce8-497f-8034-bb33-dd43dbb6068e" class="" dir="auto"><strong>Wi-Fi legítimo + interferência → comunicação prejudicada</strong></p><p id="3c2f6ce8-497f-80cf-a954-fee30ea246d0" class="" dir="auto">Isso pode resultar em:</p><ul id="3c2f6ce8-497f-8013-a2a9-da9557d71d6e" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Queda de conexão;</li></ul><ul id="3c2f6ce8-497f-8020-9abc-dee7fa9abc23" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Alta latência;</li></ul><ul id="3c2f6ce8-497f-806b-b053-d7d23fe1e55d" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Baixa velocidade;</li></ul><ul id="3c2f6ce8-497f-8006-a621-f4adeb920d0c" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Indisponibilidade.</li></ul><h3 id="3c2f6ce8-497f-80b0-b4ef-f62d2ff60f07" class="" dir="auto">Importante</h3><p id="3c2f6ce8-497f-8098-96ba-db1b35fa8b51" class="" dir="auto">Jamming é diferente de simplesmente tentar descobrir uma senha. O objetivo principal é <strong>interferir na comunicação</strong>.</p><hr id="3c2f6ce8-497f-806b-b4f4-ccddcfffefd1" dir="auto"/><h1 id="3c2f6ce8-497f-807a-8284-fe13e30d9aa9" class="" dir="auto">8. Interceptação de tráfego</h1><p id="3c2f6ce8-497f-8071-baaa-ffae19425301" class="" dir="auto">Em determinadas circunstâncias, um atacante pode tentar observar o tráfego de uma rede sem fio.</p><p id="3c2f6ce8-497f-8016-b0ac-fa15329e459e" class="" dir="auto">O risco é maior quando:</p><ul id="3c2f6ce8-497f-809c-884d-e893ad5d0be8" class="bulleted-list" dir="auto"><li style="list-style-type:disc">A rede utiliza protocolos antigos;</li></ul><ul id="3c2f6ce8-497f-8086-9fda-dd9723540b1b" class="bulleted-list" dir="auto"><li style="list-style-type:disc">A comunicação não possui criptografia adicional;</li></ul><ul id="3c2f6ce8-497f-805d-98fd-f9d930a7456b" class="bulleted-list" dir="auto"><li style="list-style-type:disc">O usuário acessa serviços inseguros;</li></ul><ul id="3c2f6ce8-497f-8062-a15a-ffba99c9ff14" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Existem configurações inadequadas.</li></ul><h3 id="3c2f6ce8-497f-8021-8693-c2e7dd7e9ea9" class="" dir="auto">Proteção</h3><p id="3c2f6ce8-497f-807b-87b6-c8347c6b58e8" class="" dir="auto">Utilizar camadas adicionais de criptografia, como:</p><ul id="3c2f6ce8-497f-80b1-b3ed-eef028d9d128" class="bulleted-list" dir="auto"><li style="list-style-type:disc">HTTPS;</li></ul><ul id="3c2f6ce8-497f-80db-874c-df1b8a5641dc" class="bulleted-list" dir="auto"><li style="list-style-type:disc">TLS;</li></ul><ul id="3c2f6ce8-497f-80cd-8b87-c89b23dc043c" class="bulleted-list" dir="auto"><li style="list-style-type:disc">VPN quando apropriado.</li></ul><hr id="3c2f6ce8-497f-8081-9e81-e3da858e0808" dir="auto"/><h1 id="3c2f6ce8-497f-80a1-b6d3-c59431e8ede0" class="" dir="auto">9. Man-in-the-Middle</h1><p id="3c2f6ce8-497f-80b4-b86f-f582830aece6" class="" dir="auto">O ataque <strong>Man-in-the-Middle (MitM)</strong> ocorre quando um atacante consegue se posicionar entre duas partes que estão se comunicando.</p><p id="3c2f6ce8-497f-809d-b548-fa678e30f816" class="" dir="auto">Conceitualmente:</p><p id="3c2f6ce8-497f-8087-b6a9-fe659bca2b12" class="" dir="auto"><strong>Usuário → Atacante → Servidor</strong></p><p id="3c2f6ce8-497f-8064-b987-c987cc8b22ec" class="" dir="auto">O usuário pode acreditar que está comunicando diretamente com o servidor.</p><h3 id="3c2f6ce8-497f-80b7-ae5f-f7026b638961" class="" dir="auto">Possíveis objetivos</h3><ul id="3c2f6ce8-497f-80fb-8406-e88060450962" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Observar informações;</li></ul><ul id="3c2f6ce8-497f-808c-ae95-d1a1dd761f2e" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Alterar determinadas comunicações;</li></ul><ul id="3c2f6ce8-497f-80a0-9579-dd6edb3d4f49" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Redirecionar a vítima;</li></ul><ul id="3c2f6ce8-497f-80e1-a656-dff76c35d3ec" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Roubar credenciais em situações onde a comunicação não está adequadamente protegida.</li></ul><h3 id="3c2f6ce8-497f-806f-8e34-e32fb3ce4736" class="" dir="auto">Proteção</h3><ul id="3c2f6ce8-497f-80ad-9515-ec13bb2c4911" class="bulleted-list" dir="auto"><li style="list-style-type:disc">HTTPS;</li></ul><ul id="3c2f6ce8-497f-80da-bb83-f200f1e5a472" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Certificados válidos;</li></ul><ul id="3c2f6ce8-497f-802b-8d80-f276f16dc735" class="bulleted-list" dir="auto"><li style="list-style-type:disc">VPN quando apropriado;</li></ul><ul id="3c2f6ce8-497f-807f-a569-ef372fb808fd" class="bulleted-list" dir="auto"><li style="list-style-type:disc">WPA2/WPA3;</li></ul><ul id="3c2f6ce8-497f-806e-a643-eb0cbe144203" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Evitar redes desconhecidas;</li></ul><ul id="3c2f6ce8-497f-80dd-ab98-f0a48bcef22d" class="bulleted-list" dir="auto"><li style="list-style-type:disc">MFA.</li></ul><hr id="3c2f6ce8-497f-806f-8cbc-f8adaf6d405e" dir="auto"/><h1 id="3c2f6ce8-497f-80ce-825b-fce8cced10e8" class="" dir="auto">10. Ataques relacionados ao WPS</h1><p id="3c2f6ce8-497f-8014-93b6-dba6b137cd22" class="" dir="auto">O <strong>WPS (Wi-Fi Protected Setup)</strong> foi criado para facilitar a conexão de dispositivos.</p><p id="3c2f6ce8-497f-806d-b5cd-ffb41cd5c32b" class="" dir="auto">Entretanto, determinados métodos de WPS apresentaram problemas de segurança historicamente.</p><p id="3c2f6ce8-497f-8056-84db-d94fce87ccc8" class="" dir="auto">Em configurações vulneráveis, um atacante pode tentar explorar o mecanismo de autenticação para obter acesso à rede.</p><h3 id="3c2f6ce8-497f-8060-ad3f-cd6c595f06bf" class="" dir="auto">Proteção</h3><p id="3c2f6ce8-497f-80bd-a93a-f2539f9d93ea" class="" dir="auto">Quando o WPS não for necessário:</p><p id="3c2f6ce8-497f-803c-b3dc-d0d55b07c4cf" class="" dir="auto"><strong>Desativá-lo pode reduzir a superfície de ataque.</strong></p><hr id="3c2f6ce8-497f-80b9-85f9-da953afc447b" dir="auto"/><h1 id="3c2f6ce8-497f-807c-9179-c5e34f71d7cd" class="" dir="auto">11. Ataques contra WEP</h1><p id="3c2f6ce8-497f-8041-9e5b-d4081681f2ee" class="" dir="auto">O <strong>WEP</strong> é um protocolo antigo e inseguro.</p><p id="3c2f6ce8-497f-807c-a71e-ea3f204b9a83" class="" dir="auto">Ele possui problemas criptográficos que permitem ataques capazes de recuperar informações necessárias para comprometer a proteção da rede.</p><p id="3c2f6ce8-497f-8015-b692-f139f01ad7ca" class="" dir="auto">Por isso:</p><blockquote id="3c2f6ce8-497f-807f-b209-d35107a9c9b4" class="" dir="auto"><strong>WEP não deve ser utilizado em redes modernas.</strong></blockquote><p id="3c2f6ce8-497f-8089-8900-cfd13e59f85c" class="" dir="auto">A recomendação é utilizar <strong>WPA2 ou WPA3</strong>.</p><hr id="3c2f6ce8-497f-8021-8fc8-dc60df159d72" dir="auto"/><h1 id="3c2f6ce8-497f-80de-9028-ddb1b9e70761" class="" dir="auto">12. Ataques contra senhas fracas</h1><p id="3c2f6ce8-497f-80c1-8f4a-e93aa73ea4a2" class="" dir="auto">Mesmo utilizando um protocolo moderno, uma senha fraca pode representar um problema.</p><p id="3c2f6ce8-497f-802e-8241-f6bf4f16d7a1" class="" dir="auto">Por exemplo:</p><p id="3c2f6ce8-497f-80b6-a9f8-e601347715f3" class="" dir="auto"><strong>WPA2/WPA3 + senha muito previsível</strong></p><p id="3c2f6ce8-497f-807e-8cbb-e6cab8f5ae9a" class="" dir="auto">não oferece o mesmo nível de segurança que:</p><p id="3c2f6ce8-497f-804a-92ed-d5fc70263443" class="" dir="auto"><strong>WPA2/WPA3 + senha longa e aleatória</strong></p><p id="3c2f6ce8-497f-8009-9663-e1b99d6122fc" class="" dir="auto">Por isso, a segurança do Wi-Fi depende tanto do protocolo quanto da <strong>qualidade das credenciais</strong>.</p><hr id="3c2f6ce8-497f-80f0-a39d-d3eea7f0b485" dir="auto"/><h1 id="3c2f6ce8-497f-8028-860f-fcb8ebefb897" class="" dir="auto">13. MAC Spoofing</h1><p id="3c2f6ce8-497f-808f-8b03-e331f66b6229" class="" dir="auto">Cada interface de rede possui um endereço MAC.</p><p id="3c2f6ce8-497f-8067-9e25-ebd252cbf6ad" class="" dir="auto">Por exemplo:</p><p id="3c2f6ce8-497f-8033-aa80-c142e452ff96" class="" dir="auto"><strong>AA:BB:CC:11:22:33</strong></p><p id="3c2f6ce8-497f-8027-bdf3-d55b877ea5bf" class="" dir="auto">Em determinadas situações, um atacante pode tentar alterar o endereço MAC apresentado pelo dispositivo.</p><p id="3c2f6ce8-497f-802b-8072-f7380e33360b" class="" dir="auto">Isso é chamado de <strong>MAC spoofing</strong>.</p><h3 id="3c2f6ce8-497f-80a2-a5cb-efaf94c56229" class="" dir="auto">Por que isso é importante?</h3><p id="3c2f6ce8-497f-803a-9fba-c51c938416bc" class="" dir="auto">Se uma rede confiar apenas em endereços MAC para controlar o acesso, essa proteção pode ser contornada.</p><p id="3c2f6ce8-497f-8056-bbc9-e1a58a775d7d" class="" dir="auto">Por isso:</p><blockquote id="3c2f6ce8-497f-806e-ae4b-eda37224931a" class="" dir="auto"><strong>Filtragem MAC não deve ser considerada uma autenticação forte.</strong></blockquote><hr id="3c2f6ce8-497f-800b-bf80-fdda0ba93776" dir="auto"/><h1 id="3c2f6ce8-497f-808b-810d-c5c43f048963" class="" dir="auto">14. Ataques contra roteadores</h1><p id="3c2f6ce8-497f-8048-8aff-f802610e98da" class="" dir="auto">O roteador também pode possuir vulnerabilidades.</p><p id="3c2f6ce8-497f-804a-951d-d37c54cb190b" class="" dir="auto">Um atacante pode tentar explorar:</p><ul id="3c2f6ce8-497f-80cf-bf52-de547f82c2b2" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Firmware desatualizado;</li></ul><ul id="3c2f6ce8-497f-8063-bb67-eff5a4035191" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Senhas administrativas fracas;</li></ul><ul id="3c2f6ce8-497f-805c-8f44-fbc585126144" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Serviços expostos;</li></ul><ul id="3c2f6ce8-497f-80bd-a8a6-c3a74683669b" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Configurações inseguras;</li></ul><ul id="3c2f6ce8-497f-8072-9daf-d261e7bd72c3" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Vulnerabilidades conhecidas.</li></ul><p id="3c2f6ce8-497f-8035-bac5-ec43b673687e" class="" dir="auto">Se o roteador for comprometido, o atacante pode obter uma posição privilegiada dentro da rede.</p><h3 id="3c2f6ce8-497f-8041-826a-f911b894e2cd" class="" dir="auto">Proteção</h3><ul id="3c2f6ce8-497f-8042-aed2-eaf867f0afe3" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Atualizar firmware;</li></ul><ul id="3c2f6ce8-497f-80b9-a24a-d5b0ab9556d0" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Alterar credenciais padrão;</li></ul><ul id="3c2f6ce8-497f-80dc-b8e4-e5813632052c" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Desativar administração remota desnecessária;</li></ul><ul id="3c2f6ce8-497f-8058-bd4c-d919778cd01c" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Utilizar senhas fortes;</li></ul><ul id="3c2f6ce8-497f-8002-8009-f8f5786853fd" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Revisar configurações;</li></ul><ul id="3c2f6ce8-497f-801e-bed5-dd9142dc573c" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Substituir equipamentos sem suporte de segurança.</li></ul><hr id="3c2f6ce8-497f-8012-8f67-c6a21f2c50a0" dir="auto"/><h1 id="3c2f6ce8-497f-80de-ac8b-fb13e7325ad9" class="" dir="auto">15. Ataques contra dispositivos IoT</h1><p id="3c2f6ce8-497f-8061-8084-dcf6f64701ce" class="" dir="auto">Dispositivos IoT são especialmente relevantes porque alguns possuem recursos de segurança limitados.</p><p id="3c2f6ce8-497f-80e7-8a6c-ec6eb2ce6513" class="" dir="auto">Exemplos:</p><ul id="3c2f6ce8-497f-8063-95f6-e9acfa3ad7d7" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Câmeras;</li></ul><ul id="3c2f6ce8-497f-8059-8268-e139599ec567" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Smart TVs;</li></ul><ul id="3c2f6ce8-497f-80d4-9481-c0fbe4c3b0f6" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Tomadas inteligentes;</li></ul><ul id="3c2f6ce8-497f-8071-8be8-ca52e200e275" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Sensores;</li></ul><ul id="3c2f6ce8-497f-80d1-a91b-c916a1c31c5c" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Impressoras;</li></ul><ul id="3c2f6ce8-497f-808c-b860-eb26bdef3b64" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Dispositivos domésticos.</li></ul><p id="3c2f6ce8-497f-806d-aab8-eb37533a10a1" class="" dir="auto">Um dispositivo vulnerável conectado ao Wi-Fi pode se transformar em um ponto de entrada para a rede.</p><h3 id="3c2f6ce8-497f-80d0-b834-dadead8b4cb8" class="" dir="auto">Proteção</h3><ul id="3c2f6ce8-497f-80f8-adbe-c2a29ea5fc81" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Atualizar firmware;</li></ul><ul id="3c2f6ce8-497f-80b7-ad43-c4b632ebb648" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Alterar senhas padrão;</li></ul><ul id="3c2f6ce8-497f-8071-99c0-ce08baf9969b" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Remover dispositivos não utilizados;</li></ul><ul id="3c2f6ce8-497f-802c-aba2-d7dff649232d" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Utilizar rede separada para IoT;</li></ul><ul id="3c2f6ce8-497f-80c1-9b53-ec56290227eb" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Evitar exposição desnecessária à Internet.</li></ul><hr id="3c2f6ce8-497f-8013-9d26-e6238b74e14e" dir="auto"/><h1 id="3c2f6ce8-497f-803e-9922-c3df9256c54b" class="" dir="auto">16. Karma Attack</h1><p id="3c2f6ce8-497f-8043-99f6-e6fccc3ade56" class="" dir="auto">O <strong>Karma</strong> é uma técnica associada a redes Wi-Fi maliciosas.</p><p id="3c2f6ce8-497f-809c-a819-dc7a38e7a05c" class="" dir="auto">Alguns dispositivos procuram automaticamente redes Wi-Fi que já conheceram anteriormente.</p><p id="3c2f6ce8-497f-8095-9981-e594fb12c1e7" class="" dir="auto">Um atacante pode tentar criar uma rede que responda a essas solicitações e atraia o dispositivo.</p><h3 id="3c2f6ce8-497f-80af-b06e-dc860be2e836" class="" dir="auto">Exemplo conceitual</h3><p id="3c2f6ce8-497f-80d9-8e08-db904c1ee45e" class="" dir="auto">O celular já utilizou:</p><p id="3c2f6ce8-497f-800d-988d-f101d775273a" class="" dir="auto"><strong>Cafe_WiFi</strong></p><p id="3c2f6ce8-497f-8076-a5ba-fc83f32ebb3b" class="" dir="auto">O atacante cria uma rede com esse nome.</p><p id="3c2f6ce8-497f-80cc-9a19-ea2c02911cf1" class="" dir="auto">O dispositivo pode tentar se conectar automaticamente, dependendo de sua configuração.</p><h3 id="3c2f6ce8-497f-80de-9d5d-f180608ecc19" class="" dir="auto">Proteção</h3><ul id="3c2f6ce8-497f-80d0-9ab5-dba0b591ddf7" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Desativar conexão automática a redes desconhecidas;</li></ul><ul id="3c2f6ce8-497f-8024-a209-c742e2ef0205" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Remover redes antigas que não são mais utilizadas;</li></ul><ul id="3c2f6ce8-497f-809a-aace-f76054cab9a3" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Manter o sistema operacional atualizado.</li></ul><hr id="3c2f6ce8-497f-80ce-935b-e97cdb2fe37e" dir="auto"/><h1 id="3c2f6ce8-497f-80a2-bbcf-d52727b54e51" class="" dir="auto">17. Phishing através de redes Wi-Fi</h1><p id="3c2f6ce8-497f-806c-87ac-d151de81ec31" class="" dir="auto">Uma rede falsa pode ser utilizada como parte de um ataque de <strong>phishing</strong>.</p><p id="3c2f6ce8-497f-8069-930d-c27c01571576" class="" dir="auto">Fluxo conceitual:</p><p id="3c2f6ce8-497f-802e-9260-f65f5610023d" class="" dir="auto"><strong>Rede falsa → Usuário se conecta → Página falsa → Usuário fornece informações</strong></p><p id="3c2f6ce8-497f-809d-ae55-c9a7721fc61d" class="" dir="auto">A página pode tentar imitar:</p><ul id="3c2f6ce8-497f-8063-9cc0-c3d9cfb8a080" class="bulleted-list" dir="auto"><li style="list-style-type:disc">E-mail;</li></ul><ul id="3c2f6ce8-497f-806c-83fd-d1a3b9642c62" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Banco;</li></ul><ul id="3c2f6ce8-497f-80a2-a5e1-cfa14867f321" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Rede social;</li></ul><ul id="3c2f6ce8-497f-80ae-bc39-f8aa2b9068fa" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Sistema corporativo;</li></ul><ul id="3c2f6ce8-497f-8010-ae23-e0ee6d5b292f" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Portal de acesso.</li></ul><p id="3c2f6ce8-497f-8009-88ac-ebee07be7691" class="" dir="auto">Por isso, uma rede Wi-Fi aparentemente legítima não garante que todos os sites acessados sejam legítimos.</p><hr id="3c2f6ce8-497f-802b-9e3b-d622712ceb27" dir="auto"/><h1 id="3c2f6ce8-497f-8091-b36e-cf915c0bd8c5" class="" dir="auto">18. Captive Portal malicioso</h1><p id="3c2f6ce8-497f-806b-a479-d82b403b7d92" class="" dir="auto">Redes públicas frequentemente utilizam <strong>portais de autenticação</strong>, conhecidos como captive portals.</p><p id="3c2f6ce8-497f-8083-b407-d9f184f84269" class="" dir="auto">Ao conectar-se, o usuário é direcionado para uma página onde pode precisar:</p><ul id="3c2f6ce8-497f-80c8-bafa-c1ca5785960c" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Aceitar termos;</li></ul><ul id="3c2f6ce8-497f-80bc-8bad-c47fd72e8571" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Fazer login;</li></ul><ul id="3c2f6ce8-497f-8076-b3d3-ea981244ae7e" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Fornecer informações.</li></ul><p id="3c2f6ce8-497f-80bb-82e9-de4814a993e3" class="" dir="auto">Um atacante pode tentar criar uma página falsa semelhante.</p><h3 id="3c2f6ce8-497f-80af-a0f4-da2db4be16c5" class="" dir="auto">Proteção</h3><p id="3c2f6ce8-497f-8093-a471-d614c6f2a04a" class="" dir="auto">Observe:</p><ul id="3c2f6ce8-497f-80ff-af9b-da66e792cf55" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Endereço do site;</li></ul><ul id="3c2f6ce8-497f-801b-ac5c-f73b5eb285d8" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Certificado HTTPS;</li></ul><ul id="3c2f6ce8-497f-80df-8be9-d438bb214610" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Domínio;</li></ul><ul id="3c2f6ce8-497f-80ac-9297-c2627ebd7e98" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Solicitações incomuns de informações.</li></ul><hr id="3c2f6ce8-497f-80d8-a3ab-de0bc7781ade" dir="auto"/><h1 id="3c2f6ce8-497f-80d7-af76-d05eed6b8fcd" class="" dir="auto">19. Ataques contra redes corporativas</h1><p id="3c2f6ce8-497f-80d5-99da-ecb1778dedac" class="" dir="auto">Em empresas, os ataques podem ser mais complexos.</p><p id="3c2f6ce8-497f-8044-a47b-f962db23af58" class="" dir="auto">Um atacante pode tentar:</p><p id="3c2f6ce8-497f-808e-97e8-f523836f389c" class="" dir="auto"><strong>Identificar redes → Encontrar vulnerabilidades → Obter acesso → Comprometer dispositivo → Movimentar-se pela rede</strong></p><p id="3c2f6ce8-497f-807e-ba0b-e6d5bc192ed0" class="" dir="auto">Por isso, empresas utilizam mecanismos como:</p><ul id="3c2f6ce8-497f-8081-becd-c46fe34725e6" class="bulleted-list" dir="auto"><li style="list-style-type:disc">WPA3-Enterprise;</li></ul><ul id="3c2f6ce8-497f-8025-b751-e5057a636478" class="bulleted-list" dir="auto"><li style="list-style-type:disc">802.1X;</li></ul><ul id="3c2f6ce8-497f-80d5-956c-ff95ef5eda2d" class="bulleted-list" dir="auto"><li style="list-style-type:disc">RADIUS;</li></ul><ul id="3c2f6ce8-497f-80d9-872e-f90ce605a19f" class="bulleted-list" dir="auto"><li style="list-style-type:disc">VLANs;</li></ul><ul id="3c2f6ce8-497f-8028-993c-d5e9c6b72292" class="bulleted-list" dir="auto"><li style="list-style-type:disc">NAC;</li></ul><ul id="3c2f6ce8-497f-80df-a97f-ecdc9afb04cc" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Firewalls;</li></ul><ul id="3c2f6ce8-497f-8006-bfb4-fd356f012779" class="bulleted-list" dir="auto"><li style="list-style-type:disc">IDS/IPS;</li></ul><ul id="3c2f6ce8-497f-809d-9ec6-f8464f96bc9d" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Monitoramento;</li></ul><ul id="3c2f6ce8-497f-80b0-8318-fccd0963adbe" class="bulleted-list" dir="auto"><li style="list-style-type:disc">EDR.</li></ul><hr id="3c2f6ce8-497f-8079-8052-ccd76c9ba8d3" dir="auto"/><h1 id="3c2f6ce8-497f-80f1-8b39-c8eddbeb0588" class="" dir="auto">20. Defesa contra ataques Wi-Fi</h1><p id="3c2f6ce8-497f-8001-9d59-e6c095f99a02" class="" dir="auto">A proteção deve ser feita em várias camadas.</p><h3 id="3c2f6ce8-497f-8078-8ebd-f316f872b95d" class="" dir="auto">Camada 1 — Autenticação</h3><p id="3c2f6ce8-497f-80d0-93bd-e93154424c89" class="" dir="auto">Utilizar:</p><ul id="3c2f6ce8-497f-8069-ba34-e692c37b72dc" class="bulleted-list" dir="auto"><li style="list-style-type:disc">WPA2;</li></ul><ul id="3c2f6ce8-497f-80f3-8fec-dddce3e71ad9" class="bulleted-list" dir="auto"><li style="list-style-type:disc">WPA3;</li></ul><ul id="3c2f6ce8-497f-80be-8b3c-db3dc7a2b29c" class="bulleted-list" dir="auto"><li style="list-style-type:disc">WPA2-Enterprise;</li></ul><ul id="3c2f6ce8-497f-80b9-8c51-e4e6f2218d73" class="bulleted-list" dir="auto"><li style="list-style-type:disc">WPA3-Enterprise.</li></ul><h3 id="3c2f6ce8-497f-8097-8031-c00ddf58639f" class="" dir="auto">Camada 2 — Senhas</h3><p id="3c2f6ce8-497f-80de-87c6-c77d8ad87443" class="" dir="auto">Utilizar credenciais:</p><ul id="3c2f6ce8-497f-80cb-9ffb-c581d1a1f22f" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Longas;</li></ul><ul id="3c2f6ce8-497f-800b-87a0-d84c44c9b7ce" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Fortes;</li></ul><ul id="3c2f6ce8-497f-8064-a33f-db6746e90983" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Exclusivas.</li></ul><h3 id="3c2f6ce8-497f-80f5-9816-d8302deb5ac0" class="" dir="auto">Camada 3 — Atualizações</h3><p id="3c2f6ce8-497f-8077-a1a6-dc9c4379f645" class="" dir="auto">Atualizar:</p><ul id="3c2f6ce8-497f-802c-a796-dd5c5e09e857" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Roteadores;</li></ul><ul id="3c2f6ce8-497f-80f6-ac3a-c05d345d9cd9" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Access Points;</li></ul><ul id="3c2f6ce8-497f-8039-bc85-cbbebb3ecf6d" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Smartphones;</li></ul><ul id="3c2f6ce8-497f-80b8-af39-e270f52525ee" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Computadores;</li></ul><ul id="3c2f6ce8-497f-80e7-86ee-e0981a27cfa3" class="bulleted-list" dir="auto"><li style="list-style-type:disc">IoT.</li></ul><h3 id="3c2f6ce8-497f-80fc-ba9f-c5d473946411" class="" dir="auto">Camada 4 — Segmentação</h3><p id="3c2f6ce8-497f-803a-8b71-ffc5cd3d1928" class="" dir="auto">Separar:</p><ul id="3c2f6ce8-497f-80dc-8ecb-d8e02a1d46b8" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Usuários;</li></ul><ul id="3c2f6ce8-497f-8032-aea6-c636ef470556" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Servidores;</li></ul><ul id="3c2f6ce8-497f-80c2-b009-c1276033cc93" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Convidados;</li></ul><ul id="3c2f6ce8-497f-8025-bfae-d7bd832b62be" class="bulleted-list" dir="auto"><li style="list-style-type:disc">IoT;</li></ul><ul id="3c2f6ce8-497f-8000-a508-f15b05da388a" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Sistemas críticos.</li></ul><h3 id="3c2f6ce8-497f-805f-b3ca-fcb09cc49e11" class="" dir="auto">Camada 5 — Monitoramento</h3><p id="3c2f6ce8-497f-8095-9fe9-ea92daaf0868" class="" dir="auto">Identificar:</p><ul id="3c2f6ce8-497f-8097-aa87-d01bd5b2e5f1" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Dispositivos desconhecidos;</li></ul><ul id="3c2f6ce8-497f-8006-9584-dbccba31ca72" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Access Points não autorizados;</li></ul><ul id="3c2f6ce8-497f-8059-976b-ca0fe977659c" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Comportamentos anormais;</li></ul><ul id="3c2f6ce8-497f-80e7-8fda-e20e9f04de52" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Tentativas de autenticação suspeitas.</li></ul><hr id="3c2f6ce8-497f-808b-aed2-c4b17d354a55" dir="auto"/><h1 id="3c2f6ce8-497f-8069-906b-ed8bae59db62" class="" dir="auto">21. Tabela dos principais ataques</h1><table id="3c2f6ce8-497f-8060-8af6-fdeee648bfb6" class="simple-table" dir="ltr"><thead class="simple-table-header"><tr id="3c2f6ce8-497f-80b0-9cb9-d3c010801130" dir="ltr"><th id="|{oD" class="simple-table-header-color simple-table-header">Ataque</th><th id="?zMi" class="simple-table-header-color simple-table-header">Objetivo principal</th><th id="@VKZ" class="simple-table-header-color simple-table-header">Proteção</th></tr></thead><tbody><tr id="3c2f6ce8-497f-8091-ae80-fb2ded5b6d09" dir="ltr"><td id="|{oD" class=""><strong>Força bruta</strong></td><td id="?zMi" class="">Descobrir senha</td><td id="@VKZ" class="">Senha forte</td></tr><tr id="3c2f6ce8-497f-8043-939b-fc330b2dc325" dir="ltr"><td id="|{oD" class=""><strong>Dicionário</strong></td><td id="?zMi" class="">Testar senhas prováveis</td><td id="@VKZ" class="">Senha longa e imprevisível</td></tr><tr id="3c2f6ce8-497f-80de-b3f0-dc2849fdee33" dir="ltr"><td id="|{oD" class=""><strong>Evil Twin</strong></td><td id="?zMi" class="">Enganar usuários</td><td id="@VKZ" class="">Verificar SSID e utilizar HTTPS</td></tr><tr id="3c2f6ce8-497f-807e-8123-c3624f773dbf" dir="ltr"><td id="|{oD" class=""><strong>Rogue AP</strong></td><td id="?zMi" class="">Criar ponto de acesso não autorizado</td><td id="@VKZ" class="">Monitoramento e controle</td></tr><tr id="3c2f6ce8-497f-8096-93c9-d70fd71aab49" dir="ltr"><td id="|{oD" class=""><strong>Desautenticação</strong></td><td id="?zMi" class="">Desconectar dispositivos</td><td id="@VKZ" class="">PMF/802.11w</td></tr><tr id="3c2f6ce8-497f-80d2-84b0-d2a538a1c974" dir="ltr"><td id="|{oD" class=""><strong>DoS</strong></td><td id="?zMi" class="">Indisponibilizar a rede</td><td id="@VKZ" class="">Monitoramento e mitigação</td></tr><tr id="3c2f6ce8-497f-807c-8b6f-c9e3f9758ce3" dir="ltr"><td id="|{oD" class=""><strong>Jamming</strong></td><td id="?zMi" class="">Interferir no sinal</td><td id="@VKZ" class="">Detecção e planejamento de rádio</td></tr><tr id="3c2f6ce8-497f-80c6-a3dc-c932b4d81823" dir="ltr"><td id="|{oD" class=""><strong>MitM</strong></td><td id="?zMi" class="">Interceptar comunicação</td><td id="@VKZ" class="">TLS/HTTPS e outras camadas</td></tr><tr id="3c2f6ce8-497f-80de-903d-fd35e155b9da" dir="ltr"><td id="|{oD" class=""><strong>WPS attack</strong></td><td id="?zMi" class="">Explorar WPS vulnerável</td><td id="@VKZ" class="">Desativar WPS quando desnecessário</td></tr><tr id="3c2f6ce8-497f-8012-8a2b-c8eef0a6da04" dir="ltr"><td id="|{oD" class=""><strong>WEP attack</strong></td><td id="?zMi" class="">Comprometer WEP</td><td id="@VKZ" class="">Não utilizar WEP</td></tr><tr id="3c2f6ce8-497f-805a-82c2-de9e14dc0340" dir="ltr"><td id="|{oD" class=""><strong>MAC Spoofing</strong></td><td id="?zMi" class="">Falsificar endereço MAC</td><td id="@VKZ" class="">Autenticação forte</td></tr><tr id="3c2f6ce8-497f-8014-b485-c9ce999b4857" dir="ltr"><td id="|{oD" class=""><strong>Router exploit</strong></td><td id="?zMi" class="">Comprometer o roteador</td><td id="@VKZ" class="">Atualizações e configuração segura</td></tr><tr id="3c2f6ce8-497f-80ba-bf41-cf2a74b9539e" dir="ltr"><td id="|{oD" class=""><strong>IoT attack</strong></td><td id="?zMi" class="">Comprometer dispositivos IoT</td><td id="@VKZ" class="">Atualização e segmentação</td></tr><tr id="3c2f6ce8-497f-80d6-a101-e97334c7c587" dir="ltr"><td id="|{oD" class=""><strong>Karma</strong></td><td id="?zMi" class="">Atrair dispositivos</td><td id="@VKZ" class="">Desativar conexão automática</td></tr></tbody></table><hr id="3c2f6ce8-497f-8097-b66d-e9b11b1d8aee" dir="auto"/><h1 id="3c2f6ce8-497f-805c-84f2-e81ee309b76c" class="" dir="auto">22. Como proteger uma rede Wi-Fi na prática</h1><p id="3c2f6ce8-497f-80e9-8aaa-d8bffd1c908d" class="" dir="auto">Para uma rede doméstica, uma configuração básica de segurança pode seguir:</p><p id="3c2f6ce8-497f-8064-81c5-d19220483d53" class="" dir="auto"><strong>1. Utilizar WPA3</strong></p><p id="3c2f6ce8-497f-8029-9217-e0869c03c280" class="" dir="auto">↓</p><p id="3c2f6ce8-497f-805d-95f2-cd72ceb75b25" class="" dir="auto"><strong>2. Utilizar WPA2 se WPA3 não estiver disponível</strong></p><p id="3c2f6ce8-497f-80ee-8c32-d1fdd72f1d74" class="" dir="auto">↓</p><p id="3c2f6ce8-497f-80ab-a5d5-c28d782988a8" class="" dir="auto"><strong>3. Criar uma senha longa e única</strong></p><p id="3c2f6ce8-497f-8074-a539-d7f433aeaf33" class="" dir="auto">↓</p><p id="3c2f6ce8-497f-8029-98a6-d96ada6e2e86" class="" dir="auto"><strong>4. Alterar a senha administrativa do roteador</strong></p><p id="3c2f6ce8-497f-80ed-8242-c236b2c51246" class="" dir="auto">↓</p><p id="3c2f6ce8-497f-802f-b840-c057b355576c" class="" dir="auto"><strong>5. Atualizar o firmware</strong></p><p id="3c2f6ce8-497f-802a-bd06-f1332cef0338" class="" dir="auto">↓</p><p id="3c2f6ce8-497f-8091-ad57-c20fc2c6660e" class="" dir="auto"><strong>6. Desativar administração remota desnecessária</strong></p><p id="3c2f6ce8-497f-8091-8af1-e534c1f49c16" class="" dir="auto">↓</p><p id="3c2f6ce8-497f-80ed-b8aa-fbbf5730a244" class="" dir="auto"><strong>7. Revisar WPS</strong></p><p id="3c2f6ce8-497f-80d8-bd25-f8200d19a02d" class="" dir="auto">↓</p><p id="3c2f6ce8-497f-80bf-80c1-f5adfc0992ae" class="" dir="auto"><strong>8. Criar rede para convidados</strong></p><p id="3c2f6ce8-497f-8090-bc7c-f734672479a0" class="" dir="auto">↓</p><p id="3c2f6ce8-497f-80f9-afb4-f3be30d17c9a" class="" dir="auto"><strong>9. Separar dispositivos IoT quando possível</strong></p><p id="3c2f6ce8-497f-8033-bc0e-e53966abacf1" class="" dir="auto">↓</p><p id="3c2f6ce8-497f-8055-8e0d-d2b70dd7f77f" class="" dir="auto"><strong>10. Monitorar dispositivos conectados</strong></p><hr id="3c2f6ce8-497f-80b4-943e-edd243fa2bfc" dir="auto"/><h1 id="3c2f6ce8-497f-8088-b286-db6c581279b2" class="" dir="auto">Resumo</h1><p id="3c2f6ce8-497f-8046-8a1a-dc30a0ad23af" class="" dir="auto">Os <strong>ataques a redes sem fio</strong> podem ter objetivos diferentes: <strong>roubar informações, obter acesso não autorizado, enganar usuários, comprometer dispositivos ou simplesmente interromper a comunicação</strong>.</p><p id="3c2f6ce8-497f-80e9-8e69-e15d0cd29b8e" class="" dir="auto">Os principais ataques que você deve conhecer são:</p><ul id="3c2f6ce8-497f-804a-bc6c-fe326d4d2caf" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>Força bruta e dicionário</strong>;</li></ul><ul id="3c2f6ce8-497f-8078-9049-dd934f874569" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>Evil Twin</strong>;</li></ul><ul id="3c2f6ce8-497f-8038-8f2b-c071551885be" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>Rogue Access Point</strong>;</li></ul><ul id="3c2f6ce8-497f-80bb-8dbf-ca506dcbc6d1" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>Desautenticação</strong>;</li></ul><ul id="3c2f6ce8-497f-80b0-80d1-fe449f90a959" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>DoS</strong>;</li></ul><ul id="3c2f6ce8-497f-80ee-809b-c2b1b1142615" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>Jamming</strong>;</li></ul><ul id="3c2f6ce8-497f-805e-99bf-e444de81851a" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>Man-in-the-Middle</strong>;</li></ul><ul id="3c2f6ce8-497f-8045-95f4-c00155e47f18" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>Ataques contra WPS</strong>;</li></ul><ul id="3c2f6ce8-497f-8004-bbda-f16f40681cee" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>Ataques contra WEP</strong>;</li></ul><ul id="3c2f6ce8-497f-8056-a008-c7f8b558c708" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>MAC Spoofing</strong>;</li></ul><ul id="3c2f6ce8-497f-80a8-9628-c57400adcefa" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>Exploração de roteadores</strong>;</li></ul><ul id="3c2f6ce8-497f-80ba-8b4c-ce092d76d7e6" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>Ataques contra IoT</strong>;</li></ul><ul id="3c2f6ce8-497f-8092-a302-e76250efe6ec" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>Karma</strong>;</li></ul><ul id="3c2f6ce8-497f-80d8-b8a7-d48f5198ed2a" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>Phishing através de redes falsas</strong>.</li></ul><p id="3c2f6ce8-497f-8048-a92c-c9e2929564f4" class="" dir="auto">A ideia central é:</p><blockquote id="3c2f6ce8-497f-801c-a419-ddd151d19ca5" class="" dir="auto"><strong>Uma rede Wi-Fi deve ser protegida em várias camadas. Utilizar WPA2/WPA3, senhas fortes, equipamentos atualizados, segmentação, monitoramento e conscientização dos usuários reduz significativamente os riscos de ataques.</strong></blockquote><p id="3c2f6ce8-497f-8087-8807-f76e87907678" class="" dir="auto">Para Segurança Cibernética, é importante entender que <strong>o Wi-Fi não é apenas uma forma de acessar a Internet; ele é uma porta de entrada para toda a rede</strong>, e seu comprometimento pode permitir que um atacante avance para outros sistemas.</p></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>
