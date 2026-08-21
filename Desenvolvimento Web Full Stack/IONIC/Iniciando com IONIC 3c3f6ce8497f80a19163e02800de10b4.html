@@ -1,0 +1,886 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Iniciando com IONIC</title><meta name="data-notion-page-icon" content="/icons/bullseye_blue.svg"/><link rel="icon" href="https://app.notion.com/icons/bullseye_blue.svg"/><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+/* For default-background callouts, render the border outline. */
+.callout.block-color-default_background {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+/*
+ * Toggles and callouts hold arbitrary content, so they can easily be taller
+ * than a page. They must stay breakable: avoiding breaks inside them makes
+ * Chromium push the whole block onto the next page, which leaves the previous
+ * page mostly empty before every long toggle.
+ */
+details,
+aside {
+	margin: 1.25em 0;
+}
+
+/* Keep a toggle's title on the same page as the start of its content. */
+summary {
+	page-break-after: avoid;
+	break-after: avoid;
+}
+
+/*
+ * Toggle headings render as <h1/h2/h3 style="display:inline-block"> inside
+ * <summary>. Without this reset, the heading's margin-top pushes it below the
+ * ::marker (▼), so the triangle and the title appear on separate lines.
+ */
+summary h1,
+summary h2,
+summary h3,
+summary h4 {
+	margin-top: 0;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding-inline: 0.125rem;
+	padding-block: 0.375rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+/*
+ * Render emoji icons using a ::before pseudo-element to keep the glyph
+ * out of the DOM textContent traversal. This avoids double-rendering icons
+ * in callouts and page titles.
+ * NOTE(slim/html-export-pseudo-icons): I can't tagref this because it will
+ * flag as a duplicate tag after codegen.
+ */
+.icon[data-emoji]::before {
+	content: attr(data-emoji);
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	margin-right: 0.4em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.tab {
+	margin: 1.25em 0;
+	padding-inline: 1rem;
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style><style>@import url('https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex-swap.min.css')</style></head><body><article id="3c3f6ce8-497f-80a1-9163-e02800de10b4" class="page sans" data-notion-page-icon="/icons/bullseye_blue.svg"><header><div class="page-header-icon undefined"><img class="icon notion-static-icon" src="https://app.notion.com/icons/bullseye_blue.svg"/></div><h1 class="page-title" dir="auto">Iniciando com IONIC</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><h1 id="3c3f6ce8-497f-801f-a677-c955e79f3d3b" class="" dir="auto">Como Iniciar com o Ionic</h1><p id="3c3f6ce8-497f-80b5-8c25-f4e3486d87d3" class="" dir="auto">Para começar a desenvolver aplicações com <strong>Ionic</strong>, é necessário preparar o ambiente de desenvolvimento, instalar as ferramentas necessárias e criar o primeiro projeto. O processo é relativamente simples para quem já possui conhecimentos de <strong>HTML, CSS, JavaScript e TypeScript</strong>.</p><hr id="3c3f6ce8-497f-80b9-af69-f7fbd0a97459" dir="auto"/><h2 id="3c3f6ce8-497f-8013-a89c-cea311e87a96" class="" dir="auto">1. Pré-requisitos</h2><p id="3c3f6ce8-497f-80d2-9440-c504d6ba72fd" class="" dir="auto">Antes de instalar o Ionic, é recomendável ter alguns conhecimentos básicos:</p><ul id="3c3f6ce8-497f-8099-bc57-ca5898b714d1" class="bulleted-list" dir="auto"><li style="list-style-type:disc">HTML;</li></ul><ul id="3c3f6ce8-497f-800e-9f24-e23f55d2f4d4" class="bulleted-list" dir="auto"><li style="list-style-type:disc">CSS;</li></ul><ul id="3c3f6ce8-497f-80dd-b070-de2edd5c9600" class="bulleted-list" dir="auto"><li style="list-style-type:disc">JavaScript;</li></ul><ul id="3c3f6ce8-497f-8062-9b3d-ff1b6a7ed05d" class="bulleted-list" dir="auto"><li style="list-style-type:disc">TypeScript;</li></ul><ul id="3c3f6ce8-497f-802d-9612-e596836f8786" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Conceitos de aplicações web;</li></ul><ul id="3c3f6ce8-497f-80dc-9a18-e0ad910f127f" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Linha de comando/terminal.</li></ul><p id="3c3f6ce8-497f-8042-8068-ee12379e1ecc" class="" dir="auto">Não é obrigatório dominar todos esses assuntos para começar, mas eles facilitam bastante o aprendizado.</p><hr id="3c3f6ce8-497f-80f4-a015-ceacae85885b" dir="auto"/><h1 id="3c3f6ce8-497f-8055-90d4-d152f311e7be" class="" dir="auto">2. Instalar o Node.js</h1><p id="3c3f6ce8-497f-806e-980a-fcab83c0dd0c" class="" dir="auto">O Ionic utiliza o ecossistema do <strong>Node.js</strong>, portanto o primeiro passo normalmente é instalar o Node.js.</p><p id="3c3f6ce8-497f-80e0-ad3e-dc8a4d5b2c62" class="" dir="auto">O Node.js fornece o ambiente necessário para executar ferramentas JavaScript fora do navegador e também disponibiliza o <strong>npm (Node Package Manager)</strong>, utilizado para instalar pacotes e ferramentas.</p><p id="3c3f6ce8-497f-8081-8edf-d682ccb7de83" class="" dir="auto">Depois da instalação, podemos verificar se tudo está funcionando pelo terminal:</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-bash.min.js" integrity="sha512-whYhDwtTmlC/NpZlCr6PSsAaLOrfjVg/iXAnC4H/dtiHawpShhT2SlIMbpIhT/IL/NrpdMm+Hq2C13+VKpHTYw==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="3c3f6ce8-497f-80ca-a882-c19d84eda0bd" class="code code-wrap" data-notion-code-syntax="bash"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">node -v</code></pre><p id="3c3f6ce8-497f-80f7-84bc-e1fbfc25df9f" class="" dir="auto">E:</p><pre id="3c3f6ce8-497f-8031-8790-e3695a92d101" class="code code-wrap" data-notion-code-syntax="bash"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">npm -v</code></pre><p id="3c3f6ce8-497f-80f5-b182-c735be772f8f" class="" dir="auto">Se os comandos retornarem números de versão, o Node.js e o npm estão disponíveis no sistema.</p><hr id="3c3f6ce8-497f-8016-ae68-deef6677988a" dir="auto"/><h1 id="3c3f6ce8-497f-8044-8391-f23e289acf89" class="" dir="auto">3. Instalar o Ionic CLI</h1><p id="3c3f6ce8-497f-8003-9a3c-d8a4d8fc515e" class="" dir="auto">O <strong>Ionic CLI (Command Line Interface)</strong> é a ferramenta de linha de comando utilizada para criar e administrar projetos Ionic.</p><p id="3c3f6ce8-497f-80fb-83e2-dffff24fa549" class="" dir="auto">A instalação pode ser feita com:</p><pre id="3c3f6ce8-497f-8048-9e7b-d280a9915d9b" class="code code-wrap" data-notion-code-syntax="bash"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">npm install -g @ionic/cli</code></pre><p id="3c3f6ce8-497f-809f-9f21-c35a1808e627" class="" dir="auto">O parâmetro <code>-g</code> significa que a ferramenta será instalada <strong>globalmente</strong>, permitindo utilizar o comando <code>ionic</code> em diferentes projetos.</p><p id="3c3f6ce8-497f-8034-998c-ee4774d4d192" class="" dir="auto">Depois da instalação, podemos verificar:</p><pre id="3c3f6ce8-497f-80ab-b626-e605239061d3" class="code code-wrap" data-notion-code-syntax="bash"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">ionic --version</code></pre><p id="3c3f6ce8-497f-8099-8a9d-c2c802c2d957" class="" dir="auto">Se uma versão for exibida, o Ionic CLI está instalado.</p><hr id="3c3f6ce8-497f-8030-ab80-d3ace341e562" dir="auto"/><h1 id="3c3f6ce8-497f-8056-9ac0-cd5a1ff5c6fd" class="" dir="auto">4. Criar o primeiro projeto</h1><p id="3c3f6ce8-497f-80d2-aa6c-c4096f1ac12c" class="" dir="auto">Depois de instalar o Ionic CLI, podemos criar um projeto utilizando:</p><pre id="3c3f6ce8-497f-8047-8349-f5873f4c3e6f" class="code code-wrap" data-notion-code-syntax="bash"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">ionic start</code></pre><p id="3c3f6ce8-497f-8023-9399-f38edff520cb" class="" dir="auto">O CLI fará algumas perguntas, como o nome do projeto e o framework que será utilizado.</p><p id="3c3f6ce8-497f-8086-b648-e6bf7b6d18bc" class="" dir="auto">Também é possível criar um projeto diretamente pela linha de comando. Por exemplo:</p><pre id="3c3f6ce8-497f-8089-9b2f-ff67a445fad6" class="code code-wrap" data-notion-code-syntax="bash"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">ionic start meu-app blank</code></pre><p id="3c3f6ce8-497f-804e-8fbb-d5940e3fee83" class="" dir="auto">Nesse caso:</p><ul id="3c3f6ce8-497f-8059-911e-e49cb7b27c56" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><code>ionic start</code> → cria um novo projeto;</li></ul><ul id="3c3f6ce8-497f-8055-beee-fbbf758cc6d9" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><code>meu-app</code> → nome do projeto;</li></ul><ul id="3c3f6ce8-497f-8086-b531-cd5700df8fc6" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><code>blank</code> → utiliza um modelo inicial vazio.</li></ul><hr id="3c3f6ce8-497f-80ff-bf2a-e549517cc115" dir="auto"/><h1 id="3c3f6ce8-497f-80bb-a75a-ea53c1058e95" class="" dir="auto">5. Modelos de projeto</h1><p id="3c3f6ce8-497f-8091-b4b4-cbd381f7bf03" class="" dir="auto">O Ionic oferece diferentes modelos para começar uma aplicação.</p><h3 id="3c3f6ce8-497f-80ad-bcc6-fe3681489ef4" class="" dir="auto">Blank</h3><p id="3c3f6ce8-497f-803d-9ac6-d69acce899fd" class="" dir="auto">Cria uma aplicação praticamente vazia:</p><pre id="3c3f6ce8-497f-8000-9949-c3c5351e489a" class="code code-wrap" data-notion-code-syntax="bash"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">ionic start meu-app blank</code></pre><p id="3c3f6ce8-497f-80e1-b1db-ef3c9f292c88" class="" dir="auto">É uma boa opção para quem está aprendendo, pois permite construir a aplicação desde o início.</p><h3 id="3c3f6ce8-497f-80e2-9200-da603033d073" class="" dir="auto">Tabs</h3><p id="3c3f6ce8-497f-8083-8bb0-e69a8a38b233" class="" dir="auto">Cria uma aplicação baseada em abas:</p><pre id="3c3f6ce8-497f-80de-935c-c1b934924015" class="code code-wrap" data-notion-code-syntax="bash"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">ionic start meu-app tabs</code></pre><p id="3c3f6ce8-497f-8059-b697-cd8c58d5465a" class="" dir="auto">É útil para aplicações que possuem várias áreas principais acessíveis por uma barra de navegação.</p><h3 id="3c3f6ce8-497f-809e-942b-f781ab6daf76" class="" dir="auto">Sidemenu</h3><p id="3c3f6ce8-497f-80f1-9695-e397f4098cf6" class="" dir="auto">Cria uma aplicação utilizando um menu lateral:</p><pre id="3c3f6ce8-497f-8011-8a22-f14d7f7f6ba3" class="code code-wrap" data-notion-code-syntax="bash"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">ionic start meu-app sidemenu</code></pre><p id="3c3f6ce8-497f-806d-9b98-e3f3d53b85f0" class="" dir="auto">É interessante para aplicações com várias funcionalidades organizadas em um menu.</p><hr id="3c3f6ce8-497f-805e-8c76-d154756874a1" dir="auto"/><h1 id="3c3f6ce8-497f-8026-947a-e69b576f9f86" class="" dir="auto">6. Escolher o framework</h1><p id="3c3f6ce8-497f-800c-8bfe-c75def0622d8" class="" dir="auto">Durante a criação do projeto, o Ionic permite escolher o framework utilizado.</p><p id="3c3f6ce8-497f-809f-9d23-e9f26b8ed814" class="" dir="auto">Entre as opções estão:</p><ul id="3c3f6ce8-497f-808b-ad45-c05a6734228d" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>Angular</strong></li></ul><ul id="3c3f6ce8-497f-8048-bbd7-c82f58736850" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>React</strong></li></ul><ul id="3c3f6ce8-497f-805e-966a-d9d49cb559ac" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>Vue</strong></li></ul><p id="3c3f6ce8-497f-80c2-b30f-d6129693e7ac" class="" dir="auto">Por exemplo, um projeto baseado em Angular pode apresentar uma estrutura semelhante a:</p><pre id="3c3f6ce8-497f-80d7-b7e5-eac111dc2a49" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">meu-app/
+│
+├── src/
+│   ├── app/
+│   ├── assets/
+│   ├── theme/
+│   └── ...
+│
+├── package.json
+├── ionic.config.json
+└── ...</code></pre><p id="3c3f6ce8-497f-8027-9f0a-ecc84690842e" class="" dir="auto">Para quem está começando no Ionic, é importante entender que <strong>Ionic não substitui necessariamente o framework JavaScript</strong>. Ele fornece componentes e ferramentas que trabalham junto com o framework escolhido.</p><hr id="3c3f6ce8-497f-8027-9468-cd0bd819ac32" dir="auto"/><h1 id="3c3f6ce8-497f-80c3-baec-ecbc256c991a" class="" dir="auto">7. Entrar na pasta do projeto</h1><p id="3c3f6ce8-497f-80bb-9586-dd3130b97211" class="" dir="auto">Depois que o projeto for criado, devemos entrar no diretório:</p><pre id="3c3f6ce8-497f-80a3-adea-fd9aaec8ad33" class="code code-wrap" data-notion-code-syntax="bash"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">cd meu-app</code></pre><p id="3c3f6ce8-497f-80bd-adb5-d573a4c1bb92" class="" dir="auto">A partir desse momento, os comandos Ionic executados no terminal serão aplicados ao projeto.</p><hr id="3c3f6ce8-497f-80bd-b8f4-fe54de6f3010" dir="auto"/><h1 id="3c3f6ce8-497f-8096-a210-d4b8ae02c46d" class="" dir="auto">8. Executar o projeto</h1><p id="3c3f6ce8-497f-8090-9468-f467a46e882f" class="" dir="auto">Para iniciar a aplicação localmente, podemos utilizar:</p><pre id="3c3f6ce8-497f-8038-9dc5-c5c3b7fbb80e" class="code code-wrap" data-notion-code-syntax="bash"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">ionic serve</code></pre><p id="3c3f6ce8-497f-8054-84de-ff94e0bae002" class="" dir="auto">O Ionic inicia um servidor de desenvolvimento e disponibiliza a aplicação no navegador.</p><p id="3c3f6ce8-497f-8066-9afe-d7c62331b274" class="" dir="auto">Normalmente será exibido um endereço local semelhante a:</p><pre id="3c3f6ce8-497f-804c-b77c-e9c47243e543" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">http://localhost:8100</code></pre><p id="3c3f6ce8-497f-8057-8995-e17960e1725c" class="" dir="auto">A porta pode variar dependendo da configuração e do ambiente.</p><hr id="3c3f6ce8-497f-807e-af09-cff2d91f28c5" dir="auto"/><h1 id="3c3f6ce8-497f-809f-9eed-fbd2df39e47b" class="" dir="auto">9. Conhecendo a estrutura do projeto</h1><p id="3c3f6ce8-497f-8093-b054-f63f1f3780b3" class="" dir="auto">Depois de criar o projeto, é importante entender seus principais diretórios e arquivos.</p><p id="3c3f6ce8-497f-802a-b5bc-eedb0fd9dbef" class="" dir="auto">Uma estrutura simplificada pode ser:</p><pre id="3c3f6ce8-497f-8062-8bf9-e2f0ecde9036" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">meu-app/
+│
+├── src/
+│   ├── app/
+│   ├── assets/
+│   ├── theme/
+│   ├── index.html
+│   └── ...
+│
+├── node_modules/
+├── package.json
+├── ionic.config.json
+└── ...</code></pre><h3 id="3c3f6ce8-497f-80ef-95db-db63a5ba42c5" class="" dir="auto"><code>src/</code></h3><p id="3c3f6ce8-497f-808e-a19f-c8fcbde5ec9c" class="" dir="auto">É onde fica grande parte do código da aplicação.</p><h3 id="3c3f6ce8-497f-809b-a787-e3c0e15068e7" class="" dir="auto"><code>src/app/</code></h3><p id="3c3f6ce8-497f-8085-bd8a-f0d7980568c8" class="" dir="auto">Contém a estrutura principal da aplicação, páginas, componentes, serviços e outros elementos, dependendo do framework utilizado.</p><h3 id="3c3f6ce8-497f-802a-8d67-de237a3d5739" class="" dir="auto"><code>src/assets/</code></h3><p id="3c3f6ce8-497f-802e-8edf-f86e2491164b" class="" dir="auto">Pode armazenar imagens, ícones e outros arquivos utilizados pela aplicação.</p><h3 id="3c3f6ce8-497f-8041-a272-ee9bb94798ce" class="" dir="auto"><code>src/theme/</code></h3><p id="3c3f6ce8-497f-8087-9b72-ed84f7119043" class="" dir="auto">Normalmente contém configurações relacionadas ao tema e estilos globais do Ionic.</p><h3 id="3c3f6ce8-497f-8086-83cd-d6ec44dd8de5" class="" dir="auto"><code>package.json</code></h3><p id="3c3f6ce8-497f-803e-88fe-dba9ba5538b2" class="" dir="auto">É um dos arquivos mais importantes do projeto. Ele registra informações sobre o projeto, scripts e dependências utilizadas.</p><h3 id="3c3f6ce8-497f-80f8-966d-cf6243899bdb" class="" dir="auto"><code>node_modules/</code></h3><p id="3c3f6ce8-497f-8095-970c-d01ce1a87cbe" class="" dir="auto">Contém os pacotes instalados pelo npm.</p><p id="3c3f6ce8-497f-8075-ad9d-eda9f6b4025c" class="" dir="auto">Esse diretório normalmente <strong>não deve ser editado manualmente</strong>.</p><hr id="3c3f6ce8-497f-8017-a6ed-c965d404468d" dir="auto"/><h1 id="3c3f6ce8-497f-8093-b8b3-c46bfd1c8216" class="" dir="auto">10. Criando uma página</h1><p id="3c3f6ce8-497f-805e-988a-e993b0259fd0" class="" dir="auto">Durante o desenvolvimento, provavelmente será necessário criar várias páginas.</p><p id="3c3f6ce8-497f-8046-95b5-d865cd74f30b" class="" dir="auto">Por exemplo, uma aplicação poderia ter:</p><pre id="3c3f6ce8-497f-808d-895d-faeb01acf975" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Login
+   ↓
+Home
+   ↓
+Produtos
+   ↓
+Detalhes do Produto
+   ↓
+Carrinho</code></pre><p id="3c3f6ce8-497f-80be-b3a7-d84dce0ae194" class="" dir="auto">No Ionic, páginas podem ser criadas utilizando comandos do CLI. O comando exato pode variar conforme o framework utilizado.</p><p id="3c3f6ce8-497f-8026-9d4c-cd71c45b8c70" class="" dir="auto">Em um projeto Ionic com Angular, por exemplo:</p><pre id="3c3f6ce8-497f-8086-bbd6-fb3bf9da0615" class="code code-wrap" data-notion-code-syntax="bash"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">ionic generate page home</code></pre><p id="3c3f6ce8-497f-80ce-a159-e25c46217540" class="" dir="auto">Isso cria a estrutura necessária para uma página chamada <code>home</code>.</p><hr id="3c3f6ce8-497f-804c-912b-c73d8aab2c8b" dir="auto"/><h1 id="3c3f6ce8-497f-806b-a733-ca31e46a2f16" class="" dir="auto">11. Utilizando componentes Ionic</h1><p id="3c3f6ce8-497f-8088-8ca2-e5950272f343" class="" dir="auto">Uma das principais vantagens do Ionic é sua biblioteca de componentes.</p><p id="3c3f6ce8-497f-806a-b5b7-e66071b4ff32" class="" dir="auto">Por exemplo:</p><pre id="3c3f6ce8-497f-8077-965a-ef89c2af7d29" class="code code-wrap" data-notion-code-syntax="html"><code class="language-html" style="white-space:pre-wrap;word-break:break-all">&lt;ion-button&gt;
+    Entrar
+&lt;/ion-button&gt;</code></pre><p id="3c3f6ce8-497f-8047-a546-e7e8d24703b8" class="" dir="auto">Podemos criar um campo de entrada:</p><pre id="3c3f6ce8-497f-80ac-bcb7-f620ec9bd94d" class="code code-wrap" data-notion-code-syntax="html"><code class="language-html" style="white-space:pre-wrap;word-break:break-all">&lt;ion-input
+    label=&quot;E-mail&quot;
+    type=&quot;email&quot;&gt;
+&lt;/ion-input&gt;</code></pre><p id="3c3f6ce8-497f-808b-a651-ffc15d336af2" class="" dir="auto">Também podemos utilizar uma barra de cabeçalho:</p><pre id="3c3f6ce8-497f-8032-875f-de19f8c7b5a9" class="code code-wrap" data-notion-code-syntax="html"><code class="language-html" style="white-space:pre-wrap;word-break:break-all">&lt;ion-header&gt;
+    &lt;ion-toolbar&gt;
+        &lt;ion-title&gt;
+            Minha Aplicação
+        &lt;/ion-title&gt;
+    &lt;/ion-toolbar&gt;
+&lt;/ion-header&gt;</code></pre><p id="3c3f6ce8-497f-80c1-bfad-ef18f81f5690" class="" dir="auto">Esses componentes ajudam a criar interfaces consistentes para aplicações móveis.</p><hr id="3c3f6ce8-497f-804e-b628-d571c8e99953" dir="auto"/><h1 id="3c3f6ce8-497f-80bb-835d-d138893da4d2" class="" dir="auto">12. Navegação entre páginas</h1><p id="3c3f6ce8-497f-80a5-9b58-f590ed9147e8" class="" dir="auto">Uma aplicação real geralmente possui várias páginas. Por isso, é necessário implementar a <strong>navegação</strong>.</p><p id="3c3f6ce8-497f-80d2-8462-fb5577cf01bf" class="" dir="auto">Por exemplo:</p><pre id="3c3f6ce8-497f-80c0-8888-edb3c59878bc" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Login
+  ↓
+Home
+  ↓
+Perfil</code></pre><p id="3c3f6ce8-497f-8065-b0d3-e1efdd6b0399" class="" dir="auto">O Ionic trabalha com os mecanismos de roteamento fornecidos pelo framework utilizado.</p><p id="3c3f6ce8-497f-800e-b480-c5f7a4fdfaff" class="" dir="auto">No caso do Angular, por exemplo, o sistema de rotas permite definir caminhos como:</p><pre id="3c3f6ce8-497f-802c-bce3-c3994da0cc0a" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">/login
+/home
+/perfil
+/configuracoes</code></pre><p id="3c3f6ce8-497f-80ea-8152-e085a26a5ec6" class="" dir="auto">Assim, o usuário pode navegar entre diferentes partes da aplicação.</p><hr id="3c3f6ce8-497f-8086-b30d-ca87bede8bbf" dir="auto"/><h1 id="3c3f6ce8-497f-8008-bea4-ceeab1ab1853" class="" dir="auto">13. Testando no navegador</h1><p id="3c3f6ce8-497f-8044-83c3-ce0fb56163ef" class="" dir="auto">Uma das vantagens do Ionic é que podemos testar a aplicação rapidamente no navegador:</p><pre id="3c3f6ce8-497f-80bd-aa5d-e73bef39affb" class="code code-wrap" data-notion-code-syntax="bash"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">ionic serve</code></pre><p id="3c3f6ce8-497f-80f4-bfef-c9e8558a66dd" class="" dir="auto">Isso facilita bastante o desenvolvimento porque não é necessário gerar um APK a cada pequena alteração.</p><p id="3c3f6ce8-497f-8078-ba42-eb6a96aa4b59" class="" dir="auto">O fluxo pode ser:</p><pre id="3c3f6ce8-497f-80f1-95fc-d4b10fae5d42" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Alterar código
+      ↓
+Salvar
+      ↓
+Servidor atualiza
+      ↓
+Testar no navegador</code></pre><p id="3c3f6ce8-497f-8066-8b0c-e9aa26be96f8" class="" dir="auto">Esse processo torna o desenvolvimento mais rápido.</p><hr id="3c3f6ce8-497f-804b-bf95-f6c8e897f595" dir="auto"/><h1 id="3c3f6ce8-497f-804c-9e09-e9d5dff0c94d" class="" dir="auto">14. Testando em um celular</h1><p id="3c3f6ce8-497f-80d5-beda-f1101ab350ea" class="" dir="auto">Depois de desenvolver a aplicação, podemos utilizar o <strong>Capacitor</strong> para transformá-la em um projeto nativo.</p><p id="3c3f6ce8-497f-803c-b227-d0f61d7abd79" class="" dir="auto">Por exemplo, para adicionar Android:</p><pre id="3c3f6ce8-497f-80ec-bf04-f74d6324a65f" class="code code-wrap" data-notion-code-syntax="bash"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">ionic capacitor add android</code></pre><p id="3c3f6ce8-497f-8053-855d-c3d1d61b5b55" class="" dir="auto">Depois:</p><pre id="3c3f6ce8-497f-8085-ad31-f657f78ec441" class="code code-wrap" data-notion-code-syntax="bash"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">ionic capacitor open android</code></pre><p id="3c3f6ce8-497f-8065-bb98-d7333076413b" class="" dir="auto">Isso permite abrir o projeto no <strong>Android Studio</strong>.</p><p id="3c3f6ce8-497f-8048-b1f1-f2bb0dcf8331" class="" dir="auto">Para iOS, o processo utiliza o ambiente de desenvolvimento da Apple e o Xcode.</p><hr id="3c3f6ce8-497f-8051-ba30-e575090710a4" dir="auto"/><h1 id="3c3f6ce8-497f-807f-8800-f9f04b3cac9a" class="" dir="auto">15. Ionic e Capacitor</h1><p id="3c3f6ce8-497f-8039-8d46-c991fedb5686" class="" dir="auto">É importante diferenciar os dois:</p><p id="3c3f6ce8-497f-8089-b190-cb15ab9579c5" class="" dir="auto"><strong>Ionic</strong></p><p id="3c3f6ce8-497f-806a-9a6d-df54bf5583d9" class="" dir="auto">→ fornece componentes, ferramentas e recursos para construir a interface e a aplicação.</p><p id="3c3f6ce8-497f-80f2-ae79-d2561a212e22" class="" dir="auto"><strong>Capacitor</strong></p><p id="3c3f6ce8-497f-8048-8c6c-f84a4d92dc8d" class="" dir="auto">→ permite executar a aplicação web como aplicativo nativo e acessar recursos do dispositivo.</p><p id="3c3f6ce8-497f-80ba-a943-e9002fe5424a" class="" dir="auto">Podemos representar assim:</p><pre id="3c3f6ce8-497f-8064-85ac-c986e13965a1" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">             APLICAÇÃO
+                 │
+        ┌────────┴────────┐
+        │      Ionic      │
+        │ HTML/CSS/TS     │
+        └────────┬────────┘
+                 │
+            Capacitor
+          ┌──────┴──────┐
+          ↓             ↓
+       Android         iOS</code></pre><hr id="3c3f6ce8-497f-802e-a265-e0f0ca770dd3" dir="auto"/><h1 id="3c3f6ce8-497f-803c-bf6c-cbd0456c23b2" class="" dir="auto">16. Primeiro fluxo de desenvolvimento</h1><p id="3c3f6ce8-497f-80de-8e36-daacfb2d3aca" class="" dir="auto">Um fluxo básico para começar com Ionic seria:</p><pre id="3c3f6ce8-497f-806d-9a86-e2d33fd0aef6" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">1. Instalar Node.js
+        ↓
+2. Instalar Ionic CLI
+        ↓
+3. Criar projeto
+        ↓
+4. Escolher framework
+        ↓
+5. Entrar na pasta
+        ↓
+6. Executar ionic serve
+        ↓
+7. Desenvolver páginas
+        ↓
+8. Adicionar componentes
+        ↓
+9. Implementar navegação
+        ↓
+10. Testar
+        ↓
+11. Adicionar Capacitor
+        ↓
+12. Gerar aplicativo</code></pre><hr id="3c3f6ce8-497f-801b-9e64-e8bba698a67e" dir="auto"/><h1 id="3c3f6ce8-497f-808a-8b0c-d8807b2114a1" class="" dir="auto">17. Comandos essenciais</h1><p id="3c3f6ce8-497f-8084-92cf-d11278377fa2" class="" dir="auto">Alguns dos comandos mais importantes para quem está começando são:</p><table id="3c3f6ce8-497f-80ee-bb4c-eb2d927ce273" class="simple-table" dir="ltr"><thead class="simple-table-header"><tr id="3c3f6ce8-497f-8044-8b4d-efc81b78d4e5" dir="ltr"><th id="pDAE" class="simple-table-header-color simple-table-header">Comando</th><th id="xUzv" class="simple-table-header-color simple-table-header">Função</th></tr></thead><tbody><tr id="3c3f6ce8-497f-80bd-8d28-d4ab68b32aa9" dir="ltr"><td id="pDAE" class=""><code>ionic --version</code></td><td id="xUzv" class="">Verifica a versão do Ionic CLI</td></tr><tr id="3c3f6ce8-497f-80df-80dc-e313c63c64fd" dir="ltr"><td id="pDAE" class=""><code>ionic start</code></td><td id="xUzv" class="">Cria um projeto</td></tr><tr id="3c3f6ce8-497f-8088-981c-dc6874646a4d" dir="ltr"><td id="pDAE" class=""><code>ionic serve</code></td><td id="xUzv" class="">Executa o projeto localmente</td></tr><tr id="3c3f6ce8-497f-807a-88bb-e11632c67faf" dir="ltr"><td id="pDAE" class=""><code>ionic generate</code></td><td id="xUzv" class="">Gera componentes do projeto</td></tr><tr id="3c3f6ce8-497f-80f7-b2c1-d0cd966fdcbf" dir="ltr"><td id="pDAE" class=""><code>ionic build</code></td><td id="xUzv" class="">Gera a versão de produção</td></tr><tr id="3c3f6ce8-497f-809a-a1d3-cc22e3db493e" dir="ltr"><td id="pDAE" class=""><code>ionic capacitor add</code></td><td id="xUzv" class="">Adiciona uma plataforma nativa</td></tr><tr id="3c3f6ce8-497f-8011-b455-f7e880ff8c67" dir="ltr"><td id="pDAE" class=""><code>ionic capacitor sync</code></td><td id="xUzv" class="">Sincroniza o projeto web com as plataformas nativas</td></tr><tr id="3c3f6ce8-497f-809c-a3c8-c0bbff537847" dir="ltr"><td id="pDAE" class=""><code>ionic capacitor open</code></td><td id="xUzv" class="">Abre o projeto nativo no IDE correspondente</td></tr></tbody></table><hr id="3c3f6ce8-497f-8029-9646-d0a8b27c613f" dir="auto"/><h1 id="3c3f6ce8-497f-80e3-967b-c09fa7fa2a4f" class="" dir="auto">18. O que estudar depois?</h1><p id="3c3f6ce8-497f-8012-9924-ef204d6db6ad" class="" dir="auto">Depois de aprender a criar e executar um projeto, o ideal é avançar gradualmente.</p><p id="3c3f6ce8-497f-80ea-b807-fa19739f876d" class="" dir="auto">Uma sequência recomendada seria:</p><ol type="1" id="3c3f6ce8-497f-80f3-a7a3-f023c4e52763" class="numbered-list" start="1" dir="auto"><li><strong>Estrutura de um projeto Ionic</strong></li></ol><ol type="1" id="3c3f6ce8-497f-800c-8c5a-c3adb8b19768" class="numbered-list" start="2" dir="auto"><li><strong>Componentes Ionic</strong></li></ol><ol type="1" id="3c3f6ce8-497f-8061-83eb-ec90b9db42d3" class="numbered-list" start="3" dir="auto"><li><strong>Páginas</strong></li></ol><ol type="1" id="3c3f6ce8-497f-80a8-b5e0-d9667aa241b2" class="numbered-list" start="4" dir="auto"><li><strong>Navegação e rotas</strong></li></ol><ol type="1" id="3c3f6ce8-497f-8000-92a2-e35b834c356d" class="numbered-list" start="5" dir="auto"><li><strong>Eventos</strong></li></ol><ol type="1" id="3c3f6ce8-497f-80db-9c0c-f28c6e5de5a3" class="numbered-list" start="6" dir="auto"><li><strong>Formulários</strong></li></ol><ol type="1" id="3c3f6ce8-497f-80fe-b613-d9fb02a18aa7" class="numbered-list" start="7" dir="auto"><li><strong>Estilização com CSS</strong></li></ol><ol type="1" id="3c3f6ce8-497f-8069-a195-d5340c026642" class="numbered-list" start="8" dir="auto"><li><strong>Listas e cards</strong></li></ol><ol type="1" id="3c3f6ce8-497f-80c2-8337-d031064e0fe8" class="numbered-list" start="9" dir="auto"><li><strong>Modais e alertas</strong></li></ol><ol type="1" id="3c3f6ce8-497f-8022-b7fa-c6f5d4fa3a1e" class="numbered-list numbered-list-digits-2" start="10" dir="auto"><li><strong>Armazenamento local</strong></li></ol><ol type="1" id="3c3f6ce8-497f-8029-84b7-c8b1c9830de7" class="numbered-list numbered-list-digits-2" start="11" dir="auto"><li><strong>Consumo de APIs</strong></li></ol><ol type="1" id="3c3f6ce8-497f-8058-867d-ff581bba56ad" class="numbered-list numbered-list-digits-2" start="12" dir="auto"><li><strong>Requisições HTTP</strong></li></ol><ol type="1" id="3c3f6ce8-497f-80da-b000-c179899e6ad9" class="numbered-list numbered-list-digits-2" start="13" dir="auto"><li><strong>Autenticação</strong></li></ol><ol type="1" id="3c3f6ce8-497f-80ae-8cef-c414f6696df0" class="numbered-list numbered-list-digits-2" start="14" dir="auto"><li><strong>Capacitor</strong></li></ol><ol type="1" id="3c3f6ce8-497f-8048-8588-eb45864b3678" class="numbered-list numbered-list-digits-2" start="15" dir="auto"><li><strong>Plugins nativos</strong></li></ol><ol type="1" id="3c3f6ce8-497f-80b2-be55-e3d5086d2514" class="numbered-list numbered-list-digits-2" start="16" dir="auto"><li><strong>Build para Android</strong></li></ol><ol type="1" id="3c3f6ce8-497f-807b-a769-d070ddf70541" class="numbered-list numbered-list-digits-2" start="17" dir="auto"><li><strong>Publicação do aplicativo</strong></li></ol><hr id="3c3f6ce8-497f-80b5-a6a3-f18f86a664f0" dir="auto"/><h2 id="3c3f6ce8-497f-8007-ade9-f742055a9339" class="" dir="auto">Resumo</h2><p id="3c3f6ce8-497f-8012-b2be-e9c1356d3a5f" class="" dir="auto">Para começar com o <strong>Ionic</strong>, o primeiro passo é preparar o ambiente com <strong>Node.js e npm</strong>, instalar o <strong>Ionic CLI</strong> e criar um projeto.</p><p id="3c3f6ce8-497f-805a-88c9-c9967e9beec5" class="" dir="auto">O processo básico é:</p><pre id="3c3f6ce8-497f-8022-b8c2-ecbd6dd25024" class="code code-wrap" data-notion-code-syntax="bash"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">npm install -g @ionic/cli
+
+ionic start meu-app blank
+
+cd meu-app
+
+ionic serve</code></pre><p id="3c3f6ce8-497f-8026-86d9-dbc234e309f1" class="" dir="auto">A partir daí, você pode desenvolver as páginas utilizando <strong>componentes Ionic</strong>, implementar navegação e funcionalidades com <strong>JavaScript/TypeScript</strong> e, posteriormente, utilizar o <strong>Capacitor</strong> para transformar a aplicação em um aplicativo para Android e iOS.</p><p id="3c3f6ce8-497f-80e9-ace5-c146f9ac83c5" class="" dir="auto"><strong>Em resumo:</strong> começar com Ionic significa aproveitar seus conhecimentos de desenvolvimento web para construir aplicações multiplataforma, evoluindo gradualmente da criação da interface até a utilização de recursos nativos do celular.</p></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>
