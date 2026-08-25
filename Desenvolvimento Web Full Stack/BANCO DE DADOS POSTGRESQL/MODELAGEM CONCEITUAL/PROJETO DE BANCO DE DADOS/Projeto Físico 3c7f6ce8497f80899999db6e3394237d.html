@@ -1,0 +1,895 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Projeto Físico</title><meta name="data-notion-page-icon" content="/icons/elephant_blue.svg"/><link rel="icon" href="https://app.notion.com/icons/elephant_blue.svg"/><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+/* For default-background callouts, render the border outline. */
+.callout.block-color-default_background {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+/*
+ * Toggles and callouts hold arbitrary content, so they can easily be taller
+ * than a page. They must stay breakable: avoiding breaks inside them makes
+ * Chromium push the whole block onto the next page, which leaves the previous
+ * page mostly empty before every long toggle.
+ */
+details,
+aside {
+	margin: 1.25em 0;
+}
+
+/* Keep a toggle's title on the same page as the start of its content. */
+summary {
+	page-break-after: avoid;
+	break-after: avoid;
+}
+
+/*
+ * Toggle headings render as <h1/h2/h3 style="display:inline-block"> inside
+ * <summary>. Without this reset, the heading's margin-top pushes it below the
+ * ::marker (▼), so the triangle and the title appear on separate lines.
+ */
+summary h1,
+summary h2,
+summary h3,
+summary h4 {
+	margin-top: 0;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding-inline: 0.125rem;
+	padding-block: 0.375rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+/*
+ * Render emoji icons using a ::before pseudo-element to keep the glyph
+ * out of the DOM textContent traversal. This avoids double-rendering icons
+ * in callouts and page titles.
+ * NOTE(slim/html-export-pseudo-icons): I can't tagref this because it will
+ * flag as a duplicate tag after codegen.
+ */
+.icon[data-emoji]::before {
+	content: attr(data-emoji);
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	margin-right: 0.4em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.tab {
+	margin: 1.25em 0;
+	padding-inline: 1rem;
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style><style>@import url('https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex-swap.min.css')</style></head><body><article id="3c7f6ce8-497f-8089-9999-db6e3394237d" class="page sans" data-notion-page-icon="/icons/elephant_blue.svg"><header><div class="page-header-icon undefined"><img class="icon notion-static-icon" src="https://app.notion.com/icons/elephant_blue.svg"/></div><h1 class="page-title" dir="auto">Projeto Físico</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><h1 id="3c7f6ce8-497f-8089-9cca-f7490d09ace2" class="" dir="auto">Projeto Físico de Banco de Dados</h1><p id="3c7f6ce8-497f-805f-8fc4-f61cdd095223" class="" dir="auto">O <strong>Projeto Físico</strong> é a etapa em que o modelo lógico do banco de dados é transformado em uma <strong>implementação concreta em um SGBD</strong>, como PostgreSQL, MySQL ou SQL Server.</p><p id="3c7f6ce8-497f-808e-82ce-c29a1dd24e20" class="" dir="auto">Ele define <strong>como os dados serão realmente armazenados, acessados e otimizados</strong>, levando em consideração desempenho, segurança, armazenamento e características específicas do SGBD.</p><p id="3c7f6ce8-497f-803f-8342-f416ac8530dc" class="" dir="auto">A sequência é:</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="3c7f6ce8-497f-8075-b07f-c71f09b9febf" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Levantamento de Requisitos
+          ↓
+Projeto Conceitual
+          ↓
+Projeto Lógico
+          ↓
+Projeto Físico
+          ↓
+Implementação no SGBD</code></pre><hr id="3c7f6ce8-497f-80ed-96da-f0024e09d5c0" dir="auto"/><h1 id="3c7f6ce8-497f-80b2-adec-e7886614fe91" class="" dir="auto">1. Objetivo do Projeto Físico</h1><p id="3c7f6ce8-497f-806c-9bbd-f3792901548a" class="" dir="auto">O principal objetivo é fazer com que o banco de dados tenha uma implementação <strong>eficiente, segura e adequada ao ambiente em que será executado</strong>.</p><p id="3c7f6ce8-497f-8004-bffd-ebbddeee1f5f" class="" dir="auto">Enquanto o projeto lógico define:</p><blockquote id="3c7f6ce8-497f-8014-be58-ca1945a06d83" class="" dir="auto">&quot;Quais tabelas e relacionamentos teremos?&quot;</blockquote><p id="3c7f6ce8-497f-8018-a0cf-fbcaa64b5fe1" class="" dir="auto">O projeto físico define:</p><blockquote id="3c7f6ce8-497f-8094-a13c-d45457c16728" class="" dir="auto">&quot;Como essas estruturas serão implementadas e otimizadas no SGBD?&quot;</blockquote><hr id="3c7f6ce8-497f-80df-8222-eb10240052bc" dir="auto"/><h1 id="3c7f6ce8-497f-8058-9a2f-e1c3212fa484" class="" dir="auto">2. Principais atividades</h1><p id="3c7f6ce8-497f-8065-91a9-dab586071a88" class="" dir="auto">O Projeto Físico envolve principalmente:</p><ul id="3c7f6ce8-497f-8077-b7b8-f4bb3df9b17b" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Escolha do SGBD;</li></ul><ul id="3c7f6ce8-497f-80b7-bc69-dbdee386ef18" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Definição dos tipos de dados;</li></ul><ul id="3c7f6ce8-497f-80e1-a73d-cab688680081" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Criação das tabelas;</li></ul><ul id="3c7f6ce8-497f-80ad-9c5c-e2c51883a66b" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Criação de índices;</li></ul><ul id="3c7f6ce8-497f-80b6-bfac-e9ff102d9bea" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Definição de particionamento;</li></ul><ul id="3c7f6ce8-497f-8094-8fb4-cf48d3666bbb" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Configuração de armazenamento;</li></ul><ul id="3c7f6ce8-497f-80ae-b375-cb28d71cd399" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Otimização de consultas;</li></ul><ul id="3c7f6ce8-497f-809c-8788-d0dd5223a2d2" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Controle de acesso;</li></ul><ul id="3c7f6ce8-497f-804a-8bad-f981983e70d2" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Estratégias de backup;</li></ul><ul id="3c7f6ce8-497f-80cb-9835-c7a88e10cdb7" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Planejamento de desempenho.</li></ul><hr id="3c7f6ce8-497f-80bb-8691-f230a63f6336" dir="auto"/><h1 id="3c7f6ce8-497f-80bf-933f-f8b9c8910b24" class="" dir="auto">3. Escolha do SGBD</h1><p id="3c7f6ce8-497f-8066-b288-e65091c5a70e" class="" dir="auto">Uma das primeiras decisões é escolher qual SGBD será utilizado.</p><p id="3c7f6ce8-497f-804f-a8e6-d09365360131" class="" dir="auto">Exemplos:</p><ul id="3c7f6ce8-497f-80eb-aff6-dc977b495733" class="bulleted-list" dir="auto"><li style="list-style-type:disc">PostgreSQL;</li></ul><ul id="3c7f6ce8-497f-801c-a012-e049841727a7" class="bulleted-list" dir="auto"><li style="list-style-type:disc">MySQL;</li></ul><ul id="3c7f6ce8-497f-8035-8677-f085af2c318e" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Oracle Database;</li></ul><ul id="3c7f6ce8-497f-80a6-af82-f0940caa3320" class="bulleted-list" dir="auto"><li style="list-style-type:disc">SQL Server;</li></ul><ul id="3c7f6ce8-497f-80a7-bbad-ef5be931993f" class="bulleted-list" dir="auto"><li style="list-style-type:disc">MariaDB.</li></ul><p id="3c7f6ce8-497f-800f-8d8a-edd35cbbfe47" class="" dir="auto">A escolha depende de fatores como:</p><ul id="3c7f6ce8-497f-806c-b2a0-fbf68ca19080" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Tipo de aplicação;</li></ul><ul id="3c7f6ce8-497f-80c1-86b7-ffe7491ade89" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Quantidade de dados;</li></ul><ul id="3c7f6ce8-497f-8027-b1b2-ec84c1ec2b57" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Número de usuários;</li></ul><ul id="3c7f6ce8-497f-80f1-a656-c7db3e4a2366" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Desempenho esperado;</li></ul><ul id="3c7f6ce8-497f-80b8-a92b-c508b2842098" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Recursos necessários;</li></ul><ul id="3c7f6ce8-497f-8068-a6e6-f8255f960533" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Custo;</li></ul><ul id="3c7f6ce8-497f-80d2-86d8-c0dcec445c51" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Conhecimento da equipe.</li></ul><p id="3c7f6ce8-497f-80dd-96bc-df37a3ddc533" class="" dir="auto">No seu caso, por exemplo, podemos implementar o projeto lógico utilizando <strong>PostgreSQL</strong>.</p><hr id="3c7f6ce8-497f-803e-91b3-f11f1a323062" dir="auto"/><h1 id="3c7f6ce8-497f-80c0-81d6-dac8b282a7bb" class="" dir="auto">4. Definição dos tipos de dados</h1><p id="3c7f6ce8-497f-8065-837d-caaba88dbe1a" class="" dir="auto">No projeto físico são definidos os tipos de dados específicos que serão utilizados.</p><p id="3c7f6ce8-497f-805f-97e6-f515bbe2d9c7" class="" dir="auto">Por exemplo:</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-sql.min.js" integrity="sha512-sijCOJblSCXYYmXdwvqV0tak8QJW5iy2yLB1wAbbLc3OOIueqymizRFWUS/mwKctnzPKpNdPJV3aK1zlDMJmXQ==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="3c7f6ce8-497f-80fa-84ad-f6c621abe166" class="code code-wrap" data-notion-code-syntax="sql"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">CREATE TABLE clientes (
+    id INTEGER,
+    nome VARCHAR(100),
+    email VARCHAR(150),
+    nascimento DATE
+);</code></pre><p id="3c7f6ce8-497f-803c-8319-c6ff821a56f7" class="" dir="auto">Aqui definimos:</p><pre id="3c7f6ce8-497f-80c2-ad96-f36aea60b59e" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">id         → INTEGER
+nome       → VARCHAR(100)
+email      → VARCHAR(150)
+nascimento → DATE</code></pre><p id="3c7f6ce8-497f-804c-82af-ea79ccd29458" class="" dir="auto">A escolha correta dos tipos ajuda a evitar desperdício de armazenamento e problemas de conversão.</p><hr id="3c7f6ce8-497f-801e-9c70-debee19b1eaf" dir="auto"/><h1 id="3c7f6ce8-497f-80d7-99c8-d931e17a0eb7" class="" dir="auto">5. Criação das tabelas</h1><p id="3c7f6ce8-497f-8090-a7d4-f539cbffbd26" class="" dir="auto">O modelo lógico:</p><pre id="3c7f6ce8-497f-8055-9a87-d8364f79c170" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">CLIENTES
+├── id
+├── nome
+└── email</code></pre><p id="3c7f6ce8-497f-8006-81cd-cacc249cacdf" class="" dir="auto">pode ser implementado fisicamente:</p><pre id="3c7f6ce8-497f-80d5-b0f2-ce85e6829e8b" class="code code-wrap" data-notion-code-syntax="sql"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">CREATE TABLE clientes (
+    id SERIAL PRIMARY KEY,
+    nome VARCHAR(100) NOT NULL,
+    email VARCHAR(150) UNIQUE
+);</code></pre><p id="3c7f6ce8-497f-8025-ac27-d2b255e3fc69" class="" dir="auto">Agora temos uma estrutura realmente criada no PostgreSQL.</p><hr id="3c7f6ce8-497f-8005-aa22-efdb613b5f6f" dir="auto"/><h1 id="3c7f6ce8-497f-8080-89c9-fd47d0a96d5b" class="" dir="auto">6. Índices</h1><p id="3c7f6ce8-497f-8036-b84a-c200275ca924" class="" dir="auto">Os <strong>índices</strong> são um dos elementos mais importantes do projeto físico.</p><p id="3c7f6ce8-497f-805f-93f8-da53d8b0f29d" class="" dir="auto">Eles podem melhorar significativamente o desempenho das consultas.</p><p id="3c7f6ce8-497f-804c-a1c5-d71c634a35e2" class="" dir="auto">Imagine uma tabela com milhões de clientes:</p><pre id="3c7f6ce8-497f-80d3-a02d-dd41b5c20106" class="code code-wrap" data-notion-code-syntax="sql"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">SELECT *
+FROM clientes
+WHERE email = &#x27;joao@email.com&#x27;;</code></pre><p id="3c7f6ce8-497f-8011-9e1b-ef77daf33482" class="" dir="auto">Um índice sobre <code>email</code> pode tornar essa busca muito mais eficiente:</p><pre id="3c7f6ce8-497f-8021-81f3-f2165c14628b" class="code code-wrap" data-notion-code-syntax="sql"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">CREATE INDEX idx_clientes_email
+ON clientes(email);</code></pre><p id="3c7f6ce8-497f-80e7-aace-e612035de6e9" class="" dir="auto">Porém, índices também possuem custos.</p><p id="3c7f6ce8-497f-806f-9aa7-eb49e9226d71" class="" dir="auto">Eles:</p><ul id="3c7f6ce8-497f-801a-95d6-c643e3a65071" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Ocupam espaço;</li></ul><ul id="3c7f6ce8-497f-8044-8095-d1275770b4b4" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Precisam ser atualizados quando os dados mudam;</li></ul><ul id="3c7f6ce8-497f-8089-9e11-eeab5d3a60b8" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Podem tornar operações de escrita mais pesadas.</li></ul><p id="3c7f6ce8-497f-801b-b9a3-eec1812a692b" class="" dir="auto">Portanto, devem ser utilizados de maneira planejada.</p><hr id="3c7f6ce8-497f-80fd-a109-ceb753c9a254" dir="auto"/><h1 id="3c7f6ce8-497f-8032-b059-e3076470b44f" class="" dir="auto">7. Particionamento</h1><p id="3c7f6ce8-497f-8019-9646-f14471c3214a" class="" dir="auto">Quando uma tabela possui uma quantidade muito grande de dados, pode ser interessante utilizar <strong>particionamento</strong>.</p><p id="3c7f6ce8-497f-8001-9a13-f76f55458188" class="" dir="auto">Uma tabela grande pode ser dividida logicamente em partes menores.</p><p id="3c7f6ce8-497f-8092-a206-dcdeca2feea2" class="" dir="auto">Por exemplo:</p><pre id="3c7f6ce8-497f-802f-914f-d51aa8b8467a" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">VENDAS
+│
+├── VENDAS_2024
+├── VENDAS_2025
+└── VENDAS_2026</code></pre><p id="3c7f6ce8-497f-807e-82df-cfe6390193e3" class="" dir="auto">Isso pode facilitar:</p><ul id="3c7f6ce8-497f-80ef-b77c-f7703cdb00fe" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Gerenciamento;</li></ul><ul id="3c7f6ce8-497f-8058-b8bb-c4d643492239" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Consultas;</li></ul><ul id="3c7f6ce8-497f-801b-b9a6-fcf63139d8e6" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Manutenção;</li></ul><ul id="3c7f6ce8-497f-807a-a10f-ff8db84710e7" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Exclusão de dados antigos;</li></ul><ul id="3c7f6ce8-497f-802d-af67-d9216121325b" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Desempenho em determinados cenários.</li></ul><hr id="3c7f6ce8-497f-80bf-a686-fdf77f3f17e2" dir="auto"/><h1 id="3c7f6ce8-497f-80a7-a64a-ec91b5033b63" class="" dir="auto">8. Armazenamento</h1><p id="3c7f6ce8-497f-8072-a1cc-def31c80b0db" class="" dir="auto">O projeto físico também considera onde e como os dados serão armazenados.</p><p id="3c7f6ce8-497f-8025-a1c8-cbf20845a859" class="" dir="auto">Pode envolver:</p><ul id="3c7f6ce8-497f-8077-8de3-f1acb37185d2" class="bulleted-list" dir="auto"><li style="list-style-type:disc">SSD;</li></ul><ul id="3c7f6ce8-497f-8006-8e21-c4f1391dafff" class="bulleted-list" dir="auto"><li style="list-style-type:disc">HDD;</li></ul><ul id="3c7f6ce8-497f-8017-8558-e75ab67c83d0" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Servidores locais;</li></ul><ul id="3c7f6ce8-497f-803a-889b-f775fb935e4a" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Máquinas virtuais;</li></ul><ul id="3c7f6ce8-497f-8007-b09c-ddd2e73d4f76" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Cloud;</li></ul><ul id="3c7f6ce8-497f-8089-af5e-e97720c0ccc1" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Sistemas distribuídos.</li></ul><p id="3c7f6ce8-497f-80b7-beb1-e6d0a753817b" class="" dir="auto">Para aplicações que exigem alto desempenho, o armazenamento pode ser um fator crítico.</p><hr id="3c7f6ce8-497f-8084-ab23-d414fa90440a" dir="auto"/><h1 id="3c7f6ce8-497f-8080-a2a7-cfbc28c3c887" class="" dir="auto">9. Otimização de consultas</h1><p id="3c7f6ce8-497f-803e-980e-dbb41c83c184" class="" dir="auto">Uma parte importante do projeto físico é garantir que as consultas sejam executadas de maneira eficiente.</p><p id="3c7f6ce8-497f-8072-a4da-cfa5bc107af8" class="" dir="auto">Por exemplo:</p><pre id="3c7f6ce8-497f-802a-bb8d-cd348a932239" class="code code-wrap" data-notion-code-syntax="sql"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">SELECT *
+FROM pedidos
+WHERE cliente_id = 10;</code></pre><p id="3c7f6ce8-497f-806c-a3b8-c088bfa7b8f1" class="" dir="auto">Podemos analisar como o PostgreSQL executa essa consulta utilizando ferramentas como:</p><pre id="3c7f6ce8-497f-80ef-ada0-f2a5710995f4" class="code code-wrap" data-notion-code-syntax="sql"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">EXPLAIN</code></pre><p id="3c7f6ce8-497f-8006-ade7-e3328b5807e4" class="" dir="auto">ou:</p><pre id="3c7f6ce8-497f-809c-bb72-e490af901fd8" class="code code-wrap" data-notion-code-syntax="sql"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">EXPLAIN ANALYZE</code></pre><p id="3c7f6ce8-497f-804c-821e-c0d3bc3c7c58" class="" dir="auto">Esses comandos ajudam a identificar problemas de desempenho.</p><hr id="3c7f6ce8-497f-80ee-8b97-fd86ce4d227d" dir="auto"/><h1 id="3c7f6ce8-497f-80cb-9bf0-da3214d8ce50" class="" dir="auto">10. Segurança</h1><p id="3c7f6ce8-497f-80e9-a6ba-e44ca35acf8f" class="" dir="auto">O projeto físico também precisa considerar a segurança do banco.</p><p id="3c7f6ce8-497f-8046-aec3-e726a82a95ac" class="" dir="auto">Podemos definir:</p><ul id="3c7f6ce8-497f-80a2-a0a0-e4764bc2d094" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Usuários;</li></ul><ul id="3c7f6ce8-497f-80f3-b72a-cb24217f3b39" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Roles;</li></ul><ul id="3c7f6ce8-497f-8046-a6ae-e838aebc61a7" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Permissões;</li></ul><ul id="3c7f6ce8-497f-80e0-b5ff-f417fee9a3b3" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Autenticação;</li></ul><ul id="3c7f6ce8-497f-80dc-9680-cd8ba0316fb6" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Controle de acesso;</li></ul><ul id="3c7f6ce8-497f-8042-85f1-daeddec6f0ce" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Criptografia;</li></ul><ul id="3c7f6ce8-497f-809b-9334-e52db697edac" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Auditoria.</li></ul><p id="3c7f6ce8-497f-805d-9d86-e1def0249330" class="" dir="auto">Por exemplo:</p><pre id="3c7f6ce8-497f-8059-a9e1-e51cc10d85eb" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Administrador
+    ↓
+Acesso completo
+
+Aplicação
+    ↓
+Acesso somente ao necessário
+
+Usuário comum
+    ↓
+Acesso limitado</code></pre><p id="3c7f6ce8-497f-8033-b875-e140ad612370" class="" dir="auto">Um princípio importante é o <strong>menor privilégio</strong>: cada usuário ou aplicação deve possuir apenas as permissões necessárias para realizar sua função.</p><hr id="3c7f6ce8-497f-80c2-b25d-cb243e93eb7e" dir="auto"/><h1 id="3c7f6ce8-497f-8086-9991-d7aba357ee5b" class="" dir="auto">11. Backup e recuperação</h1><p id="3c7f6ce8-497f-8010-b6d7-e0870077626c" class="" dir="auto">O projeto físico também deve definir como os dados serão protegidos contra perdas.</p><p id="3c7f6ce8-497f-80fb-8453-d28dac0babb4" class="" dir="auto">É necessário planejar:</p><pre id="3c7f6ce8-497f-80b1-8f20-e7e7c96a8542" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Banco de Dados
+      ↓
+Backup
+      ↓
+Armazenamento seguro
+      ↓
+Teste de recuperação</code></pre><p id="3c7f6ce8-497f-8026-9b6d-c065128ce3b1" class="" dir="auto">É importante não apenas realizar backups, mas também <strong>testar se eles realmente podem ser restaurados</strong>.</p><hr id="3c7f6ce8-497f-80a3-be6a-effccd5a262c" dir="auto"/><h1 id="3c7f6ce8-497f-80e6-bb26-cf6ff82cba36" class="" dir="auto">12. Alta disponibilidade</h1><p id="3c7f6ce8-497f-80a7-8f4e-c9c7e6e29951" class="" dir="auto">Para sistemas críticos, o projeto físico pode incluir mecanismos para reduzir o tempo de indisponibilidade.</p><p id="3c7f6ce8-497f-80c0-a9df-d2a753a4092a" class="" dir="auto">Exemplo:</p><pre id="3c7f6ce8-497f-8052-98ed-faeeef6b6b77" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">        Banco Principal
+              │
+       ┌──────┴──────┐
+       ↓             ↓
+   Réplica A      Réplica B</code></pre><p id="3c7f6ce8-497f-8087-bc44-e228ac240c36" class="" dir="auto">Dependendo da arquitetura, podem ser utilizados:</p><ul id="3c7f6ce8-497f-806f-99fb-f82b2416c8d5" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Replicação;</li></ul><ul id="3c7f6ce8-497f-8095-9a41-e17371eb98b0" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Clusters;</li></ul><ul id="3c7f6ce8-497f-80e1-864c-caecfb6d445a" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Failover;</li></ul><ul id="3c7f6ce8-497f-80de-bbc7-d607368e49e4" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Balanceamento;</li></ul><ul id="3c7f6ce8-497f-80d1-84ac-c82759264a45" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Redundância.</li></ul><hr id="3c7f6ce8-497f-802c-bea0-d65087541d5b" dir="auto"/><h1 id="3c7f6ce8-497f-804e-8232-ffc909fb4db9" class="" dir="auto">13. Projeto lógico × Projeto físico</h1><p id="3c7f6ce8-497f-808c-9ea1-cab346e71952" class="" dir="auto">Essa diferença é muito importante.</p><table id="3c7f6ce8-497f-80ca-9c6a-d457d329361d" class="simple-table" dir="ltr"><thead class="simple-table-header"><tr id="3c7f6ce8-497f-80a1-a88e-d8095abc2e93" dir="ltr"><th id="tY`u" class="simple-table-header-color simple-table-header">Projeto Lógico</th><th id="Xntc" class="simple-table-header-color simple-table-header">Projeto Físico</th></tr></thead><tbody><tr id="3c7f6ce8-497f-804b-9097-cb70f4eacce0" dir="ltr"><td id="tY`u" class="">Define a estrutura lógica</td><td id="Xntc" class="">Define a implementação</td></tr><tr id="3c7f6ce8-497f-809d-b7ca-e3b99daa082e" dir="ltr"><td id="tY`u" class="">Tabelas</td><td id="Xntc" class="">Tabelas implementadas</td></tr><tr id="3c7f6ce8-497f-8075-a504-c5366a16237d" dir="ltr"><td id="tY`u" class="">Colunas</td><td id="Xntc" class="">Tipos de dados específicos</td></tr><tr id="3c7f6ce8-497f-8074-9d74-d41f00737b6c" dir="ltr"><td id="tY`u" class="">PK e FK</td><td id="Xntc" class="">PK e FK implementadas</td></tr><tr id="3c7f6ce8-497f-8061-9463-edec30c9ffeb" dir="ltr"><td id="tY`u" class="">Normalização</td><td id="Xntc" class="">Índices e otimizações</td></tr><tr id="3c7f6ce8-497f-801b-85a7-c4aeaf123713" dir="ltr"><td id="tY`u" class="">Relacionamentos</td><td id="Xntc" class="">Implementação no SGBD</td></tr><tr id="3c7f6ce8-497f-809b-940d-e7da3a37b8f7" dir="ltr"><td id="tY`u" class="">Independente do SGBD em maior grau</td><td id="Xntc" class="">Específico do SGBD</td></tr></tbody></table><p id="3c7f6ce8-497f-8097-b604-f72836246683" class="" dir="auto">Exemplo:</p><h3 id="3c7f6ce8-497f-800a-82f6-dded6e4698b4" class="" dir="auto">Projeto lógico</h3><pre id="3c7f6ce8-497f-8009-a39c-c1f5dbc15693" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">CLIENTES
+├── id
+├── nome
+└── email</code></pre><h3 id="3c7f6ce8-497f-802e-8e7a-cfd346bcd4db" class="" dir="auto">Projeto físico no PostgreSQL</h3><pre id="3c7f6ce8-497f-80ea-af63-d41f9ad96eef" class="code code-wrap" data-notion-code-syntax="sql"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">CREATE TABLE clientes (
+    id SERIAL PRIMARY KEY,
+    nome VARCHAR(100) NOT NULL,
+    email VARCHAR(150) UNIQUE
+);
+
+CREATE INDEX idx_clientes_email
+ON clientes(email);</code></pre><hr id="3c7f6ce8-497f-80aa-b76c-db2aa5a77587" dir="auto"/><h1 id="3c7f6ce8-497f-80c5-83ff-d7f18706db1f" class="" dir="auto">14. Exemplo completo</h1><p id="3c7f6ce8-497f-8063-bade-e5e9883518ea" class="" dir="auto">Imagine que temos no modelo lógico:</p><pre id="3c7f6ce8-497f-80ae-a001-d1a6de31aab8" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">CLIENTES
+├── id (PK)
+├── nome
+└── email
+
+PEDIDOS
+├── id (PK)
+├── cliente_id (FK)
+└── data</code></pre><p id="3c7f6ce8-497f-8033-8cb8-fedb473e3a55" class="" dir="auto">No projeto físico em PostgreSQL:</p><pre id="3c7f6ce8-497f-801a-8cd5-f9fe7889cd2e" class="code code-wrap" data-notion-code-syntax="sql"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">CREATE TABLE clientes (
+    id SERIAL PRIMARY KEY,
+    nome VARCHAR(100) NOT NULL,
+    email VARCHAR(150) UNIQUE NOT NULL
+);
+
+CREATE TABLE pedidos (
+    id SERIAL PRIMARY KEY,
+    cliente_id INTEGER NOT NULL,
+    data DATE NOT NULL,
+
+    CONSTRAINT fk_pedido_cliente
+        FOREIGN KEY (cliente_id)
+        REFERENCES clientes(id)
+);</code></pre><p id="3c7f6ce8-497f-80ac-8999-cd12ec5ecff6" class="" dir="auto">Podemos então adicionar um índice:</p><pre id="3c7f6ce8-497f-803c-9c16-ec1e57496025" class="code code-wrap" data-notion-code-syntax="sql"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">CREATE INDEX idx_pedidos_cliente
+ON pedidos(cliente_id);</code></pre><p id="3c7f6ce8-497f-8064-9733-fc1a8c80efd5" class="" dir="auto">Agora temos uma implementação concreta do modelo lógico.</p><hr id="3c7f6ce8-497f-80db-9f22-c08d919c1b18" dir="auto"/><h1 id="3c7f6ce8-497f-80ba-b3f2-f108ed27af9d" class="" dir="auto">15. Importância do Projeto Físico</h1><p id="3c7f6ce8-497f-8025-aa63-cb5ed2cf5a90" class="" dir="auto">Um banco pode estar <strong>logicamente correto</strong>, mas apresentar baixo desempenho se for mal implementado.</p><p id="3c7f6ce8-497f-8093-ba89-f22cc99a4057" class="" dir="auto">Por exemplo:</p><pre id="3c7f6ce8-497f-80dc-9b28-ef6d87ec0120" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Modelo lógico correto
+        ↓
+Implementação ruim
+        ↓
+Consultas lentas
+        ↓
+Sistema com baixo desempenho</code></pre><p id="3c7f6ce8-497f-8033-a4bc-e4d936b2bbf6" class="" dir="auto">Por isso, o projeto físico é fundamental para transformar um modelo bem estruturado em um banco <strong>eficiente e adequado ao ambiente real</strong>.</p><hr id="3c7f6ce8-497f-8046-b7b9-c8e32416b4e4" dir="auto"/><h1 id="3c7f6ce8-497f-80c2-9b65-e4f14ac2f669" class="" dir="auto">Resumo</h1><p id="3c7f6ce8-497f-8056-880a-f6712bbe7743" class="" dir="auto">O <strong>Projeto Físico</strong> é a última etapa do planejamento antes da implementação efetiva do banco.</p><p id="3c7f6ce8-497f-80af-ba48-d65cdd13298c" class="" dir="auto">Ele define principalmente <strong>como o banco será implementado e otimizado no SGBD escolhido</strong>.</p><p id="3c7f6ce8-497f-80af-99dc-cab7c05e6377" class="" dir="auto">Suas principais atividades são:</p><ul id="3c7f6ce8-497f-80c9-bfcc-c6fb06f4f84d" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Escolher o SGBD;</li></ul><ul id="3c7f6ce8-497f-8034-be2d-e355fb64261a" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Definir tipos de dados;</li></ul><ul id="3c7f6ce8-497f-8039-b70a-fd09b23655bd" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Criar tabelas;</li></ul><ul id="3c7f6ce8-497f-807c-8105-eaa28135d918" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Criar índices;</li></ul><ul id="3c7f6ce8-497f-80fd-905a-e284c92f28c1" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Planejar particionamento;</li></ul><ul id="3c7f6ce8-497f-8092-bace-f6d04cdfde0b" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Otimizar consultas;</li></ul><ul id="3c7f6ce8-497f-8069-8389-ed6e05b1db80" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Definir armazenamento;</li></ul><ul id="3c7f6ce8-497f-807e-8918-c79a339a6b1d" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Configurar segurança;</li></ul><ul id="3c7f6ce8-497f-806a-814d-d872d6653880" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Planejar backup;</li></ul><ul id="3c7f6ce8-497f-80f9-849d-f292a8736053" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Planejar recuperação e alta disponibilidade.</li></ul><p id="3c7f6ce8-497f-8081-b472-e9101c0a03c1" class="" dir="auto">A sequência completa fica:</p><pre id="3c7f6ce8-497f-80c6-a67d-c19594e3f550" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">REQUISITOS
+    ↓
+PROJETO CONCEITUAL
+    ↓
+PROJETO LÓGICO
+    ↓
+PROJETO FÍSICO
+    ↓
+IMPLEMENTAÇÃO
+    ↓
+BANCO DE DADOS FUNCIONANDO</code></pre><p id="3c7f6ce8-497f-80b8-bfcd-ecd50ada01ad" class="" dir="auto"><strong>Em resumo: o projeto conceitual define o que existe, o projeto lógico define como os dados serão estruturados e o projeto físico define como essa estrutura será implementada e otimizada no SGBD.</strong></p></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>
