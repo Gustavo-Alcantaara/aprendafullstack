@@ -1,0 +1,824 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Criação e Exclusão</title><meta name="data-notion-page-icon" content="/icons/database_blue.svg"/><link rel="icon" href="https://app.notion.com/icons/database_blue.svg"/><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+/* For default-background callouts, render the border outline. */
+.callout.block-color-default_background {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+/*
+ * Toggles and callouts hold arbitrary content, so they can easily be taller
+ * than a page. They must stay breakable: avoiding breaks inside them makes
+ * Chromium push the whole block onto the next page, which leaves the previous
+ * page mostly empty before every long toggle.
+ */
+details,
+aside {
+	margin: 1.25em 0;
+}
+
+/* Keep a toggle's title on the same page as the start of its content. */
+summary {
+	page-break-after: avoid;
+	break-after: avoid;
+}
+
+/*
+ * Toggle headings render as <h1/h2/h3 style="display:inline-block"> inside
+ * <summary>. Without this reset, the heading's margin-top pushes it below the
+ * ::marker (▼), so the triangle and the title appear on separate lines.
+ */
+summary h1,
+summary h2,
+summary h3,
+summary h4 {
+	margin-top: 0;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding-inline: 0.125rem;
+	padding-block: 0.375rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+/*
+ * Render emoji icons using a ::before pseudo-element to keep the glyph
+ * out of the DOM textContent traversal. This avoids double-rendering icons
+ * in callouts and page titles.
+ * NOTE(slim/html-export-pseudo-icons): I can't tagref this because it will
+ * flag as a duplicate tag after codegen.
+ */
+.icon[data-emoji]::before {
+	content: attr(data-emoji);
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	margin-right: 0.4em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.tab {
+	margin: 1.25em 0;
+	padding-inline: 1rem;
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style><style>@import url('https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex-swap.min.css')</style></head><body><article id="3c7f6ce8-497f-80e5-ad01-e05067e8d4c2" class="page sans" data-notion-page-icon="/icons/database_blue.svg"><header><div class="page-header-icon undefined"><img class="icon notion-static-icon" src="https://app.notion.com/icons/database_blue.svg"/></div><h1 class="page-title" dir="auto">Criação e Exclusão</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><h1 id="3c7f6ce8-497f-804e-9b06-c4a972e38e22" class="" dir="auto">Criando e Excluindo Bancos de Dados no MySQL</h1><p id="3c7f6ce8-497f-80ff-bd4c-c44279b6047e" class="" dir="auto">A criação e a exclusão de bancos de dados são operações fundamentais na administração do <strong>MySQL</strong>. Antes de criar tabelas e armazenar informações, é necessário ter um banco de dados onde essas estruturas serão organizadas.</p><p id="3c7f6ce8-497f-80c1-86ab-d9eb8e0762f4" class="" dir="auto">No MySQL, essas operações podem ser realizadas de duas maneiras principais:</p><ul id="3c7f6ce8-497f-8025-a264-e4ae9dfdfb34" class="bulleted-list" dir="auto"><li style="list-style-type:disc">utilizando <strong>comandos SQL</strong>;</li></ul><ul id="3c7f6ce8-497f-806d-8b15-ed3cd5e10e18" class="bulleted-list" dir="auto"><li style="list-style-type:disc">utilizando ferramentas gráficas, como o <strong>phpMyAdmin</strong>.</li></ul><hr id="3c7f6ce8-497f-800a-8d3f-d030046908ff" dir="auto"/><h2 id="3c7f6ce8-497f-80c7-8a30-cd2c29946798" class="" dir="auto">1. Criando um banco de dados</h2><p id="3c7f6ce8-497f-80b2-b641-d322acb2f5f9" class="" dir="auto">Para criar um banco de dados no MySQL, utilizamos o comando:</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-sql.min.js" integrity="sha512-sijCOJblSCXYYmXdwvqV0tak8QJW5iy2yLB1wAbbLc3OOIueqymizRFWUS/mwKctnzPKpNdPJV3aK1zlDMJmXQ==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="3c7f6ce8-497f-8026-9470-c1551b17a006" class="code code-wrap" data-notion-code-syntax="sql"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">CREATE DATABASE nome_do_banco;</code></pre><p id="3c7f6ce8-497f-80d4-a2b4-f8987ad6a9c6" class="" dir="auto">Por exemplo:</p><pre id="3c7f6ce8-497f-8039-aaf7-de138206c3b2" class="code code-wrap" data-notion-code-syntax="sql"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">CREATE DATABASE loja;</code></pre><p id="3c7f6ce8-497f-8034-8a76-cc9d19d6b7ad" class="" dir="auto">Esse comando cria um banco de dados chamado <code>loja</code>.</p><p id="3c7f6ce8-497f-809d-8fb3-d72b9f1e948f" class="" dir="auto">Depois de criado, podemos selecioná-lo para trabalhar com suas tabelas:</p><pre id="3c7f6ce8-497f-8095-bb07-d2b7d3c4338e" class="code code-wrap" data-notion-code-syntax="sql"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">USE loja;</code></pre><p id="3c7f6ce8-497f-80ef-8fbc-eee84921a0b3" class="" dir="auto">A partir desse momento, os comandos de criação de tabelas serão executados dentro do banco <code>loja</code>.</p><hr id="3c7f6ce8-497f-8080-bf8d-fe057f03962e" dir="auto"/><h2 id="3c7f6ce8-497f-802e-a484-d1e00e53373c" class="" dir="auto">2. Verificando os bancos existentes</h2><p id="3c7f6ce8-497f-802f-b9ce-e13a0eb7115a" class="" dir="auto">Para visualizar todos os bancos de dados existentes no servidor MySQL, utilizamos:</p><pre id="3c7f6ce8-497f-8088-bce3-f5d4ee2796cb" class="code code-wrap" data-notion-code-syntax="sql"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">SHOW DATABASES;</code></pre><p id="3c7f6ce8-497f-80c5-8807-edf9b780cc32" class="" dir="auto">O resultado poderá ser semelhante a:</p><pre id="3c7f6ce8-497f-8050-b9f0-d79683ba262d" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">information_schema
+mysql
+performance_schema
+sys
+loja</code></pre><p id="3c7f6ce8-497f-80e8-b5b0-d3b0484eabe4" class="" dir="auto">Os primeiros bancos normalmente são utilizados pelo próprio MySQL. O banco <code>loja</code> é o que acabamos de criar.</p><hr id="3c7f6ce8-497f-80cf-ac47-e853bafc5d8b" dir="auto"/><h2 id="3c7f6ce8-497f-80f1-b21f-e01579c0aaa1" class="" dir="auto">3. Criando um banco somente se ele não existir</h2><p id="3c7f6ce8-497f-804a-83e0-f367de0f77c9" class="" dir="auto">Um problema comum ocorre quando tentamos criar um banco que já existe.</p><p id="3c7f6ce8-497f-8073-94d1-d27931e28b1d" class="" dir="auto">Por exemplo:</p><pre id="3c7f6ce8-497f-8047-9134-fbab9969f8af" class="code code-wrap" data-notion-code-syntax="sql"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">CREATE DATABASE loja;</code></pre><p id="3c7f6ce8-497f-805d-9455-cd7249ace27f" class="" dir="auto">Se <code>loja</code> já existir, o MySQL poderá retornar um erro informando que o banco já existe.</p><p id="3c7f6ce8-497f-80de-9575-d4d0b4faa958" class="" dir="auto">Para evitar isso, podemos utilizar:</p><pre id="3c7f6ce8-497f-80db-91f3-e1c738ad28ad" class="code code-wrap" data-notion-code-syntax="sql"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">CREATE DATABASE IF NOT EXISTS loja;</code></pre><p id="3c7f6ce8-497f-80c0-aa92-dc23d3df1d1f" class="" dir="auto">O <code>IF NOT EXISTS</code> significa:</p><blockquote id="3c7f6ce8-497f-80da-8b9c-f18e19c1ab21" class="" dir="auto">&quot;Crie o banco somente se ele ainda não existir.&quot;</blockquote><p id="3c7f6ce8-497f-8027-8ea4-f4c99f5cee6e" class="" dir="auto">Essa é uma prática bastante útil em scripts SQL.</p><hr id="3c7f6ce8-497f-8038-b388-e044c01b7e09" dir="auto"/><h1 id="3c7f6ce8-497f-8023-b274-eab7f25ed4c3" class="" dir="auto">4. Definindo a codificação do banco</h1><p id="3c7f6ce8-497f-8042-a3eb-e33791ad00d0" class="" dir="auto">Também podemos especificar a codificação de caracteres utilizada pelo banco.</p><p id="3c7f6ce8-497f-802c-8c60-f5bf39c43573" class="" dir="auto">Uma configuração moderna e recomendada é utilizar <strong>UTF-8 através de </strong><code><strong>utf8mb4</strong></code>:</p><pre id="3c7f6ce8-497f-80cb-81dd-cef75f63198c" class="code code-wrap" data-notion-code-syntax="sql"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">CREATE DATABASE loja
+CHARACTER SET utf8mb4
+COLLATE utf8mb4_0900_ai_ci;</code></pre><p id="3c7f6ce8-497f-8041-b1c0-c1d82db354cd" class="" dir="auto">Isso permite trabalhar corretamente com diversos caracteres, incluindo:</p><ul id="3c7f6ce8-497f-8004-aa8b-c356f0a68fc3" class="bulleted-list" dir="auto"><li style="list-style-type:disc">letras acentuadas;</li></ul><ul id="3c7f6ce8-497f-805a-88f1-c0fe6d97baab" class="bulleted-list" dir="auto"><li style="list-style-type:disc">símbolos;</li></ul><ul id="3c7f6ce8-497f-8020-b3a5-db749cd68e08" class="bulleted-list" dir="auto"><li style="list-style-type:disc">caracteres de diferentes idiomas;</li></ul><ul id="3c7f6ce8-497f-80fc-a550-da35c5717094" class="bulleted-list" dir="auto"><li style="list-style-type:disc">emojis.</li></ul><p id="3c7f6ce8-497f-80f2-8ba0-f8d44808a351" class="" dir="auto">Por exemplo:</p><pre id="3c7f6ce8-497f-8009-bc3c-f85c37558699" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">João
+Informação
+Computação
+😀</code></pre><p id="3c7f6ce8-497f-8043-b383-def789dac24b" class="" dir="auto">O <code>CHARACTER SET</code> define como os caracteres serão armazenados, enquanto o <code>COLLATE</code> define regras utilizadas para comparação e ordenação de textos.</p><hr id="3c7f6ce8-497f-8047-bed0-fdea002aad8d" dir="auto"/><h1 id="3c7f6ce8-497f-805e-bad3-d6b09b092c65" class="" dir="auto">5. Selecionando um banco de dados</h1><p id="3c7f6ce8-497f-8087-a093-e1e56ec6234b" class="" dir="auto">Depois de criar o banco, precisamos informar ao MySQL qual banco queremos utilizar.</p><p id="3c7f6ce8-497f-8015-bfb4-c6faaa67680b" class="" dir="auto">Para isso:</p><pre id="3c7f6ce8-497f-80a8-a18d-fcdd931029ae" class="code code-wrap" data-notion-code-syntax="sql"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">USE loja;</code></pre><p id="3c7f6ce8-497f-802e-8203-faf82370cd5b" class="" dir="auto">Podemos confirmar qual banco está selecionado usando:</p><pre id="3c7f6ce8-497f-8092-b2de-cfd80aa04fb9" class="code code-wrap" data-notion-code-syntax="sql"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">SELECT DATABASE();</code></pre><p id="3c7f6ce8-497f-8093-a47a-d2e990098b59" class="" dir="auto">O resultado será:</p><pre id="3c7f6ce8-497f-8067-8f9e-e6cbb360a0e1" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">loja</code></pre><p id="3c7f6ce8-497f-8054-8cf8-d22da8c6a35a" class="" dir="auto">Isso é especialmente útil quando estamos trabalhando com vários bancos no mesmo servidor.</p><hr id="3c7f6ce8-497f-8092-823c-f5a3919e84da" dir="auto"/><h1 id="3c7f6ce8-497f-80f8-a6c3-ccaae309a508" class="" dir="auto">6. Criando um banco pelo phpMyAdmin</h1><p id="3c7f6ce8-497f-80a7-b10a-e391c2c4bdef" class="" dir="auto">No <strong>phpMyAdmin</strong>, a criação é ainda mais simples.</p><h3 id="3c7f6ce8-497f-806e-8ba4-d061eba39a4f" class="" dir="auto">Passos:</h3><ol type="1" id="3c7f6ce8-497f-800e-976f-d5097096bbb9" class="numbered-list" start="1" dir="auto"><li>Acesse o phpMyAdmin.</li></ol><ol type="1" id="3c7f6ce8-497f-8038-983b-ca000f2b9e26" class="numbered-list" start="2" dir="auto"><li>Clique em <strong>Novo</strong> no menu lateral.</li></ol><ol type="1" id="3c7f6ce8-497f-8098-87e1-c63019890453" class="numbered-list" start="3" dir="auto"><li>Digite o nome do banco.</li></ol><ol type="1" id="3c7f6ce8-497f-80b7-88a0-ce1ed096f426" class="numbered-list" start="4" dir="auto"><li>Escolha a codificação, preferencialmente <code>utf8mb4</code> quando apropriado.</li></ol><ol type="1" id="3c7f6ce8-497f-8089-bbb6-c2afe955808a" class="numbered-list" start="5" dir="auto"><li>Clique em <strong>Criar</strong>.</li></ol><p id="3c7f6ce8-497f-80d5-b288-cfc850cd3728" class="" dir="auto">O phpMyAdmin executará internamente um comando semelhante a:</p><pre id="3c7f6ce8-497f-80fa-a853-f8615149e1f9" class="code code-wrap" data-notion-code-syntax="sql"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">CREATE DATABASE loja;</code></pre><p id="3c7f6ce8-497f-800f-8f59-d3d2324a1c21" class="" dir="auto">Depois disso, o banco aparecerá no menu lateral.</p><hr id="3c7f6ce8-497f-80e0-9bc1-c24a914cb48f" dir="auto"/><h1 id="3c7f6ce8-497f-80be-afc0-e36b7c039256" class="" dir="auto">7. Excluindo um banco de dados</h1><p id="3c7f6ce8-497f-800a-88ca-e26c9433759f" class="" dir="auto">Para excluir completamente um banco de dados, utilizamos:</p><pre id="3c7f6ce8-497f-8014-ae4e-ccb2916a9ea4" class="code code-wrap" data-notion-code-syntax="sql"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">DROP DATABASE nome_do_banco;</code></pre><p id="3c7f6ce8-497f-804a-a6d5-e1db6fba752b" class="" dir="auto">Por exemplo:</p><pre id="3c7f6ce8-497f-80be-87ce-c0ecfd91f254" class="code code-wrap" data-notion-code-syntax="sql"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">DROP DATABASE loja;</code></pre><p id="3c7f6ce8-497f-8022-bfd5-e0dc352264de" class="" dir="auto">Esse comando remove o banco de dados inteiro.</p><p id="3c7f6ce8-497f-804a-a443-e537dff0d09e" class="" dir="auto">Isso significa que serão removidos:</p><ul id="3c7f6ce8-497f-80c7-b38a-d906077a1703" class="bulleted-list" dir="auto"><li style="list-style-type:disc">tabelas;</li></ul><ul id="3c7f6ce8-497f-80d5-a784-f0f16a679497" class="bulleted-list" dir="auto"><li style="list-style-type:disc">registros;</li></ul><ul id="3c7f6ce8-497f-80d8-9687-ff06305820d0" class="bulleted-list" dir="auto"><li style="list-style-type:disc">índices;</li></ul><ul id="3c7f6ce8-497f-805f-8456-deeb536c5ad1" class="bulleted-list" dir="auto"><li style="list-style-type:disc">views;</li></ul><ul id="3c7f6ce8-497f-80b9-a7c6-d74fea5a8ae8" class="bulleted-list" dir="auto"><li style="list-style-type:disc">procedures;</li></ul><ul id="3c7f6ce8-497f-80c0-b6aa-cc9ee869c440" class="bulleted-list" dir="auto"><li style="list-style-type:disc">triggers;</li></ul><ul id="3c7f6ce8-497f-8057-8316-ea329d45f2ac" class="bulleted-list" dir="auto"><li style="list-style-type:disc">demais objetos pertencentes ao banco.</li></ul><p id="3c7f6ce8-497f-8002-bcc6-f66fbea95f95" class="" dir="auto"><strong>É uma operação destrutiva e deve ser utilizada com muito cuidado.</strong></p><hr id="3c7f6ce8-497f-804c-a024-d44b7a012e9e" dir="auto"/><h1 id="3c7f6ce8-497f-80a4-94c6-cc5cda1ba8d9" class="" dir="auto">8. Excluindo somente se o banco existir</h1><p id="3c7f6ce8-497f-80f7-a357-f5bfa2a4a70f" class="" dir="auto">Assim como na criação, podemos utilizar <code>IF EXISTS</code>:</p><pre id="3c7f6ce8-497f-807d-b2f1-f1d966bcd62e" class="code code-wrap" data-notion-code-syntax="sql"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">DROP DATABASE IF EXISTS loja;</code></pre><p id="3c7f6ce8-497f-80ad-9f7f-f806be82d994" class="" dir="auto">Nesse caso, o MySQL só tentará excluir o banco se ele existir.</p><p id="3c7f6ce8-497f-80c8-8b08-f73feb71b5b3" class="" dir="auto">Isso evita erros em scripts automatizados.</p><hr id="3c7f6ce8-497f-80d1-a3c5-c506979a1702" dir="auto"/><h1 id="3c7f6ce8-497f-80e7-86f1-d4c0e3cf6c6b" class="" dir="auto">9. Excluindo um banco pelo phpMyAdmin</h1><p id="3c7f6ce8-497f-806f-a917-f30867442f42" class="" dir="auto">No phpMyAdmin:</p><ol type="1" id="3c7f6ce8-497f-801f-b1b0-f8e67c59079f" class="numbered-list" start="1" dir="auto"><li>Selecione o banco de dados.</li></ol><ol type="1" id="3c7f6ce8-497f-80af-8093-d011eb3e5e4e" class="numbered-list" start="2" dir="auto"><li>Acesse a opção <strong>Operações</strong>.</li></ol><ol type="1" id="3c7f6ce8-497f-8022-b20d-cda000a32264" class="numbered-list" start="3" dir="auto"><li>Localize a opção para remover o banco.</li></ol><ol type="1" id="3c7f6ce8-497f-80cb-9244-e8b76a0a9b86" class="numbered-list" start="4" dir="auto"><li>Confirme a exclusão.</li></ol><p id="3c7f6ce8-497f-80b8-a124-ff5f085e0c27" class="" dir="auto">Dependendo da versão e configuração do phpMyAdmin, a opção pode aparecer como <strong>Remover o banco de dados (DROP)</strong>.</p><p id="3c7f6ce8-497f-80a0-8c66-d9599bb44ceb" class="" dir="auto">⚠️ <strong>A confirmação deve ser feita com atenção</strong>, pois a operação pode apagar definitivamente os dados.</p><hr id="3c7f6ce8-497f-80e7-af5b-c98ba8a47dbc" dir="auto"/><h1 id="3c7f6ce8-497f-80bf-9e9d-fa0d03588169" class="" dir="auto">10. Diferença entre DROP, DELETE e TRUNCATE</h1><p id="3c7f6ce8-497f-80c3-97a0-f54d31bd75ab" class="" dir="auto">É muito importante não confundir esses comandos.</p><h3 id="3c7f6ce8-497f-8086-8639-ce715cc4b54b" class="" dir="auto">DROP DATABASE</h3><p id="3c7f6ce8-497f-8003-8b8d-e618f2d721b5" class="" dir="auto">Remove o <strong>banco inteiro</strong>:</p><pre id="3c7f6ce8-497f-8093-aa15-df3a91b1641b" class="code code-wrap" data-notion-code-syntax="sql"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">DROP DATABASE loja;</code></pre><hr id="3c7f6ce8-497f-80bf-866f-c80e3fd6ada4" dir="auto"/><h3 id="3c7f6ce8-497f-8061-b1ef-fc3d63ee2a8d" class="" dir="auto">DELETE</h3><p id="3c7f6ce8-497f-804c-b27f-db22d2872bc1" class="" dir="auto">Remove <strong>registros de uma tabela</strong>:</p><pre id="3c7f6ce8-497f-8003-b8d6-e71d57b6189c" class="code code-wrap" data-notion-code-syntax="sql"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">DELETE FROM clientes
+WHERE id = 5;</code></pre><p id="3c7f6ce8-497f-8034-98e7-c78b9b35cef4" class="" dir="auto">A tabela continua existindo.</p><hr id="3c7f6ce8-497f-80f2-9867-f6e4c856990e" dir="auto"/><h3 id="3c7f6ce8-497f-80f7-88b5-df6fda5f3cee" class="" dir="auto">TRUNCATE</h3><p id="3c7f6ce8-497f-8025-9a3c-f32415ee7649" class="" dir="auto">Remove <strong>todos os registros de uma tabela</strong>, mantendo a estrutura:</p><pre id="3c7f6ce8-497f-8078-bbe1-eddea2c2b262" class="code code-wrap" data-notion-code-syntax="sql"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">TRUNCATE TABLE clientes;</code></pre><p id="3c7f6ce8-497f-8094-ac15-d2eae36c3e86" class="" dir="auto">Portanto:</p><pre id="3c7f6ce8-497f-809e-9c2b-fff2c42b6141" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">DROP DATABASE
+      ↓
+Remove o banco inteiro
+
+TRUNCATE TABLE
+      ↓
+Remove os registros da tabela
+
+DELETE
+      ↓
+Remove registros específicos</code></pre><hr id="3c7f6ce8-497f-807e-b8f1-f1e3e634c79c" dir="auto"/><h1 id="3c7f6ce8-497f-8089-968b-c8809abedc8e" class="" dir="auto">11. Exemplo completo</h1><p id="3c7f6ce8-497f-80f0-b4ae-e8912ae703ff" class="" dir="auto">Imagine que vamos criar um banco para uma loja.</p><p id="3c7f6ce8-497f-808b-9a35-f4e1cc41f1f2" class="" dir="auto">Primeiro:</p><pre id="3c7f6ce8-497f-8093-8bfe-d3d94019b6f1" class="code code-wrap" data-notion-code-syntax="sql"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">CREATE DATABASE IF NOT EXISTS loja
+CHARACTER SET utf8mb4
+COLLATE utf8mb4_0900_ai_ci;</code></pre><p id="3c7f6ce8-497f-8082-adec-eb27d85a094b" class="" dir="auto">Depois:</p><pre id="3c7f6ce8-497f-8066-aedb-e6c7862e088a" class="code code-wrap" data-notion-code-syntax="sql"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">USE loja;</code></pre><p id="3c7f6ce8-497f-8024-b75b-f58bf38add82" class="" dir="auto">Agora podemos criar uma tabela:</p><pre id="3c7f6ce8-497f-80db-8c42-d9c2eb6ff786" class="code code-wrap" data-notion-code-syntax="sql"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">CREATE TABLE produtos (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(100) NOT NULL,
+    preco DECIMAL(10,2) NOT NULL
+);</code></pre><p id="3c7f6ce8-497f-80b0-9a9e-e87ea7dcb8ad" class="" dir="auto">Inserimos um produto:</p><pre id="3c7f6ce8-497f-80a8-a1e9-d4db7e054a5d" class="code code-wrap" data-notion-code-syntax="sql"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">INSERT INTO produtos (nome, preco)
+VALUES (&#x27;Notebook&#x27;, 3500.00);</code></pre><p id="3c7f6ce8-497f-80b9-a152-d38b61c656bf" class="" dir="auto">Consultamos:</p><pre id="3c7f6ce8-497f-80e6-8cfa-e5e6742e1f1f" class="code code-wrap" data-notion-code-syntax="sql"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">SELECT * FROM produtos;</code></pre><p id="3c7f6ce8-497f-8058-9a98-f50dde91664c" class="" dir="auto">Teremos algo semelhante a:</p><table id="3c7f6ce8-497f-80c7-b837-cd7b8d4a58b8" class="simple-table" dir="ltr"><thead class="simple-table-header"><tr id="3c7f6ce8-497f-808d-aa5e-e753f2ca097c" dir="ltr"><th id="|=e{" class="simple-table-header-color simple-table-header">id</th><th id="uu?R" class="simple-table-header-color simple-table-header">nome</th><th id="U}|A" class="simple-table-header-color simple-table-header">preco</th></tr></thead><tbody><tr id="3c7f6ce8-497f-8075-84b7-e1dbaf9cc9fe" dir="ltr"><td id="|=e{" class="">1</td><td id="uu?R" class="">Notebook</td><td id="U}|A" class="">3500.00</td></tr></tbody></table><p id="3c7f6ce8-497f-80c6-bf02-d4ad7a7e153c" class="" dir="auto">Se quisermos apagar <strong>apenas o banco inteiro</strong>, usamos:</p><pre id="3c7f6ce8-497f-8071-84f5-ee95f842a102" class="code code-wrap" data-notion-code-syntax="sql"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">DROP DATABASE loja;</code></pre><p id="3c7f6ce8-497f-8044-a121-f06d43815900" class="" dir="auto">Depois disso, o banco <code>loja</code> e tudo que estava dentro dele serão removidos.</p><hr id="3c7f6ce8-497f-80e7-97ed-d47345df99a6" dir="auto"/><h1 id="3c7f6ce8-497f-80b9-8412-c042007ebb2c" class="" dir="auto">12. Cuidados ao excluir bancos</h1><p id="3c7f6ce8-497f-8035-95cd-ded6e556bd27" class="" dir="auto">O comando <code>DROP DATABASE</code> deve ser utilizado com extremo cuidado.</p><p id="3c7f6ce8-497f-80b5-81e0-fe2093936c24" class="" dir="auto">Antes de executá-lo em um ambiente importante, é recomendado:</p><ul id="3c7f6ce8-497f-8017-af6f-c5d4e77f2fe7" class="bulleted-list" dir="auto"><li style="list-style-type:disc">verificar o nome do banco;</li></ul><ul id="3c7f6ce8-497f-80e9-9c8c-cacd30034b0b" class="bulleted-list" dir="auto"><li style="list-style-type:disc">confirmar se realmente é necessário excluí-lo;</li></ul><ul id="3c7f6ce8-497f-8015-bb5d-e7ba16708d7f" class="bulleted-list" dir="auto"><li style="list-style-type:disc">realizar um backup;</li></ul><ul id="3c7f6ce8-497f-80f4-a794-d5a1b6464ceb" class="bulleted-list" dir="auto"><li style="list-style-type:disc">verificar se alguma aplicação depende dele;</li></ul><ul id="3c7f6ce8-497f-8042-9e73-e57c4df543b4" class="bulleted-list" dir="auto"><li style="list-style-type:disc">confirmar que não é um banco de produção.</li></ul><p id="3c7f6ce8-497f-8024-84c4-f475c5e37f31" class="" dir="auto">Por exemplo, executar acidentalmente:</p><pre id="3c7f6ce8-497f-80b5-bba4-e28e7c5ae7b4" class="code code-wrap" data-notion-code-syntax="sql"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">DROP DATABASE sistema_empresa;</code></pre><p id="3c7f6ce8-497f-80dd-a3ca-d0bbff81a494" class="" dir="auto">pode causar uma perda completa dos dados daquele sistema.</p><p id="3c7f6ce8-497f-8071-934b-e5d29778e9c1" class="" dir="auto">Por isso, <strong>nunca execute </strong><code><strong>DROP DATABASE</strong></code><strong> sem ter certeza da consequência</strong>.</p><hr id="3c7f6ce8-497f-8036-8d7e-dd0edf0a23e0" dir="auto"/><h1 id="3c7f6ce8-497f-804b-9365-f019914ee69a" class="" dir="auto">13. Principais comandos</h1><table id="3c7f6ce8-497f-8072-b3f9-e39239b37ef9" class="simple-table" dir="ltr"><thead class="simple-table-header"><tr id="3c7f6ce8-497f-805d-bdc2-e0113662f5d6" dir="ltr"><th id="FIEe" class="simple-table-header-color simple-table-header">Operação</th><th id="Pk{Y" class="simple-table-header-color simple-table-header">Comando</th></tr></thead><tbody><tr id="3c7f6ce8-497f-802a-acec-feeb1628add8" dir="ltr"><td id="FIEe" class="">Criar banco</td><td id="Pk{Y" class=""><code>CREATE DATABASE loja;</code></td></tr><tr id="3c7f6ce8-497f-808a-93e8-c83f6c94e0d8" dir="ltr"><td id="FIEe" class="">Criar se não existir</td><td id="Pk{Y" class=""><code>CREATE DATABASE IF NOT EXISTS loja;</code></td></tr><tr id="3c7f6ce8-497f-80f0-92d9-d5ceab0e2e27" dir="ltr"><td id="FIEe" class="">Listar bancos</td><td id="Pk{Y" class=""><code>SHOW DATABASES;</code></td></tr><tr id="3c7f6ce8-497f-8020-9699-c98e27386f9e" dir="ltr"><td id="FIEe" class="">Selecionar banco</td><td id="Pk{Y" class=""><code>USE loja;</code></td></tr><tr id="3c7f6ce8-497f-8006-9137-d3dd5c8ea356" dir="ltr"><td id="FIEe" class="">Ver banco atual</td><td id="Pk{Y" class=""><code>SELECT DATABASE();</code></td></tr><tr id="3c7f6ce8-497f-80ff-815f-e6479fbbd37d" dir="ltr"><td id="FIEe" class="">Excluir banco</td><td id="Pk{Y" class=""><code>DROP DATABASE loja;</code></td></tr><tr id="3c7f6ce8-497f-8083-b222-d161357c8338" dir="ltr"><td id="FIEe" class="">Excluir se existir</td><td id="Pk{Y" class=""><code>DROP DATABASE IF EXISTS loja;</code></td></tr></tbody></table><hr id="3c7f6ce8-497f-808c-b0b4-f3c26e2e8245" dir="auto"/><h1 id="3c7f6ce8-497f-80d7-a32b-c0fe19877bf3" class="" dir="auto">Resumo</h1><p id="3c7f6ce8-497f-806b-8509-e9d1e57041f6" class="" dir="auto">No MySQL, o comando <code><strong>CREATE DATABASE</strong></code> é utilizado para criar novos bancos de dados, enquanto <code><strong>DROP DATABASE</strong></code> é utilizado para removê-los completamente. O comando <code><strong>SHOW DATABASES</strong></code> permite visualizar os bancos existentes e <code><strong>USE</strong></code> seleciona o banco que será utilizado.</p><p id="3c7f6ce8-497f-802c-93d3-f76e7357b021" class="" dir="auto">Por meio do phpMyAdmin, essas mesmas operações podem ser realizadas através de uma interface gráfica, facilitando o gerenciamento para iniciantes. Entretanto, compreender os comandos SQL é fundamental, principalmente para trabalhar com scripts, automação e ambientes profissionais.</p><p id="3c7f6ce8-497f-80b7-91eb-d134e3a18796" class="" dir="auto">A principal diferença que deve ser lembrada é:</p><pre id="3c7f6ce8-497f-8010-b257-e4002427bac5" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">CREATE DATABASE → cria um banco
+USE              → seleciona um banco
+SHOW DATABASES   → lista os bancos
+DROP DATABASE    → exclui um banco inteiro</code></pre></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>
