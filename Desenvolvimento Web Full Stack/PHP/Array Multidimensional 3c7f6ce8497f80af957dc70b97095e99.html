@@ -1,0 +1,924 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Array Multidimensional</title><meta name="data-notion-page-icon" content="/icons/elephant_purple.svg"/><link rel="icon" href="https://app.notion.com/icons/elephant_purple.svg"/><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+/* For default-background callouts, render the border outline. */
+.callout.block-color-default_background {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+/*
+ * Toggles and callouts hold arbitrary content, so they can easily be taller
+ * than a page. They must stay breakable: avoiding breaks inside them makes
+ * Chromium push the whole block onto the next page, which leaves the previous
+ * page mostly empty before every long toggle.
+ */
+details,
+aside {
+	margin: 1.25em 0;
+}
+
+/* Keep a toggle's title on the same page as the start of its content. */
+summary {
+	page-break-after: avoid;
+	break-after: avoid;
+}
+
+/*
+ * Toggle headings render as <h1/h2/h3 style="display:inline-block"> inside
+ * <summary>. Without this reset, the heading's margin-top pushes it below the
+ * ::marker (▼), so the triangle and the title appear on separate lines.
+ */
+summary h1,
+summary h2,
+summary h3,
+summary h4 {
+	margin-top: 0;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding-inline: 0.125rem;
+	padding-block: 0.375rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+/*
+ * Render emoji icons using a ::before pseudo-element to keep the glyph
+ * out of the DOM textContent traversal. This avoids double-rendering icons
+ * in callouts and page titles.
+ * NOTE(slim/html-export-pseudo-icons): I can't tagref this because it will
+ * flag as a duplicate tag after codegen.
+ */
+.icon[data-emoji]::before {
+	content: attr(data-emoji);
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	margin-right: 0.4em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.tab {
+	margin: 1.25em 0;
+	padding-inline: 1rem;
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style><style>@import url('https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex-swap.min.css')</style></head><body><article id="3c7f6ce8-497f-80af-957d-c70b97095e99" class="page sans" data-notion-page-icon="/icons/elephant_purple.svg"><header><div class="page-header-icon undefined"><img class="icon notion-static-icon" src="https://app.notion.com/icons/elephant_purple.svg"/></div><h1 class="page-title" dir="auto">Array Multidimensional</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><h1 id="3c7f6ce8-497f-80bc-9d73-c3d7ba4ac873" class="" dir="auto">Array Multidimensional em PHP</h1><p id="3c7f6ce8-497f-800d-bc88-fe991df7e2ce" class="" dir="auto">Um <strong>array multidimensional</strong> é um array que contém <strong>outros arrays como elementos</strong>. Ele é utilizado quando precisamos representar dados que possuem mais de uma dimensão ou estão organizados em diferentes níveis.</p><p id="3c7f6ce8-497f-809c-8544-fa4e6dc6e783" class="" dir="auto">Enquanto um array simples pode representar uma lista:</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markup-templating.min.js" integrity="sha512-+8BiRfWso6waiFDv6tEmWF8yfPGgxAtOYLDUB0rRISLwtpxkJ9lpPNUhxwWlikn3qSO+4RQyzDppi62o3ON/AA==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-php.min.js" integrity="sha512-plzrTi61ltEMFf84gTVO9IkvIMfBu07bnDuahvdlIclmFWzXJ9VcRsny9d45sxFZRv3jJg/MHNyuxnUYEMxMEg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="3c7f6ce8-497f-8055-a6b4-d22c6ce5063b" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">$frutas = [&quot;Maçã&quot;, &quot;Banana&quot;, &quot;Laranja&quot;];</code></pre><p id="3c7f6ce8-497f-801b-b951-d851e452d18e" class="" dir="auto">um array multidimensional pode representar uma tabela:</p><pre id="3c7f6ce8-497f-80b7-b652-fca94dab8994" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">$alunos = [
+    [&quot;João&quot;, 8, 7],
+    [&quot;Maria&quot;, 9, 10],
+    [&quot;Pedro&quot;, 6, 8]
+];</code></pre><p id="3c7f6ce8-497f-80cf-acfe-fa45e80c1c59" class="" dir="auto">Nesse caso, temos vários arrays dentro do array <code>$alunos</code>.</p><hr id="3c7f6ce8-497f-80b1-ab42-cd3a635c0a76" dir="auto"/><h2 id="3c7f6ce8-497f-8082-ab26-cdc70b070ee5" class="" dir="auto">1. Estrutura de um Array Multidimensional</h2><p id="3c7f6ce8-497f-80d0-8416-ec427cb67477" class="" dir="auto">Considere:</p><pre id="3c7f6ce8-497f-80ab-a23e-c370de4f22f2" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">$alunos = [
+    [&quot;João&quot;, 8, 7],
+    [&quot;Maria&quot;, 9, 10],
+    [&quot;Pedro&quot;, 6, 8]
+];</code></pre><p id="3c7f6ce8-497f-8098-8131-d2586f0a8d79" class="" dir="auto">Podemos visualizar a estrutura assim:</p><table id="3c7f6ce8-497f-80a5-8ff9-ecdb3eaf2802" class="simple-table" dir="ltr"><thead class="simple-table-header"><tr id="3c7f6ce8-497f-8063-b21d-cc55780fc79f" dir="ltr"><th id="Zj_j" class="simple-table-header-color simple-table-header">Índice</th><th id="d}hF" class="simple-table-header-color simple-table-header">Nome</th><th id="bYz_" class="simple-table-header-color simple-table-header">Nota 1</th><th id="\?os" class="simple-table-header-color simple-table-header">Nota 2</th></tr></thead><tbody><tr id="3c7f6ce8-497f-80d9-9c10-c59f6e2f8579" dir="ltr"><td id="Zj_j" class="">0</td><td id="d}hF" class="">João</td><td id="bYz_" class="">8</td><td id="\?os" class="">7</td></tr><tr id="3c7f6ce8-497f-80e1-9aa8-f466a382aa55" dir="ltr"><td id="Zj_j" class="">1</td><td id="d}hF" class="">Maria</td><td id="bYz_" class="">9</td><td id="\?os" class="">10</td></tr><tr id="3c7f6ce8-497f-801c-a503-e85ac6f3f1ab" dir="ltr"><td id="Zj_j" class="">2</td><td id="d}hF" class="">Pedro</td><td id="bYz_" class="">6</td><td id="\?os" class="">8</td></tr></tbody></table><p id="3c7f6ce8-497f-804d-808a-e414b88db47d" class="" dir="auto">Temos duas dimensões:</p><ul id="3c7f6ce8-497f-80e9-95fe-d554bd0ca1b8" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>Primeira dimensão:</strong> identifica o aluno.</li></ul><ul id="3c7f6ce8-497f-8012-912d-e869dc69f3f4" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>Segunda dimensão:</strong> identifica os dados daquele aluno.</li></ul><p id="3c7f6ce8-497f-8037-9669-eaa13b705ce9" class="" dir="auto">Por isso, para acessar um determinado valor, utilizamos <strong>dois índices</strong>.</p><hr id="3c7f6ce8-497f-8058-8073-cef74a871f34" dir="auto"/><h2 id="3c7f6ce8-497f-8038-93b7-d9c7fd1b95ef" class="" dir="auto">2. Acessando Elementos</h2><p id="3c7f6ce8-497f-806a-9ddd-d5f1efdfd140" class="" dir="auto">Para acessar <code>&quot;João&quot;</code>:</p><pre id="3c7f6ce8-497f-80f7-a36d-e21393755825" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">echo $alunos[0][0];</code></pre><p id="3c7f6ce8-497f-80b2-bf1a-c3efce0200f1" class="" dir="auto">Resultado:</p><pre id="3c7f6ce8-497f-800a-bfd0-ffe7d012d39b" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">João</code></pre><p id="3c7f6ce8-497f-808d-b2de-f58767dab4e8" class="" dir="auto">Para acessar a nota <code>8</code>:</p><pre id="3c7f6ce8-497f-808e-8a42-fcaa7e9a2a06" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">echo $alunos[0][1];</code></pre><p id="3c7f6ce8-497f-809a-8b10-ceb420aecbca" class="" dir="auto">Para acessar a nota <code>10</code> da Maria:</p><pre id="3c7f6ce8-497f-8076-8386-c87e4c261a3b" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">echo $alunos[1][2];</code></pre><p id="3c7f6ce8-497f-802f-9401-e3bf16239e5c" class="" dir="auto">A lógica é:</p><pre id="3c7f6ce8-497f-8081-9960-e4f0de829878" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">$array[linha][coluna]</code></pre><p id="3c7f6ce8-497f-8068-a572-da0e05301e34" class="" dir="auto">Por exemplo:</p><pre id="3c7f6ce8-497f-80aa-bba6-fbcf5bea41be" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">$alunos[1][2]</code></pre><p id="3c7f6ce8-497f-8025-8f5c-e4f7856e9d43" class="" dir="auto">significa:</p><ul id="3c7f6ce8-497f-801c-9255-e1c8279f0ee5" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><code>1</code> → segundo aluno;</li></ul><ul id="3c7f6ce8-497f-8051-b368-cb5d96caa09b" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><code>2</code> → terceiro elemento desse aluno.</li></ul><hr id="3c7f6ce8-497f-8064-84ab-d627b29fb432" dir="auto"/><h2 id="3c7f6ce8-497f-8022-9e21-e72f6aca19db" class="" dir="auto">3. Alterando Valores</h2><p id="3c7f6ce8-497f-8044-9feb-cdbcdf1420e8" class="" dir="auto">Podemos modificar um elemento específico:</p><pre id="3c7f6ce8-497f-80e1-b272-e124298a1692" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">$alunos = [
+    [&quot;João&quot;, 8, 7],
+    [&quot;Maria&quot;, 9, 10]
+];
+
+$alunos[0][1] = 9;</code></pre><p id="3c7f6ce8-497f-80f2-afad-c8baa73441ab" class="" dir="auto">Agora João possui:</p><pre id="3c7f6ce8-497f-8019-82a6-cdd1031ef2d6" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">João, 9, 7</code></pre><p id="3c7f6ce8-497f-8093-b198-fac16a2334b8" class="" dir="auto">Também podemos alterar o nome:</p><pre id="3c7f6ce8-497f-800b-93c5-ceac4c22a238" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">$alunos[1][0] = &quot;Mariana&quot;;</code></pre><hr id="3c7f6ce8-497f-80fd-9b03-f5ae0feb0a04" dir="auto"/><h2 id="3c7f6ce8-497f-800c-822a-fc8409d32e6e" class="" dir="auto">4. Adicionando Elementos</h2><p id="3c7f6ce8-497f-8089-b0bc-cedca9949e47" class="" dir="auto">Podemos adicionar um novo array ao array multidimensional:</p><pre id="3c7f6ce8-497f-805b-a45a-e25e306e813e" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">$alunos[] = [&quot;Carlos&quot;, 7, 8];</code></pre><p id="3c7f6ce8-497f-8088-9ad7-d4b3ae66ab93" class="" dir="auto">Agora temos:</p><pre id="3c7f6ce8-497f-806f-9619-e93eea7d24c6" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">$alunos = [
+    [&quot;João&quot;, 8, 7],
+    [&quot;Maria&quot;, 9, 10],
+    [&quot;Carlos&quot;, 7, 8]
+];</code></pre><p id="3c7f6ce8-497f-80f6-8e28-e386fa6ed766" class="" dir="auto">Também podemos adicionar um novo valor dentro de um dos arrays:</p><pre id="3c7f6ce8-497f-8085-82be-f22a779b3798" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">$alunos[0][] = 10;</code></pre><p id="3c7f6ce8-497f-809e-8d44-e325fa54f2bc" class="" dir="auto">Agora João possui três notas:</p><pre id="3c7f6ce8-497f-806f-8fe2-fe2f22ff2287" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">João, 8, 7, 10</code></pre><hr id="3c7f6ce8-497f-80fd-a309-c519d6ca2ae9" dir="auto"/><h1 id="3c7f6ce8-497f-80a4-9940-f0b789c22084" class="" dir="auto">5. Percorrendo um Array Multidimensional</h1><p id="3c7f6ce8-497f-8060-bec3-c38143c94026" class="" dir="auto">Para percorrer todas as informações, podemos utilizar <code><strong>foreach</strong></code><strong> dentro de outro </strong><code><strong>foreach</strong></code>.</p><pre id="3c7f6ce8-497f-8097-8751-e137fcc508c0" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">$alunos = [
+    [&quot;João&quot;, 8, 7],
+    [&quot;Maria&quot;, 9, 10],
+    [&quot;Pedro&quot;, 6, 8]
+];
+
+foreach ($alunos as $aluno) {
+    foreach ($aluno as $dado) {
+        echo $dado . &quot; &quot;;
+    }
+
+    echo &quot;&lt;br&gt;&quot;;
+}</code></pre><p id="3c7f6ce8-497f-8007-b248-e5e261322d6d" class="" dir="auto">Resultado:</p><pre id="3c7f6ce8-497f-80e0-929e-e1ab825f051f" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">João 8 7
+Maria 9 10
+Pedro 6 8</code></pre><p id="3c7f6ce8-497f-80b5-97a8-fb04759129ca" class="" dir="auto">O primeiro <code>foreach</code> percorre os alunos.</p><p id="3c7f6ce8-497f-80a0-b446-d700a9ba72f6" class="" dir="auto">O segundo <code>foreach</code> percorre os dados de cada aluno.</p><hr id="3c7f6ce8-497f-8028-9719-fa3f604eaa55" dir="auto"/><h1 id="3c7f6ce8-497f-80a1-b871-ec067e9b9183" class="" dir="auto">6. Arrays Multidimensionais Associativos</h1><p id="3c7f6ce8-497f-80bc-a7f4-e6c4c93f2d61" class="" dir="auto">Em aplicações reais, muitas vezes é melhor utilizar <strong>índices associativos</strong> em vez de depender de números.</p><p id="3c7f6ce8-497f-80f3-bd63-cefe3228ec07" class="" dir="auto">Por exemplo:</p><pre id="3c7f6ce8-497f-8042-b96d-d33990c23ee9" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">$alunos = [
+    [
+        &quot;nome&quot; =&gt; &quot;João&quot;,
+        &quot;idade&quot; =&gt; 20,
+        &quot;nota&quot; =&gt; 8
+    ],
+    [
+        &quot;nome&quot; =&gt; &quot;Maria&quot;,
+        &quot;idade&quot; =&gt; 21,
+        &quot;nota&quot; =&gt; 9
+    ]
+];</code></pre><p id="3c7f6ce8-497f-80eb-9fab-d3a32bb60ec5" class="" dir="auto">Agora podemos acessar os dados utilizando seus nomes:</p><pre id="3c7f6ce8-497f-802e-ae83-d4116123b8bd" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">echo $alunos[0][&quot;nome&quot;];</code></pre><p id="3c7f6ce8-497f-808c-9846-f572448b9154" class="" dir="auto">Resultado:</p><pre id="3c7f6ce8-497f-80f5-9824-efd6b8936a62" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">João</code></pre><p id="3c7f6ce8-497f-802b-b444-ee158e7d093d" class="" dir="auto">E:</p><pre id="3c7f6ce8-497f-806f-b00e-c312ec1a643e" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">echo $alunos[1][&quot;nota&quot;];</code></pre><p id="3c7f6ce8-497f-8056-a71c-c9250641a30d" class="" dir="auto">Resultado:</p><pre id="3c7f6ce8-497f-8093-a6e9-e4970f5723c5" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">9</code></pre><p id="3c7f6ce8-497f-801a-aa4f-d5dab9b6076c" class="" dir="auto">Essa abordagem costuma ser <strong>mais legível e organizada</strong>.</p><hr id="3c7f6ce8-497f-8025-9ec2-d0d8f6f282f5" dir="auto"/><h1 id="3c7f6ce8-497f-8037-8fa2-fb0c6143a4d0" class="" dir="auto">7. Percorrendo Arrays Associativos Multidimensionais</h1><p id="3c7f6ce8-497f-80e3-9e51-cf093a6b4a76" class="" dir="auto">Podemos utilizar dois <code>foreach</code>:</p><pre id="3c7f6ce8-497f-8078-8788-de9b6b729bcb" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">foreach ($alunos as $aluno) {
+    echo &quot;Nome: &quot; . $aluno[&quot;nome&quot;] . &quot;&lt;br&gt;&quot;;
+    echo &quot;Idade: &quot; . $aluno[&quot;idade&quot;] . &quot;&lt;br&gt;&quot;;
+    echo &quot;Nota: &quot; . $aluno[&quot;nota&quot;] . &quot;&lt;br&gt;&quot;;
+    echo &quot;&lt;br&gt;&quot;;
+}</code></pre><p id="3c7f6ce8-497f-80e3-bbbb-e5e3f05bfff4" class="" dir="auto">Resultado:</p><pre id="3c7f6ce8-497f-8087-a2b6-f963f4144818" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Nome: João
+Idade: 20
+Nota: 8
+
+Nome: Maria
+Idade: 21
+Nota: 9</code></pre><p id="3c7f6ce8-497f-8025-8275-fc81f41b023e" class="" dir="auto">Essa estrutura é muito comum em sistemas PHP.</p><hr id="3c7f6ce8-497f-8014-830a-fc9c8641d0e9" dir="auto"/><h1 id="3c7f6ce8-497f-8024-8d25-c6bb03ade21f" class="" dir="auto">8. Array com Três Dimensões</h1><p id="3c7f6ce8-497f-80cb-8602-fc6edd0d1d42" class="" dir="auto">PHP também permite criar arrays com três ou mais dimensões.</p><p id="3c7f6ce8-497f-80a1-aa1d-da66ab49f0ac" class="" dir="auto">Por exemplo:</p><pre id="3c7f6ce8-497f-80f7-9a52-e8cfb6e7452f" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">$escola = [
+    [
+        [&quot;João&quot;, 8],
+        [&quot;Maria&quot;, 9]
+    ],
+    [
+        [&quot;Pedro&quot;, 7],
+        [&quot;Ana&quot;, 10]
+    ]
+];</code></pre><p id="3c7f6ce8-497f-80cd-92f8-c67b4303a0d5" class="" dir="auto">Nesse caso, temos três níveis.</p><p id="3c7f6ce8-497f-8076-866a-d5ec0193cb4c" class="" dir="auto">Podemos acessar um valor assim:</p><pre id="3c7f6ce8-497f-80ae-bd56-f0e166632795" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">echo $escola[0][1][0];</code></pre><p id="3c7f6ce8-497f-803f-97dc-f4f88966d3dc" class="" dir="auto">Resultado:</p><pre id="3c7f6ce8-497f-80ed-be4f-ee5ad94bf05a" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Maria</code></pre><p id="3c7f6ce8-497f-80e3-886e-f9edf711ac9b" class="" dir="auto">A estrutura pode ser entendida como:</p><pre id="3c7f6ce8-497f-8069-a117-c699c20ee1eb" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Escola
+ ├── Grupo 0
+ │    ├── João
+ │    └── Maria
+ │
+ └── Grupo 1
+      ├── Pedro
+      └── Ana</code></pre><p id="3c7f6ce8-497f-808e-ab98-c061f9ac6523" class="" dir="auto">Embora seja possível ter muitas dimensões, <strong>arrays excessivamente profundos podem tornar o código difícil de entender e manter</strong>.</p><hr id="3c7f6ce8-497f-8026-b048-dc406b88e72c" dir="auto"/><h1 id="3c7f6ce8-497f-80d8-b20e-ebf604f8828a" class="" dir="auto">9. Exemplo Prático: Produtos</h1><p id="3c7f6ce8-497f-80bf-b324-d12909f132a9" class="" dir="auto">Um exemplo bastante comum é armazenar produtos:</p><pre id="3c7f6ce8-497f-8062-b94f-fb599cbff576" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">$produtos = [
+    [
+        &quot;nome&quot; =&gt; &quot;Notebook&quot;,
+        &quot;preco&quot; =&gt; 3500,
+        &quot;estoque&quot; =&gt; 10
+    ],
+    [
+        &quot;nome&quot; =&gt; &quot;Mouse&quot;,
+        &quot;preco&quot; =&gt; 80,
+        &quot;estoque&quot; =&gt; 25
+    ],
+    [
+        &quot;nome&quot; =&gt; &quot;Teclado&quot;,
+        &quot;preco&quot; =&gt; 150,
+        &quot;estoque&quot; =&gt; 15
+    ]
+];</code></pre><p id="3c7f6ce8-497f-80ba-9cca-d4479dd7e4f3" class="" dir="auto">Podemos percorrer os produtos:</p><pre id="3c7f6ce8-497f-80ae-be39-d8502d2d319c" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">foreach ($produtos as $produto) {
+    echo &quot;Produto: &quot; . $produto[&quot;nome&quot;] . &quot;&lt;br&gt;&quot;;
+    echo &quot;Preço: R$ &quot; . $produto[&quot;preco&quot;] . &quot;&lt;br&gt;&quot;;
+    echo &quot;Estoque: &quot; . $produto[&quot;estoque&quot;] . &quot;&lt;br&gt;&quot;;
+    echo &quot;&lt;hr&gt;&quot;;
+}</code></pre><p id="3c7f6ce8-497f-8067-be46-eb7a94c8f06d" class="" dir="auto">Esse tipo de estrutura pode ser utilizado para representar informações que posteriormente vêm de um <strong>banco de dados</strong>, por exemplo.</p><hr id="3c7f6ce8-497f-8068-91ac-ce2be7012d68" dir="auto"/><h1 id="3c7f6ce8-497f-8080-bd0c-f776961e2de6" class="" dir="auto">10. Array Multidimensional e Banco de Dados</h1><p id="3c7f6ce8-497f-8035-bf2f-f8211caa124d" class="" dir="auto">Arrays multidimensionais são bastante utilizados no desenvolvimento PHP porque dados retornados de bancos de dados frequentemente podem ser representados dessa maneira.</p><p id="3c7f6ce8-497f-80fb-bbf0-c38a57af8705" class="" dir="auto">Imagine que uma consulta retorne:</p><pre id="3c7f6ce8-497f-80db-a035-e3505bb83afd" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">ID | Nome   | Email
+1  | João   | joao@email.com
+2  | Maria  | maria@email.com
+3  | Pedro  | pedro@email.com</code></pre><p id="3c7f6ce8-497f-802a-ace6-e009dc8e1503" class="" dir="auto">Isso poderia ser representado em PHP como:</p><pre id="3c7f6ce8-497f-800d-9672-d43974543b82" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">$usuarios = [
+    [
+        &quot;id&quot; =&gt; 1,
+        &quot;nome&quot; =&gt; &quot;João&quot;,
+        &quot;email&quot; =&gt; &quot;joao@email.com&quot;
+    ],
+    [
+        &quot;id&quot; =&gt; 2,
+        &quot;nome&quot; =&gt; &quot;Maria&quot;,
+        &quot;email&quot; =&gt; &quot;maria@email.com&quot;
+    ],
+    [
+        &quot;id&quot; =&gt; 3,
+        &quot;nome&quot; =&gt; &quot;Pedro&quot;,
+        &quot;email&quot; =&gt; &quot;pedro@email.com&quot;
+    ]
+];</code></pre><p id="3c7f6ce8-497f-80b6-b1e0-e845aac9ade3" class="" dir="auto">E então:</p><pre id="3c7f6ce8-497f-807e-a4c2-f56dfa309aeb" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">foreach ($usuarios as $usuario) {
+    echo $usuario[&quot;nome&quot;] . &quot; - &quot;;
+    echo $usuario[&quot;email&quot;] . &quot;&lt;br&gt;&quot;;
+}</code></pre><p id="3c7f6ce8-497f-8078-a0fb-ccd664aeb674" class="" dir="auto">Resultado:</p><pre id="3c7f6ce8-497f-80ac-8fd2-e0767bbd956b" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">João - joao@email.com
+Maria - maria@email.com
+Pedro - pedro@email.com</code></pre><hr id="3c7f6ce8-497f-80df-a557-ff5efea14172" dir="auto"/><h2 id="3c7f6ce8-497f-80ce-96c4-d12e0b32e510" class="" dir="auto">11. Principais Características</h2><p id="3c7f6ce8-497f-80fd-9af9-f989105385eb" class="" dir="auto">Os arrays multidimensionais permitem:</p><ul id="3c7f6ce8-497f-80b0-9208-d6bcbd3ec7ce" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Armazenar <strong>arrays dentro de arrays</strong>;</li></ul><ul id="3c7f6ce8-497f-8088-9e4f-f8d34a5dcd9a" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Representar tabelas e estruturas complexas;</li></ul><ul id="3c7f6ce8-497f-8092-951a-e6c321883721" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Organizar informações relacionadas;</li></ul><ul id="3c7f6ce8-497f-802e-96cb-d5963987698b" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Trabalhar com vários registros;</li></ul><ul id="3c7f6ce8-497f-80f7-8e56-c8b517609c39" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Utilizar índices numéricos ou associativos;</li></ul><ul id="3c7f6ce8-497f-806e-a4e4-cd8277da414b" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Percorrer dados utilizando <code>foreach</code>;</li></ul><ul id="3c7f6ce8-497f-802c-be02-dc08bffd128c" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Representar estruturas semelhantes às informações retornadas por bancos de dados e APIs.</li></ul><h3 id="3c7f6ce8-497f-80d3-9a16-ddc40ad8839e" class="" dir="auto">Resumo</h3><p id="3c7f6ce8-497f-80c9-a305-ecbe5402e10e" class="" dir="auto">Um array multidimensional possui a seguinte ideia básica:</p><pre id="3c7f6ce8-497f-8068-9aed-c463e26f7a13" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">$array = [
+    [&quot;valor1&quot;, &quot;valor2&quot;],
+    [&quot;valor3&quot;, &quot;valor4&quot;]
+];</code></pre><p id="3c7f6ce8-497f-809f-82e7-d506251c69e8" class="" dir="auto">Para acessar:</p><pre id="3c7f6ce8-497f-805a-84df-cc03d5a855fb" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">$array[0][1];</code></pre><p id="3c7f6ce8-497f-8037-b860-cc653360e84b" class="" dir="auto">Para percorrer:</p><pre id="3c7f6ce8-497f-805d-b8c3-c1ebf120d968" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">foreach ($array as $linha) {
+    foreach ($linha as $valor) {
+        echo $valor;
+    }
+}</code></pre><p id="3c7f6ce8-497f-8092-80de-fe5f4bdcc032" class="" dir="auto">E uma estrutura associativa, geralmente mais prática em aplicações:</p><pre id="3c7f6ce8-497f-80ae-b223-fade41ff0e34" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">$usuarios = [
+    [
+        &quot;nome&quot; =&gt; &quot;João&quot;,
+        &quot;idade&quot; =&gt; 20
+    ],
+    [
+        &quot;nome&quot; =&gt; &quot;Maria&quot;,
+        &quot;idade&quot; =&gt; 21
+    ]
+];</code></pre><p id="3c7f6ce8-497f-80dc-8cd6-cc758b034dc6" class="" dir="auto"><strong>Em resumo:</strong> o array multidimensional é fundamental quando precisamos trabalhar com <strong>conjuntos de dados organizados em vários níveis</strong>, sendo muito utilizado em sistemas PHP, especialmente em conjunto com <strong>bancos de dados, APIs, formulários e sistemas de gerenciamento de informações</strong>.</p></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

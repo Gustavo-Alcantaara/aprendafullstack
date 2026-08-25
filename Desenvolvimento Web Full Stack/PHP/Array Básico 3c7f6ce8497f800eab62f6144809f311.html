@@ -1,0 +1,872 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Array Básico</title><meta name="data-notion-page-icon" content="/icons/elephant_purple.svg"/><link rel="icon" href="https://app.notion.com/icons/elephant_purple.svg"/><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+/* For default-background callouts, render the border outline. */
+.callout.block-color-default_background {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+/*
+ * Toggles and callouts hold arbitrary content, so they can easily be taller
+ * than a page. They must stay breakable: avoiding breaks inside them makes
+ * Chromium push the whole block onto the next page, which leaves the previous
+ * page mostly empty before every long toggle.
+ */
+details,
+aside {
+	margin: 1.25em 0;
+}
+
+/* Keep a toggle's title on the same page as the start of its content. */
+summary {
+	page-break-after: avoid;
+	break-after: avoid;
+}
+
+/*
+ * Toggle headings render as <h1/h2/h3 style="display:inline-block"> inside
+ * <summary>. Without this reset, the heading's margin-top pushes it below the
+ * ::marker (▼), so the triangle and the title appear on separate lines.
+ */
+summary h1,
+summary h2,
+summary h3,
+summary h4 {
+	margin-top: 0;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding-inline: 0.125rem;
+	padding-block: 0.375rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+/*
+ * Render emoji icons using a ::before pseudo-element to keep the glyph
+ * out of the DOM textContent traversal. This avoids double-rendering icons
+ * in callouts and page titles.
+ * NOTE(slim/html-export-pseudo-icons): I can't tagref this because it will
+ * flag as a duplicate tag after codegen.
+ */
+.icon[data-emoji]::before {
+	content: attr(data-emoji);
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	margin-right: 0.4em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.tab {
+	margin: 1.25em 0;
+	padding-inline: 1rem;
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style><style>@import url('https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex-swap.min.css')</style></head><body><article id="3c7f6ce8-497f-800e-ab62-f6144809f311" class="page sans" data-notion-page-icon="/icons/elephant_purple.svg"><header><div class="page-header-icon undefined"><img class="icon notion-static-icon" src="https://app.notion.com/icons/elephant_purple.svg"/></div><h1 class="page-title" dir="auto">Array Básico</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><h1 id="3c7f6ce8-497f-80f8-bd5a-d8040e223263" class="" dir="auto">Array Básico em PHP</h1><p id="3c7f6ce8-497f-802a-9b1e-df44880cb86e" class="" dir="auto">Um <strong>array</strong> é uma estrutura de dados utilizada para <strong>armazenar vários valores dentro de uma única variável</strong>. Em PHP, arrays são muito importantes porque permitem trabalhar facilmente com listas de informações, como nomes, produtos, notas, usuários, preços etc.</p><p id="3c7f6ce8-497f-8089-b405-ce368e5f50a1" class="" dir="auto">Por exemplo, em vez de criar várias variáveis:</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markup-templating.min.js" integrity="sha512-+8BiRfWso6waiFDv6tEmWF8yfPGgxAtOYLDUB0rRISLwtpxkJ9lpPNUhxwWlikn3qSO+4RQyzDppi62o3ON/AA==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-php.min.js" integrity="sha512-plzrTi61ltEMFf84gTVO9IkvIMfBu07bnDuahvdlIclmFWzXJ9VcRsny9d45sxFZRv3jJg/MHNyuxnUYEMxMEg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="3c7f6ce8-497f-809f-8f29-cb3c13a4c3d6" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">$nome1 = &quot;João&quot;;
+$nome2 = &quot;Maria&quot;;
+$nome3 = &quot;Pedro&quot;;</code></pre><p id="3c7f6ce8-497f-80a7-aa37-c11ef45e33e2" class="" dir="auto">podemos armazenar todos os nomes em um único array:</p><pre id="3c7f6ce8-497f-805b-b0c6-c4313e4718da" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">$nomes = [&quot;João&quot;, &quot;Maria&quot;, &quot;Pedro&quot;];</code></pre><hr id="3c7f6ce8-497f-809c-83f5-efc353eb92a2" dir="auto"/><h2 id="3c7f6ce8-497f-8052-94c8-ce3d0b35d61a" class="" dir="auto">1. Criando um Array</h2><p id="3c7f6ce8-497f-80c5-98ca-d1809e175355" class="" dir="auto">A forma mais comum de criar um array em PHP é utilizando colchetes <code>[]</code>:</p><pre id="3c7f6ce8-497f-807b-a209-de15e27f7daf" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">$frutas = [&quot;Maçã&quot;, &quot;Banana&quot;, &quot;Laranja&quot;];</code></pre><p id="3c7f6ce8-497f-80e8-958f-e6228b0ba066" class="" dir="auto">Também é possível utilizar a função <code>array()</code>:</p><pre id="3c7f6ce8-497f-80e5-815c-f30830e461be" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">$frutas = array(&quot;Maçã&quot;, &quot;Banana&quot;, &quot;Laranja&quot;);</code></pre><p id="3c7f6ce8-497f-80a2-9c92-cebb583c091c" class="" dir="auto">Porém, a sintaxe com <code>[]</code> é mais moderna e geralmente preferida.</p><hr id="3c7f6ce8-497f-80bc-8849-cd573351e274" dir="auto"/><h2 id="3c7f6ce8-497f-8056-864b-dfc7dce7afbd" class="" dir="auto">2. Índices do Array</h2><p id="3c7f6ce8-497f-809b-a555-df72e7acd6c3" class="" dir="auto">Quando criamos um array simples, o PHP atribui automaticamente um <strong>índice numérico</strong> para cada elemento.</p><pre id="3c7f6ce8-497f-8056-9c16-fea93277df4b" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">$frutas = [&quot;Maçã&quot;, &quot;Banana&quot;, &quot;Laranja&quot;];</code></pre><p id="3c7f6ce8-497f-8029-a496-f784ec2ac90c" class="" dir="auto">Os índices serão:</p><table id="3c7f6ce8-497f-80de-97d6-cc2802830dbc" class="simple-table" dir="ltr"><thead class="simple-table-header"><tr id="3c7f6ce8-497f-802f-9ee3-ef47917adfd6" dir="ltr"><th id="?dTa" class="simple-table-header-color simple-table-header">Índice</th><th id=":}kH" class="simple-table-header-color simple-table-header">Valor</th></tr></thead><tbody><tr id="3c7f6ce8-497f-8033-a758-fb1837690417" dir="ltr"><td id="?dTa" class="">0</td><td id=":}kH" class="">Maçã</td></tr><tr id="3c7f6ce8-497f-804b-a95b-d7a39c1882d8" dir="ltr"><td id="?dTa" class="">1</td><td id=":}kH" class="">Banana</td></tr><tr id="3c7f6ce8-497f-80f1-af52-fa497da7ee0a" dir="ltr"><td id="?dTa" class="">2</td><td id=":}kH" class="">Laranja</td></tr></tbody></table><p id="3c7f6ce8-497f-80c9-89d5-ed4367d86db7" class="" dir="auto"><strong>Atenção:</strong> em PHP, o primeiro índice normalmente é <code>0</code>, e não <code>1</code>.</p><p id="3c7f6ce8-497f-80e2-a3dd-dafbfe664888" class="" dir="auto">Para acessar um elemento, utilizamos o índice:</p><pre id="3c7f6ce8-497f-80e2-884a-c1233790eced" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">echo $frutas[0];</code></pre><p id="3c7f6ce8-497f-80ea-9894-d4e8a6f88f7e" class="" dir="auto">Resultado:</p><pre id="3c7f6ce8-497f-802b-ade0-c55230a72423" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Maçã</code></pre><p id="3c7f6ce8-497f-8006-a6fc-fb742c7548b0" class="" dir="auto">Outro exemplo:</p><pre id="3c7f6ce8-497f-80f2-9481-d2777b855d90" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">echo $frutas[2];</code></pre><p id="3c7f6ce8-497f-8093-acdb-f04e48fe0ae2" class="" dir="auto">Resultado:</p><pre id="3c7f6ce8-497f-80fa-8340-f06ca46f4551" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Laranja</code></pre><hr id="3c7f6ce8-497f-8033-9b8f-d6844e12e3f7" dir="auto"/><h2 id="3c7f6ce8-497f-8027-88e4-f544f27b25b8" class="" dir="auto">3. Alterando um Elemento</h2><p id="3c7f6ce8-497f-80dc-b699-c00623dc5218" class="" dir="auto">Podemos modificar um valor através do seu índice:</p><pre id="3c7f6ce8-497f-80a2-a5ef-e45f810d63e9" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">$frutas = [&quot;Maçã&quot;, &quot;Banana&quot;, &quot;Laranja&quot;];
+
+$frutas[1] = &quot;Uva&quot;;
+
+print_r($frutas);</code></pre><p id="3c7f6ce8-497f-8057-99ba-fbc5117b8c60" class="" dir="auto">Resultado:</p><pre id="3c7f6ce8-497f-8052-9433-c4064e831194" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Array
+(
+    [0] =&gt; Maçã
+    [1] =&gt; Uva
+    [2] =&gt; Laranja
+)</code></pre><hr id="3c7f6ce8-497f-808f-8b9e-eef46f75822b" dir="auto"/><h2 id="3c7f6ce8-497f-80cc-9339-ed2c91add504" class="" dir="auto">4. Adicionando Elementos</h2><p id="3c7f6ce8-497f-80e4-b665-e5ee3ad5e249" class="" dir="auto">Para adicionar um elemento ao final do array, podemos utilizar <code>[]</code>:</p><pre id="3c7f6ce8-497f-804d-a47e-e50438276a5c" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">$frutas = [&quot;Maçã&quot;, &quot;Banana&quot;];
+
+$frutas[] = &quot;Laranja&quot;;</code></pre><p id="3c7f6ce8-497f-8064-9e92-f3ba902be981" class="" dir="auto">Agora o array contém:</p><pre id="3c7f6ce8-497f-806b-b23f-f0c30bf01948" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Maçã
+Banana
+Laranja</code></pre><p id="3c7f6ce8-497f-806e-8b01-facde15397e7" class="" dir="auto">Também podemos adicionar vários elementos usando <code>array_push()</code>:</p><pre id="3c7f6ce8-497f-805c-affb-e16c97e9f6e6" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">$frutas = [&quot;Maçã&quot;, &quot;Banana&quot;];
+
+array_push($frutas, &quot;Laranja&quot;, &quot;Uva&quot;);</code></pre><p id="3c7f6ce8-497f-802b-8bc8-cc539e4fff12" class="" dir="auto">Entretanto, para simplesmente adicionar elementos ao final, <code>$frutas[] = ...</code> costuma ser mais simples e direto.</p><hr id="3c7f6ce8-497f-8028-874d-ca0cadb03a65" dir="auto"/><h2 id="3c7f6ce8-497f-80da-ac0b-c75ce67835a4" class="" dir="auto">5. Removendo Elementos</h2><p id="3c7f6ce8-497f-80e3-97a9-ed8889bc759c" class="" dir="auto">Podemos utilizar <code>unset()</code> para remover um elemento específico:</p><pre id="3c7f6ce8-497f-80f5-a90d-c81aa4c72009" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">$frutas = [&quot;Maçã&quot;, &quot;Banana&quot;, &quot;Laranja&quot;];
+
+unset($frutas[1]);</code></pre><p id="3c7f6ce8-497f-80b5-bdda-ce496992e272" class="" dir="auto">O resultado será aproximadamente:</p><pre id="3c7f6ce8-497f-80be-9d3c-f1e78bb71551" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">[0] =&gt; Maçã
+[2] =&gt; Laranja</code></pre><p id="3c7f6ce8-497f-80d1-a60a-fb456bb90d1a" class="" dir="auto">Observe que o índice <code>1</code> não é automaticamente reorganizado.</p><p id="3c7f6ce8-497f-8080-a913-e8b66bd96429" class="" dir="auto">Se for necessário reorganizar os índices:</p><pre id="3c7f6ce8-497f-8036-a53c-c2caf37e4eb3" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">$frutas = array_values($frutas);</code></pre><hr id="3c7f6ce8-497f-80a7-a3c4-c670e9c1300e" dir="auto"/><h2 id="3c7f6ce8-497f-800b-8c13-fe3c2bd69573" class="" dir="auto">6. Descobrindo o Tamanho do Array</h2><p id="3c7f6ce8-497f-80b6-b35a-e4c7cda12dd2" class="" dir="auto">A função <code>count()</code> retorna a quantidade de elementos:</p><pre id="3c7f6ce8-497f-8012-94bd-ece1e038ee31" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">$frutas = [&quot;Maçã&quot;, &quot;Banana&quot;, &quot;Laranja&quot;];
+
+echo count($frutas);</code></pre><p id="3c7f6ce8-497f-8020-b68c-cff52b4ddeb2" class="" dir="auto">Resultado:</p><pre id="3c7f6ce8-497f-80a0-99e6-d346f7f90fdf" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">3</code></pre><p id="3c7f6ce8-497f-8095-a33a-f32df1cf6c45" class="" dir="auto">Isso é muito útil principalmente quando trabalhamos com estruturas de repetição.</p><hr id="3c7f6ce8-497f-80bb-976b-d06469309e14" dir="auto"/><h2 id="3c7f6ce8-497f-8060-a4b4-dfb489917bd9" class="" dir="auto">7. Percorrendo um Array</h2><p id="3c7f6ce8-497f-8058-92c9-c98b276df19f" class="" dir="auto">Uma das principais utilidades dos arrays é poder percorrer todos os seus elementos.</p><p id="3c7f6ce8-497f-80ae-a661-f84318175fe3" class="" dir="auto">Para isso, podemos utilizar o <code>foreach</code>:</p><pre id="3c7f6ce8-497f-805b-aba6-fd0f69ac98bd" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">$frutas = [&quot;Maçã&quot;, &quot;Banana&quot;, &quot;Laranja&quot;];
+
+foreach ($frutas as $fruta) {
+    echo $fruta . &quot;&lt;br&gt;&quot;;
+}</code></pre><p id="3c7f6ce8-497f-8060-9594-c9b5627382c3" class="" dir="auto">Resultado:</p><pre id="3c7f6ce8-497f-801e-9ecf-f50a1f8041b9" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Maçã
+Banana
+Laranja</code></pre><p id="3c7f6ce8-497f-809b-a507-f0f6a2278165" class="" dir="auto">O <code>foreach</code> pega cada elemento do array e coloca temporariamente na variável <code>$fruta</code>.</p><p id="3c7f6ce8-497f-80ad-a943-eb210e9a2f30" class="" dir="auto">Também podemos acessar o índice:</p><pre id="3c7f6ce8-497f-80ae-9532-cdf66e70103b" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">foreach ($frutas as $indice =&gt; $fruta) {
+    echo $indice . &quot; - &quot; . $fruta . &quot;&lt;br&gt;&quot;;
+}</code></pre><p id="3c7f6ce8-497f-80d7-9110-f001d275c124" class="" dir="auto">Resultado:</p><pre id="3c7f6ce8-497f-807b-99a6-f2e43dfcaec9" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">0 - Maçã
+1 - Banana
+2 - Laranja</code></pre><hr id="3c7f6ce8-497f-8032-a1af-d3034ae5f5dc" dir="auto"/><h2 id="3c7f6ce8-497f-800a-911b-cb7ec975e8b0" class="" dir="auto">8. Arrays com Diferentes Tipos de Dados</h2><p id="3c7f6ce8-497f-8008-be75-cd4eaf9db7bd" class="" dir="auto">PHP permite que um array contenha valores de tipos diferentes:</p><pre id="3c7f6ce8-497f-8015-be72-d3b42498156e" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">$dados = [
+    &quot;Gustavo&quot;,
+    20,
+    1.75,
+    true
+];</code></pre><p id="3c7f6ce8-497f-80a8-8363-eba53ef1ba6e" class="" dir="auto">Nesse exemplo temos:</p><ul id="3c7f6ce8-497f-801d-966b-d8c40a600f46" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><code>&quot;Gustavo&quot;</code> → string</li></ul><ul id="3c7f6ce8-497f-809a-9f97-fcc75ff85d9d" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><code>20</code> → inteiro</li></ul><ul id="3c7f6ce8-497f-80f5-b2ff-ed22260536ab" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><code>1.75</code> → float</li></ul><ul id="3c7f6ce8-497f-80d4-b2b9-d1b7f42db0b3" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><code>true</code> → booleano</li></ul><p id="3c7f6ce8-497f-807e-89af-cba89e9bd953" class="" dir="auto">Embora seja possível, em aplicações reais é importante manter uma organização coerente dos dados.</p><hr id="3c7f6ce8-497f-8040-bec9-cf530fdc6c87" dir="auto"/><h2 id="3c7f6ce8-497f-808f-baa5-fc4e7b9ba3a2" class="" dir="auto">9. Verificando se um Elemento Existe</h2><p id="3c7f6ce8-497f-803a-9f00-c2c74089f40a" class="" dir="auto">A função <code>in_array()</code> verifica se determinado valor está presente no array:</p><pre id="3c7f6ce8-497f-80b1-822c-eda19fd0d070" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">$frutas = [&quot;Maçã&quot;, &quot;Banana&quot;, &quot;Laranja&quot;];
+
+if (in_array(&quot;Banana&quot;, $frutas)) {
+    echo &quot;Banana encontrada!&quot;;
+}</code></pre><p id="3c7f6ce8-497f-806e-8caa-faa4294ac895" class="" dir="auto">Resultado:</p><pre id="3c7f6ce8-497f-8010-8a80-c09530bc73b2" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Banana encontrada!</code></pre><p id="3c7f6ce8-497f-806d-a809-da39fb7ddf96" class="" dir="auto">Isso é bastante utilizado quando precisamos verificar se determinado item está cadastrado ou disponível.</p><hr id="3c7f6ce8-497f-800f-9bc9-ee539a573475" dir="auto"/><h2 id="3c7f6ce8-497f-80d7-a403-f7741cbac557" class="" dir="auto">10. Exibindo um Array</h2><p id="3c7f6ce8-497f-80a8-a1df-c889a22f5462" class="" dir="auto">Utilizar:</p><pre id="3c7f6ce8-497f-80e9-8eff-c42e2d36c94c" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">echo $frutas;</code></pre><p id="3c7f6ce8-497f-8080-96ff-de939fb620ed" class="" dir="auto">não é a maneira adequada de visualizar o conteúdo completo de um array.</p><p id="3c7f6ce8-497f-8022-84b2-fb06430ac098" class="" dir="auto">Para fins de teste e desenvolvimento, podemos utilizar:</p><pre id="3c7f6ce8-497f-80ca-b70d-cd56787ccb6b" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">print_r($frutas);</code></pre><p id="3c7f6ce8-497f-808c-9cb5-e27bcbf6b683" class="" dir="auto">ou:</p><pre id="3c7f6ce8-497f-8072-b036-c492f1371533" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">var_dump($frutas);</code></pre><p id="3c7f6ce8-497f-8098-8fa6-e19802b9f292" class="" dir="auto"><code>var_dump()</code> fornece informações mais detalhadas, incluindo os tipos dos valores.</p><p id="3c7f6ce8-497f-8071-8d4c-c12cea946f52" class="" dir="auto">Exemplo:</p><pre id="3c7f6ce8-497f-800b-8f63-d74595cb6235" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">$frutas = [&quot;Maçã&quot;, &quot;Banana&quot;];
+
+var_dump($frutas);</code></pre><hr id="3c7f6ce8-497f-8081-9a50-e65f5c34743b" dir="auto"/><h2 id="3c7f6ce8-497f-80f1-9fc3-daabcb42c88a" class="" dir="auto">11. Exemplo Prático</h2><p id="3c7f6ce8-497f-8097-bf99-e331378c724c" class="" dir="auto">Imagine um sistema que precisa armazenar as notas de um aluno:</p><pre id="3c7f6ce8-497f-802a-9d78-ea5e2e386606" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">$notas = [8, 7.5, 9, 6];
+
+$soma = 0;
+
+foreach ($notas as $nota) {
+    $soma += $nota;
+}
+
+$media = $soma / count($notas);
+
+echo &quot;Média: &quot; . $media;</code></pre><p id="3c7f6ce8-497f-807f-81d4-c5273fe706da" class="" dir="auto">Nesse exemplo, o array armazena várias notas e o <code>foreach</code> permite percorrer cada uma delas para calcular a média.</p><hr id="3c7f6ce8-497f-80fa-8166-ffb7f38f6602" dir="auto"/><h2 id="3c7f6ce8-497f-805b-a09f-fd0f5835e4c8" class="" dir="auto">12. Principais Operações</h2><p id="3c7f6ce8-497f-8035-a61b-fb7a2cce7178" class="" dir="auto">As operações básicas que você deve conhecer são:</p><pre id="3c7f6ce8-497f-800a-b335-f181d1858228" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">$nomes = [&quot;João&quot;, &quot;Maria&quot;, &quot;Pedro&quot;];
+
+// Acessar
+echo $nomes[0];
+
+// Alterar
+$nomes[1] = &quot;Ana&quot;;
+
+// Adicionar
+$nomes[] = &quot;Carlos&quot;;
+
+// Quantidade
+echo count($nomes);
+
+// Verificar existência
+if (in_array(&quot;Pedro&quot;, $nomes)) {
+    echo &quot;Encontrado&quot;;
+}
+
+// Percorrer
+foreach ($nomes as $nome) {
+    echo $nome;
+}
+
+// Remover
+unset($nomes[0]);</code></pre><h3 id="3c7f6ce8-497f-8091-92fd-f35bb322f71b" class="" dir="auto">Resumindo</h3><p id="3c7f6ce8-497f-8002-aa6e-eb428c0b3164" class="" dir="auto">O <strong>array básico em PHP</strong> permite armazenar e manipular vários valores em uma única variável. Os principais conceitos são:</p><ul id="3c7f6ce8-497f-8094-9c50-c3da16e0dbf7" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><code>[]</code> → cria um array;</li></ul><ul id="3c7f6ce8-497f-8009-a012-f00dec97ed6e" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><code>[0]</code>, <code>[1]</code>, <code>[2]</code> → acessam os elementos pelos índices;</li></ul><ul id="3c7f6ce8-497f-801e-8d37-e5737399b58f" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><code>$array[] = valor</code> → adiciona um elemento;</li></ul><ul id="3c7f6ce8-497f-8008-9ae4-cc962759267a" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><code>$array[indice] = valor</code> → altera um elemento;</li></ul><ul id="3c7f6ce8-497f-80a7-9cf9-e7b8f600a537" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><code>unset()</code> → remove um elemento;</li></ul><ul id="3c7f6ce8-497f-8016-a741-d6cfd5beeb88" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><code>count()</code> → conta os elementos;</li></ul><ul id="3c7f6ce8-497f-8068-99be-d9fd6466fb83" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><code>foreach</code> → percorre o array;</li></ul><ul id="3c7f6ce8-497f-801c-8808-e4f2ec87d6cb" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><code>in_array()</code> → verifica se um valor existe;</li></ul><ul id="3c7f6ce8-497f-8009-bce8-ecf52423fda2" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><code>print_r()</code> e <code>var_dump()</code> → ajudam a visualizar o conteúdo.</li></ul><p id="3c7f6ce8-497f-80d9-ac8f-efa10680ec97" class="" dir="auto"><strong>Esse é o fundamento para entender os próximos tipos de arrays em PHP</strong>, principalmente os <strong>arrays associativos e multidimensionais</strong>.</p></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>
