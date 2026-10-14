@@ -1,0 +1,877 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Modelagem de E.R</title><meta name="data-notion-page-icon" content="/icons/elephant_blue.svg"/><link rel="icon" href="https://app.notion.com/icons/elephant_blue.svg"/><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+	/* Paint a complete callout box on every PDF page fragment. */
+	-webkit-box-decoration-break: clone;
+	box-decoration-break: clone;
+}
+
+/* For default-background callouts, render the border outline. */
+.callout.block-color-default_background {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+/*
+ * Toggles and callouts hold arbitrary content, so they can easily be taller
+ * than a page. They must stay breakable: avoiding breaks inside them makes
+ * Chromium push the whole block onto the next page, which leaves the previous
+ * page mostly empty before every long toggle.
+ */
+details,
+aside {
+	margin: 1.25em 0;
+}
+
+/* Keep a toggle's title on the same page as the start of its content. */
+summary {
+	page-break-after: avoid;
+	break-after: avoid;
+}
+
+/*
+ * Toggle headings render as <h1/h2/h3 style="display:inline-block"> inside
+ * <summary>. Without this reset, the heading's margin-top pushes it below the
+ * ::marker (▼), so the triangle and the title appear on separate lines.
+ */
+summary h1,
+summary h2,
+summary h3,
+summary h4 {
+	margin-top: 0;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding-inline: 0.125rem;
+	padding-block: 0.375rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+/*
+ * Render emoji icons using a ::before pseudo-element to keep the glyph
+ * out of the DOM textContent traversal. This avoids double-rendering icons
+ * in callouts and page titles.
+ * NOTE(slim/html-export-pseudo-icons): I can't tagref this because it will
+ * flag as a duplicate tag after codegen.
+ */
+.icon[data-emoji]::before {
+	content: attr(data-emoji);
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	margin-right: 0.4em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.tab {
+	margin: 1.25em 0;
+	padding-inline: 1rem;
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style><style>@import url('https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex-swap.min.css')</style></head><body><article id="3e5f6ce8-497f-802f-a357-f7279e96ed66" class="page sans" data-notion-page-icon="/icons/elephant_blue.svg"><header><div class="page-header-icon undefined"><img class="icon notion-static-icon" src="https://app.notion.com/icons/elephant_blue.svg"/></div><h1 class="page-title" dir="auto">Modelagem de E.R</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><h1 id="3e5f6ce8-497f-8066-b155-eb3211e522dd" class="" dir="auto">Modelagem de Entidades e Relacionamentos</h1><p id="3e5f6ce8-497f-80d0-a5d3-daf91d660cc3" class="" dir="auto">A <strong>Modelagem de Entidades e Relacionamentos</strong> é uma técnica utilizada para representar, de forma organizada, <strong>quais dados um sistema precisa armazenar e como esses dados se relacionam</strong>.</p><p id="3e5f6ce8-497f-80cf-9e69-fcaddec1667a" class="" dir="auto">Ela é uma etapa fundamental do projeto de um banco de dados e normalmente está associada ao <strong>Modelo Entidade-Relacionamento (MER)</strong> e ao <strong>Diagrama Entidade-Relacionamento (DER)</strong>.</p><p id="3e5f6ce8-497f-80e5-be01-dbce15d494ca" class="" dir="auto">A ideia principal é transformar os requisitos de um sistema em uma estrutura que possa posteriormente ser implementada em um SGBD, como PostgreSQL ou MySQL.</p><hr id="3e5f6ce8-497f-8044-a1de-e4d4c29d73c5" dir="auto"/><h2 id="3e5f6ce8-497f-800a-adfb-e5f1948b9685" class="" dir="auto">1. O que é uma entidade?</h2><p id="3e5f6ce8-497f-8065-831a-d92b6ec0fbff" class="" dir="auto">Uma <strong>entidade</strong> representa algo sobre o qual o sistema precisa armazenar informações.</p><p id="3e5f6ce8-497f-80c7-aa85-e4344b06a682" class="" dir="auto">Por exemplo, em um sistema de uma loja podemos ter:</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="3e5f6ce8-497f-8094-9fd0-f056ed5d1545" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">CLIENTE
+PRODUTO
+PEDIDO
+FUNCIONÁRIO</code></pre><p id="3e5f6ce8-497f-80f5-a94a-d8ff8abc6714" class="" dir="auto">Cada uma dessas entidades representa um tipo de objeto ou conceito do sistema.</p><p id="3e5f6ce8-497f-8006-a80a-c3f92ca1ff86" class="" dir="auto">Por exemplo:</p><pre id="3e5f6ce8-497f-80d8-8f31-f358412ccf7e" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">CLIENTE
+├── id_cliente
+├── nome
+├── cpf
+├── email
+└── telefone</code></pre><hr id="3e5f6ce8-497f-8064-9c9c-db11740dae30" dir="auto"/><h2 id="3e5f6ce8-497f-8060-b662-cf77a086db57" class="" dir="auto">2. O que é um atributo?</h2><p id="3e5f6ce8-497f-8009-95ea-d50bacbb9581" class="" dir="auto">Um <strong>atributo</strong> representa uma característica de uma entidade.</p><p id="3e5f6ce8-497f-802e-9f3b-eeecf6cd91b3" class="" dir="auto">Por exemplo:</p><pre id="3e5f6ce8-497f-80ac-a17a-f28a22837090" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">CLIENTE
+├── id_cliente
+├── nome
+├── email
+└── telefone</code></pre><p id="3e5f6ce8-497f-8072-94e1-f2553f49662f" class="" dir="auto">Aqui, <code>nome</code>, <code>email</code> e <code>telefone</code> são atributos de <code>CLIENTE</code>.</p><p id="3e5f6ce8-497f-80c9-963d-c9b5754ce231" class="" dir="auto">O <code>id_cliente</code> normalmente funciona como <strong>identificador</strong>, permitindo distinguir um cliente dos demais.</p><hr id="3e5f6ce8-497f-8049-96b0-e18d6894cca8" dir="auto"/><h2 id="3e5f6ce8-497f-8039-8c87-e07fcda9454a" class="" dir="auto">3. O que é um relacionamento?</h2><p id="3e5f6ce8-497f-8033-a5a1-fb1f943eebe8" class="" dir="auto">Um <strong>relacionamento</strong> representa uma associação entre duas ou mais entidades.</p><p id="3e5f6ce8-497f-8095-b19a-dbb1ab722b8e" class="" dir="auto">Por exemplo:</p><pre id="3e5f6ce8-497f-8021-9979-f60327e1ef75" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">CLIENTE ─── realiza ─── PEDIDO</code></pre><p id="3e5f6ce8-497f-8098-a485-df1befd7c86e" class="" dir="auto">Isso significa que um cliente realiza pedidos.</p><p id="3e5f6ce8-497f-80d4-9302-c6cb8fd77f14" class="" dir="auto">Outro exemplo:</p><pre id="3e5f6ce8-497f-80c0-943a-fb87e59738ea" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">PEDIDO ─── contém ─── PRODUTO</code></pre><hr id="3e5f6ce8-497f-8069-a3df-cb3aa38eec43" dir="auto"/><h1 id="3e5f6ce8-497f-8053-941f-e0a205bb6994" class="" dir="auto">4. Cardinalidade</h1><p id="3e5f6ce8-497f-80b5-b7fe-f51d4b571f4d" class="" dir="auto">Depois de identificar um relacionamento, precisamos determinar <strong>quantas ocorrências de uma entidade podem estar relacionadas com outra</strong>.</p><p id="3e5f6ce8-497f-808d-bdfd-ce4d378142e1" class="" dir="auto">As principais cardinalidades são:</p><h3 id="3e5f6ce8-497f-806c-a181-cb1826097afe" class="" dir="auto">1:1 — Um para um</h3><p id="3e5f6ce8-497f-80f1-b52e-e2dff5c47278" class="" dir="auto">Uma ocorrência de uma entidade está relacionada a uma ocorrência da outra.</p><pre id="3e5f6ce8-497f-80db-9676-e3d141f934fe" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">PESSOA 1 ───── 1 PASSAPORTE</code></pre><hr id="3e5f6ce8-497f-80a0-9494-d4a87a4ab242" dir="auto"/><h3 id="3e5f6ce8-497f-8016-898e-dbd0f292ace7" class="" dir="auto">1:N — Um para muitos</h3><p id="3e5f6ce8-497f-8065-b8ab-deb80a1ead3a" class="" dir="auto">Uma ocorrência pode estar relacionada com várias ocorrências.</p><pre id="3e5f6ce8-497f-80f3-8a63-fb3608ef0def" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">CLIENTE 1 ───── N PEDIDO</code></pre><p id="3e5f6ce8-497f-8031-b64d-eb153c9e3a7a" class="" dir="auto">Um cliente pode fazer vários pedidos, mas cada pedido pertence a um cliente.</p><hr id="3e5f6ce8-497f-8046-834b-f30cb608ba00" dir="auto"/><h3 id="3e5f6ce8-497f-801b-a389-ddd761c6a33c" class="" dir="auto">N:N — Muitos para muitos</h3><p id="3e5f6ce8-497f-80e6-aca0-d5a5e8bc70d9" class="" dir="auto">Várias ocorrências de uma entidade podem estar relacionadas com várias ocorrências de outra.</p><pre id="3e5f6ce8-497f-8000-a737-ffd98ac8aff3" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">PEDIDO N ───── N PRODUTO</code></pre><p id="3e5f6ce8-497f-8017-98e4-dc8187f2f292" class="" dir="auto">Um pedido pode ter vários produtos, e um produto pode aparecer em vários pedidos.</p><p id="3e5f6ce8-497f-80d9-afa2-f36d4506ce7a" class="" dir="auto">Em um banco relacional, normalmente criamos uma <strong>entidade associativa</strong>:</p><pre id="3e5f6ce8-497f-804c-9e20-fd7fa4ca6d97" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">PEDIDO 1 ─── N ITEM_PEDIDO N ─── 1 PRODUTO</code></pre><hr id="3e5f6ce8-497f-80de-878b-e2d7837f6d80" dir="auto"/><h1 id="3e5f6ce8-497f-8087-a6c6-f890c975d175" class="" dir="auto">5. Entidade associativa</h1><p id="3e5f6ce8-497f-80a6-a4b9-d58c223f4225" class="" dir="auto">A entidade associativa é utilizada principalmente para representar relacionamentos N:N.</p><p id="3e5f6ce8-497f-80be-84bb-d94b39ead9d2" class="" dir="auto">Por exemplo:</p><pre id="3e5f6ce8-497f-805e-a501-f45791e6c3c5" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">PEDIDO N ───── N PRODUTO</code></pre><p id="3e5f6ce8-497f-8083-bb4a-e114337e7351" class="" dir="auto">Transformamos em:</p><pre id="3e5f6ce8-497f-809b-b6d6-dfdb2f1bc60f" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">PEDIDO 1 ─── N ITEM_PEDIDO N ─── 1 PRODUTO</code></pre><p id="3e5f6ce8-497f-8028-9941-c6bde6c6a5cc" class="" dir="auto"><code>ITEM_PEDIDO</code> pode possuir seus próprios atributos:</p><pre id="3e5f6ce8-497f-80c6-8822-cee31cade68a" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">ITEM_PEDIDO
+├── id_pedido
+├── id_produto
+├── quantidade
+└── preco_unitario</code></pre><p id="3e5f6ce8-497f-8018-8600-f3d8aa10169c" class="" dir="auto">Isso permite registrar informações que pertencem à própria associação entre pedido e produto.</p><hr id="3e5f6ce8-497f-803a-9fd4-ecfe6f688339" dir="auto"/><h1 id="3e5f6ce8-497f-80a9-bc77-cc6e19ec099d" class="" dir="auto">6. Processo de modelagem</h1><p id="3e5f6ce8-497f-80f3-bf9d-d0d641491de3" class="" dir="auto">A modelagem normalmente segue uma sequência de etapas.</p><h3 id="3e5f6ce8-497f-80ba-ad52-cdabe6fbc33e" class="" dir="auto">1. Levantamento dos requisitos</h3><p id="3e5f6ce8-497f-80bd-87a5-e44898dfdbc9" class="" dir="auto">Entender o que o sistema precisa fazer e quais informações precisam ser armazenadas.</p><h3 id="3e5f6ce8-497f-80f0-8290-f9b5b09f4a07" class="" dir="auto">2. Identificação das entidades</h3><p id="3e5f6ce8-497f-804c-b9ad-e3a0eb3d549b" class="" dir="auto">Encontrar os principais objetos ou conceitos:</p><pre id="3e5f6ce8-497f-8010-b829-e5de8a8b427e" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">CLIENTE
+PEDIDO
+PRODUTO</code></pre><h3 id="3e5f6ce8-497f-800d-9505-eabe5ca5af34" class="" dir="auto">3. Identificação dos atributos</h3><p id="3e5f6ce8-497f-8029-9316-eab8e810fffd" class="" dir="auto">Determinar quais informações serão armazenadas sobre cada entidade.</p><h3 id="3e5f6ce8-497f-801c-915a-f3493f38b8e6" class="" dir="auto">4. Identificação dos relacionamentos</h3><p id="3e5f6ce8-497f-80cf-91a7-eed8e94c5f98" class="" dir="auto">Descobrir como as entidades estão relacionadas.</p><h3 id="3e5f6ce8-497f-8056-896f-f90c1fce9f83" class="" dir="auto">5. Definição das cardinalidades</h3><p id="3e5f6ce8-497f-8059-80a5-c28f9dad0b36" class="" dir="auto">Determinar se os relacionamentos são 1:1, 1:N ou N:N.</p><h3 id="3e5f6ce8-497f-8049-aa6a-eecb559b203d" class="" dir="auto">6. Identificação de entidades associativas</h3><p id="3e5f6ce8-497f-80ec-bee9-c6bc4ce2e4df" class="" dir="auto">Resolver relacionamentos N:N quando necessário.</p><h3 id="3e5f6ce8-497f-8053-995e-d6ac19023066" class="" dir="auto">7. Definição das regras de negócio</h3><p id="3e5f6ce8-497f-800e-9210-d0362f4c558a" class="" dir="auto">Garantir que o modelo represente corretamente o funcionamento real do sistema.</p><h3 id="3e5f6ce8-497f-8085-bef9-d7b4d6fa0df2" class="" dir="auto">8. Construção do DER</h3><p id="3e5f6ce8-497f-8058-9bb4-eac8019bea4b" class="" dir="auto">Representar graficamente as entidades, atributos e relacionamentos.</p><h3 id="3e5f6ce8-497f-808b-932b-f11546750795" class="" dir="auto">9. Validação</h3><p id="3e5f6ce8-497f-8096-a7c8-da7c428e25be" class="" dir="auto">Verificar se o modelo atende aos requisitos e não possui inconsistências.</p><hr id="3e5f6ce8-497f-80e6-879b-f1ac7cb187fa" dir="auto"/><h1 id="3e5f6ce8-497f-80b0-a6a0-f8e2fee77f26" class="" dir="auto">7. Exemplo completo</h1><p id="3e5f6ce8-497f-80c2-b99f-f2848c208e99" class="" dir="auto">Imagine uma loja com as seguintes regras:</p><blockquote id="3e5f6ce8-497f-809a-906c-c45edfb63104" class="" dir="auto">Um cliente pode realizar vários pedidos. Cada pedido pertence a um cliente. Um pedido pode possuir vários produtos, e um produto pode aparecer em vários pedidos. Para cada produto dentro de um pedido, precisamos saber a quantidade.</blockquote><p id="3e5f6ce8-497f-80a5-baa3-dfa14e19af55" class="" dir="auto">Primeiro identificamos as entidades:</p><pre id="3e5f6ce8-497f-805a-92da-df4f1f399f50" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">CLIENTE
+PEDIDO
+PRODUTO</code></pre><p id="3e5f6ce8-497f-8090-98b6-cb855282e776" class="" dir="auto">Como <code>PEDIDO</code> e <code>PRODUTO</code> possuem relacionamento N:N, criamos:</p><pre id="3e5f6ce8-497f-80a5-981f-f2fada57dcac" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">ITEM_PEDIDO</code></pre><p id="3e5f6ce8-497f-8048-acfa-c03c2e2df9b5" class="" dir="auto">O modelo fica:</p><pre id="3e5f6ce8-497f-8053-86ef-cea2b42e5421" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">┌──────────────┐
+│   CLIENTE    │
+├──────────────┤
+│ id_cliente   │
+│ nome         │
+│ email        │
+└───────┬──────┘
+        │
+        │ 1:N
+        ▼
+┌──────────────┐
+│    PEDIDO    │
+├──────────────┤
+│ id_pedido    │
+│ id_cliente   │
+│ data         │
+└───────┬──────┘
+        │
+        │ 1:N
+        ▼
+┌────────────────┐
+│  ITEM_PEDIDO   │
+├────────────────┤
+│ id_pedido      │
+│ id_produto     │
+│ quantidade     │
+└────────┬───────┘
+         │
+         │ N:1
+         ▼
+┌──────────────┐
+│   PRODUTO    │
+├──────────────┤
+│ id_produto   │
+│ nome         │
+│ preco        │
+└──────────────┘</code></pre><p id="3e5f6ce8-497f-80b6-9c43-dc9c854e4174" class="" dir="auto">Esse modelo já permite representar a estrutura básica da loja.</p><hr id="3e5f6ce8-497f-80b5-b1f2-c8bde2477625" dir="auto"/><h1 id="3e5f6ce8-497f-80a3-8c60-dc103afa724a" class="" dir="auto">8. Modelo conceitual, lógico e físico</h1><p id="3e5f6ce8-497f-80f1-b031-d1f473ec9350" class="" dir="auto">A modelagem de entidades e relacionamentos está principalmente relacionada ao <strong>modelo conceitual</strong>, mas faz parte de um processo maior.</p><h3 id="3e5f6ce8-497f-80f9-b4e5-cb4139ceb893" class="" dir="auto">Modelo conceitual</h3><p id="3e5f6ce8-497f-80f0-b086-fe24b238508b" class="" dir="auto">Representa os dados de maneira independente do SGBD.</p><p id="3e5f6ce8-497f-80a4-9975-edeaae943139" class="" dir="auto">Exemplo:</p><pre id="3e5f6ce8-497f-8061-8de6-fac2bb6997be" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">CLIENTE ─── realiza ─── PEDIDO</code></pre><h3 id="3e5f6ce8-497f-8008-93bb-fb862beec932" class="" dir="auto">Modelo lógico</h3><p id="3e5f6ce8-497f-8035-97db-fa17321d3877" class="" dir="auto">Transforma o modelo conceitual em estruturas mais próximas das tabelas:</p><pre id="3e5f6ce8-497f-808d-9cc1-c896f886c7cc" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">CLIENTE
+(id_cliente, nome, email)
+
+PEDIDO
+(id_pedido, id_cliente, data)</code></pre><h3 id="3e5f6ce8-497f-8099-aee7-cc4ce95f6ee0" class="" dir="auto">Modelo físico</h3><p id="3e5f6ce8-497f-8036-9f64-d56b609bbdc2" class="" dir="auto">Define como essas estruturas serão realmente implementadas no SGBD:</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-sql.min.js" integrity="sha512-sijCOJblSCXYYmXdwvqV0tak8QJW5iy2yLB1wAbbLc3OOIueqymizRFWUS/mwKctnzPKpNdPJV3aK1zlDMJmXQ==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="3e5f6ce8-497f-8031-9179-cecb0b065df0" class="code code-wrap" data-notion-code-syntax="sql"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">CREATE TABLE cliente (
+    id_cliente INT PRIMARY KEY,
+    nome VARCHAR(100),
+    email VARCHAR(150)
+);</code></pre><p id="3e5f6ce8-497f-80ca-acbb-dfbe30388ee9" class="" dir="auto">Portanto:</p><pre id="3e5f6ce8-497f-8064-a8e2-f0c9511337b1" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Requisitos
+    ↓
+Modelo Conceitual
+    ↓
+Modelo Lógico
+    ↓
+Modelo Físico
+    ↓
+Banco de Dados</code></pre><hr id="3e5f6ce8-497f-8041-ba48-f47c1b127256" dir="auto"/><h1 id="3e5f6ce8-497f-8011-9b31-d5a9dba57862" class="" dir="auto">9. Por que a modelagem é importante?</h1><p id="3e5f6ce8-497f-803f-abe1-ec1159cc6f09" class="" dir="auto">Uma boa modelagem ajuda a:</p><ul id="3e5f6ce8-497f-806f-b157-cbb0308db557" class="bulleted-list" dir="auto"><li style="list-style-type:disc">organizar os dados;</li></ul><ul id="3e5f6ce8-497f-8019-b741-e38adfdf87ec" class="bulleted-list" dir="auto"><li style="list-style-type:disc">evitar informações duplicadas;</li></ul><ul id="3e5f6ce8-497f-80a5-9f81-f8ad465b4c50" class="bulleted-list" dir="auto"><li style="list-style-type:disc">estabelecer relacionamentos corretamente;</li></ul><ul id="3e5f6ce8-497f-8043-a1f2-fce0e49e2e3b" class="bulleted-list" dir="auto"><li style="list-style-type:disc">facilitar consultas;</li></ul><ul id="3e5f6ce8-497f-8028-843c-c34a2ea2a3b1" class="bulleted-list" dir="auto"><li style="list-style-type:disc">melhorar a integridade dos dados;</li></ul><ul id="3e5f6ce8-497f-8068-9257-e1f9c4f3c9a7" class="bulleted-list" dir="auto"><li style="list-style-type:disc">identificar problemas antes da implementação;</li></ul><ul id="3e5f6ce8-497f-8022-bbe8-f59d90ae812e" class="bulleted-list" dir="auto"><li style="list-style-type:disc">facilitar a manutenção do banco;</li></ul><ul id="3e5f6ce8-497f-8040-b3b1-f0ad967bbf48" class="bulleted-list" dir="auto"><li style="list-style-type:disc">representar corretamente as regras de negócio.</li></ul><p id="3e5f6ce8-497f-802e-acac-fe907463059b" class="" dir="auto">Um banco mal modelado pode gerar problemas como <strong>duplicação de dados, inconsistências, dificuldade de manutenção e consultas desnecessariamente complexas</strong>.</p><hr id="3e5f6ce8-497f-80b4-9d9d-e7317a1c0052" dir="auto"/><h2 id="3e5f6ce8-497f-8036-ad2a-f0f1f4eff350" class="" dir="auto">Resumo</h2><p id="3e5f6ce8-497f-80d3-873f-ca4375c14c1f" class="" dir="auto">A <strong>Modelagem de Entidades e Relacionamentos</strong> consiste em identificar e organizar:</p><pre id="3e5f6ce8-497f-8011-b688-e963991f25ef" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">ENTIDADES
+    ↓
+ATRIBUTOS
+    ↓
+RELACIONAMENTOS
+    ↓
+CARDINALIDADES
+    ↓
+REGRAS DE NEGÓCIO</code></pre><p id="3e5f6ce8-497f-8004-a2ee-d4c8bf51090a" class="" dir="auto">E posteriormente transformar esse modelo em estruturas que possam ser implementadas no banco de dados.</p><p id="3e5f6ce8-497f-804a-8428-e19638931541" class="" dir="auto">Os principais conceitos que você deve dominar são:</p><table id="3e5f6ce8-497f-8032-9e14-ce089c6b044e" class="simple-table" dir="ltr"><thead class="simple-table-header"><tr id="3e5f6ce8-497f-8055-b06d-f9fc6c535b3b" dir="ltr"><th id="Jzlk" class="simple-table-header-color simple-table-header">Conceito</th><th id="A_Y;" class="simple-table-header-color simple-table-header">Função</th></tr></thead><tbody><tr id="3e5f6ce8-497f-80f9-893e-d7b37665a37a" dir="ltr"><td id="Jzlk" class=""><strong>Entidade</strong></td><td id="A_Y;" class="">Representa um objeto ou conceito</td></tr><tr id="3e5f6ce8-497f-807e-9c70-dccd0bf3d0bf" dir="ltr"><td id="Jzlk" class=""><strong>Atributo</strong></td><td id="A_Y;" class="">Característica da entidade</td></tr><tr id="3e5f6ce8-497f-80b6-8371-cd346f6e24d4" dir="ltr"><td id="Jzlk" class=""><strong>Identificador</strong></td><td id="A_Y;" class="">Identifica uma ocorrência de forma única</td></tr><tr id="3e5f6ce8-497f-80ed-ba3e-f2a93a2027b0" dir="ltr"><td id="Jzlk" class=""><strong>Relacionamento</strong></td><td id="A_Y;" class="">Associação entre entidades</td></tr><tr id="3e5f6ce8-497f-8087-b3dc-d6879894e4a0" dir="ltr"><td id="Jzlk" class=""><strong>Cardinalidade</strong></td><td id="A_Y;" class="">Define quantas ocorrências podem se relacionar</td></tr><tr id="3e5f6ce8-497f-8059-80d8-e24d6d416ad6" dir="ltr"><td id="Jzlk" class=""><strong>Entidade associativa</strong></td><td id="A_Y;" class="">Representa principalmente relacionamentos N:N</td></tr><tr id="3e5f6ce8-497f-8035-90a7-ecc7cda1087f" dir="ltr"><td id="Jzlk" class=""><strong>MER</strong></td><td id="A_Y;" class="">Modelo conceitual dos dados</td></tr><tr id="3e5f6ce8-497f-805b-b9ce-cd9a4f80d8af" dir="ltr"><td id="Jzlk" class=""><strong>DER</strong></td><td id="A_Y;" class="">Representação gráfica do modelo</td></tr></tbody></table><p id="3e5f6ce8-497f-8088-91f6-cfbf9d93fe31" class="" dir="auto"><strong>Em resumo:</strong> a modelagem de entidades e relacionamentos é o processo de transformar as regras e necessidades de um sistema em uma <strong>estrutura clara de dados e seus relacionamentos</strong>, servindo como base para a criação do banco de dados.</p></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

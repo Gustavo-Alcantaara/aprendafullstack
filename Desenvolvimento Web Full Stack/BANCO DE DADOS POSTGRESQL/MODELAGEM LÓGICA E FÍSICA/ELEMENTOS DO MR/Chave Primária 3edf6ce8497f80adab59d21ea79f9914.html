@@ -1,0 +1,860 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Chave Primária</title><meta name="data-notion-page-icon" content="/icons/elephant_blue.svg"/><link rel="icon" href="https://app.notion.com/icons/elephant_blue.svg"/><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+	/* Paint a complete callout box on every PDF page fragment. */
+	-webkit-box-decoration-break: clone;
+	box-decoration-break: clone;
+}
+
+/* For default-background callouts, render the border outline. */
+.callout.block-color-default_background {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+/*
+ * Toggles and callouts hold arbitrary content, so they can easily be taller
+ * than a page. They must stay breakable: avoiding breaks inside them makes
+ * Chromium push the whole block onto the next page, which leaves the previous
+ * page mostly empty before every long toggle.
+ */
+details,
+aside {
+	margin: 1.25em 0;
+}
+
+/* Keep a toggle's title on the same page as the start of its content. */
+summary {
+	page-break-after: avoid;
+	break-after: avoid;
+}
+
+/*
+ * Toggle headings render as <h1/h2/h3 style="display:inline-block"> inside
+ * <summary>. Without this reset, the heading's margin-top pushes it below the
+ * ::marker (▼), so the triangle and the title appear on separate lines.
+ */
+summary h1,
+summary h2,
+summary h3,
+summary h4 {
+	margin-top: 0;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding-inline: 0.125rem;
+	padding-block: 0.375rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+/*
+ * Render emoji icons using a ::before pseudo-element to keep the glyph
+ * out of the DOM textContent traversal. This avoids double-rendering icons
+ * in callouts and page titles.
+ * NOTE(slim/html-export-pseudo-icons): I can't tagref this because it will
+ * flag as a duplicate tag after codegen.
+ */
+.icon[data-emoji]::before {
+	content: attr(data-emoji);
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	margin-right: 0.4em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.tab {
+	margin: 1.25em 0;
+	padding-inline: 1rem;
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style><style>@import url('https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex-swap.min.css')</style></head><body><article id="3edf6ce8-497f-80ad-ab59-d21ea79f9914" class="page sans" data-notion-page-icon="/icons/elephant_blue.svg"><header><div class="page-header-icon undefined"><img class="icon notion-static-icon" src="https://app.notion.com/icons/elephant_blue.svg"/></div><h1 class="page-title" dir="auto">Chave Primária</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><h1 id="3edf6ce8-497f-8062-8fac-e93dc34faf72" class="" dir="auto">Chave Primária (Primary Key)</h1><p id="3edf6ce8-497f-8054-ae9d-f301289fde16" class="" dir="auto">A <strong>chave primária</strong>, ou <strong>Primary Key (PK)</strong>, é o atributo — ou conjunto de atributos — usado para <strong>identificar de forma única cada registro de uma tabela</strong>.</p><p id="3edf6ce8-497f-8079-962a-f3e8c3940503" class="" dir="auto">Em outras palavras:</p><blockquote id="3edf6ce8-497f-808c-bf0f-da854a8f8001" class="" dir="auto"><strong>A chave primária é o identificador único de cada registro.</strong></blockquote><hr id="3edf6ce8-497f-809d-a2aa-df9d22e36a07" dir="auto"/><h2 id="3edf6ce8-497f-80bd-96d5-e0e2a8793451" class="" dir="auto">1. Exemplo básico</h2><p id="3edf6ce8-497f-808c-9816-d06f504bb0f6" class="" dir="auto">Imagine uma tabela de clientes:</p><table id="3edf6ce8-497f-8001-9708-f1e81c363dad" class="simple-table" dir="ltr"><thead class="simple-table-header"><tr id="3edf6ce8-497f-807e-b0a9-e3baa7c95573" dir="ltr"><th id="uC&lt;_" class="simple-table-header-color simple-table-header">id_cliente</th><th id="D\vs" class="simple-table-header-color simple-table-header">nome</th><th id="ifkx" class="simple-table-header-color simple-table-header">email</th></tr></thead><tbody><tr id="3edf6ce8-497f-8031-a133-e7ed6b5059dd" dir="ltr"><td id="uC&lt;_" class=""><strong>1</strong></td><td id="D\vs" class="">João</td><td id="ifkx" class=""><a href="mailto:joao@email.com">joao@email.com</a></td></tr><tr id="3edf6ce8-497f-80ee-a064-fe2b16f524bc" dir="ltr"><td id="uC&lt;_" class=""><strong>2</strong></td><td id="D\vs" class="">Maria</td><td id="ifkx" class=""><a href="mailto:maria@email.com">maria@email.com</a></td></tr><tr id="3edf6ce8-497f-802e-862e-c334d5d99229" dir="ltr"><td id="uC&lt;_" class=""><strong>3</strong></td><td id="D\vs" class="">Pedro</td><td id="ifkx" class=""><a href="mailto:pedro@email.com">pedro@email.com</a></td></tr></tbody></table><p id="3edf6ce8-497f-8020-a28b-f91410fdc1c8" class="" dir="auto">Nesse caso:</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="3edf6ce8-497f-809e-a8e3-c16db233795d" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">id_cliente → PRIMARY KEY</code></pre><p id="3edf6ce8-497f-80be-a983-f53fab18c783" class="" dir="auto">O <code>id_cliente</code> identifica cada cliente.</p><p id="3edf6ce8-497f-8083-99e5-e3d233bf41cf" class="" dir="auto">Assim:</p><pre id="3edf6ce8-497f-807a-8379-ea6619a7ace7" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">1 → João
+2 → Maria
+3 → Pedro</code></pre><p id="3edf6ce8-497f-80fc-9e63-f52a39f88c7b" class="" dir="auto">Não podemos ter dois registros com o mesmo <code>id_cliente</code>.</p><hr id="3edf6ce8-497f-801c-b226-fd3ff0c06ec7" dir="auto"/><h1 id="3edf6ce8-497f-805f-ac4c-d9fac82bd233" class="" dir="auto">2. Principais características</h1><p id="3edf6ce8-497f-80ee-aa76-e3349d733f18" class="" dir="auto">Uma chave primária possui algumas características importantes.</p><h3 id="3edf6ce8-497f-804f-b49a-d0685716f24c" class="" dir="auto">Deve ser única</h3><p id="3edf6ce8-497f-805e-b7b9-c76ffd82229f" class="" dir="auto">Não pode haver dois registros com a mesma chave.</p><p id="3edf6ce8-497f-80fb-9be1-f6b5f5976fb4" class="" dir="auto">❌ Incorreto:</p><table id="3edf6ce8-497f-8070-9ae8-dd0c870f31ff" class="simple-table" dir="ltr"><thead class="simple-table-header"><tr id="3edf6ce8-497f-8037-97d7-d6cb28f8e87f" dir="ltr"><th id="WD=G" class="simple-table-header-color simple-table-header">id_cliente</th><th id="kawQ" class="simple-table-header-color simple-table-header">nome</th></tr></thead><tbody><tr id="3edf6ce8-497f-80eb-921b-e00a56697f79" dir="ltr"><td id="WD=G" class="">1</td><td id="kawQ" class="">João</td></tr><tr id="3edf6ce8-497f-8017-8cf1-eaf109067104" dir="ltr"><td id="WD=G" class="">1</td><td id="kawQ" class="">Maria</td></tr></tbody></table><p id="3edf6ce8-497f-80aa-8f53-d267162e934a" class="" dir="auto">Os dois registros possuem <code>id_cliente = 1</code>.</p><hr id="3edf6ce8-497f-8099-aa79-c07f82654dc8" dir="auto"/><h3 id="3edf6ce8-497f-80b7-8bb4-c2bfc08d3b07" class="" dir="auto">Não pode ser <code>NULL</code></h3><p id="3edf6ce8-497f-8091-bb99-e07898acb427" class="" dir="auto">A chave primária precisa identificar o registro.</p><p id="3edf6ce8-497f-8047-b08d-e64ece0ca747" class="" dir="auto">Portanto:</p><pre id="3edf6ce8-497f-8036-9e86-f76114324085" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">id_cliente = NULL</code></pre><p id="3edf6ce8-497f-806b-aa9e-f36cbc08e5fb" class="" dir="auto">não seria válido como chave primária.</p><hr id="3edf6ce8-497f-808e-b2cb-c1e5cf7c504b" dir="auto"/><h3 id="3edf6ce8-497f-80df-872f-e010f89a14e2" class="" dir="auto">Cada tabela normalmente possui uma PK</h3><p id="3edf6ce8-497f-8041-876a-f84251e7b874" class="" dir="auto">Uma tabela pode ter <strong>uma chave primária</strong>, mas essa chave pode ser formada por <strong>uma ou mais colunas</strong>.</p><hr id="3edf6ce8-497f-80fc-b8ea-e0cd91b87982" dir="auto"/><h1 id="3edf6ce8-497f-8011-ac75-fa3d981dd643" class="" dir="auto">3. Criando uma chave primária</h1><p id="3edf6ce8-497f-80ed-aeef-c94888403a16" class="" dir="auto">Em SQL:</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-sql.min.js" integrity="sha512-sijCOJblSCXYYmXdwvqV0tak8QJW5iy2yLB1wAbbLc3OOIueqymizRFWUS/mwKctnzPKpNdPJV3aK1zlDMJmXQ==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="3edf6ce8-497f-8030-95f5-fb9d39dbf204" class="code code-wrap" data-notion-code-syntax="sql"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">CREATE TABLE cliente (
+    id_cliente INT PRIMARY KEY,
+    nome VARCHAR(100),
+    email VARCHAR(150)
+);</code></pre><p id="3edf6ce8-497f-80fc-8fac-cb2a78255d08" class="" dir="auto">Aqui:</p><pre id="3edf6ce8-497f-803f-b811-e109e6aebfe5" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">id_cliente INT PRIMARY KEY
+              ↑
+         chave primária</code></pre><p id="3edf6ce8-497f-8025-8c71-ef4763f53efe" class="" dir="auto">Podemos inserir:</p><pre id="3edf6ce8-497f-80bb-ad69-f97a6a9206f3" class="code code-wrap" data-notion-code-syntax="sql"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">INSERT INTO cliente
+VALUES (1, &#x27;João&#x27;, &#x27;joao@email.com&#x27;);
+
+INSERT INTO cliente
+VALUES (2, &#x27;Maria&#x27;, &#x27;maria@email.com&#x27;);</code></pre><p id="3edf6ce8-497f-80fc-95cc-fd5a240738cb" class="" dir="auto">Mas isto causaria um erro:</p><pre id="3edf6ce8-497f-8024-8ca7-d5bde5404c21" class="code code-wrap" data-notion-code-syntax="sql"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">INSERT INTO cliente
+VALUES (1, &#x27;Pedro&#x27;, &#x27;pedro@email.com&#x27;);</code></pre><p id="3edf6ce8-497f-8026-bd83-fc17069e5451" class="" dir="auto">porque o <code>id_cliente = 1</code> já existe.</p><hr id="3edf6ce8-497f-8078-817d-eaeb4aa0415f" dir="auto"/><h1 id="3edf6ce8-497f-8029-8f0b-f21f86779b07" class="" dir="auto">4. Por que usar uma chave primária?</h1><p id="3edf6ce8-497f-8081-8acc-c34d04037ef6" class="" dir="auto">Imagine uma tabela:</p><table id="3edf6ce8-497f-804f-9bc2-f259b27f2a92" class="simple-table" dir="ltr"><thead class="simple-table-header"><tr id="3edf6ce8-497f-806d-bfdb-e6205ceff91f" dir="ltr"><th id=":ze}" class="simple-table-header-color simple-table-header">nome</th><th id="&lt;teD" class="simple-table-header-color simple-table-header">email</th></tr></thead><tbody><tr id="3edf6ce8-497f-8078-bf12-de3bef05ac1b" dir="ltr"><td id=":ze}" class="">João</td><td id="&lt;teD" class=""><a href="mailto:joao@email.com">joao@email.com</a></td></tr><tr id="3edf6ce8-497f-8062-9482-c95ed48d5f57" dir="ltr"><td id=":ze}" class="">Maria</td><td id="&lt;teD" class=""><a href="mailto:maria@email.com">maria@email.com</a></td></tr><tr id="3edf6ce8-497f-809a-bc6f-d0eb2b571f53" dir="ltr"><td id=":ze}" class="">João</td><td id="&lt;teD" class=""><a href="mailto:joao2@email.com">joao2@email.com</a></td></tr></tbody></table><p id="3edf6ce8-497f-803e-96a8-ef52ece302e1" class="" dir="auto">O nome não é suficiente para identificar uma pessoa, pois pode haver vários clientes chamados João.</p><p id="3edf6ce8-497f-80f0-b9fe-e44c593fe978" class="" dir="auto">Por isso usamos um identificador:</p><table id="3edf6ce8-497f-80f8-af73-e102e7d77327" class="simple-table" dir="ltr"><thead class="simple-table-header"><tr id="3edf6ce8-497f-805f-9bfd-e8e31b71ae7f" dir="ltr"><th id="ZZaL" class="simple-table-header-color simple-table-header">id_cliente</th><th id="IcjJ" class="simple-table-header-color simple-table-header">nome</th><th id="IdI:" class="simple-table-header-color simple-table-header">email</th></tr></thead><tbody><tr id="3edf6ce8-497f-808b-94bc-c887f3f92524" dir="ltr"><td id="ZZaL" class="">1</td><td id="IcjJ" class="">João</td><td id="IdI:" class=""><a href="mailto:joao@email.com">joao@email.com</a></td></tr><tr id="3edf6ce8-497f-80f4-ba89-ec616a1e9439" dir="ltr"><td id="ZZaL" class="">2</td><td id="IcjJ" class="">Maria</td><td id="IdI:" class=""><a href="mailto:maria@email.com">maria@email.com</a></td></tr><tr id="3edf6ce8-497f-8064-a703-eff2622b83d0" dir="ltr"><td id="ZZaL" class="">3</td><td id="IcjJ" class="">João</td><td id="IdI:" class=""><a href="mailto:joao2@email.com">joao2@email.com</a></td></tr></tbody></table><p id="3edf6ce8-497f-8016-8c4e-f28d250ff13c" class="" dir="auto">Agora cada registro possui uma identidade própria.</p><hr id="3edf6ce8-497f-80c5-b7fd-f981781cdd4f" dir="auto"/><h1 id="3edf6ce8-497f-8061-8c93-e1ef84696621" class="" dir="auto">5. Chave primária com ID</h1><p id="3edf6ce8-497f-80ae-bfb4-d516169f15a4" class="" dir="auto">Uma prática muito comum é utilizar um número para identificar os registros:</p><pre id="3edf6ce8-497f-8072-8374-c7ad57f2fe7b" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">id_cliente
+id_produto
+id_pedido
+id_usuario</code></pre><p id="3edf6ce8-497f-80f9-9dfc-ea2e33cf59af" class="" dir="auto">Por exemplo:</p><pre id="3edf6ce8-497f-8021-9933-f8dc35d31e4f" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">CLIENTE
+-------------------------
+1 → João
+2 → Maria
+3 → Pedro
+4 → Ana</code></pre><p id="3edf6ce8-497f-8090-8d5d-d6e5aaa2d704" class="" dir="auto">Frequentemente esses IDs são gerados automaticamente pelo banco.</p><p id="3edf6ce8-497f-80b3-8804-de3070142c7c" class="" dir="auto">No PostgreSQL, por exemplo:</p><pre id="3edf6ce8-497f-8063-ad69-f7bec452497e" class="code code-wrap" data-notion-code-syntax="sql"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">CREATE TABLE cliente (
+    id_cliente INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    nome VARCHAR(100) NOT NULL
+);</code></pre><p id="3edf6ce8-497f-8026-acee-da16173fc058" class="" dir="auto">Assim, ao inserir:</p><pre id="3edf6ce8-497f-804c-a86e-c0862cec11c7" class="code code-wrap" data-notion-code-syntax="sql"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">INSERT INTO cliente (nome)
+VALUES (&#x27;João&#x27;);
+
+INSERT INTO cliente (nome)
+VALUES (&#x27;Maria&#x27;);</code></pre><p id="3edf6ce8-497f-800c-ad8c-d4e3646a4d8c" class="" dir="auto">o banco pode gerar automaticamente:</p><pre id="3edf6ce8-497f-8040-a70c-c7f2a4a9b181" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">1 → João
+2 → Maria</code></pre><hr id="3edf6ce8-497f-80c8-9a59-e3124afd90df" dir="auto"/><h1 id="3edf6ce8-497f-805f-8b4b-c849836b1ced" class="" dir="auto">6. Chave natural × chave artificial</h1><p id="3edf6ce8-497f-8095-a145-ef3eb7232a67" class="" dir="auto">Existem duas formas comuns de escolher uma chave.</p><h2 id="3edf6ce8-497f-8091-9448-f798fc03bf69" class="" dir="auto">Chave natural</h2><p id="3edf6ce8-497f-8007-af69-d51ba3418af2" class="" dir="auto">É uma informação que <strong>já existe no mundo real</strong> e que pode identificar uma entidade.</p><p id="3edf6ce8-497f-8058-8b65-ea71935c075a" class="" dir="auto">Exemplo:</p><pre id="3edf6ce8-497f-80d8-9578-fca9850e5b24" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">CPF</code></pre><p id="3edf6ce8-497f-80cf-984c-cdc358521160" class="" dir="auto">Poderíamos ter:</p><pre id="3edf6ce8-497f-80eb-8807-d4151ac25064" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">CLIENTE
+---------------------
+CPF (PK)
+nome
+email</code></pre><p id="3edf6ce8-497f-8033-969b-d84feed2604d" class="" dir="auto">Como o CPF deve ser único para cada pessoa, ele pode funcionar como identificador.</p><hr id="3edf6ce8-497f-8008-af77-c30c80298781" dir="auto"/><h2 id="3edf6ce8-497f-805e-aea0-cea74d43051d" class="" dir="auto">Chave artificial</h2><p id="3edf6ce8-497f-8088-8154-d05e18af8c89" class="" dir="auto">É um identificador criado especificamente para o banco.</p><p id="3edf6ce8-497f-80cd-9ef8-f060a15abcc4" class="" dir="auto">Exemplo:</p><pre id="3edf6ce8-497f-80b5-b1b2-e5bb4f9fafbf" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">id_cliente</code></pre><p id="3edf6ce8-497f-8062-9af3-fcd7c03862b5" class="" dir="auto">Então:</p><pre id="3edf6ce8-497f-8071-9777-da709d57f59d" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">CLIENTE
+---------------------
+id_cliente (PK)
+nome
+CPF
+email</code></pre><p id="3edf6ce8-497f-80d2-bea6-f64aeccf5b1e" class="" dir="auto">Nesse caso, o <code>id_cliente</code> não possui significado fora do sistema. Ele simplesmente identifica o registro.</p><p id="3edf6ce8-497f-80a7-85a5-f3c77a629d6d" class="" dir="auto">Na prática, <strong>IDs artificiais são muito comuns</strong> porque deixam os relacionamentos mais simples e evitam depender de atributos de negócio que podem sofrer alterações.</p><hr id="3edf6ce8-497f-80ec-85e6-e2b4744dfb6a" dir="auto"/><h1 id="3edf6ce8-497f-807b-860b-d1c56c07fb46" class="" dir="auto">7. Chave primária composta</h1><p id="3edf6ce8-497f-80eb-a56c-d89476e88c76" class="" dir="auto">Uma chave primária também pode ser formada por <strong>mais de uma coluna</strong>.</p><p id="3edf6ce8-497f-808e-a5ad-e0089fcd79ee" class="" dir="auto">Isso é chamado de <strong>chave primária composta</strong>.</p><p id="3edf6ce8-497f-802e-81c5-c969495ac6bc" class="" dir="auto">Um exemplo clássico é uma tabela de matrícula:</p><pre id="3edf6ce8-497f-8083-bd4a-fc35724215fa" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">MATRICULA
+-------------------------
+id_aluno
+id_curso
+data_matricula</code></pre><p id="3edf6ce8-497f-80c0-bc49-d75339a86285" class="" dir="auto">Um aluno pode fazer vários cursos e um curso pode possuir vários alunos.</p><p id="3edf6ce8-497f-8009-9c67-c7d97ba485eb" class="" dir="auto">Nesse caso, podemos usar:</p><pre id="3edf6ce8-497f-800f-a97d-cb4b82af484f" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">(id_aluno, id_curso)</code></pre><p id="3edf6ce8-497f-8076-9c98-c14561601b6a" class="" dir="auto">como chave primária.</p><p id="3edf6ce8-497f-8048-9d43-eab2ba83748d" class="" dir="auto">Por exemplo:</p><table id="3edf6ce8-497f-8031-8c1e-e024681548c1" class="simple-table" dir="ltr"><thead class="simple-table-header"><tr id="3edf6ce8-497f-807d-a448-d33399b6a954" dir="ltr"><th id="TyO}" class="simple-table-header-color simple-table-header">id_aluno</th><th id="|cw:" class="simple-table-header-color simple-table-header">id_curso</th><th id="Xh;t" class="simple-table-header-color simple-table-header">data_matricula</th></tr></thead><tbody><tr id="3edf6ce8-497f-8059-aaf1-f2f0e05b50e0" dir="ltr"><td id="TyO}" class="">1</td><td id="|cw:" class="">10</td><td id="Xh;t" class="">01/02/2026</td></tr><tr id="3edf6ce8-497f-80a1-b5f4-e2f7f3dfca95" dir="ltr"><td id="TyO}" class="">1</td><td id="|cw:" class="">20</td><td id="Xh;t" class="">02/02/2026</td></tr><tr id="3edf6ce8-497f-8005-9c8b-cff4c52551e6" dir="ltr"><td id="TyO}" class="">2</td><td id="|cw:" class="">10</td><td id="Xh;t" class="">03/02/2026</td></tr></tbody></table><p id="3edf6ce8-497f-803d-96fe-ee3ce2603304" class="" dir="auto">O par:</p><pre id="3edf6ce8-497f-80e3-afda-c63cfe75803c" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">(1, 10)</code></pre><p id="3edf6ce8-497f-80fc-a8b1-d38b2340526b" class="" dir="auto">identifica uma matrícula específica.</p><p id="3edf6ce8-497f-8006-a9ee-fcfb61b32ca1" class="" dir="auto">Mas:</p><pre id="3edf6ce8-497f-802d-a440-e81b13a25892" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">(1, 20)</code></pre><p id="3edf6ce8-497f-8091-a0c0-f5b1be166365" class="" dir="auto">é outra matrícula.</p><p id="3edf6ce8-497f-80eb-9eb6-fa4c62b9f51a" class="" dir="auto">Em SQL:</p><pre id="3edf6ce8-497f-8037-846f-cb1d7ddc7ee1" class="code code-wrap" data-notion-code-syntax="sql"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">CREATE TABLE matricula (
+    id_aluno INT,
+    id_curso INT,
+    data_matricula DATE,
+
+    PRIMARY KEY (id_aluno, id_curso)
+);</code></pre><hr id="3edf6ce8-497f-8008-b79e-e3125cba1444" dir="auto"/><h1 id="3edf6ce8-497f-80f5-a47f-c5a160418618" class="" dir="auto">8. Chave primária e chave estrangeira</h1><p id="3edf6ce8-497f-80a4-8994-c98babc86ccb" class="" dir="auto">A PK também é muito importante para os <strong>relacionamentos entre tabelas</strong>.</p><p id="3edf6ce8-497f-80b8-a357-da596901aaf7" class="" dir="auto">Por exemplo:</p><h3 id="3edf6ce8-497f-807c-8c41-d0665514d3a2" class="" dir="auto">CLIENTE</h3><table id="3edf6ce8-497f-80d6-b9c0-e4c2f6e9bb6a" class="simple-table" dir="ltr"><thead class="simple-table-header"><tr id="3edf6ce8-497f-80ec-a432-cb43b15956a4" dir="ltr"><th id="dFH~" class="simple-table-header-color simple-table-header">id_cliente</th><th id="}Q:`" class="simple-table-header-color simple-table-header">nome</th></tr></thead><tbody><tr id="3edf6ce8-497f-804c-98f8-df30cf5e32fd" dir="ltr"><td id="dFH~" class=""><strong>1</strong></td><td id="}Q:`" class="">João</td></tr><tr id="3edf6ce8-497f-80b4-aa23-c7b8e840a8f9" dir="ltr"><td id="dFH~" class=""><strong>2</strong></td><td id="}Q:`" class="">Maria</td></tr></tbody></table><h3 id="3edf6ce8-497f-804c-9553-cdf421328db5" class="" dir="auto">PEDIDO</h3><table id="3edf6ce8-497f-80dc-beb2-cc6351abc33d" class="simple-table" dir="ltr"><thead class="simple-table-header"><tr id="3edf6ce8-497f-8082-a8b6-fe4a19d32e28" dir="ltr"><th id="^nW&gt;" class="simple-table-header-color simple-table-header">id_pedido</th><th id="&gt;mEO" class="simple-table-header-color simple-table-header">id_cliente</th><th id="M=HG" class="simple-table-header-color simple-table-header">valor</th></tr></thead><tbody><tr id="3edf6ce8-497f-80b3-97db-f7e3e700832c" dir="ltr"><td id="^nW&gt;" class="">100</td><td id="&gt;mEO" class=""><strong>1</strong></td><td id="M=HG" class="">200</td></tr><tr id="3edf6ce8-497f-803a-9fa9-c6b16a1d74cc" dir="ltr"><td id="^nW&gt;" class="">101</td><td id="&gt;mEO" class=""><strong>1</strong></td><td id="M=HG" class="">150</td></tr><tr id="3edf6ce8-497f-80e3-a0cc-ed3bc9ad5fc8" dir="ltr"><td id="^nW&gt;" class="">102</td><td id="&gt;mEO" class=""><strong>2</strong></td><td id="M=HG" class="">300</td></tr></tbody></table><p id="3edf6ce8-497f-801a-8a66-c13daa8de3b0" class="" dir="auto">Temos:</p><pre id="3edf6ce8-497f-80b3-89c3-f3eb28de1a3e" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">CLIENTE
+id_cliente (PK)
+      ↑
+      │
+      │
+id_cliente (FK)
+PEDIDO</code></pre><p id="3edf6ce8-497f-8002-a045-f96c43e59e0d" class="" dir="auto">O <code>id_cliente</code> da tabela <code>CLIENTE</code> é a <strong>chave primária</strong>.</p><p id="3edf6ce8-497f-8089-b2bb-d292459dad4a" class="" dir="auto">O <code>id_cliente</code> da tabela <code>PEDIDO</code> é uma <strong>chave estrangeira (FK)</strong> que referencia a PK de <code>CLIENTE</code>.</p><p id="3edf6ce8-497f-80c9-b72c-d486ab3bfee6" class="" dir="auto">Isso permite representar:</p><pre id="3edf6ce8-497f-8034-8e9c-c54226b3e447" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Um cliente → vários pedidos</code></pre><hr id="3edf6ce8-497f-80fa-ad94-ca9730b0d9ef" dir="auto"/><h1 id="3edf6ce8-497f-805d-8f9e-c5cae9b7a9b7" class="" dir="auto">9. PK não é necessariamente um número</h1><p id="3edf6ce8-497f-8063-8b67-eecbf4d3d212" class="" dir="auto">É comum usar números, mas uma chave primária pode utilizar outros tipos.</p><p id="3edf6ce8-497f-80ce-9013-d28f4ece838c" class="" dir="auto">Por exemplo:</p><pre id="3edf6ce8-497f-8006-a23c-c5e352454022" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">codigo_produto = &quot;PROD-001&quot;</code></pre><p id="3edf6ce8-497f-8085-b641-f3ad80f1ec1d" class="" dir="auto">ou até um UUID:</p><pre id="3edf6ce8-497f-8098-8456-eda8c908915c" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">550e8400-e29b-41d4-a716-446655440000</code></pre><p id="3edf6ce8-497f-80d8-881e-e940ab5044e0" class="" dir="auto">O importante é que o valor seja <strong>único e não nulo</strong>, e que seja adequado ao sistema.</p><hr id="3edf6ce8-497f-8097-9c1f-ea9175f7cb8b" dir="auto"/><h1 id="3edf6ce8-497f-803d-82c2-d0fc2b6a8932" class="" dir="auto">10. Resumo</h1><p id="3edf6ce8-497f-80e4-aef4-ffad642f7962" class="" dir="auto">A <strong>chave primária (PK)</strong>:</p><ul id="3edf6ce8-497f-8053-b488-ceaedf61d2a7" class="bulleted-list" dir="auto"><li style="list-style-type:disc">identifica unicamente cada registro;</li></ul><ul id="3edf6ce8-497f-8086-869c-e288c147a601" class="bulleted-list" dir="auto"><li style="list-style-type:disc">não pode possuir valores duplicados;</li></ul><ul id="3edf6ce8-497f-800e-a131-fc0c185ffb98" class="bulleted-list" dir="auto"><li style="list-style-type:disc">não pode ser <code>NULL</code>;</li></ul><ul id="3edf6ce8-497f-804a-bfde-fe531fc0051b" class="bulleted-list" dir="auto"><li style="list-style-type:disc">pode ser formada por uma ou várias colunas;</li></ul><ul id="3edf6ce8-497f-8010-8719-d40f757d1697" class="bulleted-list" dir="auto"><li style="list-style-type:disc">é utilizada como referência por chaves estrangeiras;</li></ul><ul id="3edf6ce8-497f-80f6-8541-c6603a41e887" class="bulleted-list" dir="auto"><li style="list-style-type:disc">pode ser natural ou artificial;</li></ul><ul id="3edf6ce8-497f-8040-afa2-f47dc70eed0b" class="bulleted-list" dir="auto"><li style="list-style-type:disc">é fundamental para a integridade e os relacionamentos do banco.</li></ul><h3 id="3edf6ce8-497f-80b5-81bf-ffb93c6faf29" class="" dir="auto">Exemplo simples:</h3><pre id="3edf6ce8-497f-8064-9f96-cdc74e49b3f5" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">CLIENTE
+┌──────────────┬──────────┬──────────────────┐
+│ id_cliente   │ nome     │ email            │
+├──────────────┼──────────┼──────────────────┤
+│ 1            │ João     │ joao@email.com   │
+│ 2            │ Maria    │ maria@email.com  │
+│ 3            │ Pedro    │ pedro@email.com  │
+└──────────────┴──────────┴──────────────────┘
+       ↑
+       └── PRIMARY KEY</code></pre><p id="3edf6ce8-497f-80fc-9e4c-c08bfff40c6b" class="" dir="auto"><strong>Ideia principal:</strong> a chave primária é como o <strong>&quot;RG&quot; do registro dentro daquela tabela</strong>: ela permite distinguir uma ocorrência de todas as outras.</p></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

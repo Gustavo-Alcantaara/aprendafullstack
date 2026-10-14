@@ -1,0 +1,895 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Atributo Multivalorado</title><meta name="data-notion-page-icon" content="/icons/elephant_blue.svg"/><link rel="icon" href="https://app.notion.com/icons/elephant_blue.svg"/><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+	/* Paint a complete callout box on every PDF page fragment. */
+	-webkit-box-decoration-break: clone;
+	box-decoration-break: clone;
+}
+
+/* For default-background callouts, render the border outline. */
+.callout.block-color-default_background {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+/*
+ * Toggles and callouts hold arbitrary content, so they can easily be taller
+ * than a page. They must stay breakable: avoiding breaks inside them makes
+ * Chromium push the whole block onto the next page, which leaves the previous
+ * page mostly empty before every long toggle.
+ */
+details,
+aside {
+	margin: 1.25em 0;
+}
+
+/* Keep a toggle's title on the same page as the start of its content. */
+summary {
+	page-break-after: avoid;
+	break-after: avoid;
+}
+
+/*
+ * Toggle headings render as <h1/h2/h3 style="display:inline-block"> inside
+ * <summary>. Without this reset, the heading's margin-top pushes it below the
+ * ::marker (▼), so the triangle and the title appear on separate lines.
+ */
+summary h1,
+summary h2,
+summary h3,
+summary h4 {
+	margin-top: 0;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding-inline: 0.125rem;
+	padding-block: 0.375rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+/*
+ * Render emoji icons using a ::before pseudo-element to keep the glyph
+ * out of the DOM textContent traversal. This avoids double-rendering icons
+ * in callouts and page titles.
+ * NOTE(slim/html-export-pseudo-icons): I can't tagref this because it will
+ * flag as a duplicate tag after codegen.
+ */
+.icon[data-emoji]::before {
+	content: attr(data-emoji);
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	margin-right: 0.4em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.tab {
+	margin: 1.25em 0;
+	padding-inline: 1rem;
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style><style>@import url('https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex-swap.min.css')</style></head><body><article id="3eaf6ce8-497f-8046-baaf-df369acc39c2" class="page sans" data-notion-page-icon="/icons/elephant_blue.svg"><header><div class="page-header-icon undefined"><img class="icon notion-static-icon" src="https://app.notion.com/icons/elephant_blue.svg"/></div><h1 class="page-title" dir="auto">Atributo Multivalorado</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><h1 id="3eaf6ce8-497f-80c9-847e-d49611be9f49" class="" dir="auto">Atributo Multivalorado</h1><p id="3eaf6ce8-497f-80c5-8a3a-c18a178c795a" class="" dir="auto">Um <strong>atributo multivalorado</strong> é um atributo que pode possuir <strong>mais de um valor para uma mesma ocorrência de uma entidade</strong>.</p><p id="3eaf6ce8-497f-800b-82d3-f0ac27df8cb6" class="" dir="auto">Ou seja, enquanto um atributo comum normalmente possui um único valor por registro, um atributo multivalorado pode possuir <strong>vários valores</strong>.</p><hr id="3eaf6ce8-497f-80f0-beb8-e16afe747450" dir="auto"/><h2 id="3eaf6ce8-497f-805e-a9c8-c68cb2955ab3" class="" dir="auto">1. Exemplo simples</h2><p id="3eaf6ce8-497f-8068-afdf-d1e8a2657658" class="" dir="auto">Imagine a entidade <code>CLIENTE</code>:</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="3eaf6ce8-497f-80c4-93a9-e897085920e6" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">CLIENTE
+├── id_cliente
+├── nome
+└── telefone</code></pre><p id="3eaf6ce8-497f-80fe-af7b-c84a9a42f8f9" class="" dir="auto">Se cada cliente puder ter <strong>vários telefones</strong>, <code>telefone</code> pode ser considerado um atributo multivalorado.</p><p id="3eaf6ce8-497f-8074-95d3-d7f894ace12d" class="" dir="auto">Por exemplo:</p><pre id="3eaf6ce8-497f-80e3-8b43-dc111e443bd1" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Cliente: João
+
+Telefones:
+- 8899999-1111
+- 8898888-2222
+- 8833333-4444</code></pre><p id="3eaf6ce8-497f-804a-aacd-eea2e651c4b3" class="" dir="auto">Representando conceitualmente:</p><pre id="3eaf6ce8-497f-8093-a7f8-e253908c0230" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">CLIENTE
+   │
+   ├── id_cliente
+   ├── nome
+   └── telefones
+          ├── 8899999-1111
+          ├── 8898888-2222
+          └── 8833333-4444</code></pre><hr id="3eaf6ce8-497f-802f-aa9f-fbfd284d4020" dir="auto"/><h1 id="3eaf6ce8-497f-80fc-b683-ec5e9dfe71da" class="" dir="auto">2. Atributo comum × multivalorado</h1><h3 id="3eaf6ce8-497f-8011-a54c-dc92adb0fa3c" class="" dir="auto">Atributo comum</h3><p id="3eaf6ce8-497f-80cb-91bd-c87676a166db" class="" dir="auto">Possui um único valor por ocorrência:</p><pre id="3eaf6ce8-497f-804f-85ae-c6d28b94a99b" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">CLIENTE
+nome = &quot;João&quot;</code></pre><p id="3eaf6ce8-497f-80c5-b647-f349fada2065" class="" dir="auto">Um cliente possui um nome.</p><h3 id="3eaf6ce8-497f-80cb-a09c-d8149feac6ed" class="" dir="auto">Atributo multivalorado</h3><p id="3eaf6ce8-497f-80aa-920b-c97bfff11c8a" class="" dir="auto">Pode possuir vários valores:</p><pre id="3eaf6ce8-497f-8012-bb5a-da651fb3dfaf" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">CLIENTE
+telefones = {
+    &quot;8899999-1111&quot;,
+    &quot;8898888-2222&quot;
+}</code></pre><p id="3eaf6ce8-497f-806c-97aa-c2482d36a54f" class="" dir="auto">Um cliente pode possuir vários telefones.</p><table id="3eaf6ce8-497f-80a1-a36d-dd1a565fb1c0" class="simple-table" dir="ltr"><thead class="simple-table-header"><tr id="3eaf6ce8-497f-801b-bb35-c3b8cc5b897c" dir="ltr"><th id="KMSl" class="simple-table-header-color simple-table-header">Tipo</th><th id="ubrH" class="simple-table-header-color simple-table-header">Exemplo</th></tr></thead><tbody><tr id="3eaf6ce8-497f-8035-b48c-f06d8683c745" dir="ltr"><td id="KMSl" class="">Atributo comum</td><td id="ubrH" class=""><code>nome = João</code></td></tr><tr id="3eaf6ce8-497f-80f0-b389-f2273fcd8b98" dir="ltr"><td id="KMSl" class="">Multivalorado</td><td id="ubrH" class=""><code>telefones = {1111, 2222}</code></td></tr></tbody></table><hr id="3eaf6ce8-497f-8025-8265-e85aeecb45ff" dir="auto"/><h1 id="3eaf6ce8-497f-8008-8e5f-dee8fddcd046" class="" dir="auto">3. Outros exemplos</h1><p id="3eaf6ce8-497f-80a6-9775-ff54b3bb313c" class="" dir="auto">Existem várias situações em que um atributo pode ser multivalorado.</p><h3 id="3eaf6ce8-497f-8078-8513-fad7512046db" class="" dir="auto">E-mails</h3><p id="3eaf6ce8-497f-8045-803e-d2c118dcb4a3" class="" dir="auto">Uma pessoa pode possuir mais de um e-mail:</p><pre id="3eaf6ce8-497f-80a7-ab9d-e8f74e7c1ebd" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">email:
+- joao@gmail.com
+- joao@empresa.com</code></pre><h3 id="3eaf6ce8-497f-8027-84f0-c67c7356769d" class="" dir="auto">Telefones</h3><pre id="3eaf6ce8-497f-8035-ad62-e0a46d3fc3db" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">telefone:
+- 8899999-1111
+- 8898888-2222</code></pre><h3 id="3eaf6ce8-497f-80e6-a042-eae013c82c2c" class="" dir="auto">Idiomas</h3><p id="3eaf6ce8-497f-8020-98ce-fdad52e089ed" class="" dir="auto">Um funcionário pode falar vários idiomas:</p><pre id="3eaf6ce8-497f-8025-a469-e96a2fc4d3ed" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">idiomas:
+- Português
+- Inglês
+- Espanhol</code></pre><h3 id="3eaf6ce8-497f-803e-a2e6-c025417e945d" class="" dir="auto">Especialidades</h3><p id="3eaf6ce8-497f-8037-84bb-d9f0cc97939c" class="" dir="auto">Um médico pode possuir várias especialidades:</p><pre id="3eaf6ce8-497f-8010-9702-f6c3326209b5" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">especialidades:
+- Cardiologia
+- Clínica Geral</code></pre><hr id="3eaf6ce8-497f-80c4-9984-c21111ee9848" dir="auto"/><h1 id="3eaf6ce8-497f-80bb-98ca-cf583dee0fc8" class="" dir="auto">4. Como representar no banco relacional?</h1><p id="3eaf6ce8-497f-80fb-b67f-e84b9e93fa2b" class="" dir="auto">Aqui existe um ponto importante:</p><blockquote id="3eaf6ce8-497f-8081-a80a-cc3c11cf7c92" class="" dir="auto"><strong>Bancos relacionais normalmente não devem armazenar vários valores separados dentro de uma única coluna.</strong></blockquote><p id="3eaf6ce8-497f-80d3-ab37-f912a1234d70" class="" dir="auto">Por exemplo, evitar:</p><pre id="3eaf6ce8-497f-80f4-8b46-c15881c799a9" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">id_cliente | nome  | telefones
+-----------|-------|------------------------------
+1          | João  | 8899999-1111, 8898888-2222</code></pre><p id="3eaf6ce8-497f-8062-969c-fe4fe3d1eeef" class="" dir="auto">Isso dificulta consultas, alterações e validações.</p><p id="3eaf6ce8-497f-80e6-8154-de1b1c48332a" class="" dir="auto">Em vez disso, normalmente criamos uma <strong>tabela separada</strong>.</p><h3 id="3eaf6ce8-497f-80db-a8fc-e1b532af3220" class="" dir="auto">CLIENTE</h3><pre id="3eaf6ce8-497f-80ff-af83-e5485a30a570" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">CLIENTE
+id_cliente | nome
+-----------|------
+1          | João
+2          | Maria</code></pre><h3 id="3eaf6ce8-497f-80c0-b234-f14782f3fea7" class="" dir="auto">TELEFONE</h3><pre id="3eaf6ce8-497f-80ed-ae1a-c28a7f98650f" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">TELEFONE
+id_telefone | id_cliente | telefone
+------------|------------|--------------
+1           | 1          | 8899999-1111
+2           | 1          | 8898888-2222
+3           | 2          | 8897777-3333</code></pre><p id="3eaf6ce8-497f-80a5-afd2-c20d57270b71" class="" dir="auto">Agora cada telefone possui seu próprio registro.</p><hr id="3eaf6ce8-497f-80e1-ba64-f8f75fbdc0d5" dir="auto"/><h1 id="3eaf6ce8-497f-80e9-9bc1-fc39b4d6ad6f" class="" dir="auto">5. Relação entre as tabelas</h1><p id="3eaf6ce8-497f-8017-a7a0-e28ade619e7a" class="" dir="auto">A estrutura fica:</p><pre id="3eaf6ce8-497f-80e0-a8f0-f5006bc1d1c8" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">CLIENTE 1 ───────── N TELEFONE</code></pre><p id="3eaf6ce8-497f-8045-9e25-e9a291260879" class="" dir="auto">Ou seja:</p><blockquote id="3eaf6ce8-497f-80b0-b42a-f6cc48aa8281" class="" dir="auto">Um cliente pode possuir vários telefones.</blockquote><p id="3eaf6ce8-497f-80b4-9cdc-fea9bc7f2091" class="" dir="auto">No banco:</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-sql.min.js" integrity="sha512-sijCOJblSCXYYmXdwvqV0tak8QJW5iy2yLB1wAbbLc3OOIueqymizRFWUS/mwKctnzPKpNdPJV3aK1zlDMJmXQ==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="3eaf6ce8-497f-8035-a478-f13026429174" class="code code-wrap" data-notion-code-syntax="sql"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">CREATE TABLE cliente (
+    id_cliente INT PRIMARY KEY,
+    nome VARCHAR(100) NOT NULL
+);</code></pre><pre id="3eaf6ce8-497f-805a-b7e3-ead5699a8cca" class="code code-wrap" data-notion-code-syntax="sql"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">CREATE TABLE telefone (
+    id_telefone INT PRIMARY KEY,
+    id_cliente INT NOT NULL,
+    numero VARCHAR(20) NOT NULL,
+
+    FOREIGN KEY (id_cliente)
+        REFERENCES cliente(id_cliente)
+);</code></pre><p id="3eaf6ce8-497f-8026-b6c9-c39d08672bed" class="" dir="auto">Assim, podemos cadastrar quantos telefones forem necessários para cada cliente.</p><hr id="3eaf6ce8-497f-801c-8db4-e961cceed4b3" dir="auto"/><h1 id="3eaf6ce8-497f-8083-9448-d38a28627efb" class="" dir="auto">6. Atributo multivalorado no DER</h1><p id="3eaf6ce8-497f-80a4-8b0e-c4d362bd05a0" class="" dir="auto">Na notação tradicional do <strong>DER</strong>, um atributo multivalorado costuma ser representado por uma <strong>elipse dupla</strong>.</p><p id="3eaf6ce8-497f-80a3-8fd3-c1036c6b1c62" class="" dir="auto">Conceitualmente:</p><pre id="3eaf6ce8-497f-80da-bedd-f7d0f56fa741" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">                 ╔═══════════╗
+                 ║ TELEFONE  ║
+                 ╚═══════════╝
+                       │
+                       │
+                  ┌────▼────┐
+                  │ CLIENTE │
+                  └─────────┘</code></pre><p id="3eaf6ce8-497f-80be-962a-d620134b1872" class="" dir="auto">Enquanto um atributo normal é representado por uma única elipse:</p><pre id="3eaf6ce8-497f-8020-9568-da1315a08080" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">          ( nome )
+             |
+        ┌────▼────┐
+        │ CLIENTE │
+        └─────────┘</code></pre><p id="3eaf6ce8-497f-8088-8f3a-eda1704081b1" class="" dir="auto">A representação exata pode variar conforme a notação e a ferramenta utilizada, mas o conceito permanece o mesmo.</p><hr id="3eaf6ce8-497f-8027-a3bb-d39da25e54d9" dir="auto"/><h1 id="3eaf6ce8-497f-803e-acfa-c3f42f2a2cc7" class="" dir="auto">7. Atributo multivalorado × entidade</h1><p id="3eaf6ce8-497f-80c7-ae10-f624caed91d0" class="" dir="auto">Uma dúvida comum é:</p><blockquote id="3eaf6ce8-497f-80d7-b310-da8eaf935a45" class="" dir="auto">&quot;Quando algo possui vários valores, devo usar um atributo multivalorado ou criar uma entidade?&quot;</blockquote><p id="3eaf6ce8-497f-804f-9711-d1cf01f085ce" class="" dir="auto">No modelo conceitual, pode existir um atributo multivalorado. Porém, ao transformar o modelo em um <strong>banco relacional</strong>, frequentemente criamos uma tabela para representar esses valores.</p><p id="3eaf6ce8-497f-8081-a6e5-e1bd1f39a5f3" class="" dir="auto">Por exemplo:</p><pre id="3eaf6ce8-497f-80a4-959e-f2a242849f7c" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">CLIENTE
+   │
+   └── telefones</code></pre><p id="3eaf6ce8-497f-80e1-b2e2-cc744f545ce6" class="" dir="auto">pode ser transformado em:</p><pre id="3eaf6ce8-497f-80fe-8fd2-cb96e86c54ec" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">CLIENTE
+   │
+   │ 1:N
+   ▼
+TELEFONE</code></pre><p id="3eaf6ce8-497f-8035-9090-ec782c7cb53e" class="" dir="auto">Dependendo do sistema, <code>TELEFONE</code> pode ser tratado como uma entidade própria, especialmente se precisar de outras informações:</p><pre id="3eaf6ce8-497f-80d8-b2f2-c1b2dd78b5dc" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">TELEFONE
+├── id_telefone
+├── número
+├── tipo
+└── principal</code></pre><p id="3eaf6ce8-497f-805d-8822-ffe17d91d10b" class="" dir="auto">Por exemplo:</p><pre id="3eaf6ce8-497f-8039-a724-ebaf5ae4576e" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">id | número          | tipo
+---|-----------------|----------
+1  | 8899999-1111    | Celular
+2  | 8833333-2222    | Comercial</code></pre><hr id="3eaf6ce8-497f-80c2-96cd-eced7c3da240" dir="auto"/><h1 id="3eaf6ce8-497f-80d5-b931-feb5849eb8d2" class="" dir="auto">8. Quando usar?</h1><p id="3eaf6ce8-497f-808d-9209-e250b7ddb7a1" class="" dir="auto">Um atributo multivalorado faz sentido quando uma entidade pode possuir <strong>vários valores do mesmo tipo de informação</strong>.</p><p id="3eaf6ce8-497f-8027-a514-e8e21e10b7b9" class="" dir="auto">Exemplo:</p><pre id="3eaf6ce8-497f-80e7-a95d-f497c5f80b63" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">ALUNO
+└── telefones</code></pre><p id="3eaf6ce8-497f-802c-b04b-f7faee865447" class="" dir="auto">Um aluno pode possuir:</p><ul id="3eaf6ce8-497f-8030-a28b-f3f2758d492c" class="bulleted-list" dir="auto"><li style="list-style-type:disc">telefone pessoal;</li></ul><ul id="3eaf6ce8-497f-80f8-88e1-e2d1c113f42d" class="bulleted-list" dir="auto"><li style="list-style-type:disc">telefone dos pais;</li></ul><ul id="3eaf6ce8-497f-809d-b972-e5c9cd6d02af" class="bulleted-list" dir="auto"><li style="list-style-type:disc">telefone de contato de emergência.</li></ul><p id="3eaf6ce8-497f-8008-9dff-f650083f586d" class="" dir="auto">Outro exemplo:</p><pre id="3eaf6ce8-497f-80cb-8458-cca49ae5d71f" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">PROFESSOR
+└── especialidades</code></pre><p id="3eaf6ce8-497f-80cb-a4f7-de0da53dbf86" class="" dir="auto">Um professor pode possuir várias especialidades.</p><p id="3eaf6ce8-497f-80e3-8309-f01d39b33111" class="" dir="auto">Na implementação relacional, esses valores normalmente são separados em outra tabela.</p><hr id="3eaf6ce8-497f-803d-863c-f17aa6c3563e" dir="auto"/><h1 id="3eaf6ce8-497f-805b-b6ba-cbca79036143" class="" dir="auto">9. Cuidado com listas em uma coluna</h1><p id="3eaf6ce8-497f-80fb-aca1-e96b4e1e313a" class="" dir="auto">Evite estruturas como:</p><pre id="3eaf6ce8-497f-80d4-95b8-fc0280162fca" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">id | nome | telefones
+---|------|------------------------------
+1  | João | 1111, 2222, 3333</code></pre><p id="3eaf6ce8-497f-8009-8643-dda221a66344" class="" dir="auto">Isso pode causar problemas para consultar:</p><blockquote id="3eaf6ce8-497f-805a-844f-dedb8310c20f" class="" dir="auto">&quot;Quais clientes possuem o telefone 2222?&quot;</blockquote><p id="3eaf6ce8-497f-809e-9527-e1a101e86fad" class="" dir="auto">Também dificulta:</p><ul id="3eaf6ce8-497f-80c3-a6a9-f2c029afde74" class="bulleted-list" dir="auto"><li style="list-style-type:disc">adicionar um telefone;</li></ul><ul id="3eaf6ce8-497f-80b8-b8eb-dfeb42462fa1" class="bulleted-list" dir="auto"><li style="list-style-type:disc">remover apenas um telefone;</li></ul><ul id="3eaf6ce8-497f-8058-b780-ddcf7498cf60" class="bulleted-list" dir="auto"><li style="list-style-type:disc">validar cada telefone;</li></ul><ul id="3eaf6ce8-497f-8041-a2be-ffb7628f5acf" class="bulleted-list" dir="auto"><li style="list-style-type:disc">criar índices;</li></ul><ul id="3eaf6ce8-497f-80fc-80a1-c241446e5f7c" class="bulleted-list" dir="auto"><li style="list-style-type:disc">relacionar o telefone com outras informações.</li></ul><p id="3eaf6ce8-497f-80e3-a75a-fa92d0ab8703" class="" dir="auto">Uma estrutura melhor seria:</p><pre id="3eaf6ce8-497f-802e-8475-de35e509dd8e" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">CLIENTE
+
+id | nome
+---|------
+1  | João</code></pre><pre id="3eaf6ce8-497f-8038-a0fe-ed64982bd75e" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">TELEFONE
+
+id | id_cliente | numero
+---|------------|--------
+1  | 1          | 1111
+2  | 1          | 2222
+3  | 1          | 3333</code></pre><hr id="3eaf6ce8-497f-80db-9a07-fd6d1f941af9" dir="auto"/><h2 id="3eaf6ce8-497f-80ee-a288-d68791b42034" class="" dir="auto">Resumo</h2><p id="3eaf6ce8-497f-809c-ae38-df365cad3aef" class="" dir="auto"><strong>Atributo multivalorado</strong> é aquele que pode possuir <strong>mais de um valor para uma mesma entidade</strong>.</p><p id="3eaf6ce8-497f-809e-95fb-f5cb2baeb24c" class="" dir="auto">Exemplo:</p><pre id="3eaf6ce8-497f-806b-97ed-ed28c5bdc970" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">CLIENTE
+├── id_cliente
+├── nome
+└── telefones
+       ├── 1111
+       ├── 2222
+       └── 3333</code></pre><p id="3eaf6ce8-497f-8053-8a8e-de35d6eba612" class="" dir="auto">No modelo relacional, geralmente transformamos isso em uma estrutura <strong>1:N</strong>:</p><pre id="3eaf6ce8-497f-8032-9f93-e4f37373ec41" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">CLIENTE 1 ───────── N TELEFONE</code></pre><h3 id="3eaf6ce8-497f-802f-a08b-f7a979d2e4ac" class="" dir="auto">Diferença principal</h3><pre id="3eaf6ce8-497f-809b-818b-ff860347a041" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Atributo simples:
+nome → &quot;João&quot;
+
+Atributo multivalorado:
+telefone → {1111, 2222, 3333}</code></pre><p id="3eaf6ce8-497f-80d4-a088-ccceac239881" class="" dir="auto"><strong>Em resumo:</strong> quando uma entidade pode possuir vários valores de uma determinada informação, temos um <strong>atributo multivalorado</strong>. Em bancos relacionais, esses valores normalmente são armazenados em <strong>uma tabela separada</strong>, evitando colocar listas dentro de uma única coluna.</p></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

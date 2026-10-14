@@ -1,0 +1,883 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Especialização/Generalização</title><meta name="data-notion-page-icon" content="/icons/elephant_blue.svg"/><link rel="icon" href="https://app.notion.com/icons/elephant_blue.svg"/><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+	/* Paint a complete callout box on every PDF page fragment. */
+	-webkit-box-decoration-break: clone;
+	box-decoration-break: clone;
+}
+
+/* For default-background callouts, render the border outline. */
+.callout.block-color-default_background {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+/*
+ * Toggles and callouts hold arbitrary content, so they can easily be taller
+ * than a page. They must stay breakable: avoiding breaks inside them makes
+ * Chromium push the whole block onto the next page, which leaves the previous
+ * page mostly empty before every long toggle.
+ */
+details,
+aside {
+	margin: 1.25em 0;
+}
+
+/* Keep a toggle's title on the same page as the start of its content. */
+summary {
+	page-break-after: avoid;
+	break-after: avoid;
+}
+
+/*
+ * Toggle headings render as <h1/h2/h3 style="display:inline-block"> inside
+ * <summary>. Without this reset, the heading's margin-top pushes it below the
+ * ::marker (▼), so the triangle and the title appear on separate lines.
+ */
+summary h1,
+summary h2,
+summary h3,
+summary h4 {
+	margin-top: 0;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding-inline: 0.125rem;
+	padding-block: 0.375rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+/*
+ * Render emoji icons using a ::before pseudo-element to keep the glyph
+ * out of the DOM textContent traversal. This avoids double-rendering icons
+ * in callouts and page titles.
+ * NOTE(slim/html-export-pseudo-icons): I can't tagref this because it will
+ * flag as a duplicate tag after codegen.
+ */
+.icon[data-emoji]::before {
+	content: attr(data-emoji);
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	margin-right: 0.4em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.tab {
+	margin: 1.25em 0;
+	padding-inline: 1rem;
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style><style>@import url('https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex-swap.min.css')</style></head><body><article id="3ddf6ce8-497f-80ce-a757-d59e84824a29" class="page sans" data-notion-page-icon="/icons/elephant_blue.svg"><header><div class="page-header-icon undefined"><img class="icon notion-static-icon" src="https://app.notion.com/icons/elephant_blue.svg"/></div><h1 class="page-title" dir="auto">Especialização/Generalização</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><h1 id="3ddf6ce8-497f-80c7-ad39-cff9851e8977" class="" dir="auto">Especialização e Generalização</h1><p id="3ddf6ce8-497f-80fb-95e6-f928f8cd8376" class="" dir="auto"><strong>Especialização e generalização</strong> são conceitos do <strong>Modelo Entidade-Relacionamento (MER)</strong> usados para representar entidades que possuem características em comum, mas também apresentam características específicas.</p><p id="3ddf6ce8-497f-806f-bd99-e672733f4de5" class="" dir="auto">Eles são muito úteis quando temos uma entidade <strong>genérica</strong> que pode ser dividida em tipos mais específicos.</p><hr id="3ddf6ce8-497f-8027-8610-f1586567d8e5" dir="auto"/><h2 id="3ddf6ce8-497f-8069-b8eb-e68bb0487fee" class="" dir="auto">1. Generalização</h2><p id="3ddf6ce8-497f-80c7-add8-daa3285c5a96" class="" dir="auto">A <strong>generalização</strong> acontece quando identificamos características comuns de várias entidades e criamos uma entidade mais geral para representá-las.</p><p id="3ddf6ce8-497f-8092-90ab-d9b44111b420" class="" dir="auto">Por exemplo, imagine que um sistema tenha:</p><ul id="3ddf6ce8-497f-803b-b5e4-e8622f834bc2" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><code>ALUNO</code></li></ul><ul id="3ddf6ce8-497f-8014-b91f-d38d89c6faf3" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><code>PROFESSOR</code></li></ul><p id="3ddf6ce8-497f-80c5-bc94-f42361e671b8" class="" dir="auto">Ambos possuem:</p><ul id="3ddf6ce8-497f-803f-a59f-e89e64ad879d" class="bulleted-list" dir="auto"><li style="list-style-type:disc">nome</li></ul><ul id="3ddf6ce8-497f-801a-a746-e9ede9253623" class="bulleted-list" dir="auto"><li style="list-style-type:disc">CPF</li></ul><ul id="3ddf6ce8-497f-8076-b60f-ff00b9bc52e7" class="bulleted-list" dir="auto"><li style="list-style-type:disc">data de nascimento</li></ul><ul id="3ddf6ce8-497f-80ff-b96f-cd3058f91425" class="bulleted-list" dir="auto"><li style="list-style-type:disc">endereço</li></ul><p id="3ddf6ce8-497f-8014-bc11-f8676d4deafd" class="" dir="auto">Podemos criar uma entidade mais geral chamada <strong>PESSOA</strong>:</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="3ddf6ce8-497f-8007-9d75-dcc788e13832" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">                 PESSOA
+              /          \
+             /            \
+         ALUNO          PROFESSOR</code></pre><p id="3ddf6ce8-497f-8030-a161-cc762e9de050" class="" dir="auto">A entidade <code>PESSOA</code> contém os atributos comuns:</p><pre id="3ddf6ce8-497f-80b8-bc74-f2924d93d512" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">PESSOA
+├── id_pessoa
+├── nome
+├── cpf
+└── data_nascimento</code></pre><p id="3ddf6ce8-497f-80a4-b206-efdf1da746f0" class="" dir="auto">Enquanto <code>ALUNO</code> e <code>PROFESSOR</code> possuem suas características específicas:</p><pre id="3ddf6ce8-497f-8095-aae6-e79c580191b6" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">ALUNO
+├── matrícula
+└── curso
+
+PROFESSOR
+├── registro
+└── especialidade</code></pre><p id="3ddf6ce8-497f-8094-aa29-e3b1694c3db2" class="" dir="auto">Assim, a <strong>generalização</strong> parte de entidades específicas e identifica uma entidade mais genérica.</p><p id="3ddf6ce8-497f-80f0-9261-ca9f8c4f706e" class="" dir="auto"><strong>Ideia:</strong></p><blockquote id="3ddf6ce8-497f-8023-bbb2-c6df7f85e350" class="" dir="auto">ALUNO + PROFESSOR → PESSOA</blockquote><hr id="3ddf6ce8-497f-80fb-8218-fea592789a85" dir="auto"/><h1 id="3ddf6ce8-497f-8080-9930-fc87808d4a15" class="" dir="auto">2. Especialização</h1><p id="3ddf6ce8-497f-80d1-a01c-f1c52dc76b9b" class="" dir="auto">A <strong>especialização</strong> é o processo inverso.</p><p id="3ddf6ce8-497f-800d-a641-c3af1c77165d" class="" dir="auto">Partimos de uma entidade geral e criamos entidades mais específicas.</p><p id="3ddf6ce8-497f-80c3-8e35-f694094afa85" class="" dir="auto">Por exemplo:</p><pre id="3ddf6ce8-497f-80e6-8531-cc1d937b8a88" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">                 FUNCIONÁRIO
+                /           \
+               /             \
+          GERENTE          VENDEDOR</code></pre><p id="3ddf6ce8-497f-80ab-8592-c22bfe0aa63f" class="" dir="auto"><code>FUNCIONÁRIO</code> possui atributos comuns:</p><pre id="3ddf6ce8-497f-8039-80c7-c41c62d462f0" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">FUNCIONÁRIO
+├── id_funcionario
+├── nome
+├── cpf
+└── salário</code></pre><p id="3ddf6ce8-497f-8058-93cc-d26803083e15" class="" dir="auto">Já <code>GERENTE</code> pode possuir:</p><pre id="3ddf6ce8-497f-809f-8777-cc937157c38c" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">GERENTE
+└── setor_responsável</code></pre><p id="3ddf6ce8-497f-8027-b7b5-f15cab84f83e" class="" dir="auto">E <code>VENDEDOR</code>:</p><pre id="3ddf6ce8-497f-80d7-8ac4-e3cc70241771" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">VENDEDOR
+└── comissão</code></pre><p id="3ddf6ce8-497f-8049-adeb-c6ea30560f8b" class="" dir="auto">Nesse caso:</p><blockquote id="3ddf6ce8-497f-8071-ad52-fb9554225ef7" class="" dir="auto">FUNCIONÁRIO → GERENTE + VENDEDOR</blockquote><p id="3ddf6ce8-497f-8060-b25e-dd3ab5144e95" class="" dir="auto">Isso é <strong>especialização</strong>.</p><hr id="3ddf6ce8-497f-80cc-b3a9-f5f3660ca31e" dir="auto"/><h1 id="3ddf6ce8-497f-80c6-a909-c02223bcc6d1" class="" dir="auto">3. Herança</h1><p id="3ddf6ce8-497f-80df-9c77-e62f86bdf8c0" class="" dir="auto">Um conceito importante relacionado à especialização/generalização é a <strong>herança</strong>.</p><p id="3ddf6ce8-497f-80a0-b7d5-fbd4eb8a3be6" class="" dir="auto">As entidades especializadas <strong>herdam os atributos e relacionamentos da entidade generalizada</strong>.</p><p id="3ddf6ce8-497f-804b-8e04-e3257c9b83ac" class="" dir="auto">Por exemplo:</p><pre id="3ddf6ce8-497f-8002-9644-f9c8b7658573" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">             FUNCIONÁRIO
+            /            \
+           /              \
+      GERENTE            VENDEDOR</code></pre><p id="3ddf6ce8-497f-80eb-9c00-c13bd7f80872" class="" dir="auto">Se <code>FUNCIONÁRIO</code> possui:</p><pre id="3ddf6ce8-497f-8012-8831-c1907244f9c8" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">id
+nome
+cpf
+salário</code></pre><p id="3ddf6ce8-497f-8007-876d-e149c57c4427" class="" dir="auto"><code>GERENTE</code> e <code>VENDEDOR</code> também possuem essas características.</p><p id="3ddf6ce8-497f-809c-b567-fd34b5fa69ef" class="" dir="auto">Além disso, cada uma pode ter seus próprios atributos:</p><pre id="3ddf6ce8-497f-8075-998f-e929d441145a" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">GERENTE
+├── id
+├── nome
+├── cpf
+├── salário
+└── setor_responsável</code></pre><pre id="3ddf6ce8-497f-8008-8bda-d2db5126df1a" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">VENDEDOR
+├── id
+├── nome
+├── cpf
+├── salário
+└── comissão</code></pre><p id="3ddf6ce8-497f-80a8-a198-fdb1efa0decd" class="" dir="auto">Portanto:</p><p id="3ddf6ce8-497f-8032-acab-c30b8a4ea324" class="" dir="auto"><strong>Entidade especializada = atributos herdados + atributos próprios.</strong></p><hr id="3ddf6ce8-497f-80d5-a825-cc018d4027b3" dir="auto"/><h1 id="3ddf6ce8-497f-8028-ab5d-e74b243526e8" class="" dir="auto">4. Exemplo prático</h1><p id="3ddf6ce8-497f-8038-a8a1-e44a6ae7c9a0" class="" dir="auto">Imagine um sistema de uma universidade.</p><p id="3ddf6ce8-497f-8089-a142-ffad5a4cac86" class="" dir="auto">Temos diferentes tipos de pessoas:</p><pre id="3ddf6ce8-497f-80fb-999f-c4ccd8498809" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">                    PESSOA
+                  /        \
+                 /          \
+              ALUNO       PROFESSOR</code></pre><h3 id="3ddf6ce8-497f-80b5-8569-c161194d1952" class="" dir="auto">PESSOA</h3><pre id="3ddf6ce8-497f-8007-860d-d4d669fd52dd" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">id_pessoa
+nome
+cpf
+data_nascimento</code></pre><h3 id="3ddf6ce8-497f-80a0-bf56-c1b0b388cec4" class="" dir="auto">ALUNO</h3><pre id="3ddf6ce8-497f-8004-9d2d-f3f52dbc13e0" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">matricula
+curso</code></pre><h3 id="3ddf6ce8-497f-80a1-84af-c420127bc550" class="" dir="auto">PROFESSOR</h3><pre id="3ddf6ce8-497f-80da-9daa-d7a2682e00c6" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">registro
+especialidade
+salario</code></pre><p id="3ddf6ce8-497f-80c8-9206-c271671d85bd" class="" dir="auto">Podemos representar assim:</p><pre id="3ddf6ce8-497f-802e-a7bc-f5fcc5e56015" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">                    PESSOA
+               ┌──────────────┐
+               │ id_pessoa    │
+               │ nome         │
+               │ cpf          │
+               │ nascimento   │
+               └──────┬───────┘
+                      │
+             ┌────────┴────────┐
+             │                 │
+        ┌────▼─────┐      ┌────▼────────┐
+        │  ALUNO   │      │ PROFESSOR   │
+        ├──────────┤      ├─────────────┤
+        │ matrícula│      │ registro    │
+        │ curso    │      │ especialid. │
+        └──────────┘      │ salário     │
+                          └─────────────┘</code></pre><p id="3ddf6ce8-497f-805a-9080-e97458f7e510" class="" dir="auto">A entidade <code>PESSOA</code> concentra o que é comum, enquanto <code>ALUNO</code> e <code>PROFESSOR</code> possuem informações específicas.</p><hr id="3ddf6ce8-497f-8041-9c72-d3a313bb0973" dir="auto"/><h1 id="3ddf6ce8-497f-8061-8a08-f1242bf3d598" class="" dir="auto">5. Especialização total e parcial</h1><p id="3ddf6ce8-497f-80d7-884e-f03cfcab952d" class="" dir="auto">A especialização pode ser <strong>total</strong> ou <strong>parcial</strong>.</p><h3 id="3ddf6ce8-497f-80ed-b4b6-faf17b7cbc0a" class="" dir="auto">Especialização total</h3><p id="3ddf6ce8-497f-80c6-8085-e07d0da5ed03" class="" dir="auto">Significa que <strong>toda ocorrência da entidade genérica obrigatoriamente pertence a algum subtipo</strong>.</p><p id="3ddf6ce8-497f-8098-9477-ec26b0671dec" class="" dir="auto">Exemplo:</p><pre id="3ddf6ce8-497f-80a8-9cb1-ede5ce1c6c69" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">              FUNCIONÁRIO
+             /            \
+        GERENTE          VENDEDOR</code></pre><p id="3ddf6ce8-497f-8076-98b6-eb9f4a2d89bf" class="" dir="auto">Se a regra do sistema disser que todo funcionário deve ser obrigatoriamente gerente ou vendedor, temos uma especialização <strong>total</strong>.</p><hr id="3ddf6ce8-497f-8031-b3a8-d6fbbaee97ea" dir="auto"/><h3 id="3ddf6ce8-497f-80e2-aaac-c43abd308ac7" class="" dir="auto">Especialização parcial</h3><p id="3ddf6ce8-497f-80d6-9e06-da893db8feca" class="" dir="auto">Significa que uma ocorrência da entidade genérica <strong>pode não pertencer a nenhum subtipo</strong>.</p><p id="3ddf6ce8-497f-8038-919e-cc53b2b2276f" class="" dir="auto">Por exemplo:</p><pre id="3ddf6ce8-497f-807a-9ebb-fc770b91e9cb" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">              FUNCIONÁRIO
+             /            \
+        GERENTE          VENDEDOR</code></pre><p id="3ddf6ce8-497f-800a-9f0d-d966a9580e50" class="" dir="auto">Um funcionário pode ser apenas um funcionário comum, sem ser gerente nem vendedor.</p><p id="3ddf6ce8-497f-8049-aa45-ea53b5fb6a6b" class="" dir="auto">Nesse caso, temos uma especialização <strong>parcial</strong>.</p><hr id="3ddf6ce8-497f-8013-819b-d12212056b29" dir="auto"/><h1 id="3ddf6ce8-497f-8018-aeb2-c5dd78415c32" class="" dir="auto">6. Especialização disjunta e sobreposta</h1><p id="3ddf6ce8-497f-804c-b574-ddcbc6efaa77" class="" dir="auto">Também podemos definir se uma entidade pode pertencer a <strong>um ou vários subtipos</strong>.</p><h3 id="3ddf6ce8-497f-809d-b885-e2ef681d13b7" class="" dir="auto">Disjunta</h3><p id="3ddf6ce8-497f-8016-9674-cc802d2455b6" class="" dir="auto">Uma ocorrência pode pertencer a <strong>apenas um subtipo</strong>.</p><p id="3ddf6ce8-497f-808a-95d7-c5ef756fbfe8" class="" dir="auto">Exemplo:</p><pre id="3ddf6ce8-497f-801c-95b1-f39ea07b23b3" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">                 FUNCIONÁRIO
+                /           \
+           GERENTE         VENDEDOR</code></pre><p id="3ddf6ce8-497f-8010-b1eb-d3908c86b498" class="" dir="auto">Um funcionário não pode ser gerente e vendedor simultaneamente.</p><hr id="3ddf6ce8-497f-8038-9f38-d063a8070f1e" dir="auto"/><h3 id="3ddf6ce8-497f-800d-b584-f956ac819a43" class="" dir="auto">Sobreposta</h3><p id="3ddf6ce8-497f-80a1-bf7b-da1d47219cd3" class="" dir="auto">Uma ocorrência pode pertencer a <strong>mais de um subtipo</strong>.</p><p id="3ddf6ce8-497f-8071-ba6e-f95cbd3fd4fe" class="" dir="auto">Por exemplo:</p><pre id="3ddf6ce8-497f-80ef-8733-e2808afc5570" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">                    PESSOA
+                   /      \
+              ALUNO      FUNCIONÁRIO</code></pre><p id="3ddf6ce8-497f-80a1-9d48-f83ee384d351" class="" dir="auto">Uma pessoa pode ser simultaneamente:</p><ul id="3ddf6ce8-497f-80de-8130-f45e228b1fbc" class="bulleted-list" dir="auto"><li style="list-style-type:disc">aluno;</li></ul><ul id="3ddf6ce8-497f-80d0-b1f5-d10e7c06f858" class="bulleted-list" dir="auto"><li style="list-style-type:disc">funcionário.</li></ul><p id="3ddf6ce8-497f-8032-b4fe-f8ef88179b59" class="" dir="auto">Nesse caso, a especialização é <strong>sobreposta</strong>.</p><hr id="3ddf6ce8-497f-80a3-a624-f640e10a4110" dir="auto"/><h1 id="3ddf6ce8-497f-8013-aca2-f004f9079f4f" class="" dir="auto">7. Generalização × Especialização</h1><p id="3ddf6ce8-497f-80cb-8ae2-ce071caa1989" class="" dir="auto">A diferença principal é a direção do processo:</p><table id="3ddf6ce8-497f-80ac-aa24-c713e5dd2890" class="simple-table" dir="ltr"><thead class="simple-table-header"><tr id="3ddf6ce8-497f-805b-b06c-e73f5c9843ae" dir="ltr"><th id="LTIX" class="simple-table-header-color simple-table-header">Generalização</th><th id="QhPI" class="simple-table-header-color simple-table-header">Especialização</th></tr></thead><tbody><tr id="3ddf6ce8-497f-8032-a21f-eb15cb16255d" dir="ltr"><td id="LTIX" class="">Parte do específico para o geral</td><td id="QhPI" class="">Parte do geral para o específico</td></tr><tr id="3ddf6ce8-497f-8017-ba61-d3fd929e5424" dir="ltr"><td id="LTIX" class="">Agrupa características comuns</td><td id="QhPI" class="">Divide uma entidade em subtipos</td></tr><tr id="3ddf6ce8-497f-8074-9f2e-e76aa9cda8ad" dir="ltr"><td id="LTIX" class="">ALUNO + PROFESSOR → PESSOA</td><td id="QhPI" class="">PESSOA → ALUNO + PROFESSOR</td></tr><tr id="3ddf6ce8-497f-80e0-86ce-dd1c8bde1a20" dir="ltr"><td id="LTIX" class="">Busca uma entidade mais genérica</td><td id="QhPI" class="">Cria entidades mais específicas</td></tr></tbody></table><p id="3ddf6ce8-497f-808e-b183-e42c72473712" class="" dir="auto">Uma forma fácil de lembrar:</p><pre id="3ddf6ce8-497f-8051-9d0e-f1d91da48720" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">GENERALIZAÇÃO
+específico → geral
+
+ALUNO
+PROFESSOR
+   ↓
+PESSOA</code></pre><pre id="3ddf6ce8-497f-8046-acb1-d2e1d15a21af" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">ESPECIALIZAÇÃO
+geral → específico
+
+PESSOA
+   ↓
+ALUNO
+PROFESSOR</code></pre><hr id="3ddf6ce8-497f-801e-84b7-c20341f6fca7" dir="auto"/><h2 id="3ddf6ce8-497f-801f-a834-c3d4f0cc38f8" class="" dir="auto">8. Quando utilizar?</h2><p id="3ddf6ce8-497f-8073-9c84-eeb2b1b6342b" class="" dir="auto">Especialização/generalização é útil quando existem <strong>entidades com muitas características em comum</strong>, mas algumas características são exclusivas de determinados tipos.</p><p id="3ddf6ce8-497f-805f-82bf-c640e241a252" class="" dir="auto">Por exemplo:</p><pre id="3ddf6ce8-497f-80eb-9189-dbfac6ba6a02" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">                 VEÍCULO
+                /       \
+               /         \
+           CARRO        MOTO</code></pre><p id="3ddf6ce8-497f-8072-8cb1-f34d70d5a91a" class="" dir="auto"><code>VEÍCULO</code>:</p><ul id="3ddf6ce8-497f-80e8-86fb-fd71f4f91969" class="bulleted-list" dir="auto"><li style="list-style-type:disc">placa</li></ul><ul id="3ddf6ce8-497f-80c4-a5b1-c029105ff2f9" class="bulleted-list" dir="auto"><li style="list-style-type:disc">marca</li></ul><ul id="3ddf6ce8-497f-8040-a523-ee459605c32b" class="bulleted-list" dir="auto"><li style="list-style-type:disc">modelo</li></ul><ul id="3ddf6ce8-497f-8004-a23c-da4eac0d3f87" class="bulleted-list" dir="auto"><li style="list-style-type:disc">ano</li></ul><p id="3ddf6ce8-497f-80eb-b9fe-f0bd6c57ee3b" class="" dir="auto"><code>CARRO</code>:</p><ul id="3ddf6ce8-497f-800c-ab97-c3e7e6bd4de5" class="bulleted-list" dir="auto"><li style="list-style-type:disc">quantidade_portas</li></ul><p id="3ddf6ce8-497f-806e-8970-c506d0c557cb" class="" dir="auto"><code>MOTO</code>:</p><ul id="3ddf6ce8-497f-8060-a107-d085f8990e56" class="bulleted-list" dir="auto"><li style="list-style-type:disc">cilindradas</li></ul><p id="3ddf6ce8-497f-8018-a3d6-f8f3fdddab34" class="" dir="auto">Isso evita repetir os atributos comuns em cada entidade.</p><hr id="3ddf6ce8-497f-80d5-8603-e1610c956adf" dir="auto"/><h2 id="3ddf6ce8-497f-8053-bf6f-f671dbd01fd0" class="" dir="auto">Resumo</h2><p id="3ddf6ce8-497f-803f-b71b-f03e32bdf678" class="" dir="auto"><strong>Generalização</strong> é a criação de uma entidade mais geral a partir de entidades específicas.</p><p id="3ddf6ce8-497f-805a-90bf-edbef61925b1" class="" dir="auto"><strong>Especialização</strong> é a divisão de uma entidade geral em entidades mais específicas.</p><p id="3ddf6ce8-497f-80b3-8dba-db09e2dda555" class="" dir="auto">Os conceitos principais são:</p><ul id="3ddf6ce8-497f-80ef-a8b8-e6bb80b9fefd" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>Superclasse</strong> → entidade mais geral.</li></ul><ul id="3ddf6ce8-497f-80bd-8316-f1590db97e20" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>Subclasse</strong> → entidade especializada.</li></ul><ul id="3ddf6ce8-497f-8004-81c4-edb742495615" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>Herança</strong> → subclasses recebem características da superclasse.</li></ul><ul id="3ddf6ce8-497f-80c2-bdfc-c7677b8d16e6" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>Total</strong> → toda ocorrência pertence a algum subtipo.</li></ul><ul id="3ddf6ce8-497f-8028-8e9e-f99058ae15f9" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>Parcial</strong> → algumas ocorrências podem não pertencer a nenhum subtipo.</li></ul><ul id="3ddf6ce8-497f-804a-bcce-f95461b50c70" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>Disjunta</strong> → pertence a apenas um subtipo.</li></ul><ul id="3ddf6ce8-497f-80b3-a9d0-efa4574c5730" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>Sobreposta</strong> → pode pertencer a vários subtipos.</li></ul><p id="3ddf6ce8-497f-8013-8545-f5270f282e22" class="" dir="auto">Em termos simples:</p><blockquote id="3ddf6ce8-497f-8090-a3ec-c992e85495fc" class="" dir="auto"><strong>Generalização agrupa. Especialização divide.</strong></blockquote></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

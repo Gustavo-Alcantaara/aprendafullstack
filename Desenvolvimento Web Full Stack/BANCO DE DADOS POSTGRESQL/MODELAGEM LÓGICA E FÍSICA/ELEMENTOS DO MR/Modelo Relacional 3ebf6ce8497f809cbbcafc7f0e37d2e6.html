@@ -1,0 +1,907 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Modelo Relacional</title><meta name="data-notion-page-icon" content="/icons/elephant_blue.svg"/><link rel="icon" href="https://app.notion.com/icons/elephant_blue.svg"/><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+	/* Paint a complete callout box on every PDF page fragment. */
+	-webkit-box-decoration-break: clone;
+	box-decoration-break: clone;
+}
+
+/* For default-background callouts, render the border outline. */
+.callout.block-color-default_background {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+/*
+ * Toggles and callouts hold arbitrary content, so they can easily be taller
+ * than a page. They must stay breakable: avoiding breaks inside them makes
+ * Chromium push the whole block onto the next page, which leaves the previous
+ * page mostly empty before every long toggle.
+ */
+details,
+aside {
+	margin: 1.25em 0;
+}
+
+/* Keep a toggle's title on the same page as the start of its content. */
+summary {
+	page-break-after: avoid;
+	break-after: avoid;
+}
+
+/*
+ * Toggle headings render as <h1/h2/h3 style="display:inline-block"> inside
+ * <summary>. Without this reset, the heading's margin-top pushes it below the
+ * ::marker (▼), so the triangle and the title appear on separate lines.
+ */
+summary h1,
+summary h2,
+summary h3,
+summary h4 {
+	margin-top: 0;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding-inline: 0.125rem;
+	padding-block: 0.375rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+/*
+ * Render emoji icons using a ::before pseudo-element to keep the glyph
+ * out of the DOM textContent traversal. This avoids double-rendering icons
+ * in callouts and page titles.
+ * NOTE(slim/html-export-pseudo-icons): I can't tagref this because it will
+ * flag as a duplicate tag after codegen.
+ */
+.icon[data-emoji]::before {
+	content: attr(data-emoji);
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	margin-right: 0.4em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.tab {
+	margin: 1.25em 0;
+	padding-inline: 1rem;
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style><style>@import url('https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex-swap.min.css')</style></head><body><article id="3ebf6ce8-497f-809c-bbca-fc7f0e37d2e6" class="page sans" data-notion-page-icon="/icons/elephant_blue.svg"><header><div class="page-header-icon undefined"><img class="icon notion-static-icon" src="https://app.notion.com/icons/elephant_blue.svg"/></div><h1 class="page-title" dir="auto">Modelo Relacional</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><h1 id="3ebf6ce8-497f-80e0-b058-d1c76648f60d" class="" dir="auto">Modelo Relacional e Componentes Básicos de uma Tabela</h1><p id="3ebf6ce8-497f-8059-9b6c-c91b18b7ab95" class="" dir="auto">O <strong>modelo relacional</strong> é um dos modelos mais utilizados para organizar dados em bancos de dados. Ele representa as informações por meio de <strong>tabelas</strong>, formadas por <strong>linhas e colunas</strong>, e utiliza relacionamentos para conectar diferentes tabelas.</p><p id="3ebf6ce8-497f-805f-8508-dd1f51116b09" class="" dir="auto">SGBDs como MySQL, PostgreSQL, SQL Server e Oracle utilizam esse modelo.</p><hr id="3ebf6ce8-497f-8078-801b-f644e82abb39" dir="auto"/><h2 id="3ebf6ce8-497f-80d2-af17-d074c4e9fa7d" class="" dir="auto">1. O que é o modelo relacional?</h2><p id="3ebf6ce8-497f-80dd-873c-fcf6e8dbdd1e" class="" dir="auto">No modelo relacional, os dados são organizados em <strong>relações</strong>, que na prática são representadas por <strong>tabelas</strong>.</p><p id="3ebf6ce8-497f-8039-a02d-e34f8f2b7327" class="" dir="auto">Por exemplo, podemos ter uma tabela <code>CLIENTE</code>:</p><table id="3ebf6ce8-497f-804c-8cb0-efd65851fa60" class="simple-table" dir="ltr"><thead class="simple-table-header"><tr id="3ebf6ce8-497f-8096-b89d-d9f91b3e2ce5" dir="ltr"><th id="G`ts" class="simple-table-header-color simple-table-header">id_cliente</th><th id="bS&gt;k" class="simple-table-header-color simple-table-header">nome</th><th id="}?vP" class="simple-table-header-color simple-table-header">email</th><th id="s&lt;sO" class="simple-table-header-color simple-table-header">cidade</th></tr></thead><tbody><tr id="3ebf6ce8-497f-8058-ba4e-f258c1dac83f" dir="ltr"><td id="G`ts" class="">1</td><td id="bS&gt;k" class="">João</td><td id="}?vP" class=""><a href="mailto:joao@email.com">joao@email.com</a></td><td id="s&lt;sO" class="">Fortaleza</td></tr><tr id="3ebf6ce8-497f-8055-ae7b-cca1b152067f" dir="ltr"><td id="G`ts" class="">2</td><td id="bS&gt;k" class="">Maria</td><td id="}?vP" class=""><a href="mailto:maria@email.com">maria@email.com</a></td><td id="s&lt;sO" class="">Natal</td></tr><tr id="3ebf6ce8-497f-80e0-a25c-f14a1d85cb47" dir="ltr"><td id="G`ts" class="">3</td><td id="bS&gt;k" class="">Pedro</td><td id="}?vP" class=""><a href="mailto:pedro@email.com">pedro@email.com</a></td><td id="s&lt;sO" class="">Recife</td></tr></tbody></table><p id="3ebf6ce8-497f-8085-9497-e36e11eb23be" class="" dir="auto">Essa tabela representa informações sobre clientes.</p><p id="3ebf6ce8-497f-80de-b82e-e8fe75d8ed29" class="" dir="auto">O modelo relacional permite:</p><ul id="3ebf6ce8-497f-80b8-873b-c2eb7925c584" class="bulleted-list" dir="auto"><li style="list-style-type:disc">organizar os dados;</li></ul><ul id="3ebf6ce8-497f-80f3-9384-ed2d21b2b656" class="bulleted-list" dir="auto"><li style="list-style-type:disc">evitar duplicações desnecessárias;</li></ul><ul id="3ebf6ce8-497f-80d9-9c3a-ed34e3ede5b8" class="bulleted-list" dir="auto"><li style="list-style-type:disc">estabelecer relacionamentos entre informações;</li></ul><ul id="3ebf6ce8-497f-8063-9e79-ce4fe2d12333" class="bulleted-list" dir="auto"><li style="list-style-type:disc">consultar os dados através de SQL;</li></ul><ul id="3ebf6ce8-497f-803a-a535-caf81c5a7f53" class="bulleted-list" dir="auto"><li style="list-style-type:disc">garantir regras de integridade.</li></ul><hr id="3ebf6ce8-497f-807a-9a47-ed81e0a97976" dir="auto"/><h1 id="3ebf6ce8-497f-8074-82fb-c6bd78b63325" class="" dir="auto">2. Componentes básicos de uma tabela</h1><p id="3ebf6ce8-497f-8095-9ade-ec7a6dd28ebd" class="" dir="auto">Uma tabela possui principalmente:</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="3ebf6ce8-497f-8065-a142-d60d7c27784a" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Tabela
+│
+├── Colunas
+│   ├── Nome
+│   ├── Tipo de dado
+│   └── Restrições
+│
+└── Linhas
+    └── Registros</code></pre><p id="3ebf6ce8-497f-8091-a829-ddda017dfa4b" class="" dir="auto">Vamos analisar cada componente.</p><hr id="3ebf6ce8-497f-80a2-8208-d4d153c9516b" dir="auto"/><h2 id="3ebf6ce8-497f-8014-a00b-fdd86c22c495" class="" dir="auto">3. Tabela</h2><p id="3ebf6ce8-497f-8004-9141-dadfbaba5b14" class="" dir="auto">A <strong>tabela</strong> representa um conjunto de dados sobre determinado assunto ou entidade.</p><p id="3ebf6ce8-497f-8083-8270-e78b178bee8e" class="" dir="auto">Exemplos:</p><pre id="3ebf6ce8-497f-8003-a002-e60568d661b1" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">CLIENTE
+PRODUTO
+PEDIDO
+FUNCIONARIO
+CURSO
+ALUNO</code></pre><p id="3ebf6ce8-497f-8072-b373-eb7af8356216" class="" dir="auto">Por exemplo:</p><pre id="3ebf6ce8-497f-80ad-a99f-e7d90efc3adf" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">CLIENTE
+---------------------------------
+id_cliente | nome | email</code></pre><p id="3ebf6ce8-497f-807c-be0e-e2214fb07008" class="" dir="auto">Uma tabela normalmente representa uma entidade ou conceito do sistema.</p><hr id="3ebf6ce8-497f-80bd-b1a4-c2398ec8de5c" dir="auto"/><h1 id="3ebf6ce8-497f-803e-b382-dab006980e84" class="" dir="auto">4. Colunas</h1><p id="3ebf6ce8-497f-80c0-9575-cee6f98621e4" class="" dir="auto">As <strong>colunas</strong> representam os <strong>atributos</strong> dos dados armazenados.</p><p id="3ebf6ce8-497f-80ab-b132-ceb71e994591" class="" dir="auto">Por exemplo:</p><pre id="3ebf6ce8-497f-801e-994f-c4ee44384eaa" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">CLIENTE
+--------------------------------
+id_cliente
+nome
+email
+data_nascimento</code></pre><p id="3ebf6ce8-497f-80d6-a76c-f7940e53bca0" class="" dir="auto">Cada coluna possui um significado específico.</p><p id="3ebf6ce8-497f-806c-a839-e61c91985262" class="" dir="auto">Podemos relacionar isso com o que vimos anteriormente:</p><pre id="3ebf6ce8-497f-80b1-86a6-df080b6b9ab6" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Entidade: CLIENTE
+
+Atributos:
+- id_cliente
+- nome
+- email
+- data_nascimento</code></pre><p id="3ebf6ce8-497f-80f1-ac7e-efc211df4f30" class="" dir="auto">Quando passamos para o modelo relacional, esses atributos normalmente se tornam <strong>colunas</strong>.</p><hr id="3ebf6ce8-497f-809e-ba6c-db314e73cd3e" dir="auto"/><h1 id="3ebf6ce8-497f-8098-a72f-c15fd35d23cf" class="" dir="auto">5. Tipo de dado</h1><p id="3ebf6ce8-497f-8036-b91b-fa4c8da59a5a" class="" dir="auto">Cada coluna possui um <strong>tipo de dado</strong>, que determina que tipo de informação ela pode armazenar.</p><p id="3ebf6ce8-497f-80ef-b252-ecd5adde8625" class="" dir="auto">Por exemplo:</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-sql.min.js" integrity="sha512-sijCOJblSCXYYmXdwvqV0tak8QJW5iy2yLB1wAbbLc3OOIueqymizRFWUS/mwKctnzPKpNdPJV3aK1zlDMJmXQ==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="3ebf6ce8-497f-80c3-a7f5-e1fab8fe6e9b" class="code code-wrap" data-notion-code-syntax="sql"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">CREATE TABLE cliente (
+    id_cliente INT,
+    nome VARCHAR(100),
+    email VARCHAR(150),
+    data_nascimento DATE
+);</code></pre><p id="3ebf6ce8-497f-8057-8398-de778e5cde85" class="" dir="auto">Aqui:</p><table id="3ebf6ce8-497f-80f1-a7e3-c40396b229ef" class="simple-table" dir="ltr"><thead class="simple-table-header"><tr id="3ebf6ce8-497f-8091-bd8e-ed15dc836d9f" dir="ltr"><th id="_Laz" class="simple-table-header-color simple-table-header">Coluna</th><th id="UXUP" class="simple-table-header-color simple-table-header">Tipo</th></tr></thead><tbody><tr id="3ebf6ce8-497f-8052-96cd-e211162d5a18" dir="ltr"><td id="_Laz" class=""><code>id_cliente</code></td><td id="UXUP" class=""><code>INT</code></td></tr><tr id="3ebf6ce8-497f-8006-a3b6-c4f214785f7f" dir="ltr"><td id="_Laz" class=""><code>nome</code></td><td id="UXUP" class=""><code>VARCHAR</code></td></tr><tr id="3ebf6ce8-497f-807a-9083-eae32c849886" dir="ltr"><td id="_Laz" class=""><code>email</code></td><td id="UXUP" class=""><code>VARCHAR</code></td></tr><tr id="3ebf6ce8-497f-80cd-b359-fbb03da9ab73" dir="ltr"><td id="_Laz" class=""><code>data_nascimento</code></td><td id="UXUP" class=""><code>DATE</code></td></tr></tbody></table><p id="3ebf6ce8-497f-8002-89e3-ff5f45db353c" class="" dir="auto">Alguns tipos comuns:</p><pre id="3ebf6ce8-497f-8030-b065-c05ab8c04357" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">INT       → números inteiros
+DECIMAL   → números decimais
+VARCHAR   → textos
+DATE      → datas
+DATETIME  → data e hora
+BOOLEAN   → verdadeiro/falso</code></pre><hr id="3ebf6ce8-497f-80e7-8bce-ed40834674dd" dir="auto"/><h1 id="3ebf6ce8-497f-8064-96ce-fe2bac63383b" class="" dir="auto">6. Linhas ou registros</h1><p id="3ebf6ce8-497f-80cc-ba22-f1866ea5895a" class="" dir="auto">As <strong>linhas</strong> representam os registros armazenados na tabela.</p><p id="3ebf6ce8-497f-80b3-801b-f0b847d6070d" class="" dir="auto">Por exemplo:</p><table id="3ebf6ce8-497f-8002-ab1b-c9143285696a" class="simple-table" dir="ltr"><thead class="simple-table-header"><tr id="3ebf6ce8-497f-80cc-abad-decebfc4064c" dir="ltr"><th id="?G]Y" class="simple-table-header-color simple-table-header">id_cliente</th><th id="}aJj" class="simple-table-header-color simple-table-header">nome</th><th id="yi|t" class="simple-table-header-color simple-table-header">email</th></tr></thead><tbody><tr id="3ebf6ce8-497f-8040-be72-d65bedee50e4" dir="ltr"><td id="?G]Y" class="">1</td><td id="}aJj" class="">João</td><td id="yi|t" class=""><a href="mailto:joao@email.com">joao@email.com</a></td></tr><tr id="3ebf6ce8-497f-80ba-a9da-de96ca4f7b3f" dir="ltr"><td id="?G]Y" class="">2</td><td id="}aJj" class="">Maria</td><td id="yi|t" class=""><a href="mailto:maria@email.com">maria@email.com</a></td></tr><tr id="3ebf6ce8-497f-8098-8fa2-e8a1ae149603" dir="ltr"><td id="?G]Y" class="">3</td><td id="}aJj" class="">Pedro</td><td id="yi|t" class=""><a href="mailto:pedro@email.com">pedro@email.com</a></td></tr></tbody></table><p id="3ebf6ce8-497f-8046-afcd-e306d0e538fa" class="" dir="auto">Temos <strong>3 registros</strong>.</p><p id="3ebf6ce8-497f-8050-b996-fe8f0a4c7fd5" class="" dir="auto">Cada registro representa uma ocorrência da entidade <code>CLIENTE</code>.</p><pre id="3ebf6ce8-497f-8097-b0f6-daef02e53cd5" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">CLIENTE
+   ↓
+João
+Maria
+Pedro</code></pre><p id="3ebf6ce8-497f-80c9-a1bc-ea2c3ece2466" class="" dir="auto">Uma forma simples de lembrar:</p><blockquote id="3ebf6ce8-497f-80b4-87f5-e61eb6d67f27" class="" dir="auto"><strong>Coluna = característica</strong><p id="3ebf6ce8-497f-801a-95ca-dfcf7eaf53d3" class="" dir="auto"><strong>Linha = ocorrência/registro</strong></p></blockquote><hr id="3ebf6ce8-497f-803d-a47d-ce0cc941648f" dir="auto"/><h1 id="3ebf6ce8-497f-80ff-a3bf-cf1e3a080ff3" class="" dir="auto">7. Célula</h1><p id="3ebf6ce8-497f-80f4-b65a-cef99722e0c1" class="" dir="auto">A interseção entre uma <strong>linha</strong> e uma <strong>coluna</strong> forma uma célula.</p><p id="3ebf6ce8-497f-8040-8149-caf8baf5a3b9" class="" dir="auto">Por exemplo:</p><table id="3ebf6ce8-497f-80f8-82e1-f9956bb12ae4" class="simple-table" dir="ltr"><thead class="simple-table-header"><tr id="3ebf6ce8-497f-80da-99a9-c037bf82973e" dir="ltr"><th id="poXL" class="simple-table-header-color simple-table-header">id_cliente</th><th id="{P[W" class="simple-table-header-color simple-table-header">nome</th><th id="F~wz" class="simple-table-header-color simple-table-header">cidade</th></tr></thead><tbody><tr id="3ebf6ce8-497f-803d-981b-f02ca1eebbe6" dir="ltr"><td id="poXL" class="">1</td><td id="{P[W" class="">João</td><td id="F~wz" class="">Fortaleza</td></tr></tbody></table><p id="3ebf6ce8-497f-8031-8f46-f33a6a0c6160" class="" dir="auto">A célula:</p><pre id="3ebf6ce8-497f-80d1-98e9-d8877e5d6a43" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">João</code></pre><p id="3ebf6ce8-497f-803c-b379-dbd03421b2d3" class="" dir="auto">é o valor armazenado na coluna <code>nome</code> do registro cujo <code>id_cliente</code> é <code>1</code>.</p><hr id="3ebf6ce8-497f-80c7-a442-eab759c0f2cf" dir="auto"/><h1 id="3ebf6ce8-497f-80bc-ab77-c9889d95c68c" class="" dir="auto">8. Chave primária (Primary Key)</h1><p id="3ebf6ce8-497f-802c-85c5-e99d8801f550" class="" dir="auto">A <strong>chave primária (PK)</strong> identifica unicamente cada registro da tabela.</p><p id="3ebf6ce8-497f-80e8-8e65-e9d90d4646bf" class="" dir="auto">Exemplo:</p><table id="3ebf6ce8-497f-809a-9f29-c8faeed8b470" class="simple-table" dir="ltr"><thead class="simple-table-header"><tr id="3ebf6ce8-497f-803c-bdcf-d4c307054e17" dir="ltr"><th id="tETu" class="simple-table-header-color simple-table-header">id_cliente</th><th id="Ug|g" class="simple-table-header-color simple-table-header">nome</th></tr></thead><tbody><tr id="3ebf6ce8-497f-80cc-afde-ebc4560af195" dir="ltr"><td id="tETu" class=""><strong>1</strong></td><td id="Ug|g" class="">João</td></tr><tr id="3ebf6ce8-497f-8050-8f44-ce084b9d7da7" dir="ltr"><td id="tETu" class=""><strong>2</strong></td><td id="Ug|g" class="">Maria</td></tr><tr id="3ebf6ce8-497f-806d-a3da-c8c293767ae4" dir="ltr"><td id="tETu" class=""><strong>3</strong></td><td id="Ug|g" class="">Pedro</td></tr></tbody></table><p id="3ebf6ce8-497f-80d0-ae46-dd4bc9ed5855" class="" dir="auto">Nesse caso:</p><pre id="3ebf6ce8-497f-809e-b014-c303243743c8" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">id_cliente → PRIMARY KEY</code></pre><p id="3ebf6ce8-497f-80fc-a124-e68ff125c825" class="" dir="auto">Não podemos ter:</p><pre id="3ebf6ce8-497f-8059-88ff-cafff535e438" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">id_cliente
+1
+1
+2</code></pre><p id="3ebf6ce8-497f-802b-8d71-d7e0ae3fa8d4" class="" dir="auto">porque dois clientes diferentes não poderiam possuir o mesmo identificador.</p><p id="3ebf6ce8-497f-808a-86d2-f995c064921d" class="" dir="auto">Em SQL:</p><pre id="3ebf6ce8-497f-8034-9f5b-c9d45e877ebe" class="code code-wrap" data-notion-code-syntax="sql"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">CREATE TABLE cliente (
+    id_cliente INT PRIMARY KEY,
+    nome VARCHAR(100)
+);</code></pre><p id="3ebf6ce8-497f-8079-8cfb-ce10f5a49c7e" class="" dir="auto">A chave primária normalmente:</p><ul id="3ebf6ce8-497f-804f-ab59-f2b55d5a906c" class="bulleted-list" dir="auto"><li style="list-style-type:disc">identifica cada registro;</li></ul><ul id="3ebf6ce8-497f-8033-a011-d5702655859a" class="bulleted-list" dir="auto"><li style="list-style-type:disc">não pode ser duplicada;</li></ul><ul id="3ebf6ce8-497f-8078-b31f-ccb49f73cfe5" class="bulleted-list" dir="auto"><li style="list-style-type:disc">não deve ser <code>NULL</code>.</li></ul><hr id="3ebf6ce8-497f-80ea-adf8-df313996d367" dir="auto"/><h1 id="3ebf6ce8-497f-8078-a92e-f8fe06be0634" class="" dir="auto">9. Chave estrangeira (Foreign Key)</h1><p id="3ebf6ce8-497f-80b1-bfe8-df39018c8b05" class="" dir="auto">A <strong>chave estrangeira (FK)</strong> é utilizada para criar um relacionamento entre tabelas.</p><p id="3ebf6ce8-497f-80ea-b8a4-f35a4443dd2b" class="" dir="auto">Por exemplo:</p><h3 id="3ebf6ce8-497f-80b1-8d53-e42cb259a8c5" class="" dir="auto">CLIENTE</h3><table id="3ebf6ce8-497f-8046-8334-ea5cd69ce847" class="simple-table" dir="ltr"><thead class="simple-table-header"><tr id="3ebf6ce8-497f-8011-b9fa-eee30f567113" dir="ltr"><th id="@Co_" class="simple-table-header-color simple-table-header">id_cliente</th><th id="CK&lt;\" class="simple-table-header-color simple-table-header">nome</th></tr></thead><tbody><tr id="3ebf6ce8-497f-801a-aec4-fd31b70b29bf" dir="ltr"><td id="@Co_" class="">1</td><td id="CK&lt;\" class="">João</td></tr><tr id="3ebf6ce8-497f-807b-9ba3-ca1e73ff1e17" dir="ltr"><td id="@Co_" class="">2</td><td id="CK&lt;\" class="">Maria</td></tr></tbody></table><h3 id="3ebf6ce8-497f-8063-85a0-f6ffce1e483c" class="" dir="auto">PEDIDO</h3><table id="3ebf6ce8-497f-800e-8998-f241249dedee" class="simple-table" dir="ltr"><thead class="simple-table-header"><tr id="3ebf6ce8-497f-80ab-9b30-c2ad4e7cadcf" dir="ltr"><th id="qT&gt;s" class="simple-table-header-color simple-table-header">id_pedido</th><th id="i{`z" class="simple-table-header-color simple-table-header">id_cliente</th><th id="serO" class="simple-table-header-color simple-table-header">valor</th></tr></thead><tbody><tr id="3ebf6ce8-497f-80f6-84ef-edb9d3455d12" dir="ltr"><td id="qT&gt;s" class="">101</td><td id="i{`z" class="">1</td><td id="serO" class="">250</td></tr><tr id="3ebf6ce8-497f-8071-b40f-e131bf5ba6d5" dir="ltr"><td id="qT&gt;s" class="">102</td><td id="i{`z" class="">1</td><td id="serO" class="">100</td></tr><tr id="3ebf6ce8-497f-804e-ae46-ec1a0ba915de" dir="ltr"><td id="qT&gt;s" class="">103</td><td id="i{`z" class="">2</td><td id="serO" class="">300</td></tr></tbody></table><p id="3ebf6ce8-497f-8014-911d-eb25283d2d8e" class="" dir="auto">Aqui:</p><pre id="3ebf6ce8-497f-806e-9318-ec0f4c889fe0" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">CLIENTE
+id_cliente (PK)
+      ↑
+      │
+      │ FK
+      │
+PEDIDO
+id_cliente (FK)</code></pre><p id="3ebf6ce8-497f-80f6-a951-e8b0f841aa12" class="" dir="auto">O <code>id_cliente</code> da tabela <code>PEDIDO</code> indica <strong>qual cliente realizou aquele pedido</strong>.</p><p id="3ebf6ce8-497f-8032-ba58-eddf39edfd85" class="" dir="auto">Em SQL:</p><pre id="3ebf6ce8-497f-80c6-ab08-c768299d4d4c" class="code code-wrap" data-notion-code-syntax="sql"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">CREATE TABLE pedido (
+    id_pedido INT PRIMARY KEY,
+    id_cliente INT,
+    valor DECIMAL(10,2),
+
+    FOREIGN KEY (id_cliente)
+        REFERENCES cliente(id_cliente)
+);</code></pre><hr id="3ebf6ce8-497f-8096-9f78-f7092ed6d60b" dir="auto"/><h1 id="3ebf6ce8-497f-8023-a511-d58b40b41376" class="" dir="auto">10. Restrições (Constraints)</h1><p id="3ebf6ce8-497f-802a-85bd-ffda2e347562" class="" dir="auto">As tabelas também podem possuir <strong>restrições</strong>, que ajudam a garantir a integridade dos dados.</p><p id="3ebf6ce8-497f-8072-a817-f2d9e158ed57" class="" dir="auto">Algumas das principais são:</p><h3 id="3ebf6ce8-497f-808b-9d43-f0620a8e1694" class="" dir="auto"><code>PRIMARY KEY</code></h3><p id="3ebf6ce8-497f-80c0-9cf5-cb6870310a11" class="" dir="auto">Identifica unicamente o registro.</p><pre id="3ebf6ce8-497f-8080-9650-f52717baac08" class="code code-wrap" data-notion-code-syntax="sql"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">id_cliente INT PRIMARY KEY</code></pre><h3 id="3ebf6ce8-497f-8069-9330-f9f4219852ee" class="" dir="auto"><code>FOREIGN KEY</code></h3><p id="3ebf6ce8-497f-80a9-8c11-c883a788480c" class="" dir="auto">Estabelece relacionamento entre tabelas.</p><pre id="3ebf6ce8-497f-8059-aa9d-d989fe5c4ad9" class="code code-wrap" data-notion-code-syntax="sql"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">FOREIGN KEY (id_cliente)
+REFERENCES cliente(id_cliente)</code></pre><h3 id="3ebf6ce8-497f-809c-90bf-eaf104cb05cc" class="" dir="auto"><code>NOT NULL</code></h3><p id="3ebf6ce8-497f-8094-808a-d580d7ad32b6" class="" dir="auto">Determina que o campo deve possuir um valor.</p><pre id="3ebf6ce8-497f-805b-ab2e-ec1aabd7831d" class="code code-wrap" data-notion-code-syntax="sql"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">nome VARCHAR(100) NOT NULL</code></pre><h3 id="3ebf6ce8-497f-801c-99ad-ec02d544fd71" class="" dir="auto"><code>UNIQUE</code></h3><p id="3ebf6ce8-497f-809a-ba76-ce4f7095a29c" class="" dir="auto">Impede valores duplicados.</p><pre id="3ebf6ce8-497f-8099-81ad-d3f5361b4f88" class="code code-wrap" data-notion-code-syntax="sql"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">email VARCHAR(150) UNIQUE</code></pre><h3 id="3ebf6ce8-497f-8008-a068-c6568b816ba8" class="" dir="auto"><code>DEFAULT</code></h3><p id="3ebf6ce8-497f-80d8-9b40-cc429f0c92ca" class="" dir="auto">Define um valor padrão.</p><pre id="3ebf6ce8-497f-8032-bb49-ea6b893d7e35" class="code code-wrap" data-notion-code-syntax="sql"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">status VARCHAR(20) DEFAULT &#x27;ativo&#x27;</code></pre><hr id="3ebf6ce8-497f-80a8-832b-f068c630bae2" dir="auto"/><h1 id="3ebf6ce8-497f-8015-bb28-c66261ff4d65" class="" dir="auto">11. Exemplo completo</h1><p id="3ebf6ce8-497f-80e8-afec-d7cf78435423" class="" dir="auto">Podemos juntar tudo:</p><pre id="3ebf6ce8-497f-8087-a523-e7173390f30c" class="code code-wrap" data-notion-code-syntax="sql"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">CREATE TABLE cliente (
+    id_cliente INT PRIMARY KEY,
+    nome VARCHAR(100) NOT NULL,
+    email VARCHAR(150) UNIQUE,
+    cidade VARCHAR(100),
+    status VARCHAR(20) DEFAULT &#x27;ativo&#x27;
+);</code></pre><p id="3ebf6ce8-497f-80d9-993e-e1385413df19" class="" dir="auto">Essa tabela possui:</p><pre id="3ebf6ce8-497f-80c0-90f1-f2fe58a03990" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">CLIENTE
+│
+├── id_cliente
+│   └── PRIMARY KEY
+│
+├── nome
+│   └── NOT NULL
+│
+├── email
+│   └── UNIQUE
+│
+├── cidade
+│
+└── status
+    └── DEFAULT &#x27;ativo&#x27;</code></pre><hr id="3ebf6ce8-497f-80cd-9afe-cba5883ed216" dir="auto"/><h1 id="3ebf6ce8-497f-802a-b673-e87070019966" class="" dir="auto">12. Relação entre modelo conceitual e relacional</h1><p id="3ebf6ce8-497f-807d-b1a7-da1b58892c52" class="" dir="auto">É importante conectar isso com os assuntos anteriores.</p><p id="3ebf6ce8-497f-80e7-9500-d5a6b64a9906" class="" dir="auto">No <strong>modelo conceitual</strong>:</p><pre id="3ebf6ce8-497f-801f-82d1-c8f55017d0ba" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">ENTIDADE
+   ↓
+CLIENTE
+
+ATRIBUTOS
+   ↓
+nome
+email
+cidade</code></pre><p id="3ebf6ce8-497f-8043-9039-f08543eb76ad" class="" dir="auto">No <strong>modelo relacional</strong>:</p><pre id="3ebf6ce8-497f-8089-b4c4-c67368584f8a" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">TABELA
+   ↓
+CLIENTE
+
+COLUNAS
+   ↓
+nome
+email
+cidade</code></pre><p id="3ebf6ce8-497f-804c-a874-d25109b49396" class="" dir="auto">E os registros:</p><pre id="3ebf6ce8-497f-80c6-b924-e57b25f519e6" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">CLIENTE
+
+id | nome  | email
+---|-------|----------------
+1  | João  | joao@email.com
+2  | Maria | maria@email.com</code></pre><p id="3ebf6ce8-497f-8022-815d-e832d21253e8" class="" dir="auto">Assim:</p><table id="3ebf6ce8-497f-806a-86a8-dcfdddaa912a" class="simple-table" dir="ltr"><thead class="simple-table-header"><tr id="3ebf6ce8-497f-802e-8349-cc6f3ff0ce85" dir="ltr"><th id="AlPU" class="simple-table-header-color simple-table-header">Modelo conceitual</th><th id="?N&lt;@" class="simple-table-header-color simple-table-header">Modelo relacional</th></tr></thead><tbody><tr id="3ebf6ce8-497f-8020-afdc-ca597153ad5d" dir="ltr"><td id="AlPU" class="">Entidade</td><td id="?N&lt;@" class="">Tabela</td></tr><tr id="3ebf6ce8-497f-8038-869c-fa138e71fa8f" dir="ltr"><td id="AlPU" class="">Atributo</td><td id="?N&lt;@" class="">Coluna</td></tr><tr id="3ebf6ce8-497f-8019-bb36-ca688b911b37" dir="ltr"><td id="AlPU" class="">Ocorrência</td><td id="?N&lt;@" class="">Linha/registro</td></tr><tr id="3ebf6ce8-497f-80cd-90fe-d8a8e89c3f67" dir="ltr"><td id="AlPU" class="">Valor do atributo</td><td id="?N&lt;@" class="">Valor da célula</td></tr><tr id="3ebf6ce8-497f-80be-866c-c73f79c5fa43" dir="ltr"><td id="AlPU" class="">Identificador</td><td id="?N&lt;@" class="">Chave primária</td></tr><tr id="3ebf6ce8-497f-80e2-8aa0-cfcd45859b28" dir="ltr"><td id="AlPU" class="">Relacionamento</td><td id="?N&lt;@" class="">Chaves estrangeiras/tabelas relacionadas</td></tr></tbody></table><hr id="3ebf6ce8-497f-80df-9485-f44e29b21fed" dir="auto"/><h2 id="3ebf6ce8-497f-8015-ba0a-d3f4da766b23" class="" dir="auto">Resumindo</h2><p id="3ebf6ce8-497f-805b-9472-c38d7d78f003" class="" dir="auto">O <strong>modelo relacional</strong> organiza os dados principalmente através de tabelas.</p><p id="3ebf6ce8-497f-80c2-9b40-ec7eceaf89c0" class="" dir="auto">Uma tabela possui:</p><pre id="3ebf6ce8-497f-808d-ba83-f3c647e61ccd" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">                    TABELA
+                       │
+        ┌──────────────┴──────────────┐
+        ↓                             ↓
+     COLUNAS                        LINHAS
+   (atributos)                   (registros)
+        │                             │
+        ↓                             ↓
+  nome, email, etc.             João, Maria...</code></pre><p id="3ebf6ce8-497f-808b-9f44-c5446ea3960b" class="" dir="auto">E seus componentes mais importantes são:</p><ul id="3ebf6ce8-497f-804b-8d0e-fe86b0d3e67e" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>Tabela</strong> → conjunto de dados sobre um assunto;</li></ul><ul id="3ebf6ce8-497f-80eb-928e-d7b7e0c9eea0" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>Coluna</strong> → atributo/característica;</li></ul><ul id="3ebf6ce8-497f-8049-a9e6-cf2db8758657" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>Linha</strong> → registro/ocorrência;</li></ul><ul id="3ebf6ce8-497f-8092-b2d9-ca7edf7bfd5e" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>Célula</strong> → valor de uma coluna em determinado registro;</li></ul><ul id="3ebf6ce8-497f-80b7-8d0d-e7110d62e7bc" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>Tipo de dado</strong> → define o tipo de valor armazenado;</li></ul><ul id="3ebf6ce8-497f-8095-af9c-d94ab59ad979" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>Chave primária (PK)</strong> → identifica o registro;</li></ul><ul id="3ebf6ce8-497f-80ba-b7e8-f66d75230635" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>Chave estrangeira (FK)</strong> → relaciona tabelas;</li></ul><ul id="3ebf6ce8-497f-8036-bdc5-cc713a8fae57" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>Constraints</strong> → regras que garantem a integridade dos dados.</li></ul></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

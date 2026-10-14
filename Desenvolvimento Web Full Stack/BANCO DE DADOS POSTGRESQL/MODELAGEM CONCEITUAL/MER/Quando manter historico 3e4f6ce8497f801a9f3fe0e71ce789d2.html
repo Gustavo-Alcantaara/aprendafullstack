@@ -1,0 +1,877 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Quando manter historico</title><meta name="data-notion-page-icon" content="/icons/elephant_blue.svg"/><link rel="icon" href="https://app.notion.com/icons/elephant_blue.svg"/><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+	/* Paint a complete callout box on every PDF page fragment. */
+	-webkit-box-decoration-break: clone;
+	box-decoration-break: clone;
+}
+
+/* For default-background callouts, render the border outline. */
+.callout.block-color-default_background {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+/*
+ * Toggles and callouts hold arbitrary content, so they can easily be taller
+ * than a page. They must stay breakable: avoiding breaks inside them makes
+ * Chromium push the whole block onto the next page, which leaves the previous
+ * page mostly empty before every long toggle.
+ */
+details,
+aside {
+	margin: 1.25em 0;
+}
+
+/* Keep a toggle's title on the same page as the start of its content. */
+summary {
+	page-break-after: avoid;
+	break-after: avoid;
+}
+
+/*
+ * Toggle headings render as <h1/h2/h3 style="display:inline-block"> inside
+ * <summary>. Without this reset, the heading's margin-top pushes it below the
+ * ::marker (▼), so the triangle and the title appear on separate lines.
+ */
+summary h1,
+summary h2,
+summary h3,
+summary h4 {
+	margin-top: 0;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding-inline: 0.125rem;
+	padding-block: 0.375rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+/*
+ * Render emoji icons using a ::before pseudo-element to keep the glyph
+ * out of the DOM textContent traversal. This avoids double-rendering icons
+ * in callouts and page titles.
+ * NOTE(slim/html-export-pseudo-icons): I can't tagref this because it will
+ * flag as a duplicate tag after codegen.
+ */
+.icon[data-emoji]::before {
+	content: attr(data-emoji);
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	margin-right: 0.4em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.tab {
+	margin: 1.25em 0;
+	padding-inline: 1rem;
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style><style>@import url('https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex-swap.min.css')</style></head><body><article id="3e4f6ce8-497f-801a-9f3f-e0e71ce789d2" class="page sans" data-notion-page-icon="/icons/elephant_blue.svg"><header><div class="page-header-icon undefined"><img class="icon notion-static-icon" src="https://app.notion.com/icons/elephant_blue.svg"/></div><h1 class="page-title" dir="auto">Quando manter historico</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><h1 id="3e4f6ce8-497f-80ac-84a7-d129e63fb1bd" class="" dir="auto">Quando Manter Histórico no Banco de Dados</h1><p id="3e4f6ce8-497f-8089-bba0-f27bb08b7bd5" class="" dir="auto"><strong>Manter histórico</strong> significa conservar informações sobre o <strong>estado anterior dos dados</strong>, mesmo depois que eles foram alterados ou substituídos.</p><p id="3e4f6ce8-497f-80e3-b372-e5ec6e50c42e" class="" dir="auto">Em muitos sistemas, não basta saber apenas <strong>como o dado está agora</strong>. Também pode ser necessário saber <strong>como ele estava no passado, quando foi alterado e, dependendo do sistema, quem realizou a alteração</strong>.</p><hr id="3e4f6ce8-497f-8058-80a0-fcfac0ded065" dir="auto"/><h2 id="3e4f6ce8-497f-8036-b809-e90e66e76e85" class="" dir="auto">1. Por que manter histórico?</h2><p id="3e4f6ce8-497f-8002-85be-dfbd34e73af5" class="" dir="auto">Imagine uma tabela de funcionários:</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="3e4f6ce8-497f-8056-a5fe-c2c023839d80" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">FUNCIONÁRIO
+id | nome  | cargo       | salário
+1  | João  | Programador | 5000</code></pre><p id="3e4f6ce8-497f-8031-8abb-e3e176966b03" class="" dir="auto">João recebe um aumento:</p><pre id="3e4f6ce8-497f-805a-932a-f267c3d8445a" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">id | nome  | cargo       | salário
+1  | João  | Programador | 6000</code></pre><p id="3e4f6ce8-497f-803d-8a52-cf4403c4ef37" class="" dir="auto">Se simplesmente atualizarmos o registro, perdemos a informação de que anteriormente o salário era <strong>R$ 5.000</strong>.</p><p id="3e4f6ce8-497f-803d-b6d4-f43f89e963f8" class="" dir="auto">Se o sistema precisar responder:</p><blockquote id="3e4f6ce8-497f-80bd-8571-d91b34f07b21" class="" dir="auto">&quot;Qual era o salário do João em janeiro?&quot;</blockquote><p id="3e4f6ce8-497f-8052-904a-d0a0007ea72f" class="" dir="auto">não teremos essa informação.</p><p id="3e4f6ce8-497f-8031-a049-e0cb72f36f48" class="" dir="auto">Por isso, em determinadas situações, é necessário manter o histórico.</p><hr id="3e4f6ce8-497f-8099-9d29-c3484e7426f1" dir="auto"/><h1 id="3e4f6ce8-497f-8031-aeb1-d686a4be60ea" class="" dir="auto">2. Quando é importante manter histórico?</h1><p id="3e4f6ce8-497f-8065-a3a0-cbcf9134ce05" class="" dir="auto">O histórico costuma ser importante quando existe necessidade de:</p><h3 id="3e4f6ce8-497f-803c-baf3-dd813c82ab7a" class="" dir="auto">Auditoria</h3><p id="3e4f6ce8-497f-8053-9cbb-f08608f1e90d" class="" dir="auto">Precisamos saber <strong>o que mudou e quando mudou</strong>.</p><p id="3e4f6ce8-497f-80ba-b70a-e1a7f80da16e" class="" dir="auto">Exemplo:</p><pre id="3e4f6ce8-497f-8039-9290-f18ee9f2749b" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Cliente alterou seu endereço
+Data: 10/09/2026
+Endereço anterior: Rua A
+Novo endereço: Rua B</code></pre><hr id="3e4f6ce8-497f-80d7-b261-d3e2690807ae" dir="auto"/><h3 id="3e4f6ce8-497f-8068-bd77-e1359e0def88" class="" dir="auto">Controle financeiro</h3><p id="3e4f6ce8-497f-8095-bc51-d23211b530a9" class="" dir="auto">Informações financeiras frequentemente precisam ser preservadas.</p><p id="3e4f6ce8-497f-8015-abb9-c155119ec12d" class="" dir="auto">Exemplo:</p><pre id="3e4f6ce8-497f-80f1-b17e-d9b271f0e1b9" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">PEDIDO
+Valor original: R$ 500
+Desconto: R$ 50
+Valor final: R$ 450</code></pre><p id="3e4f6ce8-497f-80b7-b32a-e337cc49ff83" class="" dir="auto">Se o valor sofrer alterações, pode ser necessário saber os valores anteriores.</p><hr id="3e4f6ce8-497f-8076-8a40-c8583bf3f476" dir="auto"/><h3 id="3e4f6ce8-497f-80f0-a564-dd4b7c85f998" class="" dir="auto">Alterações de cadastro</h3><p id="3e4f6ce8-497f-80fc-96eb-fee2420a0d55" class="" dir="auto">Dados importantes podem mudar ao longo do tempo.</p><p id="3e4f6ce8-497f-808a-a564-ca86e08c375f" class="" dir="auto">Por exemplo:</p><pre id="3e4f6ce8-497f-80c6-94f7-cfbbc67113fe" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">CLIENTE
+Endereço
+Telefone
+E-mail</code></pre><p id="3e4f6ce8-497f-8032-b673-cc9dbbaaacc1" class="" dir="auto">Manter histórico permite saber quais eram os dados anteriormente.</p><hr id="3e4f6ce8-497f-8038-b8ef-c17a0e89fea2" dir="auto"/><h3 id="3e4f6ce8-497f-8082-8e0b-fbdc9adb4e09" class="" dir="auto">Situação de registros</h3><p id="3e4f6ce8-497f-8039-afeb-ca1b6c941547" class="" dir="auto">Um registro pode passar por vários estados:</p><pre id="3e4f6ce8-497f-801a-b146-d15d837caf63" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">PEDIDO
+   ↓
+Pendente
+   ↓
+Pago
+   ↓
+Enviado
+   ↓
+Entregue</code></pre><p id="3e4f6ce8-497f-805e-a974-e501ced55af6" class="" dir="auto">Podemos querer saber <strong>quando cada mudança aconteceu</strong>.</p><hr id="3e4f6ce8-497f-8009-887a-ef44337cf3d2" dir="auto"/><h1 id="3e4f6ce8-497f-8054-87cb-f105b2c61adc" class="" dir="auto">3. Exemplo de histórico de status</h1><p id="3e4f6ce8-497f-8070-a185-e67459519e14" class="" dir="auto">Em vez de armazenar apenas:</p><pre id="3e4f6ce8-497f-8085-a275-dbde30b21a1c" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">PEDIDO
+id_pedido | status
+1001      | Entregue</code></pre><p id="3e4f6ce8-497f-8041-9bdb-c7c07e78b495" class="" dir="auto">podemos criar uma tabela de histórico:</p><pre id="3e4f6ce8-497f-8069-b84d-fef6bd60d1f1" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">HISTORICO_PEDIDO
+id | id_pedido | status    | data
+1  | 1001      | Pendente  | 01/09/2026
+2  | 1001      | Pago      | 02/09/2026
+3  | 1001      | Enviado   | 03/09/2026
+4  | 1001      | Entregue  | 05/09/2026</code></pre><p id="3e4f6ce8-497f-80cb-a7e6-ea016d2af1bc" class="" dir="auto">Agora conseguimos reconstruir a trajetória do pedido.</p><hr id="3e4f6ce8-497f-801d-96ca-c9c0efc45027" dir="auto"/><h1 id="3e4f6ce8-497f-808c-b1c6-c62fbb5883e2" class="" dir="auto">4. Como implementar?</h1><p id="3e4f6ce8-497f-80c8-b395-cb85846fef95" class="" dir="auto">Uma estratégia comum é criar uma <strong>tabela de histórico</strong> separada.</p><p id="3e4f6ce8-497f-803b-aabb-f8dab0b60c87" class="" dir="auto">Por exemplo:</p><pre id="3e4f6ce8-497f-80a6-b03f-f6417730b9c2" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">CLIENTE
+├── id_cliente
+├── nome
+└── email</code></pre><p id="3e4f6ce8-497f-8045-9955-da5b23873585" class="" dir="auto">E:</p><pre id="3e4f6ce8-497f-80fa-9675-f4fcba5cb96c" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">HISTORICO_CLIENTE
+├── id_historico
+├── id_cliente
+├── nome
+├── email
+├── data_inicio
+└── data_fim</code></pre><p id="3e4f6ce8-497f-809f-b6b0-f357802c5bfb" class="" dir="auto">Cada alteração pode gerar um novo registro histórico.</p><p id="3e4f6ce8-497f-8045-a449-f9b7cd5d1e75" class="" dir="auto">Outra abordagem é registrar simplesmente os eventos:</p><pre id="3e4f6ce8-497f-8071-878e-daab4fc349df" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">HISTORICO_CLIENTE
+├── id
+├── id_cliente
+├── campo_alterado
+├── valor_anterior
+├── valor_novo
+├── data_alteracao
+└── usuário</code></pre><p id="3e4f6ce8-497f-80b9-bb5e-f002273e0d1a" class="" dir="auto">Exemplo:</p><pre id="3e4f6ce8-497f-8017-949f-f28362c3bcb6" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">id | cliente | campo   | anterior | novo     | data
+1  | 10      | email   | a@x.com  | b@x.com  | 10/09
+2  | 10      | telefone| 9999     | 8888     | 12/09</code></pre><hr id="3e4f6ce8-497f-80f2-b17e-eec7549a5288" dir="auto"/><h1 id="3e4f6ce8-497f-80c8-8a61-c9bf47a54aba" class="" dir="auto">5. Histórico x estado atual</h1><p id="3e4f6ce8-497f-809a-80ee-c8adf720cab4" class="" dir="auto">É importante diferenciar os dois.</p><h3 id="3e4f6ce8-497f-809b-9966-cc7bc6ecd5d3" class="" dir="auto">Estado atual</h3><p id="3e4f6ce8-497f-806a-a188-d548a8933259" class="" dir="auto">Mostra somente a situação atual:</p><pre id="3e4f6ce8-497f-8076-8168-c03c645e66e7" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">PEDIDO
+1001 | Entregue</code></pre><h3 id="3e4f6ce8-497f-8001-adda-c6019d31130b" class="" dir="auto">Histórico</h3><p id="3e4f6ce8-497f-80d9-bdb9-c9742ce5534b" class="" dir="auto">Mostra a evolução:</p><pre id="3e4f6ce8-497f-8049-ae3f-f6fe9876f55e" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">1001 | Pendente | 01/09
+1001 | Pago     | 02/09
+1001 | Enviado  | 03/09
+1001 | Entregue | 05/09</code></pre><p id="3e4f6ce8-497f-80b6-a6fb-ece89e9a31fc" class="" dir="auto">Assim:</p><blockquote id="3e4f6ce8-497f-8034-abc5-ebc22ef50bfd" class="" dir="auto"><strong>Estado atual responde &quot;como está?&quot;.</strong><p id="3e4f6ce8-497f-8003-9cb2-f2f4dbb21cf8" class="" dir="auto"><strong>Histórico responde &quot;como chegou até aqui?&quot;.</strong></p></blockquote><hr id="3e4f6ce8-497f-8072-81df-eb85ba8e9210" dir="auto"/><h1 id="3e4f6ce8-497f-809b-b0b6-ca7c39b01c27" class="" dir="auto">6. Nem tudo precisa de histórico</h1><p id="3e4f6ce8-497f-808a-a299-f06c22e70c98" class="" dir="auto">Manter histórico de todos os dados pode aumentar bastante o tamanho do banco e a complexidade do sistema.</p><p id="3e4f6ce8-497f-8046-b725-ce07645fee80" class="" dir="auto">Por isso, devemos avaliar se existe uma necessidade real.</p><p id="3e4f6ce8-497f-80e2-87ee-db4b59290c18" class="" dir="auto">Por exemplo, talvez não seja necessário manter histórico de:</p><pre id="3e4f6ce8-497f-8031-bcfe-c963eaae584f" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">cor de um botão
+texto temporário
+configuração sem importância
+dados descartáveis</code></pre><p id="3e4f6ce8-497f-8011-b9c8-e222a2a59e3c" class="" dir="auto">Mas pode ser importante manter histórico de:</p><pre id="3e4f6ce8-497f-80f7-a92c-c6e3920e313e" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">transações financeiras
+pedidos
+salários
+preços
+permissões
+status
+dados utilizados em auditorias
+informações legais
+alterações importantes de cadastro</code></pre><p id="3e4f6ce8-497f-8042-9d1b-dabb223ffadd" class="" dir="auto">A decisão depende principalmente das <strong>regras de negócio e dos requisitos do sistema</strong>.</p><hr id="3e4f6ce8-497f-80db-95af-c3cd72f2f142" dir="auto"/><h1 id="3e4f6ce8-497f-8028-b6d7-cc933fabf233" class="" dir="auto">7. Histórico de preços</h1><p id="3e4f6ce8-497f-80f2-af4d-e266a595e20c" class="" dir="auto">Um exemplo muito comum é o preço de produtos.</p><p id="3e4f6ce8-497f-8069-ab15-fdedfd7095f6" class="" dir="auto">Se tivermos apenas:</p><pre id="3e4f6ce8-497f-80a7-acea-f9b46c7b76a2" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">PRODUTO
+id | nome       | preço
+1  | Notebook   | 5000</code></pre><p id="3e4f6ce8-497f-800d-8a29-cf25398a09d8" class="" dir="auto">e depois alterarmos para:</p><pre id="3e4f6ce8-497f-80ff-8eea-c2ea8fd3b83c" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">1 | Notebook | 4500</code></pre><p id="3e4f6ce8-497f-807e-92f2-ebe3a270a941" class="" dir="auto">perdemos o preço anterior.</p><p id="3e4f6ce8-497f-80a4-9204-d702b69f02cd" class="" dir="auto">Uma tabela de histórico poderia ser:</p><pre id="3e4f6ce8-497f-806c-bea7-f14ae2f51f37" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">HISTORICO_PRECO
+id | produto | preço | início    | fim
+1  | 1       | 5000  | 01/08     | 10/09
+2  | 1       | 4500  | 10/09     | NULL</code></pre><p id="3e4f6ce8-497f-80d2-a86e-dc64860b2a3a" class="" dir="auto"><code>NULL</code> em <code>fim</code> pode indicar que <strong>R$ 4.500 é o preço atualmente válido</strong>.</p><hr id="3e4f6ce8-497f-8053-8f64-eb38b47818b1" dir="auto"/><h1 id="3e4f6ce8-497f-806a-859a-cc4f95711fc7" class="" dir="auto">8. Histórico e auditoria</h1><p id="3e4f6ce8-497f-800d-adac-c8a363a1bbb9" class="" dir="auto">Em sistemas mais críticos, o histórico pode fazer parte de uma <strong>trilha de auditoria</strong>.</p><p id="3e4f6ce8-497f-808b-aa93-eb9f41cf3300" class="" dir="auto">Podemos registrar:</p><pre id="3e4f6ce8-497f-80b8-ab79-c6a8267a55a2" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">HISTORICO
+├── id
+├── usuário
+├── ação
+├── tabela
+├── registro
+├── data_hora
+├── valor_anterior
+└── valor_novo</code></pre><p id="3e4f6ce8-497f-8015-98e5-f011e3026b2c" class="" dir="auto">Exemplo:</p><pre id="3e4f6ce8-497f-80f0-aae6-e6bb5cf3db13" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Usuário: administrador
+Ação: ALTERAÇÃO
+Tabela: CLIENTE
+Registro: 25
+Campo: limite_credito
+Anterior: 5000
+Novo: 10000
+Data: 23/09/2026 14:30</code></pre><p id="3e4f6ce8-497f-80ce-9f56-e280e87f2840" class="" dir="auto">Isso permite investigar alterações realizadas no sistema.</p><hr id="3e4f6ce8-497f-80bc-8da2-f72d3076fc84" dir="auto"/><h2 id="3e4f6ce8-497f-80ab-9e4c-d6727c84dc7d" class="" dir="auto">9. Cuidados ao manter histórico</h2><p id="3e4f6ce8-497f-8053-a536-dfd67c7d31b1" class="" dir="auto">Ao projetar o histórico, é importante definir:</p><ul id="3e4f6ce8-497f-80ef-ad2d-d408163f099e" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>O que será armazenado?</strong></li></ul><ul id="3e4f6ce8-497f-801f-91f0-e10a8c751bc2" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>Quando será registrado?</strong></li></ul><ul id="3e4f6ce8-497f-80e2-b0fe-d709b04c2c58" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>Por quanto tempo será mantido?</strong></li></ul><ul id="3e4f6ce8-497f-8036-9a01-f56605aea5bf" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>Quem pode consultar?</strong></li></ul><ul id="3e4f6ce8-497f-80f7-b27a-d132d4abc61f" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>Quem pode alterar ou excluir?</strong></li></ul><ul id="3e4f6ce8-497f-8051-a841-d5aecbc7d8f1" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>É necessário registrar o usuário responsável?</strong></li></ul><ul id="3e4f6ce8-497f-80e2-a82d-da99ad0a5c02" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>Precisamos guardar o valor anterior e o novo?</strong></li></ul><p id="3e4f6ce8-497f-8047-a69b-f1453fac902a" class="" dir="auto">Também é importante considerar o crescimento do banco, pois tabelas de histórico podem acumular muitos registros.</p><hr id="3e4f6ce8-497f-805d-a11e-fcb6a255b1d8" dir="auto"/><h2 id="3e4f6ce8-497f-80cd-a44b-f938026d64dc" class="" dir="auto">Resumo</h2><p id="3e4f6ce8-497f-80aa-8f31-e4b4990c00e8" class="" dir="auto"><strong>Manter histórico</strong> significa preservar informações sobre alterações ocorridas nos dados ao longo do tempo.</p><p id="3e4f6ce8-497f-8059-9a07-da27f6d0a93a" class="" dir="auto">É especialmente útil para:</p><ul id="3e4f6ce8-497f-8077-a0fa-f416b28f797f" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>auditoria;</strong></li></ul><ul id="3e4f6ce8-497f-80b3-8bf2-dc6c8166ab5b" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>controle financeiro;</strong></li></ul><ul id="3e4f6ce8-497f-8013-9bec-fdab1293de0f" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>rastreabilidade;</strong></li></ul><ul id="3e4f6ce8-497f-8096-b2c2-ec7a336ca940" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>alterações de cadastro;</strong></li></ul><ul id="3e4f6ce8-497f-804d-a506-c9f19efb5948" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>histórico de status;</strong></li></ul><ul id="3e4f6ce8-497f-80f7-bda3-e5d7d4654ad8" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>controle de preços;</strong></li></ul><ul id="3e4f6ce8-497f-802b-a630-ddb64c1cd6c4" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>requisitos legais ou de negócio.</strong></li></ul><p id="3e4f6ce8-497f-8067-a36b-cded80574ff1" class="" dir="auto">Um princípio importante na modelagem é:</p><blockquote id="3e4f6ce8-497f-80d0-9a32-c3aededebacb" class="" dir="auto"><strong>Se o sistema precisa saber apenas o valor atual, armazenar somente o estado atual pode ser suficiente. Se precisa saber como o dado evoluiu ao longo do tempo, é necessário projetar uma forma de manter seu histórico.</strong></blockquote></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>
