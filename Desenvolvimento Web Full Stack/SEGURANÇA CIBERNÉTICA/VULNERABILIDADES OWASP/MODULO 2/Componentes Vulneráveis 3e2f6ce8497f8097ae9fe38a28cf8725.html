@@ -1,0 +1,1039 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Componentes Vulneráveis</title><meta name="data-notion-page-icon" content="/icons/lock_blue.svg"/><link rel="icon" href="https://app.notion.com/icons/lock_blue.svg"/><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+	/* Paint a complete callout box on every PDF page fragment. */
+	-webkit-box-decoration-break: clone;
+	box-decoration-break: clone;
+}
+
+/* For default-background callouts, render the border outline. */
+.callout.block-color-default_background {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+/*
+ * Toggles and callouts hold arbitrary content, so they can easily be taller
+ * than a page. They must stay breakable: avoiding breaks inside them makes
+ * Chromium push the whole block onto the next page, which leaves the previous
+ * page mostly empty before every long toggle.
+ */
+details,
+aside {
+	margin: 1.25em 0;
+}
+
+/* Keep a toggle's title on the same page as the start of its content. */
+summary {
+	page-break-after: avoid;
+	break-after: avoid;
+}
+
+/*
+ * Toggle headings render as <h1/h2/h3 style="display:inline-block"> inside
+ * <summary>. Without this reset, the heading's margin-top pushes it below the
+ * ::marker (▼), so the triangle and the title appear on separate lines.
+ */
+summary h1,
+summary h2,
+summary h3,
+summary h4 {
+	margin-top: 0;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding-inline: 0.125rem;
+	padding-block: 0.375rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+/*
+ * Render emoji icons using a ::before pseudo-element to keep the glyph
+ * out of the DOM textContent traversal. This avoids double-rendering icons
+ * in callouts and page titles.
+ * NOTE(slim/html-export-pseudo-icons): I can't tagref this because it will
+ * flag as a duplicate tag after codegen.
+ */
+.icon[data-emoji]::before {
+	content: attr(data-emoji);
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	margin-right: 0.4em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.tab {
+	margin: 1.25em 0;
+	padding-inline: 1rem;
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style><style>@import url('https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex-swap.min.css')</style></head><body><article id="3e2f6ce8-497f-8097-ae9f-e38a28cf8725" class="page sans" data-notion-page-icon="/icons/lock_blue.svg"><header><div class="page-header-icon undefined"><img class="icon notion-static-icon" src="https://app.notion.com/icons/lock_blue.svg"/></div><h1 class="page-title" dir="auto">Componentes Vulneráveis</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><h1 id="3e2f6ce8-497f-804c-a093-da4444ff5718" class="" dir="auto">Componentes Vulneráveis e Desatualizados</h1><p id="3e2f6ce8-497f-8054-91e8-fa2a3d0e67a0" class="" dir="auto"><strong>Componentes Vulneráveis e Desatualizados</strong> é um problema de segurança que ocorre quando uma aplicação utiliza <strong>bibliotecas, frameworks, sistemas, plugins, dependências ou outros componentes que possuem vulnerabilidades conhecidas, estão sem atualizações de segurança ou já não recebem suporte</strong>.</p><p id="3e2f6ce8-497f-803e-befb-eb90b2a8ee13" class="" dir="auto">Esse tema é especialmente importante em aplicações modernas porque dificilmente uma aplicação é construída 100% do zero. Um projeto normalmente depende de dezenas ou até centenas de componentes externos.</p><hr id="3e2f6ce8-497f-8078-994b-d56668fb3230" dir="auto"/><h2 id="3e2f6ce8-497f-80f2-8f0b-c376a5b63cad" class="" dir="auto">1. O que são componentes?</h2><p id="3e2f6ce8-497f-80c9-a7fa-ca732f6e704c" class="" dir="auto">Um <strong>componente</strong> é qualquer software ou recurso utilizado para construir ou executar uma aplicação.</p><p id="3e2f6ce8-497f-8000-b541-d1807e0977aa" class="" dir="auto">Por exemplo, uma aplicação web pode utilizar:</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="3e2f6ce8-497f-8021-845d-e8b09babcd7c" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Aplicação
+│
+├── Front-end
+│   ├── React
+│   ├── Bootstrap
+│   └── jQuery
+│
+├── Back-end
+│   ├── Node.js
+│   ├── Express
+│   └── outras bibliotecas
+│
+├── Banco de Dados
+│   └── PostgreSQL
+│
+├── Servidor
+│   └── Nginx
+│
+└── Sistema Operacional
+    └── Linux</code></pre><p id="3e2f6ce8-497f-807a-8789-e4d15141e06f" class="" dir="auto">Todos esses elementos podem conter vulnerabilidades.</p><p id="3e2f6ce8-497f-80f5-85fb-fb5196eb5420" class="" dir="auto">Portanto, proteger apenas o código que você escreveu <strong>não é suficiente</strong>.</p><hr id="3e2f6ce8-497f-809f-9d6e-e4b4925e50ed" dir="auto"/><h1 id="3e2f6ce8-497f-8063-aa92-faf41fbd3f13" class="" dir="auto">2. O que significa um componente vulnerável?</h1><p id="3e2f6ce8-497f-80e9-84f0-fcddd427a114" class="" dir="auto">Um componente é considerado <strong>vulnerável</strong> quando existe uma falha de segurança conhecida ou descoberta nele.</p><p id="3e2f6ce8-497f-80e3-913b-fe0d20448ea0" class="" dir="auto">Por exemplo:</p><pre id="3e2f6ce8-497f-806c-939d-cfcd43dc774b" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Aplicação
+    ↓
+Biblioteca X
+    ↓
+Possui vulnerabilidade conhecida
+    ↓
+Aplicação também pode ficar exposta</code></pre><p id="3e2f6ce8-497f-80fc-9e9d-c475ad4e3f08" class="" dir="auto">Mesmo que o desenvolvedor tenha escrito seu código corretamente, uma biblioteca vulnerável pode criar um ponto de entrada para um ataque.</p><h3 id="3e2f6ce8-497f-8025-829a-e56cd900b67d" class="" dir="auto">Exemplo conceitual</h3><p id="3e2f6ce8-497f-80ef-a248-e09e443032b0" class="" dir="auto">Imagine que uma aplicação utilize:</p><pre id="3e2f6ce8-497f-805e-9ba7-eccecd42d32a" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">biblioteca-pagamento versão 2.1</code></pre><p id="3e2f6ce8-497f-8064-a261-c27222cd019a" class="" dir="auto">Posteriormente, é descoberta uma falha nessa versão.</p><p id="3e2f6ce8-497f-80b9-adc6-d91d2129ae3a" class="" dir="auto">O fornecedor lança:</p><pre id="3e2f6ce8-497f-8098-aa39-f4600bf32c9c" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">biblioteca-pagamento versão 2.2</code></pre><p id="3e2f6ce8-497f-805f-a983-c477ae7fec10" class="" dir="auto">corrigindo o problema.</p><p id="3e2f6ce8-497f-807a-9a51-e9e2626bfae8" class="" dir="auto">Se a aplicação continuar utilizando:</p><pre id="3e2f6ce8-497f-80f6-86f5-c9d32ce1ca9d" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">2.1</code></pre><p id="3e2f6ce8-497f-80f0-9b44-ea192cd3cb38" class="" dir="auto">ela continuará carregando aquela vulnerabilidade.</p><hr id="3e2f6ce8-497f-807e-b4bc-e65b2f043393" dir="auto"/><h1 id="3e2f6ce8-497f-8021-bc82-ec1491fdc5a4" class="" dir="auto">3. O que significa &quot;desatualizado&quot;?</h1><p id="3e2f6ce8-497f-8038-b5a2-d7414c2834e0" class="" dir="auto">Um componente pode estar desatualizado quando existe uma versão mais recente contendo:</p><ul id="3e2f6ce8-497f-80a1-8efc-c9cbf2cb6f2d" class="bulleted-list" dir="auto"><li style="list-style-type:disc">correções de segurança;</li></ul><ul id="3e2f6ce8-497f-802c-8d40-d1cc4baa946b" class="bulleted-list" dir="auto"><li style="list-style-type:disc">correções de bugs;</li></ul><ul id="3e2f6ce8-497f-807c-a480-ea913083d424" class="bulleted-list" dir="auto"><li style="list-style-type:disc">melhorias de estabilidade;</li></ul><ul id="3e2f6ce8-497f-8098-abcd-dd059ed697ce" class="bulleted-list" dir="auto"><li style="list-style-type:disc">atualizações de compatibilidade;</li></ul><ul id="3e2f6ce8-497f-80e0-bcb2-dc93f73c30ed" class="bulleted-list" dir="auto"><li style="list-style-type:disc">melhorias de desempenho.</li></ul><p id="3e2f6ce8-497f-809e-856d-daf2aaeda836" class="" dir="auto">Por exemplo:</p><pre id="3e2f6ce8-497f-805b-91eb-ffad72dd958f" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Versão instalada:
+Node.js 20.x
+
+Versão corrigida:
+Node.js 20.x + atualização de segurança</code></pre><p id="3e2f6ce8-497f-80fd-95d3-fb7a19ca5782" class="" dir="auto">Ou:</p><pre id="3e2f6ce8-497f-809f-a279-d09302897cf7" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Biblioteca
+├── versão 1.8 → vulnerável
+└── versão 1.9 → vulnerabilidade corrigida</code></pre><p id="3e2f6ce8-497f-8081-8cf2-e785711c1890" class="" dir="auto">Continuar usando a versão antiga aumenta a superfície de ataque.</p><hr id="3e2f6ce8-497f-80ee-bf79-df6e998812c8" dir="auto"/><h1 id="3e2f6ce8-497f-80fc-a0ed-ffac81643b5c" class="" dir="auto">4. Por que isso é tão perigoso?</h1><p id="3e2f6ce8-497f-805d-8092-f882f37a5d86" class="" dir="auto">Uma das principais razões é que <strong>vulnerabilidades em componentes podem ser conhecidas publicamente</strong>.</p><p id="3e2f6ce8-497f-8014-9fc2-e9f7f82051cc" class="" dir="auto">Quando uma vulnerabilidade é descoberta, podem existir informações sobre:</p><ul id="3e2f6ce8-497f-8064-964d-ef67456b14ba" class="bulleted-list" dir="auto"><li style="list-style-type:disc">componente afetado;</li></ul><ul id="3e2f6ce8-497f-80ad-993c-fd00e0e4bc42" class="bulleted-list" dir="auto"><li style="list-style-type:disc">versões vulneráveis;</li></ul><ul id="3e2f6ce8-497f-800b-9209-f919d087bf3e" class="bulleted-list" dir="auto"><li style="list-style-type:disc">tipo da vulnerabilidade;</li></ul><ul id="3e2f6ce8-497f-806a-93f9-f4436487400d" class="bulleted-list" dir="auto"><li style="list-style-type:disc">impacto;</li></ul><ul id="3e2f6ce8-497f-8086-a010-e91aee2477c7" class="bulleted-list" dir="auto"><li style="list-style-type:disc">versão corrigida;</li></ul><ul id="3e2f6ce8-497f-80cd-88d9-fc6239880d83" class="bulleted-list" dir="auto"><li style="list-style-type:disc">técnicas utilizadas para exploração.</li></ul><p id="3e2f6ce8-497f-8060-aa22-ec19508a12bf" class="" dir="auto">Isso significa que um componente antigo pode se tornar um alvo conhecido.</p><p id="3e2f6ce8-497f-802c-a07d-d7b47ded23f7" class="" dir="auto">O problema pode ser representado assim:</p><pre id="3e2f6ce8-497f-80dc-98b4-d455be45699b" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Vulnerabilidade descoberta
+          ↓
+Fornecedor desenvolve correção
+          ↓
+Nova versão é disponibilizada
+          ↓
+Organização não atualiza
+          ↓
+Componente continua vulnerável
+          ↓
+Aplicação permanece exposta</code></pre><hr id="3e2f6ce8-497f-8094-9809-f3294aa83579" dir="auto"/><h1 id="3e2f6ce8-497f-8051-90b2-ccc0acc80dc6" class="" dir="auto">5. Exemplos de componentes</h1><p id="3e2f6ce8-497f-806c-acb1-f60d8131e3b5" class="" dir="auto">Esse problema pode envolver praticamente qualquer parte de uma aplicação.</p><h3 id="3e2f6ce8-497f-80ab-a69b-c27c6800920a" class="" dir="auto">Bibliotecas</h3><p id="3e2f6ce8-497f-808a-983c-f48e331ebf29" class="" dir="auto">Exemplos:</p><pre id="3e2f6ce8-497f-8033-a313-fa366fcace2c" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">lodash
+jQuery
+Axios
+Bibliotecas de autenticação
+Bibliotecas de processamento de imagens</code></pre><h3 id="3e2f6ce8-497f-80fc-9990-cb3f0696effa" class="" dir="auto">Frameworks</h3><pre id="3e2f6ce8-497f-8075-aba0-d6cdf6ca3e9f" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">React
+Angular
+Vue
+Laravel
+Django
+Express
+Spring</code></pre><h3 id="3e2f6ce8-497f-802e-a895-d3d76c454952" class="" dir="auto">Plugins</h3><p id="3e2f6ce8-497f-8056-9b29-d2a3a34e7c35" class="" dir="auto">Muito comum em sistemas como WordPress:</p><pre id="3e2f6ce8-497f-808f-bdc6-f0f715e869c4" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">WordPress
+ ├── Plugin A
+ ├── Plugin B
+ └── Plugin C</code></pre><p id="3e2f6ce8-497f-801a-8ed1-c61d69993902" class="" dir="auto">Um plugin abandonado pode se tornar um grande problema de segurança.</p><h3 id="3e2f6ce8-497f-8033-aa3d-f28631c007ad" class="" dir="auto">Sistemas operacionais</h3><pre id="3e2f6ce8-497f-8085-bb9d-ecda46d17665" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Windows
+Linux
+macOS</code></pre><h3 id="3e2f6ce8-497f-8040-bcff-d1ee08e53577" class="" dir="auto">Servidores</h3><pre id="3e2f6ce8-497f-8029-aef5-cf7bfa2dbf7a" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Apache
+Nginx
+IIS</code></pre><h3 id="3e2f6ce8-497f-8017-b282-fc223b537123" class="" dir="auto">Bancos de dados</h3><pre id="3e2f6ce8-497f-8096-ba8d-cb7005d9ac2f" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">MySQL
+PostgreSQL
+MongoDB
+SQL Server</code></pre><h3 id="3e2f6ce8-497f-8095-afc2-d436ac4ed90e" class="" dir="auto">Containers e imagens</h3><p id="3e2f6ce8-497f-807d-bf06-dab1922df18d" class="" dir="auto">Por exemplo:</p><pre id="3e2f6ce8-497f-80f7-92b3-d022178ebdd7" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Docker
+├── aplicação
+├── Node.js
+├── bibliotecas
+└── sistema base</code></pre><p id="3e2f6ce8-497f-80bb-9aa7-c0cd4536b770" class="" dir="auto">Uma imagem antiga pode carregar pacotes vulneráveis.</p><hr id="3e2f6ce8-497f-80ad-af0e-de2586393cae" dir="auto"/><h1 id="3e2f6ce8-497f-806a-86f5-d7c1adf1fac9" class="" dir="auto">6. Dependências diretas e indiretas</h1><p id="3e2f6ce8-497f-8041-a78d-d29d3a33acb3" class="" dir="auto">Esse conceito é muito importante para quem trabalha com desenvolvimento.</p><p id="3e2f6ce8-497f-80b8-9c65-d14502617a79" class="" dir="auto">Imagine que você instale:</p><pre id="3e2f6ce8-497f-8092-9810-cf1cb15a3283" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Express</code></pre><p id="3e2f6ce8-497f-80ff-961b-f758f04bab36" class="" dir="auto">Você pode pensar:</p><blockquote id="3e2f6ce8-497f-809f-bd20-f67ee184ffc9" class="" dir="auto">&quot;Eu só instalei o Express.&quot;</blockquote><p id="3e2f6ce8-497f-8022-8e39-ddf3b68b4b99" class="" dir="auto">Mas o Express possui suas próprias dependências.</p><p id="3e2f6ce8-497f-80fc-8fb2-cc19002bbf47" class="" dir="auto">Podemos imaginar:</p><pre id="3e2f6ce8-497f-8042-98f9-ec9809b27ab3" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Meu projeto
+    ↓
+  Express
+    ↓
+ ┌──┴─────┐
+ ↓        ↓
+Lib A    Lib B
+          ↓
+        Lib C</code></pre><p id="3e2f6ce8-497f-80db-886d-ff503ce0eca3" class="" dir="auto">Assim, uma vulnerabilidade pode estar em uma dependência que você <strong>nem instalou diretamente</strong>.</p><p id="3e2f6ce8-497f-800c-8105-c19d12c5fe38" class="" dir="auto">São as chamadas <strong>dependências indiretas ou transitivas</strong>.</p><hr id="3e2f6ce8-497f-801e-81b5-c7d07a0e40fe" dir="auto"/><h1 id="3e2f6ce8-497f-80c6-a6e1-c0ae88e272ef" class="" dir="auto">7. Exemplo com Node.js</h1><p id="3e2f6ce8-497f-8036-8182-daddf528d82a" class="" dir="auto">No ecossistema Node.js, o projeto normalmente possui um:</p><pre id="3e2f6ce8-497f-80eb-99f4-cc25516fcd94" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">package.json</code></pre><p id="3e2f6ce8-497f-8085-9613-f0002e799af3" class="" dir="auto">Por exemplo:</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-json.min.js" integrity="sha512-QXFMVAusM85vUYDaNgcYeU3rzSlc+bTV4JvkfJhjxSHlQEo+ig53BtnGkvFTiNJh8D+wv6uWAQ2vJaVmxe8d3w==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="3e2f6ce8-497f-8032-be1c-e6abb526bac7" class="code code-wrap" data-notion-code-syntax="json"><code class="language-json" style="white-space:pre-wrap;word-break:break-all">{
+  &quot;dependencies&quot;: {
+    &quot;express&quot;: &quot;^5.0.0&quot;,
+    &quot;axios&quot;: &quot;^1.8.0&quot;
+  }
+}</code></pre><p id="3e2f6ce8-497f-807d-ad1f-e11802d1a2f3" class="" dir="auto">Mas essas bibliotecas também possuem outras dependências.</p><p id="3e2f6ce8-497f-80c5-8206-dcef50d5ad50" class="" dir="auto">O resultado pode ser uma árvore:</p><pre id="3e2f6ce8-497f-80a5-8264-fb10ca8413cb" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Projeto
+│
+├── express
+│   ├── dependência A
+│   ├── dependência B
+│   └── dependência C
+│
+└── axios
+    ├── dependência D
+    └── dependência E</code></pre><p id="3e2f6ce8-497f-806e-a509-de8240270748" class="" dir="auto">Por isso, simplesmente conhecer as bibliotecas que você instalou não é suficiente.</p><p id="3e2f6ce8-497f-8053-91ea-c45762a0af92" class="" dir="auto">É necessário acompanhar a <strong>árvore de dependências</strong>.</p><hr id="3e2f6ce8-497f-8015-90a6-d236535adb30" dir="auto"/><h1 id="3e2f6ce8-497f-8056-9d1a-ce36688b3c26" class="" dir="auto">8. Componentes abandonados</h1><p id="3e2f6ce8-497f-80c6-a826-e551676e5d0e" class="" dir="auto">Existe uma situação ainda mais problemática: o componente pode não estar apenas desatualizado, mas <strong>abandonado</strong>.</p><p id="3e2f6ce8-497f-8067-8f9b-fff827e7f10b" class="" dir="auto">Imagine uma biblioteca:</p><pre id="3e2f6ce8-497f-808e-b225-f66a6d615bef" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Biblioteca X
+Última atualização: há muitos anos</code></pre><p id="3e2f6ce8-497f-80ca-b8df-d6ea49d5edd9" class="" dir="auto">Uma nova vulnerabilidade é encontrada.</p><p id="3e2f6ce8-497f-8082-82ca-f29e48789f2f" class="" dir="auto">Porém:</p><pre id="3e2f6ce8-497f-8083-b355-cab6a9beade6" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Desenvolvedor
+      ↓
+não mantém mais o projeto
+      ↓
+não existe correção</code></pre><p id="3e2f6ce8-497f-80e3-9620-ee3d7c7036b6" class="" dir="auto">Nesse caso, atualizar pode não resolver.</p><p id="3e2f6ce8-497f-8076-aeb3-c0d45a614a69" class="" dir="auto">A solução pode ser:</p><pre id="3e2f6ce8-497f-807e-9d47-c043575f9681" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Biblioteca abandonada
+        ↓
+Substituir por outra</code></pre><hr id="3e2f6ce8-497f-8074-83f8-ea58a587febf" dir="auto"/><h1 id="3e2f6ce8-497f-8007-a2cd-da91bb661fd1" class="" dir="auto">9. Componentes sem suporte</h1><p id="3e2f6ce8-497f-806d-acf1-c920f289818b" class="" dir="auto">Também existe o conceito de <strong>End of Life (EOL)</strong>.</p><p id="3e2f6ce8-497f-803b-abd5-dcaf78200a7a" class="" dir="auto">Um software pode chegar ao fim de seu ciclo de vida:</p><pre id="3e2f6ce8-497f-80a8-b02a-c17d13d073e1" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Lançamento
+    ↓
+Suporte
+    ↓
+Atualizações
+    ↓
+Fim do suporte
+    ↓
+Sem novas correções de segurança</code></pre><p id="3e2f6ce8-497f-8049-a4d0-d73ae8debf49" class="" dir="auto">Continuar utilizando software sem suporte pode aumentar significativamente o risco.</p><p id="3e2f6ce8-497f-8045-8c37-d6a542a5d4dc" class="" dir="auto">Isso não significa automaticamente que ele será explorado, mas significa que <strong>novas vulnerabilidades podem permanecer sem correção oficial</strong>.</p><hr id="3e2f6ce8-497f-80bb-8f18-cd9fbab5bf50" dir="auto"/><h1 id="3e2f6ce8-497f-80a9-92f8-c82f9f4d9a78" class="" dir="auto">10. Exemplos de problemas</h1><p id="3e2f6ce8-497f-80cf-8ea2-ce60631b8e9a" class="" dir="auto">Componentes vulneráveis podem apresentar diferentes tipos de falhas.</p><p id="3e2f6ce8-497f-8036-806e-d67e3e12919b" class="" dir="auto">Por exemplo:</p><h3 id="3e2f6ce8-497f-80fb-8cfb-c361b4cfc56a" class="" dir="auto">SQL Injection</h3><p id="3e2f6ce8-497f-8051-bdc7-ca78278023f8" class="" dir="auto">Uma biblioteca pode possuir uma vulnerabilidade que permita manipulação inadequada de consultas.</p><h3 id="3e2f6ce8-497f-8006-8593-e5ba659f1612" class="" dir="auto">XSS</h3><p id="3e2f6ce8-497f-809f-b065-c28263be099a" class="" dir="auto">Um componente de interface pode processar conteúdo fornecido pelo usuário de forma insegura.</p><h3 id="3e2f6ce8-497f-808b-8008-e0a021c5e594" class="" dir="auto">RCE</h3><p id="3e2f6ce8-497f-807c-9450-fd07e537d95e" class="" dir="auto">Uma vulnerabilidade grave pode permitir que determinadas entradas sejam interpretadas de maneira que possibilite execução de código no contexto do componente.</p><h3 id="3e2f6ce8-497f-805f-bc70-dae185c4a10f" class="" dir="auto">Escalonamento de privilégios</h3><p id="3e2f6ce8-497f-80c3-80fe-ebba554125b3" class="" dir="auto">Um componente pode possuir falhas que permitam acesso além das permissões previstas.</p><h3 id="3e2f6ce8-497f-80d4-8622-d82eaf0ecca2" class="" dir="auto">Vazamento de informações</h3><p id="3e2f6ce8-497f-80b6-9ce0-d571df1c53e6" class="" dir="auto">Uma biblioteca pode expor informações que deveriam permanecer protegidas.</p><hr id="3e2f6ce8-497f-8068-b579-f98458821c90" dir="auto"/><h1 id="3e2f6ce8-497f-8068-b7fb-f0bac508dbd9" class="" dir="auto">11. Como uma vulnerabilidade em uma biblioteca afeta a aplicação?</h1><p id="3e2f6ce8-497f-804e-9425-dac94747af4c" class="" dir="auto">Imagine:</p><pre id="3e2f6ce8-497f-8042-acb6-f9e03bcdd7fa" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Usuário
+   ↓
+Aplicação
+   ↓
+Biblioteca vulnerável
+   ↓
+Processamento inseguro
+   ↓
+Problema de segurança</code></pre><p id="3e2f6ce8-497f-807f-9c6b-ee238632ccbc" class="" dir="auto">A aplicação pode ter um código aparentemente correto:</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-jsx.min.js" integrity="sha512-m3JYEI6gx5fh9jF10FjGoMzVKcV2N6nchcDcqPCdI1L3R2WQV7br2XVNR8iTLb2daOMRl3zldbcfT40xU2ntVw==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="3e2f6ce8-497f-80c0-8fac-f8a8f74ffb93" class="code code-wrap" data-notion-code-syntax="jsx"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const resultado = biblioteca.processar(dados);</code></pre><p id="3e2f6ce8-497f-80f0-b92e-c31c6293333f" class="" dir="auto">O problema pode estar internamente na biblioteca.</p><p id="3e2f6ce8-497f-8093-a999-f7849ee1219f" class="" dir="auto">Portanto:</p><blockquote id="3e2f6ce8-497f-80bb-9ca8-f93eeb447747" class="" dir="auto"><strong>Código próprio seguro não garante uma aplicação segura se suas dependências forem vulneráveis.</strong></blockquote><hr id="3e2f6ce8-497f-80bc-96f5-f4b8cc6ff43e" dir="auto"/><h1 id="3e2f6ce8-497f-803a-b9de-d6fd253db13d" class="" dir="auto">12. Como descobrir componentes vulneráveis?</h1><p id="3e2f6ce8-497f-8062-b047-f93fecb61569" class="" dir="auto">Existem várias maneiras de identificar problemas.</p><h2 id="3e2f6ce8-497f-80ff-8b9d-d1366b66dd68" class="" dir="auto">Gerenciadores de dependências</h2><p id="3e2f6ce8-497f-802f-a432-cfa51caae656" class="" dir="auto">No Node.js, por exemplo, ferramentas do ecossistema podem verificar dependências vulneráveis.</p><p id="3e2f6ce8-497f-80e0-9796-fc456d76c478" class="" dir="auto">Um comando conhecido é:</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-bash.min.js" integrity="sha512-whYhDwtTmlC/NpZlCr6PSsAaLOrfjVg/iXAnC4H/dtiHawpShhT2SlIMbpIhT/IL/NrpdMm+Hq2C13+VKpHTYw==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="3e2f6ce8-497f-8057-8fff-d477f976128e" class="code code-wrap" data-notion-code-syntax="bash"><code class="language-bash" style="white-space:pre-wrap;word-break:break-all">npm audit</code></pre><p id="3e2f6ce8-497f-8054-bc96-dd19602d95f9" class="" dir="auto">Ele analisa as dependências do projeto e pode informar vulnerabilidades conhecidas.</p><p id="3e2f6ce8-497f-804e-844d-da7bf0a1bf98" class="" dir="auto">Também existem ferramentas equivalentes em outros ecossistemas.</p><p id="3e2f6ce8-497f-80d3-bb1b-e4b0bbfd284d" class="" dir="auto">Por exemplo:</p><pre id="3e2f6ce8-497f-80ed-b549-fc0f6d9d150f" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Node.js       → npm audit
+PHP           → ferramentas do Composer
+Python        → ferramentas do ecossistema Python
+Java          → ferramentas do Maven/Gradle</code></pre><hr id="3e2f6ce8-497f-80cc-b5f3-e8be5452e0be" dir="auto"/><h1 id="3e2f6ce8-497f-803d-bf3e-f22bc4f5f03e" class="" dir="auto">13. Bancos de vulnerabilidades</h1><p id="3e2f6ce8-497f-80e5-a6ec-deae0aaa372c" class="" dir="auto">Existem bases de dados que registram vulnerabilidades conhecidas.</p><p id="3e2f6ce8-497f-8032-9306-c48c2eeac202" class="" dir="auto">Um dos principais conceitos nesse contexto é o <strong>CVE — Common Vulnerabilities and Exposures</strong>.</p><p id="3e2f6ce8-497f-80a5-aefd-cb97f78c9e2b" class="" dir="auto">Uma vulnerabilidade pode receber um identificador como:</p><pre id="3e2f6ce8-497f-804a-8eb2-ec2394afa49f" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">CVE-2026-XXXXX</code></pre><p id="3e2f6ce8-497f-8011-9978-efa90c15e4b0" class="" dir="auto">Esse identificador permite referenciar especificamente uma vulnerabilidade.</p><p id="3e2f6ce8-497f-802d-9b2c-efdb20fcb2a3" class="" dir="auto">Também existem sistemas que fornecem informações sobre:</p><ul id="3e2f6ce8-497f-8029-9867-ca3a7a7051e9" class="bulleted-list" dir="auto"><li style="list-style-type:disc">versões afetadas;</li></ul><ul id="3e2f6ce8-497f-8019-be33-e340c026ffbe" class="bulleted-list" dir="auto"><li style="list-style-type:disc">produtos afetados;</li></ul><ul id="3e2f6ce8-497f-8097-8961-e57d6da0c143" class="bulleted-list" dir="auto"><li style="list-style-type:disc">severidade;</li></ul><ul id="3e2f6ce8-497f-806d-981e-f597102a8834" class="bulleted-list" dir="auto"><li style="list-style-type:disc">versões corrigidas;</li></ul><ul id="3e2f6ce8-497f-8089-97ef-c0623a37b517" class="bulleted-list" dir="auto"><li style="list-style-type:disc">referências técnicas.</li></ul><hr id="3e2f6ce8-497f-80d5-b6fb-e21faaddda86" dir="auto"/><h1 id="3e2f6ce8-497f-80d9-a679-f568bbf33d52" class="" dir="auto">14. Como prevenir?</h1><p id="3e2f6ce8-497f-801a-87c7-f253434680ec" class="" dir="auto">A prevenção envolve principalmente <strong>gerenciamento de dependências e atualização contínua</strong>.</p><h2 id="3e2f6ce8-497f-8009-a10c-fd84f54b22b5" class="" dir="auto">14.1 Manter componentes atualizados</h2><p id="3e2f6ce8-497f-8089-864d-f34625e3eee1" class="" dir="auto">Não espere anos para atualizar.</p><p id="3e2f6ce8-497f-80bd-9b6a-daf0a419b535" class="" dir="auto">É importante acompanhar:</p><pre id="3e2f6ce8-497f-80ce-a48a-d5b63a2f0470" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Frameworks
+Bibliotecas
+Plugins
+Sistema operacional
+Servidor
+Banco de dados
+Containers</code></pre><hr id="3e2f6ce8-497f-80f5-a07a-c5dcc50617aa" dir="auto"/><h2 id="3e2f6ce8-497f-8033-8603-e10cb2ab238c" class="" dir="auto">14.2 Remover componentes desnecessários</h2><p id="3e2f6ce8-497f-8099-a7b0-cb92538dc844" class="" dir="auto">Se uma biblioteca não é utilizada:</p><pre id="3e2f6ce8-497f-806a-859d-dcadfb8f7717" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">❌ manter sem necessidade</code></pre><p id="3e2f6ce8-497f-80ce-aea4-f063bb264ba1" class="" dir="auto">é melhor removê-la.</p><p id="3e2f6ce8-497f-809a-9876-fc067f02c79d" class="" dir="auto">Menos componentes significa:</p><pre id="3e2f6ce8-497f-803c-9894-ccb9bba333c8" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Menos dependências
+      ↓
+Menor superfície de ataque</code></pre><hr id="3e2f6ce8-497f-80d4-8d2a-e702076630d0" dir="auto"/><h2 id="3e2f6ce8-497f-80c3-bc09-e9545c72c8d4" class="" dir="auto">14.3 Monitorar vulnerabilidades</h2><p id="3e2f6ce8-497f-808a-b2f8-d3972b6804a4" class="" dir="auto">Uma organização deve saber:</p><blockquote id="3e2f6ce8-497f-803b-9aa1-ef20bafe74d1" class="" dir="auto">&quot;Quais componentes estão presentes em nossos sistemas?&quot;</blockquote><p id="3e2f6ce8-497f-808b-be76-ff5c3079144d" class="" dir="auto">Isso pode ser feito por meio de um inventário.</p><p id="3e2f6ce8-497f-802d-8338-c289d2b7f05c" class="" dir="auto">Exemplo:</p><table id="3e2f6ce8-497f-80d2-b3f2-d1c3ff9eacf7" class="simple-table" dir="ltr"><thead class="simple-table-header"><tr id="3e2f6ce8-497f-804c-ace7-f4d12694428c" dir="ltr"><th id="nbke" class="simple-table-header-color simple-table-header">Componente</th><th id="&lt;qEK" class="simple-table-header-color simple-table-header">Versão</th><th id="\fGY" class="simple-table-header-color simple-table-header">Status</th></tr></thead><tbody><tr id="3e2f6ce8-497f-8077-b960-ed2b0b2f71c1" dir="ltr"><td id="nbke" class="">Node.js</td><td id="&lt;qEK" class="">versão atual</td><td id="\fGY" class="">OK</td></tr><tr id="3e2f6ce8-497f-80be-bbe1-c046785e4c27" dir="ltr"><td id="nbke" class="">PostgreSQL</td><td id="&lt;qEK" class="">versão atual</td><td id="\fGY" class="">OK</td></tr><tr id="3e2f6ce8-497f-80fa-ba7f-e33c147990d3" dir="ltr"><td id="nbke" class="">Biblioteca A</td><td id="&lt;qEK" class="">antiga</td><td id="\fGY" class="">Atualizar</td></tr><tr id="3e2f6ce8-497f-802c-ac0a-d6f004d472e9" dir="ltr"><td id="nbke" class="">Plugin B</td><td id="&lt;qEK" class="">sem suporte</td><td id="\fGY" class="">Substituir</td></tr></tbody></table><hr id="3e2f6ce8-497f-8053-9ce9-de982dd6a0f4" dir="auto"/><h1 id="3e2f6ce8-497f-80a6-8c16-f2dea2a0fd69" class="" dir="auto">15. Não atualizar cegamente</h1><p id="3e2f6ce8-497f-803b-a09b-f5690ffd0134" class="" dir="auto">Existe uma questão importante.</p><p id="3e2f6ce8-497f-800e-8fbd-ea8260e5941b" class="" dir="auto">Atualizar tudo automaticamente pode causar problemas de compatibilidade.</p><p id="3e2f6ce8-497f-8004-8c43-f30bed5476a2" class="" dir="auto">Imagine:</p><pre id="3e2f6ce8-497f-80a7-9826-e3dcc657cdac" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Versão 1
+ ↓
+Aplicação funcionando
+
+Atualização
+ ↓
+Versão 2
+ ↓
+API mudou
+ ↓
+Aplicação quebra</code></pre><p id="3e2f6ce8-497f-802c-9374-f2594d2f5383" class="" dir="auto">Por isso, o processo deve envolver:</p><pre id="3e2f6ce8-497f-802a-a04f-db4f0d5d7b0c" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Nova versão
+    ↓
+Análise
+    ↓
+Testes
+    ↓
+Atualização
+    ↓
+Validação
+    ↓
+Produção</code></pre><p id="3e2f6ce8-497f-8083-8655-e9a0389ad6c6" class="" dir="auto">Em sistemas críticos, isso é ainda mais importante.</p><hr id="3e2f6ce8-497f-8040-bbd8-ea47cf080b74" dir="auto"/><h1 id="3e2f6ce8-497f-8035-a81e-ed8a94765647" class="" dir="auto">16. Dependências fixadas</h1><p id="3e2f6ce8-497f-8078-bc40-ebd24a38d796" class="" dir="auto">Um projeto pode especificar versões de suas dependências.</p><p id="3e2f6ce8-497f-80cc-a09b-e48f128ae0af" class="" dir="auto">Por exemplo:</p><pre id="3e2f6ce8-497f-8017-9db5-eee02d533f59" class="code code-wrap" data-notion-code-syntax="json"><code class="language-json" style="white-space:pre-wrap;word-break:break-all">{
+  &quot;dependencies&quot;: {
+    &quot;biblioteca&quot;: &quot;1.5.2&quot;
+  }
+}</code></pre><p id="3e2f6ce8-497f-8015-bbb8-ca6b4c6b9749" class="" dir="auto">Isso ajuda a manter previsibilidade.</p><p id="3e2f6ce8-497f-807d-b599-c7dafe8283a0" class="" dir="auto">Porém, existe um problema:</p><pre id="3e2f6ce8-497f-808a-959b-f41c7d8ad1fe" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Versão fixada
+      ↓
+vulnerabilidade descoberta
+      ↓
+versão continua sendo utilizada
+      ↓
+vulnerabilidade permanece</code></pre><p id="3e2f6ce8-497f-80eb-b9a5-fec5f42b8680" class="" dir="auto">Portanto, fixar versões <strong>não substitui o processo de atualização</strong>.</p><hr id="3e2f6ce8-497f-80a4-b1f7-dc983898d18b" dir="auto"/><h1 id="3e2f6ce8-497f-8077-bb17-ef0275bd82be" class="" dir="auto">17. Atualizações automáticas</h1><p id="3e2f6ce8-497f-8012-ba25-d5d90a08c9bf" class="" dir="auto">Também podem ser utilizadas ferramentas que detectam atualizações.</p><p id="3e2f6ce8-497f-8043-a9d9-c61d5768e4ba" class="" dir="auto">Um fluxo pode ser:</p><pre id="3e2f6ce8-497f-8075-a71b-f28f4ca470aa" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Dependência possui nova versão
+            ↓
+Ferramenta detecta
+            ↓
+Cria atualização
+            ↓
+Testes automatizados
+            ↓
+Desenvolvedor revisa
+            ↓
+Atualização aprovada</code></pre><p id="3e2f6ce8-497f-80ea-b1ef-ef39efd44687" class="" dir="auto">Isso facilita o gerenciamento de grandes projetos.</p><hr id="3e2f6ce8-497f-8015-bbc9-d1aeafffada0" dir="auto"/><h1 id="3e2f6ce8-497f-806e-8b98-fd5d0dc843d6" class="" dir="auto">18. Software Composition Analysis — SCA</h1><p id="3e2f6ce8-497f-80a9-bfca-f26d71551090" class="" dir="auto">Um conceito muito importante nesse assunto é o <strong>SCA — Software Composition Analysis</strong>.</p><p id="3e2f6ce8-497f-8038-97c7-f9868b5e8412" class="" dir="auto">SCA é utilizado para analisar os componentes de terceiros utilizados por uma aplicação.</p><p id="3e2f6ce8-497f-8071-947c-dfcb507067fb" class="" dir="auto">Ele pode identificar:</p><pre id="3e2f6ce8-497f-8053-b8e6-ee0a2b3732d3" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Projeto
+│
+├── Biblioteca A
+│   └── vulnerabilidade
+│
+├── Biblioteca B
+│   └── OK
+│
+└── Biblioteca C
+    └── versão desatualizada</code></pre><p id="3e2f6ce8-497f-80d1-8183-f69528556207" class="" dir="auto">Isso é particularmente importante em aplicações que possuem muitas dependências.</p><hr id="3e2f6ce8-497f-8039-9611-d3d3d42c6d8c" dir="auto"/><h1 id="3e2f6ce8-497f-80da-a032-d1131b1b9b3f" class="" dir="auto">19. SBOM</h1><p id="3e2f6ce8-497f-8070-bd8a-ea604452bac2" class="" dir="auto">Outro conceito importante é <strong>SBOM — Software Bill of Materials</strong>.</p><p id="3e2f6ce8-497f-8090-8ec7-d7e104676b1c" class="" dir="auto">Podemos pensar em uma SBOM como uma espécie de:</p><blockquote id="3e2f6ce8-497f-8078-8081-c48e5b5e61a7" class="" dir="auto"><strong>lista de ingredientes do software.</strong></blockquote><p id="3e2f6ce8-497f-80d0-b357-e3ffceb4a93b" class="" dir="auto">Por exemplo:</p><pre id="3e2f6ce8-497f-80dc-a260-e627da638d19" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Aplicação X
+
+├── Node.js
+├── Express
+├── Axios
+├── Biblioteca A
+├── Biblioteca B
+└── Biblioteca C</code></pre><p id="3e2f6ce8-497f-8028-be9f-e19f2c16dcbd" class="" dir="auto">Isso facilita descobrir rapidamente:</p><blockquote id="3e2f6ce8-497f-80b5-9df3-cd62f15889cb" class="" dir="auto">&quot;Estamos usando aquele componente que acabou de apresentar uma vulnerabilidade?&quot;</blockquote><p id="3e2f6ce8-497f-80c8-9b2f-f09e59c82d40" class="" dir="auto">Sem um inventário, pode ser muito mais difícil responder.</p><hr id="3e2f6ce8-497f-800d-93d5-d9d41c0a0492" dir="auto"/><h1 id="3e2f6ce8-497f-807a-a7eb-c7826499454e" class="" dir="auto">20. O problema não é apenas &quot;não atualizar&quot;</h1><p id="3e2f6ce8-497f-8070-a0d2-e889f06fbd12" class="" dir="auto">Existem vários cenários diferentes:</p><pre id="3e2f6ce8-497f-8078-9cce-d113b375923d" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Componente
+│
+├── Vulnerável
+│
+├── Desatualizado
+│
+├── Sem suporte
+│
+├── Configurado incorretamente
+│
+├── Desnecessário
+│
+└── Com versão incompatível</code></pre><p id="3e2f6ce8-497f-804f-9385-f8dc217f9e38" class="" dir="auto">Todos precisam ser administrados.</p><hr id="3e2f6ce8-497f-8060-a38a-de498533e588" dir="auto"/><h1 id="3e2f6ce8-497f-80aa-85fa-e43173106306" class="" dir="auto">21. Relação com os outros problemas de segurança</h1><p id="3e2f6ce8-497f-80c6-9fde-c7905b5d2383" class="" dir="auto">Esse tópico se conecta diretamente aos outros temas que você já estudou.</p><h3 id="3e2f6ce8-497f-80c6-86ba-f3d6b1a6c450" class="" dir="auto">Injeção</h3><p id="3e2f6ce8-497f-808a-9587-c83a39ff3119" class="" dir="auto">Uma biblioteca vulnerável pode facilitar uma falha de injeção.</p><h3 id="3e2f6ce8-497f-80bb-8fca-c0572d25ee46" class="" dir="auto">Controle de acesso</h3><p id="3e2f6ce8-497f-80ca-95f2-e3ffe098d114" class="" dir="auto">Um framework vulnerável pode possuir problemas relacionados a autorização.</p><h3 id="3e2f6ce8-497f-80e4-994a-dc0a5ac7e7b9" class="" dir="auto">Falhas criptográficas</h3><p id="3e2f6ce8-497f-80a4-b372-e56d32293d96" class="" dir="auto">Uma biblioteca criptográfica antiga pode utilizar algoritmos ou configurações inadequadas.</p><h3 id="3e2f6ce8-497f-80a6-9ef7-e33945047d28" class="" dir="auto">Configurações incorretas</h3><p id="3e2f6ce8-497f-80c4-9aad-c008d95ef0fb" class="" dir="auto">Um componente atualizado também pode estar configurado de maneira insegura.</p><h3 id="3e2f6ce8-497f-80c8-a5ed-c17a64bb160e" class="" dir="auto">Projeto inseguro</h3><p id="3e2f6ce8-497f-8058-b493-d276ce444968" class="" dir="auto">Uma aplicação pode utilizar componentes modernos, mas possuir uma arquitetura insegura.</p><p id="3e2f6ce8-497f-80e9-900e-cb06d1a18dd7" class="" dir="auto">Podemos visualizar:</p><pre id="3e2f6ce8-497f-80c3-bc50-def11bc6e229" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">       Aplicação
+           │
+ ┌─────────┼─────────┐
+ ↓         ↓         ↓
+Código  Configuração Dependências
+ │         │          │
+ ↓         ↓          ↓
+Falhas   Misconfig.  Vulnerabilidades</code></pre><p id="3e2f6ce8-497f-8027-9a75-f2add2a376e3" class="" dir="auto">Segurança depende de todos esses elementos.</p><hr id="3e2f6ce8-497f-80f8-9275-fde711d6262e" dir="auto"/><h1 id="3e2f6ce8-497f-80d7-962b-c4caece2529a" class="" dir="auto">22. Exemplo prático</h1><p id="3e2f6ce8-497f-805a-b091-d56143aac77a" class="" dir="auto">Imagine uma aplicação de e-commerce:</p><pre id="3e2f6ce8-497f-8035-a011-d1d75ef152a8" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Loja Virtual
+│
+├── Front-end
+├── Back-end
+├── Banco de dados
+├── Sistema de pagamentos
+├── Biblioteca de imagens
+├── Biblioteca de autenticação
+└── Plugins</code></pre><p id="3e2f6ce8-497f-8054-bcee-c7165d47e75c" class="" dir="auto">Uma biblioteca de processamento de imagens possui uma vulnerabilidade conhecida.</p><p id="3e2f6ce8-497f-80ac-897a-cb53e7992617" class="" dir="auto">A aplicação recebe imagens enviadas pelos usuários:</p><pre id="3e2f6ce8-497f-80c5-8633-dbcf9f4c5c83" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Usuário
+   ↓
+Upload da imagem
+   ↓
+Biblioteca de processamento
+   ↓
+Vulnerabilidade</code></pre><p id="3e2f6ce8-497f-8016-9b40-d3915314309c" class="" dir="auto">Mesmo que:</p><ul id="3e2f6ce8-497f-801d-8869-efeab7b3d0d0" class="bulleted-list" dir="auto"><li style="list-style-type:disc">o banco esteja protegido;</li></ul><ul id="3e2f6ce8-497f-80e1-a197-fbfc885e3e9f" class="bulleted-list" dir="auto"><li style="list-style-type:disc">o HTTPS esteja funcionando;</li></ul><ul id="3e2f6ce8-497f-8042-8c62-d831c403c097" class="bulleted-list" dir="auto"><li style="list-style-type:disc">o login seja seguro;</li></ul><ul id="3e2f6ce8-497f-8009-ad94-c0c9f80738c2" class="bulleted-list" dir="auto"><li style="list-style-type:disc">o código principal esteja correto;</li></ul><p id="3e2f6ce8-497f-803a-981f-fbf573b36058" class="" dir="auto">a aplicação ainda pode possuir um risco por causa da dependência vulnerável.</p><hr id="3e2f6ce8-497f-8078-a4aa-cc81f5bb8ed1" dir="auto"/><h1 id="3e2f6ce8-497f-80d1-bcba-f7a02bc49c3e" class="" dir="auto">23. Boas práticas</h1><p id="3e2f6ce8-497f-80f0-8686-d1e99068e891" class="" dir="auto">Uma organização deve:</p><h3 id="3e2f6ce8-497f-80c7-b94e-c0b60cdf4ed1" class="" dir="auto">Inventariar</h3><p id="3e2f6ce8-497f-8023-af91-e61dd173d340" class="" dir="auto">Saber quais componentes estão sendo utilizados.</p><h3 id="3e2f6ce8-497f-80ff-88c1-e6dec0b27ef2" class="" dir="auto">Monitorar</h3><p id="3e2f6ce8-497f-8080-85f3-cc8e67b4f337" class="" dir="auto">Acompanhar novas vulnerabilidades.</p><h3 id="3e2f6ce8-497f-80fe-87f3-e5171224a709" class="" dir="auto">Atualizar</h3><p id="3e2f6ce8-497f-80b2-be4c-dc73c7d4ad14" class="" dir="auto">Aplicar correções de segurança.</p><h3 id="3e2f6ce8-497f-80f3-9039-cb643a075198" class="" dir="auto">Testar</h3><p id="3e2f6ce8-497f-8086-b132-c526439c36c5" class="" dir="auto">Garantir que atualizações não quebrem o sistema.</p><h3 id="3e2f6ce8-497f-806c-9565-d8fdd0376e8e" class="" dir="auto">Remover</h3><p id="3e2f6ce8-497f-80a0-a7c2-df166cff113e" class="" dir="auto">Eliminar componentes desnecessários.</p><h3 id="3e2f6ce8-497f-8083-8a04-d1387e1a5f32" class="" dir="auto">Substituir</h3><p id="3e2f6ce8-497f-8020-9781-e5493af143fa" class="" dir="auto">Trocar componentes abandonados ou sem suporte.</p><h3 id="3e2f6ce8-497f-801f-8a9c-cbc46d0ff8b6" class="" dir="auto">Automatizar</h3><p id="3e2f6ce8-497f-808f-91f1-d9984699c4e0" class="" dir="auto">Utilizar ferramentas de análise de dependências.</p><h3 id="3e2f6ce8-497f-80ac-b93a-f602e1433d92" class="" dir="auto">Controlar</h3><p id="3e2f6ce8-497f-80a0-9eef-edcb82c1f046" class="" dir="auto">Evitar que desenvolvedores adicionem dependências desnecessárias ou não confiáveis.</p><hr id="3e2f6ce8-497f-8093-94fc-cc65c0ac2adb" dir="auto"/><h1 id="3e2f6ce8-497f-80a4-81e1-f6f727dbe3cf" class="" dir="auto">24. Checklist</h1><p id="3e2f6ce8-497f-80fe-9d17-f01be91938db" class="" dir="auto">Antes de colocar uma aplicação em produção:</p><pre id="3e2f6ce8-497f-80e2-932d-d0d3e041c98e" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">[ ] Conheço todas as dependências?
+[ ] Conheço suas versões?
+[ ] Existem vulnerabilidades conhecidas?
+[ ] Existem atualizações de segurança?
+[ ] Algum componente está abandonado?
+[ ] Algum componente chegou ao fim do suporte?
+[ ] Existem dependências desnecessárias?
+[ ] As dependências indiretas foram analisadas?
+[ ] O projeto possui testes para atualizações?
+[ ] Existe monitoramento contínuo?
+[ ] Existe inventário/SBOM quando necessário?
+[ ] Componentes críticos possuem processo de atualização?</code></pre><hr id="3e2f6ce8-497f-8005-b8b9-c4d2279460e6" dir="auto"/><h1 id="3e2f6ce8-497f-808d-81a2-eca2e18dc236" class="" dir="auto">25. Resumindo</h1><p id="3e2f6ce8-497f-80fe-ad11-e299afef578d" class="" dir="auto"><strong>Componentes Vulneráveis e Desatualizados</strong> acontecem quando uma aplicação depende de software que possui <strong>falhas de segurança conhecidas, versões antigas, componentes abandonados ou sem suporte</strong>.</p><p id="3e2f6ce8-497f-804b-ad37-dab90cd73f04" class="" dir="auto">O problema pode estar em:</p><pre id="3e2f6ce8-497f-800b-9a4d-cd47bb91feef" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Bibliotecas
+Frameworks
+Plugins
+Servidores
+Bancos de dados
+Sistemas operacionais
+Containers
+Dependências indiretas</code></pre><p id="3e2f6ce8-497f-807a-9ed8-f3d9b2e4871d" class="" dir="auto">O ciclo seguro é:</p><pre id="3e2f6ce8-497f-8085-ae76-d5874c688c81" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Identificar
+    ↓
+Inventariar
+    ↓
+Monitorar
+    ↓
+Avaliar vulnerabilidades
+    ↓
+Atualizar ou substituir
+    ↓
+Testar
+    ↓
+Implantar
+    ↓
+Monitorar novamente</code></pre><h3 id="3e2f6ce8-497f-807f-a350-e4ea06a3ffb9" class="" dir="auto">Ideia principal</h3><blockquote id="3e2f6ce8-497f-80fe-8cb6-ca17a73c959d" class="" dir="auto"><strong>Uma aplicação é tão segura quanto seus componentes e a forma como eles são mantidos.</strong></blockquote><p id="3e2f6ce8-497f-80f5-be44-f44b1a2294a2" class="" dir="auto">No desenvolvimento Full Stack, isso é extremamente importante porque praticamente todo projeto moderno utiliza <strong>dependências de terceiros</strong>. Por isso, segurança não termina quando você escreve o código: é necessário também <strong>gerenciar, atualizar e monitorar tudo aquilo de que o código depende</strong>.</p></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

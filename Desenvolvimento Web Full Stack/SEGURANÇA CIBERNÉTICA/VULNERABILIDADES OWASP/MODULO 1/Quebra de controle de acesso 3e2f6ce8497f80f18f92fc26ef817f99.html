@@ -1,0 +1,999 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Quebra de controle de acesso</title><meta name="data-notion-page-icon" content="/icons/lock_blue.svg"/><link rel="icon" href="https://app.notion.com/icons/lock_blue.svg"/><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+	/* Paint a complete callout box on every PDF page fragment. */
+	-webkit-box-decoration-break: clone;
+	box-decoration-break: clone;
+}
+
+/* For default-background callouts, render the border outline. */
+.callout.block-color-default_background {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+/*
+ * Toggles and callouts hold arbitrary content, so they can easily be taller
+ * than a page. They must stay breakable: avoiding breaks inside them makes
+ * Chromium push the whole block onto the next page, which leaves the previous
+ * page mostly empty before every long toggle.
+ */
+details,
+aside {
+	margin: 1.25em 0;
+}
+
+/* Keep a toggle's title on the same page as the start of its content. */
+summary {
+	page-break-after: avoid;
+	break-after: avoid;
+}
+
+/*
+ * Toggle headings render as <h1/h2/h3 style="display:inline-block"> inside
+ * <summary>. Without this reset, the heading's margin-top pushes it below the
+ * ::marker (▼), so the triangle and the title appear on separate lines.
+ */
+summary h1,
+summary h2,
+summary h3,
+summary h4 {
+	margin-top: 0;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding-inline: 0.125rem;
+	padding-block: 0.375rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+/*
+ * Render emoji icons using a ::before pseudo-element to keep the glyph
+ * out of the DOM textContent traversal. This avoids double-rendering icons
+ * in callouts and page titles.
+ * NOTE(slim/html-export-pseudo-icons): I can't tagref this because it will
+ * flag as a duplicate tag after codegen.
+ */
+.icon[data-emoji]::before {
+	content: attr(data-emoji);
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	margin-right: 0.4em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.tab {
+	margin: 1.25em 0;
+	padding-inline: 1rem;
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style><style>@import url('https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex-swap.min.css')</style></head><body><article id="3e2f6ce8-497f-80f1-8f92-fc26ef817f99" class="page sans" data-notion-page-icon="/icons/lock_blue.svg"><header><div class="page-header-icon undefined"><img class="icon notion-static-icon" src="https://app.notion.com/icons/lock_blue.svg"/></div><h1 class="page-title" dir="auto">Quebra de controle de acesso</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><h1 id="3e2f6ce8-497f-80a8-96f4-c8ce8abbb26f" class="" dir="auto">Quebra de Controle de Acesso</h1><p id="3e2f6ce8-497f-8088-9d95-e82445b89d31" class="" dir="auto">A <strong>Quebra de Controle de Acesso</strong> (<em>Broken Access Control</em>) é uma vulnerabilidade em que uma aplicação permite que um usuário <strong>acesse recursos, informações ou funcionalidades que ele não deveria poder acessar</strong>.</p><p id="3e2f6ce8-497f-8032-8c92-de9cee0a3b90" class="" dir="auto">Em outras palavras, o sistema possui regras sobre <strong>quem pode fazer o quê</strong>, mas essas regras não são aplicadas corretamente.</p><p id="3e2f6ce8-497f-80b4-a625-e33b49d5ff29" class="" dir="auto">É um problema muito importante em aplicações web porque pode permitir que um usuário comum consiga acessar dados ou funcionalidades pertencentes a outros usuários ou até mesmo a administradores.</p><hr id="3e2f6ce8-497f-8061-8ef9-dc953a4805d4" dir="auto"/><h1 id="3e2f6ce8-497f-801c-a204-f657efbd42dd" class="" dir="auto">1. O que é Controle de Acesso?</h1><p id="3e2f6ce8-497f-8008-808c-f27f9d539f46" class="" dir="auto">Antes de entender a quebra, precisamos entender o controle de acesso.</p><p id="3e2f6ce8-497f-80e7-9456-c3bf148110e6" class="" dir="auto">O <strong>controle de acesso</strong> determina quais ações cada usuário pode realizar dentro de um sistema.</p><p id="3e2f6ce8-497f-8036-a69f-c96263ccf165" class="" dir="auto">Por exemplo, em uma aplicação podemos ter:</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="3e2f6ce8-497f-8056-a421-f36c02f1b83b" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Usuário comum
+ ├── Ver seu perfil
+ ├── Alterar seu perfil
+ └── Ver seus pedidos
+
+Administrador
+ ├── Ver usuários
+ ├── Editar usuários
+ ├── Excluir usuários
+ └── Gerenciar sistema</code></pre><p id="3e2f6ce8-497f-8038-af3e-f7176a90a1e7" class="" dir="auto">A aplicação precisa verificar essas permissões antes de executar cada operação.</p><p id="3e2f6ce8-497f-80af-a432-e4a0fa326c9a" class="" dir="auto">Podemos representar:</p><pre id="3e2f6ce8-497f-807a-bdf2-c52d1d01fd65" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Usuário
+   ↓
+Autenticação
+   ↓
+&quot;Quem é você?&quot;
+   ↓
+Autorização
+   ↓
+&quot;O que você pode fazer?&quot;
+   ↓
+Recurso</code></pre><hr id="3e2f6ce8-497f-8008-8779-c3ccb260ab85" dir="auto"/><h1 id="3e2f6ce8-497f-8021-a0de-e54e395104a1" class="" dir="auto">2. Autenticação × Autorização</h1><p id="3e2f6ce8-497f-8089-bc2b-ee6d45b1b312" class="" dir="auto">Essa diferença é fundamental.</p><h2 id="3e2f6ce8-497f-80b2-a07f-f0a9921a145f" class="" dir="auto">Autenticação</h2><p id="3e2f6ce8-497f-802b-9e15-c388ca91fb39" class="" dir="auto">Responde:</p><blockquote id="3e2f6ce8-497f-802f-9cf3-dc5e458a0c5f" class="" dir="auto"><strong>Quem é você?</strong></blockquote><p id="3e2f6ce8-497f-8053-9078-ee01228b1ee9" class="" dir="auto">Exemplo:</p><pre id="3e2f6ce8-497f-8051-b333-c512da870b73" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Email: gusta@email.com
+Senha: ********</code></pre><p id="3e2f6ce8-497f-8028-8004-cf6d76dc2d67" class="" dir="auto">O sistema verifica a identidade do usuário.</p><hr id="3e2f6ce8-497f-800e-9b99-e4db16b348f1" dir="auto"/><h2 id="3e2f6ce8-497f-80d5-a9fe-f512b1ac00af" class="" dir="auto">Autorização</h2><p id="3e2f6ce8-497f-80ae-9598-c317ce2c0ea1" class="" dir="auto">Responde:</p><blockquote id="3e2f6ce8-497f-8061-bd96-c6a357956083" class="" dir="auto"><strong>O que você pode fazer?</strong></blockquote><p id="3e2f6ce8-497f-8096-990b-d1a060a43111" class="" dir="auto">Por exemplo:</p><pre id="3e2f6ce8-497f-8060-a5d2-d4471f6247f5" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Gusta
+Cargo: usuário
+
+Pode:
+✓ visualizar próprio perfil
+✓ editar próprio perfil
+
+Não pode:
+✗ excluir usuários
+✗ acessar painel administrativo</code></pre><p id="3e2f6ce8-497f-809a-9262-e81d9c870540" class="" dir="auto">Portanto:</p><pre id="3e2f6ce8-497f-8034-8373-f4a11b4ca0d6" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Autenticação → identifica
+Autorização  → determina permissões</code></pre><p id="3e2f6ce8-497f-80f9-bcb6-e285ce51cb05" class="" dir="auto">Uma aplicação pode ter uma autenticação perfeitamente funcional e ainda possuir uma grave vulnerabilidade de controle de acesso.</p><hr id="3e2f6ce8-497f-80b1-b988-cd7df0e64d10" dir="auto"/><h1 id="3e2f6ce8-497f-80e9-897a-f52c9ac09f7d" class="" dir="auto">3. O que é a quebra de controle de acesso?</h1><p id="3e2f6ce8-497f-807b-894e-e46ab9709fdc" class="" dir="auto">A quebra ocorre quando o sistema <strong>não verifica corretamente as permissões</strong> antes de permitir determinada ação.</p><p id="3e2f6ce8-497f-809a-928f-d921835a24ca" class="" dir="auto">Imagine:</p><pre id="3e2f6ce8-497f-8042-93de-e72325951a96" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Usuário A
+   ↓
+/perfil/123</code></pre><p id="3e2f6ce8-497f-8031-9dd0-fb6c83874ac5" class="" dir="auto">O usuário deveria conseguir visualizar somente o perfil 123, caso esse seja o seu próprio perfil.</p><p id="3e2f6ce8-497f-8000-bcfe-d387dd7e5acd" class="" dir="auto">Mas ele altera o identificador:</p><pre id="3e2f6ce8-497f-8031-9a98-f5c1ec7b167e" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">/perfil/124</code></pre><p id="3e2f6ce8-497f-804f-91cb-f650028656ea" class="" dir="auto">e consegue visualizar os dados de outra pessoa.</p><p id="3e2f6ce8-497f-8074-9923-e4fc0cbec1ae" class="" dir="auto">Nesse caso:</p><pre id="3e2f6ce8-497f-80fe-98c4-ce667b820f8e" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Usuário A
+   ↓
+Solicita recurso de Usuário B
+   ↓
+Servidor não verifica propriedade
+   ↓
+Acesso concedido</code></pre><p id="3e2f6ce8-497f-8069-8c90-ef125a96d900" class="" dir="auto">Isso é um exemplo clássico de problema de controle de acesso.</p><hr id="3e2f6ce8-497f-80f3-aa16-fdba2b5c4d79" dir="auto"/><h1 id="3e2f6ce8-497f-8074-9a9f-fcafba42eb7b" class="" dir="auto">4. Um dos principais exemplos: IDOR</h1><p id="3e2f6ce8-497f-80a8-bd3e-fb47342c9b3f" class="" dir="auto">Um caso muito conhecido é o <strong>IDOR — Insecure Direct Object Reference</strong>.</p><p id="3e2f6ce8-497f-8017-83ea-d1d3ef8f0560" class="" dir="auto">Ocorre quando uma aplicação utiliza um identificador direto para acessar um recurso, mas não verifica se o usuário possui autorização para acessá-lo.</p><p id="3e2f6ce8-497f-8054-ad02-ccee1f7302ad" class="" dir="auto">Por exemplo:</p><pre id="3e2f6ce8-497f-8067-acd4-c97c1e51a99f" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">https://site.com/pedido/1001</code></pre><p id="3e2f6ce8-497f-8015-afa2-d9b7bf140e7f" class="" dir="auto">O usuário possui o pedido:</p><pre id="3e2f6ce8-497f-8046-979b-ef2c7300c2c5" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">1001</code></pre><p id="3e2f6ce8-497f-80b4-8f67-ec38acf4fcbf" class="" dir="auto">Mas também consegue acessar:</p><pre id="3e2f6ce8-497f-8056-951e-f73d4f6da67b" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">1002
+1003
+1004</code></pre><p id="3e2f6ce8-497f-8092-9e69-ea4b5dd8a152" class="" dir="auto">mesmo que esses pedidos pertençam a outras pessoas.</p><p id="3e2f6ce8-497f-8063-9602-e3d5c0057d59" class="" dir="auto">O problema não é necessariamente o número do pedido existir na URL.</p><p id="3e2f6ce8-497f-80d8-a8f1-e851233e1e75" class="" dir="auto">O problema é:</p><blockquote id="3e2f6ce8-497f-808d-87f8-f0976440661a" class="" dir="auto"><strong>O servidor não verificou se aquele usuário tem permissão para acessar aquele objeto.</strong></blockquote><hr id="3e2f6ce8-497f-80ad-8fe2-d14c56daf8ed" dir="auto"/><h1 id="3e2f6ce8-497f-8058-b522-f29d3353d173" class="" dir="auto">5. Exemplo prático</h1><p id="3e2f6ce8-497f-806f-82ad-e20a1c0c3b66" class="" dir="auto">Imagine uma API:</p><pre id="3e2f6ce8-497f-8027-a1bc-f1e45e1e163f" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">GET /api/pedidos/150</code></pre><p id="3e2f6ce8-497f-8050-b1ed-fa33e44a0d22" class="" dir="auto">O backend recebe:</p><pre id="3e2f6ce8-497f-80d6-b64a-deb4a6487570" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">pedido_id = 150</code></pre><p id="3e2f6ce8-497f-8082-8597-ee3a86283696" class="" dir="auto">Uma implementação vulnerável poderia simplesmente fazer:</p><pre id="3e2f6ce8-497f-809f-97e7-db3acda727db" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">buscar pedido 150
+↓
+retornar pedido</code></pre><p id="3e2f6ce8-497f-80fa-91af-cfb9f9b4e61f" class="" dir="auto">Mas deveria fazer algo parecido com:</p><pre id="3e2f6ce8-497f-8075-b0e9-e6fcb8b240f2" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">buscar pedido 150
+       ↓
+verificar proprietário
+       ↓
+pedido pertence ao usuário?
+       ↓
+   ┌───┴───┐
+  SIM     NÃO
+   ↓       ↓
+Permitir  Negar</code></pre><p id="3e2f6ce8-497f-804b-a8a7-c50f2e999c95" class="" dir="auto">Esse detalhe é fundamental.</p><hr id="3e2f6ce8-497f-8048-846d-f02d7bac570c" dir="auto"/><h1 id="3e2f6ce8-497f-80e8-8707-fdcd71649bee" class="" dir="auto">6. Controle de acesso baseado em funções</h1><p id="3e2f6ce8-497f-806f-b858-f19d0c23eac2" class="" dir="auto">Um modelo bastante utilizado é o <strong>RBAC — Role-Based Access Control</strong>.</p><p id="3e2f6ce8-497f-80ba-940d-ec37814ebace" class="" dir="auto">Nesse modelo, usuários recebem funções (<em>roles</em>).</p><p id="3e2f6ce8-497f-80f5-bb3e-ca99e6e66cca" class="" dir="auto">Por exemplo:</p><pre id="3e2f6ce8-497f-80ab-bc66-f525d8903feb" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">ADMIN
+MODERADOR
+USUARIO</code></pre><p id="3e2f6ce8-497f-8061-b72c-cf334f30598d" class="" dir="auto">Cada função possui determinadas permissões.</p><h3 id="3e2f6ce8-497f-803b-b0c1-c34131aad241" class="" dir="auto">Exemplo</h3><table id="3e2f6ce8-497f-80be-a571-e6eb3d67c945" class="simple-table" dir="ltr"><thead class="simple-table-header"><tr id="3e2f6ce8-497f-80f5-8981-daf1e5cc6d20" dir="ltr"><th id="D~oh" class="simple-table-header-color simple-table-header">Função</th><th id="?TFi" class="simple-table-header-color simple-table-header">Ver perfil</th><th id="Ozko" class="simple-table-header-color simple-table-header">Criar conteúdo</th><th id="y&lt;:F" class="simple-table-header-color simple-table-header">Excluir conteúdo</th><th id="LeW?" class="simple-table-header-color simple-table-header">Gerenciar usuários</th></tr></thead><tbody><tr id="3e2f6ce8-497f-8079-8562-eafe9f27af39" dir="ltr"><td id="D~oh" class="">Usuário</td><td id="?TFi" class="">✓</td><td id="Ozko" class="">✓</td><td id="y&lt;:F" class="">✗</td><td id="LeW?" class="">✗</td></tr><tr id="3e2f6ce8-497f-8092-bb2b-db8e9536f791" dir="ltr"><td id="D~oh" class="">Moderador</td><td id="?TFi" class="">✓</td><td id="Ozko" class="">✓</td><td id="y&lt;:F" class="">✓</td><td id="LeW?" class="">✗</td></tr><tr id="3e2f6ce8-497f-8065-b86d-ed04c6687575" dir="ltr"><td id="D~oh" class="">Administrador</td><td id="?TFi" class="">✓</td><td id="Ozko" class="">✓</td><td id="y&lt;:F" class="">✓</td><td id="LeW?" class="">✓</td></tr></tbody></table><p id="3e2f6ce8-497f-804e-bf0e-c8404ae5f9dd" class="" dir="auto">O problema acontece quando a aplicação não verifica corretamente essas permissões.</p><hr id="3e2f6ce8-497f-80f8-8ec5-d6febb0dd79c" dir="auto"/><h1 id="3e2f6ce8-497f-8000-a3ff-e7e9c23c8235" class="" dir="auto">7. Escalação horizontal de privilégios</h1><p id="3e2f6ce8-497f-8016-8211-fc725bf8aaaa" class="" dir="auto">A <strong>escalação horizontal</strong> acontece quando um usuário acessa recursos pertencentes a <strong>outro usuário com o mesmo nível de privilégio</strong>.</p><p id="3e2f6ce8-497f-806a-9410-fa76b2c48e7a" class="" dir="auto">Exemplo:</p><pre id="3e2f6ce8-497f-80d3-8344-d02acb04283d" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Usuário A
+   ↓
+Tenta acessar
+   ↓
+Dados do Usuário B</code></pre><p id="3e2f6ce8-497f-80ae-9ad6-c406276cf26a" class="" dir="auto">Ambos são usuários comuns.</p><pre id="3e2f6ce8-497f-80ea-849e-d5a46dba1425" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">A → B</code></pre><p id="3e2f6ce8-497f-806e-aeef-dc4e7d6e8d68" class="" dir="auto">Não houve necessariamente mudança de função.</p><p id="3e2f6ce8-497f-80ac-935f-eab5903ff811" class="" dir="auto">O usuário simplesmente conseguiu acessar recursos que pertenciam a outra conta.</p><h3 id="3e2f6ce8-497f-8047-9a99-f102a667c53f" class="" dir="auto">Exemplo</h3><p id="3e2f6ce8-497f-80a6-85d8-eedf960f7b6a" class="" dir="auto">Imagine:</p><pre id="3e2f6ce8-497f-80a7-82f3-ea342a77f6b3" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">/usuario/100</code></pre><p id="3e2f6ce8-497f-8014-98ec-eeb101184bbc" class="" dir="auto">pertencente a:</p><pre id="3e2f6ce8-497f-801e-8a0c-d5b4b62bff85" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Gusta</code></pre><p id="3e2f6ce8-497f-80e8-b2e5-caf731c5d0c1" class="" dir="auto">E:</p><pre id="3e2f6ce8-497f-8008-88e6-fa52cb609bfc" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">/usuario/101</code></pre><p id="3e2f6ce8-497f-807c-8ebd-ec7c72d63a84" class="" dir="auto">pertencente a:</p><pre id="3e2f6ce8-497f-8050-ad33-e37a89cf42b4" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">João</code></pre><p id="3e2f6ce8-497f-8039-8c85-f7c60b634162" class="" dir="auto">Se Gusta conseguir acessar <code>/usuario/101</code> sem autorização, existe uma falha de controle de acesso.</p><hr id="3e2f6ce8-497f-80cd-b055-d63cae070c0e" dir="auto"/><h1 id="3e2f6ce8-497f-8012-9863-ce309c78a07f" class="" dir="auto">8. Escalação vertical de privilégios</h1><p id="3e2f6ce8-497f-806e-b805-c1f107f74c67" class="" dir="auto">Aqui a situação é diferente.</p><p id="3e2f6ce8-497f-805b-8b0c-d5a1a7e68614" class="" dir="auto">Um usuário com poucos privilégios consegue acessar funções de um usuário com <strong>mais privilégios</strong>.</p><p id="3e2f6ce8-497f-806d-aae0-e2bb54528d0b" class="" dir="auto">Por exemplo:</p><pre id="3e2f6ce8-497f-8092-a087-f150d569b66a" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Usuário comum
+      ↓
+Painel administrativo</code></pre><p id="3e2f6ce8-497f-80fc-b665-cf95663e994d" class="" dir="auto">Ou:</p><pre id="3e2f6ce8-497f-80f2-86b6-fbd34f7f8283" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Usuário comum
+      ↓
+Excluir usuários</code></pre><p id="3e2f6ce8-497f-80d4-87c5-e3357b470567" class="" dir="auto">Ou:</p><pre id="3e2f6ce8-497f-80eb-b433-c4d3ae944bdb" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Usuário comum
+      ↓
+Alterar configurações do sistema</code></pre><p id="3e2f6ce8-497f-80e6-8e00-d5c6730d5f61" class="" dir="auto">Representação:</p><pre id="3e2f6ce8-497f-80b8-bfa5-d0f472cbb388" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Usuário
+   │
+   └──────► Administrador
+              ↑
+        privilégio maior</code></pre><p id="3e2f6ce8-497f-8018-ba84-c2d1c5e7a461" class="" dir="auto">Isso é chamado de <strong>escalação vertical de privilégios</strong>.</p><hr id="3e2f6ce8-497f-8086-bb20-c4a7cd4ae478" dir="auto"/><h1 id="3e2f6ce8-497f-80ae-8c69-c0e8591c1e69" class="" dir="auto">9. Controle de acesso no frontend não é suficiente</h1><p id="3e2f6ce8-497f-8011-8494-e595a409aae6" class="" dir="auto">Esse é um erro muito comum.</p><p id="3e2f6ce8-497f-8085-8667-e675179c218e" class="" dir="auto">Imagine que uma aplicação esconda um botão:</p><pre id="3e2f6ce8-497f-8057-afba-e13393e918d6" class="code code-wrap" data-notion-code-syntax="html"><code class="language-html" style="white-space:pre-wrap;word-break:break-all">&lt;button style=&quot;display:none&quot;&gt;
+    Excluir usuário
+&lt;/button&gt;</code></pre><p id="3e2f6ce8-497f-80e9-8bbf-df33bd3e34ba" class="" dir="auto">Isso <strong>não significa que a operação está protegida</strong>.</p><p id="3e2f6ce8-497f-800e-8bd2-e999e826ee8f" class="" dir="auto">Um usuário pode tentar realizar a requisição diretamente.</p><p id="3e2f6ce8-497f-8063-8647-e2ecee688d2b" class="" dir="auto">A proteção precisa existir no <strong>backend</strong>.</p><h3 id="3e2f6ce8-497f-80de-8142-f3e6201a0ad9" class="" dir="auto">❌ Segurança apenas no frontend</h3><pre id="3e2f6ce8-497f-80bb-8aa1-c4822d9b3a7f" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Frontend
+   ↓
+&quot;Botão escondido&quot;
+   ↓
+Parece protegido</code></pre><h3 id="3e2f6ce8-497f-80c3-aa48-d0d872e1414b" class="" dir="auto">✅ Segurança no backend</h3><pre id="3e2f6ce8-497f-80b4-9a8a-ca6de28e5432" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Requisição
+   ↓
+Backend
+   ↓
+Verificação de permissão
+   ↓
+Permitido?
+ ┌──┴──┐
+SIM   NÃO
+ ↓     ↓
+Executa 403</code></pre><p id="3e2f6ce8-497f-808e-a3e8-c3fc183b7282" class="" dir="auto">O frontend pode esconder funcionalidades por questões de interface, mas <strong>a autorização real deve ser aplicada no servidor</strong>.</p><hr id="3e2f6ce8-497f-8079-b2f4-d5b9fffd0908" dir="auto"/><h1 id="3e2f6ce8-497f-8072-be86-f8dc303be169" class="" dir="auto">10. Métodos HTTP e controle de acesso</h1><p id="3e2f6ce8-497f-806b-abb1-c5e646cec6de" class="" dir="auto">As APIs geralmente utilizam métodos HTTP como:</p><pre id="3e2f6ce8-497f-8040-88c5-e25df5acce66" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">GET     → consultar
+POST    → criar
+PUT     → substituir/atualizar
+PATCH   → atualizar parcialmente
+DELETE  → excluir</code></pre><p id="3e2f6ce8-497f-806d-8516-d62c859abfa7" class="" dir="auto">Cada operação precisa verificar autorização.</p><p id="3e2f6ce8-497f-80aa-8142-e2770fa91e0d" class="" dir="auto">Por exemplo:</p><pre id="3e2f6ce8-497f-80d0-874f-e80f0a6d81e8" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">GET /usuarios/10</code></pre><p id="3e2f6ce8-497f-807b-86cb-d85bd2478f95" class="" dir="auto">pode exigir determinada permissão.</p><p id="3e2f6ce8-497f-80f3-a264-f4cc07ad61cd" class="" dir="auto">Já:</p><pre id="3e2f6ce8-497f-8002-abbb-fbe5b769e703" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">DELETE /usuarios/10</code></pre><p id="3e2f6ce8-497f-8028-8697-e12a8e22051e" class="" dir="auto">pode exigir uma permissão administrativa.</p><p id="3e2f6ce8-497f-80e1-b9cd-c2a764d0dea4" class="" dir="auto">Não basta verificar:</p><pre id="3e2f6ce8-497f-8000-87d3-f7ac62c65e85" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">&quot;usuário está logado?&quot;</code></pre><p id="3e2f6ce8-497f-8039-bad8-cf487b95c315" class="" dir="auto">É necessário verificar:</p><pre id="3e2f6ce8-497f-8094-a69d-c39f3ac24572" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">&quot;usuário está autorizado a realizar ESTA operação?&quot;</code></pre><hr id="3e2f6ce8-497f-8074-92c8-fa3e7916b569" dir="auto"/><h1 id="3e2f6ce8-497f-803b-885f-df8c896b26d6" class="" dir="auto">11. Erros comuns que causam a vulnerabilidade</h1><h2 id="3e2f6ce8-497f-8041-a863-cd6efbc9b95d" class="" dir="auto">Confiar em dados enviados pelo usuário</h2><p id="3e2f6ce8-497f-80b6-b907-d627abead2e2" class="" dir="auto">Por exemplo:</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-json.min.js" integrity="sha512-QXFMVAusM85vUYDaNgcYeU3rzSlc+bTV4JvkfJhjxSHlQEo+ig53BtnGkvFTiNJh8D+wv6uWAQ2vJaVmxe8d3w==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="3e2f6ce8-497f-80bb-bfd8-d644abf3996e" class="code code-wrap" data-notion-code-syntax="json"><code class="language-json" style="white-space:pre-wrap;word-break:break-all">{
+    &quot;role&quot;: &quot;admin&quot;
+}</code></pre><p id="3e2f6ce8-497f-8072-9d07-e51bafd25b16" class="" dir="auto">A aplicação nunca deveria confiar cegamente nesse valor para decidir as permissões do usuário.</p><p id="3e2f6ce8-497f-8064-9800-e7c97df462b8" class="" dir="auto">As permissões devem ser determinadas pelo servidor.</p><hr id="3e2f6ce8-497f-8042-92ed-f1ff2ae60d24" dir="auto"/><h2 id="3e2f6ce8-497f-808b-ad84-c3aec8021211" class="" dir="auto">Esconder funcionalidades no frontend</h2><p id="3e2f6ce8-497f-80bd-b4d6-f5eda0044396" class="" dir="auto">Como vimos:</p><pre id="3e2f6ce8-497f-8015-9ce0-fdbe1f9ca032" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">botão escondido ≠ autorização</code></pre><hr id="3e2f6ce8-497f-80e2-80d0-f0f5cd85b1d4" dir="auto"/><h2 id="3e2f6ce8-497f-80d8-bbc2-f963bfd1cb97" class="" dir="auto">Verificar apenas se o usuário está autenticado</h2><p id="3e2f6ce8-497f-80f0-9ccf-d3442572b7ba" class="" dir="auto">Isso:</p><pre id="3e2f6ce8-497f-8054-94e1-eb9646f5dd9b" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">if (usuarioLogado)</code></pre><p id="3e2f6ce8-497f-80c7-93cc-ecf625e7a168" class="" dir="auto">não significa necessariamente:</p><pre id="3e2f6ce8-497f-80de-a221-d0b4fbc586a4" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">if (usuarioPodeExecutarEstaAcao)</code></pre><hr id="3e2f6ce8-497f-8010-9362-f428d54aec97" dir="auto"/><h2 id="3e2f6ce8-497f-802d-98b4-ede61eeb43eb" class="" dir="auto">Não verificar propriedade do recurso</h2><p id="3e2f6ce8-497f-8033-bc20-ef2d63a37499" class="" dir="auto">Por exemplo:</p><pre id="3e2f6ce8-497f-80e4-aae8-dfb4cb2100e5" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">pedido = buscarPedido(id)</code></pre><p id="3e2f6ce8-497f-8001-b4d6-fdb2d1fefcf3" class="" dir="auto">sem verificar:</p><pre id="3e2f6ce8-497f-80e8-ba8d-eb2bdf15f3d8" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">pedido.usuario_id == usuario.id</code></pre><p id="3e2f6ce8-497f-8071-8498-d1718031ea58" class="" dir="auto">quando essa relação for necessária.</p><hr id="3e2f6ce8-497f-80dc-acf6-f04ca77cbe28" dir="auto"/><h2 id="3e2f6ce8-497f-806b-9669-d3874d7aca21" class="" dir="auto">Permissões inconsistentes</h2><p id="3e2f6ce8-497f-802c-8598-dde2ea5fe5bf" class="" dir="auto">Uma aplicação pode proteger:</p><pre id="3e2f6ce8-497f-808a-8dfc-c9f6ae7ac30f" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">POST /usuarios</code></pre><p id="3e2f6ce8-497f-805a-863d-f0d7468f1d5f" class="" dir="auto">mas esquecer de proteger:</p><pre id="3e2f6ce8-497f-80c5-b327-d2e8a8b54c6a" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">DELETE /usuarios</code></pre><p id="3e2f6ce8-497f-801f-81f9-f760f9b18dbc" class="" dir="auto">ou alguma outra rota equivalente.</p><p id="3e2f6ce8-497f-807e-9b2e-fcd933a3e56f" class="" dir="auto">Por isso, a autorização precisa ser pensada para <strong>todas as operações relevantes</strong>.</p><hr id="3e2f6ce8-497f-80a5-ba85-d464abe0a5e2" dir="auto"/><h1 id="3e2f6ce8-497f-805e-a8eb-cf162c6a8363" class="" dir="auto">12. Controle de acesso em uma aplicação web</h1><p id="3e2f6ce8-497f-80a3-87da-c8db2f09df70" class="" dir="auto">Podemos visualizar uma aplicação moderna assim:</p><pre id="3e2f6ce8-497f-8052-9553-fa45c234b6c9" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">                 USUÁRIO
+                    │
+                    ▼
+               FRONTEND
+                    │
+                    ▼
+                  API
+                    │
+                    ▼
+               BACKEND
+                    │
+             ┌──────┴──────┐
+             ▼             ▼
+          BANCO          SERVIÇOS</code></pre><p id="3e2f6ce8-497f-8029-8edd-c09cf77fb061" class="" dir="auto">Em cada requisição importante, o backend precisa verificar:</p><pre id="3e2f6ce8-497f-8058-8ddd-c9a4deae96e4" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">1. Quem é o usuário?
+2. Qual recurso ele está tentando acessar?
+3. Qual operação ele está tentando executar?
+4. Ele possui permissão?
+5. O recurso pertence a ele?
+6. Existem outras regras de negócio?</code></pre><hr id="3e2f6ce8-497f-80be-bb69-c1002ba6b320" dir="auto"/><h1 id="3e2f6ce8-497f-80da-9457-cf1fb6b970fa" class="" dir="auto">13. Exemplo com PHP</h1><p id="3e2f6ce8-497f-8036-b766-c9a22a35aa7f" class="" dir="auto">Imagine uma página de edição de usuários:</p><pre id="3e2f6ce8-497f-80ec-b7cd-d0a3ee72a44e" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">/editar_usuario.php?id=10</code></pre><p id="3e2f6ce8-497f-8066-8ac9-de7687d9cff7" class="" dir="auto">Uma implementação segura precisa descobrir quem está realizando a operação.</p><p id="3e2f6ce8-497f-8020-bf30-cb0c3f5b3f1b" class="" dir="auto">Conceitualmente:</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markup-templating.min.js" integrity="sha512-+8BiRfWso6waiFDv6tEmWF8yfPGgxAtOYLDUB0rRISLwtpxkJ9lpPNUhxwWlikn3qSO+4RQyzDppi62o3ON/AA==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-php.min.js" integrity="sha512-plzrTi61ltEMFf84gTVO9IkvIMfBu07bnDuahvdlIclmFWzXJ9VcRsny9d45sxFZRv3jJg/MHNyuxnUYEMxMEg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="3e2f6ce8-497f-80c2-8a77-ff03b2433760" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">if (!$usuarioLogado) {
+    // negar acesso
+}
+
+if (!$usuarioPodeEditar) {
+    // negar acesso
+}</code></pre><p id="3e2f6ce8-497f-8085-967d-d16799c5419b" class="" dir="auto">E, dependendo da regra:</p><pre id="3e2f6ce8-497f-809c-9680-f90973f1a3ca" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">if ($usuarioDoRecurso !== $usuarioLogado) {
+    // negar acesso
+}</code></pre><p id="3e2f6ce8-497f-8095-855f-ffa927e47c0b" class="" dir="auto">A ideia principal não é simplesmente verificar se o usuário está logado, mas verificar <strong>se ele possui autorização para aquela ação específica</strong>.</p><hr id="3e2f6ce8-497f-805a-8b01-e26a3ed70aa2" dir="auto"/><h1 id="3e2f6ce8-497f-805a-885e-d706b943e084" class="" dir="auto">14. Códigos HTTP importantes</h1><p id="3e2f6ce8-497f-8092-b120-fdfd8848bd5d" class="" dir="auto">As APIs utilizam códigos HTTP para comunicar o resultado das operações.</p><h3 id="3e2f6ce8-497f-80d9-a932-f0d588ac165e" class="" dir="auto"><code>401 Unauthorized</code></h3><p id="3e2f6ce8-497f-80cd-8072-fdf52e872e19" class="" dir="auto">Normalmente indica que a requisição não possui uma autenticação válida ou necessária.</p><p id="3e2f6ce8-497f-80de-8ab4-dfc526e8e0e0" class="" dir="auto">Exemplo:</p><pre id="3e2f6ce8-497f-80a9-ae38-e57513993488" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Usuário não autenticado</code></pre><hr id="3e2f6ce8-497f-80cf-aeb8-c9abdb9ed440" dir="auto"/><h3 id="3e2f6ce8-497f-801e-b64e-d36f41690951" class="" dir="auto"><code>403 Forbidden</code></h3><p id="3e2f6ce8-497f-8075-803f-f74037c21ab4" class="" dir="auto">Indica que o servidor entendeu a requisição, mas o usuário <strong>não possui permissão suficiente</strong>.</p><p id="3e2f6ce8-497f-8009-b112-de43bc428241" class="" dir="auto">Exemplo:</p><pre id="3e2f6ce8-497f-8005-bed3-d5743208c8a6" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Usuário comum tentando acessar função administrativa.</code></pre><p id="3e2f6ce8-497f-8031-b3ba-e2728b4cf68d" class="" dir="auto">Uma forma simples de memorizar:</p><pre id="3e2f6ce8-497f-80b4-b39c-fdce4a39a053" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">401 → problema de autenticação
+403 → acesso não permitido</code></pre><hr id="3e2f6ce8-497f-8055-8350-e074189a76df" dir="auto"/><h1 id="3e2f6ce8-497f-80ca-8109-d23252e7bb1e" class="" dir="auto">15. Princípio do menor privilégio</h1><p id="3e2f6ce8-497f-808c-88f4-e07ed429186c" class="" dir="auto">Uma das principais defesas é o <strong>Princípio do Menor Privilégio</strong>.</p><p id="3e2f6ce8-497f-8007-bd44-eade47794360" class="" dir="auto">Cada usuário deve possuir somente as permissões necessárias para realizar suas tarefas.</p><p id="3e2f6ce8-497f-8050-8f24-dd94b7fb61a0" class="" dir="auto">Por exemplo:</p><pre id="3e2f6ce8-497f-801a-9ccb-e3062ae8eb74" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Usuário comum
+↓
+Somente recursos próprios
+
+Moderador
+↓
+Recursos de moderação
+
+Administrador
+↓
+Recursos administrativos</code></pre><p id="3e2f6ce8-497f-8012-af27-c35650a84a81" class="" dir="auto">Evite conceder:</p><pre id="3e2f6ce8-497f-80eb-90f4-cf6ad45f935d" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">TODAS AS PERMISSÕES</code></pre><p id="3e2f6ce8-497f-808a-b855-f48529999f46" class="" dir="auto">para todos os usuários.</p><p id="3e2f6ce8-497f-806d-95be-cbde1e6ba8bd" class="" dir="auto">Quanto mais permissões uma conta possui, maior pode ser o impacto caso ela seja comprometida.</p><hr id="3e2f6ce8-497f-8005-96e2-d09b6a0c549a" dir="auto"/><h1 id="3e2f6ce8-497f-80f3-ab16-ef3dc1305093" class="" dir="auto">16. Deny by Default</h1><p id="3e2f6ce8-497f-8020-a8e6-e8bb1c88a676" class="" dir="auto">Outro princípio importante é:</p><blockquote id="3e2f6ce8-497f-8073-a5aa-df1651904d51" class="" dir="auto"><strong>Negar por padrão e permitir explicitamente o que for necessário.</strong></blockquote><p id="3e2f6ce8-497f-80b0-9fd1-e4db3199d24b" class="" dir="auto">Em vez de:</p><pre id="3e2f6ce8-497f-808a-8994-d99f384225b9" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Tudo permitido
+↓
+bloquear algumas coisas</code></pre><p id="3e2f6ce8-497f-802d-b715-c73d17f99475" class="" dir="auto">preferimos:</p><pre id="3e2f6ce8-497f-8012-baa7-ce944e90038f" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Tudo bloqueado
+↓
+liberar somente o necessário</code></pre><p id="3e2f6ce8-497f-804b-a7ab-c22b548da730" class="" dir="auto">Por exemplo:</p><pre id="3e2f6ce8-497f-8010-856d-c9c28a83e303" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">/usuario
+   ↓
+permitido para usuários autenticados
+
+/admin
+   ↓
+permitido somente para administradores
+
+/admin/usuarios/excluir
+   ↓
+permitido somente para quem possui essa permissão</code></pre><hr id="3e2f6ce8-497f-8078-a1a0-f34f28f508a7" dir="auto"/><h1 id="3e2f6ce8-497f-80b5-9788-effc82b498ff" class="" dir="auto">17. Como prevenir Quebra de Controle de Acesso?</h1><p id="3e2f6ce8-497f-8036-8b4e-ec6bc4fcb140" class="" dir="auto">Uma aplicação deve utilizar várias camadas de proteção.</p><h3 id="3e2f6ce8-497f-80a9-b85c-c94b6b78e834" class="" dir="auto">1. Verificar autorização no servidor</h3><p id="3e2f6ce8-497f-80ef-b66f-f670233da1ff" class="" dir="auto">A decisão final deve ser feita pelo backend.</p><h3 id="3e2f6ce8-497f-806a-ab60-c13f249d0238" class="" dir="auto">2. Não confiar no frontend</h3><p id="3e2f6ce8-497f-80fa-b2b4-fb97119f765d" class="" dir="auto">Elementos escondidos ou desabilitados não são mecanismos de segurança.</p><h3 id="3e2f6ce8-497f-80cc-96a7-c26658b03414" class="" dir="auto">3. Implementar RBAC ou outro modelo adequado</h3><p id="3e2f6ce8-497f-80dd-a414-cb18dc512b80" class="" dir="auto">Defina claramente:</p><pre id="3e2f6ce8-497f-8098-960f-c50a6d7f3edf" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">usuário
+↓
+função
+↓
+permissões</code></pre><h3 id="3e2f6ce8-497f-801e-bb71-c638abcd9b87" class="" dir="auto">4. Verificar propriedade dos recursos</h3><p id="3e2f6ce8-497f-8068-aee2-cea263428d5f" class="" dir="auto">Pergunte:</p><pre id="3e2f6ce8-497f-8071-abbc-c95fea2374d5" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Esse recurso pertence ao usuário?</code></pre><p id="3e2f6ce8-497f-80cc-9306-f980c1de1854" class="" dir="auto">quando aplicável.</p><h3 id="3e2f6ce8-497f-8026-ac55-c300050b8399" class="" dir="auto">5. Aplicar menor privilégio</h3><p id="3e2f6ce8-497f-80d9-9d96-e002c81c3ad3" class="" dir="auto">Conceda somente as permissões necessárias.</p><h3 id="3e2f6ce8-497f-80b6-84cc-c044e782ca6e" class="" dir="auto">6. Negar por padrão</h3><p id="3e2f6ce8-497f-8056-94a1-f9a31ac689a6" class="" dir="auto">Recursos devem ser protegidos explicitamente.</p><h3 id="3e2f6ce8-497f-80c7-a85e-f6c97869c397" class="" dir="auto">7. Centralizar regras de autorização</h3><p id="3e2f6ce8-497f-8032-b0b2-ddbfa452a309" class="" dir="auto">Evite espalhar verificações diferentes e inconsistentes pela aplicação.</p><h3 id="3e2f6ce8-497f-804f-bfc4-fa85c5393c23" class="" dir="auto">8. Testar todas as rotas</h3><p id="3e2f6ce8-497f-8069-9765-e4644598bbf7" class="" dir="auto">Principalmente:</p><pre id="3e2f6ce8-497f-80ff-bf1b-f17b5c7f2ac0" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">GET
+POST
+PUT
+PATCH
+DELETE</code></pre><h3 id="3e2f6ce8-497f-80db-be55-d8bc211d8c3f" class="" dir="auto">9. Testar diferentes papéis</h3><p id="3e2f6ce8-497f-808b-bedb-fc551e0b8eb1" class="" dir="auto">Por exemplo:</p><pre id="3e2f6ce8-497f-8095-ae40-dd10a3148339" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Usuário
+Moderador
+Administrador</code></pre><h3 id="3e2f6ce8-497f-8024-a1a8-ec25b078019f" class="" dir="auto">10. Registrar eventos importantes</h3><p id="3e2f6ce8-497f-80ac-bc45-f0316af17a01" class="" dir="auto">Logs podem ajudar a identificar tentativas de acesso indevido.</p><hr id="3e2f6ce8-497f-80b6-99ff-dc8a8766b8bb" dir="auto"/><h1 id="3e2f6ce8-497f-8087-8b40-f15e9c5f9763" class="" dir="auto">18. Controle de acesso e banco de dados</h1><p id="3e2f6ce8-497f-80b5-8cb8-f7615fe7a914" class="" dir="auto">O banco também pode participar da segurança.</p><p id="3e2f6ce8-497f-8041-98b9-f13245f2ce9a" class="" dir="auto">Imagine:</p><pre id="3e2f6ce8-497f-8026-b09a-cc33619be66c" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Usuário A
+   ↓
+Backend
+   ↓
+Banco</code></pre><p id="3e2f6ce8-497f-80a9-9765-f6c276c563e1" class="" dir="auto">Uma consulta deve respeitar as regras de propriedade.</p><p id="3e2f6ce8-497f-8069-ad91-c2cf4607c09b" class="" dir="auto">Por exemplo, conceitualmente:</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-sql.min.js" integrity="sha512-sijCOJblSCXYYmXdwvqV0tak8QJW5iy2yLB1wAbbLc3OOIueqymizRFWUS/mwKctnzPKpNdPJV3aK1zlDMJmXQ==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="3e2f6ce8-497f-8064-9f27-cbbc30f553b8" class="code code-wrap" data-notion-code-syntax="sql"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">SELECT *
+FROM pedidos
+WHERE id = ?
+AND usuario_id = ?;</code></pre><p id="3e2f6ce8-497f-80aa-9c35-d344280e486e" class="" dir="auto">Assim, a aplicação não está simplesmente procurando:</p><pre id="3e2f6ce8-497f-8091-9119-d0f3adead8db" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">WHERE id = ?</code></pre><p id="3e2f6ce8-497f-8022-a720-f6f5452cb03c" class="" dir="auto">mas também relacionando o recurso ao usuário autorizado.</p><p id="3e2f6ce8-497f-80f6-8fc2-f8bb75ff4ff8" class="" dir="auto">Isso ajuda a reduzir o risco de acesso indevido a objetos.</p><hr id="3e2f6ce8-497f-809a-8464-e0bad9402c1e" dir="auto"/><h1 id="3e2f6ce8-497f-8020-a0ce-d997fc2e58ac" class="" dir="auto">19. Defesa em profundidade</h1><p id="3e2f6ce8-497f-80cc-bcb9-fce5b89055aa" class="" dir="auto">Uma aplicação segura não deve depender de uma única verificação.</p><p id="3e2f6ce8-497f-8002-b7d4-e70ca2117d7d" class="" dir="auto">Podemos ter:</p><pre id="3e2f6ce8-497f-803b-a4be-e468b222d884" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">                 Requisição
+                     │
+                     ▼
+              Autenticação
+                     │
+                     ▼
+              Autorização
+                     │
+                     ▼
+           Verificação de recurso
+                     │
+                     ▼
+            Regra de negócio
+                     │
+                     ▼
+                 Banco</code></pre><p id="3e2f6ce8-497f-8042-8b6e-d7693b1a6419" class="" dir="auto">Isso é conhecido como <strong>defesa em profundidade</strong>.</p><p id="3e2f6ce8-497f-80e8-803f-e9b9b7c81005" class="" dir="auto">Se uma camada apresentar um problema, outras camadas podem limitar o impacto.</p><hr id="3e2f6ce8-497f-80c9-bb47-f7fe3230f7ce" dir="auto"/><h1 id="3e2f6ce8-497f-8002-94fa-c2222ae0c742" class="" dir="auto">20. Exemplo completo</h1><p id="3e2f6ce8-497f-80c6-bc0d-c0de356754ae" class="" dir="auto">Imagine um sistema de loja virtual.</p><p id="3e2f6ce8-497f-80b3-b433-c05feb4abdbc" class="" dir="auto">Gusta está autenticado:</p><pre id="3e2f6ce8-497f-800b-ac14-e34f10e24a64" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Usuário: Gusta
+ID: 25</code></pre><p id="3e2f6ce8-497f-800d-8ded-c2dac83856d9" class="" dir="auto">Ele possui:</p><pre id="3e2f6ce8-497f-8050-954d-c590c9ec35c2" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Pedido 100
+Pedido 101</code></pre><p id="3e2f6ce8-497f-80f5-8527-d84841eb9655" class="" dir="auto">Outro usuário possui:</p><pre id="3e2f6ce8-497f-80cf-b17e-d614a83889b8" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Pedido 102</code></pre><p id="3e2f6ce8-497f-80d7-af7d-f7a582abeaf1" class="" dir="auto">Gusta solicita:</p><pre id="3e2f6ce8-497f-80fc-ae76-fc816bdf08fe" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">GET /pedidos/102</code></pre><p id="3e2f6ce8-497f-8098-a36a-d5a4576fb506" class="" dir="auto">O sistema vulnerável faz:</p><pre id="3e2f6ce8-497f-80d9-b8d7-c5968a8eaecd" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Pedido encontrado?
+    ↓
+SIM
+    ↓
+Retorna pedido</code></pre><p id="3e2f6ce8-497f-80bc-b1b0-c416944a6d3c" class="" dir="auto">Isso é problemático.</p><p id="3e2f6ce8-497f-80eb-95b5-eac3cf7f7a7d" class="" dir="auto">O sistema seguro deveria fazer:</p><pre id="3e2f6ce8-497f-8032-9e02-dd353d735b0a" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Pedido encontrado?
+       ↓
+      SIM
+       ↓
+Pertence ao usuário 25?
+    ┌──┴──┐
+   SIM   NÃO
+    ↓     ↓
+ Permite  403</code></pre><p id="3e2f6ce8-497f-80bd-8e08-d01eeb51a1f6" class="" dir="auto">Assim, o simples conhecimento do identificador do pedido não é suficiente para obter acesso.</p><hr id="3e2f6ce8-497f-8013-b8d4-d1efe5b296f0" dir="auto"/><h1 id="3e2f6ce8-497f-8047-aa25-d6815502bea1" class="" dir="auto">21. Impactos de uma quebra de controle de acesso</h1><p id="3e2f6ce8-497f-80b4-b8ee-d6b89e6eb15e" class="" dir="auto">Dependendo do sistema e da vulnerabilidade, podem ocorrer:</p><ul id="3e2f6ce8-497f-80de-9982-f9d7d5a0516e" class="bulleted-list" dir="auto"><li style="list-style-type:disc">exposição de dados pessoais;</li></ul><ul id="3e2f6ce8-497f-80a1-b1b6-deae6c74fdec" class="bulleted-list" dir="auto"><li style="list-style-type:disc">acesso a contas de outros usuários;</li></ul><ul id="3e2f6ce8-497f-8015-ae7a-cd53ce5af653" class="bulleted-list" dir="auto"><li style="list-style-type:disc">alteração de informações;</li></ul><ul id="3e2f6ce8-497f-8004-ad81-dbb149e78847" class="bulleted-list" dir="auto"><li style="list-style-type:disc">exclusão de dados;</li></ul><ul id="3e2f6ce8-497f-8068-a8dc-ff95d7622ea6" class="bulleted-list" dir="auto"><li style="list-style-type:disc">acesso ao painel administrativo;</li></ul><ul id="3e2f6ce8-497f-8039-a778-d4ed9d4cbb4f" class="bulleted-list" dir="auto"><li style="list-style-type:disc">alteração de permissões;</li></ul><ul id="3e2f6ce8-497f-80b1-8a7a-e609e1f60b7f" class="bulleted-list" dir="auto"><li style="list-style-type:disc">acesso a informações confidenciais;</li></ul><ul id="3e2f6ce8-497f-8084-a0e7-cfa095e198e9" class="bulleted-list" dir="auto"><li style="list-style-type:disc">operações financeiras indevidas;</li></ul><ul id="3e2f6ce8-497f-80e8-bcb5-c959daeccb6d" class="bulleted-list" dir="auto"><li style="list-style-type:disc">comprometimento de recursos administrativos.</li></ul><p id="3e2f6ce8-497f-807d-b7d1-cae7088eaefe" class="" dir="auto">A gravidade depende principalmente de <strong>qual recurso pode ser acessado e quais ações podem ser realizadas</strong>.</p><hr id="3e2f6ce8-497f-8049-bda9-c8c9cc0d073c" dir="auto"/><h1 id="3e2f6ce8-497f-8025-b69d-f688e4bc05fa" class="" dir="auto">22. O que memorizar</h1><p id="3e2f6ce8-497f-801f-9e80-c3d32e2c9946" class="" dir="auto">Para sua matéria de <strong>Segurança Cibernética</strong>, os conceitos mais importantes são:</p><pre id="3e2f6ce8-497f-8002-83da-fe5a8d6dc99f" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">CONTROLE DE ACESSO
+        │
+        ├── Autenticação
+        │      └── Quem é você?
+        │
+        └── Autorização
+               └── O que você pode fazer?</code></pre><p id="3e2f6ce8-497f-801f-a21a-e48605eb23ec" class="" dir="auto"><strong>Quebra de Controle de Acesso</strong> ocorre quando essas regras não são aplicadas corretamente.</p><p id="3e2f6ce8-497f-8008-a8b6-ca9519a6df97" class="" dir="auto">Os conceitos fundamentais são:</p><ul id="3e2f6ce8-497f-80ff-8f46-e5b466162f22" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>Broken Access Control</strong></li></ul><ul id="3e2f6ce8-497f-8019-9d01-f3b97417e06b" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>IDOR</strong></li></ul><ul id="3e2f6ce8-497f-80ef-93c4-c9a10426a69c" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>Escalação horizontal</strong></li></ul><ul id="3e2f6ce8-497f-809d-baa0-db02f0c62d94" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>Escalação vertical</strong></li></ul><ul id="3e2f6ce8-497f-80be-90a4-d1174994ca85" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>RBAC</strong></li></ul><ul id="3e2f6ce8-497f-805b-85d1-c3572fa1c629" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>Menor privilégio</strong></li></ul><ul id="3e2f6ce8-497f-809f-8fb9-e48d036c895b" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>Deny by Default</strong></li></ul><ul id="3e2f6ce8-497f-8002-af84-c35cf0f7665d" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>Autorização no backend</strong></li></ul><ul id="3e2f6ce8-497f-801b-9a7a-fd913a505630" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>Verificação de propriedade</strong></li></ul><ul id="3e2f6ce8-497f-80b2-8f42-d7b6f04fa88b" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>401 vs 403</strong></li></ul><h3 id="3e2f6ce8-497f-8074-abd9-f948a81c7626" class="" dir="auto">Resumo final</h3><pre id="3e2f6ce8-497f-80e4-a76b-cfdb3a0b572c" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Autenticação
+     ↓
+Quem é o usuário?
+     ↓
+Autorização
+     ↓
+O que ele pode fazer?
+     ↓
+Qual recurso ele pode acessar?
+     ↓
+Ação permitida ou negada</code></pre><p id="3e2f6ce8-497f-808e-a2e7-c9535e265cbf" class="" dir="auto">A ideia central é simples:</p><blockquote id="3e2f6ce8-497f-8098-9411-dea066b4797d" class="" dir="auto"><strong>Estar autenticado não significa estar autorizado.</strong></blockquote><p id="3e2f6ce8-497f-8074-b7dd-e4128b2f1a7d" class="" dir="auto">Uma aplicação segura deve verificar <strong>quem é o usuário, qual recurso ele está tentando acessar e se ele possui permissão para realizar aquela ação</strong>, sempre no lado do servidor.</p></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

@@ -1,0 +1,1060 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Falsificação de Requisição</title><meta name="data-notion-page-icon" content="/icons/lock_blue.svg"/><link rel="icon" href="https://app.notion.com/icons/lock_blue.svg"/><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+	/* Paint a complete callout box on every PDF page fragment. */
+	-webkit-box-decoration-break: clone;
+	box-decoration-break: clone;
+}
+
+/* For default-background callouts, render the border outline. */
+.callout.block-color-default_background {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+/*
+ * Toggles and callouts hold arbitrary content, so they can easily be taller
+ * than a page. They must stay breakable: avoiding breaks inside them makes
+ * Chromium push the whole block onto the next page, which leaves the previous
+ * page mostly empty before every long toggle.
+ */
+details,
+aside {
+	margin: 1.25em 0;
+}
+
+/* Keep a toggle's title on the same page as the start of its content. */
+summary {
+	page-break-after: avoid;
+	break-after: avoid;
+}
+
+/*
+ * Toggle headings render as <h1/h2/h3 style="display:inline-block"> inside
+ * <summary>. Without this reset, the heading's margin-top pushes it below the
+ * ::marker (▼), so the triangle and the title appear on separate lines.
+ */
+summary h1,
+summary h2,
+summary h3,
+summary h4 {
+	margin-top: 0;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding-inline: 0.125rem;
+	padding-block: 0.375rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+/*
+ * Render emoji icons using a ::before pseudo-element to keep the glyph
+ * out of the DOM textContent traversal. This avoids double-rendering icons
+ * in callouts and page titles.
+ * NOTE(slim/html-export-pseudo-icons): I can't tagref this because it will
+ * flag as a duplicate tag after codegen.
+ */
+.icon[data-emoji]::before {
+	content: attr(data-emoji);
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	margin-right: 0.4em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.tab {
+	margin: 1.25em 0;
+	padding-inline: 1rem;
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style><style>@import url('https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex-swap.min.css')</style></head><body><article id="3e2f6ce8-497f-8042-b72b-f2c2fb04f4cf" class="page sans" data-notion-page-icon="/icons/lock_blue.svg"><header><div class="page-header-icon undefined"><img class="icon notion-static-icon" src="https://app.notion.com/icons/lock_blue.svg"/></div><h1 class="page-title" dir="auto">Falsificação de Requisição</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><h1 id="3e2f6ce8-497f-8028-81ae-f60e5175c981" class="" dir="auto">Falsificação de Requisição do Lado do Servidor — SSRF</h1><p id="3e2f6ce8-497f-802e-93bb-f86e47ace33c" class="" dir="auto">A <strong>Falsificação de Requisição do Lado do Servidor</strong>, conhecida como <strong>SSRF — Server-Side Request Forgery</strong>, é uma vulnerabilidade que ocorre quando uma aplicação permite que um usuário influencie <strong>qual recurso ou endereço o servidor acessará</strong>, sem validar adequadamente essa entrada.</p><p id="3e2f6ce8-497f-80c7-9abe-e8eb1225aee7" class="" dir="auto">Em termos simples:</p><blockquote id="3e2f6ce8-497f-8018-b055-d612d830af5c" class="" dir="auto"><strong>O atacante faz o servidor realizar uma requisição que ele próprio não deveria realizar.</strong></blockquote><p id="3e2f6ce8-497f-80bd-912c-c94882c088b4" class="" dir="auto">Esse conceito é particularmente importante em aplicações modernas porque servidores frequentemente precisam acessar outros serviços, APIs, bancos, sistemas internos, armazenamento em nuvem e outros recursos.</p><hr id="3e2f6ce8-497f-808d-ad55-e6857f661ef1" dir="auto"/><h1 id="3e2f6ce8-497f-803b-bfc9-cb8b2b1642ae" class="" dir="auto">1. Entendendo a ideia</h1><p id="3e2f6ce8-497f-80d0-b331-dbcc7fe4f6de" class="" dir="auto">Imagine uma aplicação que possui uma funcionalidade:</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="3e2f6ce8-497f-80a2-a850-e7229a932a15" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Usuário
+   ↓
+Envia uma URL
+   ↓
+Servidor
+   ↓
+Acessa essa URL
+   ↓
+Retorna o resultado</code></pre><p id="3e2f6ce8-497f-80f9-a605-d83aedada134" class="" dir="auto">Por exemplo, uma aplicação pode permitir:</p><blockquote id="3e2f6ce8-497f-80d0-95ad-f60391948212" class="" dir="auto">&quot;Informe a URL de uma imagem para importá-la.&quot;</blockquote><p id="3e2f6ce8-497f-80a0-9bc3-f84d37d43da8" class="" dir="auto">O usuário fornece:</p><pre id="3e2f6ce8-497f-80ce-9528-c61d9cba624d" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">https://exemplo.com/imagem.jpg</code></pre><p id="3e2f6ce8-497f-80cd-b869-c4a597cd9285" class="" dir="auto">O servidor faz:</p><pre id="3e2f6ce8-497f-8093-90c2-d2026d7ad137" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Servidor
+   ↓
+GET https://exemplo.com/imagem.jpg</code></pre><p id="3e2f6ce8-497f-80bd-8c84-f0f1a21cd5e7" class="" dir="auto">Até aqui, tudo pode parecer normal.</p><p id="3e2f6ce8-497f-80df-997f-eaf4db9964b9" class="" dir="auto">O problema aparece quando o servidor aceita <strong>qualquer destino</strong> sem verificar se aquele endereço deveria ser acessível.</p><hr id="3e2f6ce8-497f-803b-831f-f54faf38b9ca" dir="auto"/><h1 id="3e2f6ce8-497f-8072-bcd4-f1093089cca4" class="" dir="auto">2. Onde está a vulnerabilidade?</h1><p id="3e2f6ce8-497f-8061-a466-d330adc8b272" class="" dir="auto">O problema pode ser representado assim:</p><pre id="3e2f6ce8-497f-8089-af38-e48734c0ce3e" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">                 APLICAÇÃO
+                    │
+                    ▼
+              URL fornecida
+               pelo usuário
+                    │
+                    ▼
+             Servidor realiza
+             uma requisição
+                    │
+          ┌─────────┴─────────┐
+          ↓                   ↓
+     Destino permitido    Destino indevido
+          ↓                   ↓
+        Normal             SSRF</code></pre><p id="3e2f6ce8-497f-80ff-9cc7-d5d308cff0d6" class="" dir="auto">O ponto principal é:</p><p id="3e2f6ce8-497f-80d4-8239-d83ee19cd2e0" class="" dir="auto"><strong>o servidor possui privilégios e acesso de rede que o usuário externo normalmente não possui.</strong></p><p id="3e2f6ce8-497f-80d3-8c08-fb9037e7d6a2" class="" dir="auto">Assim, o atacante tenta utilizar o servidor como um intermediário.</p><hr id="3e2f6ce8-497f-80fd-afe5-c40863e1e67b" dir="auto"/><h1 id="3e2f6ce8-497f-8050-82e5-f641c1ae8027" class="" dir="auto">3. Por que &quot;do lado do servidor&quot;?</h1><p id="3e2f6ce8-497f-80c1-8d50-cf32f8b85e17" class="" dir="auto">Porque quem realiza a requisição é o <strong>servidor da aplicação</strong>, e não diretamente o navegador do usuário.</p><p id="3e2f6ce8-497f-80ef-848d-dc7ea2e23c61" class="" dir="auto">Sem SSRF:</p><pre id="3e2f6ce8-497f-80ad-9e46-ce8d51a20fa2" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Navegador
+    ↓
+Internet
+    ↓
+Site externo</code></pre><p id="3e2f6ce8-497f-804b-af99-f1244e6b886d" class="" dir="auto">Com SSRF:</p><pre id="3e2f6ce8-497f-806d-8ec7-c06b2e663f54" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Navegador
+    ↓
+Aplicação
+    ↓
+Servidor
+    ↓
+Outro serviço</code></pre><p id="3e2f6ce8-497f-803a-81d7-ea8735f1d589" class="" dir="auto">O atacante controla uma entrada da aplicação e tenta fazer com que <strong>o servidor seja quem acessa o destino</strong>.</p><hr id="3e2f6ce8-497f-806c-8fd7-c3c2930cf0e7" dir="auto"/><h1 id="3e2f6ce8-497f-8013-804a-f29201d1fa1f" class="" dir="auto">4. Exemplo conceitual</h1><p id="3e2f6ce8-497f-80cd-97bf-f0b636067655" class="" dir="auto">Imagine uma aplicação que recebe:</p><pre id="3e2f6ce8-497f-80a9-ae4d-ccb9aea72808" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">URL: https://site.com/imagem.png</code></pre><p id="3e2f6ce8-497f-80e1-9eee-d4615c087661" class="" dir="auto">O backend faz algo semelhante a:</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-jsx.min.js" integrity="sha512-m3JYEI6gx5fh9jF10FjGoMzVKcV2N6nchcDcqPCdI1L3R2WQV7br2XVNR8iTLb2daOMRl3zldbcfT40xU2ntVw==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="3e2f6ce8-497f-8045-908b-f7dfe637eddc" class="code code-wrap" data-notion-code-syntax="jsx"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">const resposta = await fetch(url);</code></pre><p id="3e2f6ce8-497f-8017-bbf4-cdcb3fd3c420" class="" dir="auto">O problema não está necessariamente no <code>fetch()</code>.</p><p id="3e2f6ce8-497f-809c-9510-d421c3148d7b" class="" dir="auto">O problema está em:</p><pre id="3e2f6ce8-497f-80a1-9591-db7efb2f8b51" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">URL fornecida pelo usuário
+          ↓
+Nenhuma validação adequada
+          ↓
+fetch(url)</code></pre><p id="3e2f6ce8-497f-8022-9d42-da1d8333034d" class="" dir="auto">Se o servidor puder acessar destinos que não deveriam estar disponíveis ao usuário, a aplicação pode apresentar SSRF.</p><hr id="3e2f6ce8-497f-8053-aa22-c446ed76ff8c" dir="auto"/><h1 id="3e2f6ce8-497f-8035-b9f4-c2538aac6082" class="" dir="auto">5. O que torna SSRF perigoso?</h1><p id="3e2f6ce8-497f-80d3-bef8-c0b7b69a37cb" class="" dir="auto">Um servidor normalmente possui acesso a recursos que não estão diretamente disponíveis na Internet.</p><p id="3e2f6ce8-497f-80d6-8a75-c93de83b9409" class="" dir="auto">Por exemplo:</p><pre id="3e2f6ce8-497f-804d-8b96-f08c0b3284cd" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Internet
+   │
+   ▼
+Servidor Web
+   │
+   ├── API interna
+   ├── Banco de dados
+   ├── Painel administrativo
+   ├── Outros servidores
+   └── Serviços internos</code></pre><p id="3e2f6ce8-497f-805b-b4a6-f21f868910b3" class="" dir="auto">O usuário externo talvez só consiga acessar:</p><pre id="3e2f6ce8-497f-807c-9395-c78e6567021d" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">https://site.com</code></pre><p id="3e2f6ce8-497f-8014-becc-da841140fd8f" class="" dir="auto">Mas o servidor pode conseguir conversar com vários outros serviços.</p><p id="3e2f6ce8-497f-8049-9e10-c715908ab054" class="" dir="auto">A SSRF tenta explorar essa diferença.</p><hr id="3e2f6ce8-497f-80de-b38a-c7753142f3d4" dir="auto"/><h1 id="3e2f6ce8-497f-809f-b09f-e76e3e80350f" class="" dir="auto">6. SSRF e serviços internos</h1><p id="3e2f6ce8-497f-80b4-a952-f1e130672772" class="" dir="auto">Imagine uma arquitetura:</p><pre id="3e2f6ce8-497f-8078-9331-c4cbbcb72867" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">                INTERNET
+                    │
+                    ▼
+              ┌──────────┐
+              │ Front/API│
+              └────┬─────┘
+                   │
+          ┌────────┼────────┐
+          ↓        ↓        ↓
+       Serviço   Serviço   Banco
+       interno   interno</code></pre><p id="3e2f6ce8-497f-809b-9584-d7bd98a6510e" class="" dir="auto">Os serviços internos podem não estar expostos diretamente à Internet.</p><p id="3e2f6ce8-497f-80ea-937e-e75c09e37069" class="" dir="auto">Porém:</p><pre id="3e2f6ce8-497f-8014-8d38-ea6de8c1a88e" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Internet
+   ↓
+Aplicação vulnerável
+   ↓
+Rede interna
+   ↓
+Serviço interno</code></pre><p id="3e2f6ce8-497f-8090-8d5c-ff923ccd3bda" class="" dir="auto">A aplicação pode acabar funcionando como uma <strong>ponte entre o atacante e a rede interna</strong>.</p><hr id="3e2f6ce8-497f-80f0-99b6-f2e158c92f64" dir="auto"/><h1 id="3e2f6ce8-497f-8009-8056-f0219868275b" class="" dir="auto">7. SSRF não significa necessariamente acesso ao banco</h1><p id="3e2f6ce8-497f-8087-86df-d65f36de5c71" class="" dir="auto">É importante evitar uma simplificação comum.</p><p id="3e2f6ce8-497f-809b-b5b8-e8a8ada46a77" class="" dir="auto">SSRF não significa automaticamente:</p><blockquote id="3e2f6ce8-497f-8067-aedb-c5f4c3f67bf4" class="" dir="auto">&quot;O atacante consegue acessar o banco.&quot;</blockquote><p id="3e2f6ce8-497f-80c5-a93b-e982cfd74f71" class="" dir="auto">O impacto depende da arquitetura.</p><p id="3e2f6ce8-497f-800f-8407-de438eb7c228" class="" dir="auto">Pode permitir acesso a:</p><ul id="3e2f6ce8-497f-80e3-b323-fcfca2ba09d7" class="bulleted-list" dir="auto"><li style="list-style-type:disc">APIs internas;</li></ul><ul id="3e2f6ce8-497f-80c4-87c3-f97a9e371771" class="bulleted-list" dir="auto"><li style="list-style-type:disc">painéis administrativos;</li></ul><ul id="3e2f6ce8-497f-8020-9b77-c919823e7339" class="bulleted-list" dir="auto"><li style="list-style-type:disc">serviços de monitoramento;</li></ul><ul id="3e2f6ce8-497f-80b6-8984-c1d6fe7db7e3" class="bulleted-list" dir="auto"><li style="list-style-type:disc">sistemas internos;</li></ul><ul id="3e2f6ce8-497f-8006-ad29-c140b93587ca" class="bulleted-list" dir="auto"><li style="list-style-type:disc">endpoints de gerenciamento;</li></ul><ul id="3e2f6ce8-497f-8090-ac7e-e739e44e2b51" class="bulleted-list" dir="auto"><li style="list-style-type:disc">serviços de infraestrutura;</li></ul><ul id="3e2f6ce8-497f-802c-a21a-f42da16af7a8" class="bulleted-list" dir="auto"><li style="list-style-type:disc">recursos de ambientes cloud.</li></ul><p id="3e2f6ce8-497f-80fa-9b6d-e8e1931e582c" class="" dir="auto">Em outros casos, pode simplesmente fazer o servidor acessar um site externo.</p><p id="3e2f6ce8-497f-8089-9636-eea87412a4a5" class="" dir="auto">O impacto depende de <strong>para onde o servidor consegue se conectar e o que esses serviços permitem fazer</strong>.</p><hr id="3e2f6ce8-497f-8065-8d40-ca0145466073" dir="auto"/><h1 id="3e2f6ce8-497f-80fe-a183-fb688cb798e3" class="" dir="auto">8. SSRF em ambientes de nuvem</h1><p id="3e2f6ce8-497f-80cd-b995-e1349380993f" class="" dir="auto">Esse é um dos cenários mais importantes.</p><p id="3e2f6ce8-497f-807f-aa80-d9f23e89f236" class="" dir="auto">Ambientes de cloud frequentemente possuem <strong>serviços internos de infraestrutura</strong>, incluindo mecanismos que fornecem informações ou credenciais temporárias para recursos autorizados.</p><p id="3e2f6ce8-497f-809e-9f5c-fee70d8fe4c3" class="" dir="auto">Se uma aplicação vulnerável conseguir acessar esses serviços indevidamente, o impacto pode ser significativo.</p><p id="3e2f6ce8-497f-808a-ab8c-d13c89afcc6c" class="" dir="auto">O fluxo conceitual seria:</p><pre id="3e2f6ce8-497f-8047-9005-c617c5cd4db7" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Atacante
+   ↓
+Aplicação vulnerável
+   ↓
+Serviço interno de infraestrutura
+   ↓
+Informações/credenciais temporárias
+   ↓
+Possível comprometimento adicional</code></pre><p id="3e2f6ce8-497f-8031-afed-e8f90a027925" class="" dir="auto">Por isso, aplicações em cloud precisam de proteções específicas contra SSRF.</p><hr id="3e2f6ce8-497f-8068-a091-de76ebc322b3" dir="auto"/><h1 id="3e2f6ce8-497f-804c-959c-c0a72f8f6b66" class="" dir="auto">9. SSRF clássica x SSRF cega</h1><p id="3e2f6ce8-497f-80e9-848b-fbb5dc2bf83f" class="" dir="auto">Existem diferentes formas de SSRF.</p><h2 id="3e2f6ce8-497f-8088-9c46-d7d5bf25a163" class="" dir="auto">SSRF clássica</h2><p id="3e2f6ce8-497f-8022-b2cf-f09db99c2668" class="" dir="auto">O servidor realiza a requisição e o conteúdo pode retornar para o atacante.</p><pre id="3e2f6ce8-497f-805f-b8be-f434db4c2f06" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Atacante
+   ↓
+Aplicação
+   ↓
+Servidor acessa destino
+   ↓
+Resposta
+   ↓
+Aplicação
+   ↓
+Atacante</code></pre><p id="3e2f6ce8-497f-807a-94c7-f95f1195b53b" class="" dir="auto">O atacante consegue observar a resposta.</p><hr id="3e2f6ce8-497f-80dc-a0dc-d7d8e5d9f18f" dir="auto"/><h2 id="3e2f6ce8-497f-8051-babc-d304e4b061c3" class="" dir="auto">SSRF cega — Blind SSRF</h2><p id="3e2f6ce8-497f-8041-ac83-faf2ce2f9dab" class="" dir="auto">Em uma <strong>Blind SSRF</strong>, o servidor realiza a requisição, mas o atacante não recebe diretamente o conteúdo da resposta.</p><pre id="3e2f6ce8-497f-8019-9c1b-cae28c4614dc" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Atacante
+   ↓
+Aplicação
+   ↓
+Servidor
+   ↓
+Destino interno</code></pre><p id="3e2f6ce8-497f-80e3-9b92-c6d07332a396" class="" dir="auto">A resposta pode não ser retornada.</p><p id="3e2f6ce8-497f-80b2-acc4-e5a8bc18006a" class="" dir="auto">Mesmo assim, a requisição pode causar efeitos importantes.</p><p id="3e2f6ce8-497f-80e2-abbf-f774b7841b60" class="" dir="auto">Por exemplo, ela pode:</p><ul id="3e2f6ce8-497f-8071-bb3b-f69ed73002ef" class="bulleted-list" dir="auto"><li style="list-style-type:disc">atingir um serviço interno;</li></ul><ul id="3e2f6ce8-497f-80b2-8066-ffba899404b4" class="bulleted-list" dir="auto"><li style="list-style-type:disc">gerar uma ação;</li></ul><ul id="3e2f6ce8-497f-80d7-b5b9-c76353aa0a66" class="bulleted-list" dir="auto"><li style="list-style-type:disc">modificar algum estado;</li></ul><ul id="3e2f6ce8-497f-80fe-bb83-e34fda700863" class="bulleted-list" dir="auto"><li style="list-style-type:disc">produzir um evento;</li></ul><ul id="3e2f6ce8-497f-80e4-9bcf-cc25016db7e3" class="bulleted-list" dir="auto"><li style="list-style-type:disc">revelar informações indiretamente.</li></ul><hr id="3e2f6ce8-497f-80d6-a333-d94ffd50dba3" dir="auto"/><h1 id="3e2f6ce8-497f-80bc-98ca-e74b9e94e1a1" class="" dir="auto">10. SSRF em funcionalidades comuns</h1><p id="3e2f6ce8-497f-803e-9447-e6d21dbcc2a5" class="" dir="auto">SSRF pode aparecer em funcionalidades que parecem completamente legítimas.</p><h3 id="3e2f6ce8-497f-80fb-91e1-ee821965e2e2" class="" dir="auto">Importação de URL</h3><pre id="3e2f6ce8-497f-80ee-a674-ccc5d25cbd71" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">&quot;Digite a URL do arquivo&quot;</code></pre><h3 id="3e2f6ce8-497f-80f3-b3d6-e33dceae10a2" class="" dir="auto">Gerador de preview</h3><pre id="3e2f6ce8-497f-8076-aeb5-d840fe47d574" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">URL
+ ↓
+Servidor busca página
+ ↓
+Gera preview</code></pre><h3 id="3e2f6ce8-497f-8006-b6f4-cbfa1d4396e2" class="" dir="auto">Webhooks</h3><pre id="3e2f6ce8-497f-80db-8dc6-d27f27e87e5a" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Sistema
+ ↓
+URL configurada
+ ↓
+Envia requisição</code></pre><h3 id="3e2f6ce8-497f-8080-9e06-fcefe576d8af" class="" dir="auto">Integrações externas</h3><pre id="3e2f6ce8-497f-8090-a535-ce83c7ff692f" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Aplicação
+ ↓
+API externa</code></pre><h3 id="3e2f6ce8-497f-800a-bdb6-c4bbef641316" class="" dir="auto">Conversores</h3><pre id="3e2f6ce8-497f-80c4-9c46-c11c5f1dbd74" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">URL
+ ↓
+Servidor baixa conteúdo
+ ↓
+Converte</code></pre><h3 id="3e2f6ce8-497f-80af-be9e-cb9efd9677bb" class="" dir="auto">Processamento de imagens</h3><pre id="3e2f6ce8-497f-801d-bf49-ea7651116fd7" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">URL da imagem
+ ↓
+Servidor baixa imagem
+ ↓
+Processa</code></pre><p id="3e2f6ce8-497f-8071-85f4-f48f4aff8efc" class="" dir="auto">Qualquer funcionalidade em que o servidor <strong>busque um recurso baseado em uma entrada controlada pelo usuário</strong> merece atenção.</p><hr id="3e2f6ce8-497f-8025-8a8d-d00d8b85ddf6" dir="auto"/><h1 id="3e2f6ce8-497f-8092-a7c3-f25816ba2a02" class="" dir="auto">11. Exemplo em uma aplicação Full Stack</h1><p id="3e2f6ce8-497f-80e4-81f0-e05b8d9f37df" class="" dir="auto">Imagine uma API Node.js:</p><pre id="3e2f6ce8-497f-8029-b3db-ccde71a0dd86" class="code code-wrap" data-notion-code-syntax="jsx"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">app.post(&quot;/preview&quot;, async (req, res) =&gt; {
+    const { url } = req.body;
+
+    const response = await fetch(url);
+
+    const data = await response.text();
+
+    res.send(data);
+});</code></pre><p id="3e2f6ce8-497f-8033-ac81-e3705f7b7c23" class="" dir="auto">Conceitualmente:</p><pre id="3e2f6ce8-497f-8071-a251-d49b6649764f" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">POST /preview
+       ↓
+{ &quot;url&quot;: &quot;...&quot; }
+       ↓
+fetch(url)
+       ↓
+Servidor acessa URL</code></pre><p id="3e2f6ce8-497f-8022-aeaa-d83de6901622" class="" dir="auto">O problema é que <code>url</code> está sendo controlada pelo cliente.</p><p id="3e2f6ce8-497f-8076-8a38-ca4a4717c727" class="" dir="auto">A aplicação está dizendo:</p><blockquote id="3e2f6ce8-497f-80f8-bedf-ed41916dcf70" class="" dir="auto">&quot;Você me informa para onde eu devo fazer uma requisição.&quot;</blockquote><p id="3e2f6ce8-497f-802d-87eb-ee24a93e78b2" class="" dir="auto">Isso exige validação muito cuidadosa.</p><hr id="3e2f6ce8-497f-8011-8610-cfac542d5ea7" dir="auto"/><h1 id="3e2f6ce8-497f-802a-8bae-cbf8e48243e4" class="" dir="auto">12. O problema não é simplesmente &quot;aceitar URL&quot;</h1><p id="3e2f6ce8-497f-8047-baff-f1cdd46498a7" class="" dir="auto">É importante entender isso.</p><p id="3e2f6ce8-497f-80ee-8446-e46983b0f9c3" class="" dir="auto">Não significa que:</p><pre id="3e2f6ce8-497f-8086-b195-edc63f873c50" class="code code-wrap" data-notion-code-syntax="jsx"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">fetch(url)</code></pre><p id="3e2f6ce8-497f-80b8-9629-d24985b1bcc3" class="" dir="auto">seja sempre inseguro.</p><p id="3e2f6ce8-497f-8038-8e52-f384841377cb" class="" dir="auto">O problema aparece quando existe uma combinação como:</p><pre id="3e2f6ce8-497f-80f3-a4ca-c25a9b76d616" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Entrada controlada pelo usuário
+          +
+Servidor realiza requisição
+          +
+Validação insuficiente
+          +
+Destino potencialmente perigoso</code></pre><p id="3e2f6ce8-497f-8095-8f07-d12ed23cde23" class="" dir="auto">Portanto, SSRF é principalmente um problema de <strong>confiança e validação do destino</strong>.</p><hr id="3e2f6ce8-497f-8045-99fd-f022fd787959" dir="auto"/><h1 id="3e2f6ce8-497f-8021-b900-f95f0a20218d" class="" dir="auto">13. Como prevenir SSRF?</h1><p id="3e2f6ce8-497f-8066-b45b-ff3d1eb0debd" class="" dir="auto">A principal estratégia é <strong>não permitir que o usuário escolha livremente qualquer destino que o servidor possa acessar</strong>.</p><p id="3e2f6ce8-497f-80b3-aa36-d0fd1731d509" class="" dir="auto">Existem várias camadas de proteção.</p><hr id="3e2f6ce8-497f-806f-96d6-c7a78d66f2a4" dir="auto"/><h2 id="3e2f6ce8-497f-80b0-abd8-cee66a7cb190" class="" dir="auto">13.1 Allowlist</h2><p id="3e2f6ce8-497f-8085-b848-ec2d3f2ffd02" class="" dir="auto">Uma das abordagens mais seguras é utilizar uma <strong>lista de destinos permitidos</strong>.</p><p id="3e2f6ce8-497f-80e2-81d0-c1e17c88ce1f" class="" dir="auto">Por exemplo:</p><pre id="3e2f6ce8-497f-80dd-a6a4-ef62da4044cf" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Destinos permitidos:
+
+api.exemplo.com
+cdn.exemplo.com
+storage.exemplo.com</code></pre><p id="3e2f6ce8-497f-807c-ad81-eaab381d6051" class="" dir="auto">O servidor rejeita qualquer outro destino.</p><pre id="3e2f6ce8-497f-80c3-9a87-ebffe1b0477e" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">URL recebida
+    ↓
+Está na allowlist?
+   ↙       ↘
+ SIM       NÃO
+ ↓          ↓
+Permite    Bloqueia</code></pre><p id="3e2f6ce8-497f-809f-a6eb-cad4735981e0" class="" dir="auto">Quando o conjunto de destinos conhecidos é pequeno, essa abordagem é especialmente interessante.</p><hr id="3e2f6ce8-497f-801f-aa4a-f7f422032bf1" dir="auto"/><h1 id="3e2f6ce8-497f-80c0-b903-f10e7c8178a3" class="" dir="auto">14. Validar o esquema da URL</h1><p id="3e2f6ce8-497f-801c-a7ba-ca4acb9ea7df" class="" dir="auto">A aplicação deve verificar o protocolo utilizado.</p><p id="3e2f6ce8-497f-8003-8cdd-d2fffb1cd0c3" class="" dir="auto">Por exemplo:</p><pre id="3e2f6ce8-497f-80a9-aaa3-e3afed426057" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">https://</code></pre><p id="3e2f6ce8-497f-80d3-b337-c175b63d705d" class="" dir="auto">pode ser permitido, enquanto outros esquemas podem ser desnecessários ou perigosos dependendo da biblioteca e do ambiente.</p><p id="3e2f6ce8-497f-8080-bb97-d535c73f5e1c" class="" dir="auto">A aplicação deve aceitar apenas os esquemas necessários ao caso de uso.</p><hr id="3e2f6ce8-497f-8006-a32f-d60745d494d6" dir="auto"/><h1 id="3e2f6ce8-497f-80ef-869a-e7162b60a30e" class="" dir="auto">15. Validar host e porta</h1><p id="3e2f6ce8-497f-8054-b3f4-d33bcc94e55e" class="" dir="auto">Também é importante verificar:</p><pre id="3e2f6ce8-497f-8059-beca-fb7cec0e7190" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Host
+Porta
+Esquema</code></pre><p id="3e2f6ce8-497f-8053-964f-c571a41e1b7a" class="" dir="auto">Por exemplo, se a aplicação só precisa acessar uma API HTTPS específica, não existe motivo para permitir arbitrariamente:</p><pre id="3e2f6ce8-497f-802c-9d0c-d7a567ff2846" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">qualquer host
+qualquer porta
+qualquer protocolo</code></pre><p id="3e2f6ce8-497f-80f9-a7d5-daad6a63acb7" class="" dir="auto">Quanto menor o conjunto de destinos possíveis, menor a superfície de ataque.</p><hr id="3e2f6ce8-497f-8073-8ef3-da4f6592f4d0" dir="auto"/><h1 id="3e2f6ce8-497f-80dd-8a78-e6b17e61ddd5" class="" dir="auto">16. Cuidado com redirecionamentos</h1><p id="3e2f6ce8-497f-80c4-8d7b-c7e616952b47" class="" dir="auto">Esse é um detalhe muito importante.</p><p id="3e2f6ce8-497f-8031-a23e-f85c5c3cbe53" class="" dir="auto">Imagine:</p><pre id="3e2f6ce8-497f-80eb-be15-f266384b5135" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">URL permitida
+      ↓
+Servidor acessa
+      ↓
+Redirecionamento
+      ↓
+Outro destino</code></pre><p id="3e2f6ce8-497f-8036-9b52-d3443f1d5992" class="" dir="auto">A aplicação pode validar inicialmente:</p><pre id="3e2f6ce8-497f-802b-b8b1-d0e60c4eba33" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">https://site-permitido.com</code></pre><p id="3e2f6ce8-497f-808c-957f-ffeacd8be4ac" class="" dir="auto">mas o servidor seguir um redirecionamento para outro endereço.</p><p id="3e2f6ce8-497f-80be-9f3a-d73e12f825d9" class="" dir="auto">Por isso, o tratamento de <strong>redirects</strong> também precisa fazer parte da validação.</p><hr id="3e2f6ce8-497f-801c-b366-cc6f7cff0468" dir="auto"/><h1 id="3e2f6ce8-497f-80b1-901d-da94f3527c4d" class="" dir="auto">17. Não confiar apenas no nome do domínio</h1><p id="3e2f6ce8-497f-809a-8cc7-e240f3c6d6f0" class="" dir="auto">Imagine que a aplicação verifique apenas:</p><pre id="3e2f6ce8-497f-803a-a754-cd18f133a5d1" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">host.endsWith(&quot;exemplo.com&quot;)</code></pre><p id="3e2f6ce8-497f-8078-860e-c4c611d0a1fb" class="" dir="auto">Uma validação ingênua pode ser enganada por nomes de domínio que apenas contenham aquele texto.</p><p id="3e2f6ce8-497f-809e-9033-cc745b87fe2a" class="" dir="auto">A validação precisa utilizar mecanismos apropriados de análise de URL e regras precisas.</p><hr id="3e2f6ce8-497f-8029-a2ee-ff086dbeafed" dir="auto"/><h1 id="3e2f6ce8-497f-809f-8373-dbd5836472ce" class="" dir="auto">18. Proteção contra destinos internos</h1><p id="3e2f6ce8-497f-80a0-8c3c-d5c0ba86dd63" class="" dir="auto">Dependendo do caso de uso, a aplicação deve bloquear o acesso a destinos que não deveriam ser alcançáveis pelo usuário.</p><p id="3e2f6ce8-497f-80ee-bc8c-f785c48d79c1" class="" dir="auto">Isso inclui, por exemplo, determinados:</p><ul id="3e2f6ce8-497f-80d0-9b80-df620ac4b23b" class="bulleted-list" dir="auto"><li style="list-style-type:disc">endereços de loopback;</li></ul><ul id="3e2f6ce8-497f-806e-a61b-d4265e3dbe63" class="bulleted-list" dir="auto"><li style="list-style-type:disc">endereços privados;</li></ul><ul id="3e2f6ce8-497f-80a8-aa97-c9229564d993" class="bulleted-list" dir="auto"><li style="list-style-type:disc">endereços de link-local;</li></ul><ul id="3e2f6ce8-497f-805f-8757-c7e5f1b6039f" class="bulleted-list" dir="auto"><li style="list-style-type:disc">interfaces internas;</li></ul><ul id="3e2f6ce8-497f-80ad-978f-d540a4aa729c" class="bulleted-list" dir="auto"><li style="list-style-type:disc">redes administrativas.</li></ul><p id="3e2f6ce8-497f-800a-8e65-c1e00596cad7" class="" dir="auto">A ideia é:</p><pre id="3e2f6ce8-497f-8021-9c37-cd3e72b94c0f" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Internet
+   ↓
+Aplicação
+   ↓
+❌ Rede interna protegida</code></pre><hr id="3e2f6ce8-497f-8081-932b-e7c94e817a67" dir="auto"/><h1 id="3e2f6ce8-497f-8077-97c4-f464a30424bf" class="" dir="auto">19. Mas bloquear IPs não é suficiente</h1><p id="3e2f6ce8-497f-8098-93cc-ca2bb988d27f" class="" dir="auto">Existe uma dificuldade importante.</p><p id="3e2f6ce8-497f-80e4-9878-dcb539d12691" class="" dir="auto">A aplicação pode verificar um domínio:</p><pre id="3e2f6ce8-497f-8095-a354-c362834af5fd" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">api.exemplo.com</code></pre><p id="3e2f6ce8-497f-80e8-91a6-c3a005f07370" class="" dir="auto">e descobrir um endereço aparentemente permitido.</p><p id="3e2f6ce8-497f-80cb-add6-cef9c19bcc02" class="" dir="auto">Depois, o endereço pode mudar ou resolver de maneira diferente.</p><p id="3e2f6ce8-497f-808b-8af4-c9105fdeb93c" class="" dir="auto">Por isso, a proteção precisa considerar o <strong>processo completo de resolução e conexão</strong>, e não apenas uma verificação superficial da URL.</p><p id="3e2f6ce8-497f-80bd-bd6d-c74c88afa167" class="" dir="auto">Esse é um dos motivos pelos quais SSRF pode ser uma vulnerabilidade tecnicamente difícil de prevenir corretamente.</p><hr id="3e2f6ce8-497f-801c-932d-edee26d3853e" dir="auto"/><h1 id="3e2f6ce8-497f-80c7-a8c6-d8d40ddd0bc6" class="" dir="auto">20. Controle de saída da rede</h1><p id="3e2f6ce8-497f-8056-96f4-c56425cb629c" class="" dir="auto">Uma defesa muito importante ocorre fora da aplicação.</p><p id="3e2f6ce8-497f-802a-b3e1-e8b0971d5bc5" class="" dir="auto">Podemos limitar quais destinos o servidor consegue acessar:</p><pre id="3e2f6ce8-497f-8083-bf17-ebd645834dec" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Aplicação
+    │
+    ▼
+Firewall / controle de saída
+    │
+    ├── API autorizada → ✅
+    ├── Serviço interno → ❌
+    └── Rede administrativa → ❌</code></pre><p id="3e2f6ce8-497f-80ef-98db-f03d8278efbf" class="" dir="auto">Isso é chamado de controle de <strong>egress</strong> ou tráfego de saída.</p><p id="3e2f6ce8-497f-80bb-81e2-c9f928f6117b" class="" dir="auto">Mesmo que a aplicação possua uma vulnerabilidade, a infraestrutura pode impedir determinados acessos.</p><hr id="3e2f6ce8-497f-80f6-8514-d9eaa4e4b2fb" dir="auto"/><h1 id="3e2f6ce8-497f-80de-8bef-facf400a9e73" class="" dir="auto">21. Princípio do menor privilégio</h1><p id="3e2f6ce8-497f-8046-96b0-f649a7e9c2cf" class="" dir="auto">O servidor não deveria ter acesso irrestrito à rede.</p><p id="3e2f6ce8-497f-80a9-aa4c-f790029ccca4" class="" dir="auto">Se uma aplicação precisa acessar apenas:</p><pre id="3e2f6ce8-497f-80e8-80df-f93299f117be" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">api.pagamentos.com</code></pre><p id="3e2f6ce8-497f-809d-8f43-f44e081bb86a" class="" dir="auto">não existe necessidade de permitir:</p><pre id="3e2f6ce8-497f-803e-84a0-f2d213a3e76a" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">qualquer endereço
+qualquer porta
+qualquer rede</code></pre><p id="3e2f6ce8-497f-8097-b41e-e0260a598a1e" class="" dir="auto">Isso segue o princípio:</p><blockquote id="3e2f6ce8-497f-80b4-ba14-f7077d41a900" class="" dir="auto"><strong>Conceda apenas os acessos necessários.</strong></blockquote><hr id="3e2f6ce8-497f-8083-bb17-f7a707449f80" dir="auto"/><h1 id="3e2f6ce8-497f-8051-ad28-f1e447a9742e" class="" dir="auto">22. Segmentação de rede</h1><p id="3e2f6ce8-497f-80b7-8f57-cde86e3c4e3d" class="" dir="auto">Uma arquitetura bem segmentada pode reduzir o impacto de uma SSRF.</p><p id="3e2f6ce8-497f-80bd-9b0b-e0c7156239a0" class="" dir="auto">Por exemplo:</p><pre id="3e2f6ce8-497f-8099-b113-e0cb831e37d8" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">                 Internet
+                    │
+                    ▼
+              ┌──────────┐
+              │ Web/API  │
+              └────┬─────┘
+                   │
+          ┌────────┴────────┐
+          ↓                 ↓
+      Serviços           Banco
+      permitidos        protegido</code></pre><p id="3e2f6ce8-497f-8048-a2e2-ed355c43529c" class="" dir="auto">Se a camada web for comprometida, ela não deveria automaticamente conseguir acessar tudo dentro da infraestrutura.</p><hr id="3e2f6ce8-497f-8093-bd42-c3b94797fd4f" dir="auto"/><h1 id="3e2f6ce8-497f-80ff-9b1c-fa78ff14d9bc" class="" dir="auto">23. Proteção em cloud</h1><p id="3e2f6ce8-497f-80c1-9a6f-d8660e36898f" class="" dir="auto">Em ambientes de cloud, é importante combinar:</p><pre id="3e2f6ce8-497f-8051-ab4c-fe8248494011" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Aplicação
+   +
+Validação de URL
+   +
+Controle de egress
+   +
+IAM com menor privilégio
+   +
+Proteção de serviços de metadata</code></pre><p id="3e2f6ce8-497f-803b-8ced-e803efe9eb5d" class="" dir="auto">Assim, mesmo que uma SSRF exista, o impacto potencial pode ser reduzido.</p><hr id="3e2f6ce8-497f-80ca-903f-da49bbab4978" dir="auto"/><h1 id="3e2f6ce8-497f-806a-971e-de481065e5ee" class="" dir="auto">24. Não confiar no frontend</h1><p id="3e2f6ce8-497f-8062-987a-fd2c77bb2f88" class="" dir="auto">Imagine que o frontend tenha:</p><pre id="3e2f6ce8-497f-8066-9283-c3a3ae0134f9" class="code code-wrap" data-notion-code-syntax="jsx"><code class="language-jsx" style="white-space:pre-wrap;word-break:break-all">if (url.startsWith(&quot;https://site-permitido.com&quot;)) {
+    enviar(url);
+}</code></pre><p id="3e2f6ce8-497f-804b-b5ed-f6c8e0bff041" class="" dir="auto">Isso <strong>não é suficiente</strong>.</p><p id="3e2f6ce8-497f-80a7-8724-cea3bbb69435" class="" dir="auto">Um usuário pode simplesmente ignorar o frontend e enviar uma requisição diretamente para a API.</p><p id="3e2f6ce8-497f-80a3-b7d3-d3bd67e7a1e3" class="" dir="auto">A validação precisa existir no:</p><pre id="3e2f6ce8-497f-80a0-a035-c14e19fd0346" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">BACKEND</code></pre><p id="3e2f6ce8-497f-80bd-a1b6-d05cf40ae485" class="" dir="auto">e, quando aplicável, também na infraestrutura.</p><hr id="3e2f6ce8-497f-80a9-bb73-dd0da07a6a6d" dir="auto"/><h1 id="3e2f6ce8-497f-8041-88a3-cb459b9c50ea" class="" dir="auto">25. SSRF e outras vulnerabilidades</h1><p id="3e2f6ce8-497f-8097-8858-f2c21fb30f5f" class="" dir="auto">SSRF pode funcionar como uma etapa de uma cadeia de ataque.</p><p id="3e2f6ce8-497f-80a4-a07a-c3fce6e2db38" class="" dir="auto">Por exemplo:</p><pre id="3e2f6ce8-497f-80c7-a642-f61f3e7d688d" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">SSRF
+ ↓
+Acesso a serviço interno
+ ↓
+Falha de autenticação
+ ↓
+Acesso indevido
+ ↓
+Comprometimento</code></pre><p id="3e2f6ce8-497f-8014-871b-dea75887fd01" class="" dir="auto">Ou:</p><pre id="3e2f6ce8-497f-8029-8c33-f036a20a5146" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">SSRF
+ ↓
+Serviço interno
+ ↓
+Informação sensível
+ ↓
+Vazamento</code></pre><p id="3e2f6ce8-497f-803d-a3f8-fd73c85b8eef" class="" dir="auto">Por isso, SSRF frequentemente deve ser analisada em conjunto com:</p><ul id="3e2f6ce8-497f-80f4-b028-f9c92bbae0b1" class="bulleted-list" dir="auto"><li style="list-style-type:disc">controle de acesso;</li></ul><ul id="3e2f6ce8-497f-8079-b85e-f8a13a4d4582" class="bulleted-list" dir="auto"><li style="list-style-type:disc">autenticação;</li></ul><ul id="3e2f6ce8-497f-80e6-bdaa-d7146d356cb9" class="bulleted-list" dir="auto"><li style="list-style-type:disc">segmentação de rede;</li></ul><ul id="3e2f6ce8-497f-8097-811c-f822b8902698" class="bulleted-list" dir="auto"><li style="list-style-type:disc">configurações de cloud;</li></ul><ul id="3e2f6ce8-497f-805c-8b4c-e4be0ee8ea8e" class="bulleted-list" dir="auto"><li style="list-style-type:disc">gerenciamento de credenciais.</li></ul><hr id="3e2f6ce8-497f-8003-b70b-dcbeacff9770" dir="auto"/><h1 id="3e2f6ce8-497f-808e-b75b-e8ce0035db4e" class="" dir="auto">26. Como identificar SSRF durante o desenvolvimento?</h1><p id="3e2f6ce8-497f-809f-aa3a-d5c1edd84a70" class="" dir="auto">Pergunte:</p><h3 id="3e2f6ce8-497f-8036-8f54-e08c7670dc8d" class="" dir="auto">A aplicação recebe uma URL do usuário?</h3><pre id="3e2f6ce8-497f-80a3-be2a-f9ceb317ec74" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Sim → atenção</code></pre><h3 id="3e2f6ce8-497f-8077-aa34-e19f882402d4" class="" dir="auto">O servidor realiza uma requisição baseada nessa URL?</h3><pre id="3e2f6ce8-497f-8027-8ab9-e0f8c80e2726" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Sim → atenção</code></pre><h3 id="3e2f6ce8-497f-80e4-8336-f748ef018471" class="" dir="auto">O usuário pode escolher livremente o destino?</h3><pre id="3e2f6ce8-497f-807f-915d-cfc469be1e25" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Sim → risco maior</code></pre><h3 id="3e2f6ce8-497f-8086-8b15-cab8895dad96" class="" dir="auto">Existem destinos permitidos?</h3><pre id="3e2f6ce8-497f-8059-9b3b-f93fc8ab0e61" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Não → melhorar validação</code></pre><h3 id="3e2f6ce8-497f-806c-b628-c8f3d5e0590e" class="" dir="auto">O servidor possui acesso à rede interna?</h3><pre id="3e2f6ce8-497f-8094-9d15-df4e016c6711" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Sim → impacto potencial maior</code></pre><h3 id="3e2f6ce8-497f-80fc-afb9-d831c1744b1f" class="" dir="auto">Existem controles de saída?</h3><pre id="3e2f6ce8-497f-80d6-8ee9-ed56aee1aad0" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Não → adicionar segmentação/egress</code></pre><hr id="3e2f6ce8-497f-804e-a98e-c734f5c1548e" dir="auto"/><h1 id="3e2f6ce8-497f-8041-86b2-fa27f0bd3488" class="" dir="auto">27. Checklist de prevenção</h1><pre id="3e2f6ce8-497f-80b1-bcb2-d3195e42fad9" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">[ ] O servidor realmente precisa buscar URLs fornecidas pelo usuário?
+[ ] Existe uma allowlist de destinos quando possível?
+[ ] O esquema da URL é validado?
+[ ] Host e porta são validados?
+[ ] Redirecionamentos são controlados?
+[ ] Destinos internos são bloqueados quando apropriado?
+[ ] A resolução DNS é tratada de forma segura?
+[ ] O frontend não é a única camada de validação
+[ ] Existe controle de tráfego de saída
+[ ] A rede está segmentada
+[ ] O servidor possui apenas os acessos necessários
+[ ] Credenciais de infraestrutura possuem menor privilégio
+[ ] Serviços internos não são expostos desnecessariamente
+[ ] Logs registram requisições suspeitas
+[ ] Existem alertas para comportamentos anormais</code></pre><hr id="3e2f6ce8-497f-80bf-966d-fe6f71c28b88" dir="auto"/><h1 id="3e2f6ce8-497f-80a0-a601-f34e23dff5f3" class="" dir="auto">28. Exemplo de arquitetura mais segura</h1><p id="3e2f6ce8-497f-80a7-8e6e-c8014d720398" class="" dir="auto">Uma aplicação que precisa baixar imagens poderia seguir:</p><pre id="3e2f6ce8-497f-803a-bb4d-d9e1b9fa897e" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">                 USUÁRIO
+                    │
+                    ▼
+              URL fornecida
+                    │
+                    ▼
+             ┌─────────────┐
+             │ Validação   │
+             └──────┬──────┘
+                    │
+          ┌─────────┴─────────┐
+          ↓                   ↓
+      Permitido            Bloqueado
+          │                   │
+          ▼                   ▼
+    Cliente HTTP            Rejeitar
+          │
+          ▼
+   Controle de saída
+          │
+          ▼
+    Destino permitido</code></pre><p id="3e2f6ce8-497f-801d-8bd8-f4eb3c46b9b6" class="" dir="auto">Dessa forma, a segurança não depende de uma única barreira.</p><hr id="3e2f6ce8-497f-80b8-85db-ee77373d2995" dir="auto"/><h1 id="3e2f6ce8-497f-80b7-be47-c10193876059" class="" dir="auto">29. SSRF x CSRF</h1><p id="3e2f6ce8-497f-80bf-a91b-d07ef0631549" class="" dir="auto">Os nomes podem causar confusão porque ambos possuem &quot;CSRF/SSRF&quot; e envolvem requisições, mas são vulnerabilidades diferentes.</p><h3 id="3e2f6ce8-497f-8004-925c-c31bd0ddeb09" class="" dir="auto">SSRF</h3><p id="3e2f6ce8-497f-80bf-a08b-c25c07bd4b25" class="" dir="auto"><strong>Server-Side Request Forgery</strong></p><pre id="3e2f6ce8-497f-80b0-b25d-e40e8177ed5c" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Atacante
+   ↓
+Servidor
+   ↓
+Servidor faz requisição</code></pre><p id="3e2f6ce8-497f-803c-9f31-e59317b954b7" class="" dir="auto">O objetivo é abusar da capacidade do <strong>servidor</strong> de realizar requisições.</p><h3 id="3e2f6ce8-497f-8005-b27c-fd62d8bb2460" class="" dir="auto">CSRF</h3><p id="3e2f6ce8-497f-806f-8ca2-efb3176e6a64" class="" dir="auto"><strong>Cross-Site Request Forgery</strong></p><pre id="3e2f6ce8-497f-80fe-8f04-c1ea3469587e" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Vítima autenticada
+       ↓
+Navegador
+       ↓
+Aplicação</code></pre><p id="3e2f6ce8-497f-8065-aa74-ec32d17f0c77" class="" dir="auto">O objetivo é induzir o navegador de uma vítima autenticada a realizar uma ação que ela não pretendia realizar.</p><p id="3e2f6ce8-497f-806f-b615-c8fe2e4ceffc" class="" dir="auto">Resumo:</p><table id="3e2f6ce8-497f-80f7-8d6a-e194f3a3ef2d" class="simple-table" dir="ltr"><thead class="simple-table-header"><tr id="3e2f6ce8-497f-808f-bf73-f5d0a4c4d9e0" dir="ltr"><th id="}YzW" class="simple-table-header-color simple-table-header">SSRF</th><th id="&lt;oZq" class="simple-table-header-color simple-table-header">CSRF</th></tr></thead><tbody><tr id="3e2f6ce8-497f-80e3-886d-c4f5acc9a92d" dir="ltr"><td id="}YzW" class="">Abusa do servidor</td><td id="&lt;oZq" class="">Abusa do navegador da vítima</td></tr><tr id="3e2f6ce8-497f-803e-a3c5-ef83dea79264" dir="ltr"><td id="}YzW" class="">Servidor realiza a requisição</td><td id="&lt;oZq" class="">Navegador realiza a requisição</td></tr><tr id="3e2f6ce8-497f-80eb-82c9-fb6a3e8706dc" dir="ltr"><td id="}YzW" class="">Foco em acesso do servidor</td><td id="&lt;oZq" class="">Foco em ações autenticadas</td></tr><tr id="3e2f6ce8-497f-80c9-86bd-f39155d864c2" dir="ltr"><td id="}YzW" class="">Pode atingir serviços internos</td><td id="&lt;oZq" class="">Pode executar ações em aplicações onde a vítima está autenticada</td></tr></tbody></table><hr id="3e2f6ce8-497f-80ad-9ba5-ed65e88e6a88" dir="auto"/><h1 id="3e2f6ce8-497f-8061-8b4a-c4d9f7cee7b1" class="" dir="auto">30. Relação com os temas anteriores</h1><p id="3e2f6ce8-497f-801e-ad3d-c7d5c69bc074" class="" dir="auto">SSRF se conecta bastante com o que você já estudou:</p><table id="3e2f6ce8-497f-80b7-9af4-d71bc353700b" class="simple-table" dir="ltr"><thead class="simple-table-header"><tr id="3e2f6ce8-497f-80bf-ba76-c5a28d7cf764" dir="ltr"><th id="xNN=" class="simple-table-header-color simple-table-header">Tema</th><th id="PQyM" class="simple-table-header-color simple-table-header">Relação com SSRF</th></tr></thead><tbody><tr id="3e2f6ce8-497f-809d-bc30-fd98ad1e8506" dir="ltr"><td id="xNN=" class=""><strong>Injeção</strong></td><td id="PQyM" class="">Entrada controlada pelo usuário pode influenciar o comportamento do servidor</td></tr><tr id="3e2f6ce8-497f-808c-a085-edf93383d322" dir="ltr"><td id="xNN=" class=""><strong>Controle de Acesso</strong></td><td id="PQyM" class="">Serviços internos podem confiar indevidamente em requisições originadas da rede interna</td></tr><tr id="3e2f6ce8-497f-80c1-8881-d3db213fc0d5" dir="ltr"><td id="xNN=" class=""><strong>Autenticação</strong></td><td id="PQyM" class="">Serviços internos podem possuir mecanismos de autenticação inadequados</td></tr><tr id="3e2f6ce8-497f-8033-949c-f4efa9907dd1" dir="ltr"><td id="xNN=" class=""><strong>Configuração Incorreta</strong></td><td id="PQyM" class="">Rede e cloud mal configuradas podem aumentar o impacto</td></tr><tr id="3e2f6ce8-497f-8038-8ab9-d764f305c9b5" dir="ltr"><td id="xNN=" class=""><strong>Componentes Vulneráveis</strong></td><td id="PQyM" class="">Bibliotecas de requisições podem possuir vulnerabilidades</td></tr><tr id="3e2f6ce8-497f-80cb-8557-d0a4e8a0177f" dir="ltr"><td id="xNN=" class=""><strong>Integridade</strong></td><td id="PQyM" class="">SSRF pode fazer parte de uma cadeia que resulte em alterações indevidas</td></tr><tr id="3e2f6ce8-497f-8038-bc70-e692412da1e1" dir="ltr"><td id="xNN=" class=""><strong>Registro e Monitoração</strong></td><td id="PQyM" class="">Logs podem ajudar a detectar requisições anormais</td></tr></tbody></table><hr id="3e2f6ce8-497f-802d-8c7c-ec5bf7cb35f6" dir="auto"/><h1 id="3e2f6ce8-497f-80b2-9715-c78f52c77049" class="" dir="auto">Resumo</h1><p id="3e2f6ce8-497f-80a3-ad97-f7ca38ed8532" class="" dir="auto"><strong>SSRF — Server-Side Request Forgery</strong> é uma vulnerabilidade em que um atacante consegue influenciar uma aplicação para que o <strong>servidor realize requisições para destinos que não deveriam estar acessíveis daquela maneira</strong>.</p><p id="3e2f6ce8-497f-8054-971d-ec9ebd83dc11" class="" dir="auto">O fluxo básico é:</p><pre id="3e2f6ce8-497f-80d1-8ec3-d920329b33dc" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Atacante
+   ↓
+Entrada controlada
+   ↓
+Aplicação vulnerável
+   ↓
+Servidor realiza requisição
+   ↓
+Destino indevido</code></pre><p id="3e2f6ce8-497f-80d9-b668-e9e4e4bd127d" class="" dir="auto">O risco aumenta quando o servidor possui acesso a:</p><pre id="3e2f6ce8-497f-8044-969b-fd9305f94284" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Redes internas
+Serviços administrativos
+APIs internas
+Infraestrutura cloud
+Serviços de gerenciamento</code></pre><p id="3e2f6ce8-497f-803a-841b-c13c62e4c50d" class="" dir="auto">As principais defesas são:</p><pre id="3e2f6ce8-497f-8049-b902-d661fd2e8599" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Allowlist
+    +
+Validação rigorosa de URLs
+    +
+Controle de redirects
+    +
+Bloqueio de destinos internos quando necessário
+    +
+Controle de egress
+    +
+Segmentação de rede
+    +
+Menor privilégio
+    +
+Proteções específicas de cloud
+    +
+Monitoramento</code></pre><h3 id="3e2f6ce8-497f-8001-a50f-e2eae5afe0df" class="" dir="auto">Ideia principal</h3><blockquote id="3e2f6ce8-497f-80ac-9ad8-d46893ec8cbd" class="" dir="auto"><strong>Nunca presuma que uma URL fornecida pelo usuário é segura apenas porque ela parece legítima. Se o servidor vai realizar uma requisição em nome do usuário, o destino precisa ser tratado como entrada não confiável e validado adequadamente.</strong></blockquote></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

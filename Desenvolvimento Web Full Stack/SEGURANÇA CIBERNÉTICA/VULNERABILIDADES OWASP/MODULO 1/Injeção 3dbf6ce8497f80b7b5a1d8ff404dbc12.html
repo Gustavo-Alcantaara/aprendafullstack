@@ -1,0 +1,917 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Injeção</title><meta name="data-notion-page-icon" content="/icons/lock_blue.svg"/><link rel="icon" href="https://app.notion.com/icons/lock_blue.svg"/><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+	/* Paint a complete callout box on every PDF page fragment. */
+	-webkit-box-decoration-break: clone;
+	box-decoration-break: clone;
+}
+
+/* For default-background callouts, render the border outline. */
+.callout.block-color-default_background {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+/*
+ * Toggles and callouts hold arbitrary content, so they can easily be taller
+ * than a page. They must stay breakable: avoiding breaks inside them makes
+ * Chromium push the whole block onto the next page, which leaves the previous
+ * page mostly empty before every long toggle.
+ */
+details,
+aside {
+	margin: 1.25em 0;
+}
+
+/* Keep a toggle's title on the same page as the start of its content. */
+summary {
+	page-break-after: avoid;
+	break-after: avoid;
+}
+
+/*
+ * Toggle headings render as <h1/h2/h3 style="display:inline-block"> inside
+ * <summary>. Without this reset, the heading's margin-top pushes it below the
+ * ::marker (▼), so the triangle and the title appear on separate lines.
+ */
+summary h1,
+summary h2,
+summary h3,
+summary h4 {
+	margin-top: 0;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding-inline: 0.125rem;
+	padding-block: 0.375rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+/*
+ * Render emoji icons using a ::before pseudo-element to keep the glyph
+ * out of the DOM textContent traversal. This avoids double-rendering icons
+ * in callouts and page titles.
+ * NOTE(slim/html-export-pseudo-icons): I can't tagref this because it will
+ * flag as a duplicate tag after codegen.
+ */
+.icon[data-emoji]::before {
+	content: attr(data-emoji);
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	margin-right: 0.4em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.tab {
+	margin: 1.25em 0;
+	padding-inline: 1rem;
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style><style>@import url('https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex-swap.min.css')</style></head><body><article id="3dbf6ce8-497f-80b7-b5a1-d8ff404dbc12" class="page sans" data-notion-page-icon="/icons/lock_blue.svg"><header><div class="page-header-icon undefined"><img class="icon notion-static-icon" src="https://app.notion.com/icons/lock_blue.svg"/></div><h1 class="page-title" dir="auto">Injeção</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><h1 id="3dbf6ce8-497f-80fe-b397-f086cbe463c0" class="" dir="auto">Injeção</h1><p id="3dbf6ce8-497f-800e-99fb-cb2e164c9512" class="" dir="auto">No contexto de <strong>Segurança Cibernética</strong>, <strong>injeção (Injection)</strong> é uma categoria de vulnerabilidade em que dados fornecidos pelo usuário são interpretados pelo sistema como <strong>parte de um comando, consulta ou código</strong>, em vez de serem tratados apenas como dados.</p><p id="3dbf6ce8-497f-80a1-837d-f3901d77150c" class="" dir="auto">É uma das classes de vulnerabilidades mais importantes em aplicações web porque pode permitir que um atacante faça a aplicação executar operações que não deveriam ser permitidas.</p><hr id="3dbf6ce8-497f-80bb-ade1-e0103d1592df" dir="auto"/><h2 id="3dbf6ce8-497f-805f-937e-cda6e7f6b1dd" class="" dir="auto">1. O que é uma vulnerabilidade de injeção?</h2><p id="3dbf6ce8-497f-80bf-9c0b-d29a2d4349b8" class="" dir="auto">Imagine uma aplicação que recebe uma informação do usuário e depois monta uma instrução utilizando essa informação.</p><p id="3dbf6ce8-497f-8080-960f-cdc9edb417e1" class="" dir="auto">O problema acontece quando a aplicação <strong>mistura dados com comandos</strong>, sem realizar uma validação ou parametrização adequada.</p><p id="3dbf6ce8-497f-80b9-9066-c25fc6125bb2" class="" dir="auto">De forma simplificada:</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="3dbf6ce8-497f-80a2-97c8-e56e4593a33e" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Entrada do usuário
+       ↓
+Aplicação
+       ↓
+Comando/consulta
+       ↓
+Sistema interpreta</code></pre><p id="3dbf6ce8-497f-801e-a9f4-e6f7ea93acde" class="" dir="auto">Se a aplicação não separar corretamente <strong>dados</strong> de <strong>instruções</strong>, uma entrada maliciosa pode alterar o comportamento esperado.</p><h3 id="3dbf6ce8-497f-8017-86ee-c8217b2e6aec" class="" dir="auto">Exemplo conceitual</h3><p id="3dbf6ce8-497f-8059-ad25-d0d8cd8c2e59" class="" dir="auto">Uma aplicação deveria receber:</p><pre id="3dbf6ce8-497f-8089-bc77-df2484b2ca02" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">nome = Gustavo</code></pre><p id="3dbf6ce8-497f-806f-b1d2-e10f42cd897e" class="" dir="auto">e produzir uma consulta baseada nesse nome.</p><p id="3dbf6ce8-497f-80ff-8b81-f293e49ec365" class="" dir="auto">Porém, se o sistema simplesmente juntar textos para construir a consulta, uma entrada especialmente preparada pode modificar a estrutura da consulta.</p><p id="3dbf6ce8-497f-80be-95f7-d1c245ad2751" class="" dir="auto">O princípio é:</p><pre id="3dbf6ce8-497f-80dd-bcb8-e13c31669589" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Dado legítimo → tratado como dado
+Entrada maliciosa → pode ser interpretada como comando</code></pre><hr id="3dbf6ce8-497f-8032-a50d-f9106ff81056" dir="auto"/><h1 id="3dbf6ce8-497f-805f-a34d-f00ecc92e71d" class="" dir="auto">2. Por que a injeção acontece?</h1><p id="3dbf6ce8-497f-8079-ab7d-d935c4912130" class="" dir="auto">A causa principal costuma ser a <strong>falta de separação entre dados e comandos</strong>.</p><p id="3dbf6ce8-497f-8002-846d-f00731d38aae" class="" dir="auto">Alguns fatores comuns são:</p><ul id="3dbf6ce8-497f-803b-939c-cb5fd13e0129" class="bulleted-list" dir="auto"><li style="list-style-type:disc">construção manual de consultas;</li></ul><ul id="3dbf6ce8-497f-80d0-bc0f-c50b8c18301b" class="bulleted-list" dir="auto"><li style="list-style-type:disc">concatenação de strings;</li></ul><ul id="3dbf6ce8-497f-80ab-818d-edde8e9f1088" class="bulleted-list" dir="auto"><li style="list-style-type:disc">falta de validação de entrada;</li></ul><ul id="3dbf6ce8-497f-806f-ac78-c00e43bc73fc" class="bulleted-list" dir="auto"><li style="list-style-type:disc">falta de parametrização;</li></ul><ul id="3dbf6ce8-497f-80fc-b56f-c8a36050a4cb" class="bulleted-list" dir="auto"><li style="list-style-type:disc">utilização insegura de comandos do sistema;</li></ul><ul id="3dbf6ce8-497f-807b-aef2-f831c2469f7f" class="bulleted-list" dir="auto"><li style="list-style-type:disc">APIs mal projetadas;</li></ul><ul id="3dbf6ce8-497f-8059-a1a7-f568c93b6a0b" class="bulleted-list" dir="auto"><li style="list-style-type:disc">tratamento inadequado de dados recebidos do usuário;</li></ul><ul id="3dbf6ce8-497f-809e-a063-d9f2f36cf0b5" class="bulleted-list" dir="auto"><li style="list-style-type:disc">utilização de bibliotecas ou funções inseguras;</li></ul><ul id="3dbf6ce8-497f-803b-b5cd-d691a5602b6a" class="bulleted-list" dir="auto"><li style="list-style-type:disc">falta de controle sobre os tipos de dados esperados.</li></ul><p id="3dbf6ce8-497f-80e2-9a5c-cc3c3c327cd8" class="" dir="auto">Um exemplo conceitual:</p><pre id="3dbf6ce8-497f-8048-8ef6-e8b251a5c1d0" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">&quot;SELECT ... WHERE nome = &#x27;&quot; + entrada + &quot;&#x27;&quot;</code></pre><p id="3dbf6ce8-497f-80d3-a31a-d37eb238bd3b" class="" dir="auto">Aqui existe uma mistura direta entre:</p><pre id="3dbf6ce8-497f-801b-90f9-dbcc4c2d6e85" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">comando SQL
++
+dados fornecidos pelo usuário</code></pre><p id="3dbf6ce8-497f-8066-ada8-cd7275778d9c" class="" dir="auto">Essa abordagem pode criar uma vulnerabilidade.</p><hr id="3dbf6ce8-497f-802e-87eb-ca9af00eaa3c" dir="auto"/><h1 id="3dbf6ce8-497f-80b7-89b6-c71aea487f5d" class="" dir="auto">3. Principais tipos de injeção</h1><p id="3dbf6ce8-497f-80e6-91df-c481cd1d00e1" class="" dir="auto">Existem vários tipos de ataques de injeção.</p><p id="3dbf6ce8-497f-8071-935c-fd1e26a6d474" class="" dir="auto">Os mais importantes para aplicações web são:</p><table id="3dbf6ce8-497f-8084-928c-ea4478058bc8" class="simple-table" dir="ltr"><thead class="simple-table-header"><tr id="3dbf6ce8-497f-80f4-9fcf-dde67728a02a" dir="ltr"><th id="c;So" class="simple-table-header-color simple-table-header">Tipo</th><th id="AyKl" class="simple-table-header-color simple-table-header">Alvo</th></tr></thead><tbody><tr id="3dbf6ce8-497f-80ca-9b11-d1b8bf8758ea" dir="ltr"><td id="c;So" class="">SQL Injection</td><td id="AyKl" class="">Banco de dados SQL</td></tr><tr id="3dbf6ce8-497f-80d8-80d6-c4f43cf65d35" dir="ltr"><td id="c;So" class="">NoSQL Injection</td><td id="AyKl" class="">Bancos NoSQL</td></tr><tr id="3dbf6ce8-497f-8086-963c-fda122e1edbc" dir="ltr"><td id="c;So" class="">Command Injection</td><td id="AyKl" class="">Sistema operacional</td></tr><tr id="3dbf6ce8-497f-8029-bf2e-cb4c1e34083a" dir="ltr"><td id="c;So" class="">OS Command Injection</td><td id="AyKl" class="">Comandos do sistema</td></tr><tr id="3dbf6ce8-497f-8097-b36b-ca6c5f7a8cc4" dir="ltr"><td id="c;So" class="">LDAP Injection</td><td id="AyKl" class="">Servidores LDAP</td></tr><tr id="3dbf6ce8-497f-80a2-b3c5-ea0825b5495c" dir="ltr"><td id="c;So" class="">XPath Injection</td><td id="AyKl" class="">Consultas XPath/XML</td></tr><tr id="3dbf6ce8-497f-80ee-8f5c-ca0dabcb7c6d" dir="ltr"><td id="c;So" class="">Template Injection</td><td id="AyKl" class="">Sistemas de templates</td></tr><tr id="3dbf6ce8-497f-801b-844d-f505c69f869a" dir="ltr"><td id="c;So" class="">XSS</td><td id="AyKl" class="">Código executado no navegador</td></tr><tr id="3dbf6ce8-497f-801d-bb64-ee6dac38ad15" dir="ltr"><td id="c;So" class="">Header Injection</td><td id="AyKl" class="">Cabeçalhos HTTP</td></tr><tr id="3dbf6ce8-497f-80c0-bacb-c81de7155c18" dir="ltr"><td id="c;So" class="">CRLF Injection</td><td id="AyKl" class="">Cabeçalhos/respostas HTTP</td></tr></tbody></table><p id="3dbf6ce8-497f-80d2-a19f-ddaed3b326ec" class="" dir="auto">Cada um explora um mecanismo diferente, mas o princípio geral é semelhante:</p><blockquote id="3dbf6ce8-497f-80eb-9c03-f46d851eb254" class="" dir="auto"><strong>Uma entrada controlada pelo usuário acaba sendo interpretada como uma instrução.</strong></blockquote><hr id="3dbf6ce8-497f-805c-83bc-ef0ac423de38" dir="auto"/><h1 id="3dbf6ce8-497f-8028-952f-dd6c5c3f3d5f" class="" dir="auto">4. SQL Injection</h1><p id="3dbf6ce8-497f-80d3-8481-f06a8d8f5faa" class="" dir="auto">Um dos exemplos mais conhecidos é o <strong>SQL Injection</strong>.</p><p id="3dbf6ce8-497f-8078-8aee-d250cdd748c9" class="" dir="auto">Ele acontece quando uma aplicação constrói consultas SQL de maneira insegura.</p><p id="3dbf6ce8-497f-8072-ad25-cdf2203aa876" class="" dir="auto">Imagine uma aplicação de login:</p><pre id="3dbf6ce8-497f-8009-954e-d6ef862fb4dd" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Usuário: Gustavo
+Senha: ********</code></pre><p id="3dbf6ce8-497f-80b6-9bef-e9bf4eabd643" class="" dir="auto">O sistema precisa consultar o banco:</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-sql.min.js" integrity="sha512-sijCOJblSCXYYmXdwvqV0tak8QJW5iy2yLB1wAbbLc3OOIueqymizRFWUS/mwKctnzPKpNdPJV3aK1zlDMJmXQ==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="3dbf6ce8-497f-8069-aecd-e1a89033c3ca" class="code code-wrap" data-notion-code-syntax="sql"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">SELECT * FROM usuarios
+WHERE usuario = ...
+AND senha = ...;</code></pre><p id="3dbf6ce8-497f-806e-a350-d9a09ab84c69" class="" dir="auto">Se os valores forem inseridos diretamente na string da consulta, um atacante pode tentar fornecer uma entrada que altere a lógica da consulta.</p><h3 id="3dbf6ce8-497f-805c-9e48-d89a7b571a97" class="" dir="auto">Consequências</h3><p id="3dbf6ce8-497f-80fe-83c4-d216431476da" class="" dir="auto">Dependendo da vulnerabilidade, um SQL Injection pode permitir:</p><ul id="3dbf6ce8-497f-80c0-9c9e-f34d09a8a722" class="bulleted-list" dir="auto"><li style="list-style-type:disc">acessar informações que deveriam estar protegidas;</li></ul><ul id="3dbf6ce8-497f-8029-8673-df2137588a52" class="bulleted-list" dir="auto"><li style="list-style-type:disc">modificar dados;</li></ul><ul id="3dbf6ce8-497f-8032-920f-f1c0c26576d8" class="bulleted-list" dir="auto"><li style="list-style-type:disc">excluir dados;</li></ul><ul id="3dbf6ce8-497f-806f-b033-fdfc9b5ecc91" class="bulleted-list" dir="auto"><li style="list-style-type:disc">contornar mecanismos de autenticação;</li></ul><ul id="3dbf6ce8-497f-80a2-b447-e6b145fc0a68" class="bulleted-list" dir="auto"><li style="list-style-type:disc">descobrir estrutura do banco;</li></ul><ul id="3dbf6ce8-497f-807d-8892-d119f0236ad5" class="bulleted-list" dir="auto"><li style="list-style-type:disc">acessar registros de outros usuários;</li></ul><ul id="3dbf6ce8-497f-8040-b173-df8afc2f28f6" class="bulleted-list" dir="auto"><li style="list-style-type:disc">em determinados cenários, comprometer outros componentes.</li></ul><hr id="3dbf6ce8-497f-8056-a1f2-ffb31ffcac49" dir="auto"/><h1 id="3dbf6ce8-497f-80b6-aefa-ecad9e28ac5d" class="" dir="auto">5. Como evitar SQL Injection?</h1><p id="3dbf6ce8-497f-8094-a6ea-f2aade6e3386" class="" dir="auto">A principal defesa é utilizar <strong>consultas parametrizadas (prepared statements)</strong>.</p><p id="3dbf6ce8-497f-80a5-b91f-eff6562fdec9" class="" dir="auto">Em vez de montar uma consulta juntando strings:</p><pre id="3dbf6ce8-497f-80d3-95da-ff10b4b73809" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">SQL + entrada do usuário</code></pre><p id="3dbf6ce8-497f-8054-b477-d52ba5c888f0" class="" dir="auto">a aplicação separa:</p><pre id="3dbf6ce8-497f-8059-b678-ee8c08266486" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">SQL
++
+parâmetros</code></pre><p id="3dbf6ce8-497f-8093-9ec1-c66ac00f8e34" class="" dir="auto">Conceitualmente:</p><pre id="3dbf6ce8-497f-80b3-8c38-c4c8598f20d0" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Consulta:
+SELECT * FROM usuarios WHERE email = ?
+
+Parâmetro:
+gustavo@email.com</code></pre><p id="3dbf6ce8-497f-80cb-aa6f-f565bebba031" class="" dir="auto">O banco entende que o valor é <strong>um dado</strong>, e não parte da estrutura SQL.</p><h3 id="3dbf6ce8-497f-8058-99c9-f8a26fdcb79d" class="" dir="auto">Exemplo com PHP e PDO</h3><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markup-templating.min.js" integrity="sha512-+8BiRfWso6waiFDv6tEmWF8yfPGgxAtOYLDUB0rRISLwtpxkJ9lpPNUhxwWlikn3qSO+4RQyzDppi62o3ON/AA==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-php.min.js" integrity="sha512-plzrTi61ltEMFf84gTVO9IkvIMfBu07bnDuahvdlIclmFWzXJ9VcRsny9d45sxFZRv3jJg/MHNyuxnUYEMxMEg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="3dbf6ce8-497f-80cd-b8f7-c5afcd3fb0b1" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">$sql = &quot;SELECT * FROM usuarios WHERE email = :email&quot;;
+
+$stmt = $pdo-&gt;prepare($sql);
+
+$stmt-&gt;execute([
+    &#x27;:email&#x27; =&gt; $email
+]);</code></pre><p id="3dbf6ce8-497f-8020-88e7-db09ed20436e" class="" dir="auto">Essa é uma das técnicas fundamentais para prevenir SQL Injection.</p><hr id="3dbf6ce8-497f-80a0-8aed-e8ec14cf114e" dir="auto"/><h1 id="3dbf6ce8-497f-809c-bdda-e7414ba1ba6b" class="" dir="auto">6. NoSQL Injection</h1><p id="3dbf6ce8-497f-8025-b75f-d9cfc00214ac" class="" dir="auto">Aplicações modernas também utilizam bancos NoSQL, como:</p><ul id="3dbf6ce8-497f-808c-85db-c6533b39a9e6" class="bulleted-list" dir="auto"><li style="list-style-type:disc">MongoDB;</li></ul><ul id="3dbf6ce8-497f-80ab-b777-e56e08905956" class="bulleted-list" dir="auto"><li style="list-style-type:disc">CouchDB;</li></ul><ul id="3dbf6ce8-497f-8076-afb6-c553848cb6a1" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Redis;</li></ul><ul id="3dbf6ce8-497f-8054-8931-dc5a4dbd4570" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Cassandra;</li></ul><ul id="3dbf6ce8-497f-8098-8770-e8945e80b9ee" class="bulleted-list" dir="auto"><li style="list-style-type:disc">entre outros.</li></ul><p id="3dbf6ce8-497f-80ea-bb2f-e3e9becc49e4" class="" dir="auto">Eles possuem mecanismos diferentes dos bancos SQL, mas também podem apresentar vulnerabilidades de injeção.</p><p id="3dbf6ce8-497f-80ba-a46e-d7532f1d26d7" class="" dir="auto">O problema pode ocorrer quando uma aplicação aceita estruturas fornecidas pelo usuário e as utiliza diretamente em consultas.</p><p id="3dbf6ce8-497f-8052-8a5a-fc82c9ce5adf" class="" dir="auto">Por exemplo:</p><pre id="3dbf6ce8-497f-80f2-8ab9-fe9e3be53525" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Dados do usuário
+       ↓
+Objeto/estrutura de consulta
+       ↓
+Banco NoSQL</code></pre><p id="3dbf6ce8-497f-80ca-8a46-e051efdb7e1d" class="" dir="auto">Se a aplicação não controlar corretamente os tipos e valores recebidos, o atacante pode tentar alterar a lógica da consulta.</p><h3 id="3dbf6ce8-497f-80e2-a8f8-cb123bef2d79" class="" dir="auto">Proteções</h3><p id="3dbf6ce8-497f-80b0-89a5-d9026a0f7b65" class="" dir="auto">É importante:</p><ul id="3dbf6ce8-497f-8048-94ea-dd77eb016bbf" class="bulleted-list" dir="auto"><li style="list-style-type:disc">validar os tipos de dados;</li></ul><ul id="3dbf6ce8-497f-8032-85c4-feb1cdb4ddc8" class="bulleted-list" dir="auto"><li style="list-style-type:disc">utilizar APIs seguras do driver;</li></ul><ul id="3dbf6ce8-497f-80f7-ac48-e8821a3d3944" class="bulleted-list" dir="auto"><li style="list-style-type:disc">não aceitar estruturas arbitrárias quando não forem necessárias;</li></ul><ul id="3dbf6ce8-497f-8042-8bde-fec367b4c171" class="bulleted-list" dir="auto"><li style="list-style-type:disc">validar campos permitidos;</li></ul><ul id="3dbf6ce8-497f-8090-aad3-c511979b4be7" class="bulleted-list" dir="auto"><li style="list-style-type:disc">limitar operadores;</li></ul><ul id="3dbf6ce8-497f-8011-846d-c54256ed25f6" class="bulleted-list" dir="auto"><li style="list-style-type:disc">utilizar bibliotecas atualizadas.</li></ul><hr id="3dbf6ce8-497f-8032-a69e-f3539bfa42b8" dir="auto"/><h1 id="3dbf6ce8-497f-8032-be65-e27bb7bed687" class="" dir="auto">7. Command Injection</h1><p id="3dbf6ce8-497f-80a7-b169-db283c3f9158" class="" dir="auto">Outra categoria importante é a <strong>Command Injection</strong>.</p><p id="3dbf6ce8-497f-80dc-8267-e128c85858f5" class="" dir="auto">Nesse caso, o alvo não é necessariamente o banco de dados, mas o <strong>sistema operacional</strong>.</p><p id="3dbf6ce8-497f-804f-b319-dfb636afeb2d" class="" dir="auto">Imagine uma aplicação que permite executar alguma operação relacionada a arquivos.</p><p id="3dbf6ce8-497f-805b-8bd5-cb5acc7ddc2b" class="" dir="auto">Uma implementação insegura poderia fazer:</p><pre id="3dbf6ce8-497f-806d-9e4e-eff33a22bb86" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">entrada do usuário
+       ↓
+comando do sistema
+       ↓
+Sistema operacional</code></pre><p id="3dbf6ce8-497f-80f5-ba97-d62c1da006a5" class="" dir="auto">Se a entrada for incorporada diretamente ao comando, existe o risco de o usuário conseguir modificar aquilo que será executado.</p><h3 id="3dbf6ce8-497f-8074-a75f-db52c04b09a2" class="" dir="auto">Consequências</h3><p id="3dbf6ce8-497f-80fd-a397-e14f28645e6e" class="" dir="auto">Dependendo das permissões do processo, isso pode permitir:</p><ul id="3dbf6ce8-497f-8067-a394-e0b5fe34a14d" class="bulleted-list" dir="auto"><li style="list-style-type:disc">executar comandos indevidos;</li></ul><ul id="3dbf6ce8-497f-804c-8aa3-c3c3a0735494" class="bulleted-list" dir="auto"><li style="list-style-type:disc">acessar arquivos;</li></ul><ul id="3dbf6ce8-497f-80c5-b9cf-ca1defb40ddc" class="bulleted-list" dir="auto"><li style="list-style-type:disc">modificar arquivos;</li></ul><ul id="3dbf6ce8-497f-8059-987c-e505630920cb" class="bulleted-list" dir="auto"><li style="list-style-type:disc">obter informações do sistema;</li></ul><ul id="3dbf6ce8-497f-80dd-98b2-f7b4dd646863" class="bulleted-list" dir="auto"><li style="list-style-type:disc">comprometer a aplicação;</li></ul><ul id="3dbf6ce8-497f-8068-8fb3-ceb1217b8a58" class="bulleted-list" dir="auto"><li style="list-style-type:disc">eventualmente comprometer o servidor.</li></ul><p id="3dbf6ce8-497f-8066-b0df-f267e3caef49" class="" dir="auto">Esse tipo de vulnerabilidade é particularmente grave.</p><hr id="3dbf6ce8-497f-8098-9ded-de1b79eb66e5" dir="auto"/><h1 id="3dbf6ce8-497f-80d7-87ec-e61b66d12c17" class="" dir="auto">8. Como evitar Command Injection?</h1><p id="3dbf6ce8-497f-806f-a07a-ea29f7fe8268" class="" dir="auto">A melhor estratégia é <strong>não executar comandos do sistema a partir de entradas controladas pelo usuário quando isso puder ser evitado</strong>.</p><p id="3dbf6ce8-497f-809b-b9b4-cf4223d19606" class="" dir="auto">Quando for realmente necessário:</p><h3 id="3dbf6ce8-497f-80a5-9207-ec938e1cc90d" class="" dir="auto">Valide a entrada</h3><p id="3dbf6ce8-497f-80d4-8bb6-cd334e090b0e" class="" dir="auto">Defina exatamente o que pode ser recebido.</p><p id="3dbf6ce8-497f-80f6-942f-ef875f352e16" class="" dir="auto">Por exemplo:</p><pre id="3dbf6ce8-497f-8094-a564-c8716c344f29" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">ID permitido:
+12345</code></pre><p id="3dbf6ce8-497f-808f-b48f-ee1a630ccbee" class="" dir="auto">em vez de aceitar qualquer texto.</p><h3 id="3dbf6ce8-497f-8028-8dbd-fe631dc3b326" class="" dir="auto">Use listas permitidas</h3><p id="3dbf6ce8-497f-8093-abf4-e2d9cc2408f7" class="" dir="auto">Em vez de:</p><pre id="3dbf6ce8-497f-8079-be66-c85d642ae294" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">aceitar qualquer comando</code></pre><p id="3dbf6ce8-497f-8095-b501-d0743685d776" class="" dir="auto">utilize:</p><pre id="3dbf6ce8-497f-80ab-9850-f8ac36afd19b" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">ação = visualizar
+ação = gerar
+ação = excluir</code></pre><p id="3dbf6ce8-497f-8076-ad6d-fbd086aec052" class="" dir="auto">A aplicação escolhe internamente o comando correspondente.</p><h3 id="3dbf6ce8-497f-8052-99f8-ce309693a3eb" class="" dir="auto">Evite shell quando possível</h3><p id="3dbf6ce8-497f-80e9-942a-fdbc44f761bb" class="" dir="auto">Bibliotecas e APIs específicas geralmente são mais seguras do que montar comandos manualmente.</p><hr id="3dbf6ce8-497f-8067-94e2-c549dd4d2bff" dir="auto"/><h1 id="3dbf6ce8-497f-80cb-8293-d6397905f8af" class="" dir="auto">9. LDAP Injection</h1><p id="3dbf6ce8-497f-8045-9ac6-c7cd62c4a059" class="" dir="auto">O <strong>LDAP Injection</strong> ocorre quando uma aplicação utiliza informações fornecidas pelo usuário para construir consultas LDAP sem tratamento adequado.</p><p id="3dbf6ce8-497f-8009-b236-fffb1b4957fd" class="" dir="auto">LDAP é utilizado principalmente para:</p><ul id="3dbf6ce8-497f-80e4-a5d3-d674edc8b5ee" class="bulleted-list" dir="auto"><li style="list-style-type:disc">diretórios;</li></ul><ul id="3dbf6ce8-497f-806d-a78d-cf3393e1de37" class="bulleted-list" dir="auto"><li style="list-style-type:disc">autenticação;</li></ul><ul id="3dbf6ce8-497f-8023-8659-d739796840f4" class="bulleted-list" dir="auto"><li style="list-style-type:disc">gerenciamento de usuários;</li></ul><ul id="3dbf6ce8-497f-808f-ae5d-db9e8be8dd7a" class="bulleted-list" dir="auto"><li style="list-style-type:disc">ambientes corporativos.</li></ul><p id="3dbf6ce8-497f-8093-ae89-e98fb1955b7f" class="" dir="auto">Uma entrada manipulada pode alterar a lógica da consulta LDAP.</p><h3 id="3dbf6ce8-497f-80d9-8708-dc6279784511" class="" dir="auto">Proteção</h3><p id="3dbf6ce8-497f-8069-a2ba-c4e5cfe4969f" class="" dir="auto">Utilizar:</p><ul id="3dbf6ce8-497f-80e2-846b-ea1b22b7ce83" class="bulleted-list" dir="auto"><li style="list-style-type:disc">APIs apropriadas;</li></ul><ul id="3dbf6ce8-497f-80cf-b6d5-ca46d7aebb4c" class="bulleted-list" dir="auto"><li style="list-style-type:disc">escaping adequado;</li></ul><ul id="3dbf6ce8-497f-80f0-baa2-d0417f1ff8d9" class="bulleted-list" dir="auto"><li style="list-style-type:disc">validação de entrada;</li></ul><ul id="3dbf6ce8-497f-8039-a738-da93ee387987" class="bulleted-list" dir="auto"><li style="list-style-type:disc">consultas construídas de forma segura;</li></ul><ul id="3dbf6ce8-497f-8072-ad16-e280173033f8" class="bulleted-list" dir="auto"><li style="list-style-type:disc">controle dos campos permitidos.</li></ul><hr id="3dbf6ce8-497f-80e7-a3b4-e5bb176d6d4a" dir="auto"/><h1 id="3dbf6ce8-497f-80f1-94dd-e9982e1b4d65" class="" dir="auto">10. XPath Injection</h1><p id="3dbf6ce8-497f-80b9-8a83-df7ad4340258" class="" dir="auto">O <strong>XPath Injection</strong> ocorre em aplicações que trabalham com XML e utilizam XPath para realizar consultas.</p><p id="3dbf6ce8-497f-80f8-9180-c2b449080535" class="" dir="auto">O princípio é semelhante ao SQL Injection:</p><pre id="3dbf6ce8-497f-803b-9730-f236a3af7079" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Entrada do usuário
+       ↓
+Consulta XPath
+       ↓
+XML</code></pre><p id="3dbf6ce8-497f-8036-a440-da0f8f0674fc" class="" dir="auto">Se a entrada for incorporada diretamente à consulta, ela poderá alterar sua lógica.</p><p id="3dbf6ce8-497f-808d-b91b-e069eb2b3e39" class="" dir="auto">A prevenção envolve:</p><ul id="3dbf6ce8-497f-80c7-8a65-cbac655fc6ca" class="bulleted-list" dir="auto"><li style="list-style-type:disc">validação;</li></ul><ul id="3dbf6ce8-497f-8083-a0fc-f5a62efc07fa" class="bulleted-list" dir="auto"><li style="list-style-type:disc">escaping;</li></ul><ul id="3dbf6ce8-497f-80b1-a702-f9eba5bc05a6" class="bulleted-list" dir="auto"><li style="list-style-type:disc">evitar concatenação insegura;</li></ul><ul id="3dbf6ce8-497f-800c-b308-ce38b17f8eab" class="bulleted-list" dir="auto"><li style="list-style-type:disc">utilização de mecanismos apropriados para consultas parametrizadas quando disponíveis.</li></ul><hr id="3dbf6ce8-497f-8061-b605-eb0e600fdcdc" dir="auto"/><h1 id="3dbf6ce8-497f-80f2-9a74-d9d548241d6e" class="" dir="auto">11. Template Injection</h1><p id="3dbf6ce8-497f-8033-b21c-c1e8de2b3ebc" class="" dir="auto">Aplicações web frequentemente utilizam <strong>sistemas de templates</strong> para gerar páginas.</p><p id="3dbf6ce8-497f-8021-acc2-c0fe05e9eff0" class="" dir="auto">Exemplos de tecnologias que trabalham com templates incluem:</p><ul id="3dbf6ce8-497f-8098-884a-c4b02e177946" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Twig;</li></ul><ul id="3dbf6ce8-497f-8006-aa2e-d185d2589c2d" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Jinja;</li></ul><ul id="3dbf6ce8-497f-8009-9635-dc074666680d" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Handlebars;</li></ul><ul id="3dbf6ce8-497f-808f-81f8-eafeab07cf07" class="bulleted-list" dir="auto"><li style="list-style-type:disc">alguns sistemas de templates de JavaScript;</li></ul><ul id="3dbf6ce8-497f-8030-890a-dd32559229f6" class="bulleted-list" dir="auto"><li style="list-style-type:disc">sistemas de templates de diversas linguagens.</li></ul><p id="3dbf6ce8-497f-801b-b3e5-e45580c6dbe5" class="" dir="auto">Uma vulnerabilidade pode ocorrer quando uma aplicação permite que o usuário controle diretamente uma parte do template que será interpretado pelo servidor.</p><p id="3dbf6ce8-497f-80bb-a6fe-e0e290191622" class="" dir="auto">Isso pode resultar em <strong>Server-Side Template Injection (SSTI)</strong>.</p><h3 id="3dbf6ce8-497f-8030-b3cf-c3d7ca6b1356" class="" dir="auto">Fluxo</h3><pre id="3dbf6ce8-497f-80ad-8c08-f60db5f210d6" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Entrada do usuário
+       ↓
+Template
+       ↓
+Interpretador
+       ↓
+Servidor</code></pre><p id="3dbf6ce8-497f-802d-bc0c-ec84ffb1cc08" class="" dir="auto">Dependendo da tecnologia e configuração, o impacto pode ser muito grave.</p><hr id="3dbf6ce8-497f-8088-afe7-cf7833bb50a3" dir="auto"/><h1 id="3dbf6ce8-497f-80ab-915e-ee9169816851" class="" dir="auto">12. XSS também é uma forma de injeção</h1><p id="3dbf6ce8-497f-80c3-b08c-c3d34814d0ec" class="" dir="auto">O <strong>Cross-Site Scripting (XSS)</strong> também está relacionado ao conceito de injeção.</p><p id="3dbf6ce8-497f-80b8-9395-c0193717721e" class="" dir="auto">Nesse caso, o atacante tenta fazer com que conteúdo fornecido por ele seja interpretado como código pelo navegador da vítima.</p><p id="3dbf6ce8-497f-80d6-8eaf-fcdde1f4c5f7" class="" dir="auto">Por exemplo:</p><pre id="3dbf6ce8-497f-8084-9a2d-e11ccbef6ed0" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Usuário envia conteúdo
+       ↓
+Aplicação armazena/exibe
+       ↓
+Navegador interpreta
+       ↓
+Código pode ser executado</code></pre><p id="3dbf6ce8-497f-80a4-b248-d4b6850273ec" class="" dir="auto">Existem três categorias clássicas:</p><ul id="3dbf6ce8-497f-80c2-8b62-cec9cc72ddc9" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>Stored XSS</strong>;</li></ul><ul id="3dbf6ce8-497f-8065-8231-dd09b95bbccf" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>Reflected XSS</strong>;</li></ul><ul id="3dbf6ce8-497f-80dd-99b0-c4245fdbb412" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>DOM-based XSS</strong>.</li></ul><p id="3dbf6ce8-497f-803f-aee2-f3f9440cd387" class="" dir="auto">A prevenção normalmente envolve:</p><ul id="3dbf6ce8-497f-806d-b853-e3cab3ffcf92" class="bulleted-list" dir="auto"><li style="list-style-type:disc">escaping de saída;</li></ul><ul id="3dbf6ce8-497f-805d-9a86-c434806bd8a1" class="bulleted-list" dir="auto"><li style="list-style-type:disc">sanitização quando apropriada;</li></ul><ul id="3dbf6ce8-497f-80c8-a649-e450d3e6e773" class="bulleted-list" dir="auto"><li style="list-style-type:disc">validação;</li></ul><ul id="3dbf6ce8-497f-805c-9a03-f9de5c206c8b" class="bulleted-list" dir="auto"><li style="list-style-type:disc">uso correto de APIs do navegador;</li></ul><ul id="3dbf6ce8-497f-80e5-aadc-c4e21ed4b153" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Content Security Policy (CSP);</li></ul><ul id="3dbf6ce8-497f-801b-a1a9-d75b28a98b8c" class="bulleted-list" dir="auto"><li style="list-style-type:disc">evitar inserir conteúdo não confiável diretamente no HTML.</li></ul><hr id="3dbf6ce8-497f-80de-b7f2-ca2ea2ec01fd" dir="auto"/><h1 id="3dbf6ce8-497f-80d6-b1e3-d055c31c1032" class="" dir="auto">13. Injeção de cabeçalhos HTTP</h1><p id="3dbf6ce8-497f-80b4-b0b9-e018cc3d936a" class="" dir="auto">Também existem ataques nos quais a entrada do usuário é inserida em <strong>cabeçalhos HTTP</strong>.</p><p id="3dbf6ce8-497f-8055-8360-fe3db7d65999" class="" dir="auto">Se a aplicação não controlar corretamente caracteres e valores, um atacante pode tentar manipular a resposta ou o comportamento de componentes intermediários.</p><p id="3dbf6ce8-497f-805f-b1a0-c7138ad7306a" class="" dir="auto">Isso pode estar relacionado a problemas como:</p><ul id="3dbf6ce8-497f-80ed-ae9d-f7f67ed56dcc" class="bulleted-list" dir="auto"><li style="list-style-type:disc">HTTP Header Injection;</li></ul><ul id="3dbf6ce8-497f-80f1-8d8c-d1fbf22381be" class="bulleted-list" dir="auto"><li style="list-style-type:disc">CRLF Injection;</li></ul><ul id="3dbf6ce8-497f-80c9-b092-f9d0053b664a" class="bulleted-list" dir="auto"><li style="list-style-type:disc">manipulação de redirecionamentos;</li></ul><ul id="3dbf6ce8-497f-80f1-b8d1-f6b8dbb65442" class="bulleted-list" dir="auto"><li style="list-style-type:disc">problemas de cache em determinados cenários.</li></ul><p id="3dbf6ce8-497f-80a9-965b-cbf8bbee8289" class="" dir="auto">A defesa envolve:</p><ul id="3dbf6ce8-497f-8053-90ba-e51ac574701b" class="bulleted-list" dir="auto"><li style="list-style-type:disc">validação rigorosa;</li></ul><ul id="3dbf6ce8-497f-808a-8ca8-f6cbb9fd35db" class="bulleted-list" dir="auto"><li style="list-style-type:disc">utilização de APIs que tratam cabeçalhos corretamente;</li></ul><ul id="3dbf6ce8-497f-8022-a9a3-d8a06657ac72" class="bulleted-list" dir="auto"><li style="list-style-type:disc">impedir caracteres de controle;</li></ul><ul id="3dbf6ce8-497f-8064-98ab-d0c2e7554226" class="bulleted-list" dir="auto"><li style="list-style-type:disc">não permitir que usuários controlem cabeçalhos arbitrários.</li></ul><hr id="3dbf6ce8-497f-804d-a273-ef6743aca3ca" dir="auto"/><h1 id="3dbf6ce8-497f-804a-9d4a-e049dded02cd" class="" dir="auto">14. O problema central: confiança excessiva na entrada</h1><p id="3dbf6ce8-497f-8062-b24b-dac8e1a91d46" class="" dir="auto">Um conceito extremamente importante em segurança é:</p><blockquote id="3dbf6ce8-497f-80ec-b6eb-e2a15eb9dbfa" class="" dir="auto"><strong>Nunca considere automaticamente confiável uma entrada recebida do usuário.</strong></blockquote><p id="3dbf6ce8-497f-802e-ba00-d835ecef9db2" class="" dir="auto">Entradas podem vir de:</p><ul id="3dbf6ce8-497f-809b-9292-f3877642e145" class="bulleted-list" dir="auto"><li style="list-style-type:disc">formulários;</li></ul><ul id="3dbf6ce8-497f-8092-a79b-c145c02e5c2e" class="bulleted-list" dir="auto"><li style="list-style-type:disc">URL;</li></ul><ul id="3dbf6ce8-497f-802c-8601-f99be5fe8fca" class="bulleted-list" dir="auto"><li style="list-style-type:disc">parâmetros GET;</li></ul><ul id="3dbf6ce8-497f-80b1-9436-f961eefa4906" class="bulleted-list" dir="auto"><li style="list-style-type:disc">parâmetros POST;</li></ul><ul id="3dbf6ce8-497f-8052-8406-edc1a273e6a2" class="bulleted-list" dir="auto"><li style="list-style-type:disc">cookies;</li></ul><ul id="3dbf6ce8-497f-8041-8d90-edde47d09bad" class="bulleted-list" dir="auto"><li style="list-style-type:disc">headers;</li></ul><ul id="3dbf6ce8-497f-802d-8ea8-d23511c8dadf" class="bulleted-list" dir="auto"><li style="list-style-type:disc">APIs;</li></ul><ul id="3dbf6ce8-497f-8005-873d-f4ab62577c27" class="bulleted-list" dir="auto"><li style="list-style-type:disc">arquivos;</li></ul><ul id="3dbf6ce8-497f-808b-80d0-e1bf36c9850f" class="bulleted-list" dir="auto"><li style="list-style-type:disc">JSON;</li></ul><ul id="3dbf6ce8-497f-807e-b854-eaa82f870db8" class="bulleted-list" dir="auto"><li style="list-style-type:disc">banco de dados;</li></ul><ul id="3dbf6ce8-497f-80fd-bf97-da226489a842" class="bulleted-list" dir="auto"><li style="list-style-type:disc">integrações externas.</li></ul><p id="3dbf6ce8-497f-8005-9174-f0ed713ce5fc" class="" dir="auto">Mesmo que a interface gráfica limite o que o usuário pode inserir, um atacante pode ignorar completamente essa interface e enviar requisições diretamente.</p><p id="3dbf6ce8-497f-80a8-9159-d62c3e2d06f4" class="" dir="auto">Por isso:</p><pre id="3dbf6ce8-497f-807e-b9b1-d6e37ba15b04" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Frontend
+   ↓
+Backend
+   ↓
+Validação
+   ↓
+Processamento seguro</code></pre><p id="3dbf6ce8-497f-80f7-bea2-d8f955f34b15" class="" dir="auto">A validação deve acontecer principalmente no <strong>servidor</strong>.</p><hr id="3dbf6ce8-497f-80f1-89e0-df2af2dda695" dir="auto"/><h1 id="3dbf6ce8-497f-8069-b387-fd8c4c6ac2a0" class="" dir="auto">15. Validação × Sanitização × Parametrização</h1><p id="3dbf6ce8-497f-8048-8c32-e9e5f1306899" class="" dir="auto">Esses conceitos são importantes e não são exatamente a mesma coisa.</p><h3 id="3dbf6ce8-497f-80a7-a54e-dd550984cd87" class="" dir="auto">Validação</h3><p id="3dbf6ce8-497f-8052-870e-d85db8f0ce8a" class="" dir="auto">Verifica se a entrada está dentro do que é permitido.</p><p id="3dbf6ce8-497f-8099-ba43-e97217c3679b" class="" dir="auto">Exemplo:</p><pre id="3dbf6ce8-497f-80c6-ab54-ec533951ae2c" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Idade:
+18 → válida
+abc → inválida</code></pre><h3 id="3dbf6ce8-497f-80cb-b0cc-f1f01d40b028" class="" dir="auto">Sanitização</h3><p id="3dbf6ce8-497f-808e-9f83-d5d6b644e333" class="" dir="auto">Modifica ou remove determinados elementos potencialmente perigosos.</p><h3 id="3dbf6ce8-497f-80b7-902f-e8c5e5af7118" class="" dir="auto">Parametrização</h3><p id="3dbf6ce8-497f-8042-aa16-de13d3d16e7e" class="" dir="auto">Mantém os dados separados da instrução.</p><p id="3dbf6ce8-497f-8065-a066-ce88b2be257b" class="" dir="auto">É especialmente importante para SQL.</p><p id="3dbf6ce8-497f-805b-a9e9-e76caf329d93" class="" dir="auto">Podemos resumir:</p><pre id="3dbf6ce8-497f-8057-ab89-d06e2c44e994" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Validação       → &quot;Esse dado é permitido?&quot;
+Sanitização     → &quot;Como tornar esse dado seguro?&quot;
+Parametrização  → &quot;Como impedir que dado vire comando?&quot;</code></pre><hr id="3dbf6ce8-497f-806b-8689-dd20a231bf25" dir="auto"/><h1 id="3dbf6ce8-497f-80a7-8ff3-c876beace07f" class="" dir="auto">16. Princípio do menor privilégio</h1><p id="3dbf6ce8-497f-8036-bfce-c7dfc48b38a0" class="" dir="auto">Mesmo que uma vulnerabilidade de injeção aconteça, o impacto pode ser reduzido utilizando <strong>privilégio mínimo</strong>.</p><p id="3dbf6ce8-497f-8038-a4bc-d7d29d4eb5e5" class="" dir="auto">Por exemplo, uma aplicação que apenas precisa consultar dados não deveria utilizar uma conta do banco com permissão para:</p><pre id="3dbf6ce8-497f-80e4-9c75-ca9841e1abf8" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">SELECT
+INSERT
+UPDATE
+DELETE
+DROP
+ALTER
+...</code></pre><p id="3dbf6ce8-497f-8033-ae0a-c38e98eb5f4f" class="" dir="auto">Se ela só precisa:</p><pre id="3dbf6ce8-497f-8072-9ccc-ec8d96d6b2cf" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">SELECT</code></pre><p id="3dbf6ce8-497f-80f4-b94b-ccda34bd36e7" class="" dir="auto">deveria receber apenas essa permissão.</p><p id="3dbf6ce8-497f-8097-9924-fc771b2c2f0b" class="" dir="auto">Isso reduz o dano potencial caso a aplicação seja comprometida.</p><hr id="3dbf6ce8-497f-8064-8738-f45b790018e7" dir="auto"/><h1 id="3dbf6ce8-497f-8036-ba62-e2d27976aec0" class="" dir="auto">17. Injeção e arquitetura de aplicações modernas</h1><p id="3dbf6ce8-497f-8017-af73-c806f1d89a86" class="" dir="auto">Em uma aplicação moderna, existem vários pontos onde uma entrada pode passar:</p><pre id="3dbf6ce8-497f-8046-934e-f029f0bafeb5" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">                 INTERNET
+                    │
+                    ▼
+              ┌───────────┐
+              │  Browser  │
+              └─────┬─────┘
+                    │
+                    ▼
+              ┌───────────┐
+              │    API    │
+              └─────┬─────┘
+                    │
+                    ▼
+              ┌───────────┐
+              │  Backend  │
+              └─────┬─────┘
+                    │
+          ┌─────────┼─────────┐
+          ▼         ▼         ▼
+       Banco     Sistema    Serviços
+        SQL       SO        externos</code></pre><p id="3dbf6ce8-497f-8090-82f9-eddc31745be1" class="" dir="auto">Cada camada pode apresentar riscos diferentes.</p><p id="3dbf6ce8-497f-80ab-8ff9-d8de44ed12d4" class="" dir="auto">Por isso, segurança precisa ser aplicada em <strong>todas as camadas</strong>, e não somente no frontend.</p><hr id="3dbf6ce8-497f-8062-ad3a-e768a488eccf" dir="auto"/><h1 id="3dbf6ce8-497f-80fb-b2eb-e614cceeded1" class="" dir="auto">18. Boas práticas contra ataques de injeção</h1><p id="3dbf6ce8-497f-805c-a3b6-e99fce4ee09d" class="" dir="auto">Uma aplicação segura deve combinar várias medidas:</p><h3 id="3dbf6ce8-497f-80e2-872c-c8932b731d08" class="" dir="auto">1. Validar entradas</h3><p id="3dbf6ce8-497f-80c2-b29e-e4f39ebb9b38" class="" dir="auto">Defina:</p><ul id="3dbf6ce8-497f-8045-b39a-ecd3ff90c6d4" class="bulleted-list" dir="auto"><li style="list-style-type:disc">tipo;</li></ul><ul id="3dbf6ce8-497f-808b-83ef-dc63aaeb8af1" class="bulleted-list" dir="auto"><li style="list-style-type:disc">tamanho;</li></ul><ul id="3dbf6ce8-497f-80bb-a04e-c324145d30b7" class="bulleted-list" dir="auto"><li style="list-style-type:disc">formato;</li></ul><ul id="3dbf6ce8-497f-80bb-8fe0-c74cea63f22a" class="bulleted-list" dir="auto"><li style="list-style-type:disc">valores permitidos;</li></ul><ul id="3dbf6ce8-497f-809c-b5e2-e81d85b3d34d" class="bulleted-list" dir="auto"><li style="list-style-type:disc">caracteres permitidos quando aplicável.</li></ul><h3 id="3dbf6ce8-497f-801e-8823-cbbd584e7776" class="" dir="auto">2. Utilizar parametrização</h3><p id="3dbf6ce8-497f-806f-9907-cf10cab05931" class="" dir="auto">Principalmente para consultas ao banco.</p><pre id="3dbf6ce8-497f-803f-ba02-e94f8c0ad0eb" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">❌ SQL + string do usuário
+
+✅ SQL + parâmetros</code></pre><h3 id="3dbf6ce8-497f-8022-bb5b-e644bcf00ad6" class="" dir="auto">3. Evitar concatenação de comandos</h3><p id="3dbf6ce8-497f-8061-bb0d-e60869956879" class="" dir="auto">Não construa comandos de sistema utilizando entradas diretamente.</p><h3 id="3dbf6ce8-497f-80a8-88a5-c23c7c6239c5" class="" dir="auto">4. Utilizar APIs seguras</h3><p id="3dbf6ce8-497f-805c-ba5e-e2a32a861331" class="" dir="auto">Prefira bibliotecas oficiais e mecanismos preparados para tratar dados.</p><h3 id="3dbf6ce8-497f-8053-b770-cb4e03bfe4ce" class="" dir="auto">5. Aplicar escaping corretamente</h3><p id="3dbf6ce8-497f-8097-91b4-cd676a451108" class="" dir="auto">Especialmente quando dados são colocados em contextos como:</p><ul id="3dbf6ce8-497f-809e-b4dd-e7a0fdf5efaf" class="bulleted-list" dir="auto"><li style="list-style-type:disc">HTML;</li></ul><ul id="3dbf6ce8-497f-8061-adc7-d0707b4dfa70" class="bulleted-list" dir="auto"><li style="list-style-type:disc">JavaScript;</li></ul><ul id="3dbf6ce8-497f-80d5-a1e2-eacac5a836aa" class="bulleted-list" dir="auto"><li style="list-style-type:disc">SQL;</li></ul><ul id="3dbf6ce8-497f-80f2-9c99-f17528c14a61" class="bulleted-list" dir="auto"><li style="list-style-type:disc">XML;</li></ul><ul id="3dbf6ce8-497f-8021-823b-e5d2f1226fb9" class="bulleted-list" dir="auto"><li style="list-style-type:disc">URLs;</li></ul><ul id="3dbf6ce8-497f-8057-9e58-c87997987202" class="bulleted-list" dir="auto"><li style="list-style-type:disc">headers.</li></ul><p id="3dbf6ce8-497f-8004-9bfe-d0d9a9188c7b" class="" dir="auto">O escaping necessário depende do <strong>contexto</strong>.</p><h3 id="3dbf6ce8-497f-8043-8254-e05f7431d083" class="" dir="auto">6. Aplicar menor privilégio</h3><p id="3dbf6ce8-497f-804e-a713-d14b0f8d8849" class="" dir="auto">Reduza as permissões da aplicação e de seus usuários técnicos.</p><h3 id="3dbf6ce8-497f-80d9-9cd3-d930c08d60ef" class="" dir="auto">7. Manter dependências atualizadas</h3><p id="3dbf6ce8-497f-8003-b472-e84dd75e67ef" class="" dir="auto">Bibliotecas vulneráveis também podem abrir caminhos para exploração.</p><h3 id="3dbf6ce8-497f-802f-9396-f09cc4186412" class="" dir="auto">8. Monitorar logs</h3><p id="3dbf6ce8-497f-8048-89d6-c1ffad26cddf" class="" dir="auto">Registre eventos relevantes para identificar comportamentos anormais.</p><h3 id="3dbf6ce8-497f-807a-9693-ffcd7a76aacc" class="" dir="auto">9. Utilizar WAF quando apropriado</h3><p id="3dbf6ce8-497f-80ce-803d-e23b266d9c79" class="" dir="auto">Um <strong>Web Application Firewall</strong> pode ajudar a detectar e bloquear determinados padrões maliciosos.</p><p id="3dbf6ce8-497f-80aa-92f6-c67db792269e" class="" dir="auto">Porém, ele <strong>não substitui a correção da aplicação</strong>.</p><h3 id="3dbf6ce8-497f-805e-ae47-fee418ab3fd9" class="" dir="auto">10. Realizar testes de segurança</h3><p id="3dbf6ce8-497f-8017-bb6c-f14b895f7212" class="" dir="auto">Incluindo:</p><ul id="3dbf6ce8-497f-8028-a6d2-e40213a57da5" class="bulleted-list" dir="auto"><li style="list-style-type:disc">análise de código;</li></ul><ul id="3dbf6ce8-497f-8069-9d5c-dc8ba3ab19d3" class="bulleted-list" dir="auto"><li style="list-style-type:disc">testes automatizados;</li></ul><ul id="3dbf6ce8-497f-8014-8452-ea2d8c0a6a22" class="bulleted-list" dir="auto"><li style="list-style-type:disc">testes de segurança;</li></ul><ul id="3dbf6ce8-497f-80f5-b598-f214de3afd26" class="bulleted-list" dir="auto"><li style="list-style-type:disc">análise de dependências;</li></ul><ul id="3dbf6ce8-497f-801c-a79a-eb9c3cfa1c96" class="bulleted-list" dir="auto"><li style="list-style-type:disc">pentests autorizados.</li></ul><hr id="3dbf6ce8-497f-80a6-bcc2-c1911a46ca54" dir="auto"/><h1 id="3dbf6ce8-497f-806a-8927-d4d60ce54594" class="" dir="auto">19. Exemplo de uma aplicação vulnerável e segura</h1><p id="3dbf6ce8-497f-8079-884e-d6fde1603483" class="" dir="auto">Imagine um sistema que pesquisa usuários.</p><h3 id="3dbf6ce8-497f-80dc-a661-c055b6d78807" class="" dir="auto">❌ Abordagem insegura</h3><pre id="3dbf6ce8-497f-8091-863d-f02af2b2f307" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Entrada do usuário
+       ↓
+Concatenação
+       ↓
+Consulta SQL
+       ↓
+Banco</code></pre><p id="3dbf6ce8-497f-805e-ba6e-d4e59c242a34" class="" dir="auto">O problema é que a entrada pode modificar a consulta.</p><h3 id="3dbf6ce8-497f-803e-84f8-f304eea3c6a9" class="" dir="auto">✅ Abordagem segura</h3><pre id="3dbf6ce8-497f-80bb-bc18-dcc05071e620" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Entrada
+   ↓
+Validação
+   ↓
+Consulta parametrizada
+   ↓
+Banco</code></pre><p id="3dbf6ce8-497f-8077-b5b7-cdf4e2d5bd03" class="" dir="auto">A consulta e os dados permanecem separados.</p><hr id="3dbf6ce8-497f-801c-9b96-ccf128823e47" dir="auto"/><h1 id="3dbf6ce8-497f-80ab-a4bd-d4ffd7ca4b63" class="" dir="auto">20. Injeção no desenvolvimento Full Stack</h1><p id="3dbf6ce8-497f-800c-b0ad-d225dcb0235e" class="" dir="auto">Como você está estudando <strong>Full Stack</strong>, esse assunto é especialmente importante porque a prevenção de injeção aparece em praticamente todas as partes do desenvolvimento.</p><h3 id="3dbf6ce8-497f-80ff-b2ae-e7d4af9980be" class="" dir="auto">HTML/JavaScript</h3><p id="3dbf6ce8-497f-80e8-ae8f-c14877aa9afb" class="" dir="auto">Prevenção contra:</p><pre id="3dbf6ce8-497f-8074-a920-d2f163ceeee9" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">XSS</code></pre><h3 id="3dbf6ce8-497f-8022-92d6-c7b06770e19d" class="" dir="auto">PHP/Node.js/etc.</h3><p id="3dbf6ce8-497f-803e-9ccf-c6d5633782d4" class="" dir="auto">Validação e tratamento de entradas.</p><h3 id="3dbf6ce8-497f-80a4-93e2-d3887294d045" class="" dir="auto">Banco de dados</h3><p id="3dbf6ce8-497f-80bf-aaef-e7c9331b433b" class="" dir="auto">Prevenção contra:</p><pre id="3dbf6ce8-497f-8080-8d76-c348f3d9f646" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">SQL Injection
+NoSQL Injection</code></pre><h3 id="3dbf6ce8-497f-8082-97f7-d524f6f2b9b3" class="" dir="auto">Sistema operacional</h3><p id="3dbf6ce8-497f-80f0-8e4b-df92c49156f8" class="" dir="auto">Prevenção contra:</p><pre id="3dbf6ce8-497f-80af-b2c4-d76dc0682b42" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Command Injection</code></pre><h3 id="3dbf6ce8-497f-801a-b35d-cced1ec68bac" class="" dir="auto">APIs</h3><p id="3dbf6ce8-497f-8086-97f2-dcf12ac34a5a" class="" dir="auto">Validação de:</p><pre id="3dbf6ce8-497f-80a6-8e3a-e675d0570c06" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">JSON
+parâmetros
+headers
+cookies</code></pre><h3 id="3dbf6ce8-497f-806e-a0ff-e2a2b224d78a" class="" dir="auto">Infraestrutura</h3><p id="3dbf6ce8-497f-8006-a162-e6f1115b0d12" class="" dir="auto">Uso de:</p><pre id="3dbf6ce8-497f-80f2-9137-ed462c7ef011" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">WAF
+firewall
+logs
+monitoramento
+menor privilégio</code></pre><hr id="3dbf6ce8-497f-8045-9f0c-e96c9336fa16" dir="auto"/><h1 id="3dbf6ce8-497f-8056-a73b-c17f043246ed" class="" dir="auto">21. Resumo</h1><p id="3dbf6ce8-497f-80c9-bca5-c7baeecbc58c" class="" dir="auto"><strong>Injeção</strong> acontece quando dados fornecidos por uma fonte não confiável são interpretados como <strong>comandos, consultas ou código</strong>.</p><p id="3dbf6ce8-497f-802c-bfaf-e9837847fefa" class="" dir="auto">Os principais exemplos são:</p><table id="3dbf6ce8-497f-80c6-9954-cb5a65fa3610" class="simple-table" dir="ltr"><thead class="simple-table-header"><tr id="3dbf6ce8-497f-803e-9032-f9cec767d986" dir="ltr"><th id="`RoO" class="simple-table-header-color simple-table-header">Tipo</th><th id="Fqkp" class="simple-table-header-color simple-table-header">Principal alvo</th></tr></thead><tbody><tr id="3dbf6ce8-497f-80e1-82ac-f008a0a42e46" dir="ltr"><td id="`RoO" class="">SQL Injection</td><td id="Fqkp" class="">Banco SQL</td></tr><tr id="3dbf6ce8-497f-805d-97e2-ffd2b4982874" dir="ltr"><td id="`RoO" class="">NoSQL Injection</td><td id="Fqkp" class="">Banco NoSQL</td></tr><tr id="3dbf6ce8-497f-8007-9a43-fc06d07a5f5d" dir="ltr"><td id="`RoO" class="">Command Injection</td><td id="Fqkp" class="">Sistema operacional</td></tr><tr id="3dbf6ce8-497f-8077-8c0b-eee531a24914" dir="ltr"><td id="`RoO" class="">LDAP Injection</td><td id="Fqkp" class="">Diretórios LDAP</td></tr><tr id="3dbf6ce8-497f-8080-8579-cdc980134747" dir="ltr"><td id="`RoO" class="">XPath Injection</td><td id="Fqkp" class="">XML/XPath</td></tr><tr id="3dbf6ce8-497f-802b-a608-e7c780f66965" dir="ltr"><td id="`RoO" class="">Template Injection</td><td id="Fqkp" class="">Sistemas de templates</td></tr><tr id="3dbf6ce8-497f-8050-94e3-d73e5a26039c" dir="ltr"><td id="`RoO" class="">XSS</td><td id="Fqkp" class="">Navegador</td></tr><tr id="3dbf6ce8-497f-80d3-9702-e351f8d6a632" dir="ltr"><td id="`RoO" class="">Header Injection</td><td id="Fqkp" class="">Comunicação HTTP</td></tr></tbody></table><p id="3dbf6ce8-497f-8071-bc1f-d4d7d2cf0004" class="" dir="auto">A ideia fundamental para memorizar é:</p><pre id="3dbf6ce8-497f-8016-9775-ff5028010105" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">              ENTRADA
+                 │
+                 ▼
+        ┌─────────────────┐
+        │ Aplicação segura│
+        └────────┬────────┘
+                 │
+       ┌─────────┴─────────┐
+       ▼                   ▼
+     DADOS              COMANDOS
+       │                   │
+       └────── separados ──┘</code></pre><p id="3dbf6ce8-497f-808b-a491-eca650fc8663" class="" dir="auto"><strong>A melhor defesa contra injeção é impedir que dados sejam interpretados como instruções.</strong> Para isso, utilizamos principalmente <strong>validação de entrada, parametrização, APIs seguras, escaping adequado, menor privilégio e testes de segurança</strong>.</p><p id="3dbf6ce8-497f-80c4-bafd-ec746def1d73" class="" dir="auto">Esse conceito é fundamental para quem desenvolve aplicações web, pois uma única entrada tratada de maneira incorreta pode afetar desde o navegador até o banco de dados ou o próprio servidor.</p></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

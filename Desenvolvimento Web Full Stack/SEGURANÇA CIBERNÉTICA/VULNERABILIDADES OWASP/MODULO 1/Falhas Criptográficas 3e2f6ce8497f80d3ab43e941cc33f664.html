@@ -1,0 +1,968 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Falhas Criptográficas</title><meta name="data-notion-page-icon" content="/icons/lock_blue.svg"/><link rel="icon" href="https://app.notion.com/icons/lock_blue.svg"/><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+	/* Paint a complete callout box on every PDF page fragment. */
+	-webkit-box-decoration-break: clone;
+	box-decoration-break: clone;
+}
+
+/* For default-background callouts, render the border outline. */
+.callout.block-color-default_background {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+/*
+ * Toggles and callouts hold arbitrary content, so they can easily be taller
+ * than a page. They must stay breakable: avoiding breaks inside them makes
+ * Chromium push the whole block onto the next page, which leaves the previous
+ * page mostly empty before every long toggle.
+ */
+details,
+aside {
+	margin: 1.25em 0;
+}
+
+/* Keep a toggle's title on the same page as the start of its content. */
+summary {
+	page-break-after: avoid;
+	break-after: avoid;
+}
+
+/*
+ * Toggle headings render as <h1/h2/h3 style="display:inline-block"> inside
+ * <summary>. Without this reset, the heading's margin-top pushes it below the
+ * ::marker (▼), so the triangle and the title appear on separate lines.
+ */
+summary h1,
+summary h2,
+summary h3,
+summary h4 {
+	margin-top: 0;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding-inline: 0.125rem;
+	padding-block: 0.375rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+/*
+ * Render emoji icons using a ::before pseudo-element to keep the glyph
+ * out of the DOM textContent traversal. This avoids double-rendering icons
+ * in callouts and page titles.
+ * NOTE(slim/html-export-pseudo-icons): I can't tagref this because it will
+ * flag as a duplicate tag after codegen.
+ */
+.icon[data-emoji]::before {
+	content: attr(data-emoji);
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	margin-right: 0.4em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.tab {
+	margin: 1.25em 0;
+	padding-inline: 1rem;
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style><style>@import url('https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex-swap.min.css')</style></head><body><article id="3e2f6ce8-497f-80d3-ab43-e941cc33f664" class="page sans" data-notion-page-icon="/icons/lock_blue.svg"><header><div class="page-header-icon undefined"><img class="icon notion-static-icon" src="https://app.notion.com/icons/lock_blue.svg"/></div><h1 class="page-title" dir="auto">Falhas Criptográficas</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><h1 id="3e2f6ce8-497f-8094-af24-f5e27a53fbf4" class="" dir="auto">Falhas Criptográficas</h1><p id="3e2f6ce8-497f-801a-b134-d0ad66755317" class="" dir="auto">As <strong>Falhas Criptográficas</strong> são vulnerabilidades que acontecem quando uma aplicação <strong>protege informações de maneira inadequada usando criptografia</strong>, ou quando deveria utilizar mecanismos criptográficos e não os utiliza corretamente.</p><p id="3e2f6ce8-497f-8062-a090-f79ca91ec88d" class="" dir="auto">Esse tipo de problema pode expor informações que deveriam permanecer:</p><ul id="3e2f6ce8-497f-80c5-90de-fc5e712b2458" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>confidenciais</strong>;</li></ul><ul id="3e2f6ce8-497f-808c-a12b-fa11586d0b4f" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>íntegras</strong>;</li></ul><ul id="3e2f6ce8-497f-8075-afcc-e2c79b5db553" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>autênticas</strong>;</li></ul><ul id="3e2f6ce8-497f-8010-af48-fb23362a1317" class="bulleted-list" dir="auto"><li style="list-style-type:disc">protegidas contra acesso não autorizado.</li></ul><p id="3e2f6ce8-497f-80f4-be99-cfc29b3e7d62" class="" dir="auto">Em aplicações web, isso pode envolver desde senhas e dados pessoais até informações financeiras, tokens de autenticação e comunicações entre cliente e servidor.</p><hr id="3e2f6ce8-497f-809b-99a9-d946baaf30b2" dir="auto"/><h1 id="3e2f6ce8-497f-80e4-b279-e798e1c654ae" class="" dir="auto">1. O que é criptografia?</h1><p id="3e2f6ce8-497f-8017-8a89-c9a93f2eccdf" class="" dir="auto">A <strong>criptografia</strong> é um conjunto de técnicas utilizadas para proteger informações.</p><p id="3e2f6ce8-497f-8079-8739-c68341b2524c" class="" dir="auto">De forma simplificada:</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="3e2f6ce8-497f-8089-a62c-ead0ee7e432d" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Informação original
+       ↓
+   Criptografia
+       ↓
+Informação protegida
+       ↓
+   Descriptografia
+       ↓
+Informação original</code></pre><p id="3e2f6ce8-497f-80ac-b161-fa4fbf476ecb" class="" dir="auto">Por exemplo:</p><pre id="3e2f6ce8-497f-8010-a0c3-d1e42be3919d" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Mensagem:
+&quot;Minha senha é 123456&quot;</code></pre><p id="3e2f6ce8-497f-80ce-af01-d024a98e43af" class="" dir="auto">Depois de protegida criptograficamente, ela não deve permanecer legível para alguém que consiga interceptar ou acessar o conteúdo protegido.</p><p id="3e2f6ce8-497f-80a8-a623-c9d6bc481b75" class="" dir="auto">O objetivo é impedir que pessoas não autorizadas consigam compreender ou modificar determinados dados.</p><hr id="3e2f6ce8-497f-80cd-bd30-d1a42c0f5528" dir="auto"/><h1 id="3e2f6ce8-497f-8059-b19f-f6215a2936c1" class="" dir="auto">2. O que as aplicações precisam proteger?</h1><p id="3e2f6ce8-497f-8036-90d5-dc58e7396881" class="" dir="auto">A criptografia pode ajudar a proteger diferentes propriedades.</p><h2 id="3e2f6ce8-497f-8008-9104-cda7132e4399" class="" dir="auto">Confidencialidade</h2><p id="3e2f6ce8-497f-80e8-8fab-e4881d8c4d37" class="" dir="auto">Impede que pessoas não autorizadas leiam a informação.</p><p id="3e2f6ce8-497f-8001-9c2a-cdfc301d480a" class="" dir="auto">Exemplo:</p><pre id="3e2f6ce8-497f-8081-a267-fca9d0f4deb9" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Usuário → HTTPS → Servidor</code></pre><p id="3e2f6ce8-497f-80f8-ab63-f3421f2cbf56" class="" dir="auto">A comunicação é protegida contra interceptação simples.</p><hr id="3e2f6ce8-497f-8064-b38b-c415f2d0d273" dir="auto"/><h2 id="3e2f6ce8-497f-8071-be59-c613e76160a5" class="" dir="auto">Integridade</h2><p id="3e2f6ce8-497f-80da-83e1-eb8f3627604b" class="" dir="auto">Permite detectar alterações indevidas nos dados.</p><p id="3e2f6ce8-497f-80d3-bdc8-d2bd5e5a1a30" class="" dir="auto">Por exemplo:</p><pre id="3e2f6ce8-497f-8086-9595-d0f5176f3cee" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Mensagem original
+       ↓
+   Integridade
+       ↓
+Mensagem alterada?</code></pre><p id="3e2f6ce8-497f-8022-a711-e92c0e4d4936" class="" dir="auto">Se houver alteração, mecanismos apropriados podem detectar o problema.</p><hr id="3e2f6ce8-497f-80e0-9725-f2eedf19cc41" dir="auto"/><h2 id="3e2f6ce8-497f-807c-8107-e151221f7124" class="" dir="auto">Autenticidade</h2><p id="3e2f6ce8-497f-806e-9a2e-cea5f236aba2" class="" dir="auto">Ajuda a verificar se uma informação ou comunicação realmente veio da origem esperada.</p><p id="3e2f6ce8-497f-8085-8037-caa3eea7fa9c" class="" dir="auto">Certificados digitais e assinaturas digitais são exemplos de mecanismos relacionados a isso.</p><hr id="3e2f6ce8-497f-8085-baf2-c9dbcc7f160d" dir="auto"/><h1 id="3e2f6ce8-497f-8021-a857-cd1d36ba69e3" class="" dir="auto">3. O que caracteriza uma falha criptográfica?</h1><p id="3e2f6ce8-497f-805e-b635-e50d0c4f7743" class="" dir="auto">Uma falha pode acontecer quando a aplicação:</p><ul id="3e2f6ce8-497f-802a-87f4-de5ae6105c6a" class="bulleted-list" dir="auto"><li style="list-style-type:disc">não utiliza criptografia onde deveria;</li></ul><ul id="3e2f6ce8-497f-809d-9462-fb41179797cb" class="bulleted-list" dir="auto"><li style="list-style-type:disc">utiliza algoritmos obsoletos;</li></ul><ul id="3e2f6ce8-497f-80a1-a12a-f8b2fcd3fdda" class="bulleted-list" dir="auto"><li style="list-style-type:disc">utiliza chaves fracas;</li></ul><ul id="3e2f6ce8-497f-80b6-929b-c01562a26991" class="bulleted-list" dir="auto"><li style="list-style-type:disc">armazena chaves de maneira insegura;</li></ul><ul id="3e2f6ce8-497f-80af-9f9c-eebadd2e00a5" class="bulleted-list" dir="auto"><li style="list-style-type:disc">utiliza senhas de maneira inadequada;</li></ul><ul id="3e2f6ce8-497f-80bb-b5ac-f42af325e2ae" class="bulleted-list" dir="auto"><li style="list-style-type:disc">utiliza configurações inseguras;</li></ul><ul id="3e2f6ce8-497f-805b-b322-e058c8ba7a5a" class="bulleted-list" dir="auto"><li style="list-style-type:disc">protege apenas parte da comunicação;</li></ul><ul id="3e2f6ce8-497f-8055-bea9-efcc82497a7e" class="bulleted-list" dir="auto"><li style="list-style-type:disc">utiliza criptografia sem autenticação adequada;</li></ul><ul id="3e2f6ce8-497f-804d-92ef-e63a6dbca2c1" class="bulleted-list" dir="auto"><li style="list-style-type:disc">armazena dados sensíveis em texto puro;</li></ul><ul id="3e2f6ce8-497f-804d-b87b-cd89a5043668" class="bulleted-list" dir="auto"><li style="list-style-type:disc">utiliza números aleatórios previsíveis;</li></ul><ul id="3e2f6ce8-497f-8040-8cc0-ec9e6558e603" class="bulleted-list" dir="auto"><li style="list-style-type:disc">não protege adequadamente os certificados;</li></ul><ul id="3e2f6ce8-497f-801b-9fcb-c6c81557bf18" class="bulleted-list" dir="auto"><li style="list-style-type:disc">utiliza criptografia própria ou improvisada.</li></ul><p id="3e2f6ce8-497f-8078-91d8-c0e9cc6a994f" class="" dir="auto">Portanto, não é simplesmente:</p><blockquote id="3e2f6ce8-497f-8016-92c8-cf328522ea64" class="" dir="auto">&quot;Não usar criptografia.&quot;</blockquote><p id="3e2f6ce8-497f-80a2-97a9-eda8f0d01ea6" class="" dir="auto">Uma implementação criptográfica <strong>mal configurada ou mal utilizada</strong> também pode ser vulnerável.</p><hr id="3e2f6ce8-497f-8063-b533-df3b08b26bf3" dir="auto"/><h1 id="3e2f6ce8-497f-80e6-9ffe-dff94d1dc821" class="" dir="auto">4. Dados sensíveis e criptografia</h1><p id="3e2f6ce8-497f-80d5-b1a0-ecc5a41987ac" class="" dir="auto">Aplicações normalmente trabalham com informações que precisam de proteção.</p><p id="3e2f6ce8-497f-801d-8752-dd584f5a82bc" class="" dir="auto">Por exemplo:</p><pre id="3e2f6ce8-497f-805d-96f2-d39eeca93fbb" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Nome
+CPF
+E-mail
+Endereço
+Dados financeiros
+Documentos
+Tokens
+Informações médicas
+Dados empresariais</code></pre><p id="3e2f6ce8-497f-8047-9cea-cc4c29f2fe20" class="" dir="auto">A necessidade de proteção depende do tipo de informação e do contexto.</p><p id="3e2f6ce8-497f-8009-a152-f658a5e53eaf" class="" dir="auto">Uma aplicação deve identificar quais dados são realmente sensíveis e determinar como eles devem ser protegidos.</p><hr id="3e2f6ce8-497f-804b-a363-f076904eaf60" dir="auto"/><h1 id="3e2f6ce8-497f-8095-a160-f8df046e4f24" class="" dir="auto">5. Criptografia em trânsito</h1><p id="3e2f6ce8-497f-8072-b270-f35028a465b5" class="" dir="auto">Uma das aplicações mais comuns é proteger informações enquanto elas estão sendo transmitidas.</p><p id="3e2f6ce8-497f-80bb-ab6a-e8235796b116" class="" dir="auto">Por exemplo:</p><pre id="3e2f6ce8-497f-809c-a7b3-ce8e5dc3fb0e" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Navegador
+    │
+    │ HTTPS
+    ▼
+Servidor</code></pre><p id="3e2f6ce8-497f-805d-9752-fcb28be85185" class="" dir="auto">O <strong>HTTPS</strong> utiliza <strong>TLS (Transport Layer Security)</strong> para proteger a comunicação.</p><p id="3e2f6ce8-497f-80a9-8e51-f1f6bceebe34" class="" dir="auto">Isso ajuda a proteger contra determinados tipos de interceptação e manipulação da comunicação.</p><hr id="3e2f6ce8-497f-8002-b213-d149b485e32f" dir="auto"/><h1 id="3e2f6ce8-497f-807f-8812-e0208a2082d5" class="" dir="auto">6. HTTP × HTTPS</h1><p id="3e2f6ce8-497f-8080-9ea8-fa55a85dc6cf" class="" dir="auto">Uma forma simples de visualizar:</p><h3 id="3e2f6ce8-497f-802c-876c-ca5fd9a1a05e" class="" dir="auto">HTTP</h3><pre id="3e2f6ce8-497f-805b-bdac-f43c84a354d4" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Navegador
+    │
+    │ comunicação sem TLS
+    ▼
+Servidor</code></pre><h3 id="3e2f6ce8-497f-80b8-b504-ea1c29349c1a" class="" dir="auto">HTTPS</h3><pre id="3e2f6ce8-497f-8083-b5de-f081a1438610" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Navegador
+    │
+    │ comunicação protegida por TLS
+    ▼
+Servidor</code></pre><p id="3e2f6ce8-497f-800b-82eb-f6d3804fd26c" class="" dir="auto">Por isso, aplicações que trabalham com informações sensíveis devem utilizar HTTPS corretamente.</p><hr id="3e2f6ce8-497f-8020-9ab9-f0bab78c1bc4" dir="auto"/><h1 id="3e2f6ce8-497f-8071-86cb-d7e35d15f5d5" class="" dir="auto">7. Criptografia em repouso</h1><p id="3e2f6ce8-497f-80f4-b4f4-ec3fddc018bd" class="" dir="auto">Também existe a proteção de dados <strong>armazenados</strong>.</p><p id="3e2f6ce8-497f-8027-8394-eb7ac86c7677" class="" dir="auto">Por exemplo:</p><pre id="3e2f6ce8-497f-80af-aa65-e5d6931b3a01" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Banco de dados
+      ↓
+Dados armazenados</code></pre><p id="3e2f6ce8-497f-80c3-bbe0-ef516a839d89" class="" dir="auto">A organização pode utilizar mecanismos de criptografia para proteger determinados dados em:</p><ul id="3e2f6ce8-497f-8029-ad89-c73406c1d6d1" class="bulleted-list" dir="auto"><li style="list-style-type:disc">bancos;</li></ul><ul id="3e2f6ce8-497f-8069-86c6-fa106e8d34ae" class="bulleted-list" dir="auto"><li style="list-style-type:disc">discos;</li></ul><ul id="3e2f6ce8-497f-8027-84d2-c834e93781ce" class="bulleted-list" dir="auto"><li style="list-style-type:disc">backups;</li></ul><ul id="3e2f6ce8-497f-80ae-8d86-e3ed057352bd" class="bulleted-list" dir="auto"><li style="list-style-type:disc">dispositivos;</li></ul><ul id="3e2f6ce8-497f-803c-b9fd-ca162f96f595" class="bulleted-list" dir="auto"><li style="list-style-type:disc">armazenamento em nuvem;</li></ul><ul id="3e2f6ce8-497f-801f-9e12-ed1fe8948eef" class="bulleted-list" dir="auto"><li style="list-style-type:disc">arquivos.</li></ul><p id="3e2f6ce8-497f-807b-a7cc-e466fe808f80" class="" dir="auto">Isso é conhecido como proteção <strong>em repouso</strong> (<em>data at rest</em>).</p><hr id="3e2f6ce8-497f-805b-a8cf-ddf548fb26ab" dir="auto"/><h1 id="3e2f6ce8-497f-8045-ac44-de75b1e6f6da" class="" dir="auto">8. Senhas não devem ser simplesmente criptografadas</h1><p id="3e2f6ce8-497f-8069-a516-c6e5846099f4" class="" dir="auto">Esse é um ponto muito importante.</p><p id="3e2f6ce8-497f-8090-8887-d50a622bc7bc" class="" dir="auto">Senhas de usuários <strong>não devem ser armazenadas simplesmente como texto puro</strong>:</p><pre id="3e2f6ce8-497f-80dd-8d0f-fb128d567f1b" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">usuario | senha
+Gusta   | 123456</code></pre><p id="3e2f6ce8-497f-8018-9880-e514dcc93b29" class="" dir="auto">Mas também não é adequado tratar senha como um dado comum que precisa ser recuperado posteriormente.</p><p id="3e2f6ce8-497f-8005-974a-dd86bbff8d8b" class="" dir="auto">Para senhas, normalmente utiliza-se uma função de <strong>hash específica para senhas</strong>.</p><p id="3e2f6ce8-497f-8089-b341-ee39cd32238e" class="" dir="auto">Exemplos modernos incluem:</p><ul id="3e2f6ce8-497f-802e-86c3-d9b31eeab091" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Argon2;</li></ul><ul id="3e2f6ce8-497f-8057-bca4-eff9041fc561" class="bulleted-list" dir="auto"><li style="list-style-type:disc">bcrypt;</li></ul><ul id="3e2f6ce8-497f-808f-abb1-ddd7510d7b2c" class="bulleted-list" dir="auto"><li style="list-style-type:disc">scrypt;</li></ul><ul id="3e2f6ce8-497f-803f-ad22-e672cc132376" class="bulleted-list" dir="auto"><li style="list-style-type:disc">PBKDF2.</li></ul><hr id="3e2f6ce8-497f-801b-b416-d56f2bc70f55" dir="auto"/><h1 id="3e2f6ce8-497f-80d6-9751-eaa1a660288b" class="" dir="auto">9. Hash não é a mesma coisa que criptografia</h1><p id="3e2f6ce8-497f-8025-9fef-d7cde7886ce2" class="" dir="auto">Essa diferença é fundamental.</p><h3 id="3e2f6ce8-497f-80e7-ac7d-de9da2458f31" class="" dir="auto">Criptografia</h3><p id="3e2f6ce8-497f-8016-bf2a-e151e9166388" class="" dir="auto">É projetada para permitir que o dado seja recuperado mediante a chave apropriada.</p><pre id="3e2f6ce8-497f-8056-9268-f54c3b843581" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Dado
+ ↓
+Criptografia
+ ↓
+Dado protegido
+ ↓
+Descriptografia
+ ↓
+Dado original</code></pre><h3 id="3e2f6ce8-497f-8098-a3f7-cb9562140982" class="" dir="auto">Hash</h3><p id="3e2f6ce8-497f-8022-8e5a-c8bfdcf12e4c" class="" dir="auto">É uma transformação de mão única.</p><pre id="3e2f6ce8-497f-8008-9da9-cc760ca0a8b2" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Dado
+ ↓
+Hash
+ ↓
+Resultado</code></pre><p id="3e2f6ce8-497f-8098-8c30-e9c419315dad" class="" dir="auto">Não existe uma operação normal de &quot;deshash&quot; que simplesmente recupere a senha original.</p><p id="3e2f6ce8-497f-8007-a706-f741b6d5d456" class="" dir="auto">Por isso, hashes apropriados são utilizados para armazenamento de senhas.</p><hr id="3e2f6ce8-497f-8039-bab9-da8a6a11d32a" dir="auto"/><h1 id="3e2f6ce8-497f-809f-b0c6-edc6dc671385" class="" dir="auto">10. Salt</h1><p id="3e2f6ce8-497f-802e-b195-e19ef997188a" class="" dir="auto">Além do algoritmo de hash adequado, senhas devem utilizar um <strong>salt</strong>.</p><p id="3e2f6ce8-497f-803e-a87f-d84118b9499b" class="" dir="auto">O salt é um valor adicional associado à senha antes do processamento.</p><p id="3e2f6ce8-497f-801e-9af4-f0fa99cb9062" class="" dir="auto">Conceitualmente:</p><pre id="3e2f6ce8-497f-807c-bf17-fa382ffe7f56" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Senha
+  +
+Salt
+  ↓
+Função de derivação/hash
+  ↓
+Resultado armazenado</code></pre><p id="3e2f6ce8-497f-80ce-a255-f3d0625a85fd" class="" dir="auto">Isso ajuda a impedir que senhas iguais produzam simplesmente o mesmo resultado e dificulta determinados ataques baseados em tabelas pré-computadas.</p><p id="3e2f6ce8-497f-80dd-9cb6-f40be38e4ec9" class="" dir="auto">Bibliotecas modernas de armazenamento de senha normalmente cuidam do salt automaticamente.</p><hr id="3e2f6ce8-497f-80a6-8699-eb4dfaf12320" dir="auto"/><h1 id="3e2f6ce8-497f-8029-8e74-e7b6366cfe7c" class="" dir="auto">11. Algoritmos criptográficos obsoletos</h1><p id="3e2f6ce8-497f-800c-aa3b-c8a99c3a7586" class="" dir="auto">Outra fonte de falhas é utilizar algoritmos considerados inadequados para determinado objetivo.</p><p id="3e2f6ce8-497f-8023-9a0d-c78b38b49331" class="" dir="auto">Exemplos históricos incluem:</p><ul id="3e2f6ce8-497f-80e8-b6ab-cdf33d950278" class="bulleted-list" dir="auto"><li style="list-style-type:disc">DES;</li></ul><ul id="3e2f6ce8-497f-80bd-9494-cfbeceab186f" class="bulleted-list" dir="auto"><li style="list-style-type:disc">3DES em novos projetos;</li></ul><ul id="3e2f6ce8-497f-80e3-a80a-c970d473f322" class="bulleted-list" dir="auto"><li style="list-style-type:disc">RC4;</li></ul><ul id="3e2f6ce8-497f-809a-80c1-e9bc22a79456" class="bulleted-list" dir="auto"><li style="list-style-type:disc">MD5 para segurança criptográfica;</li></ul><ul id="3e2f6ce8-497f-8054-beb5-c03ae125c7ba" class="bulleted-list" dir="auto"><li style="list-style-type:disc">SHA-1 para determinados usos de segurança.</li></ul><p id="3e2f6ce8-497f-80c4-9c0e-e438c604e7d7" class="" dir="auto">Isso não significa que todos possuem exatamente o mesmo nível ou tipo de problema. O ponto é que <strong>algoritmos e protocolos precisam ser escolhidos de acordo com seu uso e com as recomendações atuais</strong>.</p><p id="3e2f6ce8-497f-8036-b67a-c9bc60eb40de" class="" dir="auto">Para novos sistemas, deve-se utilizar algoritmos e bibliotecas criptográficas modernas e mantidas.</p><hr id="3e2f6ce8-497f-8064-ae47-d3bf129e4054" dir="auto"/><h1 id="3e2f6ce8-497f-80d2-804b-e7bc11ff35c1" class="" dir="auto">12. Criptografia fraca</h1><p id="3e2f6ce8-497f-80a9-9656-c90f716a7258" class="" dir="auto">Mesmo um algoritmo adequado pode ser utilizado de maneira inadequada.</p><p id="3e2f6ce8-497f-804a-a8b4-dc8f8acaa828" class="" dir="auto">Por exemplo:</p><pre id="3e2f6ce8-497f-801b-95ee-f621054b95a3" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Algoritmo adequado
+       +
+Chave inadequada
+       ↓
+Proteção comprometida</code></pre><p id="3e2f6ce8-497f-8006-9b5e-f5e1ff31af9a" class="" dir="auto">A segurança depende de fatores como:</p><ul id="3e2f6ce8-497f-8046-9108-c53d076d7471" class="bulleted-list" dir="auto"><li style="list-style-type:disc">algoritmo;</li></ul><ul id="3e2f6ce8-497f-80f3-a79b-d303d0c4bb58" class="bulleted-list" dir="auto"><li style="list-style-type:disc">tamanho da chave;</li></ul><ul id="3e2f6ce8-497f-800c-99f8-dce2546bc53f" class="bulleted-list" dir="auto"><li style="list-style-type:disc">geração da chave;</li></ul><ul id="3e2f6ce8-497f-8039-920c-d1c80c851ec2" class="bulleted-list" dir="auto"><li style="list-style-type:disc">armazenamento;</li></ul><ul id="3e2f6ce8-497f-80f2-bca1-ddea48bf85f7" class="bulleted-list" dir="auto"><li style="list-style-type:disc">gerenciamento;</li></ul><ul id="3e2f6ce8-497f-8056-b867-cec1c92d0bfb" class="bulleted-list" dir="auto"><li style="list-style-type:disc">modo de operação;</li></ul><ul id="3e2f6ce8-497f-80e9-bbb0-c9dbbe9f9746" class="bulleted-list" dir="auto"><li style="list-style-type:disc">implementação;</li></ul><ul id="3e2f6ce8-497f-8039-95ab-e7415e59b31f" class="bulleted-list" dir="auto"><li style="list-style-type:disc">configuração.</li></ul><p id="3e2f6ce8-497f-806f-b587-fa6e985b2172" class="" dir="auto">Por isso, simplesmente dizer:</p><blockquote id="3e2f6ce8-497f-8008-b942-ee358448592f" class="" dir="auto">&quot;O sistema usa AES&quot;</blockquote><p id="3e2f6ce8-497f-8083-ac41-e4cb7afad630" class="" dir="auto">não é suficiente para concluir que ele está seguro.</p><hr id="3e2f6ce8-497f-8062-8476-c3fc76464d67" dir="auto"/><h1 id="3e2f6ce8-497f-806f-984f-d732a52ef042" class="" dir="auto">13. Gerenciamento de chaves</h1><p id="3e2f6ce8-497f-807c-b4d8-c18f13a789d2" class="" dir="auto">Um dos maiores desafios da criptografia não é apenas criptografar.</p><p id="3e2f6ce8-497f-8034-81ac-ea28ac03b39a" class="" dir="auto">É <strong>proteger as chaves</strong>.</p><p id="3e2f6ce8-497f-8063-968b-c76be3536866" class="" dir="auto">Imagine:</p><pre id="3e2f6ce8-497f-806a-96fc-f217e5fb6dab" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Dados criptografados
+       ↓
+Chave secreta</code></pre><p id="3e2f6ce8-497f-808b-a5b9-e99508544e84" class="" dir="auto">Se um atacante consegue obter a chave, a proteção pode perder grande parte de seu propósito.</p><p id="3e2f6ce8-497f-80f3-9367-fb8c813fdf62" class="" dir="auto">As chaves devem ser armazenadas com cuidado, evitando:</p><pre id="3e2f6ce8-497f-8091-9735-c44c7580f083" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">❌ código-fonte
+❌ repositório Git
+❌ arquivos públicos
+❌ mensagens
+❌ comentários
+❌ banco sem proteção adequada</code></pre><p id="3e2f6ce8-497f-8071-aeb7-c48f2abc5e27" class="" dir="auto">Em ambientes profissionais, podem ser utilizados mecanismos como:</p><ul id="3e2f6ce8-497f-8060-9977-f49e0e64f189" class="bulleted-list" dir="auto"><li style="list-style-type:disc">secret managers;</li></ul><ul id="3e2f6ce8-497f-80f0-ac97-f10a94b1ed56" class="bulleted-list" dir="auto"><li style="list-style-type:disc">sistemas de gerenciamento de chaves;</li></ul><ul id="3e2f6ce8-497f-800f-a358-d87a6fc5c5d4" class="bulleted-list" dir="auto"><li style="list-style-type:disc">HSMs;</li></ul><ul id="3e2f6ce8-497f-80e9-85d2-e700f332985f" class="bulleted-list" dir="auto"><li style="list-style-type:disc">variáveis de ambiente, quando adequadas;</li></ul><ul id="3e2f6ce8-497f-8018-83f4-c8744b79803a" class="bulleted-list" dir="auto"><li style="list-style-type:disc">controles de acesso;</li></ul><ul id="3e2f6ce8-497f-8051-9103-f68e9e8463a5" class="bulleted-list" dir="auto"><li style="list-style-type:disc">rotação de chaves.</li></ul><hr id="3e2f6ce8-497f-8038-97ac-d881c1e5c128" dir="auto"/><h1 id="3e2f6ce8-497f-8015-8c64-fdb055b05727" class="" dir="auto">14. Nunca colocar chaves diretamente no código</h1><p id="3e2f6ce8-497f-80e9-b968-e11a851a87c8" class="" dir="auto">Um exemplo problemático seria:</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markup-templating.min.js" integrity="sha512-+8BiRfWso6waiFDv6tEmWF8yfPGgxAtOYLDUB0rRISLwtpxkJ9lpPNUhxwWlikn3qSO+4RQyzDppi62o3ON/AA==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-php.min.js" integrity="sha512-plzrTi61ltEMFf84gTVO9IkvIMfBu07bnDuahvdlIclmFWzXJ9VcRsny9d45sxFZRv3jJg/MHNyuxnUYEMxMEg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="3e2f6ce8-497f-802a-b7ec-d833cddf6db8" class="code code-wrap" data-notion-code-syntax="php"><code class="language-php" style="white-space:pre-wrap;word-break:break-all">$key = &quot;minha-chave-secreta&quot;;</code></pre><p id="3e2f6ce8-497f-8054-a3aa-db434e13975c" class="" dir="auto">dentro do código que será enviado para um repositório.</p><p id="3e2f6ce8-497f-80e5-9889-fc6b3921ae87" class="" dir="auto">Se esse código for exposto:</p><pre id="3e2f6ce8-497f-806f-8666-c7e49120c77c" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Código
+  ↓
+Chave
+  ↓
+Atacante
+  ↓
+Dados potencialmente comprometidos</code></pre><p id="3e2f6ce8-497f-80f4-9345-d85549b3e5cc" class="" dir="auto">É preferível utilizar mecanismos apropriados de gerenciamento de segredos.</p><hr id="3e2f6ce8-497f-8024-9a2f-dceca7fd628c" dir="auto"/><h1 id="3e2f6ce8-497f-80f6-a6fe-f7b5d8f0cb16" class="" dir="auto">15. Criptografia própria</h1><p id="3e2f6ce8-497f-8074-9a6d-e0b3d1d6927e" class="" dir="auto">Um erro muito comum é tentar criar um algoritmo criptográfico próprio.</p><p id="3e2f6ce8-497f-80c7-abf6-c73bcae5d4cc" class="" dir="auto">Por exemplo:</p><pre id="3e2f6ce8-497f-809f-944e-fb047453a975" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">&quot;Vou criar meu próprio sistema de criptografia.&quot;</code></pre><p id="3e2f6ce8-497f-80b3-a069-f5ab97b98a46" class="" dir="auto">Isso é extremamente arriscado.</p><p id="3e2f6ce8-497f-80b5-bb56-fb25abbef127" class="" dir="auto">Criptografia moderna depende de matemática, análise criptográfica e implementação cuidadosa.</p><p id="3e2f6ce8-497f-8096-8b10-c78edf4af9c6" class="" dir="auto">Em aplicações reais, normalmente devemos utilizar:</p><ul id="3e2f6ce8-497f-8025-837e-d3f4388d2428" class="bulleted-list" dir="auto"><li style="list-style-type:disc">bibliotecas consolidadas;</li></ul><ul id="3e2f6ce8-497f-8004-8c1d-c012ec31c65b" class="bulleted-list" dir="auto"><li style="list-style-type:disc">APIs criptográficas da linguagem;</li></ul><ul id="3e2f6ce8-497f-8066-8083-cf5fcb64bdae" class="bulleted-list" dir="auto"><li style="list-style-type:disc">protocolos padronizados;</li></ul><ul id="3e2f6ce8-497f-8078-b935-f3bc37c070ef" class="bulleted-list" dir="auto"><li style="list-style-type:disc">algoritmos amplamente analisados.</li></ul><p id="3e2f6ce8-497f-80d5-985c-e0e68f3877a3" class="" dir="auto">Em segurança:</p><blockquote id="3e2f6ce8-497f-8036-afcb-ed3c955a074c" class="" dir="auto"><strong>Não invente sua própria criptografia quando uma solução criptográfica estabelecida já existe.</strong></blockquote><hr id="3e2f6ce8-497f-8048-8c70-d85cbe40288f" dir="auto"/><h1 id="3e2f6ce8-497f-8095-926f-df8e46d969ff" class="" dir="auto">16. Números aleatórios previsíveis</h1><p id="3e2f6ce8-497f-804a-a90b-c4f215973c19" class="" dir="auto">Sistemas criptográficos frequentemente precisam de valores aleatórios ou imprevisíveis.</p><p id="3e2f6ce8-497f-807c-a608-f690466cb484" class="" dir="auto">Por exemplo:</p><ul id="3e2f6ce8-497f-80b1-a6aa-dd8aab14a551" class="bulleted-list" dir="auto"><li style="list-style-type:disc">tokens;</li></ul><ul id="3e2f6ce8-497f-8063-bdbb-c7320c702771" class="bulleted-list" dir="auto"><li style="list-style-type:disc">salts;</li></ul><ul id="3e2f6ce8-497f-80d5-87da-fff53f7f2beb" class="bulleted-list" dir="auto"><li style="list-style-type:disc">nonces;</li></ul><ul id="3e2f6ce8-497f-8020-aaaa-f845d1319b27" class="bulleted-list" dir="auto"><li style="list-style-type:disc">chaves;</li></ul><ul id="3e2f6ce8-497f-8070-b59a-ea26625d3e34" class="bulleted-list" dir="auto"><li style="list-style-type:disc">códigos temporários.</li></ul><p id="3e2f6ce8-497f-8058-b31c-cf16d4d9887c" class="" dir="auto">Utilizar um gerador de números aleatórios inadequado pode comprometer a segurança.</p><p id="3e2f6ce8-497f-8047-98db-e9d6f66fb7ba" class="" dir="auto">Por isso existem mecanismos específicos de <strong>aleatoriedade criptograficamente segura (CSPRNG)</strong>.</p><hr id="3e2f6ce8-497f-8039-8ef3-e6e139fb4ff0" dir="auto"/><h1 id="3e2f6ce8-497f-80f2-bc13-ecc4ac494470" class="" dir="auto">17. Nonce e IV</h1><p id="3e2f6ce8-497f-80ab-a997-c2b43d071747" class="" dir="auto">Alguns algoritmos utilizam valores como:</p><ul id="3e2f6ce8-497f-8012-805f-d0b801b83167" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>IV — Initialization Vector</strong></li></ul><ul id="3e2f6ce8-497f-805b-8797-e7f083517ce2" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>Nonce</strong></li></ul><p id="3e2f6ce8-497f-8069-9088-c95ca8fa519b" class="" dir="auto">Eles ajudam a tornar as operações criptográficas seguras e/ou impedir determinados padrões previsíveis.</p><p id="3e2f6ce8-497f-80f4-be7e-ceaf82d7376e" class="" dir="auto">Um erro de implementação pode comprometer a segurança mesmo quando o algoritmo utilizado é considerado seguro.</p><p id="3e2f6ce8-497f-806f-80b2-ede25b90ed61" class="" dir="auto">Isso mostra novamente:</p><pre id="3e2f6ce8-497f-8053-ad19-c12cf903aab5" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Algoritmo seguro
+       ≠
+Implementação automaticamente segura</code></pre><hr id="3e2f6ce8-497f-80b7-b075-e50e4294ce94" dir="auto"/><h1 id="3e2f6ce8-497f-80c2-8101-e8754efcca15" class="" dir="auto">18. Criptografia sem autenticação</h1><p id="3e2f6ce8-497f-80b6-ab9e-ce1f729445e5" class="" dir="auto">Outro problema é proteger apenas a confidencialidade sem garantir adequadamente a integridade/autenticidade.</p><p id="3e2f6ce8-497f-80e0-8d33-e63939512d48" class="" dir="auto">Imagine:</p><pre id="3e2f6ce8-497f-8074-b2f7-c4ed9830383b" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Mensagem
+   ↓
+Criptografada
+   ↓
+Interceptada
+   ↓
+Alterada</code></pre><p id="3e2f6ce8-497f-8053-ac33-cce96ac0a8cf" class="" dir="auto">Se o protocolo não tiver mecanismos apropriados para detectar essa alteração, o receptor poderá ter problemas.</p><p id="3e2f6ce8-497f-80bd-a59b-c3a3393fe82a" class="" dir="auto">Por isso, sistemas modernos frequentemente utilizam mecanismos de <strong>Authenticated Encryption</strong>, como famílias baseadas em:</p><ul id="3e2f6ce8-497f-801d-bee2-c48402d21dfb" class="bulleted-list" dir="auto"><li style="list-style-type:disc">AES-GCM;</li></ul><ul id="3e2f6ce8-497f-8034-ae2e-f6d93cba5008" class="bulleted-list" dir="auto"><li style="list-style-type:disc">ChaCha20-Poly1305.</li></ul><p id="3e2f6ce8-497f-8036-84ba-e34510135e2f" class="" dir="auto">O objetivo é proteger tanto o conteúdo quanto sua autenticidade/integridade dentro do modelo apropriado.</p><hr id="3e2f6ce8-497f-8023-b873-e2f69896b4aa" dir="auto"/><h1 id="3e2f6ce8-497f-8046-9707-f88b70d4fb79" class="" dir="auto">19. Certificados digitais</h1><p id="3e2f6ce8-497f-803c-a72d-c60fa1be1b96" class="" dir="auto">Em conexões HTTPS, os certificados digitais desempenham um papel importante.</p><p id="3e2f6ce8-497f-80c7-bb43-ee92bb09d4ec" class="" dir="auto">Eles ajudam o cliente a verificar a identidade do servidor dentro da infraestrutura de confiança do TLS.</p><p id="3e2f6ce8-497f-80b1-bef1-fa2b58be5bbe" class="" dir="auto">Simplificando:</p><pre id="3e2f6ce8-497f-8005-a10a-f7c49e0212d9" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Navegador
+    ↓
+Servidor
+    ↓
+Certificado
+    ↓
+Verificação
+    ↓
+Conexão TLS</code></pre><p id="3e2f6ce8-497f-80a6-a142-ea1251e9f6c8" class="" dir="auto">Problemas com certificados, validação ou configuração do TLS podem comprometer a segurança da comunicação.</p><hr id="3e2f6ce8-497f-802f-a6d5-e2b79bb7d849" dir="auto"/><h1 id="3e2f6ce8-497f-80f4-8621-f8b50b125b22" class="" dir="auto">20. TLS antigo ou mal configurado</h1><p id="3e2f6ce8-497f-806f-90a5-cf0a8254beb7" class="" dir="auto">Não basta simplesmente ativar HTTPS.</p><p id="3e2f6ce8-497f-800a-890b-c173039db6ae" class="" dir="auto">Também é necessário utilizar configurações adequadas de TLS.</p><p id="3e2f6ce8-497f-80da-9daa-e18448960500" class="" dir="auto">Uma configuração insegura pode envolver:</p><ul id="3e2f6ce8-497f-80f4-8e3d-e8351b49dcfe" class="bulleted-list" dir="auto"><li style="list-style-type:disc">protocolos antigos;</li></ul><ul id="3e2f6ce8-497f-806f-8b7f-cad0fa3086d4" class="bulleted-list" dir="auto"><li style="list-style-type:disc">cifras inadequadas;</li></ul><ul id="3e2f6ce8-497f-807a-b0d9-d718d1463213" class="bulleted-list" dir="auto"><li style="list-style-type:disc">certificados inválidos;</li></ul><ul id="3e2f6ce8-497f-80be-ad31-e737157fd7e3" class="bulleted-list" dir="auto"><li style="list-style-type:disc">configurações incorretas;</li></ul><ul id="3e2f6ce8-497f-8074-b764-d9c9c2442a97" class="bulleted-list" dir="auto"><li style="list-style-type:disc">falta de atualização;</li></ul><ul id="3e2f6ce8-497f-80bc-b65b-db62de9a0ce7" class="bulleted-list" dir="auto"><li style="list-style-type:disc">validação inadequada.</li></ul><p id="3e2f6ce8-497f-80f0-8814-ce9b91adb9ac" class="" dir="auto">Portanto:</p><pre id="3e2f6ce8-497f-80e7-ad2f-c92961d4d4cf" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">HTTPS
+   +
+TLS corretamente configurado</code></pre><p id="3e2f6ce8-497f-80ee-bcb5-c1dcf05e42e8" class="" dir="auto">é mais importante do que simplesmente observar um cadeado no navegador.</p><hr id="3e2f6ce8-497f-8097-baa1-c9fc39fc7af0" dir="auto"/><h1 id="3e2f6ce8-497f-803f-8d30-ffaeef365e58" class="" dir="auto">21. Dados criptografados e logs</h1><p id="3e2f6ce8-497f-801c-b30d-ef7bc5ab9618" class="" dir="auto">Um erro interessante ocorre quando a aplicação protege os dados no banco, mas depois os coloca em logs sem proteção.</p><p id="3e2f6ce8-497f-805a-a2e2-f79e59e52dec" class="" dir="auto">Por exemplo:</p><pre id="3e2f6ce8-497f-80d2-8c08-d0bc3424a9c5" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Banco:
+senha/token → protegido
+
+Log:
+&quot;token=abc123...&quot;</code></pre><p id="3e2f6ce8-497f-8059-8235-d4d208fa89a5" class="" dir="auto">Nesse cenário, o mecanismo de proteção pode ser contornado pelo próprio sistema de registros.</p><p id="3e2f6ce8-497f-80ac-8ae5-f5d831768de2" class="" dir="auto">Por isso, é necessário considerar:</p><pre id="3e2f6ce8-497f-80cd-9253-e688efb0046f" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Banco
+Backups
+Logs
+Caches
+Arquivos temporários
+Mensagens
+Filas</code></pre><p id="3e2f6ce8-497f-802a-b16b-ecf7bc0ff632" class="" dir="auto">ao definir a estratégia de proteção de dados.</p><hr id="3e2f6ce8-497f-8007-8cec-fcce0ec7c60e" dir="auto"/><h1 id="3e2f6ce8-497f-8065-9d7f-e0817a2981fe" class="" dir="auto">22. Backups também precisam de proteção</h1><p id="3e2f6ce8-497f-808b-924b-d13d6cf2d543" class="" dir="auto">Imagine:</p><pre id="3e2f6ce8-497f-80ed-b5ec-e75756a3b554" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Banco principal → criptografado</code></pre><p id="3e2f6ce8-497f-8065-8fbf-f9000eba4510" class="" dir="auto">mas:</p><pre id="3e2f6ce8-497f-806d-bed7-c204416a052e" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Backup → texto puro</code></pre><p id="3e2f6ce8-497f-803c-89be-c9be476cc32c" class="" dir="auto">Um atacante que obtenha o backup pode acessar os dados.</p><p id="3e2f6ce8-497f-8019-9a42-e6dc8d36789c" class="" dir="auto">Portanto, dados sensíveis precisam ser protegidos também em:</p><ul id="3e2f6ce8-497f-8084-a7e6-de46eda77dd4" class="bulleted-list" dir="auto"><li style="list-style-type:disc">backups;</li></ul><ul id="3e2f6ce8-497f-8052-9f4c-fb0de5369939" class="bulleted-list" dir="auto"><li style="list-style-type:disc">snapshots;</li></ul><ul id="3e2f6ce8-497f-8004-86a8-e30f4dc94886" class="bulleted-list" dir="auto"><li style="list-style-type:disc">dispositivos;</li></ul><ul id="3e2f6ce8-497f-8050-a870-cf8ef77905db" class="bulleted-list" dir="auto"><li style="list-style-type:disc">armazenamento externo;</li></ul><ul id="3e2f6ce8-497f-80c0-8f91-ca5883b31531" class="bulleted-list" dir="auto"><li style="list-style-type:disc">ambientes de desenvolvimento;</li></ul><ul id="3e2f6ce8-497f-8045-8440-e5626f416e89" class="bulleted-list" dir="auto"><li style="list-style-type:disc">ambientes de teste.</li></ul><hr id="3e2f6ce8-497f-805c-b536-c277f927326d" dir="auto"/><h1 id="3e2f6ce8-497f-807a-9d52-f80253a1e597" class="" dir="auto">23. Exemplo em uma aplicação web</h1><p id="3e2f6ce8-497f-80a7-af94-e5a685dadeaf" class="" dir="auto">Imagine um sistema de comércio eletrônico:</p><pre id="3e2f6ce8-497f-807d-8315-fb02518071d4" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">                USUÁRIO
+                   │
+                   ▼
+              NAVEGADOR
+                   │
+                 HTTPS
+                   │
+                   ▼
+                BACKEND
+              /    |     \
+             /     |      \
+            ▼      ▼       ▼
+         Banco   Cache   Serviços</code></pre><p id="3e2f6ce8-497f-8010-b0f3-d82f231cbf73" class="" dir="auto">A proteção criptográfica pode aparecer em várias partes:</p><pre id="3e2f6ce8-497f-8006-8ac1-f2045fc8c1b4" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Navegador ↔ Backend
+       → TLS
+
+Banco
+       → proteção em repouso
+
+Senhas
+       → Argon2/bcrypt/etc.
+
+Tokens/chaves
+       → gerenciamento seguro de segredos
+
+Backups
+       → proteção adequada</code></pre><hr id="3e2f6ce8-497f-80b2-9e05-cfda0977a21f" dir="auto"/><h1 id="3e2f6ce8-497f-80df-897a-f5fdb3f0c74d" class="" dir="auto">24. Como prevenir falhas criptográficas?</h1><p id="3e2f6ce8-497f-802b-a45d-c89edae1827b" class="" dir="auto">Uma estratégia de segurança pode incluir:</p><h3 id="3e2f6ce8-497f-8073-a8e8-f5e25a1c6c15" class="" dir="auto">1. Identificar dados sensíveis</h3><p id="3e2f6ce8-497f-80d5-9273-dca2971bf45e" class="" dir="auto">Descobrir quais informações realmente precisam de proteção.</p><h3 id="3e2f6ce8-497f-804e-a05f-defca1b86449" class="" dir="auto">2. Utilizar criptografia apropriada</h3><p id="3e2f6ce8-497f-80fd-a8e4-c7e3c687104f" class="" dir="auto">Escolher algoritmos e protocolos modernos e adequados ao objetivo.</p><h3 id="3e2f6ce8-497f-80e6-a6c5-dc562196b4e4" class="" dir="auto">3. Utilizar HTTPS/TLS</h3><p id="3e2f6ce8-497f-8056-9694-f8880fe6152b" class="" dir="auto">Principalmente em aplicações web que transportam informações sensíveis.</p><h3 id="3e2f6ce8-497f-80be-93be-f702ff05a7b1" class="" dir="auto">4. Armazenar senhas corretamente</h3><p id="3e2f6ce8-497f-8003-a59f-ec6d6d2bc881" class="" dir="auto">Utilizar algoritmos específicos para senhas, como:</p><pre id="3e2f6ce8-497f-804d-8119-e9e2b18ac14a" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Argon2
+bcrypt
+scrypt
+PBKDF2</code></pre><h3 id="3e2f6ce8-497f-802e-98f7-d7a34c982511" class="" dir="auto">5. Proteger as chaves</h3><p id="3e2f6ce8-497f-80a5-86de-d131c39c534b" class="" dir="auto">Não deixar chaves expostas no código ou repositórios.</p><h3 id="3e2f6ce8-497f-8040-9fbf-c6a8e1d11145" class="" dir="auto">6. Utilizar bibliotecas confiáveis</h3><p id="3e2f6ce8-497f-80fb-b075-f1dfb6ad84bf" class="" dir="auto">Não implementar primitivas criptográficas manualmente sem necessidade.</p><h3 id="3e2f6ce8-497f-80d3-85fc-dd0eb2e9409a" class="" dir="auto">7. Utilizar aleatoriedade segura</h3><p id="3e2f6ce8-497f-80ac-9fde-f0f446ef29dc" class="" dir="auto">Tokens, salts, nonces e chaves precisam ser gerados adequadamente.</p><h3 id="3e2f6ce8-497f-809c-935b-e349ac1d3f07" class="" dir="auto">8. Atualizar protocolos e bibliotecas</h3><p id="3e2f6ce8-497f-801f-8774-cf42c8091c50" class="" dir="auto">Evitar tecnologias criptográficas obsoletas.</p><h3 id="3e2f6ce8-497f-80f0-b18e-edad80fc688d" class="" dir="auto">9. Proteger backups</h3><p id="3e2f6ce8-497f-8096-bd2b-e9b9a419efe2" class="" dir="auto">Não adianta proteger somente o banco de produção.</p><h3 id="3e2f6ce8-497f-80bd-be7b-ca49dd23f2f5" class="" dir="auto">10. Não expor dados sensíveis em logs</h3><p id="3e2f6ce8-497f-8041-bbea-d25a0f99a5a1" class="" dir="auto">Logs também fazem parte da superfície de ataque.</p><hr id="3e2f6ce8-497f-80c4-b2b2-e7f50b940677" dir="auto"/><h1 id="3e2f6ce8-497f-807a-8201-c2512c0297cd" class="" dir="auto">25. Exemplo de arquitetura segura</h1><p id="3e2f6ce8-497f-809f-b8ee-c68604cab501" class="" dir="auto">Podemos imaginar:</p><pre id="3e2f6ce8-497f-80f0-84df-e2f7296f605d" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">                         INTERNET
+                            │
+                            ▼
+                       HTTPS / TLS
+                            │
+                            ▼
+                      ┌──────────┐
+                      │  Backend │
+                      └────┬─────┘
+                           │
+             ┌─────────────┼─────────────┐
+             ▼             ▼             ▼
+          Senhas        Dados          Tokens
+             │             │             │
+             ▼             ▼             ▼
+          Hash/KDF     Criptografia   Proteção
+             │             │             │
+             └─────────────┼─────────────┘
+                           ▼
+                    Gerenciamento
+                      de chaves</code></pre><p id="3e2f6ce8-497f-80a8-8906-f8e7b90ec97a" class="" dir="auto">Cada tipo de informação recebe uma proteção adequada ao seu propósito.</p><hr id="3e2f6ce8-497f-8068-b257-f9d9e4272bb3" dir="auto"/><h1 id="3e2f6ce8-497f-803a-8c78-fe0d6a59abc7" class="" dir="auto">26. Principais erros para memorizar</h1><p id="3e2f6ce8-497f-8003-8d80-cc8b8fdd67d5" class="" dir="auto">Para estudar Segurança Cibernética, associe <strong>Falhas Criptográficas</strong> principalmente a:</p><pre id="3e2f6ce8-497f-80ef-b0c5-dbdbdd6f28b3" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">❌ Dados sensíveis sem proteção
+❌ Senhas em texto puro
+❌ Hash inadequado para senhas
+❌ Algoritmos obsoletos
+❌ Chaves fracas
+❌ Chaves expostas
+❌ Criptografia mal configurada
+❌ TLS mal configurado
+❌ Números aleatórios previsíveis
+❌ Criptografia desenvolvida &quot;na mão&quot;
+❌ Backups sem proteção
+❌ Dados sensíveis em logs</code></pre><hr id="3e2f6ce8-497f-8064-9c5b-eda5fa250771" dir="auto"/><h1 id="3e2f6ce8-497f-800a-8619-c5f4ea314827" class="" dir="auto">27. Resumo</h1><p id="3e2f6ce8-497f-80b7-b788-d50313add49a" class="" dir="auto"><strong>Falhas Criptográficas</strong> acontecem quando mecanismos criptográficos são <strong>ausentes, fracos, obsoletos, mal configurados ou utilizados incorretamente</strong>.</p><p id="3e2f6ce8-497f-80d4-b0a5-e30f3af25b9d" class="" dir="auto">Os principais conceitos são:</p><table id="3e2f6ce8-497f-807f-9021-d1cdf1fd028d" class="simple-table" dir="ltr"><thead class="simple-table-header"><tr id="3e2f6ce8-497f-8021-9ccb-e6c525ffea4d" dir="ltr"><th id="PE}O" class="simple-table-header-color simple-table-header">Conceito</th><th id="]yqt" class="simple-table-header-color simple-table-header">Objetivo</th></tr></thead><tbody><tr id="3e2f6ce8-497f-808f-ace7-ebcc653de640" dir="ltr"><td id="PE}O" class="">Criptografia</td><td id="]yqt" class="">Proteger dados recuperáveis com uma chave</td></tr><tr id="3e2f6ce8-497f-809e-99c4-fc743cd41d49" dir="ltr"><td id="PE}O" class="">Hash</td><td id="]yqt" class="">Transformação de mão única</td></tr><tr id="3e2f6ce8-497f-80e6-aad6-c8a8ea0bc18a" dir="ltr"><td id="PE}O" class="">Salt</td><td id="]yqt" class="">Aumentar a resistência do armazenamento de senhas</td></tr><tr id="3e2f6ce8-497f-809f-91ec-d4e792d1090e" dir="ltr"><td id="PE}O" class="">TLS</td><td id="]yqt" class="">Proteger comunicação</td></tr><tr id="3e2f6ce8-497f-80cb-82d0-d5af679743df" dir="ltr"><td id="PE}O" class="">HTTPS</td><td id="]yqt" class="">HTTP sobre TLS</td></tr><tr id="3e2f6ce8-497f-8086-9de4-e4a8dee5b2a5" dir="ltr"><td id="PE}O" class="">Chave criptográfica</td><td id="]yqt" class="">Controlar operações criptográficas</td></tr><tr id="3e2f6ce8-497f-8064-975a-e51ea5c5b705" dir="ltr"><td id="PE}O" class="">Certificado digital</td><td id="]yqt" class="">Auxiliar na autenticação de entidades</td></tr><tr id="3e2f6ce8-497f-807f-a609-c6e772da83ff" dir="ltr"><td id="PE}O" class="">Assinatura digital</td><td id="]yqt" class="">Autenticidade e integridade</td></tr><tr id="3e2f6ce8-497f-809a-ab3e-fb2e03732209" dir="ltr"><td id="PE}O" class="">CSPRNG</td><td id="]yqt" class="">Gerar valores imprevisíveis</td></tr><tr id="3e2f6ce8-497f-8035-aca7-d01647ab36b7" dir="ltr"><td id="PE}O" class="">KDF</td><td id="]yqt" class="">Derivar chaves/armazenar credenciais de forma apropriada</td></tr></tbody></table><p id="3e2f6ce8-497f-80f2-ad0b-d50770afe63f" class="" dir="auto">A ideia principal é:</p><pre id="3e2f6ce8-497f-80ac-b6a0-cf401def84fc" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">                 DADOS SENSÍVEIS
+                       │
+           ┌───────────┴───────────┐
+           ▼                       ▼
+      EM TRÂNSITO              ARMAZENADOS
+           │                       │
+         TLS                 Criptografia
+           │                       │
+           └───────────┬───────────┘
+                       ▼
+               CHAVES PROTEGIDAS
+                       │
+                       ▼
+              IMPLEMENTAÇÃO SEGURA</code></pre><p id="3e2f6ce8-497f-80f6-9010-ef53aa82e648" class="" dir="auto"><strong>Criptografia não é apenas escolher um algoritmo.</strong> É necessário escolher o mecanismo correto para cada finalidade, proteger as chaves, utilizar implementações confiáveis, configurar os protocolos corretamente e proteger todo o ciclo de vida dos dados.</p></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

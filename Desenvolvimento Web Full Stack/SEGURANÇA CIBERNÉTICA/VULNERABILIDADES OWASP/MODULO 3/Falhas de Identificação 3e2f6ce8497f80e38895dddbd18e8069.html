@@ -1,0 +1,1040 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Falhas de Identificação</title><meta name="data-notion-page-icon" content="/icons/lock_blue.svg"/><link rel="icon" href="https://app.notion.com/icons/lock_blue.svg"/><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+	/* Paint a complete callout box on every PDF page fragment. */
+	-webkit-box-decoration-break: clone;
+	box-decoration-break: clone;
+}
+
+/* For default-background callouts, render the border outline. */
+.callout.block-color-default_background {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+/*
+ * Toggles and callouts hold arbitrary content, so they can easily be taller
+ * than a page. They must stay breakable: avoiding breaks inside them makes
+ * Chromium push the whole block onto the next page, which leaves the previous
+ * page mostly empty before every long toggle.
+ */
+details,
+aside {
+	margin: 1.25em 0;
+}
+
+/* Keep a toggle's title on the same page as the start of its content. */
+summary {
+	page-break-after: avoid;
+	break-after: avoid;
+}
+
+/*
+ * Toggle headings render as <h1/h2/h3 style="display:inline-block"> inside
+ * <summary>. Without this reset, the heading's margin-top pushes it below the
+ * ::marker (▼), so the triangle and the title appear on separate lines.
+ */
+summary h1,
+summary h2,
+summary h3,
+summary h4 {
+	margin-top: 0;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding-inline: 0.125rem;
+	padding-block: 0.375rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+/*
+ * Render emoji icons using a ::before pseudo-element to keep the glyph
+ * out of the DOM textContent traversal. This avoids double-rendering icons
+ * in callouts and page titles.
+ * NOTE(slim/html-export-pseudo-icons): I can't tagref this because it will
+ * flag as a duplicate tag after codegen.
+ */
+.icon[data-emoji]::before {
+	content: attr(data-emoji);
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	margin-right: 0.4em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.tab {
+	margin: 1.25em 0;
+	padding-inline: 1rem;
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style><style>@import url('https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex-swap.min.css')</style></head><body><article id="3e2f6ce8-497f-80e3-8895-dddbd18e8069" class="page sans" data-notion-page-icon="/icons/lock_blue.svg"><header><div class="page-header-icon undefined"><img class="icon notion-static-icon" src="https://app.notion.com/icons/lock_blue.svg"/></div><h1 class="page-title" dir="auto">Falhas de Identificação</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><h1 id="3e2f6ce8-497f-80f9-97af-c6c1f27fe90d" class="" dir="auto">Falhas de Identificação e Autenticação</h1><p id="3e2f6ce8-497f-8098-a212-f5856793a2a5" class="" dir="auto"><strong>Falhas de Identificação e Autenticação</strong> são problemas de segurança que acontecem quando uma aplicação <strong>não consegue identificar ou verificar corretamente quem está tentando acessar um recurso</strong>.</p><p id="3e2f6ce8-497f-80b3-a9e9-f5afa53eb8fe" class="" dir="auto">Esse tema está diretamente relacionado a <strong>login, senhas, sessões, tokens, recuperação de contas e autenticação multifator (MFA)</strong>.</p><p id="3e2f6ce8-497f-808f-bbc2-cbb622351182" class="" dir="auto">Em termos simples:</p><blockquote id="3e2f6ce8-497f-80c5-8243-f0f2f7afdd2f" class="" dir="auto"><strong>Identificação responde &quot;quem é você?&quot; e autenticação responde &quot;prove que você é essa pessoa&quot;.</strong></blockquote><hr id="3e2f6ce8-497f-8091-86dd-e0aed42aa657" dir="auto"/><h1 id="3e2f6ce8-497f-80b4-97b5-d9c392dc605a" class="" dir="auto">1. Identificação x Autenticação</h1><p id="3e2f6ce8-497f-809c-9680-fad93bdb3bdd" class="" dir="auto">Embora os termos sejam frequentemente usados juntos, eles não são exatamente a mesma coisa.</p><h3 id="3e2f6ce8-497f-800d-9d62-e6d2496906f9" class="" dir="auto">Identificação</h3><p id="3e2f6ce8-497f-80b0-9916-e188ea6b68ed" class="" dir="auto">É quando o usuário informa sua identidade.</p><p id="3e2f6ce8-497f-80e5-a2e1-de46f2adf2b7" class="" dir="auto">Por exemplo:</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="3e2f6ce8-497f-80a7-9206-fb1b3723feac" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">E-mail: usuario@email.com</code></pre><p id="3e2f6ce8-497f-80ad-9130-e59633626ef6" class="" dir="auto">A aplicação recebe:</p><pre id="3e2f6ce8-497f-804b-8c19-e879d58b4bc1" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">&quot;Quem está tentando entrar?&quot;
+        ↓
+usuario@email.com</code></pre><h3 id="3e2f6ce8-497f-8050-80e2-c6dff56e7c70" class="" dir="auto">Autenticação</h3><p id="3e2f6ce8-497f-802d-a004-ca05dcd2f13b" class="" dir="auto">É a verificação dessa identidade.</p><p id="3e2f6ce8-497f-804e-b075-c7df9355add0" class="" dir="auto">Por exemplo:</p><pre id="3e2f6ce8-497f-8038-89e3-ffe8e697c3cf" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">E-mail: usuario@email.com
+Senha: ********</code></pre><p id="3e2f6ce8-497f-800a-b545-d534b16d866a" class="" dir="auto">A aplicação verifica:</p><pre id="3e2f6ce8-497f-80e9-9162-d4de6e9c8a0b" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Essas credenciais pertencem realmente a esse usuário?</code></pre><p id="3e2f6ce8-497f-8082-a196-ead94e68ab40" class="" dir="auto">Então:</p><pre id="3e2f6ce8-497f-8018-a042-ea7100bdf554" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Identificação → &quot;Sou o usuário X&quot;
+Autenticação → &quot;Prove que você é o usuário X&quot;</code></pre><hr id="3e2f6ce8-497f-80af-8c4f-f306847730e1" dir="auto"/><h1 id="3e2f6ce8-497f-8046-919f-ee6e04a25a62" class="" dir="auto">2. Onde entram as Falhas de Autenticação?</h1><p id="3e2f6ce8-497f-8060-a0f7-ed6975b887bd" class="" dir="auto">Uma falha acontece quando o mecanismo responsável por verificar a identidade pode ser <strong>burlado, manipulado ou utilizado de maneira insegura</strong>.</p><p id="3e2f6ce8-497f-80ec-9c1c-da2586caac93" class="" dir="auto">Exemplo conceitual:</p><pre id="3e2f6ce8-497f-80bd-97a3-c2b971153298" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Usuário
+   ↓
+Login
+   ↓
+Autenticação
+   ↓
+❌ Implementação insegura
+   ↓
+Acesso indevido</code></pre><p id="3e2f6ce8-497f-800f-9196-c97bc144e39b" class="" dir="auto">O problema pode estar em:</p><ul id="3e2f6ce8-497f-8060-8a96-f4a1418a4c73" class="bulleted-list" dir="auto"><li style="list-style-type:disc">senhas;</li></ul><ul id="3e2f6ce8-497f-805e-a371-ed3c456a3c4d" class="bulleted-list" dir="auto"><li style="list-style-type:disc">sessões;</li></ul><ul id="3e2f6ce8-497f-80b9-a263-cd9b7e1d7c33" class="bulleted-list" dir="auto"><li style="list-style-type:disc">tokens;</li></ul><ul id="3e2f6ce8-497f-8090-a378-ed2427a91c44" class="bulleted-list" dir="auto"><li style="list-style-type:disc">cookies;</li></ul><ul id="3e2f6ce8-497f-8006-a99d-eb1d2f24cd3c" class="bulleted-list" dir="auto"><li style="list-style-type:disc">recuperação de senha;</li></ul><ul id="3e2f6ce8-497f-8008-b968-fd94266eb28f" class="bulleted-list" dir="auto"><li style="list-style-type:disc">autenticação multifator;</li></ul><ul id="3e2f6ce8-497f-80e4-bccb-dcf972b62eaa" class="bulleted-list" dir="auto"><li style="list-style-type:disc">criação de contas;</li></ul><ul id="3e2f6ce8-497f-80f1-9530-d7b5491fb235" class="bulleted-list" dir="auto"><li style="list-style-type:disc">gerenciamento de credenciais;</li></ul><ul id="3e2f6ce8-497f-80e6-b23a-c9d084264bdd" class="bulleted-list" dir="auto"><li style="list-style-type:disc">mecanismos de login.</li></ul><hr id="3e2f6ce8-497f-8083-a3f6-cfa7e7a834a6" dir="auto"/><h1 id="3e2f6ce8-497f-80dd-8255-c288250b865b" class="" dir="auto">3. Exemplos de falhas</h1><p id="3e2f6ce8-497f-802a-acd6-c7e832a139c7" class="" dir="auto">Existem diversas maneiras pelas quais uma autenticação pode ser implementada de forma insegura.</p><h2 id="3e2f6ce8-497f-80d9-970c-d3286ee4aa05" class="" dir="auto">3.1 Senhas fracas</h2><p id="3e2f6ce8-497f-80ea-859b-fbced919e0de" class="" dir="auto">Permitir senhas muito simples aumenta o risco de comprometimento das contas.</p><p id="3e2f6ce8-497f-80eb-9c3c-c9a036854ed6" class="" dir="auto">Exemplos ruins:</p><pre id="3e2f6ce8-497f-807d-8bc4-d67fae50e16d" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">123456
+password
+admin
+qwerty
+12345678</code></pre><p id="3e2f6ce8-497f-8055-ab63-c7494aff84d9" class="" dir="auto">Uma aplicação também não deveria permitir senhas extremamente curtas ou fáceis de adivinhar.</p><hr id="3e2f6ce8-497f-803f-b308-dedec503ec67" dir="auto"/><h1 id="3e2f6ce8-497f-8046-b350-d135ac8b3bac" class="" dir="auto">4. Armazenamento inadequado de senhas</h1><p id="3e2f6ce8-497f-8093-af2b-c86ee607ef38" class="" dir="auto">Esse é um dos pontos mais importantes.</p><p id="3e2f6ce8-497f-80fb-8778-ca98f01662ab" class="" dir="auto">Uma aplicação <strong>não deve armazenar senhas em texto puro</strong>.</p><h3 id="3e2f6ce8-497f-80e5-8cdc-c2a6f2cea06c" class="" dir="auto">❌ Incorreto</h3><pre id="3e2f6ce8-497f-804f-a5b4-d9ce1277f660" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Banco de dados
+
+usuario: Gusta
+senha: minhaSenha123</code></pre><p id="3e2f6ce8-497f-8003-af4a-c6be45593521" class="" dir="auto">Se o banco de dados for comprometido, as senhas podem ser diretamente expostas.</p><h3 id="3e2f6ce8-497f-80d0-99b2-f6f4927dd2f4" class="" dir="auto">✅ Abordagem adequada</h3><p id="3e2f6ce8-497f-809d-907d-cdb9836a0785" class="" dir="auto">A senha deve ser armazenada utilizando uma função de <strong>hash apropriada para senhas</strong>, como:</p><ul id="3e2f6ce8-497f-80df-af68-f204992b602e" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Argon2;</li></ul><ul id="3e2f6ce8-497f-8077-830e-d931eefcc7e2" class="bulleted-list" dir="auto"><li style="list-style-type:disc">bcrypt;</li></ul><ul id="3e2f6ce8-497f-8053-a429-de9d477a13a5" class="bulleted-list" dir="auto"><li style="list-style-type:disc">scrypt;</li></ul><ul id="3e2f6ce8-497f-80d0-9713-fe3a39409dbb" class="bulleted-list" dir="auto"><li style="list-style-type:disc">PBKDF2.</li></ul><p id="3e2f6ce8-497f-80ec-a1f0-ce1dd422e526" class="" dir="auto">Por exemplo:</p><pre id="3e2f6ce8-497f-803a-8514-e822cf4e03de" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Senha digitada
+      ↓
+Função de derivação/hash
+      ↓
+Hash armazenado</code></pre><p id="3e2f6ce8-497f-8053-9d9f-d2d334b08fc9" class="" dir="auto">Quando o usuário faz login:</p><pre id="3e2f6ce8-497f-8038-86a8-f27014720e5a" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Senha digitada
+      ↓
+Verificação
+      ↓
+Hash armazenado
+      ↓
+Correspondência?
+   ↙       ↘
+ SIM       NÃO
+ ↓          ↓
+Login      Negado</code></pre><hr id="3e2f6ce8-497f-806d-80dd-f5f6c35de738" dir="auto"/><h1 id="3e2f6ce8-497f-80bc-af57-f469cc6ccb9e" class="" dir="auto">5. Hash não é criptografia</h1><p id="3e2f6ce8-497f-80f1-b390-f491e167723b" class="" dir="auto">Essa diferença é fundamental.</p><h3 id="3e2f6ce8-497f-80f8-bdf8-cac769145ab6" class="" dir="auto">Criptografia</h3><p id="3e2f6ce8-497f-80ff-8699-deb36aa694ca" class="" dir="auto">É utilizada quando precisamos proteger uma informação e posteriormente recuperá-la utilizando uma chave.</p><pre id="3e2f6ce8-497f-8025-a20e-c62127038b56" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Texto
+  ↓
+Criptografia
+  ↓
+Dados criptografados
+  ↓
+Descriptografia
+  ↓
+Texto</code></pre><h3 id="3e2f6ce8-497f-802a-a7ad-c2d4d9f44f91" class="" dir="auto">Hash de senha</h3><p id="3e2f6ce8-497f-8082-bbd2-ccf28bc75b86" class="" dir="auto">É utilizado para armazenar uma representação derivada da senha que permita verificar a senha posteriormente sem precisar guardar a senha original.</p><pre id="3e2f6ce8-497f-80db-9d9f-dc8fca0fdedf" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Senha
+  ↓
+KDF / hash apropriado
+  ↓
+Valor armazenado</code></pre><p id="3e2f6ce8-497f-8069-b8a1-dce61b86821e" class="" dir="auto">Para senhas, a aplicação normalmente deve utilizar <strong>algoritmos próprios para armazenamento de credenciais</strong>, e não simplesmente aplicar SHA-256 ou outro hash rápido.</p><hr id="3e2f6ce8-497f-80f5-a56c-e93442f753ea" dir="auto"/><h1 id="3e2f6ce8-497f-80ee-9031-d37f5c146e1e" class="" dir="auto">6. Falta de proteção contra tentativas repetidas</h1><p id="3e2f6ce8-497f-80a2-bb94-e929126caafe" class="" dir="auto">Imagine uma tela de login:</p><pre id="3e2f6ce8-497f-8012-a8e1-c89e5f0f253d" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">E-mail: usuario@email.com
+Senha: ________</code></pre><p id="3e2f6ce8-497f-8092-808e-de4e8d048efd" class="" dir="auto">Se a aplicação permitir tentativas ilimitadas:</p><pre id="3e2f6ce8-497f-8012-bcfd-ca19ac2e1fab" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Tentativa 1
+Tentativa 2
+Tentativa 3
+...
+Tentativa 100.000
+...</code></pre><p id="3e2f6ce8-497f-80b2-88be-d85936efde2f" class="" dir="auto">isso aumenta o risco de ataques automatizados de tentativa de credenciais.</p><p id="3e2f6ce8-497f-805f-bdae-dc7f33b93b8b" class="" dir="auto">Por isso, sistemas podem utilizar mecanismos como:</p><ul id="3e2f6ce8-497f-80a7-82bd-cfa6b6047c53" class="bulleted-list" dir="auto"><li style="list-style-type:disc">rate limiting;</li></ul><ul id="3e2f6ce8-497f-809e-99da-c6a302c4a62b" class="bulleted-list" dir="auto"><li style="list-style-type:disc">atrasos progressivos;</li></ul><ul id="3e2f6ce8-497f-8019-8ba9-fd895dbbe6c2" class="bulleted-list" dir="auto"><li style="list-style-type:disc">bloqueios temporários;</li></ul><ul id="3e2f6ce8-497f-80a6-ba35-dec0982b4100" class="bulleted-list" dir="auto"><li style="list-style-type:disc">detecção de comportamento anormal;</li></ul><ul id="3e2f6ce8-497f-8040-8015-e2cb46a32d61" class="bulleted-list" dir="auto"><li style="list-style-type:disc">CAPTCHA em determinados contextos;</li></ul><ul id="3e2f6ce8-497f-80d4-a4a3-ceceda43fb21" class="bulleted-list" dir="auto"><li style="list-style-type:disc">MFA.</li></ul><hr id="3e2f6ce8-497f-8066-a57f-fa44cdf7fb62" dir="auto"/><h1 id="3e2f6ce8-497f-804a-b1ef-c8f70026de94" class="" dir="auto">7. Credential Stuffing</h1><p id="3e2f6ce8-497f-804d-980d-c8f77e7248bd" class="" dir="auto">Um problema importante é o <strong>credential stuffing</strong>.</p><p id="3e2f6ce8-497f-803b-8afb-e29c3fba8f5b" class="" dir="auto">Ele acontece quando credenciais obtidas de um vazamento de outro serviço são utilizadas para tentar entrar em outras contas.</p><p id="3e2f6ce8-497f-8063-8e7f-c1d8ad62610d" class="" dir="auto">Exemplo:</p><pre id="3e2f6ce8-497f-8054-aeed-f3fa9a03350b" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Site A
+↓
+Credenciais vazadas
+
+E-mail: usuario@email.com
+Senha: senha123</code></pre><p id="3e2f6ce8-497f-80f2-9b19-dbbbe2be792d" class="" dir="auto">O atacante pode tentar essas mesmas credenciais em:</p><pre id="3e2f6ce8-497f-80d3-a7a9-d39dd3f8669a" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Site B
+Site C
+Site D</code></pre><p id="3e2f6ce8-497f-80f5-a2a4-d8dee5ff7807" class="" dir="auto">Isso funciona especialmente quando uma pessoa reutiliza a mesma senha em vários serviços.</p><h3 id="3e2f6ce8-497f-809b-b361-dfa84cc59977" class="" dir="auto">Proteção</h3><ul id="3e2f6ce8-497f-80e7-b8f1-e3ea5287f113" class="bulleted-list" dir="auto"><li style="list-style-type:disc">senhas únicas;</li></ul><ul id="3e2f6ce8-497f-8030-b6ae-c1a06cca54c1" class="bulleted-list" dir="auto"><li style="list-style-type:disc">MFA;</li></ul><ul id="3e2f6ce8-497f-8050-9199-f457bac3563c" class="bulleted-list" dir="auto"><li style="list-style-type:disc">detecção de tentativas automatizadas;</li></ul><ul id="3e2f6ce8-497f-80f3-b238-ff469eaf6dcc" class="bulleted-list" dir="auto"><li style="list-style-type:disc">rate limiting;</li></ul><ul id="3e2f6ce8-497f-8097-a3ad-d8901e916c92" class="bulleted-list" dir="auto"><li style="list-style-type:disc">monitoramento de autenticação.</li></ul><hr id="3e2f6ce8-497f-8010-8a26-cfec43590a46" dir="auto"/><h1 id="3e2f6ce8-497f-8004-9fa7-c59514fed3d8" class="" dir="auto">8. Autenticação Multifator — MFA</h1><p id="3e2f6ce8-497f-8066-9f5d-e1de291d34a3" class="" dir="auto">A autenticação multifator adiciona uma camada adicional de proteção.</p><p id="3e2f6ce8-497f-8057-b14d-c06204de7821" class="" dir="auto">Sem MFA:</p><pre id="3e2f6ce8-497f-80e1-9e12-cc5e0a462b43" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Senha
+ ↓
+Acesso</code></pre><p id="3e2f6ce8-497f-8070-9ce5-d7d7f2c0b5dd" class="" dir="auto">Com MFA:</p><pre id="3e2f6ce8-497f-8096-b913-fc8605b9494c" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Senha
+ ↓
+Segundo fator
+ ↓
+Acesso</code></pre><p id="3e2f6ce8-497f-803d-a1e2-f74788addac0" class="" dir="auto">Os fatores podem envolver:</p><h3 id="3e2f6ce8-497f-8058-95b9-db3f15639f01" class="" dir="auto">Algo que você sabe</h3><pre id="3e2f6ce8-497f-80bf-9768-f58da8f67c57" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Senha
+PIN</code></pre><h3 id="3e2f6ce8-497f-80c2-86df-f860caa138d8" class="" dir="auto">Algo que você possui</h3><pre id="3e2f6ce8-497f-80d0-8f45-d7dfd2b6a6fd" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Celular
+Token físico
+Chave de segurança</code></pre><h3 id="3e2f6ce8-497f-80b9-b42c-e81a88cc0b47" class="" dir="auto">Algo que você é</h3><pre id="3e2f6ce8-497f-8071-bcd5-f747b84c17ae" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Biometria</code></pre><p id="3e2f6ce8-497f-804b-a290-c88b91b57be8" class="" dir="auto">O princípio é:</p><blockquote id="3e2f6ce8-497f-802c-9cc2-fb157a6455a3" class="" dir="auto">Comprometer apenas a senha não deveria ser suficiente para obter acesso.</blockquote><hr id="3e2f6ce8-497f-8076-83b2-c8b832834827" dir="auto"/><h1 id="3e2f6ce8-497f-804a-9fe1-d50c78bdcae7" class="" dir="auto">9. Sessões</h1><p id="3e2f6ce8-497f-8083-b99b-da00b9983282" class="" dir="auto">Depois que o usuário faz login, a aplicação precisa <strong>lembrar que ele está autenticado</strong>.</p><p id="3e2f6ce8-497f-8020-9ce5-d506317ef1f3" class="" dir="auto">É aí que entram as sessões.</p><p id="3e2f6ce8-497f-80e6-a452-dceddbdef417" class="" dir="auto">Um fluxo simplificado:</p><pre id="3e2f6ce8-497f-80af-8fc9-e623cc0c3a02" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Usuário
+   ↓
+Login
+   ↓
+Servidor verifica credenciais
+   ↓
+Usuário autenticado
+   ↓
+Servidor cria sessão
+   ↓
+Cookie / token
+   ↓
+Próximas requisições</code></pre><hr id="3e2f6ce8-497f-8018-b327-d7d7b707b0f6" dir="auto"/><h1 id="3e2f6ce8-497f-80e3-ac14-c168f725a28c" class="" dir="auto">10. Problemas com sessões</h1><p id="3e2f6ce8-497f-8008-979c-ec484e9245e1" class="" dir="auto">Uma implementação inadequada de sessões pode causar problemas.</p><p id="3e2f6ce8-497f-80f2-ae84-f7fcb8aecf4a" class="" dir="auto">Por exemplo:</p><ul id="3e2f6ce8-497f-80d2-8096-cfc2deda2fef" class="bulleted-list" dir="auto"><li style="list-style-type:disc">identificadores de sessão previsíveis;</li></ul><ul id="3e2f6ce8-497f-803d-b415-ffa9e77caa9e" class="bulleted-list" dir="auto"><li style="list-style-type:disc">sessões que nunca expiram;</li></ul><ul id="3e2f6ce8-497f-807b-a6ab-c439c6783fd8" class="bulleted-list" dir="auto"><li style="list-style-type:disc">sessões não invalidadas após logout;</li></ul><ul id="3e2f6ce8-497f-80c5-abd3-ddaa0e3fdaea" class="bulleted-list" dir="auto"><li style="list-style-type:disc">cookies sem proteção adequada;</li></ul><ul id="3e2f6ce8-497f-80bc-ab24-c12cad3cffce" class="bulleted-list" dir="auto"><li style="list-style-type:disc">reutilização indevida de sessão;</li></ul><ul id="3e2f6ce8-497f-80d9-9778-cf440760b880" class="bulleted-list" dir="auto"><li style="list-style-type:disc">ausência de renovação do identificador após autenticação.</li></ul><hr id="3e2f6ce8-497f-80b1-a23d-ffe29a701baa" dir="auto"/><h1 id="3e2f6ce8-497f-80f6-ad02-ce0d86026374" class="" dir="auto">11. Session Fixation</h1><p id="3e2f6ce8-497f-80e9-a878-d61b42b86c6f" class="" dir="auto">Um conceito importante é <strong>Session Fixation</strong>.</p><p id="3e2f6ce8-497f-8025-b8e5-c1b0fcbdbb88" class="" dir="auto">O problema ocorre quando um atacante consegue fazer com que a vítima utilize um identificador de sessão conhecido pelo atacante e, posteriormente, a vítima se autentica nessa mesma sessão.</p><p id="3e2f6ce8-497f-803f-bcad-d8a10608a4de" class="" dir="auto">De forma conceitual:</p><pre id="3e2f6ce8-497f-80a8-9866-cc4d3d526ed5" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Atacante
+   ↓
+Sessão conhecida
+   ↓
+Vítima utiliza essa sessão
+   ↓
+Vítima realiza login
+   ↓
+Sessão passa a representar usuário autenticado</code></pre><p id="3e2f6ce8-497f-800d-a88e-ed2138e73f10" class="" dir="auto">Uma proteção importante é <strong>regenerar o identificador da sessão após a autenticação</strong>.</p><hr id="3e2f6ce8-497f-8068-94f1-e0c9ea25317d" dir="auto"/><h1 id="3e2f6ce8-497f-80b8-a712-dae35f4ddc38" class="" dir="auto">12. Cookies de sessão</h1><p id="3e2f6ce8-497f-8021-b8d5-dc0daa5f84e9" class="" dir="auto">Quando cookies são utilizados para autenticação, algumas configurações são importantes.</p><h3 id="3e2f6ce8-497f-8042-b030-c5322c09e7d5" class="" dir="auto"><code>Secure</code></h3><p id="3e2f6ce8-497f-8083-8e52-ea034c396dc0" class="" dir="auto">Faz com que o cookie seja enviado apenas através de conexões HTTPS.</p><pre id="3e2f6ce8-497f-80a4-8d92-feaf2beca0e7" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Secure</code></pre><h3 id="3e2f6ce8-497f-80e4-8697-fbbecff6d8dc" class="" dir="auto"><code>HttpOnly</code></h3><p id="3e2f6ce8-497f-8047-8909-ca29919fbba2" class="" dir="auto">Impede que scripts do lado do cliente acessem diretamente o cookie.</p><pre id="3e2f6ce8-497f-80b2-81d9-ed41769f3bab" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">HttpOnly</code></pre><p id="3e2f6ce8-497f-8070-a1ec-c292365a4c83" class="" dir="auto">Isso ajuda a reduzir determinados riscos relacionados a roubo de cookies via JavaScript.</p><h3 id="3e2f6ce8-497f-805e-8734-d7b0808c6f73" class="" dir="auto"><code>SameSite</code></h3><p id="3e2f6ce8-497f-80c2-b1c3-de44ca5e154d" class="" dir="auto">Ajuda a controlar o envio do cookie em contextos de requisições entre sites.</p><pre id="3e2f6ce8-497f-8074-9867-f6eeedc20919" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">SameSite=Lax</code></pre><p id="3e2f6ce8-497f-8058-9135-f3fce9fb4712" class="" dir="auto">ou outras configurações adequadas ao caso de uso.</p><hr id="3e2f6ce8-497f-8074-9cf3-dcbdb20692da" dir="auto"/><h1 id="3e2f6ce8-497f-809a-9a1b-c618372f8159" class="" dir="auto">13. Expiração de sessão</h1><p id="3e2f6ce8-497f-80dd-917c-c368c4b43ca6" class="" dir="auto">Imagine que um usuário entre em um sistema em um computador público.</p><p id="3e2f6ce8-497f-8060-8429-c6c016a0855d" class="" dir="auto">Se a sessão permanecer válida indefinidamente:</p><pre id="3e2f6ce8-497f-80bf-b112-d1ae40a3df81" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Login
+ ↓
+Usuário vai embora
+ ↓
+Sessão continua válida
+ ↓
+Outra pessoa utiliza o navegador
+ ↓
+Conta continua acessível</code></pre><p id="3e2f6ce8-497f-80f3-90b1-c72759dd602d" class="" dir="auto">Por isso, aplicações podem utilizar:</p><ul id="3e2f6ce8-497f-80ed-805e-cd1517cce58a" class="bulleted-list" dir="auto"><li style="list-style-type:disc">expiração por inatividade;</li></ul><ul id="3e2f6ce8-497f-802c-acc9-cc8266c6411a" class="bulleted-list" dir="auto"><li style="list-style-type:disc">expiração absoluta;</li></ul><ul id="3e2f6ce8-497f-806e-bf77-ce7cf615fb8f" class="bulleted-list" dir="auto"><li style="list-style-type:disc">logout;</li></ul><ul id="3e2f6ce8-497f-8037-a7c5-cdfed20b3901" class="bulleted-list" dir="auto"><li style="list-style-type:disc">invalidação de sessão;</li></ul><ul id="3e2f6ce8-497f-8065-b92d-c313814b6a94" class="bulleted-list" dir="auto"><li style="list-style-type:disc">revogação de tokens.</li></ul><hr id="3e2f6ce8-497f-80ca-b9e9-e5e97315b14b" dir="auto"/><h1 id="3e2f6ce8-497f-809f-8871-cd9dd25ca46a" class="" dir="auto">14. Logout inadequado</h1><p id="3e2f6ce8-497f-80fb-92ff-c4441fc71553" class="" dir="auto">Um erro comum é pensar que logout significa apenas:</p><pre id="3e2f6ce8-497f-8004-8d24-e6a22caf11e1" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">redirecionar para /login</code></pre><p id="3e2f6ce8-497f-80e3-9cca-fc8c43b9df32" class="" dir="auto">Isso não necessariamente encerra a autenticação.</p><p id="3e2f6ce8-497f-80cc-aba9-feaa85656a54" class="" dir="auto">Um logout adequado deve invalidar o mecanismo de autenticação utilizado.</p><p id="3e2f6ce8-497f-80d7-874e-dbb66f2a5198" class="" dir="auto">Por exemplo:</p><pre id="3e2f6ce8-497f-808c-9cc5-d92999dbeb5b" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Logout
+ ↓
+Sessão/token invalidado
+ ↓
+Cookie removido quando aplicável
+ ↓
+Acesso autenticado encerrado</code></pre><hr id="3e2f6ce8-497f-8006-931c-ebbc49a2cd5d" dir="auto"/><h1 id="3e2f6ce8-497f-801e-8af3-e886a8801815" class="" dir="auto">15. Recuperação de senha</h1><p id="3e2f6ce8-497f-807f-ad68-f32e3e83d4fb" class="" dir="auto">O mecanismo de recuperação de senha também faz parte da autenticação.</p><p id="3e2f6ce8-497f-80a7-b0b9-dc43da31d94c" class="" dir="auto">Imagine:</p><pre id="3e2f6ce8-497f-80cf-af0e-ce875460ec01" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">&quot;Esqueci minha senha&quot;
+          ↓
+Digite seu e-mail
+          ↓
+Receba um link
+          ↓
+Crie nova senha</code></pre><p id="3e2f6ce8-497f-80e4-b6d7-db6856cc93ea" class="" dir="auto">Esse processo precisa ser protegido.</p><p id="3e2f6ce8-497f-80c9-95ce-fe14950287bd" class="" dir="auto">O token de recuperação deve:</p><ul id="3e2f6ce8-497f-801e-a1c4-e2449881d8d0" class="bulleted-list" dir="auto"><li style="list-style-type:disc">ser difícil de adivinhar;</li></ul><ul id="3e2f6ce8-497f-804c-8260-f0c41e7e58ef" class="bulleted-list" dir="auto"><li style="list-style-type:disc">possuir validade limitada;</li></ul><ul id="3e2f6ce8-497f-807b-9e50-f51d3061d698" class="bulleted-list" dir="auto"><li style="list-style-type:disc">ser associado à operação correta;</li></ul><ul id="3e2f6ce8-497f-80bd-b7d0-e3bc1fc88e63" class="bulleted-list" dir="auto"><li style="list-style-type:disc">ser invalidado após utilização;</li></ul><ul id="3e2f6ce8-497f-800f-87e0-d3f5ddfd90d7" class="bulleted-list" dir="auto"><li style="list-style-type:disc">não expor informações desnecessárias.</li></ul><hr id="3e2f6ce8-497f-802f-b8e4-cd12d55396bd" dir="auto"/><h1 id="3e2f6ce8-497f-8000-88db-db133b98b785" class="" dir="auto">16. Erros de recuperação de senha</h1><p id="3e2f6ce8-497f-808d-86b3-cd408eea1727" class="" dir="auto">Um sistema inseguro poderia revelar:</p><pre id="3e2f6ce8-497f-808a-8004-daad1346a221" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">&quot;E-mail encontrado!&quot;</code></pre><p id="3e2f6ce8-497f-801a-81bc-d9b4487f43d7" class="" dir="auto">quando a conta existe, e:</p><pre id="3e2f6ce8-497f-80f3-997e-dfa42d9955a7" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">&quot;E-mail não cadastrado!&quot;</code></pre><p id="3e2f6ce8-497f-8088-b2e1-f5988f90d77c" class="" dir="auto">quando não existe.</p><p id="3e2f6ce8-497f-8016-b568-da227646ed6c" class="" dir="auto">Isso permite que alguém descubra quais e-mails possuem contas.</p><p id="3e2f6ce8-497f-80f6-b325-f4b34df57a92" class="" dir="auto">Uma abordagem comum é utilizar uma resposta mais genérica:</p><pre id="3e2f6ce8-497f-806b-82f7-d350347890ac" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">&quot;Se existir uma conta associada a esse endereço,
+as instruções serão enviadas.&quot;</code></pre><p id="3e2f6ce8-497f-80fb-b05f-c1e473c04bfa" class="" dir="auto">Assim, reduz-se a possibilidade de <strong>enumeração de usuários</strong>.</p><hr id="3e2f6ce8-497f-80b6-8f56-e1a555331fe4" dir="auto"/><h1 id="3e2f6ce8-497f-8035-bf05-f24805b19c22" class="" dir="auto">17. Enumeração de usuários</h1><p id="3e2f6ce8-497f-8076-9ae7-cd227fb42b0c" class="" dir="auto">A enumeração acontece quando um sistema permite descobrir quais usuários existem.</p><p id="3e2f6ce8-497f-80c6-8262-e0bbd3273c9a" class="" dir="auto">Por exemplo:</p><pre id="3e2f6ce8-497f-804c-8152-ce252a4ad519" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Login
+
+usuario1@email.com
+→ senha incorreta
+
+usuario2@email.com
+→ usuário não encontrado</code></pre><p id="3e2f6ce8-497f-8061-abfc-e56353404359" class="" dir="auto">Essa diferença de resposta pode revelar informações.</p><p id="3e2f6ce8-497f-804a-b495-eab7e1d765d8" class="" dir="auto">Outro exemplo:</p><pre id="3e2f6ce8-497f-8020-b288-ce0dd2c688be" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Recuperação de senha
+
+email-existente@email.com
+→ conta encontrada
+
+email-inexistente@email.com
+→ conta não encontrada</code></pre><p id="3e2f6ce8-497f-8092-9123-cefaf4b79f4f" class="" dir="auto">Isso pode ajudar um atacante a construir uma lista de contas válidas.</p><hr id="3e2f6ce8-497f-807a-a99f-fabd74b4dbf4" dir="auto"/><h1 id="3e2f6ce8-497f-806a-ab58-dae9d416bafd" class="" dir="auto">18. Tokens de autenticação</h1><p id="3e2f6ce8-497f-8068-9ad7-dd08ebba6141" class="" dir="auto">Aplicações modernas frequentemente utilizam tokens.</p><p id="3e2f6ce8-497f-8011-8cf1-ebfe0fe91f17" class="" dir="auto">Um fluxo simplificado:</p><pre id="3e2f6ce8-497f-80d4-add1-e6b5f41a026b" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Login
+  ↓
+Servidor verifica credenciais
+  ↓
+Token emitido
+  ↓
+Cliente armazena/utiliza token
+  ↓
+Requisições posteriores
+  ↓
+Servidor valida token</code></pre><p id="3e2f6ce8-497f-805c-a5b7-f9a291932375" class="" dir="auto">Um token precisa ser protegido porque ele pode representar uma sessão autenticada.</p><p id="3e2f6ce8-497f-800d-96c6-eaf0f608165b" class="" dir="auto">Se alguém obtiver um token válido, dependendo da arquitetura, poderá utilizá-lo enquanto ele permanecer válido.</p><hr id="3e2f6ce8-497f-8051-8db2-f0d286ad16cc" dir="auto"/><h1 id="3e2f6ce8-497f-8032-8f11-f703349a8668" class="" dir="auto">19. JWT</h1><p id="3e2f6ce8-497f-8065-ae8b-c02f29d4a22b" class="" dir="auto">Um exemplo conhecido é o <strong>JWT — JSON Web Token</strong>.</p><p id="3e2f6ce8-497f-804f-90d6-d773551ddad1" class="" dir="auto">Estruturalmente, um JWT possui:</p><pre id="3e2f6ce8-497f-809b-8982-c452dcbe451e" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Header.Payload.Signature</code></pre><p id="3e2f6ce8-497f-80c0-81d1-ea6f41b1a5d0" class="" dir="auto">Por exemplo:</p><pre id="3e2f6ce8-497f-80df-b4ad-d98ed518f780" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">xxxxx.yyyyy.zzzzz</code></pre><p id="3e2f6ce8-497f-805f-b4e5-f19fb420c411" class="" dir="auto">O token pode conter informações sobre o usuário e outras claims.</p><p id="3e2f6ce8-497f-80ae-b812-ff99897a473f" class="" dir="auto">Mas é importante entender:</p><blockquote id="3e2f6ce8-497f-804c-aa54-e444305d6f36" class="" dir="auto"><strong>JWT não é automaticamente sinônimo de segurança.</strong></blockquote><p id="3e2f6ce8-497f-8011-8030-dac5c7a8dcc3" class="" dir="auto">É possível implementar uma autenticação baseada em JWT de maneira insegura.</p><p id="3e2f6ce8-497f-80e4-aee0-dde9bef7aada" class="" dir="auto">Por exemplo:</p><ul id="3e2f6ce8-497f-8013-8a56-d3a3ce54ebd2" class="bulleted-list" dir="auto"><li style="list-style-type:disc">aceitar tokens expirados;</li></ul><ul id="3e2f6ce8-497f-8075-8a2b-dedb1b2dc488" class="bulleted-list" dir="auto"><li style="list-style-type:disc">não validar corretamente a assinatura;</li></ul><ul id="3e2f6ce8-497f-8096-9826-ecb269d362e3" class="bulleted-list" dir="auto"><li style="list-style-type:disc">utilizar chaves inadequadas;</li></ul><ul id="3e2f6ce8-497f-80e9-b0ac-e2d5bde75c3d" class="bulleted-list" dir="auto"><li style="list-style-type:disc">colocar informações sensíveis desnecessárias no payload;</li></ul><ul id="3e2f6ce8-497f-80f1-a9a4-f59c6eee9ef1" class="bulleted-list" dir="auto"><li style="list-style-type:disc">não possuir mecanismo de revogação quando necessário.</li></ul><hr id="3e2f6ce8-497f-8092-ad54-e1f068b92b8f" dir="auto"/><h1 id="3e2f6ce8-497f-8096-b95c-d4c86fff8b6d" class="" dir="auto">20. HTTPS é essencial</h1><p id="3e2f6ce8-497f-80d1-a22f-c75c706efa22" class="" dir="auto">Credenciais e mecanismos de autenticação devem ser protegidos durante o transporte.</p><p id="3e2f6ce8-497f-8065-b366-e302986038ae" class="" dir="auto">Sem HTTPS:</p><pre id="3e2f6ce8-497f-8007-82f7-ebf0e27e2c71" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Usuário
+   ↓
+Rede
+   ↓
+Servidor</code></pre><p id="3e2f6ce8-497f-8048-9f49-c0dbcaaf7c36" class="" dir="auto">Os dados podem ficar expostos a determinados tipos de interceptação.</p><p id="3e2f6ce8-497f-80c2-a842-e5333c16d8f2" class="" dir="auto">Com HTTPS:</p><pre id="3e2f6ce8-497f-80ec-bbcc-f9c2f46a9c26" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Usuário
+   ↓
+HTTPS/TLS
+   ↓
+Servidor</code></pre><p id="3e2f6ce8-497f-8070-9736-e1cc7c388c35" class="" dir="auto">O TLS protege a comunicação contra diversos tipos de interceptação e alteração durante o transporte.</p><hr id="3e2f6ce8-497f-803f-9935-f6b45ee68690" dir="auto"/><h1 id="3e2f6ce8-497f-80b3-abeb-cbd157668156" class="" dir="auto">21. Autenticação x Autorização</h1><p id="3e2f6ce8-497f-80ea-a7e5-ef191151fe5a" class="" dir="auto">Esse é um conceito que você já viu em <strong>Quebra de Controle de Acesso</strong>, e é importante não confundir.</p><h3 id="3e2f6ce8-497f-8079-93d5-f3c0ba1c8bb8" class="" dir="auto">Autenticação</h3><p id="3e2f6ce8-497f-8070-8034-c7e15ad5dd25" class="" dir="auto">Pergunta:</p><blockquote id="3e2f6ce8-497f-80c3-a595-db616d54a5cc" class="" dir="auto"><strong>Quem é você?</strong></blockquote><pre id="3e2f6ce8-497f-80ad-a932-dddf966bfe46" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Login + senha</code></pre><h3 id="3e2f6ce8-497f-8053-a2ff-fe9242e9a98f" class="" dir="auto">Autorização</h3><p id="3e2f6ce8-497f-8054-9431-c6fadabd95f7" class="" dir="auto">Pergunta:</p><blockquote id="3e2f6ce8-497f-8095-98e0-c11acc422ba2" class="" dir="auto"><strong>O que você pode fazer?</strong></blockquote><pre id="3e2f6ce8-497f-8092-92eb-f9694f305a83" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Usuário comum
+    ↓
+Pode visualizar pedidos
+
+Administrador
+    ↓
+Pode visualizar e administrar usuários</code></pre><p id="3e2f6ce8-497f-80af-987a-d76d76a2993e" class="" dir="auto">Portanto:</p><pre id="3e2f6ce8-497f-80f3-9fff-e12e7d910a8b" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">AUTENTICAÇÃO
+      ↓
+Quem é você?
+      ↓
+AUTORIZAÇÃO
+      ↓
+O que você pode acessar?</code></pre><p id="3e2f6ce8-497f-8084-9706-d1fa35263d38" class="" dir="auto">Uma aplicação pode ter uma autenticação perfeitamente funcional e ainda possuir falhas de autorização.</p><hr id="3e2f6ce8-497f-80a0-82af-db4742d1ac5f" dir="auto"/><h1 id="3e2f6ce8-497f-8027-83c4-d934d37b01d5" class="" dir="auto">22. Exemplo completo</h1><p id="3e2f6ce8-497f-808e-8f77-d34f2445be2a" class="" dir="auto">Imagine um sistema de banco.</p><h3 id="3e2f6ce8-497f-80ee-a986-f00508c15651" class="" dir="auto">Etapa 1 — Identificação</h3><pre id="3e2f6ce8-497f-8099-b3a3-f970b7314c00" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">CPF: 000.000.000-00</code></pre><p id="3e2f6ce8-497f-809d-b3cf-fbf0daa70269" class="" dir="auto">O sistema identifica a conta.</p><h3 id="3e2f6ce8-497f-808a-9d30-fecce470f65b" class="" dir="auto">Etapa 2 — Autenticação</h3><pre id="3e2f6ce8-497f-8018-8266-d0c5e1e12bbd" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Senha</code></pre><p id="3e2f6ce8-497f-8016-8a44-f5a9b86dab2f" class="" dir="auto">O sistema verifica a identidade.</p><h3 id="3e2f6ce8-497f-8091-aee5-d40de301b9d5" class="" dir="auto">Etapa 3 — MFA</h3><pre id="3e2f6ce8-497f-8004-910e-fc1734ba80fd" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Código adicional</code></pre><p id="3e2f6ce8-497f-8063-873c-e33f272b3177" class="" dir="auto">Outro fator é verificado.</p><h3 id="3e2f6ce8-497f-802d-82b4-f5d755e7c829" class="" dir="auto">Etapa 4 — Sessão</h3><pre id="3e2f6ce8-497f-80b8-b994-f2e8ca15c762" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Sessão autenticada</code></pre><h3 id="3e2f6ce8-497f-80bb-bd42-c322cafe581b" class="" dir="auto">Etapa 5 — Autorização</h3><pre id="3e2f6ce8-497f-8041-9e58-ed85231fc7e0" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Usuário autenticado
+        ↓
+Pode acessar
+        ↓
+Somente suas próprias informações</code></pre><p id="3e2f6ce8-497f-8009-9294-f1bf2ee684a2" class="" dir="auto">Cada etapa possui responsabilidades diferentes.</p><hr id="3e2f6ce8-497f-802f-aeba-f49331663213" dir="auto"/><h1 id="3e2f6ce8-497f-802e-9aae-e04b253dd0e1" class="" dir="auto">23. Principais causas</h1><p id="3e2f6ce8-497f-80a7-8ccd-c0be4cc05bf5" class="" dir="auto">As falhas de identificação e autenticação podem surgir devido a:</p><ul id="3e2f6ce8-497f-80ac-a586-eb708f1fb6e4" class="bulleted-list" dir="auto"><li style="list-style-type:disc">senhas fracas;</li></ul><ul id="3e2f6ce8-497f-803f-9eca-d199ba01cc21" class="bulleted-list" dir="auto"><li style="list-style-type:disc">armazenamento inadequado de senhas;</li></ul><ul id="3e2f6ce8-497f-8002-b1b9-e9f4fa92d075" class="bulleted-list" dir="auto"><li style="list-style-type:disc">ausência de MFA quando necessário;</li></ul><ul id="3e2f6ce8-497f-8040-8642-f305be99695e" class="bulleted-list" dir="auto"><li style="list-style-type:disc">sessões mal implementadas;</li></ul><ul id="3e2f6ce8-497f-8085-af5e-cd695cea02aa" class="bulleted-list" dir="auto"><li style="list-style-type:disc">tokens mal protegidos;</li></ul><ul id="3e2f6ce8-497f-8009-95b0-f61944de6ae4" class="bulleted-list" dir="auto"><li style="list-style-type:disc">recuperação de senha insegura;</li></ul><ul id="3e2f6ce8-497f-80be-ab18-e450c6f30a9f" class="bulleted-list" dir="auto"><li style="list-style-type:disc">ausência de limitação de tentativas;</li></ul><ul id="3e2f6ce8-497f-8066-8b68-d972f0366203" class="bulleted-list" dir="auto"><li style="list-style-type:disc">mensagens de erro excessivamente informativas;</li></ul><ul id="3e2f6ce8-497f-807b-9081-dadceed573a3" class="bulleted-list" dir="auto"><li style="list-style-type:disc">sessões que não expiram;</li></ul><ul id="3e2f6ce8-497f-8075-9f73-ed35c62d071c" class="bulleted-list" dir="auto"><li style="list-style-type:disc">cookies inseguros;</li></ul><ul id="3e2f6ce8-497f-805c-b854-f9d2639fd81a" class="bulleted-list" dir="auto"><li style="list-style-type:disc">falta de HTTPS;</li></ul><ul id="3e2f6ce8-497f-806f-bf20-c67fc2e32f0c" class="bulleted-list" dir="auto"><li style="list-style-type:disc">gerenciamento inadequado de credenciais;</li></ul><ul id="3e2f6ce8-497f-8000-a35c-fa3b58a4f10b" class="bulleted-list" dir="auto"><li style="list-style-type:disc">autenticação implementada incorretamente.</li></ul><hr id="3e2f6ce8-497f-8043-815c-edf65ec5e84a" dir="auto"/><h1 id="3e2f6ce8-497f-8099-97f8-fe66d6e45ef4" class="" dir="auto">24. Como prevenir?</h1><p id="3e2f6ce8-497f-80ce-8f58-c2504cf32d4e" class="" dir="auto">Uma aplicação deve utilizar uma estratégia de autenticação adequada ao risco.</p><h3 id="3e2f6ce8-497f-8073-9b08-f41eb8135922" class="" dir="auto">Senhas</h3><p id="3e2f6ce8-497f-8077-a904-fc359dadd6f3" class="" dir="auto">Utilizar:</p><pre id="3e2f6ce8-497f-80fa-8b90-fe21aef4218a" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Argon2
+bcrypt
+scrypt
+PBKDF2</code></pre><p id="3e2f6ce8-497f-8061-b3f0-fb3c3f7251ab" class="" dir="auto">com parâmetros adequados.</p><h3 id="3e2f6ce8-497f-8058-8541-d7d6e01c2437" class="" dir="auto">Sessões</h3><p id="3e2f6ce8-497f-802b-82c6-c46171973f37" class="" dir="auto">Utilizar:</p><pre id="3e2f6ce8-497f-801f-8c43-e64efa56a557" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">IDs imprevisíveis
+Expiração
+Invalidação no logout
+Regeneração após login
+Cookies protegidos</code></pre><h3 id="3e2f6ce8-497f-8025-a75b-f0ace979ee22" class="" dir="auto">Autenticação</h3><p id="3e2f6ce8-497f-803f-a2a8-e4dcc0f051eb" class="" dir="auto">Utilizar:</p><pre id="3e2f6ce8-497f-80c8-9b55-eef57911e01a" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">MFA quando apropriado
+Rate limiting
+Detecção de atividades suspeitas
+Políticas adequadas de senha</code></pre><h3 id="3e2f6ce8-497f-80b5-bd93-ce238d4f931f" class="" dir="auto">Comunicação</h3><p id="3e2f6ce8-497f-80b6-bd3b-d0ad896f0cdd" class="" dir="auto">Utilizar:</p><pre id="3e2f6ce8-497f-80b7-a57a-f98cf4fbbc70" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">HTTPS/TLS</code></pre><h3 id="3e2f6ce8-497f-809a-bd1d-e0666a37d030" class="" dir="auto">Recuperação de conta</h3><p id="3e2f6ce8-497f-80b2-94db-cdfdb875b393" class="" dir="auto">Utilizar:</p><pre id="3e2f6ce8-497f-8008-9830-e481c042ec84" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Tokens seguros
+Expiração
+Uso único
+Respostas que reduzam enumeração</code></pre><hr id="3e2f6ce8-497f-80b8-9c04-c68061ec1f1e" dir="auto"/><h1 id="3e2f6ce8-497f-809c-aeb6-d64f8de9c072" class="" dir="auto">25. Fluxo de uma autenticação segura</h1><p id="3e2f6ce8-497f-8037-af44-f1fe41bf9320" class="" dir="auto">Podemos representar uma arquitetura simplificada assim:</p><pre id="3e2f6ce8-497f-8021-8323-fcef57b8ed3b" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">                USUÁRIO
+                   │
+                   ▼
+              ┌─────────┐
+              │  Login  │
+              └────┬────┘
+                   │
+                   ▼
+        ┌─────────────────────┐
+        │ Verificação da senha│
+        └──────────┬──────────┘
+                   │
+             Credenciais
+               válidas?
+              /        \
+            NÃO         SIM
+             │           │
+             ▼           ▼
+          Negar        MFA
+                       │
+                       ▼
+                Segundo fator
+                       │
+                       ▼
+                Criar sessão
+                       │
+                       ▼
+                Cookie/Token
+                       │
+                       ▼
+               Acesso autenticado</code></pre><hr id="3e2f6ce8-497f-8058-8b33-c1c9adeda8e3" dir="auto"/><h1 id="3e2f6ce8-497f-8095-8acc-e91d09b8735c" class="" dir="auto">26. Checklist de segurança</h1><p id="3e2f6ce8-497f-809b-adf7-eda2ccc30774" class="" dir="auto">Para uma aplicação web:</p><pre id="3e2f6ce8-497f-808f-9c09-c50e3bd7962a" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">[ ] Senhas não são armazenadas em texto puro
+[ ] É utilizado hash/KDF apropriado para senhas
+[ ] Existe proteção contra tentativas automatizadas
+[ ] MFA é utilizado quando apropriado
+[ ] Sessões possuem expiração
+[ ] Sessões são invalidadas no logout
+[ ] IDs de sessão são imprevisíveis
+[ ] Sessão é regenerada após autenticação
+[ ] Cookies possuem configurações de segurança adequadas
+[ ] HTTPS é utilizado
+[ ] Tokens possuem validade adequada
+[ ] Tokens são validados corretamente
+[ ] Recuperação de senha é protegida
+[ ] Tokens de recuperação expiram
+[ ] Tokens de recuperação são de uso único
+[ ] Mensagens não facilitam enumeração de usuários
+[ ] Credenciais não aparecem nos logs
+[ ] Contas administrativas possuem proteção adicional</code></pre><hr id="3e2f6ce8-497f-8011-ab8c-c34e7174ef7e" dir="auto"/><h1 id="3e2f6ce8-497f-801a-a044-f66a6f40404b" class="" dir="auto">27. Relação com os temas anteriores</h1><p id="3e2f6ce8-497f-806d-8c12-f4016e476060" class="" dir="auto">Esse assunto fecha várias conexões importantes da segurança web:</p><pre id="3e2f6ce8-497f-804b-851a-d7e905361836" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Componentes vulneráveis
+          │
+          ▼
+Podem afetar autenticação
+          │
+          ▼
+Falhas de autenticação
+          │
+          ▼
+Atacante consegue acessar uma conta
+          │
+          ▼
+Controle de acesso
+          │
+          ▼
+Verifica o que essa conta pode fazer</code></pre><p id="3e2f6ce8-497f-8017-8536-e0cc5f90ee74" class="" dir="auto">Também existe uma relação direta com:</p><table id="3e2f6ce8-497f-8057-b28f-ffca573843a9" class="simple-table" dir="ltr"><thead class="simple-table-header"><tr id="3e2f6ce8-497f-808d-8781-dac83415227f" dir="ltr"><th id="a]|[" class="simple-table-header-color simple-table-header">Tema</th><th id="yR{=" class="simple-table-header-color simple-table-header">Relação</th></tr></thead><tbody><tr id="3e2f6ce8-497f-80f9-8a44-df1d7adc3308" dir="ltr"><td id="a]|[" class=""><strong>Injeção</strong></td><td id="yR{=" class="">Pode comprometer mecanismos relacionados a autenticação</td></tr><tr id="3e2f6ce8-497f-80bc-95ed-faf6af1eaa48" dir="ltr"><td id="a]|[" class=""><strong>Quebra de Controle de Acesso</strong></td><td id="yR{=" class="">Acontece depois que a identidade é estabelecida</td></tr><tr id="3e2f6ce8-497f-80fd-823e-da9e951ec611" dir="ltr"><td id="a]|[" class=""><strong>Falhas Criptográficas</strong></td><td id="yR{=" class="">Podem afetar armazenamento e transporte de credenciais</td></tr><tr id="3e2f6ce8-497f-80f6-b887-fbf2c4cdf20c" dir="ltr"><td id="a]|[" class=""><strong>Projeto Inseguro</strong></td><td id="yR{=" class="">Autenticação pode ter sido projetada de maneira inadequada</td></tr><tr id="3e2f6ce8-497f-80ed-8740-f7a75ac6d294" dir="ltr"><td id="a]|[" class=""><strong>Configuração Incorreta</strong></td><td id="yR{=" class="">Configurações de sessão, TLS e autenticação podem estar inseguras</td></tr><tr id="3e2f6ce8-497f-8032-bab1-f56e75f82c28" dir="ltr"><td id="a]|[" class=""><strong>Componentes Vulneráveis</strong></td><td id="yR{=" class="">Bibliotecas de autenticação podem conter vulnerabilidades</td></tr></tbody></table><hr id="3e2f6ce8-497f-8050-a249-c55d67889c8a" dir="auto"/><h1 id="3e2f6ce8-497f-8033-8bfa-c702a728a9ad" class="" dir="auto">Resumo</h1><p id="3e2f6ce8-497f-808e-a8c1-ede377f09822" class="" dir="auto"><strong>Falhas de Identificação e Autenticação</strong> ocorrem quando uma aplicação não consegue proteger adequadamente o processo de <strong>identificar usuários e verificar suas identidades</strong>.</p><p id="3e2f6ce8-497f-803a-aa3a-f76af675bb85" class="" dir="auto">Os principais pontos são:</p><pre id="3e2f6ce8-497f-8061-af74-f55e774e5f72" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Identificação
+    ↓
+&quot;Quem é você?&quot;
+
+Autenticação
+    ↓
+&quot;Prove que você é essa pessoa.&quot;
+
+Sessão
+    ↓
+&quot;Continue autenticado.&quot;
+
+Autorização
+    ↓
+&quot;O que você pode fazer?&quot;</code></pre><p id="3e2f6ce8-497f-8056-acb9-cb64bea1a7b3" class="" dir="auto">Os problemas mais importantes incluem:</p><ul id="3e2f6ce8-497f-80bb-94d2-e2214962d930" class="bulleted-list" dir="auto"><li style="list-style-type:disc">senhas fracas;</li></ul><ul id="3e2f6ce8-497f-80f0-96f2-cafca598b6b7" class="bulleted-list" dir="auto"><li style="list-style-type:disc">armazenamento inadequado de senhas;</li></ul><ul id="3e2f6ce8-497f-8011-a113-d6c069c5d1c3" class="bulleted-list" dir="auto"><li style="list-style-type:disc">ausência de MFA;</li></ul><ul id="3e2f6ce8-497f-8066-afa1-c9f1fef9ec8e" class="bulleted-list" dir="auto"><li style="list-style-type:disc">ataques automatizados;</li></ul><ul id="3e2f6ce8-497f-80e7-9186-e64525c6d5b1" class="bulleted-list" dir="auto"><li style="list-style-type:disc">sessões inseguras;</li></ul><ul id="3e2f6ce8-497f-80af-bfef-c538f001d945" class="bulleted-list" dir="auto"><li style="list-style-type:disc">tokens mal protegidos;</li></ul><ul id="3e2f6ce8-497f-80e1-aea5-c7d5dcfc7fce" class="bulleted-list" dir="auto"><li style="list-style-type:disc">recuperação de senha vulnerável;</li></ul><ul id="3e2f6ce8-497f-80de-bc5b-f971fcdcb6d5" class="bulleted-list" dir="auto"><li style="list-style-type:disc">enumeração de usuários;</li></ul><ul id="3e2f6ce8-497f-805a-b98d-ee33be5b8042" class="bulleted-list" dir="auto"><li style="list-style-type:disc">cookies mal configurados;</li></ul><ul id="3e2f6ce8-497f-8019-a607-fdebded4efb0" class="bulleted-list" dir="auto"><li style="list-style-type:disc">falta de HTTPS.</li></ul><p id="3e2f6ce8-497f-80fa-962f-cf90142b6ead" class="" dir="auto">A ideia central é:</p><blockquote id="3e2f6ce8-497f-80a3-abba-cd2a39eeaea3" class="" dir="auto"><strong>Não basta ter uma tela de login. A aplicação precisa proteger todo o ciclo de vida da identidade: criação da conta, autenticação, sessão, recuperação de acesso, logout e gerenciamento das credenciais.</strong></blockquote></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

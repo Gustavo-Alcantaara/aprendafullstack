@@ -1,0 +1,1107 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Falhas de Integridade</title><meta name="data-notion-page-icon" content="/icons/lock_blue.svg"/><link rel="icon" href="https://app.notion.com/icons/lock_blue.svg"/><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+	/* Paint a complete callout box on every PDF page fragment. */
+	-webkit-box-decoration-break: clone;
+	box-decoration-break: clone;
+}
+
+/* For default-background callouts, render the border outline. */
+.callout.block-color-default_background {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+/*
+ * Toggles and callouts hold arbitrary content, so they can easily be taller
+ * than a page. They must stay breakable: avoiding breaks inside them makes
+ * Chromium push the whole block onto the next page, which leaves the previous
+ * page mostly empty before every long toggle.
+ */
+details,
+aside {
+	margin: 1.25em 0;
+}
+
+/* Keep a toggle's title on the same page as the start of its content. */
+summary {
+	page-break-after: avoid;
+	break-after: avoid;
+}
+
+/*
+ * Toggle headings render as <h1/h2/h3 style="display:inline-block"> inside
+ * <summary>. Without this reset, the heading's margin-top pushes it below the
+ * ::marker (▼), so the triangle and the title appear on separate lines.
+ */
+summary h1,
+summary h2,
+summary h3,
+summary h4 {
+	margin-top: 0;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding-inline: 0.125rem;
+	padding-block: 0.375rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+/*
+ * Render emoji icons using a ::before pseudo-element to keep the glyph
+ * out of the DOM textContent traversal. This avoids double-rendering icons
+ * in callouts and page titles.
+ * NOTE(slim/html-export-pseudo-icons): I can't tagref this because it will
+ * flag as a duplicate tag after codegen.
+ */
+.icon[data-emoji]::before {
+	content: attr(data-emoji);
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	margin-right: 0.4em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.tab {
+	margin: 1.25em 0;
+	padding-inline: 1rem;
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style><style>@import url('https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex-swap.min.css')</style></head><body><article id="3e2f6ce8-497f-802d-986f-c5a9bdffa7e1" class="page sans" data-notion-page-icon="/icons/lock_blue.svg"><header><div class="page-header-icon undefined"><img class="icon notion-static-icon" src="https://app.notion.com/icons/lock_blue.svg"/></div><h1 class="page-title" dir="auto">Falhas de Integridade</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><h1 id="3e2f6ce8-497f-8074-9a22-e2169e727a77" class="" dir="auto">Falhas de Integridade de Dados e Software</h1><p id="3e2f6ce8-497f-80c9-9f80-d07b36dbeddc" class="" dir="auto"><strong>Falhas de Integridade de Dados e Software</strong> acontecem quando uma aplicação <strong>não consegue garantir que seus dados, arquivos, código ou componentes permaneçam corretos, confiáveis e não sejam alterados de maneira indevida</strong>.</p><p id="3e2f6ce8-497f-80a2-8c61-f80b2ecb1e34" class="" dir="auto">Esse conceito é muito importante em segurança da informação porque não basta proteger os dados contra leitura. Também precisamos garantir que eles <strong>não sejam modificados, corrompidos ou substituídos de forma não autorizada</strong>.</p><p id="3e2f6ce8-497f-80f1-87d1-e88674f8ff84" class="" dir="auto">Uma forma simples de entender:</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="3e2f6ce8-497f-80e2-ba57-c13877d2ed52" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Confidencialidade → &quot;Quem pode ver?&quot;
+Integridade        → &quot;Quem pode alterar?&quot;
+Disponibilidade    → &quot;Quem pode acessar e quando?&quot;</code></pre><p id="3e2f6ce8-497f-80ea-b620-d7cf60e1efe7" class="" dir="auto">A integridade faz parte da conhecida <strong>tríade CIA</strong> da segurança da informação:</p><pre id="3e2f6ce8-497f-80fc-b2f9-c25152286400" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">             SEGURANÇA
+                 │
+       ┌─────────┼─────────┐
+       ↓         ↓         ↓
+Confidencial. Integridade Disponib.</code></pre><hr id="3e2f6ce8-497f-8097-bd44-d66910735c37" dir="auto"/><h1 id="3e2f6ce8-497f-8017-8a27-cba21af20292" class="" dir="auto">1. O que é integridade?</h1><p id="3e2f6ce8-497f-80dd-b0ef-d1508e941ab8" class="" dir="auto"><strong>Integridade</strong> significa garantir que uma informação permaneça:</p><ul id="3e2f6ce8-497f-808e-92b4-d881fd4fdbe5" class="bulleted-list" dir="auto"><li style="list-style-type:disc">correta;</li></ul><ul id="3e2f6ce8-497f-80ca-bf89-fe6d71b635d7" class="bulleted-list" dir="auto"><li style="list-style-type:disc">completa;</li></ul><ul id="3e2f6ce8-497f-8012-ab76-ee9432ec44e5" class="bulleted-list" dir="auto"><li style="list-style-type:disc">consistente;</li></ul><ul id="3e2f6ce8-497f-8018-82ed-e2ee079efc05" class="bulleted-list" dir="auto"><li style="list-style-type:disc">confiável;</li></ul><ul id="3e2f6ce8-497f-80bd-8b8f-efe5144f1e0f" class="bulleted-list" dir="auto"><li style="list-style-type:disc">protegida contra alterações não autorizadas.</li></ul><p id="3e2f6ce8-497f-804e-b66a-c8a3f5e31882" class="" dir="auto">Imagine um sistema bancário:</p><pre id="3e2f6ce8-497f-803d-8d7a-e9ce26ba0257" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Saldo original:
+R$ 5.000,00</code></pre><p id="3e2f6ce8-497f-8073-b1c1-fbd2afc837eb" class="" dir="auto">Se alguém conseguir alterar esse valor sem autorização:</p><pre id="3e2f6ce8-497f-805b-9c97-c93760ad30e4" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">R$ 5.000,00
+      ↓
+R$ 50.000,00</code></pre><p id="3e2f6ce8-497f-8077-9b3a-f4bbca0e46b8" class="" dir="auto">houve uma violação de integridade.</p><p id="3e2f6ce8-497f-80ec-a51b-e317e95a2e21" class="" dir="auto">O problema não é necessariamente alguém ter <strong>visualizado</strong> o saldo.</p><p id="3e2f6ce8-497f-80e7-83b1-d0c293850099" class="" dir="auto">O problema foi alguém conseguir <strong>alterá-lo indevidamente</strong>.</p><hr id="3e2f6ce8-497f-8063-ba5c-d94b4b13a533" dir="auto"/><h1 id="3e2f6ce8-497f-80c4-947a-cc29cfec7bde" class="" dir="auto">2. Integridade de dados</h1><p id="3e2f6ce8-497f-80a0-9943-d5944dea95c9" class="" dir="auto">A <strong>integridade de dados</strong> está relacionada à garantia de que os dados armazenados e processados pela aplicação não sejam modificados de forma indevida.</p><p id="3e2f6ce8-497f-809e-a9d2-d03a4dd2c9ab" class="" dir="auto">Exemplos de dados:</p><pre id="3e2f6ce8-497f-80e8-b70f-d1a6a348031a" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Usuários
+Pedidos
+Produtos
+Preços
+Saldos
+Mensagens
+Documentos
+Configurações
+Logs</code></pre><p id="3e2f6ce8-497f-8052-b0cf-daadf07449a8" class="" dir="auto">Uma aplicação deve conseguir determinar que:</p><pre id="3e2f6ce8-497f-8070-8f13-db9a8bf5c501" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Dado original
+     ↓
+Permanece correto
+     ↓
+Sem alterações não autorizadas</code></pre><hr id="3e2f6ce8-497f-80e8-9ad1-c101f137014a" dir="auto"/><h1 id="3e2f6ce8-497f-805f-94b8-c5410b3bb2bb" class="" dir="auto">3. Integridade de software</h1><p id="3e2f6ce8-497f-80f6-8178-e54c40195d63" class="" dir="auto">A integridade não se aplica somente aos dados.</p><p id="3e2f6ce8-497f-8076-baf3-eeb31849fbe9" class="" dir="auto">Também precisamos garantir a integridade do <strong>software</strong>.</p><p id="3e2f6ce8-497f-80cb-b08d-d1a2c38c232a" class="" dir="auto">Por exemplo:</p><pre id="3e2f6ce8-497f-8021-b1ed-cac9909a1200" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Aplicação original
+      ↓
+Código legítimo
+      ↓
+Implantação
+      ↓
+Execução</code></pre><p id="3e2f6ce8-497f-80f1-855d-dd7ccecab659" class="" dir="auto">Imagine que alguém substitua um arquivo da aplicação:</p><pre id="3e2f6ce8-497f-800a-ad48-ec8580e386e1" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">app.js original
+      ↓
+substituído
+      ↓
+app.js malicioso</code></pre><p id="3e2f6ce8-497f-80cb-98ef-cab2d9726f3b" class="" dir="auto">A aplicação pode continuar funcionando, mas agora o código executado <strong>não é mais o código confiável originalmente desenvolvido</strong>.</p><p id="3e2f6ce8-497f-802b-9ebe-c98ebd5a9d41" class="" dir="auto">Isso é uma violação de integridade do software.</p><hr id="3e2f6ce8-497f-806e-9d52-db36280b4a56" dir="auto"/><h1 id="3e2f6ce8-497f-8026-a60c-f0e1e94b179f" class="" dir="auto">4. Como uma falha pode acontecer?</h1><p id="3e2f6ce8-497f-80c9-b664-f05942ca188d" class="" dir="auto">Podemos representar de maneira geral:</p><pre id="3e2f6ce8-497f-8017-841b-e45330822f28" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Dado / Software legítimo
+          ↓
+       Alteração
+          ↓
+┌─────────┴─────────┐
+↓                   ↓
+Autorizada        Não autorizada
+↓                   ↓
+Normal              Falha</code></pre><p id="3e2f6ce8-497f-80c1-b8d7-c1a8d09996d8" class="" dir="auto">Uma alteração não autorizada pode ocorrer por:</p><ul id="3e2f6ce8-497f-80f1-a642-e2fe72df8995" class="bulleted-list" dir="auto"><li style="list-style-type:disc">vulnerabilidade;</li></ul><ul id="3e2f6ce8-497f-8032-b7c8-fc689747de23" class="bulleted-list" dir="auto"><li style="list-style-type:disc">acesso indevido;</li></ul><ul id="3e2f6ce8-497f-8050-b907-eb70d4fb32d1" class="bulleted-list" dir="auto"><li style="list-style-type:disc">credenciais comprometidas;</li></ul><ul id="3e2f6ce8-497f-8006-9da9-f74e2c46726d" class="bulleted-list" dir="auto"><li style="list-style-type:disc">configuração incorreta;</li></ul><ul id="3e2f6ce8-497f-80a4-b0bb-f13c68a108bf" class="bulleted-list" dir="auto"><li style="list-style-type:disc">malware;</li></ul><ul id="3e2f6ce8-497f-8066-8c69-c84bf74bab9c" class="bulleted-list" dir="auto"><li style="list-style-type:disc">dependência comprometida;</li></ul><ul id="3e2f6ce8-497f-808c-a4f6-d0d83538debf" class="bulleted-list" dir="auto"><li style="list-style-type:disc">processo de implantação inseguro;</li></ul><ul id="3e2f6ce8-497f-80fc-a60c-eaaebfc3d04c" class="bulleted-list" dir="auto"><li style="list-style-type:disc">falta de validação;</li></ul><ul id="3e2f6ce8-497f-802f-87a3-dfbd313fc91e" class="bulleted-list" dir="auto"><li style="list-style-type:disc">erro humano.</li></ul><hr id="3e2f6ce8-497f-80c4-a901-c8823dd057ff" dir="auto"/><h1 id="3e2f6ce8-497f-80c4-a3e9-df2f2f4c8833" class="" dir="auto">5. Integridade x Confidencialidade</h1><p id="3e2f6ce8-497f-8006-8998-ebc91285f715" class="" dir="auto">É importante não confundir.</p><h3 id="3e2f6ce8-497f-8085-a938-f57d658034a3" class="" dir="auto">Confidencialidade</h3><p id="3e2f6ce8-497f-8069-8734-d5512ac98910" class="" dir="auto">Protege contra <strong>acesso não autorizado</strong>.</p><pre id="3e2f6ce8-497f-80e5-bf18-dc9ed6e6946e" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Atacante
+   ↓
+❌ Não deveria conseguir ler</code></pre><h3 id="3e2f6ce8-497f-809c-8648-c12f45dbe9f4" class="" dir="auto">Integridade</h3><p id="3e2f6ce8-497f-807b-baac-f246a06f2600" class="" dir="auto">Protege contra <strong>alteração não autorizada</strong>.</p><pre id="3e2f6ce8-497f-805b-820c-de1735675897" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Atacante
+   ↓
+❌ Não deveria conseguir modificar</code></pre><p id="3e2f6ce8-497f-8062-a737-e0b0e7399f37" class="" dir="auto">Um sistema pode ter uma e não ter a outra.</p><p id="3e2f6ce8-497f-8029-93f4-cd75c5b84cb9" class="" dir="auto">Por exemplo:</p><pre id="3e2f6ce8-497f-806a-814d-e0540c656013" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Dados:
+R$ 1.000,00
+
+Atacante não consegue visualizar
+        ↓
+Confidencialidade protegida
+
+Mas consegue modificar:
+R$ 1.000 → R$ 10.000
+
+        ↓
+Integridade comprometida</code></pre><hr id="3e2f6ce8-497f-80ca-bf88-d1725e92c322" dir="auto"/><h1 id="3e2f6ce8-497f-801a-8778-eb6b59db9eb9" class="" dir="auto">6. Integridade x Autenticidade</h1><p id="3e2f6ce8-497f-80db-a634-fc5c7adfc8fe" class="" dir="auto">Também existe uma relação próxima entre <strong>integridade</strong> e <strong>autenticidade</strong>.</p><h3 id="3e2f6ce8-497f-8032-a2c7-d7cee933e8f8" class="" dir="auto">Integridade</h3><p id="3e2f6ce8-497f-8008-a4fa-fac7d9e84e58" class="" dir="auto">Pergunta:</p><blockquote id="3e2f6ce8-497f-8081-a203-cf65e03fc4e6" class="" dir="auto">O conteúdo foi alterado?</blockquote><h3 id="3e2f6ce8-497f-80af-b6ef-f652551f1920" class="" dir="auto">Autenticidade</h3><p id="3e2f6ce8-497f-8099-8bba-e36bc0da4c44" class="" dir="auto">Pergunta:</p><blockquote id="3e2f6ce8-497f-80ec-99b3-ce0bbdbd9f89" class="" dir="auto">O conteúdo realmente veio de quem deveria ter enviado?</blockquote><p id="3e2f6ce8-497f-80f3-b92c-e342a6a5c5c5" class="" dir="auto">Por exemplo, ao receber um arquivo:</p><pre id="3e2f6ce8-497f-80fe-bb47-ed8d030e5e49" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Arquivo
+   ↓
+Está intacto?
+   ↓
+Integridade</code></pre><p id="3e2f6ce8-497f-8021-992a-c9c2cf6a102d" class="" dir="auto">E:</p><pre id="3e2f6ce8-497f-80f1-b644-f15c0c728d3d" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Arquivo
+   ↓
+Veio realmente do fornecedor?
+   ↓
+Autenticidade</code></pre><p id="3e2f6ce8-497f-80bb-887d-cfee43ed8ad2" class="" dir="auto">As duas propriedades frequentemente trabalham juntas.</p><hr id="3e2f6ce8-497f-807e-bfab-cf0098d2a6e2" dir="auto"/><h1 id="3e2f6ce8-497f-8037-9346-c66c7d34bdac" class="" dir="auto">7. Falhas de integridade em bancos de dados</h1><p id="3e2f6ce8-497f-805f-afce-c9565495199c" class="" dir="auto">Bancos de dados são um dos principais lugares onde a integridade precisa ser protegida.</p><p id="3e2f6ce8-497f-80f7-9e90-ef0a00e2e8e0" class="" dir="auto">Imagine uma tabela:</p><pre id="3e2f6ce8-497f-808d-9df7-e98fe4fd729f" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">CLIENTES
+
+id | nome  | saldo
+---|-------|-------
+1  | João  | 5000
+2  | Maria | 3000</code></pre><p id="3e2f6ce8-497f-80c3-ab6f-cc13830f5d59" class="" dir="auto">Se uma aplicação permitir alterações indevidas:</p><pre id="3e2f6ce8-497f-802b-a67c-fabeaa60de15" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">id | nome  | saldo
+---|-------|-------
+1  | João  | 500000</code></pre><p id="3e2f6ce8-497f-80fe-90fe-fe9b060599d2" class="" dir="auto">temos um problema de integridade.</p><hr id="3e2f6ce8-497f-8007-b6e3-d791d42a1b78" dir="auto"/><h1 id="3e2f6ce8-497f-8048-8b9a-e772a96b14f7" class="" dir="auto">8. Integridade referencial</h1><p id="3e2f6ce8-497f-80d6-b932-e4d4baa747fb" class="" dir="auto">No contexto de bancos de dados, existe um conceito específico chamado <strong>integridade referencial</strong>.</p><p id="3e2f6ce8-497f-80fc-b603-d4cb8386da67" class="" dir="auto">Imagine:</p><pre id="3e2f6ce8-497f-80a9-b81c-cc5ebf0e8fc9" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">CLIENTE
+id
+1
+2
+3</code></pre><p id="3e2f6ce8-497f-8066-9e68-fba0a06de969" class="" dir="auto">e:</p><pre id="3e2f6ce8-497f-805d-9d87-f0b5735595e0" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">PEDIDO
+id | cliente_id
+10 | 1
+11 | 2
+12 | 3</code></pre><p id="3e2f6ce8-497f-800d-9776-c43c851b20c7" class="" dir="auto">O <code>cliente_id</code> referencia um cliente existente.</p><p id="3e2f6ce8-497f-8039-8160-fb58e597fa41" class="" dir="auto">Se aparecer:</p><pre id="3e2f6ce8-497f-80ad-b711-ff5bad6742f3" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">12 | 999</code></pre><p id="3e2f6ce8-497f-80ee-8514-dda581e660e1" class="" dir="auto">mas o cliente <code>999</code> não existir, teremos uma inconsistência.</p><p id="3e2f6ce8-497f-80ee-b37b-ebe2240fbd21" class="" dir="auto">Por isso, bancos relacionais utilizam mecanismos como:</p><pre id="3e2f6ce8-497f-80a5-becf-d4ebe6a19742" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">PRIMARY KEY
+FOREIGN KEY
+UNIQUE
+NOT NULL
+CHECK</code></pre><p id="3e2f6ce8-497f-8006-921d-f69ebec24a07" class="" dir="auto">para ajudar a preservar a integridade dos dados.</p><hr id="3e2f6ce8-497f-806c-82e3-d644c0d034d7" dir="auto"/><h1 id="3e2f6ce8-497f-8071-b551-fdce2adaeef5" class="" dir="auto">9. Integridade através de restrições</h1><p id="3e2f6ce8-497f-8071-9495-e21ef2e2a3ed" class="" dir="auto">Por exemplo:</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-sql.min.js" integrity="sha512-sijCOJblSCXYYmXdwvqV0tak8QJW5iy2yLB1wAbbLc3OOIueqymizRFWUS/mwKctnzPKpNdPJV3aK1zlDMJmXQ==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="3e2f6ce8-497f-8039-976f-fc4dc3e6fd21" class="code code-wrap" data-notion-code-syntax="sql"><code class="language-sql" style="white-space:pre-wrap;word-break:break-all">CREATE TABLE usuarios (
+    id INT PRIMARY KEY,
+    email VARCHAR(255) UNIQUE NOT NULL
+);</code></pre><p id="3e2f6ce8-497f-80d8-9c19-fa52ddcee128" class="" dir="auto">Aqui temos algumas garantias:</p><pre id="3e2f6ce8-497f-8050-b5c6-ebb91a9570ca" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">PRIMARY KEY
+↓
+identificação única
+
+UNIQUE
+↓
+não permite e-mails duplicados
+
+NOT NULL
+↓
+campo obrigatório</code></pre><p id="3e2f6ce8-497f-80cf-bf1c-db9f47bbf71b" class="" dir="auto">Essas regras ajudam o banco a rejeitar determinados estados inválidos.</p><hr id="3e2f6ce8-497f-8016-a085-ed21fdb2ad6a" dir="auto"/><h1 id="3e2f6ce8-497f-809c-bc55-ca211abed9f4" class="" dir="auto">10. Integridade de transações</h1><p id="3e2f6ce8-497f-80d2-a3b3-f96e6e724bb5" class="" dir="auto">Outro conceito importante é a <strong>transação</strong>.</p><p id="3e2f6ce8-497f-8010-b89c-d1fe69a3dfb1" class="" dir="auto">Imagine uma transferência:</p><pre id="3e2f6ce8-497f-80a2-8cb0-e58f0dcc2951" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Conta A:
+R$ 1.000
+
+Conta B:
+R$ 500</code></pre><p id="3e2f6ce8-497f-8027-8ad2-db985ab55a1e" class="" dir="auto">Transferência de R$ 200:</p><pre id="3e2f6ce8-497f-80cd-9c5d-eb0b00653fa3" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">A → -200
+B → +200</code></pre><p id="3e2f6ce8-497f-8001-b051-ccdeb91e6652" class="" dir="auto">O sistema não deve terminar em uma situação como:</p><pre id="3e2f6ce8-497f-8047-b782-c5222b93d298" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">A → -200
+B → +0</code></pre><p id="3e2f6ce8-497f-8095-8315-ee0df92a9887" class="" dir="auto">ou:</p><pre id="3e2f6ce8-497f-80b4-8b5b-f02c327ec408" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">A → -0
+B → +200</code></pre><p id="3e2f6ce8-497f-8045-bd9c-deff2dc10cc5" class="" dir="auto">A operação precisa manter a consistência.</p><p id="3e2f6ce8-497f-8044-8ca9-f35377e219e1" class="" dir="auto">Por isso, bancos de dados utilizam transações e propriedades <strong>ACID</strong>:</p><pre id="3e2f6ce8-497f-801a-a7d0-eddf8301ca88" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">A → Atomicidade
+C → Consistência
+I → Isolamento
+D → Durabilidade</code></pre><p id="3e2f6ce8-497f-80ca-b063-fc5b3e7de924" class="" dir="auto">A <strong>Atomicidade</strong> é particularmente importante:</p><blockquote id="3e2f6ce8-497f-80c8-8192-d4cbff0bd2bc" class="" dir="auto">A operação deve acontecer completamente ou não acontecer.</blockquote><hr id="3e2f6ce8-497f-80f8-8f8d-dc81082f5c75" dir="auto"/><h1 id="3e2f6ce8-497f-8051-9826-f7f6709df681" class="" dir="auto">11. Alteração de dados sem autorização</h1><p id="3e2f6ce8-497f-8042-a026-f9a1ecfcee89" class="" dir="auto">Uma aplicação também pode apresentar falhas quando permite que usuários alterem dados que não deveriam modificar.</p><p id="3e2f6ce8-497f-8016-9471-d143bf057158" class="" dir="auto">Imagine:</p><pre id="3e2f6ce8-497f-801c-938c-f2a6ad58efbe" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Usuário A
+   ↓
+Seu perfil</code></pre><p id="3e2f6ce8-497f-8097-afc4-cee67229dae9" class="" dir="auto">Ele deveria poder alterar:</p><pre id="3e2f6ce8-497f-8009-9dad-e998bbfc3761" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">nome
+foto
+telefone</code></pre><p id="3e2f6ce8-497f-80c6-8543-e6556fea5d2f" class="" dir="auto">Mas não:</p><pre id="3e2f6ce8-497f-80b2-a87f-e7de5a625069" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">id
+saldo
+tipo_de_conta
+permissão</code></pre><p id="3e2f6ce8-497f-800a-9587-f822db24309f" class="" dir="auto">Se conseguir modificar esses campos indevidamente, existe uma falha de segurança.</p><p id="3e2f6ce8-497f-8045-b78e-dd4f23ca74b8" class="" dir="auto">Isso também se relaciona diretamente com o tema que você estudou anteriormente:</p><p id="3e2f6ce8-497f-80ca-9c07-fb516568fc26" class="" dir="auto"><strong>Quebra de Controle de Acesso.</strong></p><hr id="3e2f6ce8-497f-80ef-bc92-f16030cbbf0e" dir="auto"/><h1 id="3e2f6ce8-497f-80a5-8b7b-f2fe3e3c219a" class="" dir="auto">12. Integridade de arquivos</h1><p id="3e2f6ce8-497f-803a-99e1-ec347cd477f7" class="" dir="auto">Arquivos também precisam ser protegidos.</p><p id="3e2f6ce8-497f-8049-b53f-ce06502a65f8" class="" dir="auto">Imagine:</p><pre id="3e2f6ce8-497f-80fa-a011-d9e659abdbe8" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">config.json</code></pre><p id="3e2f6ce8-497f-80e4-b6fd-ebb10a3adc19" class="" dir="auto">O sistema espera:</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-json.min.js" integrity="sha512-QXFMVAusM85vUYDaNgcYeU3rzSlc+bTV4JvkfJhjxSHlQEo+ig53BtnGkvFTiNJh8D+wv6uWAQ2vJaVmxe8d3w==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="3e2f6ce8-497f-8003-a822-eb3be412c052" class="code code-wrap" data-notion-code-syntax="json"><code class="language-json" style="white-space:pre-wrap;word-break:break-all">{
+  &quot;modo&quot;: &quot;producao&quot;
+}</code></pre><p id="3e2f6ce8-497f-8077-9943-e3b8e3a5b2ac" class="" dir="auto">Mas alguém consegue modificar para:</p><pre id="3e2f6ce8-497f-8093-ade0-c1b8f7c844b9" class="code code-wrap" data-notion-code-syntax="json"><code class="language-json" style="white-space:pre-wrap;word-break:break-all">{
+  &quot;modo&quot;: &quot;desenvolvimento&quot;
+}</code></pre><p id="3e2f6ce8-497f-8013-a883-ee08e9abd361" class="" dir="auto">Dependendo da aplicação, isso pode provocar comportamentos inesperados ou insegurança.</p><p id="3e2f6ce8-497f-8081-99dd-c68d40ee2b32" class="" dir="auto">Arquivos importantes incluem:</p><ul id="3e2f6ce8-497f-8015-b468-e00fd1e5f2e1" class="bulleted-list" dir="auto"><li style="list-style-type:disc">configurações;</li></ul><ul id="3e2f6ce8-497f-802e-8572-fee7988a276b" class="bulleted-list" dir="auto"><li style="list-style-type:disc">código-fonte;</li></ul><ul id="3e2f6ce8-497f-8091-9a8a-e41eb3c97c3e" class="bulleted-list" dir="auto"><li style="list-style-type:disc">executáveis;</li></ul><ul id="3e2f6ce8-497f-8015-9e00-ea7aa7aa3dc5" class="bulleted-list" dir="auto"><li style="list-style-type:disc">bibliotecas;</li></ul><ul id="3e2f6ce8-497f-80c0-b06e-e87ab0d62f47" class="bulleted-list" dir="auto"><li style="list-style-type:disc">certificados;</li></ul><ul id="3e2f6ce8-497f-8014-80ac-cd780e636d3d" class="bulleted-list" dir="auto"><li style="list-style-type:disc">arquivos de configuração;</li></ul><ul id="3e2f6ce8-497f-80e2-b497-ea80f99a6786" class="bulleted-list" dir="auto"><li style="list-style-type:disc">scripts;</li></ul><ul id="3e2f6ce8-497f-803e-a39b-c24f1eb8c0af" class="bulleted-list" dir="auto"><li style="list-style-type:disc">backups.</li></ul><hr id="3e2f6ce8-497f-80f9-a1f8-c4ce2b14006c" dir="auto"/><h1 id="3e2f6ce8-497f-80a9-bde0-de3e4b65e87c" class="" dir="auto">13. Hash para verificar integridade</h1><p id="3e2f6ce8-497f-805d-8310-f2d98baa9582" class="" dir="auto">Uma das técnicas utilizadas para verificar integridade é o <strong>hash</strong>.</p><p id="3e2f6ce8-497f-8002-976c-fab23005cdf0" class="" dir="auto">Imagine um arquivo:</p><pre id="3e2f6ce8-497f-80fa-805f-c0a8a4e68d88" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">arquivo.zip</code></pre><p id="3e2f6ce8-497f-800a-9a8b-d68007370b29" class="" dir="auto">Aplicamos uma função de hash:</p><pre id="3e2f6ce8-497f-8042-a6a9-d04bbf382279" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">arquivo.zip
+     ↓
+SHA-256
+     ↓
+A1B2C3...</code></pre><p id="3e2f6ce8-497f-801f-814f-e76c5791661d" class="" dir="auto">Se o arquivo for alterado:</p><pre id="3e2f6ce8-497f-805a-9c8d-d871f94aee64" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">arquivo.zip
+     ↓
+alteração
+     ↓
+SHA-256
+     ↓
+D9E8F7...</code></pre><p id="3e2f6ce8-497f-80bb-adf7-e183616ebebd" class="" dir="auto">O resultado será diferente.</p><p id="3e2f6ce8-497f-803d-9cef-e362513b36ad" class="" dir="auto">Assim podemos verificar:</p><pre id="3e2f6ce8-497f-8023-b0a2-f7c4f9195cb6" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Hash esperado
+      ↓
+   comparar
+      ↓
+Hash calculado</code></pre><p id="3e2f6ce8-497f-8016-ae72-f9acb0b77736" class="" dir="auto">Se forem iguais, isso fornece evidência de que o conteúdo corresponde ao conteúdo esperado.</p><hr id="3e2f6ce8-497f-8075-a8e4-ec7860d435b1" dir="auto"/><h1 id="3e2f6ce8-497f-809f-a396-f1ecebb5417e" class="" dir="auto">14. Importante: hash não impede alterações</h1><p id="3e2f6ce8-497f-8038-88c3-e7423728c873" class="" dir="auto">Esse detalhe é fundamental.</p><p id="3e2f6ce8-497f-80eb-9e0a-c0ea2c7abb89" class="" dir="auto">Um hash pode ajudar a <strong>detectar</strong> alterações, mas não necessariamente impede que elas aconteçam.</p><p id="3e2f6ce8-497f-80c1-b5c5-f08d30335347" class="" dir="auto">Por exemplo:</p><pre id="3e2f6ce8-497f-80a2-8f0e-d0fc556a923b" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Arquivo
+   ↓
+Hash
+   ↓
+Alguém altera arquivo
+   ↓
+Hash muda</code></pre><p id="3e2f6ce8-497f-80c7-ab69-f29811b2a990" class="" dir="auto">O hash permite perceber a diferença.</p><p id="3e2f6ce8-497f-80e1-b005-e161ddb12aa1" class="" dir="auto">Porém, se um atacante conseguir alterar <strong>tanto o arquivo quanto o hash armazenado</strong>, uma simples comparação pode não ser suficiente.</p><p id="3e2f6ce8-497f-8094-94fe-df712dd61c17" class="" dir="auto">Por isso existem mecanismos mais fortes.</p><hr id="3e2f6ce8-497f-802e-aac6-d855894fed0d" dir="auto"/><h1 id="3e2f6ce8-497f-8086-a15f-da959b2d375e" class="" dir="auto">15. Assinaturas digitais</h1><p id="3e2f6ce8-497f-8003-98d7-f17c79e1d3c0" class="" dir="auto">Uma <strong>assinatura digital</strong> pode fornecer garantias relacionadas à:</p><ul id="3e2f6ce8-497f-80f5-9e10-ea33de93db39" class="bulleted-list" dir="auto"><li style="list-style-type:disc">integridade;</li></ul><ul id="3e2f6ce8-497f-8097-8f97-c3c8ad87d42b" class="bulleted-list" dir="auto"><li style="list-style-type:disc">autenticidade;</li></ul><ul id="3e2f6ce8-497f-8052-80bf-f48480658acd" class="bulleted-list" dir="auto"><li style="list-style-type:disc">origem.</li></ul><p id="3e2f6ce8-497f-803e-9535-fba3a384b4c6" class="" dir="auto">De maneira simplificada:</p><pre id="3e2f6ce8-497f-8079-8b5b-c0f7473f0cbe" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Dados
+  ↓
+Hash
+  ↓
+Assinatura com chave privada
+  ↓
+Assinatura digital</code></pre><p id="3e2f6ce8-497f-80f8-8bd5-fef747385a06" class="" dir="auto">Quem recebe pode verificar utilizando a chave pública correspondente.</p><pre id="3e2f6ce8-497f-804e-99a6-ef1b70aceb48" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Dados + assinatura
+        ↓
+Verificação
+        ↓
+Válida?
+   ↙       ↘
+ SIM       NÃO
+ ↓           ↓
+Confiável   Rejeitar</code></pre><p id="3e2f6ce8-497f-8008-aee6-ddb7d44109c8" class="" dir="auto">Isso é muito utilizado para software, certificados, pacotes e documentos digitais.</p><hr id="3e2f6ce8-497f-807f-9652-c5134c37ddce" dir="auto"/><h1 id="3e2f6ce8-497f-80c6-9279-ccff066e820c" class="" dir="auto">16. Integridade de software e atualizações</h1><p id="3e2f6ce8-497f-80b1-be76-ec12bf682b7a" class="" dir="auto">Imagine que você baixe uma atualização:</p><pre id="3e2f6ce8-497f-806f-adaf-d7ad7f588311" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Aplicação
+    ↓
+Nova versão
+    ↓
+Instalação</code></pre><p id="3e2f6ce8-497f-8040-a649-d2ac1d61f916" class="" dir="auto">Como saber se o arquivo realmente veio do fornecedor e não foi modificado?</p><p id="3e2f6ce8-497f-803f-bcee-e5c637eb579b" class="" dir="auto">É possível utilizar mecanismos como:</p><pre id="3e2f6ce8-497f-80d6-9812-eff4a7821ec9" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Assinatura digital
+        ↓
+Verificação
+        ↓
+Instalação</code></pre><p id="3e2f6ce8-497f-80e9-8b23-fb08edaad8ee" class="" dir="auto">Se a assinatura não for válida:</p><pre id="3e2f6ce8-497f-80fe-a00a-ef026b51fe6f" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">❌ Não instalar</code></pre><p id="3e2f6ce8-497f-800d-9667-c426f9934c4d" class="" dir="auto">Isso ajuda a proteger contra alterações indevidas durante a distribuição.</p><hr id="3e2f6ce8-497f-80dc-a1f6-d8f7b9ca489f" dir="auto"/><h1 id="3e2f6ce8-497f-802e-8e55-c4e0761670a0" class="" dir="auto">17. Supply Chain e integridade</h1><p id="3e2f6ce8-497f-802d-ad91-d5ab4aab8791" class="" dir="auto">Esse assunto também está diretamente relacionado à <strong>cadeia de suprimentos de software (Software Supply Chain)</strong>.</p><p id="3e2f6ce8-497f-8086-bcf1-ef4a0a516001" class="" dir="auto">Uma aplicação moderna pode depender de:</p><pre id="3e2f6ce8-497f-80f4-abe0-ca3ee343de50" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Aplicação
+    ↓
+Framework
+    ↓
+Biblioteca
+    ↓
+Dependência
+    ↓
+Pacote
+    ↓
+Fornecedor</code></pre><p id="3e2f6ce8-497f-80a9-bc5b-f039eff6f62c" class="" dir="auto">Se algum elemento for comprometido:</p><pre id="3e2f6ce8-497f-8081-a08d-fce85e8015b9" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Fornecedor
+    ↓
+Pacote comprometido
+    ↓
+Aplicação
+    ↓
+Usuários</code></pre><p id="3e2f6ce8-497f-80c7-bdb0-d016167842dd" class="" dir="auto">Isso pode causar uma violação de integridade.</p><hr id="3e2f6ce8-497f-803e-a5fc-d93e431a769a" dir="auto"/><h1 id="3e2f6ce8-497f-803a-9ab6-f6a2f340f09f" class="" dir="auto">18. Exemplo de dependência comprometida</h1><p id="3e2f6ce8-497f-80a6-b00d-f85e2fb0ec31" class="" dir="auto">Imagine que seu projeto tenha:</p><pre id="3e2f6ce8-497f-805b-9e87-e7aa24700cfc" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">meu-projeto
+   ↓
+biblioteca-A
+   ↓
+biblioteca-B</code></pre><p id="3e2f6ce8-497f-80c1-ae6f-d607b209e97b" class="" dir="auto">Se a biblioteca B for substituída por uma versão maliciosa:</p><pre id="3e2f6ce8-497f-80a3-897f-df60ea3173a6" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">biblioteca-B legítima
+       ↓
+substituída
+       ↓
+biblioteca-B comprometida</code></pre><p id="3e2f6ce8-497f-80c8-82ec-e1c2e278ec23" class="" dir="auto">Sua aplicação pode acabar executando código que você nunca escreveu.</p><p id="3e2f6ce8-497f-800f-98de-ce93c040566c" class="" dir="auto">Esse é um dos motivos pelos quais é importante utilizar:</p><ul id="3e2f6ce8-497f-8049-bc43-d496c8d46d4d" class="bulleted-list" dir="auto"><li style="list-style-type:disc">fontes confiáveis;</li></ul><ul id="3e2f6ce8-497f-8006-a921-c77342f1755b" class="bulleted-list" dir="auto"><li style="list-style-type:disc">gerenciadores de dependências;</li></ul><ul id="3e2f6ce8-497f-800b-bef8-d40a6f7b2f1e" class="bulleted-list" dir="auto"><li style="list-style-type:disc">versões conhecidas;</li></ul><ul id="3e2f6ce8-497f-80e8-9ec0-d2f24b60b2d0" class="bulleted-list" dir="auto"><li style="list-style-type:disc">assinaturas/verificações quando disponíveis;</li></ul><ul id="3e2f6ce8-497f-8007-8af6-e62c3e2e9151" class="bulleted-list" dir="auto"><li style="list-style-type:disc">análise de dependências;</li></ul><ul id="3e2f6ce8-497f-80b3-a766-fa5834926c33" class="bulleted-list" dir="auto"><li style="list-style-type:disc">controle de alterações.</li></ul><hr id="3e2f6ce8-497f-8080-b753-f5ee1f722bda" dir="auto"/><h1 id="3e2f6ce8-497f-80b9-b1ae-f7ba87d6897d" class="" dir="auto">19. Controle de versão</h1><p id="3e2f6ce8-497f-8078-b22a-e9a0f96cf805" class="" dir="auto">Ferramentas como <strong>Git</strong> também ajudam na integridade do software.</p><p id="3e2f6ce8-497f-807d-92c8-cbe1e93523bd" class="" dir="auto">Imagine:</p><pre id="3e2f6ce8-497f-80b9-af2e-dcf2740d3d2e" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Commit 1
+   ↓
+Commit 2
+   ↓
+Commit 3</code></pre><p id="3e2f6ce8-497f-804c-993e-c8c5c1952000" class="" dir="auto">Cada alteração fica registrada.</p><p id="3e2f6ce8-497f-8031-8f0e-f1656c627d28" class="" dir="auto">Isso permite:</p><ul id="3e2f6ce8-497f-8098-bcb7-c9b2122eac33" class="bulleted-list" dir="auto"><li style="list-style-type:disc">saber quem alterou;</li></ul><ul id="3e2f6ce8-497f-8031-81a8-cd1cf3e8825d" class="bulleted-list" dir="auto"><li style="list-style-type:disc">saber quando alterou;</li></ul><ul id="3e2f6ce8-497f-804c-aa21-c432eeb15e3d" class="bulleted-list" dir="auto"><li style="list-style-type:disc">visualizar o que mudou;</li></ul><ul id="3e2f6ce8-497f-8000-9911-e6c172aefb60" class="bulleted-list" dir="auto"><li style="list-style-type:disc">comparar versões;</li></ul><ul id="3e2f6ce8-497f-80c2-8723-fff64f5dad92" class="bulleted-list" dir="auto"><li style="list-style-type:disc">recuperar versões anteriores.</li></ul><p id="3e2f6ce8-497f-8056-a950-ff2731708e0a" class="" dir="auto">Por exemplo:</p><pre id="3e2f6ce8-497f-8011-a6e8-e2e28d7dc270" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Código funcionando
+      ↓
+Alteração
+      ↓
+Problema
+      ↓
+Identificar commit
+      ↓
+Reverter alteração</code></pre><p id="3e2f6ce8-497f-800f-8fb6-cedd5c70c120" class="" dir="auto">O Git não substitui mecanismos de segurança, mas fornece uma camada importante de rastreabilidade e controle.</p><hr id="3e2f6ce8-497f-80bd-b00b-c64007c02711" dir="auto"/><h1 id="3e2f6ce8-497f-80be-9824-e4a9475a463a" class="" dir="auto">20. CI/CD e integridade</h1><p id="3e2f6ce8-497f-80eb-b1cb-e4c14ebe1e32" class="" dir="auto">Em ambientes profissionais, pipelines de <strong>CI/CD</strong> podem ajudar a garantir que somente software validado seja implantado.</p><p id="3e2f6ce8-497f-808e-81d3-ef3e5bed79b7" class="" dir="auto">Um fluxo:</p><pre id="3e2f6ce8-497f-8055-9f64-eeff27942b42" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Desenvolvedor
+      ↓
+Git
+      ↓
+Pull Request
+      ↓
+Testes
+      ↓
+Análise de segurança
+      ↓
+Build
+      ↓
+Artefato
+      ↓
+Verificação
+      ↓
+Deploy</code></pre><p id="3e2f6ce8-497f-80cc-ab43-e73b13d1478b" class="" dir="auto">Isso reduz a possibilidade de alterações não revisadas chegarem à produção.</p><hr id="3e2f6ce8-497f-80b0-b27e-c7fa0647148a" dir="auto"/><h1 id="3e2f6ce8-497f-8019-86b6-e1c34ce63d38" class="" dir="auto">21. Controle de acesso e integridade</h1><p id="3e2f6ce8-497f-803e-b60c-c9cf303b7b6b" class="" dir="auto">Não adianta possuir um banco de dados seguro se qualquer usuário puder alterá-lo.</p><p id="3e2f6ce8-497f-8081-bc8e-e522d841681e" class="" dir="auto">Por isso:</p><pre id="3e2f6ce8-497f-80a8-ae63-e983fd080498" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Autenticação
+     ↓
+Quem é?
+     ↓
+Autorização
+     ↓
+O que pode fazer?
+     ↓
+Integridade
+     ↓
+O que pode alterar?</code></pre><p id="3e2f6ce8-497f-8050-b19b-fb76bbadc198" class="" dir="auto">Exemplo:</p><pre id="3e2f6ce8-497f-8086-aff3-c9ed1ba05e13" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Usuário comum
+    ↓
+Pode alterar seu nome
+
+Administrador
+    ↓
+Pode alterar dados administrativos</code></pre><p id="3e2f6ce8-497f-8050-80ff-f3a6c30ff3cb" class="" dir="auto">O princípio do <strong>menor privilégio</strong> é fundamental.</p><p id="3e2f6ce8-497f-80b5-968a-e0093042f6ad" class="" dir="auto">Cada usuário, processo ou serviço deve possuir somente as permissões necessárias.</p><hr id="3e2f6ce8-497f-80a4-866e-c4f6b0bc1a2e" dir="auto"/><h1 id="3e2f6ce8-497f-8048-a1a2-e27434085065" class="" dir="auto">22. Logs e integridade</h1><p id="3e2f6ce8-497f-80c2-87dd-d0b78f4c4504" class="" dir="auto">Os <strong>logs</strong> também precisam ter integridade.</p><p id="3e2f6ce8-497f-803a-8ae2-e9875f775318" class="" dir="auto">Imagine:</p><pre id="3e2f6ce8-497f-80d3-8185-d9b7a5a80c83" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Login realizado
+Usuário X
+14:30</code></pre><p id="3e2f6ce8-497f-80a9-b931-c25aed909eed" class="" dir="auto">Se alguém puder apagar ou alterar os logs:</p><pre id="3e2f6ce8-497f-80e1-8221-fe8207c99ebf" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">14:30 → Login realizado</code></pre><p id="3e2f6ce8-497f-80f6-be92-f6b762b6f1e9" class="" dir="auto">poderia desaparecer.</p><p id="3e2f6ce8-497f-807a-8eac-fd475d247dd1" class="" dir="auto">Isso prejudica:</p><ul id="3e2f6ce8-497f-806c-a7c0-e03b25e013ba" class="bulleted-list" dir="auto"><li style="list-style-type:disc">investigação;</li></ul><ul id="3e2f6ce8-497f-8009-9f63-cb60925f1156" class="bulleted-list" dir="auto"><li style="list-style-type:disc">auditoria;</li></ul><ul id="3e2f6ce8-497f-80b3-8a70-f55d4a3d854a" class="bulleted-list" dir="auto"><li style="list-style-type:disc">detecção de ataques;</li></ul><ul id="3e2f6ce8-497f-80c9-bae9-c6fd5ffc716a" class="bulleted-list" dir="auto"><li style="list-style-type:disc">análise de incidentes.</li></ul><p id="3e2f6ce8-497f-8034-b1f8-eef9df7d9a01" class="" dir="auto">Por isso, sistemas importantes podem utilizar mecanismos para proteger logs contra alterações.</p><hr id="3e2f6ce8-497f-8046-abb0-d363860d3f27" dir="auto"/><h1 id="3e2f6ce8-497f-80c6-ac6c-f536a6f402c9" class="" dir="auto">23. Backups e integridade</h1><p id="3e2f6ce8-497f-804e-bc16-f7def43669de" class="" dir="auto">Backup não significa simplesmente:</p><blockquote id="3e2f6ce8-497f-80d1-9598-ed1a16830905" class="" dir="auto">&quot;Tenho uma cópia.&quot;</blockquote><p id="3e2f6ce8-497f-80da-b705-cd1df7c86daa" class="" dir="auto">É necessário garantir que a cópia seja <strong>válida e recuperável</strong>.</p><p id="3e2f6ce8-497f-8000-85bb-ef52960db64d" class="" dir="auto">Imagine:</p><pre id="3e2f6ce8-497f-80dd-8f06-de2454a0c7d4" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Banco original
+      ↓
+Backup corrompido</code></pre><p id="3e2f6ce8-497f-80bf-b673-e604c08606c2" class="" dir="auto">Quando ocorre um incidente:</p><pre id="3e2f6ce8-497f-80a4-b9d4-eaacc13abcdc" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Sistema comprometido
+      ↓
+Restaurar backup
+      ↓
+Backup também está corrompido
+      ↓
+❌ Recuperação falha</code></pre><p id="3e2f6ce8-497f-8026-bb6a-cf84bd08f944" class="" dir="auto">Por isso, backups devem ser:</p><ul id="3e2f6ce8-497f-8054-a274-cd1d3c7c83d1" class="bulleted-list" dir="auto"><li style="list-style-type:disc">testados;</li></ul><ul id="3e2f6ce8-497f-80b8-b363-c732d1857832" class="bulleted-list" dir="auto"><li style="list-style-type:disc">protegidos;</li></ul><ul id="3e2f6ce8-497f-80d3-9b0a-ed6dd0244d26" class="bulleted-list" dir="auto"><li style="list-style-type:disc">versionados quando apropriado;</li></ul><ul id="3e2f6ce8-497f-8040-b990-ccba4ad4f716" class="bulleted-list" dir="auto"><li style="list-style-type:disc">monitorados;</li></ul><ul id="3e2f6ce8-497f-8019-a7ee-c5ee47f2c7ce" class="bulleted-list" dir="auto"><li style="list-style-type:disc">armazenados de forma adequada.</li></ul><hr id="3e2f6ce8-497f-80c6-af95-c2f5f9228f44" dir="auto"/><h1 id="3e2f6ce8-497f-80e5-a866-e38519692da6" class="" dir="auto">24. Principais causas de falhas de integridade</h1><p id="3e2f6ce8-497f-8030-80ed-cab79a3ee803" class="" dir="auto">Podemos organizar as causas em algumas categorias.</p><h3 id="3e2f6ce8-497f-8088-b40a-ebf72ae3235a" class="" dir="auto">Acesso indevido</h3><pre id="3e2f6ce8-497f-809e-85ba-c7d534b25be4" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Usuário sem permissão
+       ↓
+Altera dados</code></pre><h3 id="3e2f6ce8-497f-803a-8f03-d7f579625a56" class="" dir="auto">Vulnerabilidades</h3><pre id="3e2f6ce8-497f-8033-a8cf-ecf8f04a4c34" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Falha na aplicação
+       ↓
+Manipulação indevida</code></pre><h3 id="3e2f6ce8-497f-8031-a386-c6fb4acd3413" class="" dir="auto">Malware</h3><pre id="3e2f6ce8-497f-80b5-ba45-ca6a46fcdaeb" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Código malicioso
+       ↓
+Modifica arquivos</code></pre><h3 id="3e2f6ce8-497f-8032-a9f0-d6f746d260fe" class="" dir="auto">Supply Chain</h3><pre id="3e2f6ce8-497f-8092-833d-ce5bb3aad4bb" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Dependência comprometida
+       ↓
+Código alterado</code></pre><h3 id="3e2f6ce8-497f-80eb-a6dd-f86165d25959" class="" dir="auto">Erro humano</h3><pre id="3e2f6ce8-497f-80cf-a327-d4ee21d7c1f0" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Configuração incorreta
+       ↓
+Dados modificados ou apagados</code></pre><h3 id="3e2f6ce8-497f-80a5-9158-d32714e2817c" class="" dir="auto">Falhas de processo</h3><pre id="3e2f6ce8-497f-8020-ae74-d321179944d4" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Deploy sem revisão
+       ↓
+Código incorreto em produção</code></pre><hr id="3e2f6ce8-497f-80c2-826a-f5f3875af80b" dir="auto"/><h1 id="3e2f6ce8-497f-808d-bee8-c826cf45cdba" class="" dir="auto">25. Como proteger a integridade?</h1><p id="3e2f6ce8-497f-8016-9925-f29077ef99a2" class="" dir="auto">Uma estratégia completa pode envolver:</p><h3 id="3e2f6ce8-497f-8043-8099-e4894fe8958f" class="" dir="auto">Controle de acesso</h3><p id="3e2f6ce8-497f-80d1-b876-cbcc15904885" class="" dir="auto">Permitir alterações somente para usuários autorizados.</p><h3 id="3e2f6ce8-497f-8018-b8ee-ca25cfafd20f" class="" dir="auto">Menor privilégio</h3><p id="3e2f6ce8-497f-80fc-a0cf-d3274261ea57" class="" dir="auto">Dar somente as permissões necessárias.</p><h3 id="3e2f6ce8-497f-809d-bf87-e14859cb7e59" class="" dir="auto">Hashes</h3><p id="3e2f6ce8-497f-809c-b4e8-fdacbb61e02b" class="" dir="auto">Detectar alterações em arquivos e dados quando apropriado.</p><h3 id="3e2f6ce8-497f-80ec-8a48-d84ef2e9d3b5" class="" dir="auto">Assinaturas digitais</h3><p id="3e2f6ce8-497f-8094-a28f-fe9b2936575d" class="" dir="auto">Verificar autenticidade e integridade de software e outros artefatos.</p><h3 id="3e2f6ce8-497f-8054-93eb-fb46da74e55e" class="" dir="auto">HTTPS/TLS</h3><p id="3e2f6ce8-497f-8024-9514-d1b6bb783d4d" class="" dir="auto">Proteger a comunicação durante o transporte.</p><h3 id="3e2f6ce8-497f-80cd-93a6-ed38837ead76" class="" dir="auto">Transações</h3><p id="3e2f6ce8-497f-80fe-bc8c-fa70e4e90e59" class="" dir="auto">Garantir consistência das operações no banco de dados.</p><h3 id="3e2f6ce8-497f-8058-b507-e137d5d5508b" class="" dir="auto">Constraints</h3><p id="3e2f6ce8-497f-8088-b536-d116a221a3aa" class="" dir="auto">Utilizar:</p><pre id="3e2f6ce8-497f-8027-8f77-cc62e04bf533" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">PRIMARY KEY
+FOREIGN KEY
+UNIQUE
+NOT NULL
+CHECK</code></pre><h3 id="3e2f6ce8-497f-8096-99d9-ef13673a903a" class="" dir="auto">Controle de versão</h3><p id="3e2f6ce8-497f-8075-9dc4-f655598a4b15" class="" dir="auto">Registrar alterações no código.</p><h3 id="3e2f6ce8-497f-80b8-b8c1-ceb54185a0ef" class="" dir="auto">Code review</h3><p id="3e2f6ce8-497f-8097-bdb2-f08579e0c5f7" class="" dir="auto">Revisar mudanças antes da implantação.</p><h3 id="3e2f6ce8-497f-80a9-9dbc-ec6b8a3e88f7" class="" dir="auto">CI/CD seguro</h3><p id="3e2f6ce8-497f-8063-afcc-e3217bc710c7" class="" dir="auto">Automatizar testes e verificações.</p><h3 id="3e2f6ce8-497f-80eb-b346-d3e06c7ad0e9" class="" dir="auto">Backups</h3><p id="3e2f6ce8-497f-80e1-ac5f-f059749f72eb" class="" dir="auto">Manter cópias protegidas e testadas.</p><h3 id="3e2f6ce8-497f-809b-9f4e-e5197510f83d" class="" dir="auto">Monitoramento</h3><p id="3e2f6ce8-497f-80f8-8909-d6ef3f9fa964" class="" dir="auto">Detectar alterações inesperadas.</p><hr id="3e2f6ce8-497f-80ec-8232-ff2482184f22" dir="auto"/><h1 id="3e2f6ce8-497f-80c7-9487-ed239b4c4221" class="" dir="auto">26. Exemplo completo de uma aplicação</h1><p id="3e2f6ce8-497f-80fd-b10f-f4dc00c416cc" class="" dir="auto">Imagine uma loja virtual:</p><pre id="3e2f6ce8-497f-80c1-b9a1-e43d1984634a" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">                 LOJA
+                  │
+        ┌─────────┼─────────┐
+        ↓         ↓         ↓
+    Front-end   API      Banco
+                  │
+                  ↓
+             Autorização
+                  │
+                  ↓
+             Transação
+                  │
+                  ↓
+           Dados consistentes</code></pre><p id="3e2f6ce8-497f-80ae-9688-db5c2bc714ab" class="" dir="auto">Um usuário faz um pedido:</p><pre id="3e2f6ce8-497f-8065-9486-c1f0a03b8643" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Produto: Notebook
+Preço: R$ 4.000
+Quantidade: 1</code></pre><p id="3e2f6ce8-497f-80b8-acba-d43368d685cf" class="" dir="auto">O sistema deve garantir que:</p><pre id="3e2f6ce8-497f-806d-bb60-cc41b4a177bb" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Preço correto
+      +
+Quantidade correta
+      +
+Usuário autorizado
+      +
+Transação consistente
+      =
+Dados íntegros</code></pre><p id="3e2f6ce8-497f-80b4-a5e7-f7d8978dd0c9" class="" dir="auto">Se alguém alterar:</p><pre id="3e2f6ce8-497f-8069-816f-ebb6dc69757d" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Preço:
+R$ 4.000 → R$ 4</code></pre><p id="3e2f6ce8-497f-80ae-9ce3-d55e511985e7" class="" dir="auto">sem autorização, a integridade foi comprometida.</p><hr id="3e2f6ce8-497f-806b-b747-c7ea1fdc1add" dir="auto"/><h1 id="3e2f6ce8-497f-80e4-b7f0-d6ed3cdfb250" class="" dir="auto">27. Checklist</h1><p id="3e2f6ce8-497f-8050-9cbc-e204ae0e4011" class="" dir="auto">Para proteger a integridade:</p><pre id="3e2f6ce8-497f-800c-a130-cf8b2528ed2e" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">[ ] Usuários possuem somente as permissões necessárias
+[ ] Alterações importantes exigem autorização
+[ ] Banco utiliza constraints adequadas
+[ ] Operações críticas utilizam transações
+[ ] Arquivos importantes são protegidos
+[ ] Integridade de artefatos é verificada
+[ ] Dependências vêm de fontes confiáveis
+[ ] Software pode ser validado por assinatura quando aplicável
+[ ] Código possui controle de versão
+[ ] Alterações passam por revisão
+[ ] Pipeline possui testes e verificações
+[ ] Logs são protegidos contra alterações indevidas
+[ ] Backups são protegidos
+[ ] Backups são testados
+[ ] Alterações importantes são monitoradas</code></pre><hr id="3e2f6ce8-497f-8023-97a3-d2c58ab9128c" dir="auto"/><h1 id="3e2f6ce8-497f-80db-b2ee-d220d50f7dd1" class="" dir="auto">28. Relação com os temas anteriores</h1><p id="3e2f6ce8-497f-80e7-8d84-f48a95cf3859" class="" dir="auto">Esse tema possui uma relação muito forte com os anteriores:</p><pre id="3e2f6ce8-497f-8090-8a80-c266d4383c10" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">                    Segurança
+                        │
+        ┌───────────────┼───────────────┐
+        ↓               ↓               ↓
+   Autenticação    Controle de      Integridade
+                   Acesso
+        │               │               │
+        ↓               ↓               ↓
+   Quem é?         O que pode?     O que pode
+                                  ser alterado?</code></pre><p id="3e2f6ce8-497f-80f4-a1e5-e82b69c22a4b" class="" dir="auto">Também podemos relacionar:</p><table id="3e2f6ce8-497f-806c-9444-e10f5fd19289" class="simple-table" dir="ltr"><thead class="simple-table-header"><tr id="3e2f6ce8-497f-801a-81c7-d36c203c5cd3" dir="ltr"><th id="iKzx" class="simple-table-header-color simple-table-header">Tema</th><th id="[]bB" class="simple-table-header-color simple-table-header">Relação</th></tr></thead><tbody><tr id="3e2f6ce8-497f-80e5-abcc-e7217270309a" dir="ltr"><td id="iKzx" class=""><strong>Injeção</strong></td><td id="[]bB" class="">Pode permitir manipulação indevida de dados</td></tr><tr id="3e2f6ce8-497f-8052-a170-e2e0202f8704" dir="ltr"><td id="iKzx" class=""><strong>Quebra de Controle de Acesso</strong></td><td id="[]bB" class="">Pode permitir que alguém altere dados sem autorização</td></tr><tr id="3e2f6ce8-497f-80fd-9a7d-cf20dcb8a8f9" dir="ltr"><td id="iKzx" class=""><strong>Falhas Criptográficas</strong></td><td id="[]bB" class="">Podem comprometer proteção e autenticidade dos dados</td></tr><tr id="3e2f6ce8-497f-8002-aeb9-f79c9e914a8f" dir="ltr"><td id="iKzx" class=""><strong>Projeto Inseguro</strong></td><td id="[]bB" class="">Uma arquitetura pode não prever mecanismos de integridade</td></tr><tr id="3e2f6ce8-497f-8004-9d27-d01bba56be7f" dir="ltr"><td id="iKzx" class=""><strong>Configuração Incorreta</strong></td><td id="[]bB" class="">Pode permitir alterações ou implantação indevida</td></tr><tr id="3e2f6ce8-497f-80eb-ae71-d8c5b5b2583b" dir="ltr"><td id="iKzx" class=""><strong>Componentes Vulneráveis</strong></td><td id="[]bB" class="">Dependências comprometidas podem alterar o software</td></tr><tr id="3e2f6ce8-497f-80b4-b909-ee2cd0869346" dir="ltr"><td id="iKzx" class=""><strong>Autenticação</strong></td><td id="[]bB" class="">Identifica quem está autorizado a realizar alterações</td></tr></tbody></table><hr id="3e2f6ce8-497f-8064-b3bb-ed4eaa4a9d0a" dir="auto"/><h1 id="3e2f6ce8-497f-8088-a083-f4bf44b6987a" class="" dir="auto">Resumo</h1><p id="3e2f6ce8-497f-80bb-8336-ceb607438fc0" class="" dir="auto"><strong>Falhas de Integridade de Dados e Software</strong> acontecem quando uma aplicação não consegue garantir que seus <strong>dados, arquivos, código e componentes permaneçam corretos, consistentes e protegidos contra alterações não autorizadas</strong>.</p><p id="3e2f6ce8-497f-80ac-8e44-c5dd2c6b39c3" class="" dir="auto">Os principais conceitos são:</p><pre id="3e2f6ce8-497f-8024-81d1-f2975a9d5dd3" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">                 INTEGRIDADE
+                      │
+       ┌──────────────┼──────────────┐
+       ↓              ↓              ↓
+     Dados         Software        Arquivos
+       │              │              │
+       ↓              ↓              ↓
+   Banco de       Código          Configurações
+    dados        Dependências       Logs
+       │              │              │
+       └──────────────┼──────────────┘
+                      ↓
+             Alterações confiáveis</code></pre><p id="3e2f6ce8-497f-8038-96e5-d36ebc05dbdb" class="" dir="auto">As principais proteções incluem:</p><ul id="3e2f6ce8-497f-807f-b96d-e7bcb24d96d4" class="bulleted-list" dir="auto"><li style="list-style-type:disc">controle de acesso;</li></ul><ul id="3e2f6ce8-497f-809f-8e51-e07679db1131" class="bulleted-list" dir="auto"><li style="list-style-type:disc">menor privilégio;</li></ul><ul id="3e2f6ce8-497f-8088-8bee-f05e86a0004f" class="bulleted-list" dir="auto"><li style="list-style-type:disc">constraints de banco;</li></ul><ul id="3e2f6ce8-497f-809e-aa1e-e6ff59af964b" class="bulleted-list" dir="auto"><li style="list-style-type:disc">transações;</li></ul><ul id="3e2f6ce8-497f-8058-b07e-f74cb6c24ffc" class="bulleted-list" dir="auto"><li style="list-style-type:disc">hashes;</li></ul><ul id="3e2f6ce8-497f-80a0-8f7e-ca3456711a41" class="bulleted-list" dir="auto"><li style="list-style-type:disc">assinaturas digitais;</li></ul><ul id="3e2f6ce8-497f-80f0-a0ee-fc53551c812a" class="bulleted-list" dir="auto"><li style="list-style-type:disc">HTTPS/TLS;</li></ul><ul id="3e2f6ce8-497f-80ca-af22-e5ca8ad9f0a7" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Git;</li></ul><ul id="3e2f6ce8-497f-807a-aa2b-dc36c0e32403" class="bulleted-list" dir="auto"><li style="list-style-type:disc">code review;</li></ul><ul id="3e2f6ce8-497f-8020-b5ac-f1b3decf3e81" class="bulleted-list" dir="auto"><li style="list-style-type:disc">CI/CD seguro;</li></ul><ul id="3e2f6ce8-497f-8060-982d-d951fc796fa5" class="bulleted-list" dir="auto"><li style="list-style-type:disc">proteção de dependências;</li></ul><ul id="3e2f6ce8-497f-8068-b38a-e94808310cd9" class="bulleted-list" dir="auto"><li style="list-style-type:disc">backups;</li></ul><ul id="3e2f6ce8-497f-808c-8334-d59cec03a34f" class="bulleted-list" dir="auto"><li style="list-style-type:disc">monitoramento.</li></ul><h3 id="3e2f6ce8-497f-8010-8691-d6f15f812efd" class="" dir="auto">Ideia principal</h3><blockquote id="3e2f6ce8-497f-8093-b0e2-cb901052726f" class="" dir="auto"><strong>Integridade significa garantir que aquilo que deveria permanecer correto e confiável não seja alterado de maneira indevida.</strong></blockquote><p id="3e2f6ce8-497f-80ce-a4ba-cdd1a9cf3591" class="" dir="auto">Em uma aplicação Full Stack, isso precisa ser protegido <strong>desde o navegador e a API até o banco de dados, arquivos, dependências, código-fonte e processo de implantação</strong>.</p></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

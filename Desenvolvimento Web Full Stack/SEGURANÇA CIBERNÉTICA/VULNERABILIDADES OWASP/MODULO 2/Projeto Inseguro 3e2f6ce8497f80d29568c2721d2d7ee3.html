@@ -1,0 +1,1024 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Projeto Inseguro</title><meta name="data-notion-page-icon" content="/icons/lock_blue.svg"/><link rel="icon" href="https://app.notion.com/icons/lock_blue.svg"/><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+	/* Paint a complete callout box on every PDF page fragment. */
+	-webkit-box-decoration-break: clone;
+	box-decoration-break: clone;
+}
+
+/* For default-background callouts, render the border outline. */
+.callout.block-color-default_background {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+/*
+ * Toggles and callouts hold arbitrary content, so they can easily be taller
+ * than a page. They must stay breakable: avoiding breaks inside them makes
+ * Chromium push the whole block onto the next page, which leaves the previous
+ * page mostly empty before every long toggle.
+ */
+details,
+aside {
+	margin: 1.25em 0;
+}
+
+/* Keep a toggle's title on the same page as the start of its content. */
+summary {
+	page-break-after: avoid;
+	break-after: avoid;
+}
+
+/*
+ * Toggle headings render as <h1/h2/h3 style="display:inline-block"> inside
+ * <summary>. Without this reset, the heading's margin-top pushes it below the
+ * ::marker (▼), so the triangle and the title appear on separate lines.
+ */
+summary h1,
+summary h2,
+summary h3,
+summary h4 {
+	margin-top: 0;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding-inline: 0.125rem;
+	padding-block: 0.375rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+/*
+ * Render emoji icons using a ::before pseudo-element to keep the glyph
+ * out of the DOM textContent traversal. This avoids double-rendering icons
+ * in callouts and page titles.
+ * NOTE(slim/html-export-pseudo-icons): I can't tagref this because it will
+ * flag as a duplicate tag after codegen.
+ */
+.icon[data-emoji]::before {
+	content: attr(data-emoji);
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	margin-right: 0.4em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.tab {
+	margin: 1.25em 0;
+	padding-inline: 1rem;
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style><style>@import url('https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex-swap.min.css')</style></head><body><article id="3e2f6ce8-497f-80d2-9568-c2721d2d7ee3" class="page sans" data-notion-page-icon="/icons/lock_blue.svg"><header><div class="page-header-icon undefined"><img class="icon notion-static-icon" src="https://app.notion.com/icons/lock_blue.svg"/></div><h1 class="page-title" dir="auto">Projeto Inseguro</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><h1 id="3e2f6ce8-497f-8007-b620-ffcd8f08364c" class="" dir="auto">Projeto Inseguro</h1><p id="3e2f6ce8-497f-8043-b5dc-c4af74cb17a1" class="" dir="auto">No contexto de <strong>Segurança Cibernética</strong>, <strong>Projeto Inseguro</strong> (<em>Security Misconfiguration / Insecure Design</em>, dependendo do contexto) se refere a situações em que uma aplicação ou sistema é <strong>projetado ou configurado de maneira que introduz riscos de segurança</strong>.</p><p id="3e2f6ce8-497f-8097-b628-ed79825f684d" class="" dir="auto">É importante separar dois conceitos:</p><ul id="3e2f6ce8-497f-8086-b270-f4fdd7c0723c" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>Projeto inseguro</strong> → o problema está nas decisões de arquitetura, requisitos ou lógica de segurança.</li></ul><ul id="3e2f6ce8-497f-8003-aa62-fb187bac1e70" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>Configuração insegura</strong> → o sistema até poderia ser seguro, mas foi configurado incorretamente.</li></ul><p id="3e2f6ce8-497f-80b6-9305-d4be0e6ef4b7" class="" dir="auto">Em aplicações modernas, ambos podem resultar em vulnerabilidades graves.</p><hr id="3e2f6ce8-497f-8049-97dc-c1c335094eb2" dir="auto"/><h1 id="3e2f6ce8-497f-807b-b8bd-f0cf5e2eef40" class="" dir="auto">1. O que significa um projeto inseguro?</h1><p id="3e2f6ce8-497f-8068-aa95-d2056aaf1a62" class="" dir="auto">Um sistema possui um <strong>projeto inseguro</strong> quando a segurança não foi considerada adequadamente durante sua concepção.</p><p id="3e2f6ce8-497f-8018-a2ad-c91aae93cefd" class="" dir="auto">Por exemplo, imagine um sistema bancário que permita:</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="3e2f6ce8-497f-801d-8b9a-f5ced2ab3dcd" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Usuário
+   ↓
+Solicitação de transferência
+   ↓
+Transferência realizada</code></pre><p id="3e2f6ce8-497f-80c8-9de6-cd73da6de328" class="" dir="auto">Mas o projeto não prevê nenhuma confirmação adicional para operações de alto risco.</p><p id="3e2f6ce8-497f-803a-9155-c3a63c39dbc9" class="" dir="auto">O problema não está necessariamente em uma linha de código específica.</p><p id="3e2f6ce8-497f-80d9-a60c-e9c47a2b2258" class="" dir="auto">O problema pode estar na própria <strong>regra de negócio</strong>:</p><blockquote id="3e2f6ce8-497f-80c6-84b4-f4ef7f1bd003" class="" dir="auto">&quot;Qualquer usuário autenticado pode realizar qualquer transferência sem nenhuma verificação adicional.&quot;</blockquote><p id="3e2f6ce8-497f-803b-b15e-e87486a95fa2" class="" dir="auto">Isso é uma decisão de projeto.</p><hr id="3e2f6ce8-497f-8060-bb4c-c39a7a996622" dir="auto"/><h1 id="3e2f6ce8-497f-80a8-beeb-c226bf9514c7" class="" dir="auto">2. Segurança deve fazer parte do projeto</h1><p id="3e2f6ce8-497f-8021-9d57-df408d4a76e4" class="" dir="auto">Um erro comum é pensar:</p><pre id="3e2f6ce8-497f-8092-8b05-f79bdbda25db" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">1. Construir aplicação
+2. Terminar tudo
+3. Adicionar segurança</code></pre><p id="3e2f6ce8-497f-803f-9cd4-c79637e083c6" class="" dir="auto">Uma abordagem mais adequada é:</p><pre id="3e2f6ce8-497f-808f-9dd8-e1cb5b025b47" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Requisitos
+    ↓
+Projeto
+    ↓
+Desenvolvimento
+    ↓
+Testes
+    ↓
+Deploy
+    ↓
+Monitoramento</code></pre><p id="3e2f6ce8-497f-802d-96cd-e48d1df67a35" class="" dir="auto">A segurança deve estar presente durante todo o ciclo.</p><p id="3e2f6ce8-497f-809d-acf4-e47008da23f9" class="" dir="auto">Esse conceito é frequentemente chamado de <strong>Security by Design</strong>.</p><hr id="3e2f6ce8-497f-803d-adbe-f397ea3fb1a6" dir="auto"/><h1 id="3e2f6ce8-497f-80eb-922a-ef91111ddedc" class="" dir="auto">3. Projeto inseguro × código vulnerável</h1><p id="3e2f6ce8-497f-80e3-a574-c83757d93918" class="" dir="auto">Esses conceitos podem parecer iguais, mas existe uma diferença.</p><h3 id="3e2f6ce8-497f-80b1-bef1-e7f44eca48bc" class="" dir="auto">Código vulnerável</h3><p id="3e2f6ce8-497f-80f9-af92-dd3ef7c914a5" class="" dir="auto">O projeto pode estar correto, mas a implementação contém um erro.</p><p id="3e2f6ce8-497f-80da-9111-fee464166d04" class="" dir="auto">Exemplo:</p><pre id="3e2f6ce8-497f-804c-bbe8-c19e3e6dcdf3" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Projeto:
+&quot;Somente administradores podem excluir usuários.&quot;
+
+Código:
+não verifica se o usuário é administrador.</code></pre><p id="3e2f6ce8-497f-80e7-855b-c56dd599e978" class="" dir="auto">Nesse caso, existe um problema de implementação.</p><hr id="3e2f6ce8-497f-80fd-9f80-f44ac6159a21" dir="auto"/><h3 id="3e2f6ce8-497f-80b9-a433-da8a64edcdcb" class="" dir="auto">Projeto inseguro</h3><p id="3e2f6ce8-497f-8078-876a-fac2bcaf588c" class="" dir="auto">A própria regra foi projetada de maneira inadequada.</p><p id="3e2f6ce8-497f-8092-8e31-d35086b245a7" class="" dir="auto">Exemplo:</p><pre id="3e2f6ce8-497f-80e5-b162-cfd8e9b677c5" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Projeto:
+&quot;Qualquer usuário autenticado pode excluir qualquer usuário.&quot;</code></pre><p id="3e2f6ce8-497f-809c-9b85-f563755c90ae" class="" dir="auto">Mesmo que o código implemente perfeitamente essa regra, o sistema continua inseguro.</p><hr id="3e2f6ce8-497f-8017-9d94-d685cc8f7b83" dir="auto"/><h1 id="3e2f6ce8-497f-803e-8726-d74c9cee80e7" class="" dir="auto">4. Exemplos de Projeto Inseguro</h1><p id="3e2f6ce8-497f-80f8-b573-fc96981fbdf9" class="" dir="auto">Existem vários exemplos.</p><h2 id="3e2f6ce8-497f-806b-bc46-d5465016afd3" class="" dir="auto">4.1. Ausência de controle de acesso</h2><p id="3e2f6ce8-497f-8060-b453-e9e9077bcbf9" class="" dir="auto">Imagine:</p><pre id="3e2f6ce8-497f-80c5-8166-ef9254ce1376" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Usuário autenticado
+       ↓
+Pode acessar qualquer recurso</code></pre><p id="3e2f6ce8-497f-8027-921a-dfb34d4d8ab0" class="" dir="auto">Se o projeto não define corretamente quem pode acessar cada recurso, o sistema pode permitir acesso indevido.</p><p id="3e2f6ce8-497f-80cd-a7b1-c190e0ab5896" class="" dir="auto">Um projeto mais seguro define:</p><pre id="3e2f6ce8-497f-80c6-9b8d-e18e5ec18eab" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Usuário
+ ↓
+Recursos próprios
+
+Moderador
+ ↓
+Recursos de moderação
+
+Administrador
+ ↓
+Recursos administrativos</code></pre><hr id="3e2f6ce8-497f-80eb-a9de-e81a24183172" dir="auto"/><h1 id="3e2f6ce8-497f-80f6-9e9d-db6879d9240e" class="" dir="auto">5. Confiar apenas no frontend</h1><p id="3e2f6ce8-497f-803d-b3d1-d13ee801d7e4" class="" dir="auto">Imagine um sistema administrativo.</p><p id="3e2f6ce8-497f-80c9-b0f8-d0748f9c2df4" class="" dir="auto">O projeto decide:</p><pre id="3e2f6ce8-497f-802d-9f0a-c00929d3a9bd" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">&quot;Se o botão de administrador estiver escondido,
+o usuário não poderá executar a operação.&quot;</code></pre><p id="3e2f6ce8-497f-807a-8250-d0322c423d9e" class="" dir="auto">Isso é uma abordagem insegura.</p><p id="3e2f6ce8-497f-802b-a2b0-e6d9be6939fa" class="" dir="auto">O frontend não deve ser considerado uma barreira de segurança.</p><p id="3e2f6ce8-497f-8040-9571-dea0a3f7f162" class="" dir="auto">O correto é:</p><pre id="3e2f6ce8-497f-8093-9eee-f8a2ae84c4b8" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Frontend
+   ↓
+Backend
+   ↓
+Autorização
+   ↓
+Operação</code></pre><p id="3e2f6ce8-497f-80ae-a346-c6aa48b8994c" class="" dir="auto">Mesmo que o botão não apareça, o servidor precisa verificar a permissão.</p><hr id="3e2f6ce8-497f-80df-8a7d-cc7f40105432" dir="auto"/><h1 id="3e2f6ce8-497f-805b-9577-e75e5b14ae04" class="" dir="auto">6. Falta de proteção para operações críticas</h1><p id="3e2f6ce8-497f-8082-9583-c1b66e8cd0de" class="" dir="auto">Algumas operações são naturalmente mais sensíveis.</p><p id="3e2f6ce8-497f-80f5-a001-ef15887635dc" class="" dir="auto">Por exemplo:</p><pre id="3e2f6ce8-497f-8098-8bc2-ea88d2b5f0b7" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Alterar senha
+Alterar e-mail
+Excluir conta
+Transferir dinheiro
+Alterar permissões
+Excluir registros
+Alterar configurações</code></pre><p id="3e2f6ce8-497f-802d-ae32-e2e4db9983c8" class="" dir="auto">Um projeto inseguro pode tratar essas ações como se fossem operações comuns.</p><p id="3e2f6ce8-497f-805c-91b0-d4a29e887bf2" class="" dir="auto">Por exemplo:</p><pre id="3e2f6ce8-497f-80fc-aea9-e93f2afb1e07" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Usuário autenticado
+      ↓
+Alterar e-mail
+      ↓
+Pronto</code></pre><p id="3e2f6ce8-497f-80d7-b292-ed16a1c13764" class="" dir="auto">Um projeto mais cuidadoso pode exigir mecanismos adicionais, dependendo do risco:</p><pre id="3e2f6ce8-497f-8092-9f8f-fb508a32f285" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Usuário autenticado
+       ↓
+Solicita alteração
+       ↓
+Verificação adicional
+       ↓
+Confirmação
+       ↓
+Alteração</code></pre><hr id="3e2f6ce8-497f-805e-bbaa-fee35764e518" dir="auto"/><h1 id="3e2f6ce8-497f-8063-92dd-dc75a5e060b7" class="" dir="auto">7. Recuperação de senha mal projetada</h1><p id="3e2f6ce8-497f-80e4-809d-fd0db30d3e1d" class="" dir="auto">O mecanismo de recuperação de senha é um excelente exemplo.</p><p id="3e2f6ce8-497f-8062-8eb2-e60b49ac7c9f" class="" dir="auto">Imagine:</p><pre id="3e2f6ce8-497f-80a2-abb9-c79067bcc5bb" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Esqueci minha senha
+       ↓
+Informo e-mail
+       ↓
+Sistema envia link
+       ↓
+Nova senha</code></pre><p id="3e2f6ce8-497f-80f9-9e78-ea13b2d66edf" class="" dir="auto">O projeto precisa considerar:</p><ul id="3e2f6ce8-497f-8003-a665-e22f0952cc67" class="bulleted-list" dir="auto"><li style="list-style-type:disc">expiração do token;</li></ul><ul id="3e2f6ce8-497f-8053-b23b-ca6ee4c7be22" class="bulleted-list" dir="auto"><li style="list-style-type:disc">uso único;</li></ul><ul id="3e2f6ce8-497f-800e-996a-cafa6afe0093" class="bulleted-list" dir="auto"><li style="list-style-type:disc">aleatoriedade adequada;</li></ul><ul id="3e2f6ce8-497f-8049-bb09-de1dd7c9ddfd" class="bulleted-list" dir="auto"><li style="list-style-type:disc">proteção contra reutilização;</li></ul><ul id="3e2f6ce8-497f-809b-91b0-f73f2c738c97" class="bulleted-list" dir="auto"><li style="list-style-type:disc">limitação de tentativas;</li></ul><ul id="3e2f6ce8-497f-8037-a9c8-c566fd93ee66" class="bulleted-list" dir="auto"><li style="list-style-type:disc">não exposição de informações desnecessárias;</li></ul><ul id="3e2f6ce8-497f-80ac-9f5e-fa322ad67753" class="bulleted-list" dir="auto"><li style="list-style-type:disc">invalidação apropriada após a alteração.</li></ul><p id="3e2f6ce8-497f-800e-af29-dbf75fae2049" class="" dir="auto">Se essas questões não forem consideradas no projeto, pode surgir uma vulnerabilidade mesmo que o código esteja funcionando conforme especificado.</p><hr id="3e2f6ce8-497f-8063-bc2c-f7f4835d2a21" dir="auto"/><h1 id="3e2f6ce8-497f-80e8-8ccd-f1161d4f2098" class="" dir="auto">8. Perguntas de segurança no projeto</h1><p id="3e2f6ce8-497f-80a9-96f5-dd91499278af" class="" dir="auto">Um projeto seguro deve fazer perguntas como:</p><h3 id="3e2f6ce8-497f-80cc-80ce-c8694824166d" class="" dir="auto">Sobre usuários</h3><pre id="3e2f6ce8-497f-80df-801c-c21a2769412a" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Quem pode acessar?
+Quem pode alterar?
+Quem pode excluir?</code></pre><h3 id="3e2f6ce8-497f-809c-ab6a-f1f68ab34c9e" class="" dir="auto">Sobre dados</h3><pre id="3e2f6ce8-497f-80ec-a06c-fc89242efd0a" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Quais dados são sensíveis?
+Onde serão armazenados?
+Quem pode acessá-los?</code></pre><h3 id="3e2f6ce8-497f-8009-902d-e5e2847cb2ea" class="" dir="auto">Sobre autenticação</h3><pre id="3e2f6ce8-497f-801b-801b-cb32b77bce46" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Como o usuário será autenticado?
+Como a sessão será protegida?
+Como a recuperação de senha funcionará?</code></pre><h3 id="3e2f6ce8-497f-80d1-889c-cac714f036e0" class="" dir="auto">Sobre autorização</h3><pre id="3e2f6ce8-497f-8062-9f79-ed4f0872697c" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Quais permissões existem?
+Quem recebe cada permissão?</code></pre><h3 id="3e2f6ce8-497f-804a-b8d4-c345f5f612b6" class="" dir="auto">Sobre ataques</h3><pre id="3e2f6ce8-497f-8096-86b3-f81a9a98ef4a" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">O que acontece se um usuário enviar dados maliciosos?
+O que acontece se uma conta for comprometida?</code></pre><hr id="3e2f6ce8-497f-80b1-9a6d-cbc5c7df646d" dir="auto"/><h1 id="3e2f6ce8-497f-80af-b052-f13ab0e1c3dd" class="" dir="auto">9. Threat Modeling</h1><p id="3e2f6ce8-497f-8015-893c-f3d4aa65f851" class="" dir="auto">Uma técnica muito importante para evitar projetos inseguros é o <strong>Threat Modeling</strong>, ou <strong>modelagem de ameaças</strong>.</p><p id="3e2f6ce8-497f-802f-96ce-d8f239f839ef" class="" dir="auto">A ideia é analisar o sistema antes ou durante seu desenvolvimento para identificar possíveis ameaças.</p><p id="3e2f6ce8-497f-80e4-9c55-d89b248798b5" class="" dir="auto">Podemos pensar:</p><pre id="3e2f6ce8-497f-80cb-9a1a-c0d9aebdd8a7" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Sistema
+   ↓
+Ativos
+   ↓
+Ameaças
+   ↓
+Riscos
+   ↓
+Controles</code></pre><hr id="3e2f6ce8-497f-80ea-bee2-d9522ee487de" dir="auto"/><h2 id="3e2f6ce8-497f-80a4-8bff-f0aa479d6ec3" class="" dir="auto">Exemplo</h2><p id="3e2f6ce8-497f-8076-bb91-c6316ec31908" class="" dir="auto">Imagine uma loja virtual.</p><h3 id="3e2f6ce8-497f-80ac-bef2-ca3329567575" class="" dir="auto">Ativos</h3><pre id="3e2f6ce8-497f-801e-bb06-d41bfc26b8b1" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Contas
+Pedidos
+Dados pessoais
+Pagamentos
+Banco de dados</code></pre><h3 id="3e2f6ce8-497f-8038-aebe-efa23adeb115" class="" dir="auto">Ameaças</h3><pre id="3e2f6ce8-497f-807e-80c6-e8103c7d50f4" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Roubo de conta
+Acesso indevido
+Manipulação de pedidos
+Exposição de dados</code></pre><h3 id="3e2f6ce8-497f-803a-b39a-d8a0df7fae92" class="" dir="auto">Controles</h3><pre id="3e2f6ce8-497f-80ef-960a-d7e434acf843" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">MFA
+Controle de acesso
+HTTPS
+Validação
+Logs
+Monitoramento</code></pre><p id="3e2f6ce8-497f-8019-9f6a-ce4c14eb2d0f" class="" dir="auto">Esse processo permite identificar problemas <strong>antes que eles cheguem à produção</strong>.</p><hr id="3e2f6ce8-497f-8041-8b02-c75484eb4380" dir="auto"/><h1 id="3e2f6ce8-497f-801c-9e4b-fd64bffb44b3" class="" dir="auto">10. Princípio do menor privilégio</h1><p id="3e2f6ce8-497f-8047-946a-ec3f025bc57a" class="" dir="auto">O projeto também deve considerar o <strong>menor privilégio</strong>.</p><p id="3e2f6ce8-497f-8004-b0a2-d32d687cf944" class="" dir="auto">Cada usuário ou componente deve possuir somente as permissões necessárias.</p><p id="3e2f6ce8-497f-804e-8dc1-d9af3732c7e4" class="" dir="auto">Por exemplo:</p><pre id="3e2f6ce8-497f-80de-abb9-e6738c9dc2a5" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Aplicação Web
+      ↓
+Banco de dados</code></pre><p id="3e2f6ce8-497f-803c-ab2a-e67ddb875d36" class="" dir="auto">Se a aplicação apenas precisa consultar determinados dados, não é uma boa decisão dar a ela acesso administrativo completo ao banco.</p><p id="3e2f6ce8-497f-80fc-ad7e-d1337a9f0882" class="" dir="auto">Em vez disso:</p><pre id="3e2f6ce8-497f-8060-80d7-fbe98350e6ef" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Aplicação
+   ↓
+Permissões necessárias</code></pre><p id="3e2f6ce8-497f-8011-8dda-cf612a8545e0" class="" dir="auto">e não:</p><pre id="3e2f6ce8-497f-807d-b7ce-e43d73a8e310" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Aplicação
+   ↓
+TODAS as permissões</code></pre><hr id="3e2f6ce8-497f-809f-8fda-e3d74959becf" dir="auto"/><h1 id="3e2f6ce8-497f-800c-9f89-d6d3ddfbba2b" class="" dir="auto">11. Fail Secure</h1><p id="3e2f6ce8-497f-801f-a313-e49673b6395d" class="" dir="auto">Outro conceito importante é <strong>Fail Secure</strong>.</p><p id="3e2f6ce8-497f-8062-a2ea-e62c46c7a84c" class="" dir="auto">Significa que, quando algo dá errado, o sistema deve preferencialmente assumir uma postura segura.</p><p id="3e2f6ce8-497f-804a-a2ec-f59c3894584a" class="" dir="auto">Imagine que o sistema não consiga determinar se um usuário possui permissão.</p><p id="3e2f6ce8-497f-8059-8f90-fe830d41837e" class="" dir="auto">Uma abordagem insegura seria:</p><pre id="3e2f6ce8-497f-80d2-a683-d9cb5737e49e" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Não consegui verificar
+       ↓
+Permitir acesso</code></pre><p id="3e2f6ce8-497f-8054-a29c-ea6e3fc7ce53" class="" dir="auto">Uma abordagem mais segura seria:</p><pre id="3e2f6ce8-497f-8042-b762-fad5c3795bfe" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Não consegui verificar
+       ↓
+Negar acesso</code></pre><p id="3e2f6ce8-497f-80a0-932e-ec036cbb3ace" class="" dir="auto">Isso está relacionado ao princípio:</p><blockquote id="3e2f6ce8-497f-80e5-be79-f070a46c7410" class="" dir="auto"><strong>Na dúvida, não conceder privilégios automaticamente.</strong></blockquote><hr id="3e2f6ce8-497f-8058-89ca-fc92b45b7c35" dir="auto"/><h1 id="3e2f6ce8-497f-8097-9d46-ea114fb57fcf" class="" dir="auto">12. Não confiar em valores enviados pelo cliente</h1><p id="3e2f6ce8-497f-80bb-920a-c13f6a46ca21" class="" dir="auto">Imagine que o frontend envie:</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-json.min.js" integrity="sha512-QXFMVAusM85vUYDaNgcYeU3rzSlc+bTV4JvkfJhjxSHlQEo+ig53BtnGkvFTiNJh8D+wv6uWAQ2vJaVmxe8d3w==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="3e2f6ce8-497f-805d-b604-f66d86d62c8e" class="code code-wrap" data-notion-code-syntax="json"><code class="language-json" style="white-space:pre-wrap;word-break:break-all">{
+  &quot;usuario&quot;: &quot;Gusta&quot;,
+  &quot;role&quot;: &quot;admin&quot;
+}</code></pre><p id="3e2f6ce8-497f-80b2-9400-ee03f6e7cd78" class="" dir="auto">Um projeto inseguro poderia confiar nesse valor.</p><p id="3e2f6ce8-497f-807d-8471-c085b5976b0a" class="" dir="auto">Mas o cliente pode controlar a requisição.</p><p id="3e2f6ce8-497f-8041-a097-fe6ebf183ab9" class="" dir="auto">Portanto:</p><pre id="3e2f6ce8-497f-804e-80a2-e70203c0d58d" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Cliente
+   ↓
+Dados enviados
+   ↓
+Backend</code></pre><p id="3e2f6ce8-497f-8000-9ced-e814073120d6" class="" dir="auto">O servidor precisa determinar as permissões utilizando informações confiáveis do lado do servidor.</p><hr id="3e2f6ce8-497f-803c-b613-d2876314ec7c" dir="auto"/><h1 id="3e2f6ce8-497f-8005-a2f5-cdc0be6cb95a" class="" dir="auto">13. Excesso de confiança no usuário</h1><p id="3e2f6ce8-497f-8038-97e9-e95d4e1b2ef0" class="" dir="auto">Outro problema de projeto é assumir que o usuário sempre seguirá o fluxo normal.</p><p id="3e2f6ce8-497f-805b-aed1-f0921ad1a8ea" class="" dir="auto">Por exemplo:</p><pre id="3e2f6ce8-497f-80ef-b442-f849220b7e88" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Passo 1 → escolher produto
+Passo 2 → adicionar ao carrinho
+Passo 3 → pagar
+Passo 4 → finalizar</code></pre><p id="3e2f6ce8-497f-80a1-87a6-ecf44140f76e" class="" dir="auto">Um projeto inseguro pode assumir:</p><blockquote id="3e2f6ce8-497f-80c9-bea4-f55f16badeb3" class="" dir="auto">&quot;O usuário sempre executará os passos nessa ordem.&quot;</blockquote><p id="3e2f6ce8-497f-8053-86c2-ecc4161028bc" class="" dir="auto">Mas uma aplicação deve considerar que alguém pode tentar acessar diretamente uma etapa posterior.</p><p id="3e2f6ce8-497f-801b-a807-cbbd872a43d2" class="" dir="auto">O backend deve validar as condições necessárias.</p><hr id="3e2f6ce8-497f-80c1-b9ca-edd58ae39a38" dir="auto"/><h1 id="3e2f6ce8-497f-8029-aa7f-fe46702ead24" class="" dir="auto">14. Regras de negócio também precisam de segurança</h1><p id="3e2f6ce8-497f-808d-8b60-d17c127c1e52" class="" dir="auto">Segurança não envolve somente:</p><pre id="3e2f6ce8-497f-80c1-be7e-d600dec24107" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">senha
+firewall
+HTTPS
+antivírus</code></pre><p id="3e2f6ce8-497f-8086-93f0-d23ae879a483" class="" dir="auto">As <strong>regras de negócio</strong> também podem apresentar vulnerabilidades.</p><p id="3e2f6ce8-497f-80dc-b121-fcf7f23c51eb" class="" dir="auto">Imagine um sistema que permita:</p><pre id="3e2f6ce8-497f-8041-bc5c-e69d0a80b305" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Saldo: R$ 100
+
+Transferência:
+R$ 150</code></pre><p id="3e2f6ce8-497f-8008-a829-d0d7a3f67d43" class="" dir="auto">Se o sistema não verifica corretamente o saldo, existe uma falha na lógica da aplicação.</p><p id="3e2f6ce8-497f-8067-9d1e-e6130284708b" class="" dir="auto">Outro exemplo:</p><pre id="3e2f6ce8-497f-80d0-bd59-eaf245f53712" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Cupom:
+20% de desconto</code></pre><p id="3e2f6ce8-497f-809b-94fd-cf5821e8acb5" class="" dir="auto">O projeto pode precisar definir:</p><pre id="3e2f6ce8-497f-801f-a6aa-c1d471002b72" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Pode utilizar uma vez?
+Pode combinar com outro cupom?
+Existe valor máximo?
+Existe data de validade?</code></pre><p id="3e2f6ce8-497f-803e-88c0-e1f372328861" class="" dir="auto">Se essas regras não forem projetadas corretamente, usuários podem explorar comportamentos inesperados.</p><hr id="3e2f6ce8-497f-8064-8b23-c6274800cc62" dir="auto"/><h1 id="3e2f6ce8-497f-80cd-a27b-db955382a498" class="" dir="auto">15. Configuração insegura</h1><p id="3e2f6ce8-497f-80fe-9bdd-d867f9118b21" class="" dir="auto">Agora entramos em um conceito relacionado: <strong>Security Misconfiguration</strong>.</p><p id="3e2f6ce8-497f-8055-9202-ec69d78d24d3" class="" dir="auto">Aqui o sistema pode ter sido projetado de maneira adequada, mas sua configuração cria uma vulnerabilidade.</p><p id="3e2f6ce8-497f-8062-95cf-cb398a3149c7" class="" dir="auto">Exemplos:</p><pre id="3e2f6ce8-497f-80e1-bb8a-d54f273ce43f" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">❌ Senha padrão
+❌ Serviços desnecessários ativados
+❌ Painel administrativo exposto
+❌ Mensagens de erro excessivamente detalhadas
+❌ Permissões excessivas
+❌ Configuração insegura do servidor
+❌ Recursos de debug ativados em produção</code></pre><p id="3e2f6ce8-497f-80a5-a9c7-d1858ec170eb" class="" dir="auto">Por exemplo:</p><pre id="3e2f6ce8-497f-8043-8929-d6f1973aaf94" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Desenvolvimento:
+DEBUG = ON
+
+Produção:
+DEBUG = ON  ← problema</code></pre><p id="3e2f6ce8-497f-8046-92b9-d670f5b7e5a2" class="" dir="auto">Mensagens detalhadas podem revelar:</p><ul id="3e2f6ce8-497f-805c-94f6-ceb3887ac83e" class="bulleted-list" dir="auto"><li style="list-style-type:disc">caminhos internos;</li></ul><ul id="3e2f6ce8-497f-80b3-8884-dbeb3926da6f" class="bulleted-list" dir="auto"><li style="list-style-type:disc">nomes de arquivos;</li></ul><ul id="3e2f6ce8-497f-80b7-9f3b-da69ad6fa2a0" class="bulleted-list" dir="auto"><li style="list-style-type:disc">consultas;</li></ul><ul id="3e2f6ce8-497f-8067-b294-c9c709b9f196" class="bulleted-list" dir="auto"><li style="list-style-type:disc">versões;</li></ul><ul id="3e2f6ce8-497f-80b6-bdab-ca1927af8679" class="bulleted-list" dir="auto"><li style="list-style-type:disc">informações da infraestrutura.</li></ul><hr id="3e2f6ce8-497f-80f1-a668-f06e55da9128" dir="auto"/><h1 id="3e2f6ce8-497f-809d-928c-ff6e9a077572" class="" dir="auto">16. Mensagens de erro</h1><p id="3e2f6ce8-497f-807d-ac01-f6e6e8ba929b" class="" dir="auto">Um sistema inseguro pode apresentar:</p><pre id="3e2f6ce8-497f-80d5-9ed3-e756a65b8f87" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Erro:
+MySQL connection failed at
+C:\xampp\htdocs\projeto\config\database.php</code></pre><p id="3e2f6ce8-497f-8005-a0e9-d556a037113c" class="" dir="auto">Essa mensagem revela informações internas.</p><p id="3e2f6ce8-497f-805f-981b-dc2069afdf72" class="" dir="auto">Uma aplicação de produção deveria apresentar algo mais controlado:</p><pre id="3e2f6ce8-497f-80b7-8bc7-e18c00ac8e29" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Não foi possível processar a solicitação.
+Tente novamente mais tarde.</code></pre><p id="3e2f6ce8-497f-8077-a49c-d276a6993b48" class="" dir="auto">Enquanto os detalhes técnicos permanecem nos logs apropriados.</p><hr id="3e2f6ce8-497f-806d-b1f5-e8be74947838" dir="auto"/><h1 id="3e2f6ce8-497f-80b9-98d4-e8757c1873c4" class="" dir="auto">17. Configurações padrão</h1><p id="3e2f6ce8-497f-8002-9507-c989bc925839" class="" dir="auto">Outro problema comum são configurações padrão que nunca foram alteradas.</p><p id="3e2f6ce8-497f-80da-baed-ed570fd8e1fa" class="" dir="auto">Exemplos:</p><pre id="3e2f6ce8-497f-80a5-8c32-f3561af69d20" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Usuário padrão
+Senha padrão
+Chaves padrão
+Portas desnecessárias
+Serviços desnecessários</code></pre><p id="3e2f6ce8-497f-8027-a39a-dea6b56f4d1c" class="" dir="auto">Uma aplicação deve revisar as configurações antes de entrar em produção.</p><hr id="3e2f6ce8-497f-808a-a6b5-ff5e50ad1d49" dir="auto"/><h1 id="3e2f6ce8-497f-8057-97b1-d857121579ac" class="" dir="auto">18. Arquitetura segura</h1><p id="3e2f6ce8-497f-8061-996d-f44b03824f95" class="" dir="auto">Um projeto moderno pode ser estruturado pensando em segurança desde o início:</p><pre id="3e2f6ce8-497f-80a9-89f9-eebbd7d5c43f" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">                    INTERNET
+                        │
+                        ▼
+                    HTTPS/TLS
+                        │
+                        ▼
+                  ┌───────────┐
+                  │    WAF    │
+                  └─────┬─────┘
+                        │
+                        ▼
+                  ┌───────────┐
+                  │    API    │
+                  └─────┬─────┘
+                        │
+              ┌─────────┴─────────┐
+              ▼                   ▼
+        Autenticação         Autorização
+              │                   │
+              └─────────┬─────────┘
+                        ▼
+                  Regras de negócio
+                        │
+                        ▼
+                    Banco de dados</code></pre><p id="3e2f6ce8-497f-8011-b333-c7b24f17b503" class="" dir="auto">A segurança está distribuída por várias camadas.</p><hr id="3e2f6ce8-497f-80c6-a3a2-f1cc076cb133" dir="auto"/><h1 id="3e2f6ce8-497f-8017-8dc1-e8aa11e0df21" class="" dir="auto">19. Security by Design</h1><p id="3e2f6ce8-497f-801c-a9fa-cb6fe9f64e30" class="" dir="auto">O conceito de <strong>Security by Design</strong> significa incorporar segurança desde o início do desenvolvimento.</p><p id="3e2f6ce8-497f-8013-8dd9-d8ca81a77bcb" class="" dir="auto">Em vez de:</p><pre id="3e2f6ce8-497f-8010-aa0b-ec8377f7b2b9" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Desenvolver
+    ↓
+Publicar
+    ↓
+Descobrir vulnerabilidades
+    ↓
+Corrigir</code></pre><p id="3e2f6ce8-497f-800a-b847-dc5345e17554" class="" dir="auto">busca-se:</p><pre id="3e2f6ce8-497f-805a-aa19-f73314767847" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Requisitos
+    ↓
+Análise de ameaças
+    ↓
+Projeto seguro
+    ↓
+Implementação
+    ↓
+Testes de segurança
+    ↓
+Deploy
+    ↓
+Monitoramento</code></pre><p id="3e2f6ce8-497f-8084-9087-fe532f1ddbef" class="" dir="auto">Isso reduz a probabilidade de problemas estruturais chegarem à produção.</p><hr id="3e2f6ce8-497f-8055-8198-e0846f0e6e80" dir="auto"/><h1 id="3e2f6ce8-497f-80ec-a6d6-e160e758c03b" class="" dir="auto">20. Princípios importantes</h1><p id="3e2f6ce8-497f-808b-93f6-e49d7f771b78" class="" dir="auto">Alguns princípios ajudam a evitar projetos inseguros.</p><h3 id="3e2f6ce8-497f-80e9-949d-e5500081343f" class="" dir="auto">Menor privilégio</h3><p id="3e2f6ce8-497f-80ed-98a2-ebef01b8c258" class="" dir="auto">Dar somente as permissões necessárias.</p><h3 id="3e2f6ce8-497f-8008-8e1f-ec14c0f64e2c" class="" dir="auto">Deny by Default</h3><p id="3e2f6ce8-497f-8035-ad84-e4dd48d8810b" class="" dir="auto">Negar acesso por padrão e liberar explicitamente o necessário.</p><h3 id="3e2f6ce8-497f-805c-b32f-cc316aceee4b" class="" dir="auto">Fail Secure</h3><p id="3e2f6ce8-497f-805c-a78b-effa740703c4" class="" dir="auto">Quando uma verificação falhar, não conceder privilégios automaticamente.</p><h3 id="3e2f6ce8-497f-805e-9f10-c1fbd65d4a9a" class="" dir="auto">Defense in Depth</h3><p id="3e2f6ce8-497f-80a2-b16d-fa466774bb83" class="" dir="auto">Utilizar várias camadas de proteção.</p><pre id="3e2f6ce8-497f-8089-8489-ee066a81fe68" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Autenticação
+     +
+Autorização
+     +
+Validação
+     +
+Criptografia
+     +
+Monitoramento</code></pre><h3 id="3e2f6ce8-497f-8073-9495-c816182d080a" class="" dir="auto">Separação de responsabilidades</h3><p id="3e2f6ce8-497f-803f-883b-c13371722ac3" class="" dir="auto">Evitar que um único componente tenha controle excessivo sobre todo o sistema.</p><hr id="3e2f6ce8-497f-8006-9a93-f60a182e96c4" dir="auto"/><h1 id="3e2f6ce8-497f-8097-8ffe-c045a39e6850" class="" dir="auto">21. Como identificar um projeto inseguro?</h1><p id="3e2f6ce8-497f-80be-a35f-d73e58573942" class="" dir="auto">Durante a análise de uma aplicação, podemos perguntar:</p><h3 id="3e2f6ce8-497f-805d-b218-e27c4a2cbe45" class="" dir="auto">Autenticação</h3><ul id="3e2f6ce8-497f-80cc-bfd8-c700ffcbfac9" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Como os usuários são autenticados?</li></ul><ul id="3e2f6ce8-497f-803f-9b4a-e3e1b43ea79d" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Como a recuperação de senha funciona?</li></ul><ul id="3e2f6ce8-497f-8063-be71-cce5ac82e8cb" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Existe proteção contra tentativas excessivas?</li></ul><h3 id="3e2f6ce8-497f-80f1-997c-f39db506f31d" class="" dir="auto">Autorização</h3><ul id="3e2f6ce8-497f-8081-a8ee-e9cee4056954" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Quem pode acessar cada recurso?</li></ul><ul id="3e2f6ce8-497f-802f-a7d4-d5547133b59c" class="bulleted-list" dir="auto"><li style="list-style-type:disc">O backend verifica as permissões?</li></ul><ul id="3e2f6ce8-497f-80ca-8ddf-dd79f635e524" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Existe isolamento entre usuários?</li></ul><h3 id="3e2f6ce8-497f-809a-a49c-d227b07c0703" class="" dir="auto">Dados</h3><ul id="3e2f6ce8-497f-80ac-afb4-f66f2b035c24" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Quais informações são sensíveis?</li></ul><ul id="3e2f6ce8-497f-804b-9e2d-f3de8488046d" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Como são armazenadas?</li></ul><ul id="3e2f6ce8-497f-8042-8364-eaf5dd4ed19a" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Como são transmitidas?</li></ul><h3 id="3e2f6ce8-497f-8072-9bdc-d8daf3a04320" class="" dir="auto">Regras de negócio</h3><ul id="3e2f6ce8-497f-80ec-83a5-e446fc7e2197" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Existem limites?</li></ul><ul id="3e2f6ce8-497f-8040-b409-eb61f80f352f" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Existem validações?</li></ul><ul id="3e2f6ce8-497f-8006-8f48-f84751bf0b8b" class="bulleted-list" dir="auto"><li style="list-style-type:disc">O usuário pode manipular o fluxo?</li></ul><h3 id="3e2f6ce8-497f-803e-a65f-fb69678611ea" class="" dir="auto">Erros</h3><ul id="3e2f6ce8-497f-80ab-9c9a-df85586c4144" class="bulleted-list" dir="auto"><li style="list-style-type:disc">O sistema revela informações internas?</li></ul><ul id="3e2f6ce8-497f-806c-977c-ddf97bbb86d4" class="bulleted-list" dir="auto"><li style="list-style-type:disc">O modo debug está desativado em produção?</li></ul><h3 id="3e2f6ce8-497f-80d5-b67c-c1679f0ec1f4" class="" dir="auto">Infraestrutura</h3><ul id="3e2f6ce8-497f-80d8-b7fd-ec6abf43af75" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Existem serviços desnecessários?</li></ul><ul id="3e2f6ce8-497f-80df-8983-c779974d5ebc" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Existem credenciais padrão?</li></ul><ul id="3e2f6ce8-497f-80f6-b7a7-c2d05580ce14" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Os componentes estão atualizados?</li></ul><hr id="3e2f6ce8-497f-803f-b660-dafe12f15d96" dir="auto"/><h1 id="3e2f6ce8-497f-805a-baf7-e06773bad913" class="" dir="auto">22. Projeto seguro × projeto inseguro</h1><table id="3e2f6ce8-497f-8039-a622-ed68ffdc459e" class="simple-table" dir="ltr"><thead class="simple-table-header"><tr id="3e2f6ce8-497f-8062-ba17-d0684e1a9572" dir="ltr"><th id="TRUj" class="simple-table-header-color simple-table-header">Aspecto</th><th id="bfJx" class="simple-table-header-color simple-table-header">Projeto inseguro</th><th id="@d:a" class="simple-table-header-color simple-table-header">Projeto mais seguro</th></tr></thead><tbody><tr id="3e2f6ce8-497f-8046-a857-daecaff4ddd6" dir="ltr"><td id="TRUj" class="">Autorização</td><td id="bfJx" class="">Implícita</td><td id="@d:a" class="">Explícita</td></tr><tr id="3e2f6ce8-497f-8050-9f33-cdc5cf12c564" dir="ltr"><td id="TRUj" class="">Permissões</td><td id="bfJx" class="">Excessivas</td><td id="@d:a" class="">Menor privilégio</td></tr><tr id="3e2f6ce8-497f-8046-8f83-ff6e42904257" dir="ltr"><td id="TRUj" class="">Erros</td><td id="bfJx" class="">Detalhados ao usuário</td><td id="@d:a" class="">Controlados</td></tr><tr id="3e2f6ce8-497f-8044-8f58-e6a6653f99aa" dir="ltr"><td id="TRUj" class="">Frontend</td><td id="bfJx" class="">Considerado segurança</td><td id="@d:a" class="">Apenas interface</td></tr><tr id="3e2f6ce8-497f-806b-a645-c8c19f8c3c9d" dir="ltr"><td id="TRUj" class="">Backend</td><td id="bfJx" class="">Confia no cliente</td><td id="@d:a" class="">Valida requisições</td></tr><tr id="3e2f6ce8-497f-80a6-9b92-de6f9c32208a" dir="ltr"><td id="TRUj" class="">Dados</td><td id="bfJx" class="">Proteção tardia</td><td id="@d:a" class="">Segurança desde o projeto</td></tr><tr id="3e2f6ce8-497f-800e-b5f0-ed85d3223b3c" dir="ltr"><td id="TRUj" class="">Senhas</td><td id="bfJx" class="">Armazenamento inadequado</td><td id="@d:a" class="">Hash/KDF apropriado</td></tr><tr id="3e2f6ce8-497f-8054-9c99-d00446ca115f" dir="ltr"><td id="TRUj" class="">Recuperação de senha</td><td id="bfJx" class="">Sem controles suficientes</td><td id="@d:a" class="">Tokens temporários e controlados</td></tr><tr id="3e2f6ce8-497f-80e9-b6d0-dfb05d648abf" dir="ltr"><td id="TRUj" class="">Falhas</td><td id="bfJx" class="">Podem liberar acesso</td><td id="@d:a" class="">Fail Secure</td></tr><tr id="3e2f6ce8-497f-80b4-ac95-ee59a4cffdf4" dir="ltr"><td id="TRUj" class="">Ameaças</td><td id="bfJx" class="">Analisadas depois</td><td id="@d:a" class="">Consideradas durante o projeto</td></tr><tr id="3e2f6ce8-497f-8003-a972-cf58d18ded1b" dir="ltr"><td id="TRUj" class="">Configuração</td><td id="bfJx" class="">Padrões mantidos</td><td id="@d:a" class="">Revisada e endurecida</td></tr></tbody></table><hr id="3e2f6ce8-497f-8033-8bd7-d08182c8bf3a" dir="auto"/><h1 id="3e2f6ce8-497f-80f7-ac14-f2d00306b59a" class="" dir="auto">23. Exemplo completo</h1><p id="3e2f6ce8-497f-80ec-a682-e56a452a4714" class="" dir="auto">Imagine uma aplicação de gerenciamento de funcionários.</p><h3 id="3e2f6ce8-497f-80a5-94e0-d970682064ef" class="" dir="auto">Projeto inseguro</h3><pre id="3e2f6ce8-497f-802f-8c7e-c6bb1f4fd589" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Usuário faz login
+      ↓
+Recebe acesso ao sistema
+      ↓
+Pode informar qualquer ID
+      ↓
+Backend retorna o funcionário</code></pre><p id="3e2f6ce8-497f-8094-b8c7-db309c9e2bbc" class="" dir="auto">Problemas:</p><pre id="3e2f6ce8-497f-80a5-8490-cf817379381d" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">❌ Não verifica propriedade
+❌ Não verifica função
+❌ Confia no ID enviado
+❌ Não diferencia operações administrativas</code></pre><h3 id="3e2f6ce8-497f-808c-a4f2-ebf4f5728272" class="" dir="auto">Projeto mais seguro</h3><pre id="3e2f6ce8-497f-8031-851b-cde8b050e012" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Usuário
+   ↓
+Autenticação
+   ↓
+Identificação da função
+   ↓
+Verificação de autorização
+   ↓
+Verificação do recurso
+   ↓
+Regra de negócio
+   ↓
+Operação</code></pre><p id="3e2f6ce8-497f-80fb-a1ea-f6d57d3dc62a" class="" dir="auto">Agora:</p><pre id="3e2f6ce8-497f-803c-801a-ee0c8f5d664b" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Usuário comum
+→ seus próprios recursos
+
+Gerente
+→ recursos permitidos pela função
+
+Administrador
+→ operações administrativas autorizadas</code></pre><hr id="3e2f6ce8-497f-8030-a8ba-e9e748bc7d33" dir="auto"/><h1 id="3e2f6ce8-497f-802b-8ee7-d515a4120273" class="" dir="auto">24. Resumo</h1><p id="3e2f6ce8-497f-808c-a85d-f1d1dd1bf714" class="" dir="auto"><strong>Projeto Inseguro</strong> ocorre quando decisões de arquitetura, regras de negócio, requisitos ou configurações não consideram adequadamente a segurança.</p><p id="3e2f6ce8-497f-8012-84b3-f2f5f1b38404" class="" dir="auto">Os principais conceitos para memorizar são:</p><pre id="3e2f6ce8-497f-80d0-ade7-f966dc0147a2" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Projeto Inseguro
+      │
+      ├── Falta de Security by Design
+      ├── Regras de negócio inseguras
+      ├── Controle de acesso inadequado
+      ├── Confiança excessiva no cliente
+      ├── Privilégios excessivos
+      ├── Falta de validações
+      ├── Recuperação de senha insegura
+      ├── Configurações inseguras
+      └── Falta de análise de ameaças</code></pre><p id="3e2f6ce8-497f-8089-8aee-f43ff0000367" class="" dir="auto">A ideia central é:</p><blockquote id="3e2f6ce8-497f-804e-944e-dd8cd3f275dd" class="" dir="auto"><strong>Segurança não deve ser adicionada somente depois que a aplicação está pronta; ela deve fazer parte do projeto desde o início.</strong></blockquote><p id="3e2f6ce8-497f-803a-905a-eac11f9b30dd" class="" dir="auto">Um projeto seguro considera <strong>quem pode acessar o quê, quais dados precisam de proteção, quais ameaças existem, como as regras de negócio podem ser abusadas e como o sistema deve se comportar quando algo dá errado</strong>.</p></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>
