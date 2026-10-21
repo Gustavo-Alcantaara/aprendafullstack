@@ -1,0 +1,1143 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Ferramentas de Segurança</title><meta name="data-notion-page-icon" content="/icons/lock_blue.svg"/><link rel="icon" href="https://app.notion.com/icons/lock_blue.svg"/><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+	/* Paint a complete callout box on every PDF page fragment. */
+	-webkit-box-decoration-break: clone;
+	box-decoration-break: clone;
+}
+
+/* For default-background callouts, render the border outline. */
+.callout.block-color-default_background {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+/*
+ * Toggles and callouts hold arbitrary content, so they can easily be taller
+ * than a page. They must stay breakable: avoiding breaks inside them makes
+ * Chromium push the whole block onto the next page, which leaves the previous
+ * page mostly empty before every long toggle.
+ */
+details,
+aside {
+	margin: 1.25em 0;
+}
+
+/* Keep a toggle's title on the same page as the start of its content. */
+summary {
+	page-break-after: avoid;
+	break-after: avoid;
+}
+
+/*
+ * Toggle headings render as <h1/h2/h3 style="display:inline-block"> inside
+ * <summary>. Without this reset, the heading's margin-top pushes it below the
+ * ::marker (▼), so the triangle and the title appear on separate lines.
+ */
+summary h1,
+summary h2,
+summary h3,
+summary h4 {
+	margin-top: 0;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding-inline: 0.125rem;
+	padding-block: 0.375rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+/*
+ * Render emoji icons using a ::before pseudo-element to keep the glyph
+ * out of the DOM textContent traversal. This avoids double-rendering icons
+ * in callouts and page titles.
+ * NOTE(slim/html-export-pseudo-icons): I can't tagref this because it will
+ * flag as a duplicate tag after codegen.
+ */
+.icon[data-emoji]::before {
+	content: attr(data-emoji);
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	margin-right: 0.4em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.tab {
+	margin: 1.25em 0;
+	padding-inline: 1rem;
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style><style>@import url('https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex-swap.min.css')</style></head><body><article id="3fff6ce8-497f-8090-a8af-ef0a168eb792" class="page sans" data-notion-page-icon="/icons/lock_blue.svg"><header><div class="page-header-icon undefined"><img class="icon notion-static-icon" src="https://app.notion.com/icons/lock_blue.svg"/></div><h1 class="page-title" dir="auto">Ferramentas de Segurança</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><h1 id="3fff6ce8-497f-806d-9a14-cd6ec7b0d427" class="" dir="auto">🛡️ Ferramentas de Segurança</h1><p id="3fff6ce8-497f-808b-bcaf-e2369b311c2b" class="" dir="auto">As <strong>ferramentas de segurança</strong> são softwares, serviços e mecanismos utilizados para <strong>prevenir, detectar, analisar, investigar e responder a ameaças cibernéticas</strong>.</p><p id="3fff6ce8-497f-802e-a740-c959887a3cb5" class="" dir="auto">Elas fazem parte da rotina de profissionais de segurança, administradores de sistemas, desenvolvedores e equipes de infraestrutura.</p><p id="3fff6ce8-497f-803e-a0b9-f984f5321f09" class="" dir="auto">É importante entender que nenhuma ferramenta, sozinha, torna um sistema seguro. A segurança normalmente funciona em <strong>camadas</strong>:</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="3fff6ce8-497f-8016-b162-f8109ff45488" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">                    SEGURANÇA
+                        │
+        ┌───────────────┼────────────────┐
+        │               │                │
+      Prevenção       Detecção        Resposta
+        │               │                │
+     Firewall         IDS/IPS          SIEM
+     WAF              EDR              SOAR
+     MFA              Logs             Forense
+        │               │                │
+        └───────────────┼────────────────┘
+                        │
+                  Sistema seguro</code></pre><hr id="3fff6ce8-497f-80f7-a307-f0aa45325efa" dir="auto"/><h1 id="3fff6ce8-497f-8081-bd51-f7303cf84245" class="" dir="auto">1. Por que existem tantas ferramentas?</h1><p id="3fff6ce8-497f-80e5-84a0-fe73944822b0" class="" dir="auto">Um sistema pode apresentar diferentes tipos de riscos.</p><p id="3fff6ce8-497f-8063-bd5e-ef7d4d244372" class="" dir="auto">Por exemplo:</p><pre id="3fff6ce8-497f-80bb-8faf-fedee663ad05" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Servidor
+ ├── Ataque de rede
+ ├── Malware
+ ├── Tentativa de login
+ ├── Vulnerabilidade
+ ├── Configuração incorreta
+ ├── Acesso indevido
+ └── Vazamento de dados</code></pre><p id="3fff6ce8-497f-804b-bea4-e1219a1e20e0" class="" dir="auto">Uma única ferramenta dificilmente consegue lidar bem com tudo isso.</p><p id="3fff6ce8-497f-80db-b223-ffb54acbde67" class="" dir="auto">Por isso existem ferramentas especializadas em:</p><ul id="3fff6ce8-497f-80c4-8b1f-feec1c679050" class="bulleted-list" dir="auto"><li style="list-style-type:disc">redes;</li></ul><ul id="3fff6ce8-497f-8098-a461-e22a0c53a20f" class="bulleted-list" dir="auto"><li style="list-style-type:disc">vulnerabilidades;</li></ul><ul id="3fff6ce8-497f-80e3-a0a4-f8e28409f6b2" class="bulleted-list" dir="auto"><li style="list-style-type:disc">aplicações web;</li></ul><ul id="3fff6ce8-497f-80cf-aaac-c792821a0e83" class="bulleted-list" dir="auto"><li style="list-style-type:disc">malware;</li></ul><ul id="3fff6ce8-497f-807a-bc62-c63e694b25b9" class="bulleted-list" dir="auto"><li style="list-style-type:disc">endpoints;</li></ul><ul id="3fff6ce8-497f-803c-9cac-c249b149dde8" class="bulleted-list" dir="auto"><li style="list-style-type:disc">autenticação;</li></ul><ul id="3fff6ce8-497f-8044-a5ff-c23fae38f0b0" class="bulleted-list" dir="auto"><li style="list-style-type:disc">logs;</li></ul><ul id="3fff6ce8-497f-8009-82d8-f757f8ef515b" class="bulleted-list" dir="auto"><li style="list-style-type:disc">monitoramento;</li></ul><ul id="3fff6ce8-497f-8003-a855-dc800b746495" class="bulleted-list" dir="auto"><li style="list-style-type:disc">resposta a incidentes;</li></ul><ul id="3fff6ce8-497f-8006-8ed5-e433beb32377" class="bulleted-list" dir="auto"><li style="list-style-type:disc">análise forense;</li></ul><ul id="3fff6ce8-497f-805c-90d0-edd3f7860447" class="bulleted-list" dir="auto"><li style="list-style-type:disc">proteção de dados.</li></ul><hr id="3fff6ce8-497f-8038-aceb-f4f47223d456" dir="auto"/><h1 id="3fff6ce8-497f-800c-b5e3-e0ca4663d68c" class="" dir="auto">2. Categorias de ferramentas de segurança</h1><p id="3fff6ce8-497f-809b-a7f7-e941f918b5f0" class="" dir="auto">Podemos organizar as principais ferramentas assim:</p><table id="3fff6ce8-497f-804c-b17a-eb5367226e60" class="simple-table" dir="ltr"><thead class="simple-table-header"><tr id="3fff6ce8-497f-805e-8f1e-e2a77b83ed00" dir="ltr"><th id="qEVD" class="simple-table-header-color simple-table-header">Categoria</th><th id="Z`ZQ" class="simple-table-header-color simple-table-header">Objetivo</th></tr></thead><tbody><tr id="3fff6ce8-497f-80c0-9945-daa8a4896786" dir="ltr"><td id="qEVD" class="">Firewall</td><td id="Z`ZQ" class="">Controlar tráfego de rede</td></tr><tr id="3fff6ce8-497f-8099-a550-c719b9acbb37" dir="ltr"><td id="qEVD" class="">WAF</td><td id="Z`ZQ" class="">Proteger aplicações web</td></tr><tr id="3fff6ce8-497f-80e6-b788-fc3667984d5d" dir="ltr"><td id="qEVD" class="">IDS</td><td id="Z`ZQ" class="">Detectar atividades suspeitas</td></tr><tr id="3fff6ce8-497f-80dd-b3d7-cc9f54054b87" dir="ltr"><td id="qEVD" class="">IPS</td><td id="Z`ZQ" class="">Detectar e bloquear atividades</td></tr><tr id="3fff6ce8-497f-8040-b88a-f27858a6b7ce" dir="ltr"><td id="qEVD" class="">EDR</td><td id="Z`ZQ" class="">Monitorar e proteger endpoints</td></tr><tr id="3fff6ce8-497f-806f-81a9-e40f5473427f" dir="ltr"><td id="qEVD" class="">Antivírus</td><td id="Z`ZQ" class="">Detectar e bloquear malware</td></tr><tr id="3fff6ce8-497f-8051-a072-d8c7d38f0386" dir="ltr"><td id="qEVD" class="">Scanner de vulnerabilidades</td><td id="Z`ZQ" class="">Encontrar vulnerabilidades</td></tr><tr id="3fff6ce8-497f-8049-9c78-f1b568425b87" dir="ltr"><td id="qEVD" class="">SAST</td><td id="Z`ZQ" class="">Analisar código-fonte</td></tr><tr id="3fff6ce8-497f-80da-bc87-d6e98877ebf6" dir="ltr"><td id="qEVD" class="">DAST</td><td id="Z`ZQ" class="">Testar aplicações em execução</td></tr><tr id="3fff6ce8-497f-803e-909c-eb70da2d3ec2" dir="ltr"><td id="qEVD" class="">SIEM</td><td id="Z`ZQ" class="">Centralizar e correlacionar eventos</td></tr><tr id="3fff6ce8-497f-8041-b124-ebd70bc412d7" dir="ltr"><td id="qEVD" class="">SOAR</td><td id="Z`ZQ" class="">Automatizar respostas</td></tr><tr id="3fff6ce8-497f-80ce-bd53-d2b4fa790b5d" dir="ltr"><td id="qEVD" class="">Análise de rede</td><td id="Z`ZQ" class="">Investigar tráfego</td></tr><tr id="3fff6ce8-497f-804f-b35b-d13a0060d9b6" dir="ltr"><td id="qEVD" class="">Forense digital</td><td id="Z`ZQ" class="">Investigar incidentes</td></tr><tr id="3fff6ce8-497f-804e-a2a3-c088c0bb532e" dir="ltr"><td id="qEVD" class="">Gerenciamento de senhas</td><td id="Z`ZQ" class="">Proteger credenciais</td></tr><tr id="3fff6ce8-497f-8043-9cf8-fa6d7e7519c3" dir="ltr"><td id="qEVD" class="">MDM</td><td id="Z`ZQ" class="">Gerenciar dispositivos</td></tr><tr id="3fff6ce8-497f-803b-88e5-dcfc5e4cec2c" dir="ltr"><td id="qEVD" class="">SCA</td><td id="Z`ZQ" class="">Analisar dependências</td></tr><tr id="3fff6ce8-497f-8004-a6d7-f01b8bd3ec62" dir="ltr"><td id="qEVD" class="">DLP</td><td id="Z`ZQ" class="">Prevenir vazamento de dados</td></tr></tbody></table><p id="3fff6ce8-497f-802b-b5b1-d18aebfcf3e9" class="" dir="auto">Agora vamos entender cada uma.</p><hr id="3fff6ce8-497f-80d1-9a12-d24a3b989d8a" dir="auto"/><h1 id="3fff6ce8-497f-800a-ab08-fea51f4797f9" class="" dir="auto">3. Firewall</h1><p id="3fff6ce8-497f-809a-a99d-c491d6583ad4" class="" dir="auto">O <strong>firewall</strong> controla o tráfego entre redes ou sistemas de acordo com determinadas regras.</p><p id="3fff6ce8-497f-8048-8d57-e1daebdb9d58" class="" dir="auto">Imagine:</p><pre id="3fff6ce8-497f-802a-9045-cdf5d0a2d4d8" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Internet
+   │
+   ▼
+┌───────────┐
+│ FIREWALL  │
+└───────────┘
+   │
+   ▼
+Rede interna</code></pre><p id="3fff6ce8-497f-8071-baab-fd234663f415" class="" dir="auto">Ele pode decidir:</p><pre id="3fff6ce8-497f-800a-8098-c9af70a33569" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Origem → Destino → Porta → Ação</code></pre><p id="3fff6ce8-497f-80d2-b95d-e22c1e41a458" class="" dir="auto">Por exemplo:</p><pre id="3fff6ce8-497f-80ec-8e32-d5ef45d7a543" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Internet → Servidor Web → HTTPS → PERMITIR
+Internet → Banco de Dados → acesso externo → BLOQUEAR</code></pre><h3 id="3fff6ce8-497f-80b8-93c7-c94467b23a31" class="" dir="auto">Tipos</h3><p id="3fff6ce8-497f-803a-9386-f0b564e90eb9" class="" dir="auto">Podemos encontrar:</p><ul id="3fff6ce8-497f-80db-bccb-faf3462c9073" class="bulleted-list" dir="auto"><li style="list-style-type:disc">firewall de rede;</li></ul><ul id="3fff6ce8-497f-808e-86df-ff7ce0e505ab" class="bulleted-list" dir="auto"><li style="list-style-type:disc">firewall de host;</li></ul><ul id="3fff6ce8-497f-8091-95c6-f8efd76ef0a4" class="bulleted-list" dir="auto"><li style="list-style-type:disc">firewall de próxima geração (NGFW);</li></ul><ul id="3fff6ce8-497f-80fa-ba74-f090766bc9e7" class="bulleted-list" dir="auto"><li style="list-style-type:disc">firewall em ambientes cloud.</li></ul><h3 id="3fff6ce8-497f-80a4-94b2-e98ae8811303" class="" dir="auto">Função principal</h3><blockquote id="3fff6ce8-497f-80ff-82fe-ea91b63454ea" class="" dir="auto"><strong>Controlar o que pode entrar e sair de uma rede ou sistema.</strong></blockquote><hr id="3fff6ce8-497f-8093-bfc0-ec913dbfb114" dir="auto"/><h1 id="3fff6ce8-497f-808e-a17f-e4c97de9421e" class="" dir="auto">4. WAF</h1><p id="3fff6ce8-497f-80f0-bd1d-c39d1b53d567" class="" dir="auto"><strong>WAF (Web Application Firewall)</strong> é um firewall especializado em aplicações web.</p><p id="3fff6ce8-497f-803c-b95a-f88cc1c63d45" class="" dir="auto">A arquitetura pode ser:</p><pre id="3fff6ce8-497f-80cf-8c36-f351696218a7" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Usuário
+   │
+   ▼
+   WAF
+   │
+   ▼
+Aplicação Web
+   │
+   ▼
+Banco de Dados</code></pre><p id="3fff6ce8-497f-801c-8b79-d0bdf7f0f846" class="" dir="auto">O WAF pode ajudar a identificar padrões associados a ataques contra aplicações, como:</p><ul id="3fff6ce8-497f-80f5-9ff3-f18eb0640488" class="bulleted-list" dir="auto"><li style="list-style-type:disc">tentativas de SQL Injection;</li></ul><ul id="3fff6ce8-497f-802f-b5dc-d737ba6f43af" class="bulleted-list" dir="auto"><li style="list-style-type:disc">determinados padrões de XSS;</li></ul><ul id="3fff6ce8-497f-8032-9adf-ff6ace39c088" class="bulleted-list" dir="auto"><li style="list-style-type:disc">requisições anômalas;</li></ul><ul id="3fff6ce8-497f-80f0-9ccb-e42e4b03cbba" class="bulleted-list" dir="auto"><li style="list-style-type:disc">exploração de vulnerabilidades conhecidas;</li></ul><ul id="3fff6ce8-497f-8009-8eff-d5ad3d9c071f" class="bulleted-list" dir="auto"><li style="list-style-type:disc">abuso de determinadas rotas.</li></ul><p id="3fff6ce8-497f-8098-87ca-d968cc39a75e" class="" dir="auto">Porém:</p><blockquote id="3fff6ce8-497f-8032-b33d-feaf8eeadb50" class="" dir="auto">WAF <strong>não substitui código seguro</strong>.</blockquote><p id="3fff6ce8-497f-806b-bfb7-d6b001f68aa3" class="" dir="auto">Uma aplicação ainda precisa implementar corretamente:</p><ul id="3fff6ce8-497f-80b2-81d6-c82c5af91dee" class="bulleted-list" dir="auto"><li style="list-style-type:disc">validação;</li></ul><ul id="3fff6ce8-497f-8007-b41d-d815edeaa08e" class="bulleted-list" dir="auto"><li style="list-style-type:disc">autenticação;</li></ul><ul id="3fff6ce8-497f-80e2-ae69-d0136d008a57" class="bulleted-list" dir="auto"><li style="list-style-type:disc">autorização;</li></ul><ul id="3fff6ce8-497f-8061-933d-d62be1461f7e" class="bulleted-list" dir="auto"><li style="list-style-type:disc">consultas parametrizadas;</li></ul><ul id="3fff6ce8-497f-80af-a84a-f6d229d771f7" class="bulleted-list" dir="auto"><li style="list-style-type:disc">controle de acesso;</li></ul><ul id="3fff6ce8-497f-8038-9c03-ece3d342e865" class="bulleted-list" dir="auto"><li style="list-style-type:disc">tratamento de erros.</li></ul><hr id="3fff6ce8-497f-80f8-b5d9-e8784cd2231c" dir="auto"/><h1 id="3fff6ce8-497f-803d-b3b5-d06620ba3dc1" class="" dir="auto">5. IDS</h1><p id="3fff6ce8-497f-80c3-b495-cc5f37a13af8" class="" dir="auto"><strong>IDS (Intrusion Detection System)</strong> significa <strong>Sistema de Detecção de Intrusão</strong>.</p><p id="3fff6ce8-497f-8095-a332-f228b96c18cc" class="" dir="auto">Sua função principal é <strong>detectar atividades potencialmente maliciosas</strong>.</p><pre id="3fff6ce8-497f-80d6-ad74-df869eb6267e" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Tráfego
+   │
+   ▼
+  IDS
+   │
+   ├── Atividade normal
+   │
+   └── Atividade suspeita → ALERTA</code></pre><p id="3fff6ce8-497f-8009-8d41-e31eaf8ce086" class="" dir="auto">Um IDS normalmente <strong>não tem como função principal bloquear</strong> o tráfego.</p><p id="3fff6ce8-497f-804c-b293-dfa8f41f95c4" class="" dir="auto">Ele detecta e alerta.</p><hr id="3fff6ce8-497f-8047-a141-e3b82a7c5bc9" dir="auto"/><h1 id="3fff6ce8-497f-8072-be09-c99510387a1e" class="" dir="auto">6. IPS</h1><p id="3fff6ce8-497f-80c3-894a-e8cbc4724b6b" class="" dir="auto"><strong>IPS (Intrusion Prevention System)</strong> vai além da detecção.</p><p id="3fff6ce8-497f-8091-a53b-d6a4e088cfc1" class="" dir="auto">Ele pode detectar uma atividade suspeita e tomar uma ação de bloqueio.</p><pre id="3fff6ce8-497f-80c7-988d-fa7748e221d7" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Tráfego
+   │
+   ▼
+  IPS
+   │
+   ├── Normal → PERMITIR
+   │
+   └── Suspeito → BLOQUEAR</code></pre><h3 id="3fff6ce8-497f-80b5-983c-c3e7b28075d2" class="" dir="auto">Diferença</h3><pre id="3fff6ce8-497f-80b0-b6e1-f9742849a7fa" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">IDS
+↓
+Detecta
+↓
+Alerta
+
+
+IPS
+↓
+Detecta
+↓
+Pode bloquear</code></pre><hr id="3fff6ce8-497f-808e-9d31-f249962a348e" dir="auto"/><h1 id="3fff6ce8-497f-8046-a15b-de922ab34015" class="" dir="auto">7. IDS/IPS baseados em rede</h1><p id="3fff6ce8-497f-807e-8443-c3d5f6f6e56f" class="" dir="auto">São utilizados para analisar tráfego de rede.</p><p id="3fff6ce8-497f-80c3-88fd-f5265803e736" class="" dir="auto">Ferramentas conhecidas incluem:</p><ul id="3fff6ce8-497f-80b2-a3d6-fca708f8b17b" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>Snort</strong></li></ul><ul id="3fff6ce8-497f-8089-b18b-da604452e135" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>Suricata</strong></li></ul><p id="3fff6ce8-497f-80a6-8b74-c07495900ccf" class="" dir="auto">Elas podem analisar pacotes e procurar padrões ou comportamentos relacionados a atividades suspeitas.</p><p id="3fff6ce8-497f-80c6-bbc8-dc629a7318b2" class="" dir="auto">Essas ferramentas são bastante importantes para quem trabalha com:</p><ul id="3fff6ce8-497f-80e2-bc5c-e678128eae3c" class="bulleted-list" dir="auto"><li style="list-style-type:disc">segurança de redes;</li></ul><ul id="3fff6ce8-497f-80bf-958a-d122b5419b81" class="bulleted-list" dir="auto"><li style="list-style-type:disc">SOC;</li></ul><ul id="3fff6ce8-497f-80a8-a986-fc9843f06154" class="bulleted-list" dir="auto"><li style="list-style-type:disc">monitoramento;</li></ul><ul id="3fff6ce8-497f-801f-8f94-c303287c1f1a" class="bulleted-list" dir="auto"><li style="list-style-type:disc">detecção de intrusão.</li></ul><hr id="3fff6ce8-497f-8093-8f67-e84af6711690" dir="auto"/><h1 id="3fff6ce8-497f-8086-a829-c9f7c6c8b629" class="" dir="auto">8. Antivírus</h1><p id="3fff6ce8-497f-8037-8269-fad74322e383" class="" dir="auto">O <strong>antivírus</strong> é uma ferramenta voltada principalmente para detectar e bloquear <strong>malware</strong>.</p><p id="3fff6ce8-497f-80ee-bdd7-c0c08d1e01cb" class="" dir="auto">Pode trabalhar com diferentes mecanismos, como:</p><ul id="3fff6ce8-497f-804b-827a-ccc6f92471c5" class="bulleted-list" dir="auto"><li style="list-style-type:disc">assinaturas;</li></ul><ul id="3fff6ce8-497f-80f0-b48c-e3eedf74bb18" class="bulleted-list" dir="auto"><li style="list-style-type:disc">análise comportamental;</li></ul><ul id="3fff6ce8-497f-8068-b550-d159236f21da" class="bulleted-list" dir="auto"><li style="list-style-type:disc">heurística;</li></ul><ul id="3fff6ce8-497f-809a-b0b8-f9cec5be7910" class="bulleted-list" dir="auto"><li style="list-style-type:disc">reputação;</li></ul><ul id="3fff6ce8-497f-80f8-bf18-d80f34c22cb8" class="bulleted-list" dir="auto"><li style="list-style-type:disc">análise baseada em nuvem.</li></ul><p id="3fff6ce8-497f-8049-88aa-f3791277e65c" class="" dir="auto">Ele pode detectar ameaças como:</p><ul id="3fff6ce8-497f-80fb-94de-cc4f42acf850" class="bulleted-list" dir="auto"><li style="list-style-type:disc">vírus;</li></ul><ul id="3fff6ce8-497f-8003-9efc-fce5e79af389" class="bulleted-list" dir="auto"><li style="list-style-type:disc">trojans;</li></ul><ul id="3fff6ce8-497f-8076-ac4c-ec718746087c" class="bulleted-list" dir="auto"><li style="list-style-type:disc">worms;</li></ul><ul id="3fff6ce8-497f-800d-b6ae-e15c317d4bab" class="bulleted-list" dir="auto"><li style="list-style-type:disc">ransomware;</li></ul><ul id="3fff6ce8-497f-8042-9ebe-ef4e6f68206b" class="bulleted-list" dir="auto"><li style="list-style-type:disc">spyware;</li></ul><ul id="3fff6ce8-497f-805f-af57-dd23ba6c88ec" class="bulleted-list" dir="auto"><li style="list-style-type:disc">outros tipos de malware.</li></ul><hr id="3fff6ce8-497f-80fe-ae87-f3e974fa90d6" dir="auto"/><h1 id="3fff6ce8-497f-80e7-b08e-e17cebe464e3" class="" dir="auto">9. EDR</h1><p id="3fff6ce8-497f-8043-874f-c3287434ce85" class="" dir="auto"><strong>EDR (Endpoint Detection and Response)</strong> é uma solução mais abrangente para proteção de endpoints.</p><p id="3fff6ce8-497f-802b-b8ba-fd4793e035e0" class="" dir="auto">Endpoint pode ser:</p><ul id="3fff6ce8-497f-80e7-a1a1-d3a65a6c8f73" class="bulleted-list" dir="auto"><li style="list-style-type:disc">computador;</li></ul><ul id="3fff6ce8-497f-803a-9de4-c1c369c02b27" class="bulleted-list" dir="auto"><li style="list-style-type:disc">notebook;</li></ul><ul id="3fff6ce8-497f-8027-8fe1-e329118819f6" class="bulleted-list" dir="auto"><li style="list-style-type:disc">servidor;</li></ul><ul id="3fff6ce8-497f-805a-aafb-f1c5220a252c" class="bulleted-list" dir="auto"><li style="list-style-type:disc">estação de trabalho;</li></ul><ul id="3fff6ce8-497f-80bb-a114-ce1cb8c10dec" class="bulleted-list" dir="auto"><li style="list-style-type:disc">dispositivo corporativo.</li></ul><p id="3fff6ce8-497f-8070-8195-d6e694c28058" class="" dir="auto">O EDR monitora atividades no dispositivo.</p><pre id="3fff6ce8-497f-8080-8377-ff192860886d" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Computador
+   │
+   ├── Processos
+   ├── Arquivos
+   ├── Conexões
+   ├── Usuários
+   └── Eventos
+          │
+          ▼
+         EDR
+          │
+          ▼
+      Detecção
+          │
+          ▼
+       Resposta</code></pre><p id="3fff6ce8-497f-80d0-971c-ec941a56a779" class="" dir="auto">Ele pode ajudar a investigar:</p><blockquote id="3fff6ce8-497f-80a2-9707-d0fac995c4e9" class="" dir="auto">&quot;O que aconteceu neste computador?&quot;</blockquote><hr id="3fff6ce8-497f-8085-a0f3-f0eddbe96c55" dir="auto"/><h1 id="3fff6ce8-497f-8080-b27b-f87bb3c8ed21" class="" dir="auto">10. EDR × Antivírus</h1><p id="3fff6ce8-497f-805f-a7e7-dda746705b30" class="" dir="auto">Um antivírus tradicional tende a se concentrar bastante em <strong>detectar e bloquear malware</strong>.</p><p id="3fff6ce8-497f-80b4-9a5b-e8414638cd8f" class="" dir="auto">Um EDR possui uma visão mais ampla do endpoint.</p><table id="3fff6ce8-497f-8069-967a-e49806cbf390" class="simple-table" dir="ltr"><thead class="simple-table-header"><tr id="3fff6ce8-497f-80aa-a971-e44db2704473" dir="ltr"><th id="GJW^" class="simple-table-header-color simple-table-header">Antivírus</th><th id="JaQQ" class="simple-table-header-color simple-table-header">EDR</th></tr></thead><tbody><tr id="3fff6ce8-497f-8098-b8b6-e40a642b69ef" dir="ltr"><td id="GJW^" class="">Foco em malware</td><td id="JaQQ" class="">Foco em atividades do endpoint</td></tr><tr id="3fff6ce8-497f-80b9-9a72-f2ef12e0bfc9" dir="ltr"><td id="GJW^" class="">Detecção/bloqueio</td><td id="JaQQ" class="">Detecção + investigação + resposta</td></tr><tr id="3fff6ce8-497f-8087-a714-c15727227bf4" dir="ltr"><td id="GJW^" class="">Mais simples</td><td id="JaQQ" class="">Mais abrangente</td></tr><tr id="3fff6ce8-497f-8034-b7af-e7cc2420d10c" dir="ltr"><td id="GJW^" class="">Proteção local</td><td id="JaQQ" class="">Telemetria e análise centralizada</td></tr></tbody></table><p id="3fff6ce8-497f-8035-a9fd-c6881ba4aeea" class="" dir="auto">Em ambientes corporativos, soluções EDR são muito utilizadas.</p><hr id="3fff6ce8-497f-803e-b61f-df6d4a216324" dir="auto"/><h1 id="3fff6ce8-497f-80c2-91de-d34da830e995" class="" dir="auto">11. Scanner de vulnerabilidades</h1><p id="3fff6ce8-497f-8063-b489-db00a3f29640" class="" dir="auto">Essas ferramentas procuram <strong>vulnerabilidades conhecidas ou possíveis problemas de segurança</strong>.</p><p id="3fff6ce8-497f-805d-8523-fc9b2769c519" class="" dir="auto">Exemplos de ferramentas:</p><ul id="3fff6ce8-497f-80f1-82a4-f1665c0949cd" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Nessus;</li></ul><ul id="3fff6ce8-497f-80bd-b652-cb732b7a72d5" class="bulleted-list" dir="auto"><li style="list-style-type:disc">OpenVAS/Greenbone;</li></ul><ul id="3fff6ce8-497f-8009-99df-fbe74f1b1b8b" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Qualys.</li></ul><p id="3fff6ce8-497f-808d-b665-d2758af8d8d7" class="" dir="auto">Podem verificar coisas como:</p><ul id="3fff6ce8-497f-807c-ac53-c71eab3aab60" class="bulleted-list" dir="auto"><li style="list-style-type:disc">software desatualizado;</li></ul><ul id="3fff6ce8-497f-80d6-baab-d5bd7102ec4f" class="bulleted-list" dir="auto"><li style="list-style-type:disc">serviços expostos;</li></ul><ul id="3fff6ce8-497f-8063-864e-ca8f3359a3ef" class="bulleted-list" dir="auto"><li style="list-style-type:disc">configurações inseguras;</li></ul><ul id="3fff6ce8-497f-80f9-ba08-f1a26ef0b445" class="bulleted-list" dir="auto"><li style="list-style-type:disc">vulnerabilidades conhecidas;</li></ul><ul id="3fff6ce8-497f-80dc-8382-e607fc3ba8e0" class="bulleted-list" dir="auto"><li style="list-style-type:disc">versões vulneráveis.</li></ul><p id="3fff6ce8-497f-800f-bd82-fdaf81e9b178" class="" dir="auto">Fluxo:</p><pre id="3fff6ce8-497f-8024-942e-ddde3914b98a" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Sistema
+   ↓
+Scanner
+   ↓
+Análise
+   ↓
+Vulnerabilidades encontradas
+   ↓
+Correção
+   ↓
+Novo teste</code></pre><hr id="3fff6ce8-497f-802f-9c98-fe05101df0d0" dir="auto"/><h1 id="3fff6ce8-497f-8035-9de5-f5c2fac02bd2" class="" dir="auto">12. CVE</h1><p id="3fff6ce8-497f-8009-9468-cb2828509eba" class="" dir="auto">Ao estudar scanners, você encontrará frequentemente o termo <strong>CVE (Common Vulnerabilities and Exposures)</strong>.</p><p id="3fff6ce8-497f-8038-ae6e-d135af60eeda" class="" dir="auto">Uma vulnerabilidade conhecida pode possuir um identificador como:</p><pre id="3fff6ce8-497f-8034-9ec5-f3a5939f9df7" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">CVE-YYYY-NNNNN</code></pre><p id="3fff6ce8-497f-8014-858a-dfe9c40d1e4d" class="" dir="auto">O CVE ajuda a identificar vulnerabilidades de forma padronizada.</p><p id="3fff6ce8-497f-803e-8822-e77f8195ee14" class="" dir="auto">Isso permite relacionar:</p><pre id="3fff6ce8-497f-80bf-8351-c9961f946ff7" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Software
+   ↓
+Versão
+   ↓
+Vulnerabilidade
+   ↓
+CVE
+   ↓
+Correção/mitigação</code></pre><hr id="3fff6ce8-497f-8041-b8aa-cbfc7020a5e6" dir="auto"/><h1 id="3fff6ce8-497f-8061-a158-dad063159c5d" class="" dir="auto">13. SAST</h1><p id="3fff6ce8-497f-8020-86db-fdba9e1af8d7" class="" dir="auto"><strong>SAST (Static Application Security Testing)</strong> significa <strong>Teste de Segurança de Aplicações Estático</strong>.</p><p id="3fff6ce8-497f-80be-9fdd-cdbcb546247b" class="" dir="auto">Ele analisa o código da aplicação sem necessariamente executar o programa.</p><pre id="3fff6ce8-497f-80f1-873e-e10f4564833d" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Código-fonte
+    ↓
+   SAST
+    ↓
+Análise
+    ↓
+Possíveis vulnerabilidades</code></pre><p id="3fff6ce8-497f-808a-a8f7-e09487bc0583" class="" dir="auto">Pode encontrar problemas como:</p><ul id="3fff6ce8-497f-8070-9e2f-ce482ef5d4db" class="bulleted-list" dir="auto"><li style="list-style-type:disc">determinadas formas de injeção;</li></ul><ul id="3fff6ce8-497f-80f0-ba0d-dca3753da804" class="bulleted-list" dir="auto"><li style="list-style-type:disc">uso inseguro de APIs;</li></ul><ul id="3fff6ce8-497f-80fe-9cf7-fc42f03c989a" class="bulleted-list" dir="auto"><li style="list-style-type:disc">segredos expostos;</li></ul><ul id="3fff6ce8-497f-80bd-a396-f6306ca925dc" class="bulleted-list" dir="auto"><li style="list-style-type:disc">práticas inseguras;</li></ul><ul id="3fff6ce8-497f-80a0-b391-ec91db49d7c5" class="bulleted-list" dir="auto"><li style="list-style-type:disc">problemas de validação.</li></ul><p id="3fff6ce8-497f-8050-8cd7-e61b653abf89" class="" dir="auto">É muito útil no desenvolvimento de software.</p><hr id="3fff6ce8-497f-802a-8880-c9a4b13474fb" dir="auto"/><h1 id="3fff6ce8-497f-80d5-bb0c-f295e49fefab" class="" dir="auto">14. DAST</h1><p id="3fff6ce8-497f-804b-a8be-cf3410d1c094" class="" dir="auto"><strong>DAST (Dynamic Application Security Testing)</strong> analisa uma aplicação <strong>em execução</strong>.</p><pre id="3fff6ce8-497f-80e3-8817-f1d0b860dfd6" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Aplicação funcionando
+        ↓
+       DAST
+        ↓
+ Testes de segurança
+        ↓
+    Resultados</code></pre><p id="3fff6ce8-497f-80dc-8fb0-c1c6e7f95a9f" class="" dir="auto">A diferença básica:</p><pre id="3fff6ce8-497f-8070-9a21-cc31d35bf5c4" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">SAST
+↓
+Analisa código
+
+
+DAST
+↓
+Analisa aplicação funcionando</code></pre><p id="3fff6ce8-497f-8003-b939-e91a542f0550" class="" dir="auto">Os dois podem ser utilizados juntos.</p><hr id="3fff6ce8-497f-807c-abb7-ccc26febbe85" dir="auto"/><h1 id="3fff6ce8-497f-80e2-a9c7-ef82ea037385" class="" dir="auto">15. SCA</h1><p id="3fff6ce8-497f-8090-8bc8-c42b1ecbde1c" class="" dir="auto"><strong>SCA (Software Composition Analysis)</strong> é utilizado para analisar as dependências utilizadas por uma aplicação.</p><p id="3fff6ce8-497f-8060-b728-cae131e62d68" class="" dir="auto">Imagine um projeto Node.js:</p><pre id="3fff6ce8-497f-804e-8614-dc9f9aaeae6a" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Meu projeto
+ │
+ ├── Express
+ ├── Axios
+ ├── Biblioteca X
+ ├── Biblioteca Y
+ └── Biblioteca Z</code></pre><p id="3fff6ce8-497f-8001-bbbc-c88cb16b9202" class="" dir="auto">O SCA ajuda a identificar:</p><ul id="3fff6ce8-497f-80df-8ac9-c83ffc199388" class="bulleted-list" dir="auto"><li style="list-style-type:disc">vulnerabilidades conhecidas;</li></ul><ul id="3fff6ce8-497f-8092-bf35-eae16ccf779f" class="bulleted-list" dir="auto"><li style="list-style-type:disc">versões vulneráveis;</li></ul><ul id="3fff6ce8-497f-80d3-9673-d992fb9074d3" class="bulleted-list" dir="auto"><li style="list-style-type:disc">dependências desatualizadas;</li></ul><ul id="3fff6ce8-497f-8086-b6fd-fa68a7021baa" class="bulleted-list" dir="auto"><li style="list-style-type:disc">dependências transitivas;</li></ul><ul id="3fff6ce8-497f-8028-914a-efb9315b6f87" class="bulleted-list" dir="auto"><li style="list-style-type:disc">possíveis problemas de licença.</li></ul><p id="3fff6ce8-497f-8063-8fb2-fb361c183444" class="" dir="auto">Isso é especialmente importante no desenvolvimento moderno porque uma aplicação pode depender de centenas de pacotes.</p><hr id="3fff6ce8-497f-8029-ae84-c0a0e9af8bad" dir="auto"/><h1 id="3fff6ce8-497f-8052-8074-daf9dc825d81" class="" dir="auto">16. Ferramentas do ecossistema Node.js</h1><p id="3fff6ce8-497f-80d2-963d-cca3ec3f4c98" class="" dir="auto">Como você também está estudando Node.js, esse conceito aparece bastante.</p><p id="3fff6ce8-497f-8079-acc8-e2c41179671d" class="" dir="auto">Por exemplo:</p><pre id="3fff6ce8-497f-8012-b617-fa117878a464" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">npm audit</code></pre><p id="3fff6ce8-497f-80e4-99b8-cee2cfa21262" class="" dir="auto">pode verificar vulnerabilidades conhecidas nas dependências do projeto.</p><p id="3fff6ce8-497f-80db-b7b3-ec7b11203f40" class="" dir="auto">Outro conceito importante é:</p><pre id="3fff6ce8-497f-809a-b116-ca34f393e8b2" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">package.json
+      ↓
+Dependências
+      ↓
+npm
+      ↓
+Bibliotecas
+      ↓
+SCA / auditoria</code></pre><p id="3fff6ce8-497f-8076-b698-f00b869b7121" class="" dir="auto">Isso se conecta diretamente ao tema que você estudou anteriormente:</p><p id="3fff6ce8-497f-80cb-8abf-ec21adfbb3bc" class="" dir="auto"><strong>Componentes Vulneráveis e Desatualizados.</strong></p><hr id="3fff6ce8-497f-8047-aeca-fbcbf724026c" dir="auto"/><h1 id="3fff6ce8-497f-80cc-b651-dc387bc711b3" class="" dir="auto">17. Ferramentas de análise de rede</h1><p id="3fff6ce8-497f-8005-a358-c77abb355a15" class="" dir="auto">Uma das ferramentas mais conhecidas é o <strong>Wireshark</strong>.</p><p id="3fff6ce8-497f-802f-b5cf-d59d9d8af4a5" class="" dir="auto">Ele permite analisar tráfego de rede capturado.</p><p id="3fff6ce8-497f-80b9-8033-ed18316fbc9b" class="" dir="auto">Conceitualmente:</p><pre id="3fff6ce8-497f-805b-8344-f44cc1b9e223" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Rede
+ ↓
+Pacotes
+ ↓
+Wireshark
+ ↓
+Análise</code></pre><p id="3fff6ce8-497f-80dc-ae26-e4c731648d4c" class="" dir="auto">Pode ser utilizado para estudar:</p><ul id="3fff6ce8-497f-807b-85a0-d08461e03c2c" class="bulleted-list" dir="auto"><li style="list-style-type:disc">protocolos;</li></ul><ul id="3fff6ce8-497f-80eb-8ef5-f870ba7dfa46" class="bulleted-list" dir="auto"><li style="list-style-type:disc">conexões;</li></ul><ul id="3fff6ce8-497f-80b7-85cc-ee469921fc3a" class="bulleted-list" dir="auto"><li style="list-style-type:disc">endereços IP;</li></ul><ul id="3fff6ce8-497f-80f0-961e-ebcf7fec6885" class="bulleted-list" dir="auto"><li style="list-style-type:disc">portas;</li></ul><ul id="3fff6ce8-497f-8012-a38b-fa90b53b2aec" class="bulleted-list" dir="auto"><li style="list-style-type:disc">DNS;</li></ul><ul id="3fff6ce8-497f-808a-9bed-eccc38f310a7" class="bulleted-list" dir="auto"><li style="list-style-type:disc">TCP;</li></ul><ul id="3fff6ce8-497f-8004-8755-c9035e17e837" class="bulleted-list" dir="auto"><li style="list-style-type:disc">UDP;</li></ul><ul id="3fff6ce8-497f-80d3-8965-d2b0c3f15d22" class="bulleted-list" dir="auto"><li style="list-style-type:disc">HTTP;</li></ul><ul id="3fff6ce8-497f-8011-b09a-d02b073f77ca" class="bulleted-list" dir="auto"><li style="list-style-type:disc">TLS;</li></ul><ul id="3fff6ce8-497f-8047-9616-ed88917fd1a9" class="bulleted-list" dir="auto"><li style="list-style-type:disc">comportamento de uma rede.</li></ul><p id="3fff6ce8-497f-8061-bb9e-e867bb09d4ce" class="" dir="auto">É uma ferramenta extremamente importante para aprender segurança de redes.</p><hr id="3fff6ce8-497f-809f-9bb7-db1e11bc0d25" dir="auto"/><h1 id="3fff6ce8-497f-80c7-b556-c7b50081f259" class="" dir="auto">18. Nmap</h1><p id="3fff6ce8-497f-80e0-b935-ef4e4d4672d3" class="" dir="auto">O <strong>Nmap</strong> é uma ferramenta muito conhecida para <strong>descoberta e análise de redes e serviços</strong>.</p><p id="3fff6ce8-497f-80cd-871a-ee65bbc3de29" class="" dir="auto">Ela pode ajudar a identificar:</p><ul id="3fff6ce8-497f-80e7-a5f1-c1f148c08a66" class="bulleted-list" dir="auto"><li style="list-style-type:disc">hosts disponíveis;</li></ul><ul id="3fff6ce8-497f-80df-86ee-e1d9c09a1ed2" class="bulleted-list" dir="auto"><li style="list-style-type:disc">portas;</li></ul><ul id="3fff6ce8-497f-8055-94fd-fb77723723d1" class="bulleted-list" dir="auto"><li style="list-style-type:disc">serviços;</li></ul><ul id="3fff6ce8-497f-804c-8b69-f21022235a7c" class="bulleted-list" dir="auto"><li style="list-style-type:disc">versões;</li></ul><ul id="3fff6ce8-497f-800f-b4b7-c24397aed769" class="bulleted-list" dir="auto"><li style="list-style-type:disc">características da rede.</li></ul><p id="3fff6ce8-497f-8010-9c2b-cf63d98f69fe" class="" dir="auto">Conceitualmente:</p><pre id="3fff6ce8-497f-8026-b111-e2f1127e0b30" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Rede
+ ↓
+Nmap
+ ↓
+Hosts encontrados
+ ↓
+Serviços identificados
+ ↓
+Análise de segurança</code></pre><p id="3fff6ce8-497f-803b-a17b-e2e9b717e871" class="" dir="auto">Em ambientes autorizados, ele é bastante útil para:</p><ul id="3fff6ce8-497f-80a2-8a89-e8d14d3daa04" class="bulleted-list" dir="auto"><li style="list-style-type:disc">inventário;</li></ul><ul id="3fff6ce8-497f-8057-9fcb-eed41645d5e6" class="bulleted-list" dir="auto"><li style="list-style-type:disc">auditoria;</li></ul><ul id="3fff6ce8-497f-80b9-bca6-fbef91f9b8e6" class="bulleted-list" dir="auto"><li style="list-style-type:disc">administração;</li></ul><ul id="3fff6ce8-497f-8048-9b38-c80108aeb1c6" class="bulleted-list" dir="auto"><li style="list-style-type:disc">testes de segurança.</li></ul><blockquote id="3fff6ce8-497f-805d-8f9e-ed80529fe634" class="" dir="auto">Em segurança, sempre utilize esse tipo de ferramenta somente em sistemas e redes que você tem autorização para analisar.</blockquote><hr id="3fff6ce8-497f-806c-b636-d91b4bf490d8" dir="auto"/><h1 id="3fff6ce8-497f-8080-bc29-db1b0d911a6d" class="" dir="auto">19. Ferramentas de teste de aplicações web</h1><p id="3fff6ce8-497f-80e5-8f0d-fc062bfa91ef" class="" dir="auto">Existem ferramentas especializadas em analisar aplicações web.</p><p id="3fff6ce8-497f-8045-8d04-e08cd7267e8f" class="" dir="auto">Um exemplo bastante conhecido é o <strong>Burp Suite</strong>.</p><p id="3fff6ce8-497f-8025-b21b-d82fb8da23a9" class="" dir="auto">Ele pode ser utilizado para:</p><ul id="3fff6ce8-497f-8023-bce7-f3a3d04c3805" class="bulleted-list" dir="auto"><li style="list-style-type:disc">analisar requisições HTTP;</li></ul><ul id="3fff6ce8-497f-8041-8c2f-d78f9c1d7f12" class="bulleted-list" dir="auto"><li style="list-style-type:disc">observar respostas;</li></ul><ul id="3fff6ce8-497f-8050-8b04-c98cbbd4c0a5" class="bulleted-list" dir="auto"><li style="list-style-type:disc">estudar cookies;</li></ul><ul id="3fff6ce8-497f-80f3-b569-d1f8beea59f3" class="bulleted-list" dir="auto"><li style="list-style-type:disc">testar autenticação;</li></ul><ul id="3fff6ce8-497f-801f-87e7-d0712c5e9a69" class="bulleted-list" dir="auto"><li style="list-style-type:disc">analisar parâmetros;</li></ul><ul id="3fff6ce8-497f-807d-abb6-fdc8f95e87f8" class="bulleted-list" dir="auto"><li style="list-style-type:disc">auxiliar em testes de segurança de aplicações.</li></ul><p id="3fff6ce8-497f-809b-8570-e46fe313e44f" class="" dir="auto">Conceitualmente:</p><pre id="3fff6ce8-497f-8067-98e2-c5547982ba7b" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Navegador
+    │
+    ▼
+ Burp Suite
+    │
+    ▼
+Aplicação</code></pre><p id="3fff6ce8-497f-8058-963a-ebe52a58aec0" class="" dir="auto">Isso permite estudar como uma aplicação web realmente se comunica.</p><hr id="3fff6ce8-497f-806c-a4e8-e0878a324ce0" dir="auto"/><h1 id="3fff6ce8-497f-8081-9538-d15357acc7f2" class="" dir="auto">20. SIEM</h1><p id="3fff6ce8-497f-80f4-82b0-eff14dca8f3b" class="" dir="auto"><strong>SIEM (Security Information and Event Management)</strong> é uma das ferramentas mais importantes em ambientes corporativos.</p><p id="3fff6ce8-497f-80df-ade2-f89edc166cd7" class="" dir="auto">Sua função é centralizar e analisar eventos de segurança.</p><p id="3fff6ce8-497f-8095-bf3d-e28834c532da" class="" dir="auto">Imagine:</p><pre id="3fff6ce8-497f-8099-9f6d-e22c75d8afb2" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Firewall ──────┐
+Servidor ──────┤
+EDR ───────────┤
+Aplicação ─────┼──→ SIEM
+Banco ─────────┤
+IDS ───────────┤
+Cloud ─────────┘</code></pre><p id="3fff6ce8-497f-80ac-b858-e8c85dc589a8" class="" dir="auto">O SIEM recebe os eventos e permite correlacioná-los.</p><hr id="3fff6ce8-497f-80e8-8d4a-c88e4e82c245" dir="auto"/><h1 id="3fff6ce8-497f-8086-8d62-c8c0f6397ed4" class="" dir="auto">21. Exemplo de correlação no SIEM</h1><p id="3fff6ce8-497f-8036-b229-d78ccea13b0e" class="" dir="auto">Imagine que o sistema registra:</p><pre id="3fff6ce8-497f-80c4-998b-c5108aeeb8bf" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">10:00 → Login falhou
+10:01 → Login falhou
+10:02 → Login falhou
+10:03 → Login falhou
+10:04 → Login bem-sucedido</code></pre><p id="3fff6ce8-497f-8082-8e70-cf1f5204df51" class="" dir="auto">O SIEM pode identificar esse comportamento como suspeito.</p><p id="3fff6ce8-497f-8083-a273-de6089eac4e4" class="" dir="auto">Outro exemplo:</p><pre id="3fff6ce8-497f-80ed-bc00-f4b746a66abb" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Login suspeito
+     +
+Acesso administrativo
+     +
+Alteração de privilégio
+     +
+Download incomum</code></pre><p id="3fff6ce8-497f-801d-b616-cd69acad95ae" class="" dir="auto">Separadamente, cada evento pode não parecer extremamente grave.</p><p id="3fff6ce8-497f-809e-b8fc-f39bf38a755f" class="" dir="auto">Juntos, podem indicar um incidente.</p><hr id="3fff6ce8-497f-80e9-93ca-dbd9210c9633" dir="auto"/><h1 id="3fff6ce8-497f-8043-bdbb-ef3f69a24eca" class="" dir="auto">22. SOAR</h1><p id="3fff6ce8-497f-8038-85dc-e2aaeebf52ac" class="" dir="auto"><strong>SOAR (Security Orchestration, Automation and Response)</strong> é utilizado para automatizar determinadas tarefas de segurança.</p><p id="3fff6ce8-497f-80c3-a6ff-d12d62668daf" class="" dir="auto">Exemplo:</p><pre id="3fff6ce8-497f-806c-b8ce-e20759b0e5ee" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">SIEM detecta evento
+        ↓
+     SOAR
+        ↓
+Executa procedimento
+        ↓
+Bloqueia conta
+        ↓
+Abre incidente
+        ↓
+Notifica equipe</code></pre><p id="3fff6ce8-497f-8023-9511-f174ac38a9ea" class="" dir="auto">A ideia é reduzir o tempo necessário para responder a determinados eventos.</p><hr id="3fff6ce8-497f-80c9-a411-f979ddffef40" dir="auto"/><h1 id="3fff6ce8-497f-80a7-9033-ec84e4880210" class="" dir="auto">23. Ferramentas de análise forense</h1><p id="3fff6ce8-497f-8094-9169-f25d696c2f10" class="" dir="auto">Quando ocorre um incidente, pode ser necessário descobrir:</p><blockquote id="3fff6ce8-497f-80ca-91f7-e82eee86c32a" class="" dir="auto">&quot;O que aconteceu?&quot;</blockquote><p id="3fff6ce8-497f-8090-9aa5-c0f55d15aa7f" class="" dir="auto">A <strong>forense digital</strong> busca coletar e analisar evidências.</p><p id="3fff6ce8-497f-80c4-984f-c017b409654c" class="" dir="auto">Pode envolver:</p><ul id="3fff6ce8-497f-80c3-bfa5-f2dc5fafbc7f" class="bulleted-list" dir="auto"><li style="list-style-type:disc">discos;</li></ul><ul id="3fff6ce8-497f-8066-9363-d6b35e6ee139" class="bulleted-list" dir="auto"><li style="list-style-type:disc">memória;</li></ul><ul id="3fff6ce8-497f-80a3-8ed4-de1dc4be321c" class="bulleted-list" dir="auto"><li style="list-style-type:disc">arquivos;</li></ul><ul id="3fff6ce8-497f-80dc-ba02-df2be853dbe8" class="bulleted-list" dir="auto"><li style="list-style-type:disc">logs;</li></ul><ul id="3fff6ce8-497f-80e3-b039-f351a4492d39" class="bulleted-list" dir="auto"><li style="list-style-type:disc">dispositivos;</li></ul><ul id="3fff6ce8-497f-8062-8f25-ed2099126134" class="bulleted-list" dir="auto"><li style="list-style-type:disc">rede;</li></ul><ul id="3fff6ce8-497f-80d5-95c7-c0ec6e4e4e92" class="bulleted-list" dir="auto"><li style="list-style-type:disc">metadados.</li></ul><p id="3fff6ce8-497f-801e-bddb-fae7bce142dd" class="" dir="auto">Algumas ferramentas conhecidas incluem:</p><ul id="3fff6ce8-497f-8001-be78-e406426f2f5c" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Autopsy;</li></ul><ul id="3fff6ce8-497f-8025-9326-ecc21142a90c" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Volatility;</li></ul><ul id="3fff6ce8-497f-80b6-9be5-c420048a88cc" class="bulleted-list" dir="auto"><li style="list-style-type:disc">ferramentas especializadas de análise de discos e memória.</li></ul><p id="3fff6ce8-497f-809f-9561-d1a48c1d56a4" class="" dir="auto">O objetivo não é simplesmente &quot;encontrar malware&quot;, mas <strong>reconstruir acontecimentos e preservar evidências de maneira adequada</strong>.</p><hr id="3fff6ce8-497f-80cc-a3b5-dd2bc5daac9c" dir="auto"/><h1 id="3fff6ce8-497f-80b2-9d9b-f39e0127ad37" class="" dir="auto">24. Gerenciadores de senhas</h1><p id="3fff6ce8-497f-8008-b5bd-decee5be379b" class="" dir="auto">Também existem ferramentas para proteger credenciais.</p><p id="3fff6ce8-497f-801c-9063-db71c10b41d9" class="" dir="auto">Um gerenciador de senhas pode:</p><ul id="3fff6ce8-497f-8065-8d53-d977cbbbf921" class="bulleted-list" dir="auto"><li style="list-style-type:disc">armazenar senhas;</li></ul><ul id="3fff6ce8-497f-80f6-a19f-fab26ea8877c" class="bulleted-list" dir="auto"><li style="list-style-type:disc">gerar senhas fortes;</li></ul><ul id="3fff6ce8-497f-80b7-b5bc-dc4dc72120e5" class="bulleted-list" dir="auto"><li style="list-style-type:disc">preencher credenciais;</li></ul><ul id="3fff6ce8-497f-807f-bbf6-e0c1efe8dd74" class="bulleted-list" dir="auto"><li style="list-style-type:disc">proteger informações com criptografia;</li></ul><ul id="3fff6ce8-497f-803d-9a95-d643ae45dc45" class="bulleted-list" dir="auto"><li style="list-style-type:disc">reduzir a reutilização de senhas.</li></ul><p id="3fff6ce8-497f-8040-b94b-db5669181a05" class="" dir="auto">O princípio é:</p><pre id="3fff6ce8-497f-80fe-bfb0-c540f710eabf" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Muitas senhas
+     ↓
+Gerenciador
+     ↓
+Uma credencial principal bem protegida</code></pre><p id="3fff6ce8-497f-8024-957f-d2e65b64be00" class="" dir="auto">Em empresas, também podem existir sistemas especializados para gerenciamento de <strong>segredos e credenciais de serviços</strong>.</p><hr id="3fff6ce8-497f-8064-a224-f7fbb39d9edf" dir="auto"/><h1 id="3fff6ce8-497f-8061-8adb-d1e1ef1b8a84" class="" dir="auto">25. DLP</h1><p id="3fff6ce8-497f-8075-bead-e30580f06c27" class="" dir="auto"><strong>DLP (Data Loss Prevention)</strong> significa <strong>Prevenção contra Perda/Vazamento de Dados</strong>.</p><p id="3fff6ce8-497f-80eb-81df-df122cbaa278" class="" dir="auto">Seu objetivo é ajudar a impedir que informações sensíveis sejam expostas ou transferidas indevidamente.</p><p id="3fff6ce8-497f-8028-b58b-e55d3f9a35aa" class="" dir="auto">Pode monitorar dados como:</p><ul id="3fff6ce8-497f-80a2-ad37-dbdeb4e3b9b1" class="bulleted-list" dir="auto"><li style="list-style-type:disc">documentos confidenciais;</li></ul><ul id="3fff6ce8-497f-804e-9e33-c76e09c6554c" class="bulleted-list" dir="auto"><li style="list-style-type:disc">informações financeiras;</li></ul><ul id="3fff6ce8-497f-809c-86eb-f985c54aee58" class="bulleted-list" dir="auto"><li style="list-style-type:disc">informações pessoais;</li></ul><ul id="3fff6ce8-497f-8022-a20d-c81b7ada6413" class="bulleted-list" dir="auto"><li style="list-style-type:disc">propriedade intelectual;</li></ul><ul id="3fff6ce8-497f-804f-a465-cab0b207d67d" class="bulleted-list" dir="auto"><li style="list-style-type:disc">credenciais.</li></ul><p id="3fff6ce8-497f-807f-9032-f315fc3ee95b" class="" dir="auto">Exemplo conceitual:</p><pre id="3fff6ce8-497f-8002-9a16-e45c0bc04f06" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Funcionário
+     ↓
+Tentativa de enviar
+arquivo confidencial
+     ↓
+DLP
+     ↓
+Política de segurança
+     ↓
+Permitir / Bloquear / Alertar</code></pre><hr id="3fff6ce8-497f-801b-b473-f7dd258851ea" dir="auto"/><h1 id="3fff6ce8-497f-80bc-8006-fd5a943d2676" class="" dir="auto">26. MDM</h1><p id="3fff6ce8-497f-80d1-9601-eb88aa97ea94" class="" dir="auto"><strong>MDM (Mobile Device Management)</strong> é utilizado para administrar dispositivos corporativos.</p><p id="3fff6ce8-497f-8077-be54-e00c1dae5a31" class="" dir="auto">Pode ajudar a controlar:</p><ul id="3fff6ce8-497f-809e-a19a-f36363a21a1e" class="bulleted-list" dir="auto"><li style="list-style-type:disc">smartphones;</li></ul><ul id="3fff6ce8-497f-8034-a2a4-d29d0fea9925" class="bulleted-list" dir="auto"><li style="list-style-type:disc">tablets;</li></ul><ul id="3fff6ce8-497f-8019-a5fe-e52eeeb8597c" class="bulleted-list" dir="auto"><li style="list-style-type:disc">notebooks;</li></ul><ul id="3fff6ce8-497f-8015-8cb4-f6786294e150" class="bulleted-list" dir="auto"><li style="list-style-type:disc">configurações;</li></ul><ul id="3fff6ce8-497f-80f5-8386-ea644fcce915" class="bulleted-list" dir="auto"><li style="list-style-type:disc">aplicativos;</li></ul><ul id="3fff6ce8-497f-804d-8409-df497d912aa6" class="bulleted-list" dir="auto"><li style="list-style-type:disc">políticas de segurança.</li></ul><p id="3fff6ce8-497f-8055-9eac-ed7ee7af0e05" class="" dir="auto">Por exemplo:</p><pre id="3fff6ce8-497f-80da-ab2b-cbcb1e4bb462" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Empresa
+   ↓
+MDM
+   ├── Smartphone A
+   ├── Smartphone B
+   ├── Tablet C
+   └── Notebook D</code></pre><hr id="3fff6ce8-497f-8031-ba5b-ea1c60d34d14" dir="auto"/><h1 id="3fff6ce8-497f-80b2-9003-fdacd4f651c1" class="" dir="auto">27. Ferramentas de monitoramento</h1><p id="3fff6ce8-497f-803b-b677-c5c52fd0bbe1" class="" dir="auto">Ferramentas de monitoramento acompanham o funcionamento de sistemas e infraestrutura.</p><p id="3fff6ce8-497f-80fd-a92a-cf18d6b5590c" class="" dir="auto">Podem monitorar:</p><ul id="3fff6ce8-497f-8028-b0a7-e8f7a6221e66" class="bulleted-list" dir="auto"><li style="list-style-type:disc">CPU;</li></ul><ul id="3fff6ce8-497f-8089-81e0-d959ed0aa7c3" class="bulleted-list" dir="auto"><li style="list-style-type:disc">memória;</li></ul><ul id="3fff6ce8-497f-8082-b78f-fac2b0bd5eb8" class="bulleted-list" dir="auto"><li style="list-style-type:disc">armazenamento;</li></ul><ul id="3fff6ce8-497f-802b-a1af-ff815fb22a6f" class="bulleted-list" dir="auto"><li style="list-style-type:disc">rede;</li></ul><ul id="3fff6ce8-497f-8070-b6a2-f83cfc10459d" class="bulleted-list" dir="auto"><li style="list-style-type:disc">disponibilidade;</li></ul><ul id="3fff6ce8-497f-80d4-9646-ece0d070d2c8" class="bulleted-list" dir="auto"><li style="list-style-type:disc">serviços;</li></ul><ul id="3fff6ce8-497f-80c0-9d50-e8e5362126de" class="bulleted-list" dir="auto"><li style="list-style-type:disc">aplicações.</li></ul><p id="3fff6ce8-497f-805f-9c59-d15f07527cdf" class="" dir="auto">Exemplos conhecidos:</p><ul id="3fff6ce8-497f-8038-bd82-f84b703ebb54" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Zabbix;</li></ul><ul id="3fff6ce8-497f-803c-8c34-c7553a889928" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Prometheus;</li></ul><ul id="3fff6ce8-497f-8071-8ddd-d316960449cc" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Grafana.</li></ul><p id="3fff6ce8-497f-801c-8725-fc047efc1767" class="" dir="auto">Embora nem todas sejam exclusivamente ferramentas de segurança, elas podem ajudar bastante na detecção de comportamentos anormais.</p><hr id="3fff6ce8-497f-8083-9289-c805265f06a1" dir="auto"/><h1 id="3fff6ce8-497f-804a-8359-dc9c2d03bcd0" class="" dir="auto">28. Ferramentas de segurança em Cloud</h1><p id="3fff6ce8-497f-80b2-9015-daa713571de1" class="" dir="auto">Em ambientes de nuvem também existem ferramentas específicas.</p><p id="3fff6ce8-497f-8090-a8b3-e867bfde5b57" class="" dir="auto">Podemos ter:</p><pre id="3fff6ce8-497f-8071-a374-c46ca274e9d9" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Cloud
+│
+├── IAM
+├── Logs
+├── Monitoramento
+├── KMS
+├── Firewall
+├── WAF
+├── Vulnerability Scanner
+└── Security Center</code></pre><p id="3fff6ce8-497f-8038-8703-f0f81d21590e" class="" dir="auto">Uma parte importante é o <strong>IAM (Identity and Access Management)</strong>.</p><p id="3fff6ce8-497f-803a-a27b-d5d9f1199f0e" class="" dir="auto">Ele controla:</p><ul id="3fff6ce8-497f-80e9-94a4-d9ceb82542a0" class="bulleted-list" dir="auto"><li style="list-style-type:disc">usuários;</li></ul><ul id="3fff6ce8-497f-8031-a0d5-c225b0cfc4db" class="bulleted-list" dir="auto"><li style="list-style-type:disc">funções;</li></ul><ul id="3fff6ce8-497f-807b-bbc5-c3670abfa5e7" class="bulleted-list" dir="auto"><li style="list-style-type:disc">permissões;</li></ul><ul id="3fff6ce8-497f-8080-ade0-d93cdc736230" class="bulleted-list" dir="auto"><li style="list-style-type:disc">serviços;</li></ul><ul id="3fff6ce8-497f-80bb-a568-e70f16185ed4" class="bulleted-list" dir="auto"><li style="list-style-type:disc">recursos.</li></ul><p id="3fff6ce8-497f-804c-ae0e-f418f6c7055f" class="" dir="auto">Isso se conecta diretamente ao princípio:</p><blockquote id="3fff6ce8-497f-809e-b755-e142421af95c" class="" dir="auto"><strong>Least Privilege — menor privilégio possível.</strong></blockquote><hr id="3fff6ce8-497f-80fa-8d71-daf0e8536aca" dir="auto"/><h1 id="3fff6ce8-497f-8032-804d-c27304256772" class="" dir="auto">29. Ferramentas não substituem conhecimento</h1><p id="3fff6ce8-497f-80ad-8362-d47d3a65517e" class="" dir="auto">Esse é um ponto muito importante.</p><p id="3fff6ce8-497f-8022-8348-c8f58150b803" class="" dir="auto">Um iniciante pode pensar:</p><blockquote id="3fff6ce8-497f-80d2-adf7-f6ffc952908b" class="" dir="auto">&quot;Se eu usar um scanner, ele vai encontrar todos os problemas.&quot;</blockquote><p id="3fff6ce8-497f-80bf-8147-cc810fdf58c2" class="" dir="auto">Não.</p><p id="3fff6ce8-497f-800a-85d5-c1ead0515ca3" class="" dir="auto">Uma ferramenta pode:</p><ul id="3fff6ce8-497f-804f-bd02-c9c814bbdb35" class="bulleted-list" dir="auto"><li style="list-style-type:disc">gerar falso positivo;</li></ul><ul id="3fff6ce8-497f-800f-b547-f1b602e1b08a" class="bulleted-list" dir="auto"><li style="list-style-type:disc">não detectar determinado problema;</li></ul><ul id="3fff6ce8-497f-809c-a249-cf2efe1a298b" class="bulleted-list" dir="auto"><li style="list-style-type:disc">não compreender uma regra de negócio;</li></ul><ul id="3fff6ce8-497f-8086-9fce-eca260773676" class="bulleted-list" dir="auto"><li style="list-style-type:disc">não entender completamente a arquitetura;</li></ul><ul id="3fff6ce8-497f-80fa-a249-ed5bb381b6b3" class="bulleted-list" dir="auto"><li style="list-style-type:disc">não identificar uma vulnerabilidade lógica.</li></ul><p id="3fff6ce8-497f-80af-8c7f-dd9b15eaa482" class="" dir="auto">Por isso:</p><pre id="3fff6ce8-497f-80dc-bb5c-d1bb0582466e" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Ferramenta
+    +
+Conhecimento
+    +
+Análise humana
+    +
+Processo
+    =
+Segurança mais eficiente</code></pre><hr id="3fff6ce8-497f-805a-8c4d-e4520cefc73f" dir="auto"/><h1 id="3fff6ce8-497f-8079-ba1a-de358592c873" class="" dir="auto">30. Falso positivo e falso negativo</h1><h3 id="3fff6ce8-497f-808e-87aa-f2c2ab9dd3a4" class="" dir="auto">Falso positivo</h3><p id="3fff6ce8-497f-8058-aff4-f1c02ffcfe05" class="" dir="auto">A ferramenta diz:</p><blockquote id="3fff6ce8-497f-80f0-a38f-c97ab82ad29a" class="" dir="auto">&quot;Existe uma vulnerabilidade.&quot;</blockquote><p id="3fff6ce8-497f-80b8-b64a-d1359cdf2071" class="" dir="auto">Mas na realidade não existe.</p><pre id="3fff6ce8-497f-8030-93b2-ddef1162decb" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Ferramenta → 🚨
+Analista → ❌ falso positivo</code></pre><h3 id="3fff6ce8-497f-8068-b11b-c676bc98ba43" class="" dir="auto">Falso negativo</h3><p id="3fff6ce8-497f-80fc-9f08-d5c4f4bb2235" class="" dir="auto">A ferramenta não detecta um problema que realmente existe.</p><pre id="3fff6ce8-497f-8015-93c2-ef763eaba59f" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Ferramenta → ✅
+Sistema → ❌ vulnerável</code></pre><p id="3fff6ce8-497f-8075-9bfb-c253d9be5dba" class="" dir="auto">O falso negativo pode ser especialmente perigoso porque cria uma falsa sensação de segurança.</p><hr id="3fff6ce8-497f-8073-bedf-cee11a0b91e4" dir="auto"/><h1 id="3fff6ce8-497f-805f-a849-cdf619b6356a" class="" dir="auto">31. Ferramentas × ciclo de segurança</h1><p id="3fff6ce8-497f-8091-b5a9-dab7d0e92813" class="" dir="auto">Podemos organizar tudo dentro de um ciclo:</p><pre id="3fff6ce8-497f-805a-9a6d-c42be3c4ccbe" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">          IDENTIFICAR
+              │
+              ▼
+        Scanner / SCA
+              │
+              ▼
+           PROTEGER
+              │
+        Firewall / WAF
+              │
+              ▼
+          DETECTAR
+              │
+        IDS / EDR / SIEM
+              │
+              ▼
+           RESPONDER
+              │
+          SOAR / SOC
+              │
+              ▼
+          INVESTIGAR
+              │
+       Forense / Logs
+              │
+              ▼
+          CORRIGIR
+              │
+              └──────────→ novo ciclo</code></pre><p id="3fff6ce8-497f-8030-bd39-fb05555d06fa" class="" dir="auto">Essa visão é muito importante para entender como as ferramentas se complementam.</p><hr id="3fff6ce8-497f-80a7-a041-dedfabc28915" dir="auto"/><h1 id="3fff6ce8-497f-80e6-9b15-df2eac5ad3e4" class="" dir="auto">32. Exemplo de uma empresa</h1><p id="3fff6ce8-497f-80e0-a830-f157b796b48f" class="" dir="auto">Imagine uma empresa com uma aplicação web:</p><pre id="3fff6ce8-497f-80f5-9d9d-cebb219f7de7" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">                    INTERNET
+                        │
+                        ▼
+                      WAF
+                        │
+                        ▼
+                ┌──────────────┐
+                │ Aplicação Web│
+                └──────────────┘
+                        │
+                        ▼
+                    Banco de
+                     Dados</code></pre><p id="3fff6ce8-497f-802f-9fc4-d7778a68ff17" class="" dir="auto">Ao mesmo tempo:</p><pre id="3fff6ce8-497f-8093-a871-eecc8422a53c" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Firewall
+   ↓
+Controla tráfego
+
+EDR
+   ↓
+Protege servidores
+
+IDS/IPS
+   ↓
+Detecta atividades suspeitas
+
+SIEM
+   ↓
+Centraliza eventos
+
+SCA/SAST/DAST
+   ↓
+Segurança no desenvolvimento
+
+Scanner
+   ↓
+Procura vulnerabilidades
+
+SOAR
+   ↓
+Automatiza respostas</code></pre><p id="3fff6ce8-497f-807a-a9b3-d5e119297f2c" class="" dir="auto">Temos então várias camadas trabalhando juntas.</p><hr id="3fff6ce8-497f-800c-84b0-f0ff414059f9" dir="auto"/><h1 id="3fff6ce8-497f-80d5-9d8f-e6e8baa77bd6" class="" dir="auto">33. Ferramentas que vale a pena conhecer</h1><p id="3fff6ce8-497f-80a0-9de1-e31491e7deda" class="" dir="auto">Para sua formação em <strong>Cibersegurança + Full Stack</strong>, eu priorizaria:</p><h3 id="3fff6ce8-497f-8080-be14-fe27114c55df" class="" dir="auto">🌐 Redes</h3><ul id="3fff6ce8-497f-80d8-a9d9-e7aa6041cdd9" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Wireshark</li></ul><ul id="3fff6ce8-497f-803a-86a5-f0dba1239cc3" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Nmap</li></ul><ul id="3fff6ce8-497f-804f-bf81-df6bba2a9a69" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Snort</li></ul><ul id="3fff6ce8-497f-804d-8f9e-da6f80f51071" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Suricata</li></ul><h3 id="3fff6ce8-497f-803a-aeb9-db36a866176e" class="" dir="auto">🌍 Aplicações Web</h3><ul id="3fff6ce8-497f-804b-af08-cd1048de456c" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Burp Suite</li></ul><ul id="3fff6ce8-497f-8096-9d82-e89b5ea4253b" class="bulleted-list" dir="auto"><li style="list-style-type:disc">OWASP ZAP</li></ul><h3 id="3fff6ce8-497f-80a7-9c45-c43107254808" class="" dir="auto">🔎 Vulnerabilidades</h3><ul id="3fff6ce8-497f-800c-b08a-f3254a6f764b" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Nessus</li></ul><ul id="3fff6ce8-497f-8001-a48b-c517f391b84e" class="bulleted-list" dir="auto"><li style="list-style-type:disc">OpenVAS/Greenbone</li></ul><h3 id="3fff6ce8-497f-80c5-bd07-fb381977195d" class="" dir="auto">💻 Endpoint</h3><ul id="3fff6ce8-497f-8055-a9ee-caf137ab5edf" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Antivírus</li></ul><ul id="3fff6ce8-497f-806b-a5e3-d47cc0ad370c" class="bulleted-list" dir="auto"><li style="list-style-type:disc">EDR</li></ul><h3 id="3fff6ce8-497f-8077-b131-c81c5f41d9be" class="" dir="auto">📊 Monitoramento</h3><ul id="3fff6ce8-497f-8025-85f0-f2fff9e99a80" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Zabbix</li></ul><ul id="3fff6ce8-497f-8004-b0a7-cc8324697015" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Prometheus</li></ul><ul id="3fff6ce8-497f-800a-9a06-cfab01c812c6" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Grafana</li></ul><h3 id="3fff6ce8-497f-804e-83e9-c8f76837f19e" class="" dir="auto">📝 Logs/SOC</h3><ul id="3fff6ce8-497f-80fa-96ae-c260aa82b24f" class="bulleted-list" dir="auto"><li style="list-style-type:disc">SIEM</li></ul><ul id="3fff6ce8-497f-8088-b1cc-ce4a5a7e401d" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Wazuh</li></ul><ul id="3fff6ce8-497f-80ea-b4d5-c9cb945c1b61" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Elastic Stack</li></ul><h3 id="3fff6ce8-497f-8009-8b85-c29206d2dc12" class="" dir="auto">🔐 Desenvolvimento seguro</h3><ul id="3fff6ce8-497f-803a-baef-e5ad99a76a38" class="bulleted-list" dir="auto"><li style="list-style-type:disc">npm audit</li></ul><ul id="3fff6ce8-497f-800b-a07e-d13592689bce" class="bulleted-list" dir="auto"><li style="list-style-type:disc">SAST</li></ul><ul id="3fff6ce8-497f-8043-9079-de629160658f" class="bulleted-list" dir="auto"><li style="list-style-type:disc">SCA</li></ul><ul id="3fff6ce8-497f-804e-8b7d-f97054e414df" class="bulleted-list" dir="auto"><li style="list-style-type:disc">DAST</li></ul><ul id="3fff6ce8-497f-8076-bc8b-d579dda40075" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Dependabot e ferramentas semelhantes</li></ul><h3 id="3fff6ce8-497f-8093-bdd3-cef693fd742a" class="" dir="auto">🧪 Forense</h3><ul id="3fff6ce8-497f-8083-87ef-e1c885ba9784" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Autopsy</li></ul><ul id="3fff6ce8-497f-808e-baf8-f889c46619ee" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Volatility</li></ul><hr id="3fff6ce8-497f-800f-88b4-dfa039181ac2" dir="auto"/><h1 id="3fff6ce8-497f-805c-bf3c-e614df510ddc" class="" dir="auto">34. Uma arquitetura de segurança simplificada</h1><p id="3fff6ce8-497f-8001-9712-fab995ad73c2" class="" dir="auto">Você pode memorizar dessa forma:</p><pre id="3fff6ce8-497f-805b-8fc9-f6a54bc9fe90" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">                         INTERNET
+                            │
+                            ▼
+                       ┌─────────┐
+                       │ FIREWALL│
+                       └────┬────┘
+                            │
+                            ▼
+                         ┌─────┐
+                         │ WAF │
+                         └──┬──┘
+                            │
+                            ▼
+                      APLICAÇÃO WEB
+                            │
+                  ┌─────────┴─────────┐
+                  │                   │
+                  ▼                   ▼
+                EDR                  IDS
+                  │                   │
+                  └─────────┬─────────┘
+                            ▼
+                           SIEM
+                            │
+                            ▼
+                          SOC
+                            │
+                            ▼
+                         RESPOSTA</code></pre><p id="3fff6ce8-497f-8012-9463-f6877383fdd9" class="" dir="auto">E durante o desenvolvimento:</p><pre id="3fff6ce8-497f-8088-8240-f905ea0d89e8" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Código
+  ↓
+SAST
+  ↓
+SCA
+  ↓
+Testes
+  ↓
+DAST
+  ↓
+Deploy</code></pre><hr id="3fff6ce8-497f-8042-a5b4-c0c1ee6ab8b0" dir="auto"/><h1 id="3fff6ce8-497f-80d6-a163-dd9f32327209" class="" dir="auto">35. Relação com os conteúdos que você já estudou</h1><p id="3fff6ce8-497f-8067-b4cb-e9d9b7d58bb1" class="" dir="auto">Esse tema conecta praticamente tudo que você viu anteriormente:</p><table id="3fff6ce8-497f-8089-82f1-cadddafafd78" class="simple-table" dir="ltr"><thead class="simple-table-header"><tr id="3fff6ce8-497f-8065-9f1d-e3888712349c" dir="ltr"><th id="`bfN" class="simple-table-header-color simple-table-header">Conteúdo</th><th id="gdvV" class="simple-table-header-color simple-table-header">Ferramentas relacionadas</th></tr></thead><tbody><tr id="3fff6ce8-497f-8067-8137-e3bb31d0b5f4" dir="ltr"><td id="`bfN" class="">Vulnerabilidades</td><td id="gdvV" class="">Scanners</td></tr><tr id="3fff6ce8-497f-80a5-b479-d03559f99f2d" dir="ltr"><td id="`bfN" class="">Exploração de vulnerabilidades</td><td id="gdvV" class="">Ferramentas de teste</td></tr><tr id="3fff6ce8-497f-80c7-a5e8-e6c77f520e24" dir="ltr"><td id="`bfN" class="">Malware</td><td id="gdvV" class="">Antivírus / EDR</td></tr><tr id="3fff6ce8-497f-802a-9839-f268bfaa4658" dir="ltr"><td id="`bfN" class="">Wi-Fi</td><td id="gdvV" class="">Wireshark / ferramentas de análise</td></tr><tr id="3fff6ce8-497f-80ce-bd68-fd2cd931f86d" dir="ltr"><td id="`bfN" class="">Injeção</td><td id="gdvV" class="">WAF / SAST / DAST</td></tr><tr id="3fff6ce8-497f-803c-a254-d3dc7aa93df6" dir="ltr"><td id="`bfN" class="">Controle de acesso</td><td id="gdvV" class="">IAM / SIEM</td></tr><tr id="3fff6ce8-497f-8039-b9b1-e7ed9ec4aa30" dir="ltr"><td id="`bfN" class="">Falhas criptográficas</td><td id="gdvV" class="">Scanners / SAST</td></tr><tr id="3fff6ce8-497f-80c7-ae5f-e1b69bee47b4" dir="ltr"><td id="`bfN" class="">Configuração incorreta</td><td id="gdvV" class="">Scanners / CSPM</td></tr><tr id="3fff6ce8-497f-8047-969e-d2b93e216382" dir="ltr"><td id="`bfN" class="">Componentes vulneráveis</td><td id="gdvV" class="">SCA / scanners</td></tr><tr id="3fff6ce8-497f-8039-a1a2-cc852f63ac98" dir="ltr"><td id="`bfN" class="">Autenticação</td><td id="gdvV" class="">IAM / SIEM / EDR</td></tr><tr id="3fff6ce8-497f-8023-a434-f9b3b822b436" dir="ltr"><td id="`bfN" class="">Integridade</td><td id="gdvV" class="">Hash / assinatura / monitoramento</td></tr><tr id="3fff6ce8-497f-80ad-b7bd-fbb4c65b8ebd" dir="ltr"><td id="`bfN" class="">Logs</td><td id="gdvV" class="">SIEM</td></tr><tr id="3fff6ce8-497f-80bd-8dcb-c5124e476559" dir="ltr"><td id="`bfN" class="">SSRF</td><td id="gdvV" class="">WAF / SAST / DAST / monitoramento</td></tr></tbody></table><hr id="3fff6ce8-497f-80bf-9714-f77d936801b3" dir="auto"/><h1 id="3fff6ce8-497f-805d-aad7-d4bff7fbff37" class="" dir="auto">🧠 Resumo</h1><p id="3fff6ce8-497f-80e2-a2a8-ce4c0129bb9e" class="" dir="auto">As ferramentas de segurança podem ser divididas de acordo com sua função:</p><pre id="3fff6ce8-497f-8060-af1a-cbaf80cbc4ad" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">🛡️ PREVENÇÃO
+├── Firewall
+├── WAF
+├── Antivírus
+└── IAM
+
+🔎 DETECÇÃO
+├── IDS
+├── EDR
+├── SIEM
+└── Monitoramento
+
+🧪 ANÁLISE
+├── Wireshark
+├── Nmap
+├── Scanners
+├── SAST
+├── DAST
+└── SCA
+
+🚨 RESPOSTA
+├── IPS
+├── SOAR
+├── EDR
+└── Ferramentas de incident response
+
+🔬 INVESTIGAÇÃO
+├── Logs
+├── Forense digital
+├── Análise de memória
+└── Análise de rede</code></pre><h3 id="3fff6ce8-497f-8066-b234-cabebfbe5864" class="" dir="auto">⭐ O principal conceito</h3><p id="3fff6ce8-497f-80f1-a914-ea4d395be7d0" class="" dir="auto"><strong>Ferramentas de segurança não devem ser vistas como ferramentas isoladas.</strong> Elas fazem parte de um ecossistema em que diferentes tecnologias ajudam a <strong>prevenir, identificar, detectar, analisar, responder e recuperar</strong> de incidentes de segurança.</p><p id="3fff6ce8-497f-80f0-8365-f3966f4f31df" class="" dir="auto">Para a sua formação, uma sequência especialmente boa para aprender na prática seria:</p><p id="3fff6ce8-497f-803f-bd18-d37835498570" class="" dir="auto"><strong>Wireshark → Nmap → Burp Suite → ferramentas de vulnerabilidade → SAST/SCA/DAST → Wazuh/SIEM → EDR → forense digital.</strong></p></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

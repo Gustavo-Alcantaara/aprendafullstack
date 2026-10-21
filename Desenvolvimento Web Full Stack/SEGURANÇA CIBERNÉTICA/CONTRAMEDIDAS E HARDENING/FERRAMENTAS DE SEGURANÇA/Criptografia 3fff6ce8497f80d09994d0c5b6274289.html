@@ -1,0 +1,1077 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Criptografia</title><meta name="data-notion-page-icon" content="/icons/lock_blue.svg"/><link rel="icon" href="https://app.notion.com/icons/lock_blue.svg"/><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+	/* Paint a complete callout box on every PDF page fragment. */
+	-webkit-box-decoration-break: clone;
+	box-decoration-break: clone;
+}
+
+/* For default-background callouts, render the border outline. */
+.callout.block-color-default_background {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+/*
+ * Toggles and callouts hold arbitrary content, so they can easily be taller
+ * than a page. They must stay breakable: avoiding breaks inside them makes
+ * Chromium push the whole block onto the next page, which leaves the previous
+ * page mostly empty before every long toggle.
+ */
+details,
+aside {
+	margin: 1.25em 0;
+}
+
+/* Keep a toggle's title on the same page as the start of its content. */
+summary {
+	page-break-after: avoid;
+	break-after: avoid;
+}
+
+/*
+ * Toggle headings render as <h1/h2/h3 style="display:inline-block"> inside
+ * <summary>. Without this reset, the heading's margin-top pushes it below the
+ * ::marker (▼), so the triangle and the title appear on separate lines.
+ */
+summary h1,
+summary h2,
+summary h3,
+summary h4 {
+	margin-top: 0;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding-inline: 0.125rem;
+	padding-block: 0.375rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+/*
+ * Render emoji icons using a ::before pseudo-element to keep the glyph
+ * out of the DOM textContent traversal. This avoids double-rendering icons
+ * in callouts and page titles.
+ * NOTE(slim/html-export-pseudo-icons): I can't tagref this because it will
+ * flag as a duplicate tag after codegen.
+ */
+.icon[data-emoji]::before {
+	content: attr(data-emoji);
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	margin-right: 0.4em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.tab {
+	margin: 1.25em 0;
+	padding-inline: 1rem;
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style><style>@import url('https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex-swap.min.css')</style></head><body><article id="3fff6ce8-497f-80d0-9994-d0c5b6274289" class="page sans" data-notion-page-icon="/icons/lock_blue.svg"><header><div class="page-header-icon undefined"><img class="icon notion-static-icon" src="https://app.notion.com/icons/lock_blue.svg"/></div><h1 class="page-title" dir="auto">Criptografia</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><h1 id="3fff6ce8-497f-80da-b218-dc6a0dc39782" class="" dir="auto">🔐 Criptografia</h1><p id="3fff6ce8-497f-8064-90be-d9c2abe34b62" class="" dir="auto">A <strong>criptografia</strong> é uma área da segurança da informação responsável por proteger dados por meio de técnicas matemáticas, permitindo que informações sejam armazenadas ou transmitidas de forma que <strong>somente pessoas ou sistemas autorizados consigam utilizá-las corretamente</strong>.</p><p id="3fff6ce8-497f-8066-ba3c-e8c09e7c4ae4" class="" dir="auto">Ela é fundamental em praticamente todos os sistemas modernos: sites, aplicativos, bancos, sistemas corporativos, mensageria, armazenamento de arquivos, autenticação e transações financeiras.</p><hr id="3fff6ce8-497f-8002-ad33-fc994631fd66" dir="auto"/><h2 id="3fff6ce8-497f-8003-aeaf-e53bcdfb3d62" class="" dir="auto">1. O que é criptografia?</h2><p id="3fff6ce8-497f-8083-a0a9-d99a38a5798b" class="" dir="auto">A ideia básica é transformar uma informação original, chamada de <strong>texto claro (plaintext)</strong>, em uma informação protegida, chamada de <strong>texto cifrado (ciphertext)</strong>.</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="3fff6ce8-497f-8081-8b6f-c07e99774cbc" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Texto original
+      ↓
+   CRIPTOGRAFIA
+      ↓
+Texto cifrado
+      ↓
+   DESCRIPTOGRAFIA
+      ↓
+Texto original</code></pre><p id="3fff6ce8-497f-8080-8e18-da3719efdbe0" class="" dir="auto">Por exemplo:</p><pre id="3fff6ce8-497f-800c-9d29-f8a47465370e" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Mensagem original:
+&quot;Minha senha é 123456&quot;
+
+          ↓ criptografia
+
+Mensagem protegida:
+&quot;8fA#92xK!pL...&quot;</code></pre><p id="3fff6ce8-497f-80c9-b92f-f41035dcd0ab" class="" dir="auto">O objetivo é que alguém que obtenha o texto cifrado <strong>não consiga descobrir facilmente o conteúdo original</strong>.</p><hr id="3fff6ce8-497f-8034-b1c7-df1c23b6b8bc" dir="auto"/><h1 id="3fff6ce8-497f-804a-ab44-f134834ac746" class="" dir="auto">2. Para que serve a criptografia?</h1><p id="3fff6ce8-497f-8084-a0a3-f9a964ab902a" class="" dir="auto">A criptografia está principalmente relacionada a quatro objetivos de segurança:</p><h3 id="3fff6ce8-497f-80a7-9a4c-ed3a0d86a051" class="" dir="auto">🔒 Confidencialidade</h3><p id="3fff6ce8-497f-8054-92a7-f6cc304e373e" class="" dir="auto">Garante que somente pessoas autorizadas possam acessar determinada informação.</p><p id="3fff6ce8-497f-808e-9851-faf9ebf6e1b1" class="" dir="auto">Exemplo:</p><pre id="3fff6ce8-497f-803e-80bb-c38f1d7b8e4e" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Você → mensagem criptografada → servidor</code></pre><p id="3fff6ce8-497f-80e7-8966-eb8dfa04f736" class="" dir="auto">Mesmo que alguém consiga interceptar os dados, não deverá conseguir entender seu conteúdo.</p><hr id="3fff6ce8-497f-80e9-a97e-e7a0b35ab72d" dir="auto"/><h3 id="3fff6ce8-497f-80ce-b4c7-c15a0796d0ad" class="" dir="auto">🛡️ Integridade</h3><p id="3fff6ce8-497f-8044-93d3-df071c7b7445" class="" dir="auto">Permite verificar se uma informação foi modificada.</p><p id="3fff6ce8-497f-8092-b35a-c78b4ebfbc76" class="" dir="auto">Por exemplo:</p><pre id="3fff6ce8-497f-80e8-ab72-dfc09e20daa2" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Arquivo original
+      ↓
+     HASH
+      ↓
+A1B2C3...</code></pre><p id="3fff6ce8-497f-80d5-b5d8-f0a0d385510a" class="" dir="auto">Se o arquivo for alterado:</p><pre id="3fff6ce8-497f-8028-be26-f4609bb80f15" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Arquivo alterado
+      ↓
+     HASH
+      ↓
+X9Y8Z7...</code></pre><p id="3fff6ce8-497f-80ad-9fda-edc528196197" class="" dir="auto">Os valores serão diferentes.</p><blockquote id="3fff6ce8-497f-80d2-88b4-cd2faa67ec6d" class="" dir="auto">Hashes são relacionados à criptografia, mas <strong>hashing não é criptografia</strong>, porque normalmente não existe uma operação de &quot;descriptografar&quot; o hash.</blockquote><hr id="3fff6ce8-497f-808f-a3d6-ed148bfda024" dir="auto"/><h3 id="3fff6ce8-497f-808d-9118-ce65781ca267" class="" dir="auto">👤 Autenticidade</h3><p id="3fff6ce8-497f-8039-8de4-ffe8d86bb155" class="" dir="auto">Permite verificar se uma mensagem, documento ou comunicação realmente veio de determinada entidade.</p><p id="3fff6ce8-497f-80c6-8767-d418428ea1d2" class="" dir="auto">Um exemplo importante são as <strong>assinaturas digitais</strong>.</p><pre id="3fff6ce8-497f-80db-8263-ffe9bfad2287" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Documento
+    ↓
+Assinatura digital
+    ↓
+Verificação
+    ↓
+&quot;Foi realmente assinado por X?&quot;</code></pre><hr id="3fff6ce8-497f-8064-bf3c-e8d9664b0d44" dir="auto"/><h3 id="3fff6ce8-497f-8060-aad6-fd4ff624c56c" class="" dir="auto">✅ Não repúdio</h3><p id="3fff6ce8-497f-80a1-b427-cdedf90be1ff" class="" dir="auto">Em determinados sistemas, uma assinatura digital pode fornecer evidências de que determinada entidade assinou uma informação, dificultando que ela posteriormente negue a autoria.</p><p id="3fff6ce8-497f-803e-ad8f-c45444b0954c" class="" dir="auto">Isso é especialmente importante em:</p><ul id="3fff6ce8-497f-8002-a7ba-ff6a9dedd028" class="bulleted-list" dir="auto"><li style="list-style-type:disc">contratos digitais;</li></ul><ul id="3fff6ce8-497f-808e-8ede-d755fa1edd56" class="bulleted-list" dir="auto"><li style="list-style-type:disc">documentos;</li></ul><ul id="3fff6ce8-497f-8069-9345-f2bbdb99cd0e" class="bulleted-list" dir="auto"><li style="list-style-type:disc">sistemas jurídicos;</li></ul><ul id="3fff6ce8-497f-8074-85a6-db22f91829d1" class="bulleted-list" dir="auto"><li style="list-style-type:disc">transações;</li></ul><ul id="3fff6ce8-497f-8012-b8d5-d3eed20c9831" class="bulleted-list" dir="auto"><li style="list-style-type:disc">certificados.</li></ul><hr id="3fff6ce8-497f-8009-a565-c84fffc0f485" dir="auto"/><h1 id="3fff6ce8-497f-806f-a714-e5ddb79e5532" class="" dir="auto">3. Conceitos fundamentais</h1><p id="3fff6ce8-497f-8016-8c81-ddbcd9329873" class="" dir="auto">Existem alguns termos que você precisa conhecer.</p><h3 id="3fff6ce8-497f-80cc-aec0-e7f6b7124dd7" class="" dir="auto">Plaintext</h3><p id="3fff6ce8-497f-802e-96eb-ebbe8d99f279" class="" dir="auto">É o dado original.</p><pre id="3fff6ce8-497f-8063-96d9-d5991818c9df" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">&quot;Olá, mundo!&quot;</code></pre><h3 id="3fff6ce8-497f-80fa-a955-ea4986b23405" class="" dir="auto">Ciphertext</h3><p id="3fff6ce8-497f-8061-80cd-e58464ba92ce" class="" dir="auto">É o resultado da criptografia.</p><pre id="3fff6ce8-497f-80a3-ae54-cefaa221cf57" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">&quot;X9a#72Lm...&quot;</code></pre><h3 id="3fff6ce8-497f-8052-a94d-f8868972a53e" class="" dir="auto">Chave</h3><p id="3fff6ce8-497f-80a0-8306-d82e8784c1f3" class="" dir="auto">É um valor utilizado pelo algoritmo criptográfico para realizar a operação.</p><pre id="3fff6ce8-497f-808e-8a9c-f4a6a86609ee" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Mensagem + Chave
+       ↓
+   Algoritmo
+       ↓
+Mensagem cifrada</code></pre><h3 id="3fff6ce8-497f-8024-801c-cecce9d71925" class="" dir="auto">Algoritmo criptográfico</h3><p id="3fff6ce8-497f-80c9-af34-fe3a70314112" class="" dir="auto">É o conjunto de operações matemáticas utilizadas para proteger os dados.</p><p id="3fff6ce8-497f-803b-9b77-ef5e4d138781" class="" dir="auto">Exemplos:</p><ul id="3fff6ce8-497f-8054-a81c-e0f3e4fd6618" class="bulleted-list" dir="auto"><li style="list-style-type:disc">AES;</li></ul><ul id="3fff6ce8-497f-80ce-b49c-d8bb2cf3429e" class="bulleted-list" dir="auto"><li style="list-style-type:disc">RSA;</li></ul><ul id="3fff6ce8-497f-8040-ad60-d2ee7417b41d" class="bulleted-list" dir="auto"><li style="list-style-type:disc">ECC;</li></ul><ul id="3fff6ce8-497f-8049-9015-e7de2cf4db3c" class="bulleted-list" dir="auto"><li style="list-style-type:disc">ChaCha20.</li></ul><hr id="3fff6ce8-497f-80cd-a6fc-f22c7cbbf482" dir="auto"/><h1 id="3fff6ce8-497f-800e-ab78-d60a8887c236" class="" dir="auto">4. Criptografia simétrica</h1><p id="3fff6ce8-497f-805e-a312-eb5975f427f3" class="" dir="auto">Na <strong>criptografia simétrica</strong>, a mesma chave é utilizada para criptografar e descriptografar.</p><pre id="3fff6ce8-497f-8095-af7b-ecb613445301" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">             MESMA CHAVE
+                  │
+                  ▼
+Mensagem ──→ Criptografia ──→ Dados cifrados
+                                  │
+                                  ▼
+                           Descriptografia
+                                  │
+                                  ▼
+                              Mensagem</code></pre><p id="3fff6ce8-497f-807f-ac99-f7375438a92a" class="" dir="auto">Por exemplo:</p><pre id="3fff6ce8-497f-8092-b808-df9f6f1e16b2" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Chave: ABC123
+
+Mensagem
+   ↓
+AES + chave
+   ↓
+Dados criptografados
+   ↓
+AES + mesma chave
+   ↓
+Mensagem original</code></pre><h3 id="3fff6ce8-497f-8096-a8e2-eb7d19c5a31f" class="" dir="auto">Vantagem</h3><p id="3fff6ce8-497f-8003-828c-c3f18c12617f" class="" dir="auto">É geralmente <strong>muito rápida</strong>.</p><p id="3fff6ce8-497f-804e-9ac5-c7696ecd548e" class="" dir="auto">Por isso é bastante utilizada para proteger grandes quantidades de dados.</p><h3 id="3fff6ce8-497f-8020-91a6-d3d8ddfe3a37" class="" dir="auto">Problema</h3><p id="3fff6ce8-497f-8011-8aa2-f7de7349ff85" class="" dir="auto">Existe a questão da <strong>distribuição da chave</strong>.</p><p id="3fff6ce8-497f-80f8-a2eb-e261abc3ec82" class="" dir="auto">Se duas pessoas precisam utilizar a mesma chave:</p><pre id="3fff6ce8-497f-805f-834c-cea7862b8bd7" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Alice ─── chave ───→ Bob</code></pre><p id="3fff6ce8-497f-802f-9df6-c22972ff897f" class="" dir="auto">Como Alice entrega a chave para Bob de maneira segura?</p><p id="3fff6ce8-497f-80fb-a8ef-ea0b66ea13c8" class="" dir="auto">Esse problema é uma das razões pelas quais a criptografia assimétrica é tão importante.</p><hr id="3fff6ce8-497f-80e5-9127-e40f2f9a0a33" dir="auto"/><h1 id="3fff6ce8-497f-8035-91c4-eae823540fdc" class="" dir="auto">5. Exemplos de algoritmos simétricos</h1><h2 id="3fff6ce8-497f-802d-a4d1-f97850e27c2d" class="" dir="auto">AES</h2><p id="3fff6ce8-497f-8053-b878-d95b4b07c718" class="" dir="auto">O <strong>AES (Advanced Encryption Standard)</strong> é um dos principais algoritmos simétricos utilizados atualmente.</p><p id="3fff6ce8-497f-806c-828b-f759b57ed592" class="" dir="auto">É encontrado em diversos sistemas, protocolos e aplicações.</p><p id="3fff6ce8-497f-801e-aede-db2215f38cab" class="" dir="auto">Possui tamanhos de chave como:</p><ul id="3fff6ce8-497f-801c-9822-eb4311360be8" class="bulleted-list" dir="auto"><li style="list-style-type:disc">128 bits;</li></ul><ul id="3fff6ce8-497f-8014-a02a-cd58cbe79515" class="bulleted-list" dir="auto"><li style="list-style-type:disc">192 bits;</li></ul><ul id="3fff6ce8-497f-80c0-8890-fcd284767adb" class="bulleted-list" dir="auto"><li style="list-style-type:disc">256 bits.</li></ul><p id="3fff6ce8-497f-80af-8e3c-f80f8b2677bb" class="" dir="auto">Um exemplo comum é:</p><pre id="3fff6ce8-497f-8030-afd0-fb560d3ad344" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">AES-256</code></pre><hr id="3fff6ce8-497f-80f5-9d34-f5194a2387cd" dir="auto"/><h2 id="3fff6ce8-497f-801e-a7fb-d0336971af2a" class="" dir="auto">ChaCha20</h2><p id="3fff6ce8-497f-8077-9e4f-f4c124e77e3c" class="" dir="auto">O <strong>ChaCha20</strong> também é um algoritmo moderno de criptografia simétrica.</p><p id="3fff6ce8-497f-80e9-a074-feb30973b5c6" class="" dir="auto">É especialmente conhecido por seu bom desempenho em software e é utilizado em diversos protocolos modernos.</p><p id="3fff6ce8-497f-8016-92d1-e9e55be17725" class="" dir="auto">Frequentemente aparece associado ao <strong>Poly1305</strong>, formando:</p><pre id="3fff6ce8-497f-80d8-b2cd-e93c973ae7fa" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">ChaCha20-Poly1305</code></pre><p id="3fff6ce8-497f-8018-a12d-cdfe4793f0fd" class="" dir="auto">Esse tipo de construção fornece tanto criptografia quanto autenticação dos dados.</p><hr id="3fff6ce8-497f-80ec-8d6a-f9229c0000b9" dir="auto"/><h1 id="3fff6ce8-497f-804b-8c40-f44006953d49" class="" dir="auto">6. Criptografia assimétrica</h1><p id="3fff6ce8-497f-8014-83c5-f85c8429ab39" class="" dir="auto">A criptografia assimétrica utiliza um <strong>par de chaves</strong>:</p><pre id="3fff6ce8-497f-8019-8bc6-e00310ac3b93" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">🔑 Chave pública
+🔐 Chave privada</code></pre><p id="3fff6ce8-497f-80cd-81d4-fdecf15a63a5" class="" dir="auto">A chave pública pode ser compartilhada.</p><p id="3fff6ce8-497f-8088-bde4-ee3eec1deb01" class="" dir="auto">A chave privada deve ser protegida.</p><pre id="3fff6ce8-497f-8037-b256-c74a5d5088c0" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">        PAR DE CHAVES
+
+   ┌─────────────────┐
+   │ Chave Pública   │
+   └─────────────────┘
+
+   ┌─────────────────┐
+   │ Chave Privada   │
+   └─────────────────┘</code></pre><p id="3fff6ce8-497f-8087-aa81-fcd118558d2b" class="" dir="auto">Uma propriedade importante é que determinadas operações feitas com uma chave podem ser verificadas ou revertidas utilizando a chave correspondente, conforme o algoritmo e o uso.</p><hr id="3fff6ce8-497f-8044-9162-e6aa6f85086c" dir="auto"/><h1 id="3fff6ce8-497f-801f-824e-c9ab22ed6dea" class="" dir="auto">7. Exemplo conceitual</h1><p id="3fff6ce8-497f-80db-864d-c6eb6d06fde5" class="" dir="auto">Imagine que João quer enviar uma informação protegida para Maria.</p><p id="3fff6ce8-497f-80db-9d71-cb9b38d2e750" class="" dir="auto">Maria possui:</p><pre id="3fff6ce8-497f-8022-9367-f6b966adf300" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Chave pública → pode compartilhar
+Chave privada → deve permanecer secreta</code></pre><p id="3fff6ce8-497f-80b6-8a1e-de226dbe2729" class="" dir="auto">João utiliza a chave pública de Maria:</p><pre id="3fff6ce8-497f-807e-97d4-d207a0c99e05" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Mensagem
+   ↓
+Chave pública de Maria
+   ↓
+Dados protegidos
+   ↓
+Maria</code></pre><p id="3fff6ce8-497f-80b9-9d52-c8e6bc9241a0" class="" dir="auto">Maria utiliza sua chave privada para obter o conteúdo.</p><p id="3fff6ce8-497f-8004-badb-fbc64aa67fa1" class="" dir="auto">A ideia importante é:</p><blockquote id="3fff6ce8-497f-80c3-b1ba-f5db507bd37c" class="" dir="auto"><strong>A chave pública pode ser divulgada; a chave privada precisa permanecer protegida.</strong></blockquote><hr id="3fff6ce8-497f-8048-9cf1-fc6925e7c2cd" dir="auto"/><h1 id="3fff6ce8-497f-8070-9442-e5eb7df16511" class="" dir="auto">8. Exemplos de criptografia assimétrica</h1><p id="3fff6ce8-497f-807d-813b-dc3342d57159" class="" dir="auto">Algoritmos e famílias importantes incluem:</p><h3 id="3fff6ce8-497f-8057-8c0d-cb4f170a8ac5" class="" dir="auto">RSA</h3><p id="3fff6ce8-497f-808a-bd82-d4fbc98e2fd5" class="" dir="auto">Um dos algoritmos assimétricos mais conhecidos.</p><p id="3fff6ce8-497f-80f6-b657-dcf88f197ab9" class="" dir="auto">Foi muito utilizado em:</p><ul id="3fff6ce8-497f-800a-90be-d10aae7e922a" class="bulleted-list" dir="auto"><li style="list-style-type:disc">troca de chaves;</li></ul><ul id="3fff6ce8-497f-80a6-92b3-d15133d5cf6e" class="bulleted-list" dir="auto"><li style="list-style-type:disc">certificados;</li></ul><ul id="3fff6ce8-497f-8096-b62b-dfb5b60c07f1" class="bulleted-list" dir="auto"><li style="list-style-type:disc">assinaturas digitais;</li></ul><ul id="3fff6ce8-497f-806c-8d54-eb1256a63e30" class="bulleted-list" dir="auto"><li style="list-style-type:disc">sistemas de segurança.</li></ul><hr id="3fff6ce8-497f-80f2-86eb-d9c804ec5a18" dir="auto"/><h3 id="3fff6ce8-497f-8033-ac2e-fb492e6ffb74" class="" dir="auto">ECC</h3><p id="3fff6ce8-497f-80d3-953e-e311522453e0" class="" dir="auto"><strong>Elliptic Curve Cryptography</strong> utiliza conceitos matemáticos relacionados a curvas elípticas.</p><p id="3fff6ce8-497f-80ae-afd9-e622dac803e2" class="" dir="auto">Possui a vantagem de fornecer níveis de segurança comparáveis aos de sistemas tradicionais utilizando chaves menores.</p><p id="3fff6ce8-497f-80dc-8ce8-d2f20aac377b" class="" dir="auto">Dentro desse universo existem algoritmos e esquemas como:</p><ul id="3fff6ce8-497f-80f8-aae7-ce34f4a9c8bd" class="bulleted-list" dir="auto"><li style="list-style-type:disc">ECDSA;</li></ul><ul id="3fff6ce8-497f-80f1-ae22-d045360c4fbf" class="bulleted-list" dir="auto"><li style="list-style-type:disc">ECDH;</li></ul><ul id="3fff6ce8-497f-80dd-b2a5-ff59e246bfe4" class="bulleted-list" dir="auto"><li style="list-style-type:disc">EdDSA.</li></ul><hr id="3fff6ce8-497f-804d-8c43-e21fa1305c85" dir="auto"/><h1 id="3fff6ce8-497f-8073-a913-d996b9d6e286" class="" dir="auto">9. Simétrica × Assimétrica</h1><table id="3fff6ce8-497f-8093-b99b-e9e49f7c7640" class="simple-table" dir="ltr"><thead class="simple-table-header"><tr id="3fff6ce8-497f-8003-ace9-ca1bd1f8bc38" dir="ltr"><th id="B@g^" class="simple-table-header-color simple-table-header">Característica</th><th id="MQgp" class="simple-table-header-color simple-table-header">Simétrica</th><th id="MltQ" class="simple-table-header-color simple-table-header">Assimétrica</th></tr></thead><tbody><tr id="3fff6ce8-497f-80de-9235-f71654f54c10" dir="ltr"><td id="B@g^" class="">Chaves</td><td id="MQgp" class="">Uma chave compartilhada</td><td id="MltQ" class="">Par de chaves</td></tr><tr id="3fff6ce8-497f-8090-8fbc-df1fde44d583" dir="ltr"><td id="B@g^" class="">Velocidade</td><td id="MQgp" class="">Alta</td><td id="MltQ" class="">Geralmente menor</td></tr><tr id="3fff6ce8-497f-80bd-a9a7-f892f5e565ab" dir="ltr"><td id="B@g^" class="">Chave pública</td><td id="MQgp" class="">Não</td><td id="MltQ" class="">Sim</td></tr><tr id="3fff6ce8-497f-8079-8ea5-e46c174b5206" dir="ltr"><td id="B@g^" class="">Chave privada</td><td id="MQgp" class="">Não se aplica da mesma forma</td><td id="MltQ" class="">Sim</td></tr><tr id="3fff6ce8-497f-8084-a5b7-f75a5e1c7f3d" dir="ltr"><td id="B@g^" class="">Grandes volumes de dados</td><td id="MQgp" class="">Excelente</td><td id="MltQ" class="">Menos adequada</td></tr><tr id="3fff6ce8-497f-8060-808d-c3ed10dcca93" dir="ltr"><td id="B@g^" class="">Distribuição de chaves</td><td id="MQgp" class="">Mais difícil</td><td id="MltQ" class="">Mais conveniente</td></tr><tr id="3fff6ce8-497f-806c-9cd2-ef3ca4e040b1" dir="ltr"><td id="B@g^" class="">Exemplos</td><td id="MQgp" class="">AES, ChaCha20</td><td id="MltQ" class="">RSA, ECC</td></tr></tbody></table><p id="3fff6ce8-497f-8057-9d95-f1af3b432e54" class="" dir="auto">Na prática, sistemas modernos frequentemente utilizam <strong>as duas</strong>.</p><hr id="3fff6ce8-497f-808a-8238-d8bd017c48c7" dir="auto"/><h1 id="3fff6ce8-497f-8057-ac4a-e5230fac1555" class="" dir="auto">10. Criptografia híbrida</h1><p id="3fff6ce8-497f-808d-87a8-f2811e1dccdf" class="" dir="auto">Um sistema pode combinar criptografia assimétrica e simétrica.</p><p id="3fff6ce8-497f-80ed-9dcb-f86dd48c26f8" class="" dir="auto">Por exemplo:</p><pre id="3fff6ce8-497f-8003-96de-cd5120616fc9" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">        Cliente
+           │
+           │
+     Criptografia
+      assimétrica
+           │
+           ▼
+     Troca/estabelece
+        uma chave
+           │
+           ▼
+    Criptografia
+       simétrica
+           │
+           ▼
+       Dados</code></pre><p id="3fff6ce8-497f-80b6-9131-f8bc07c4c3da" class="" dir="auto">A criptografia assimétrica ajuda a estabelecer ou proteger uma chave de sessão.</p><p id="3fff6ce8-497f-80d0-bc2c-f5b172838df9" class="" dir="auto">Depois, a criptografia simétrica é utilizada para proteger os dados porque é mais eficiente.</p><p id="3fff6ce8-497f-80d4-a66e-ec99052a4b31" class="" dir="auto">Esse conceito é extremamente importante para entender protocolos como <strong>TLS/HTTPS</strong>.</p><hr id="3fff6ce8-497f-809b-a7e2-c503b41d1a21" dir="auto"/><h1 id="3fff6ce8-497f-80d1-abda-e9d454681566" class="" dir="auto">11. Criptografia no HTTPS</h1><p id="3fff6ce8-497f-8055-b3f9-c582c69a0e12" class="" dir="auto">Quando você acessa:</p><pre id="3fff6ce8-497f-80ea-aeee-d9f8756ea83f" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">https://exemplo.com</code></pre><p id="3fff6ce8-497f-8052-a1f5-c8dddb67b6bf" class="" dir="auto">a comunicação entre navegador e servidor utiliza <strong>TLS</strong>.</p><p id="3fff6ce8-497f-8064-8cfa-d195083c34c0" class="" dir="auto">De forma simplificada:</p><pre id="3fff6ce8-497f-80a3-9fe7-fa00056cc07c" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Navegador
+    │
+    │  negociação segura
+    ▼
+Servidor
+    │
+    ▼
+Chaves de sessão
+    │
+    ▼
+Comunicação criptografada</code></pre><p id="3fff6ce8-497f-802e-a61f-c253514e1b94" class="" dir="auto">O TLS utiliza criptografia assimétrica, certificados e criptografia simétrica em diferentes partes do processo.</p><p id="3fff6ce8-497f-8002-9f8a-c8478ba85feb" class="" dir="auto">Depois que uma sessão segura é estabelecida, os dados normalmente são protegidos utilizando mecanismos simétricos eficientes.</p><hr id="3fff6ce8-497f-80a3-bbe8-c1be17e924bc" dir="auto"/><h1 id="3fff6ce8-497f-80b6-a2f3-ffd178542e34" class="" dir="auto">12. Certificados digitais</h1><p id="3fff6ce8-497f-8087-864d-c9b29f93ea44" class="" dir="auto">Os certificados digitais ajudam a estabelecer a identidade de servidores e outras entidades.</p><p id="3fff6ce8-497f-80cc-b672-ca81ce60fdc3" class="" dir="auto">Quando você acessa:</p><pre id="3fff6ce8-497f-8067-9598-d6b17e340827" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">https://meubanco.com</code></pre><p id="3fff6ce8-497f-80fa-a89f-f56c12bd7059" class="" dir="auto">o navegador verifica informações do certificado apresentado pelo servidor.</p><p id="3fff6ce8-497f-80d4-a6d5-c5fde75aad01" class="" dir="auto">Conceitualmente:</p><pre id="3fff6ce8-497f-8062-9a9b-fc845378f5df" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Servidor
+   │
+   └── Certificado
+          │
+          ▼
+      Navegador
+          │
+          ▼
+&quot;Este certificado corresponde
+ a quem estou tentando acessar?&quot;</code></pre><p id="3fff6ce8-497f-80f0-bdb0-fbada5c25f11" class="" dir="auto">Certificados são fundamentais para o funcionamento seguro do HTTPS.</p><hr id="3fff6ce8-497f-804e-a17f-c46786de664f" dir="auto"/><h1 id="3fff6ce8-497f-8004-ab9d-d24db23e8d91" class="" dir="auto">13. Hashing</h1><p id="3fff6ce8-497f-80ce-8ffa-cff8d070b38b" class="" dir="auto">Hashing é frequentemente estudado junto com criptografia, mas existe uma diferença fundamental.</p><p id="3fff6ce8-497f-80bb-9034-df18757ccc42" class="" dir="auto">Uma função hash transforma uma entrada em um valor de tamanho determinado.</p><pre id="3fff6ce8-497f-802c-a7fe-c25197cce0d3" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Entrada
+   ↓
+Função Hash
+   ↓
+Hash</code></pre><p id="3fff6ce8-497f-806f-8374-c00e84b2cc7c" class="" dir="auto">Exemplo conceitual:</p><pre id="3fff6ce8-497f-8083-bbae-ee9e663be361" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">&quot;Olá&quot;
+   ↓
+SHA-256
+   ↓
+valor hexadecimal longo</code></pre><p id="3fff6ce8-497f-8064-86c9-e87f41069552" class="" dir="auto">Uma característica importante é que uma função hash criptográfica é projetada para tornar computacionalmente inviável recuperar a entrada original apenas a partir do hash.</p><hr id="3fff6ce8-497f-807e-b6b3-e020477b4ef6" dir="auto"/><h1 id="3fff6ce8-497f-80ba-9cf8-e157eb1839fa" class="" dir="auto">14. Hash ≠ criptografia</h1><p id="3fff6ce8-497f-8017-9e84-f3dc724b8ff1" class="" dir="auto">Essa diferença é muito importante.</p><h3 id="3fff6ce8-497f-8005-9f4a-ccddd7d023b3" class="" dir="auto">Criptografia</h3><p id="3fff6ce8-497f-809f-8b22-d563a4bf9a9f" class="" dir="auto">Possui como objetivo permitir:</p><pre id="3fff6ce8-497f-8018-bb57-de0779040bf0" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Mensagem
+   ↓
+Criptografia
+   ↓
+Dados cifrados
+   ↓
+Descriptografia
+   ↓
+Mensagem</code></pre><h3 id="3fff6ce8-497f-80de-98aa-f614e7b8d338" class="" dir="auto">Hash</h3><p id="3fff6ce8-497f-80d6-bfb5-d86ee92300cf" class="" dir="auto">Normalmente funciona assim:</p><pre id="3fff6ce8-497f-80ec-a86b-ed8a43247a57" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Mensagem
+   ↓
+Hash
+   ↓
+Resumo</code></pre><p id="3fff6ce8-497f-8048-b6c8-f3b5d046f2c7" class="" dir="auto">Não existe simplesmente:</p><pre id="3fff6ce8-497f-804a-b8a3-c1d4694d6dfe" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Hash → Deshash → Mensagem</code></pre><hr id="3fff6ce8-497f-804d-8bbc-d05aa07fe033" dir="auto"/><h1 id="3fff6ce8-497f-805f-862b-fe363cd63a96" class="" dir="auto">15. Hash de senhas</h1><p id="3fff6ce8-497f-80e4-b96f-f5e08a5c557e" class="" dir="auto">Um sistema <strong>não deveria armazenar senhas dos usuários em texto puro</strong>.</p><p id="3fff6ce8-497f-80ae-aa19-ed296b89a319" class="" dir="auto">Errado:</p><pre id="3fff6ce8-497f-80c3-bc38-f5c0683a15c1" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">usuario: gustavo
+senha: 123456</code></pre><p id="3fff6ce8-497f-804b-b058-f56fb39e3c61" class="" dir="auto">Se o banco de dados for comprometido, as senhas estarão imediatamente expostas.</p><p id="3fff6ce8-497f-800f-b692-f6e99caceb89" class="" dir="auto">O correto é utilizar uma função de derivação de senha adequada, como:</p><ul id="3fff6ce8-497f-802a-bfc7-cddd0444fae3" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Argon2;</li></ul><ul id="3fff6ce8-497f-80d2-8d6e-dc27f1f6b921" class="bulleted-list" dir="auto"><li style="list-style-type:disc">bcrypt;</li></ul><ul id="3fff6ce8-497f-8068-9648-f2593966f431" class="bulleted-list" dir="auto"><li style="list-style-type:disc">scrypt;</li></ul><ul id="3fff6ce8-497f-8091-b190-d51cb0dec1a5" class="bulleted-list" dir="auto"><li style="list-style-type:disc">PBKDF2.</li></ul><p id="3fff6ce8-497f-8015-aae9-da2c65f33490" class="" dir="auto">Conceitualmente:</p><pre id="3fff6ce8-497f-8017-bf86-c14b7116d0f6" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Senha
+  +
+Salt
+  ↓
+KDF
+  ↓
+Hash derivado
+  ↓
+Banco de dados</code></pre><p id="3fff6ce8-497f-80e9-b0e3-d07c18902b2e" class="" dir="auto">Quando o usuário entra novamente:</p><pre id="3fff6ce8-497f-804a-9dd1-f0f8ff497a45" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Senha informada
+      ↓
+Mesmo processo
+      ↓
+Resultado
+      ↓
+Comparação
+      ↓
+Acesso permitido/negado</code></pre><hr id="3fff6ce8-497f-804b-8d20-d69f6c87d261" dir="auto"/><h1 id="3fff6ce8-497f-8002-b93b-ca98bedea2f7" class="" dir="auto">16. O que é Salt?</h1><p id="3fff6ce8-497f-806d-b3a0-d9fa35d4645a" class="" dir="auto">O <strong>salt</strong> é um valor adicional utilizado no processo de armazenamento seguro de senhas.</p><p id="3fff6ce8-497f-8028-b970-cf7f399ebf97" class="" dir="auto">Por exemplo:</p><pre id="3fff6ce8-497f-8098-92a6-dd23f27a6017" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Senha:
+&quot;minhasenha&quot;
+
+Salt:
+&quot;X7a91...&quot;
+
+        ↓
+
+Função de derivação
+
+        ↓
+
+Resultado armazenado</code></pre><p id="3fff6ce8-497f-807c-a66b-dff73acd57a9" class="" dir="auto">Isso ajuda a evitar que usuários com a mesma senha produzam exatamente o mesmo resultado armazenado e dificulta ataques baseados em tabelas pré-computadas.</p><p id="3fff6ce8-497f-80fd-ac20-d086dd30d7b0" class="" dir="auto">Cada senha deve ter um salt apropriado e único.</p><hr id="3fff6ce8-497f-8081-b2d0-f489ac365ed1" dir="auto"/><h1 id="3fff6ce8-497f-80b9-ba3f-c1f37713bfb8" class="" dir="auto">17. Hashes criptográficos</h1><p id="3fff6ce8-497f-80a1-9845-ca46fb952ad2" class="" dir="auto">Algoritmos conhecidos incluem:</p><ul id="3fff6ce8-497f-8042-b2bf-c599ccf511a3" class="bulleted-list" dir="auto"><li style="list-style-type:disc">SHA-256;</li></ul><ul id="3fff6ce8-497f-807c-87b7-efefd12e6223" class="bulleted-list" dir="auto"><li style="list-style-type:disc">SHA-384;</li></ul><ul id="3fff6ce8-497f-80a6-afc9-ce6ae9163e62" class="bulleted-list" dir="auto"><li style="list-style-type:disc">SHA-512;</li></ul><ul id="3fff6ce8-497f-80f4-898e-cbd77c67ada4" class="bulleted-list" dir="auto"><li style="list-style-type:disc">SHA-3.</li></ul><p id="3fff6ce8-497f-80e9-bc67-db75a9ed8e0c" class="" dir="auto">Eles podem ser utilizados para:</p><ul id="3fff6ce8-497f-806c-919b-f6f08e4b1c3a" class="bulleted-list" dir="auto"><li style="list-style-type:disc">verificar integridade;</li></ul><ul id="3fff6ce8-497f-804c-8e89-ecbf83af85be" class="bulleted-list" dir="auto"><li style="list-style-type:disc">identificar alterações em arquivos;</li></ul><ul id="3fff6ce8-497f-807c-a75b-d706dc8d6ecf" class="bulleted-list" dir="auto"><li style="list-style-type:disc">construir mecanismos criptográficos;</li></ul><ul id="3fff6ce8-497f-804e-8b8b-efc61281b3dd" class="bulleted-list" dir="auto"><li style="list-style-type:disc">gerar identificadores derivados;</li></ul><ul id="3fff6ce8-497f-80b3-a757-c33669a99824" class="bulleted-list" dir="auto"><li style="list-style-type:disc">apoiar assinaturas digitais.</li></ul><h3 id="3fff6ce8-497f-8069-a537-f5e200a10efa" class="" dir="auto">Atenção</h3><p id="3fff6ce8-497f-802e-9012-dfc9caeee882" class="" dir="auto"><strong>SHA-256 não é uma função adequada para armazenar senhas diretamente.</strong></p><p id="3fff6ce8-497f-8021-b2e6-ff0925021b0f" class="" dir="auto">Para senhas, utilize uma função específica de derivação de senha, como Argon2 ou bcrypt.</p><hr id="3fff6ce8-497f-80cb-84f4-fef771282591" dir="auto"/><h1 id="3fff6ce8-497f-8081-b914-fa882f74ad00" class="" dir="auto">18. Integridade com hash</h1><p id="3fff6ce8-497f-80b6-98a6-fc313a4b81c7" class="" dir="auto">Imagine que você disponibilizou um arquivo:</p><pre id="3fff6ce8-497f-8033-996b-d2bd97d5f0c4" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">programa.zip</code></pre><p id="3fff6ce8-497f-8079-9346-eeaf2b575894" class="" dir="auto">Você calcula:</p><pre id="3fff6ce8-497f-80e6-8ad1-f89b262df56e" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">SHA-256(programa.zip)</code></pre><p id="3fff6ce8-497f-80d5-9ea7-fe3aa5f20454" class="" dir="auto">Resultado:</p><pre id="3fff6ce8-497f-801b-91c6-ffa9599b2cc1" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">ABC123...</code></pre><p id="3fff6ce8-497f-80ec-a46b-dff41b9508af" class="" dir="auto">Outra pessoa baixa o arquivo e calcula novamente.</p><pre id="3fff6ce8-497f-8054-b2da-c0ca4d63e464" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">SHA-256(programa.zip)</code></pre><p id="3fff6ce8-497f-8025-8aae-c9283cfc0776" class="" dir="auto">Se obtiver:</p><pre id="3fff6ce8-497f-8054-8fd4-c3ae0ba7bf6e" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">ABC123...</code></pre><p id="3fff6ce8-497f-80a4-a95c-f2a0a109513f" class="" dir="auto">o hash é compatível com o valor esperado.</p><p id="3fff6ce8-497f-80c4-b076-df53546d7fc9" class="" dir="auto">Se obtiver:</p><pre id="3fff6ce8-497f-80e6-9996-edbe3c1954eb" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">XYZ789...</code></pre><p id="3fff6ce8-497f-80a8-9a67-cd92409a9a5c" class="" dir="auto">o arquivo não é idêntico ao original.</p><blockquote id="3fff6ce8-497f-80a6-be4f-cf253303a398" class="" dir="auto">Hash ajuda a <strong>detectar alterações</strong>, mas sozinho não prova quem produziu o arquivo.</blockquote><p id="3fff6ce8-497f-80a4-b149-e8202e77cb57" class="" dir="auto">Para autenticidade, entram mecanismos como <strong>assinaturas digitais</strong>.</p><hr id="3fff6ce8-497f-8037-be06-d87dc03ab7a0" dir="auto"/><h1 id="3fff6ce8-497f-8032-859b-f04f1ff5caef" class="" dir="auto">19. Assinatura digital</h1><p id="3fff6ce8-497f-805c-963e-e4ed3cf3495e" class="" dir="auto">Uma assinatura digital permite verificar principalmente:</p><ul id="3fff6ce8-497f-8020-b4a4-ea00b2c806ed" class="bulleted-list" dir="auto"><li style="list-style-type:disc">integridade;</li></ul><ul id="3fff6ce8-497f-805f-8189-ea94d9b5cf44" class="bulleted-list" dir="auto"><li style="list-style-type:disc">autenticidade;</li></ul><ul id="3fff6ce8-497f-806b-96ac-fc4db0c34d64" class="bulleted-list" dir="auto"><li style="list-style-type:disc">autoria criptográfica.</li></ul><p id="3fff6ce8-497f-802e-a956-eed75f2702fb" class="" dir="auto">Conceitualmente:</p><pre id="3fff6ce8-497f-808d-adc5-e177958f4407" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Documento
+    ↓
+Hash
+    ↓
+Assinatura usando chave privada
+    ↓
+Assinatura digital</code></pre><p id="3fff6ce8-497f-8031-b479-cf526de7482a" class="" dir="auto">Quem recebe pode utilizar a chave pública correspondente para verificar a assinatura.</p><pre id="3fff6ce8-497f-8025-9dea-c8b573fcea6a" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Documento
+    +
+Assinatura
+    +
+Chave pública
+    ↓
+Verificação
+    ↓
+✔ assinatura válida</code></pre><hr id="3fff6ce8-497f-8058-8ebb-c08a0a6d7718" dir="auto"/><h1 id="3fff6ce8-497f-8073-a067-fc7c06be14da" class="" dir="auto">20. Criptografia de dados em repouso</h1><p id="3fff6ce8-497f-804b-8f54-c5ea21b032c9" class="" dir="auto">Também podemos proteger informações armazenadas.</p><p id="3fff6ce8-497f-807c-bc53-d506f52da935" class="" dir="auto">Exemplos:</p><ul id="3fff6ce8-497f-80d8-a55a-e1bd609bb07e" class="bulleted-list" dir="auto"><li style="list-style-type:disc">banco de dados;</li></ul><ul id="3fff6ce8-497f-8075-bc26-f9aa46ad17eb" class="bulleted-list" dir="auto"><li style="list-style-type:disc">HD/SSD;</li></ul><ul id="3fff6ce8-497f-80e3-b679-eab7e749ada4" class="bulleted-list" dir="auto"><li style="list-style-type:disc">backups;</li></ul><ul id="3fff6ce8-497f-80c0-9d91-d970196c8a3a" class="bulleted-list" dir="auto"><li style="list-style-type:disc">arquivos;</li></ul><ul id="3fff6ce8-497f-80a9-a427-d802ecc7fc13" class="bulleted-list" dir="auto"><li style="list-style-type:disc">dispositivos móveis.</li></ul><p id="3fff6ce8-497f-8050-903f-fe37f2d878b8" class="" dir="auto">Isso é chamado de proteção de <strong>dados em repouso (data at rest)</strong>.</p><p id="3fff6ce8-497f-800c-9a1e-ceea8204f079" class="" dir="auto">Exemplo:</p><pre id="3fff6ce8-497f-8043-9342-cbff75d9e4aa" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Banco de dados
+      ↓
+Criptografia
+      ↓
+Dados armazenados protegidos</code></pre><p id="3fff6ce8-497f-806e-82b6-cd895371ecdf" class="" dir="auto">Mesmo que alguém consiga obter acesso físico ou lógico ao armazenamento, a criptografia pode dificultar o acesso aos dados.</p><hr id="3fff6ce8-497f-8007-9ccf-d7e0de762feb" dir="auto"/><h1 id="3fff6ce8-497f-80d8-88a8-f5babd34d0cb" class="" dir="auto">21. Criptografia em trânsito</h1><p id="3fff6ce8-497f-8063-a009-d751672cf9e6" class="" dir="auto">Protege informações enquanto elas estão sendo transmitidas.</p><p id="3fff6ce8-497f-8027-9ef8-ca044f514be0" class="" dir="auto">Exemplo:</p><pre id="3fff6ce8-497f-80a4-b74c-defe885213ab" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Seu computador
+      │
+      │ 🔐 dados protegidos
+      ▼
+   Internet
+      │
+      ▼
+    Servidor</code></pre><p id="3fff6ce8-497f-80ac-b004-f115cf5e0861" class="" dir="auto">O HTTPS/TLS é um dos principais exemplos.</p><hr id="3fff6ce8-497f-8088-87e8-f0a70e34826f" dir="auto"/><h1 id="3fff6ce8-497f-8000-8c46-e1d41a304676" class="" dir="auto">22. Criptografia ponta a ponta</h1><p id="3fff6ce8-497f-8061-acb4-cd79effbe0c8" class="" dir="auto">Na <strong>criptografia ponta a ponta (E2EE)</strong>, o objetivo é que apenas os participantes finais tenham acesso ao conteúdo em texto claro.</p><p id="3fff6ce8-497f-80af-93a3-dd355c238125" class="" dir="auto">Conceitualmente:</p><pre id="3fff6ce8-497f-80c7-80b6-ebaeb319c29f" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Pessoa A
+   │
+   │ 🔐
+   ▼
+Internet
+   │
+   │ 🔐
+   ▼
+Pessoa B</code></pre><p id="3fff6ce8-497f-8053-a7a4-d17e775d7075" class="" dir="auto">Os intermediários não deveriam conseguir acessar o conteúdo em texto claro.</p><p id="3fff6ce8-497f-8091-aac3-e4003fe842e2" class="" dir="auto">Esse conceito aparece em sistemas de comunicação segura.</p><hr id="3fff6ce8-497f-802a-a32b-c8041e432134" dir="auto"/><h1 id="3fff6ce8-497f-80b0-b9b7-c4aa5a3dab58" class="" dir="auto">23. IV e Nonce</h1><p id="3fff6ce8-497f-804c-ae8d-d7bb05831f38" class="" dir="auto">Alguns algoritmos utilizam valores adicionais, como:</p><ul id="3fff6ce8-497f-804c-b21a-c04b0218ac36" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>IV (Initialization Vector)</strong>;</li></ul><ul id="3fff6ce8-497f-806c-a108-c4f0767d29e8" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>Nonce (Number used once)</strong>.</li></ul><p id="3fff6ce8-497f-8032-a3d6-d8ee1a2edbaa" class="" dir="auto">Eles ajudam a garantir propriedades importantes durante a utilização de determinados modos criptográficos.</p><p id="3fff6ce8-497f-809d-a19f-f08e806b6cef" class="" dir="auto">Por exemplo:</p><pre id="3fff6ce8-497f-8015-843a-f776c8830664" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Mensagem
+   +
+Chave
+   +
+Nonce/IV
+   ↓
+Dados protegidos</code></pre><p id="3fff6ce8-497f-80e8-a59b-d052f0b44937" class="" dir="auto">É importante seguir exatamente as regras do algoritmo/protocolo utilizado.</p><p id="3fff6ce8-497f-80ad-b607-eddca60d28c7" class="" dir="auto"><strong>Não se deve inventar como gerar, reutilizar ou manipular esses valores.</strong></p><hr id="3fff6ce8-497f-809b-a526-ffb61216fc6a" dir="auto"/><h1 id="3fff6ce8-497f-80b7-bcbb-ff5facd917a1" class="" dir="auto">24. Criptografia autenticada</h1><p id="3fff6ce8-497f-8024-8fee-e9ce5459a915" class="" dir="auto">Não basta apenas esconder os dados.</p><p id="3fff6ce8-497f-8070-b73c-ee71a46ad454" class="" dir="auto">Também precisamos detectar alterações.</p><p id="3fff6ce8-497f-800a-912c-ea28df7e8d4a" class="" dir="auto">Por isso existem mecanismos de <strong>AEAD (Authenticated Encryption with Associated Data)</strong>.</p><p id="3fff6ce8-497f-8031-ae55-cf59734924cb" class="" dir="auto">Exemplos importantes:</p><ul id="3fff6ce8-497f-80a0-8653-fc800ca91f74" class="bulleted-list" dir="auto"><li style="list-style-type:disc">AES-GCM;</li></ul><ul id="3fff6ce8-497f-8041-a693-d81ca173f8c4" class="bulleted-list" dir="auto"><li style="list-style-type:disc">ChaCha20-Poly1305.</li></ul><p id="3fff6ce8-497f-80b4-ab51-f79345d42862" class="" dir="auto">Eles oferecem, de forma integrada, proteção do conteúdo e autenticação/integridade dos dados.</p><hr id="3fff6ce8-497f-8078-a590-e2d8a886c511" dir="auto"/><h1 id="3fff6ce8-497f-8029-8d1c-f2eba54e186e" class="" dir="auto">25. Gerenciamento de chaves</h1><p id="3fff6ce8-497f-80f8-9989-dd6b91d1379c" class="" dir="auto">Um dos maiores problemas da criptografia não é necessariamente o algoritmo.</p><p id="3fff6ce8-497f-80b5-8f25-cd77a04ad94e" class="" dir="auto">É o <strong>gerenciamento das chaves</strong>.</p><p id="3fff6ce8-497f-805b-be5d-d39a2451cf52" class="" dir="auto">Imagine:</p><pre id="3fff6ce8-497f-80fc-9f8c-ee59271f8e16" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">AES-256
+   +
+chave extremamente forte</code></pre><p id="3fff6ce8-497f-80e4-877f-c44ac0721407" class="" dir="auto">Mas a chave está:</p><pre id="3fff6ce8-497f-8029-a063-feacd62018a4" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">senha.txt</code></pre><p id="3fff6ce8-497f-8005-beec-ed3f344fbc26" class="" dir="auto">ou:</p><pre id="3fff6ce8-497f-8037-b5eb-d657f95dbfb8" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">codigo-fonte</code></pre><p id="3fff6ce8-497f-8063-951c-c418ecc1901d" class="" dir="auto">ou:</p><pre id="3fff6ce8-497f-8053-95ba-c64ab6f5fe78" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">GitHub público</code></pre><p id="3fff6ce8-497f-806f-a074-d9608ab8c649" class="" dir="auto">A criptografia pode ser excelente, mas a implementação continua insegura.</p><hr id="3fff6ce8-497f-8073-bfb0-e227cc50a4d2" dir="auto"/><h2 id="3fff6ce8-497f-8059-ac1e-e9d9d9844104" class="" dir="auto">Boas práticas</h2><p id="3fff6ce8-497f-8092-a40a-c4309f626200" class="" dir="auto">As chaves devem:</p><ul id="3fff6ce8-497f-80e7-b98a-c1e739185dd6" class="bulleted-list" dir="auto"><li style="list-style-type:disc">ser protegidas;</li></ul><ul id="3fff6ce8-497f-80d9-8656-e0f16ae2f89b" class="bulleted-list" dir="auto"><li style="list-style-type:disc">possuir acesso restrito;</li></ul><ul id="3fff6ce8-497f-800e-b881-ff7a0eaf87a5" class="bulleted-list" dir="auto"><li style="list-style-type:disc">não ficar hardcoded no código;</li></ul><ul id="3fff6ce8-497f-80a9-a02c-c0404178a0bf" class="bulleted-list" dir="auto"><li style="list-style-type:disc">não ser publicadas em repositórios;</li></ul><ul id="3fff6ce8-497f-80b4-ab93-cd0a5bee330a" class="bulleted-list" dir="auto"><li style="list-style-type:disc">possuir rotação quando necessário;</li></ul><ul id="3fff6ce8-497f-8003-88a5-e988817e7cfc" class="bulleted-list" dir="auto"><li style="list-style-type:disc">ser armazenadas em mecanismos apropriados;</li></ul><ul id="3fff6ce8-497f-808d-9b1d-d94dc1bf385d" class="bulleted-list" dir="auto"><li style="list-style-type:disc">ter permissões mínimas;</li></ul><ul id="3fff6ce8-497f-8067-93ea-df2d92d176c8" class="bulleted-list" dir="auto"><li style="list-style-type:disc">ser protegidas durante backups.</li></ul><p id="3fff6ce8-497f-80c8-b86e-fdcd1ae68755" class="" dir="auto">Em ambientes profissionais podem ser utilizados:</p><ul id="3fff6ce8-497f-80d4-96aa-ccfd9e1e7cab" class="bulleted-list" dir="auto"><li style="list-style-type:disc">KMS;</li></ul><ul id="3fff6ce8-497f-8049-bc31-d58a502586c9" class="bulleted-list" dir="auto"><li style="list-style-type:disc">HSM;</li></ul><ul id="3fff6ce8-497f-80a0-a53c-f79990b37571" class="bulleted-list" dir="auto"><li style="list-style-type:disc">secret managers;</li></ul><ul id="3fff6ce8-497f-802c-8378-e95a706b0607" class="bulleted-list" dir="auto"><li style="list-style-type:disc">cofres de segredos.</li></ul><hr id="3fff6ce8-497f-80fe-965f-f066809e6e66" dir="auto"/><h1 id="3fff6ce8-497f-80e2-b45f-d92b00d5109d" class="" dir="auto">26. Algoritmos que devem ser evitados</h1><p id="3fff6ce8-497f-802b-a9b2-f0436d886d56" class="" dir="auto">Algoritmos antigos podem não fornecer segurança adequada para sistemas modernos.</p><p id="3fff6ce8-497f-80fb-a0b2-efc262222f28" class="" dir="auto">Exemplos históricos/problemáticos incluem:</p><pre id="3fff6ce8-497f-80d0-af4a-c4c168d1f5cf" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">DES
+RC4
+MD5
+SHA-1</code></pre><p id="3fff6ce8-497f-80fc-949b-cc25ea0bed06" class="" dir="auto">Isso não significa que qualquer utilização histórica desses algoritmos seja automaticamente vulnerável em qualquer contexto, mas <strong>não devem ser escolhidos para novos projetos quando existem alternativas modernas e apropriadas</strong>.</p><hr id="3fff6ce8-497f-8056-a1bb-fc38f8d21726" dir="auto"/><h1 id="3fff6ce8-497f-806b-b01d-f801df074b45" class="" dir="auto">27. Não invente sua própria criptografia</h1><p id="3fff6ce8-497f-80fd-acde-df7affcbd7ae" class="" dir="auto">Um erro muito comum de iniciantes é pensar:</p><blockquote id="3fff6ce8-497f-8057-b042-edf71c4f202b" class="" dir="auto">&quot;Vou criar meu próprio algoritmo de criptografia.&quot;</blockquote><p id="3fff6ce8-497f-80a5-a12f-cc0ecc788290" class="" dir="auto">Por exemplo:</p><pre id="3fff6ce8-497f-802b-88b3-dee4a9b8d4d9" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">A → X
+B → Q
+C → Z
+D → M
+...</code></pre><p id="3fff6ce8-497f-80f0-99f5-f30e782269c0" class="" dir="auto">Isso pode parecer seguro, mas criptografia moderna depende de:</p><ul id="3fff6ce8-497f-80ff-85ca-f7fcf2f51cf2" class="bulleted-list" dir="auto"><li style="list-style-type:disc">matemática avançada;</li></ul><ul id="3fff6ce8-497f-80bb-8397-d5a189d487aa" class="bulleted-list" dir="auto"><li style="list-style-type:disc">análise criptográfica;</li></ul><ul id="3fff6ce8-497f-8025-9e1b-d11e3d2e4d91" class="bulleted-list" dir="auto"><li style="list-style-type:disc">resistência a diferentes tipos de ataques;</li></ul><ul id="3fff6ce8-497f-8066-bb3a-fdc82e471c91" class="bulleted-list" dir="auto"><li style="list-style-type:disc">implementação correta;</li></ul><ul id="3fff6ce8-497f-80c9-9599-cc0050ddefa5" class="bulleted-list" dir="auto"><li style="list-style-type:disc">gerenciamento de chaves;</li></ul><ul id="3fff6ce8-497f-80e8-abf3-ccd9ab53e9f9" class="bulleted-list" dir="auto"><li style="list-style-type:disc">protocolos bem estudados.</li></ul><p id="3fff6ce8-497f-803e-92f7-e38fedc4209e" class="" dir="auto">Por isso:</p><blockquote id="3fff6ce8-497f-8083-b48f-c87ee49b344d" class="" dir="auto"><strong>Use algoritmos e bibliotecas criptográficas consolidadas em vez de criar sua própria criptografia.</strong></blockquote><hr id="3fff6ce8-497f-8037-af6a-c22585b09f71" dir="auto"/><h1 id="3fff6ce8-497f-8007-a07c-e83e7dfd44a3" class="" dir="auto">28. Criptografia no desenvolvimento Full Stack</h1><p id="3fff6ce8-497f-80c3-b63e-c506bccc45cc" class="" dir="auto">Como você está estudando Full Stack, esse assunto aparece em várias partes do desenvolvimento.</p><h3 id="3fff6ce8-497f-8054-bf07-e038b2b0de26" class="" dir="auto">Front-end</h3><pre id="3fff6ce8-497f-807e-a29b-c431c9a738eb" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Browser
+   ↓
+HTTPS/TLS
+   ↓
+API</code></pre><h3 id="3fff6ce8-497f-805b-bff6-d5e7601437d4" class="" dir="auto">Back-end</h3><pre id="3fff6ce8-497f-80c5-b2bf-c30ef8336deb" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">API
+ ↓
+Autenticação
+ ↓
+Banco de dados</code></pre><h3 id="3fff6ce8-497f-8010-a7c6-dd26721735f1" class="" dir="auto">Banco de dados</h3><pre id="3fff6ce8-497f-805f-a537-e0800066b227" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Senhas
+ ↓
+Argon2/bcrypt/etc.
+ ↓
+Hash derivado</code></pre><h3 id="3fff6ce8-497f-80fa-9199-d6466b8bfa14" class="" dir="auto">APIs</h3><pre id="3fff6ce8-497f-8081-87d4-c53ab14e9fcb" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Cliente
+   ↓
+HTTPS
+   ↓
+API</code></pre><h3 id="3fff6ce8-497f-808c-ae3f-ed97cabef3e3" class="" dir="auto">Autenticação</h3><pre id="3fff6ce8-497f-80ce-bd62-d9cdabac0b3f" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Usuário
+   ↓
+Senha
+   ↓
+KDF
+   ↓
+Verificação</code></pre><h3 id="3fff6ce8-497f-80f3-8a4c-fcaa7a52ff2f" class="" dir="auto">Tokens</h3><p id="3fff6ce8-497f-809b-af68-f44fe9e5c2ed" class="" dir="auto">Tokens de autenticação precisam ser protegidos durante armazenamento e transmissão.</p><hr id="3fff6ce8-497f-80fb-a4b8-d1ee9fbce24d" dir="auto"/><h1 id="3fff6ce8-497f-80dd-a930-f41cf70dceeb" class="" dir="auto">29. Criptografia × Segurança da informação</h1><p id="3fff6ce8-497f-80dc-af7c-db288d1341d0" class="" dir="auto">É importante entender que:</p><blockquote id="3fff6ce8-497f-80ba-933b-f8970d7cc85c" class="" dir="auto"><strong>Criptografia não resolve todos os problemas de segurança.</strong></blockquote><p id="3fff6ce8-497f-80ba-ab1f-e9ef9e43ba4a" class="" dir="auto">Por exemplo:</p><pre id="3fff6ce8-497f-80e0-8c8d-d030ac9df45d" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Sistema perfeitamente criptografado
+           +
+Senha &quot;123456&quot;
+           =
+Sistema ainda inseguro</code></pre><p id="3fff6ce8-497f-808e-8e68-eda2d0ed01f0" class="" dir="auto">Ou:</p><pre id="3fff6ce8-497f-8060-b93a-ce6ff6c85687" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Banco criptografado
+      +
+Controle de acesso inexistente
+      =
+Problema de segurança</code></pre><p id="3fff6ce8-497f-8092-b0e0-eb1b5077485f" class="" dir="auto">Ou:</p><pre id="3fff6ce8-497f-80d3-916c-f3f96b404714" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">HTTPS
+   +
+Vulnerabilidade de autorização
+   =
+Sistema vulnerável</code></pre><p id="3fff6ce8-497f-801e-9fc9-c5c3bf329214" class="" dir="auto">Criptografia é apenas <strong>uma camada da segurança</strong>.</p><hr id="3fff6ce8-497f-8080-8b33-dd31652034bb" dir="auto"/><h1 id="3fff6ce8-497f-804b-8e42-d8040fafb5cb" class="" dir="auto">30. Criptografia e os outros temas de segurança</h1><p id="3fff6ce8-497f-805d-ab28-d73bde02e2bb" class="" dir="auto">Você pode conectar esse assunto diretamente aos tópicos que já estudou:</p><pre id="3fff6ce8-497f-80f7-9bad-f18782d791f5" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">                    SEGURANÇA
+                        │
+        ┌───────────────┼───────────────┐
+        │               │               │
+   Autenticação    Autorização     Criptografia
+        │               │               │
+      Login         Permissões       Proteção
+        │               │               │
+        └───────────────┼───────────────┘
+                        │
+                  Aplicação segura</code></pre><p id="3fff6ce8-497f-80d5-af08-d33ab1d20319" class="" dir="auto">Por exemplo:</p><ul id="3fff6ce8-497f-8021-93d4-e886244345d5" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>Falhas criptográficas</strong> → criptografia mal utilizada.</li></ul><ul id="3fff6ce8-497f-8033-9e3c-f3da5246c549" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>Falhas de autenticação</strong> → problemas com senhas, sessões e credenciais.</li></ul><ul id="3fff6ce8-497f-8045-acd1-f7535d092677" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>Falhas de integridade</strong> → alterações não detectadas.</li></ul><ul id="3fff6ce8-497f-806c-a1dd-fc0061d27733" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>Controle de acesso</strong> → quem pode acessar os dados.</li></ul><ul id="3fff6ce8-497f-80b2-af70-fc5f0ebda042" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>Configuração incorreta</strong> → TLS, certificados ou chaves mal configurados.</li></ul><ul id="3fff6ce8-497f-80c0-a658-f7a274384341" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>Componentes vulneráveis</strong> → bibliotecas criptográficas desatualizadas.</li></ul><hr id="3fff6ce8-497f-8065-9b3b-efb773e885f1" dir="auto"/><h1 id="3fff6ce8-497f-8056-bfd0-cd5546f6ad9a" class="" dir="auto">31. Resumo dos principais conceitos</h1><table id="3fff6ce8-497f-8067-9694-d9ad04e67169" class="simple-table" dir="ltr"><thead class="simple-table-header"><tr id="3fff6ce8-497f-803c-8755-c6714939fffa" dir="ltr"><th id="`p@f" class="simple-table-header-color simple-table-header">Conceito</th><th id="VHxb" class="simple-table-header-color simple-table-header">Função</th></tr></thead><tbody><tr id="3fff6ce8-497f-807a-8212-f0890e049294" dir="ltr"><td id="`p@f" class="">Criptografia</td><td id="VHxb" class="">Protege informações</td></tr><tr id="3fff6ce8-497f-8006-acb0-c5651d4a3442" dir="ltr"><td id="`p@f" class="">Criptografia simétrica</td><td id="VHxb" class="">Usa uma chave compartilhada</td></tr><tr id="3fff6ce8-497f-80cf-938f-de4d1ba7d502" dir="ltr"><td id="`p@f" class="">Criptografia assimétrica</td><td id="VHxb" class="">Usa chave pública + privada</td></tr><tr id="3fff6ce8-497f-8034-8e21-fec90f87ad82" dir="ltr"><td id="`p@f" class="">AES</td><td id="VHxb" class="">Criptografia simétrica</td></tr><tr id="3fff6ce8-497f-80fb-99d6-ecf662b1b282" dir="ltr"><td id="`p@f" class="">ChaCha20</td><td id="VHxb" class="">Criptografia simétrica</td></tr><tr id="3fff6ce8-497f-8026-82bb-d54f46bd996d" dir="ltr"><td id="`p@f" class="">RSA</td><td id="VHxb" class="">Criptografia assimétrica/assinaturas</td></tr><tr id="3fff6ce8-497f-800c-95c6-c579f00d824b" dir="ltr"><td id="`p@f" class="">ECC</td><td id="VHxb" class="">Criptografia assimétrica e assinaturas</td></tr><tr id="3fff6ce8-497f-8082-a9e8-c1a65ac3d6cc" dir="ltr"><td id="`p@f" class="">Hash</td><td id="VHxb" class="">Gera uma representação derivada dos dados</td></tr><tr id="3fff6ce8-497f-80c8-a81b-d23281744da2" dir="ltr"><td id="`p@f" class="">SHA-256</td><td id="VHxb" class="">Função hash</td></tr><tr id="3fff6ce8-497f-80c3-866c-cda77e75743d" dir="ltr"><td id="`p@f" class="">Argon2</td><td id="VHxb" class="">Derivação segura de senha</td></tr><tr id="3fff6ce8-497f-80a3-a946-cfe2931431ba" dir="ltr"><td id="`p@f" class="">Salt</td><td id="VHxb" class="">Valor adicional usado no armazenamento de senhas</td></tr><tr id="3fff6ce8-497f-80d2-b38d-e301a0f0940c" dir="ltr"><td id="`p@f" class="">Assinatura digital</td><td id="VHxb" class="">Autenticidade + integridade</td></tr><tr id="3fff6ce8-497f-8089-8d6f-f1c2abd307a9" dir="ltr"><td id="`p@f" class="">TLS</td><td id="VHxb" class="">Protege comunicação em rede</td></tr><tr id="3fff6ce8-497f-8041-b698-c639bee29122" dir="ltr"><td id="`p@f" class="">HTTPS</td><td id="VHxb" class="">HTTP sobre TLS</td></tr><tr id="3fff6ce8-497f-8095-b488-f1856ccb7174" dir="ltr"><td id="`p@f" class="">KMS</td><td id="VHxb" class="">Gerenciamento de chaves</td></tr><tr id="3fff6ce8-497f-809d-b9f3-e95df468e4cc" dir="ltr"><td id="`p@f" class="">HSM</td><td id="VHxb" class="">Proteção/gerenciamento especializado de chaves</td></tr><tr id="3fff6ce8-497f-80a4-a509-e8a887113857" dir="ltr"><td id="`p@f" class="">AEAD</td><td id="VHxb" class="">Criptografia + autenticação dos dados</td></tr></tbody></table><hr id="3fff6ce8-497f-8033-abc4-dd4a533844e3" dir="auto"/><h1 id="3fff6ce8-497f-80b8-a903-f0a9db630504" class="" dir="auto">🧠 O que você precisa realmente guardar</h1><p id="3fff6ce8-497f-807d-8e5d-fecf417cb472" class="" dir="auto">Se você está estudando <strong>Cibersegurança</strong>, eu daria prioridade a estes conceitos:</p><pre id="3fff6ce8-497f-80b2-857f-c4026134c19e" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">CRIPTOGRAFIA
+│
+├── Confidencialidade
+│
+├── Integridade
+│
+├── Autenticidade
+│
+├── Criptografia Simétrica
+│   ├── AES
+│   └── ChaCha20
+│
+├── Criptografia Assimétrica
+│   ├── RSA
+│   └── ECC
+│
+├── Hash
+│   ├── SHA-256
+│   └── SHA-3
+│
+├── Senhas
+│   ├── Salt
+│   ├── Argon2
+│   ├── bcrypt
+│   └── scrypt
+│
+├── Assinatura Digital
+│
+├── Certificados Digitais
+│
+├── TLS / HTTPS
+│
+├── Dados em repouso
+│
+├── Dados em trânsito
+│
+├── Criptografia ponta a ponta
+│
+└── Gerenciamento de chaves</code></pre><h3 id="3fff6ce8-497f-80eb-8fdc-da03435f9486" class="" dir="auto">⭐ A ideia central</h3><p id="3fff6ce8-497f-80af-a6b3-da3e815d6a3d" class="" dir="auto"><strong>Criptografia não é simplesmente &quot;embaralhar uma mensagem&quot;.</strong></p><p id="3fff6ce8-497f-80b5-b1db-d66b25af4594" class="" dir="auto">É um conjunto de técnicas matemáticas utilizadas para fornecer <strong>confidencialidade, integridade, autenticidade e, em determinados contextos, não repúdio</strong>, formando uma das bases da segurança cibernética moderna.</p></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>
