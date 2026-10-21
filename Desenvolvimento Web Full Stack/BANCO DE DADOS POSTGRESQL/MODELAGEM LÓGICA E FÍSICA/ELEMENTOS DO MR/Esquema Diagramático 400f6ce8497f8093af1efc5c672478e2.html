@@ -1,0 +1,942 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Esquema Diagramático</title><meta name="data-notion-page-icon" content="/icons/elephant_blue.svg"/><link rel="icon" href="https://app.notion.com/icons/elephant_blue.svg"/><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+	/* Paint a complete callout box on every PDF page fragment. */
+	-webkit-box-decoration-break: clone;
+	box-decoration-break: clone;
+}
+
+/* For default-background callouts, render the border outline. */
+.callout.block-color-default_background {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+/*
+ * Toggles and callouts hold arbitrary content, so they can easily be taller
+ * than a page. They must stay breakable: avoiding breaks inside them makes
+ * Chromium push the whole block onto the next page, which leaves the previous
+ * page mostly empty before every long toggle.
+ */
+details,
+aside {
+	margin: 1.25em 0;
+}
+
+/* Keep a toggle's title on the same page as the start of its content. */
+summary {
+	page-break-after: avoid;
+	break-after: avoid;
+}
+
+/*
+ * Toggle headings render as <h1/h2/h3 style="display:inline-block"> inside
+ * <summary>. Without this reset, the heading's margin-top pushes it below the
+ * ::marker (▼), so the triangle and the title appear on separate lines.
+ */
+summary h1,
+summary h2,
+summary h3,
+summary h4 {
+	margin-top: 0;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding-inline: 0.125rem;
+	padding-block: 0.375rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+/*
+ * Render emoji icons using a ::before pseudo-element to keep the glyph
+ * out of the DOM textContent traversal. This avoids double-rendering icons
+ * in callouts and page titles.
+ * NOTE(slim/html-export-pseudo-icons): I can't tagref this because it will
+ * flag as a duplicate tag after codegen.
+ */
+.icon[data-emoji]::before {
+	content: attr(data-emoji);
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	margin-right: 0.4em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.tab {
+	margin: 1.25em 0;
+	padding-inline: 1rem;
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style><style>@import url('https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex-swap.min.css')</style></head><body><article id="400f6ce8-497f-8093-af1e-fc5c672478e2" class="page sans" data-notion-page-icon="/icons/elephant_blue.svg"><header><div class="page-header-icon undefined"><img class="icon notion-static-icon" src="https://app.notion.com/icons/elephant_blue.svg"/></div><h1 class="page-title" dir="auto">Esquema Diagramático</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><h1 id="400f6ce8-497f-8022-b80f-d5512ba6b81b" class="" dir="auto">Esquema Diagramático de Banco de Dados Relacional</h1><p id="400f6ce8-497f-8049-b97c-d7a020e555ef" class="" dir="auto">O <strong>esquema diagramático de um banco de dados relacional</strong> é uma representação visual da <strong>estrutura do banco</strong>, mostrando principalmente as <strong>tabelas, suas colunas, chaves e relacionamentos</strong>.</p><p id="400f6ce8-497f-803d-9b95-fdb275514d23" class="" dir="auto">Ele ajuda a entender como os dados estão organizados antes de implementar ou analisar o banco.</p><hr id="400f6ce8-497f-8092-801a-ce5fbe7b1c6a" dir="auto"/><h2 id="400f6ce8-497f-8072-a267-d21b2ee73913" class="" dir="auto">1. O que é um esquema de banco de dados?</h2><p id="400f6ce8-497f-8007-a2c7-cdcd4bae0eab" class="" dir="auto">O <strong>esquema</strong> descreve a estrutura do banco de dados.</p><p id="400f6ce8-497f-802d-b960-fce746f4cedb" class="" dir="auto">Por exemplo, podemos ter:</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="400f6ce8-497f-8067-b00c-f1ff7c21102f" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">CLIENTE
+- id_cliente
+- nome
+- email
+
+PEDIDO
+- id_pedido
+- id_cliente
+- data_pedido
+- valor</code></pre><p id="400f6ce8-497f-800b-9048-e5607391ba71" class="" dir="auto">O esquema mostra:</p><ul id="400f6ce8-497f-8080-98ac-cb758f5c3cae" class="bulleted-list" dir="auto"><li style="list-style-type:disc">quais tabelas existem;</li></ul><ul id="400f6ce8-497f-80b4-b890-f79ab681c9a9" class="bulleted-list" dir="auto"><li style="list-style-type:disc">quais colunas cada tabela possui;</li></ul><ul id="400f6ce8-497f-800f-93e9-ffb8553c68a1" class="bulleted-list" dir="auto"><li style="list-style-type:disc">quais são as chaves primárias;</li></ul><ul id="400f6ce8-497f-80c5-bd7f-fcbaea92a668" class="bulleted-list" dir="auto"><li style="list-style-type:disc">quais são as chaves estrangeiras;</li></ul><ul id="400f6ce8-497f-80a9-a03b-c247fb1a6b96" class="bulleted-list" dir="auto"><li style="list-style-type:disc">como as tabelas estão relacionadas.</li></ul><hr id="400f6ce8-497f-8066-ae81-d36c8963501b" dir="auto"/><h1 id="400f6ce8-497f-801a-a3b9-e5e642ba274e" class="" dir="auto">2. Representação diagramática</h1><p id="400f6ce8-497f-8038-820e-decbb775969b" class="" dir="auto">Podemos representar o exemplo anterior visualmente:</p><pre id="400f6ce8-497f-808d-b0f7-c8ef80d495e7" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">┌─────────────────────────┐
+│        CLIENTE          │
+├─────────────────────────┤
+│ PK id_cliente           │
+│    nome                 │
+│    email                │
+└────────────┬────────────┘
+             │
+             │ 1:N
+             │
+             ▼
+┌─────────────────────────┐
+│         PEDIDO          │
+├─────────────────────────┤
+│ PK id_pedido            │
+│ FK id_cliente           │
+│    data_pedido          │
+│    valor                │
+└─────────────────────────┘</code></pre><p id="400f6ce8-497f-807c-b00f-df2cb287585f" class="" dir="auto">Podemos interpretar assim:</p><blockquote id="400f6ce8-497f-8079-9ce3-e88ec1c7b4e6" class="" dir="auto">Um cliente pode realizar vários pedidos, e cada pedido pertence a um cliente.</blockquote><hr id="400f6ce8-497f-8089-8a05-e76882c434e5" dir="auto"/><h1 id="400f6ce8-497f-80ae-877b-f343d1bb4bc9" class="" dir="auto">3. Componentes do esquema diagramático</h1><p id="400f6ce8-497f-801a-9684-e40e915ab4a1" class="" dir="auto">Os principais componentes são:</p><h3 id="400f6ce8-497f-80fb-bd31-fc3a76afcb93" class="" dir="auto">Tabela</h3><p id="400f6ce8-497f-80cb-9cd9-e14ceaf201e8" class="" dir="auto">Representa uma relação do banco.</p><pre id="400f6ce8-497f-80ee-865f-f23729df6c30" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">┌───────────────┐
+│    CLIENTE    │
+└───────────────┘</code></pre><h3 id="400f6ce8-497f-80af-ad47-d779aad6fdac" class="" dir="auto">Coluna</h3><p id="400f6ce8-497f-8095-8d74-c0ade1dcfad6" class="" dir="auto">Representa um atributo da tabela.</p><pre id="400f6ce8-497f-807c-a647-ecb38dabef93" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">id_cliente
+nome
+email</code></pre><h3 id="400f6ce8-497f-80d7-8014-ddb724dee59f" class="" dir="auto">PK</h3><p id="400f6ce8-497f-8014-84e4-fb119c28d8ad" class="" dir="auto">Indica a <strong>chave primária</strong>.</p><pre id="400f6ce8-497f-80ff-a4fe-c3a51b336235" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">PK id_cliente</code></pre><h3 id="400f6ce8-497f-80fa-9e00-d6fef73b424a" class="" dir="auto">FK</h3><p id="400f6ce8-497f-80a5-b97e-d032e0f768ef" class="" dir="auto">Indica uma <strong>chave estrangeira</strong>.</p><pre id="400f6ce8-497f-804a-8a1f-c877fcf1c239" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">FK id_cliente</code></pre><h3 id="400f6ce8-497f-80c4-975c-f2cc31fb5f20" class="" dir="auto">Relacionamento</h3><p id="400f6ce8-497f-8050-9fad-edd285ee9537" class="" dir="auto">Mostra a ligação entre tabelas.</p><pre id="400f6ce8-497f-803d-84c7-c3176ed5aaa5" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">CLIENTE 1 ───── N PEDIDO</code></pre><hr id="400f6ce8-497f-8074-bea8-ecc83d1c9e09" dir="auto"/><h1 id="400f6ce8-497f-80f7-85cd-cdc912becfee" class="" dir="auto">4. Exemplo mais completo</h1><p id="400f6ce8-497f-80c2-af55-feee9e241702" class="" dir="auto">Imagine um sistema de vendas.</p><p id="400f6ce8-497f-806d-9c37-dc7a464d8af7" class="" dir="auto">Temos:</p><pre id="400f6ce8-497f-8032-8a0b-fca53bd4230e" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">CLIENTE
+- id_cliente
+- nome
+- email
+
+PEDIDO
+- id_pedido
+- id_cliente
+- data_pedido
+
+PRODUTO
+- id_produto
+- nome
+- preco
+
+ITEM_PEDIDO
+- id_pedido
+- id_produto
+- quantidade
+- preco_unitario</code></pre><p id="400f6ce8-497f-808f-8a79-fa7fcd913fe9" class="" dir="auto">O esquema poderia ser:</p><pre id="400f6ce8-497f-8081-9f50-f8bf4ad842f5" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">┌──────────────────┐
+│     CLIENTE      │
+├──────────────────┤
+│ PK id_cliente    │
+│    nome          │
+│    email         │
+└────────┬─────────┘
+         │
+         │ 1:N
+         ▼
+┌──────────────────┐
+│      PEDIDO      │
+├──────────────────┤
+│ PK id_pedido     │
+│ FK id_cliente    │
+│    data_pedido   │
+└────────┬─────────┘
+         │
+         │ 1:N
+         ▼
+┌──────────────────────┐
+│     ITEM_PEDIDO      │
+├──────────────────────┤
+│ PK/FK id_pedido      │
+│ PK/FK id_produto     │
+│     quantidade       │
+│     preco_unitario   │
+└──────────┬───────────┘
+           │
+           │ N:1
+           ▼
+┌──────────────────┐
+│     PRODUTO      │
+├──────────────────┤
+│ PK id_produto    │
+│    nome          │
+│    preco         │
+└──────────────────┘</code></pre><p id="400f6ce8-497f-8055-8da9-e1e9d57801d9" class="" dir="auto">Esse esquema permite visualizar toda a estrutura do sistema.</p><hr id="400f6ce8-497f-80db-920b-cd0760e1d1f6" dir="auto"/><h1 id="400f6ce8-497f-8094-a694-cc54cd65f71f" class="" dir="auto">5. Cardinalidade</h1><p id="400f6ce8-497f-8065-aa70-ec2de99aafac" class="" dir="auto">O esquema também pode mostrar a <strong>cardinalidade</strong> dos relacionamentos.</p><p id="400f6ce8-497f-80f0-b0e2-df52e6ffc3ad" class="" dir="auto">Os casos mais comuns são:</p><h3 id="400f6ce8-497f-8049-83c9-cdb5c1d87334" class="" dir="auto">1:1 — Um para um</h3><pre id="400f6ce8-497f-8092-9f13-c8409167d9df" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">PESSOA 1 ───── 1 PASSAPORTE</code></pre><p id="400f6ce8-497f-8096-b33c-f2575daf3046" class="" dir="auto">Uma pessoa possui um passaporte e um passaporte pertence a uma pessoa.</p><hr id="400f6ce8-497f-808f-a4c6-e7a7c1e2426c" dir="auto"/><h3 id="400f6ce8-497f-802c-8955-c03d5c4ddf3f" class="" dir="auto">1:N — Um para muitos</h3><pre id="400f6ce8-497f-807a-947c-f3efa611c384" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">CLIENTE 1 ───── N PEDIDO</code></pre><p id="400f6ce8-497f-8041-9ea5-fe49dc6d3fb5" class="" dir="auto">Um cliente pode possuir vários pedidos.</p><hr id="400f6ce8-497f-80ee-a653-c7d4bee7738b" dir="auto"/><h3 id="400f6ce8-497f-80a4-a71e-c8b21f05c7e3" class="" dir="auto">N:N — Muitos para muitos</h3><pre id="400f6ce8-497f-8098-81e8-fda1e5cd3ab3" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">ALUNO N ───── N CURSO</code></pre><p id="400f6ce8-497f-80ff-a20d-ff90c6fcb69d" class="" dir="auto">Um aluno pode fazer vários cursos e um curso pode ter vários alunos.</p><p id="400f6ce8-497f-8016-950f-e4633d6ae3d2" class="" dir="auto">No banco relacional, normalmente criamos uma tabela intermediária:</p><pre id="400f6ce8-497f-80f5-bfd0-df56dd707c7f" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">ALUNO 1 ─── N MATRICULA N ─── 1 CURSO</code></pre><hr id="400f6ce8-497f-8089-9aef-c3bebb53f896" dir="auto"/><h1 id="400f6ce8-497f-806e-9b54-d8f31b1449fd" class="" dir="auto">6. Identificação das chaves</h1><p id="400f6ce8-497f-80ea-a193-c5efde9a196b" class="" dir="auto">Um dos objetivos do esquema diagramático é deixar claro <strong>como as tabelas se relacionam</strong>.</p><p id="400f6ce8-497f-80fa-9528-f4ec8b571348" class="" dir="auto">Por exemplo:</p><pre id="400f6ce8-497f-8065-ac42-f1a0f9bf8c7c" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">┌─────────────────────┐
+│       CLIENTE       │
+├─────────────────────┤
+│ PK id_cliente       │
+│    nome             │
+└──────────┬──────────┘
+           │
+           │
+           │
+┌──────────▼──────────┐
+│        PEDIDO       │
+├─────────────────────┤
+│ PK id_pedido        │
+│ FK id_cliente       │
+│    valor            │
+└─────────────────────┘</code></pre><p id="400f6ce8-497f-805f-9cf3-e4a15237b8e4" class="" dir="auto">Observe:</p><pre id="400f6ce8-497f-8044-8153-d4f529ea74ed" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">CLIENTE.id_cliente
+       ↑
+       │
+       │ referência
+       │
+PEDIDO.id_cliente</code></pre><p id="400f6ce8-497f-8099-a5b6-dbc2f92f3b01" class="" dir="auto">A PK da primeira tabela é referenciada pela FK da segunda.</p><hr id="400f6ce8-497f-80b3-9fe3-cf7af0358ecd" dir="auto"/><h1 id="400f6ce8-497f-80e6-b8bf-f094728676e6" class="" dir="auto">7. Esquema diagramático × DER</h1><p id="400f6ce8-497f-8033-bf38-eb225254a72b" class="" dir="auto">É importante não confundir os dois.</p><h3 id="400f6ce8-497f-8065-8b6f-e2728e9c0e27" class="" dir="auto">DER</h3><p id="400f6ce8-497f-80be-88a0-d5219ed008ce" class="" dir="auto">O <strong>Diagrama Entidade-Relacionamento</strong> representa principalmente o <strong>modelo conceitual</strong>.</p><p id="400f6ce8-497f-80a7-b313-dce3dc5720f6" class="" dir="auto">Exemplo:</p><pre id="400f6ce8-497f-8008-afb1-f438121146e8" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">CLIENTE ───── FAZ ───── PEDIDO</code></pre><p id="400f6ce8-497f-80e9-b658-fcb326bb8316" class="" dir="auto">Ele está preocupado com:</p><ul id="400f6ce8-497f-80c6-84d7-ff4270259cd2" class="bulleted-list" dir="auto"><li style="list-style-type:disc">entidades;</li></ul><ul id="400f6ce8-497f-8026-bcd8-e6c7755746d0" class="bulleted-list" dir="auto"><li style="list-style-type:disc">atributos;</li></ul><ul id="400f6ce8-497f-8080-8d0b-fda4a1133256" class="bulleted-list" dir="auto"><li style="list-style-type:disc">relacionamentos;</li></ul><ul id="400f6ce8-497f-80a0-9fb6-e6ab4cdd5bdc" class="bulleted-list" dir="auto"><li style="list-style-type:disc">cardinalidades;</li></ul><ul id="400f6ce8-497f-80d2-9743-c1f28598c482" class="bulleted-list" dir="auto"><li style="list-style-type:disc">regras de negócio.</li></ul><h3 id="400f6ce8-497f-802b-808e-d981be8939ab" class="" dir="auto">Esquema relacional</h3><p id="400f6ce8-497f-80e7-a137-c7acb8265d8e" class="" dir="auto">Está mais próximo da implementação do banco:</p><pre id="400f6ce8-497f-805a-ac7e-e0b988955187" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">CLIENTE
+PK id_cliente
+nome
+email
+
+PEDIDO
+PK id_pedido
+FK id_cliente
+data
+valor</code></pre><p id="400f6ce8-497f-8058-b501-f4cb98cf02df" class="" dir="auto">Ou seja:</p><blockquote id="400f6ce8-497f-802b-8fba-fc5f34c36f63" class="" dir="auto"><strong>DER → representa o modelo conceitual.</strong><p id="400f6ce8-497f-80a9-a747-ea9764be6694" class="" dir="auto"><strong>Esquema relacional → representa a estrutura das tabelas e seus relacionamentos.</strong></p></blockquote><hr id="400f6ce8-497f-80eb-95f6-dbb3f01d2619" dir="auto"/><h1 id="400f6ce8-497f-80cd-8a89-c53c55fa2b08" class="" dir="auto">8. Esquema diagramático e implementação</h1><p id="400f6ce8-497f-8079-800b-f7b65981b368" class="" dir="auto">Depois de definir o esquema, podemos transformá-lo em SQL.</p><p id="400f6ce8-497f-80ff-8422-f750274ff680" class="" dir="auto">Por exemplo:</p><pre id="400f6ce8-497f-80ac-b3c1-cddc8cc49a66" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">CLIENTE
+    │
+    │ 1:N
+    ▼
+PEDIDO</code></pre><p id="400f6ce8-497f-8038-a0e1-e81e90ffb0fc" class="" dir="auto">Pode virar:</p><pre id="400f6ce8-497f-80c3-9c21-d325d9516b26" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">CREATE TABLE cliente (
+    id_cliente INT PRIMARY KEY,
+    nome VARCHAR(100),
+    email VARCHAR(150)
+);
+
+CREATE TABLE pedido (
+    id_pedido INT PRIMARY KEY,
+    id_cliente INT NOT NULL,
+    data_pedido DATE,
+    valor DECIMAL(10,2),
+
+    FOREIGN KEY (id_cliente)
+        REFERENCES cliente(id_cliente)
+);</code></pre><p id="400f6ce8-497f-80d8-8110-f5928828b538" class="" dir="auto">Portanto, o esquema funciona como uma <strong>visão estrutural do banco</strong> antes ou durante sua implementação.</p><hr id="400f6ce8-497f-8078-9d31-e945fd3f07e7" dir="auto"/><h1 id="400f6ce8-497f-80eb-88a6-c0da9901e880" class="" dir="auto">9. Por que utilizar um esquema diagramático?</h1><p id="400f6ce8-497f-805e-b4f5-fc0ed7295000" class="" dir="auto">Ele facilita:</p><h3 id="400f6ce8-497f-80b1-a0e6-c5e0a17f38cf" class="" dir="auto">Visualização</h3><p id="400f6ce8-497f-8011-9f97-c0761727e573" class="" dir="auto">Permite enxergar a estrutura do banco de forma rápida.</p><h3 id="400f6ce8-497f-80e6-85ac-c9162d31a60a" class="" dir="auto">Planejamento</h3><p id="400f6ce8-497f-8064-8dd8-f27d6e032034" class="" dir="auto">Ajuda a projetar o banco antes de criar as tabelas.</p><h3 id="400f6ce8-497f-807f-84ee-c5caf16268d8" class="" dir="auto">Identificação de problemas</h3><p id="400f6ce8-497f-8040-9711-d49a6dccbb25" class="" dir="auto">Pode revelar:</p><ul id="400f6ce8-497f-8036-9833-c0dccd4944e6" class="bulleted-list" dir="auto"><li style="list-style-type:disc">relacionamentos incorretos;</li></ul><ul id="400f6ce8-497f-8019-b8da-ca342768a939" class="bulleted-list" dir="auto"><li style="list-style-type:disc">tabelas desnecessárias;</li></ul><ul id="400f6ce8-497f-8009-8d47-d19e2b369e24" class="bulleted-list" dir="auto"><li style="list-style-type:disc">ausência de chaves;</li></ul><ul id="400f6ce8-497f-8056-9e3f-c18771fa8496" class="bulleted-list" dir="auto"><li style="list-style-type:disc">duplicação de informações;</li></ul><ul id="400f6ce8-497f-8091-8623-f840f6868f45" class="bulleted-list" dir="auto"><li style="list-style-type:disc">cardinalidades inadequadas.</li></ul><h3 id="400f6ce8-497f-802a-994a-eba24e41913f" class="" dir="auto">Comunicação</h3><p id="400f6ce8-497f-8062-89d9-d1795a80b890" class="" dir="auto">Facilita explicar a estrutura do banco para outros desenvolvedores, analistas e administradores.</p><h3 id="400f6ce8-497f-800b-8b7f-f83ada2868fb" class="" dir="auto">Manutenção</h3><p id="400f6ce8-497f-8059-a386-c034d16b614e" class="" dir="auto">Quando o sistema cresce, o diagrama ajuda a entender como as tabelas estão conectadas.</p><hr id="400f6ce8-497f-8029-a15e-f69e17fb6d28" dir="auto"/><h1 id="400f6ce8-497f-8061-8042-e9e5fe13332b" class="" dir="auto">10. Exemplo para memorizar</h1><p id="400f6ce8-497f-806b-ac98-d8293a415caa" class="" dir="auto">Um esquema simples pode ser visualizado assim:</p><pre id="400f6ce8-497f-8025-be68-f040a86cbe6c" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">                 BANCO DE DADOS
+                       │
+          ┌────────────┼────────────┐
+          ▼            ▼            ▼
+       CLIENTE       PEDIDO      PRODUTO
+          │            │            │
+          │            │            │
+        PK id        PK id        PK id
+          │            │            │
+          └──────┐     │     ┌──────┘
+                 ▼     ▼     ▼
+                  RELACIONAMENTOS</code></pre><p id="400f6ce8-497f-8040-88e3-c3df7aa79942" class="" dir="auto">O objetivo é mostrar <strong>quem se relaciona com quem e através de quais chaves</strong>.</p><hr id="400f6ce8-497f-804c-826a-c325a387bf7d" dir="auto"/><h2 id="400f6ce8-497f-8007-87c6-f45e4fc8ca39" class="" dir="auto">Resumo</h2><p id="400f6ce8-497f-801b-b7df-f8a9e8844619" class="" dir="auto">O <strong>esquema diagramático de um banco de dados relacional</strong> é uma representação visual da estrutura do banco.</p><p id="400f6ce8-497f-80f6-8072-eb2a736e53c4" class="" dir="auto">Ele apresenta principalmente:</p><ul id="400f6ce8-497f-8066-afc5-e79b00a3930e" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>Tabelas</strong> → entidades/relações armazenadas;</li></ul><ul id="400f6ce8-497f-807a-b746-f1f8c73b4f20" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>Colunas</strong> → atributos;</li></ul><ul id="400f6ce8-497f-8019-b1ec-e083d07db949" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>PK</strong> → identificadores únicos;</li></ul><ul id="400f6ce8-497f-803d-a4db-d78547b4673f" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>FK</strong> → referências entre tabelas;</li></ul><ul id="400f6ce8-497f-80f3-9a09-cacda6b3cf2f" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>Relacionamentos</strong> → conexões entre tabelas;</li></ul><ul id="400f6ce8-497f-808b-902e-e8ef60f4eb56" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>Cardinalidade</strong> → quantidade de registros relacionados.</li></ul><p id="400f6ce8-497f-8054-a372-fa9cef16058b" class="" dir="auto">A ideia principal é:</p><blockquote id="400f6ce8-497f-809d-a1db-ee318e5adb6f" class="" dir="auto"><strong>O esquema diagramático funciona como um mapa do banco de dados, permitindo visualizar suas tabelas, campos, chaves e relacionamentos.</strong></blockquote></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>
