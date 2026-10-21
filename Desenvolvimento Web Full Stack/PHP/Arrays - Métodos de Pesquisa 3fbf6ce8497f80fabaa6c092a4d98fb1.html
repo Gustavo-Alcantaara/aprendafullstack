@@ -1,0 +1,926 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Arrays - Métodos de Pesquisa</title><meta name="data-notion-page-icon" content="/icons/elephant_purple.svg"/><link rel="icon" href="https://app.notion.com/icons/elephant_purple.svg"/><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+	/* Paint a complete callout box on every PDF page fragment. */
+	-webkit-box-decoration-break: clone;
+	box-decoration-break: clone;
+}
+
+/* For default-background callouts, render the border outline. */
+.callout.block-color-default_background {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+/*
+ * Toggles and callouts hold arbitrary content, so they can easily be taller
+ * than a page. They must stay breakable: avoiding breaks inside them makes
+ * Chromium push the whole block onto the next page, which leaves the previous
+ * page mostly empty before every long toggle.
+ */
+details,
+aside {
+	margin: 1.25em 0;
+}
+
+/* Keep a toggle's title on the same page as the start of its content. */
+summary {
+	page-break-after: avoid;
+	break-after: avoid;
+}
+
+/*
+ * Toggle headings render as <h1/h2/h3 style="display:inline-block"> inside
+ * <summary>. Without this reset, the heading's margin-top pushes it below the
+ * ::marker (▼), so the triangle and the title appear on separate lines.
+ */
+summary h1,
+summary h2,
+summary h3,
+summary h4 {
+	margin-top: 0;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding-inline: 0.125rem;
+	padding-block: 0.375rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+/*
+ * Render emoji icons using a ::before pseudo-element to keep the glyph
+ * out of the DOM textContent traversal. This avoids double-rendering icons
+ * in callouts and page titles.
+ * NOTE(slim/html-export-pseudo-icons): I can't tagref this because it will
+ * flag as a duplicate tag after codegen.
+ */
+.icon[data-emoji]::before {
+	content: attr(data-emoji);
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	margin-right: 0.4em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.tab {
+	margin: 1.25em 0;
+	padding-inline: 1rem;
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style><style>@import url('https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex-swap.min.css')</style></head><body><article id="3fbf6ce8-497f-80fa-baa6-c092a4d98fb1" class="page sans" data-notion-page-icon="/icons/elephant_purple.svg"><header><div class="page-header-icon undefined"><img class="icon notion-static-icon" src="https://app.notion.com/icons/elephant_purple.svg"/></div><h1 class="page-title" dir="auto">Arrays - Métodos de Pesquisa</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><h1 id="3fbf6ce8-497f-80f4-b438-ed80ccdcccdc" class="" dir="auto">Array — Métodos de Pesquisa em PHP</h1><p id="3fbf6ce8-497f-80f5-b973-ed0b59f8a4fe" class="" dir="auto">Os <strong>métodos de pesquisa em arrays</strong> são funções utilizadas para <strong>procurar valores, verificar se eles existem e descobrir suas posições dentro de um array</strong>.</p><p id="3fbf6ce8-497f-80f7-a3f3-d214e2a2e16f" class="" dir="auto">Eles são muito úteis em situações como:</p><ul id="3fbf6ce8-497f-809f-bd8d-fc0a82555332" class="bulleted-list" dir="auto"><li style="list-style-type:disc">verificar se um usuário existe;</li></ul><ul id="3fbf6ce8-497f-8028-9dac-ee46fa1663e2" class="bulleted-list" dir="auto"><li style="list-style-type:disc">procurar um produto;</li></ul><ul id="3fbf6ce8-497f-80e2-b763-e496496370b6" class="bulleted-list" dir="auto"><li style="list-style-type:disc">verificar se uma determinada opção foi selecionada;</li></ul><ul id="3fbf6ce8-497f-80ed-98b9-f822da4cbc0a" class="bulleted-list" dir="auto"><li style="list-style-type:disc">descobrir a posição de um elemento;</li></ul><ul id="3fbf6ce8-497f-80c8-904a-f1506ed2478f" class="bulleted-list" dir="auto"><li style="list-style-type:disc">procurar uma chave específica;</li></ul><ul id="3fbf6ce8-497f-80b1-875e-fd93d89f9143" class="bulleted-list" dir="auto"><li style="list-style-type:disc">localizar informações dentro de um array.</li></ul><p id="3fbf6ce8-497f-8093-a8d5-d5f92f15731f" class="" dir="auto">Os principais métodos que você deve conhecer são:</p><ul id="3fbf6ce8-497f-80a9-b6cb-cbeba9de11f5" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><code>in_array()</code></li></ul><ul id="3fbf6ce8-497f-8024-9724-f097201c575b" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><code>array_search()</code></li></ul><ul id="3fbf6ce8-497f-80ab-a5d4-f5e0df1af58d" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><code>array_key_exists()</code></li></ul><ul id="3fbf6ce8-497f-8015-bd67-edf11d6de9c8" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><code>isset()</code></li></ul><hr id="3fbf6ce8-497f-8045-be0f-cc15eec8b7ae" dir="auto"/><h1 id="3fbf6ce8-497f-802b-9813-c54a71fc1477" class="" dir="auto">1. <code>in_array()</code></h1><p id="3fbf6ce8-497f-8063-9ccc-de87d44116a2" class="" dir="auto">A função <code>in_array()</code> verifica se <strong>um determinado valor existe dentro de um array</strong>.</p><h3 id="3fbf6ce8-497f-8094-9050-dafa4acf1456" class="" dir="auto">Sintaxe</h3><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="3fbf6ce8-497f-801c-93c2-ddc9acd52415" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">in_array(valor, array);</code></pre><p id="3fbf6ce8-497f-8074-a4ee-dff3b52eb6df" class="" dir="auto">Exemplo:</p><pre id="3fbf6ce8-497f-8029-9896-e42b062f7828" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">$frutas = [&quot;Maçã&quot;, &quot;Banana&quot;, &quot;Laranja&quot;];
+
+if (in_array(&quot;Banana&quot;, $frutas)) {
+    echo &quot;Banana encontrada!&quot;;
+}</code></pre><p id="3fbf6ce8-497f-80ee-870d-e22db2ca8fe3" class="" dir="auto">Resultado:</p><pre id="3fbf6ce8-497f-80d2-b37d-dda40546ea05" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Banana encontrada!</code></pre><p id="3fbf6ce8-497f-80e7-893e-c14caaa28e84" class="" dir="auto">Se o valor não existir:</p><pre id="3fbf6ce8-497f-80c9-a8ea-c63c0498b554" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">if (in_array(&quot;Uva&quot;, $frutas)) {
+    echo &quot;Uva encontrada!&quot;;
+} else {
+    echo &quot;Uva não encontrada!&quot;;
+}</code></pre><p id="3fbf6ce8-497f-8078-94ee-c1c07b1e4ca0" class="" dir="auto">Resultado:</p><pre id="3fbf6ce8-497f-80f8-b262-f610b29afbb6" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Uva não encontrada!</code></pre><hr id="3fbf6ce8-497f-809d-9a0b-fbaa8f7fb768" dir="auto"/><h1 id="3fbf6ce8-497f-8011-8817-c50486e7b37c" class="" dir="auto">2. Pesquisa com <code>in_array()</code> e tipos</h1><p id="3fbf6ce8-497f-8043-9db9-c6e88d411467" class="" dir="auto">Por padrão, <code>in_array()</code> não exige que o tipo seja exatamente igual.</p><p id="3fbf6ce8-497f-8072-a015-ea59b91c6cf4" class="" dir="auto">Por exemplo:</p><pre id="3fbf6ce8-497f-80fa-bf38-c551d85c493b" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">$numeros = [10, 20, 30];
+
+var_dump(in_array(&quot;10&quot;, $numeros));</code></pre><p id="3fbf6ce8-497f-800b-8a7d-d3e40907da58" class="" dir="auto">Dependendo da comparação não estrita, valores de tipos diferentes podem ser considerados equivalentes.</p><p id="3fbf6ce8-497f-80ea-b079-cd88418b212c" class="" dir="auto">Para exigir que <strong>valor e tipo sejam iguais</strong>, utilizamos o terceiro parâmetro <code>true</code>:</p><pre id="3fbf6ce8-497f-80cf-ac4f-ff3ea65d8fe6" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">$numeros = [10, 20, 30];
+
+var_dump(in_array(&quot;10&quot;, $numeros, true));</code></pre><p id="3fbf6ce8-497f-8072-a94e-e7dac23656d7" class="" dir="auto">Resultado:</p><pre id="3fbf6ce8-497f-809e-8a5a-ec33797f18fd" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">bool(false)</code></pre><p id="3fbf6ce8-497f-808e-824b-dd84a043ac2e" class="" dir="auto">Já:</p><pre id="3fbf6ce8-497f-8026-9a00-ca37037f9013" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">var_dump(in_array(10, $numeros, true));</code></pre><p id="3fbf6ce8-497f-8000-b2e2-e1390e53e498" class="" dir="auto">resultará em:</p><pre id="3fbf6ce8-497f-8061-8da6-e859fd4bbd2b" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">bool(true)</code></pre><h3 id="3fbf6ce8-497f-80a4-bfe3-d31c3390acc8" class="" dir="auto">Boa prática</h3><p id="3fbf6ce8-497f-8027-aa61-f0eb722030b6" class="" dir="auto">Quando o tipo do valor é importante, prefira:</p><pre id="3fbf6ce8-497f-800c-82d6-dddbb9c2b1f3" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">in_array($valor, $array, true);</code></pre><hr id="3fbf6ce8-497f-80a2-ab41-e16e4a49e5bb" dir="auto"/><h1 id="3fbf6ce8-497f-80cd-86ff-c039474a4967" class="" dir="auto">3. <code>array_search()</code></h1><p id="3fbf6ce8-497f-809e-80a7-c9e7814bcc19" class="" dir="auto">Enquanto <code>in_array()</code> responde basicamente:</p><blockquote id="3fbf6ce8-497f-8014-adef-d25f0138d4e7" class="" dir="auto">&quot;Esse valor existe?&quot;</blockquote><p id="3fbf6ce8-497f-8037-971c-fb86c22ec08e" class="" dir="auto"><code>array_search()</code> responde:</p><blockquote id="3fbf6ce8-497f-801f-98e5-e517132e0f70" class="" dir="auto">&quot;Esse valor existe? E em qual posição/chave ele está?&quot;</blockquote><p id="3fbf6ce8-497f-8045-ab46-e1552e1660b1" class="" dir="auto">Exemplo:</p><pre id="3fbf6ce8-497f-80b5-8bb9-cde5fd8378f0" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">$frutas = [&quot;Maçã&quot;, &quot;Banana&quot;, &quot;Laranja&quot;];
+
+$posicao = array_search(&quot;Banana&quot;, $frutas);
+
+echo $posicao;</code></pre><p id="3fbf6ce8-497f-80bd-9b2a-fdcc3e299e25" class="" dir="auto">Resultado:</p><pre id="3fbf6ce8-497f-80c5-99eb-c2085536e66e" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">1</code></pre><p id="3fbf6ce8-497f-8017-adde-deadc837b44a" class="" dir="auto">Isso acontece porque:</p><pre id="3fbf6ce8-497f-801b-85eb-ddfcf822c011" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Índice    Valor
+  0       Maçã
+  1       Banana
+  2       Laranja</code></pre><p id="3fbf6ce8-497f-80cd-8eba-ec3c05511637" class="" dir="auto">Portanto, <code>&quot;Banana&quot;</code> está no índice <code>1</code>.</p><hr id="3fbf6ce8-497f-80ce-ad5e-d479d3235ef6" dir="auto"/><h1 id="3fbf6ce8-497f-80f3-873e-c31d636647c7" class="" dir="auto">4. Verificando o resultado de <code>array_search()</code></h1><p id="3fbf6ce8-497f-807c-b1f6-d39307e748b7" class="" dir="auto">Podemos utilizar <code>if</code>:</p><pre id="3fbf6ce8-497f-80c6-80ea-eb461df5e4e2" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">$frutas = [&quot;Maçã&quot;, &quot;Banana&quot;, &quot;Laranja&quot;];
+
+$posicao = array_search(&quot;Banana&quot;, $frutas);
+
+if ($posicao !== false) {
+    echo &quot;Encontrado na posição: &quot; . $posicao;
+} else {
+    echo &quot;Não encontrado&quot;;
+}</code></pre><p id="3fbf6ce8-497f-808d-bfc1-f5c51bdddc23" class="" dir="auto">Resultado:</p><pre id="3fbf6ce8-497f-80a3-b750-de5c91d92a8a" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Encontrado na posição: 1</code></pre><h3 id="3fbf6ce8-497f-8084-b4b2-d887f7c805db" class="" dir="auto">⚠️ Um detalhe importante</h3><p id="3fbf6ce8-497f-80b8-b0fe-cfe3fc579093" class="" dir="auto"><code>array_search()</code> retorna <code>false</code> quando não encontra o valor.</p><p id="3fbf6ce8-497f-801b-a2a7-c8baff789383" class="" dir="auto">Porém, <code><strong>0</strong></code><strong> também é uma posição válida</strong>:</p><pre id="3fbf6ce8-497f-801d-beda-e8fb7f102ef9" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">$frutas = [&quot;Maçã&quot;, &quot;Banana&quot;, &quot;Laranja&quot;];
+
+$posicao = array_search(&quot;Maçã&quot;, $frutas);</code></pre><p id="3fbf6ce8-497f-80de-bd52-ea127cba1ce1" class="" dir="auto">O resultado será:</p><pre id="3fbf6ce8-497f-8003-82ae-c6d3503c9078" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">0</code></pre><p id="3fbf6ce8-497f-8075-9e36-cc8653970056" class="" dir="auto">Por isso, não é recomendado fazer:</p><pre id="3fbf6ce8-497f-808f-834b-f841e004a9c3" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">if ($posicao) {
+    // ...
+}</code></pre><p id="3fbf6ce8-497f-802f-8652-de5addda3fe3" class="" dir="auto">Porque <code>0</code> é considerado falso em uma condição.</p><p id="3fbf6ce8-497f-806a-98bf-d2d829a51fdf" class="" dir="auto">Prefira:</p><pre id="3fbf6ce8-497f-80db-8467-d181655847e2" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">if ($posicao !== false) {
+    // encontrado
+}</code></pre><hr id="3fbf6ce8-497f-8097-b3d1-dcea111c4b1b" dir="auto"/><h1 id="3fbf6ce8-497f-803f-b588-d5ed53dc8747" class="" dir="auto">5. Pesquisa estrita com <code>array_search()</code></h1><p id="3fbf6ce8-497f-807c-bee2-fec822155ee5" class="" dir="auto">Assim como <code>in_array()</code>, podemos utilizar o terceiro parâmetro <code>true</code>:</p><pre id="3fbf6ce8-497f-801c-a929-e0ed6cb4b063" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">$numeros = [10, 20, 30];
+
+$posicao = array_search(&quot;10&quot;, $numeros, true);
+
+var_dump($posicao);</code></pre><p id="3fbf6ce8-497f-80d6-934f-f4c9875af5fa" class="" dir="auto">Resultado:</p><pre id="3fbf6ce8-497f-80ae-baf6-eb63515b36b3" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">bool(false)</code></pre><p id="3fbf6ce8-497f-8036-842d-dca2691c94c3" class="" dir="auto">Porque <code>&quot;10&quot;</code> é uma string, enquanto <code>10</code> é um inteiro.</p><p id="3fbf6ce8-497f-8034-85d5-d67d68f98383" class="" dir="auto">Com:</p><pre id="3fbf6ce8-497f-80e4-9966-f77fbfb135ef" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">$posicao = array_search(10, $numeros, true);</code></pre><p id="3fbf6ce8-497f-8058-8475-c9d347bd60d6" class="" dir="auto">teremos:</p><pre id="3fbf6ce8-497f-8019-b8bc-edb70f6dfef8" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">0</code></pre><hr id="3fbf6ce8-497f-803e-b0cd-f33862f2f036" dir="auto"/><h1 id="3fbf6ce8-497f-80b5-8f70-f8804954e919" class="" dir="auto">6. <code>array_key_exists()</code></h1><p id="3fbf6ce8-497f-8084-a2dd-e4edb99165dc" class="" dir="auto">Enquanto <code>in_array()</code> pesquisa <strong>valores</strong>, <code>array_key_exists()</code> pesquisa <strong>chaves</strong>.</p><p id="3fbf6ce8-497f-80fe-bb6a-ed1dabb91bc2" class="" dir="auto">Considere:</p><pre id="3fbf6ce8-497f-805e-abe1-dc2bba297e9e" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">$usuario = [
+    &quot;nome&quot; =&gt; &quot;Gustavo&quot;,
+    &quot;idade&quot; =&gt; 20,
+    &quot;email&quot; =&gt; &quot;gustavo@email.com&quot;
+];</code></pre><p id="3fbf6ce8-497f-806d-bfdb-fcb5702f05c4" class="" dir="auto">Podemos verificar se a chave <code>&quot;email&quot;</code> existe:</p><pre id="3fbf6ce8-497f-804b-86c7-c9a82886c5fd" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">if (array_key_exists(&quot;email&quot;, $usuario)) {
+    echo &quot;A chave email existe!&quot;;
+}</code></pre><p id="3fbf6ce8-497f-80b0-8045-fb351596b17a" class="" dir="auto">Resultado:</p><pre id="3fbf6ce8-497f-801e-8c24-c9656d5ccdc5" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">A chave email existe!</code></pre><p id="3fbf6ce8-497f-808c-b295-f74689f853a8" class="" dir="auto">Podemos testar outra chave:</p><pre id="3fbf6ce8-497f-8048-a17b-d423d1cb6d7a" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">if (array_key_exists(&quot;telefone&quot;, $usuario)) {
+    echo &quot;Telefone cadastrado&quot;;
+} else {
+    echo &quot;Telefone não cadastrado&quot;;
+}</code></pre><p id="3fbf6ce8-497f-803c-8ba0-ca1ffc843f8b" class="" dir="auto">Resultado:</p><pre id="3fbf6ce8-497f-8031-af04-c7de0c50a691" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Telefone não cadastrado</code></pre><hr id="3fbf6ce8-497f-800a-931f-cc6231679fce" dir="auto"/><h1 id="3fbf6ce8-497f-8089-8c81-eba38547faca" class="" dir="auto">7. <code>array_key_exists()</code> x <code>in_array()</code></h1><p id="3fbf6ce8-497f-80f1-9d6a-dcb37a02a9db" class="" dir="auto">É importante não confundir os dois.</p><p id="3fbf6ce8-497f-8065-89e0-ca30ada67a2b" class="" dir="auto">Considere:</p><pre id="3fbf6ce8-497f-80d7-94dd-c85c6ffe5ea5" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">$usuario = [
+    &quot;nome&quot; =&gt; &quot;Gustavo&quot;,
+    &quot;idade&quot; =&gt; 20
+];</code></pre><h3 id="3fbf6ce8-497f-8012-b23e-ce2e10bc7f1c" class="" dir="auto">Procurando um valor:</h3><pre id="3fbf6ce8-497f-802e-b90a-e558e58e5897" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">in_array(&quot;Gustavo&quot;, $usuario);</code></pre><p id="3fbf6ce8-497f-806b-ad53-d97bce114c48" class="" dir="auto">Estamos perguntando:</p><blockquote id="3fbf6ce8-497f-80a7-a6e2-fb523b251efa" class="" dir="auto">Existe <code>&quot;Gustavo&quot;</code> entre os valores?</blockquote><h3 id="3fbf6ce8-497f-80ab-9743-e7bbaec81d99" class="" dir="auto">Procurando uma chave:</h3><pre id="3fbf6ce8-497f-8087-92d7-e8395c271383" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">array_key_exists(&quot;nome&quot;, $usuario);</code></pre><p id="3fbf6ce8-497f-8061-a1c8-f4eb352e4b81" class="" dir="auto">Estamos perguntando:</p><blockquote id="3fbf6ce8-497f-803f-a29d-c7fd6f4c324c" class="" dir="auto">Existe uma chave chamada <code>&quot;nome&quot;</code>?</blockquote><p id="3fbf6ce8-497f-805f-9bd8-d4c63ebb0803" class="" dir="auto">Portanto:</p><pre id="3fbf6ce8-497f-8081-a103-fed37119abd9" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">in_array()        → pesquisa valores
+array_search()    → pesquisa valores e retorna a chave
+array_key_exists()→ pesquisa chaves</code></pre><hr id="3fbf6ce8-497f-803d-b408-fd491fb7973e" dir="auto"/><h1 id="3fbf6ce8-497f-80e0-adff-e7303ca57de7" class="" dir="auto">8. <code>isset()</code></h1><p id="3fbf6ce8-497f-8032-8f54-dab153484073" class="" dir="auto">Outra forma muito utilizada para verificar se uma chave existe é <code>isset()</code>:</p><pre id="3fbf6ce8-497f-8019-be6a-f2a1775ff552" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">$usuario = [
+    &quot;nome&quot; =&gt; &quot;Gustavo&quot;,
+    &quot;idade&quot; =&gt; 20
+];
+
+if (isset($usuario[&quot;nome&quot;])) {
+    echo &quot;Nome encontrado!&quot;;
+}</code></pre><p id="3fbf6ce8-497f-8020-a249-e1ba446702b6" class="" dir="auto">Resultado:</p><pre id="3fbf6ce8-497f-80a1-ae66-c71913424e13" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Nome encontrado!</code></pre><p id="3fbf6ce8-497f-80d2-a547-f1f890978b5f" class="" dir="auto">Porém, existe uma diferença importante entre <code>isset()</code> e <code>array_key_exists()</code>.</p><hr id="3fbf6ce8-497f-8055-8fff-c4b25107a09a" dir="auto"/><h1 id="3fbf6ce8-497f-8099-969a-fe8c791cac71" class="" dir="auto">9. <code>isset()</code> x <code>array_key_exists()</code></h1><p id="3fbf6ce8-497f-80b7-a9f5-c89f9ade3072" class="" dir="auto">Observe:</p><pre id="3fbf6ce8-497f-8078-ac27-d34f4fa5d8d0" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">$usuario = [
+    &quot;nome&quot; =&gt; null
+];</code></pre><p id="3fbf6ce8-497f-8045-a4f8-f2d4f77d2054" class="" dir="auto">A chave <code>&quot;nome&quot;</code> <strong>existe</strong>, mas seu valor é <code>null</code>.</p><p id="3fbf6ce8-497f-8063-a8f6-e4e24e0f64f6" class="" dir="auto">Com:</p><pre id="3fbf6ce8-497f-809a-aa28-ee56a8c03ac4" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">var_dump(array_key_exists(&quot;nome&quot;, $usuario));</code></pre><p id="3fbf6ce8-497f-80fd-be68-d8f462f7ac44" class="" dir="auto">temos:</p><pre id="3fbf6ce8-497f-80b5-9a8a-d67718458b88" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">bool(true)</code></pre><p id="3fbf6ce8-497f-8012-97ff-cf0da8ee8e10" class="" dir="auto">Mas:</p><pre id="3fbf6ce8-497f-8009-912c-e2ba9e8fe981" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">var_dump(isset($usuario[&quot;nome&quot;]));</code></pre><p id="3fbf6ce8-497f-80b3-8b8f-f44dfaa72495" class="" dir="auto">resulta em:</p><pre id="3fbf6ce8-497f-800d-a2c8-d8065409bbd9" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">bool(false)</code></pre><p id="3fbf6ce8-497f-80d3-9556-faa39dbdd77d" class="" dir="auto">Isso acontece porque <code>isset()</code> verifica se a variável/chave <strong>existe e não possui valor </strong><code><strong>null</strong></code>.</p><p id="3fbf6ce8-497f-804a-b5b2-dc6606605cdc" class="" dir="auto">Portanto:</p><table id="3fbf6ce8-497f-8033-a05d-d38ec00a2c72" class="simple-table" dir="ltr"><thead class="simple-table-header"><tr id="3fbf6ce8-497f-803e-9259-f81ad40d880d" dir="ltr"><th id="cgEl" class="simple-table-header-color simple-table-header">Função</th><th id="kHAR" class="simple-table-header-color simple-table-header">O que verifica</th></tr></thead><tbody><tr id="3fbf6ce8-497f-80bb-a080-c309c81668b6" dir="ltr"><td id="cgEl" class=""><code>in_array()</code></td><td id="kHAR" class="">Se um valor existe</td></tr><tr id="3fbf6ce8-497f-8087-8206-cf85050f5ffc" dir="ltr"><td id="cgEl" class=""><code>array_search()</code></td><td id="kHAR" class="">Valor existe e retorna sua chave</td></tr><tr id="3fbf6ce8-497f-80ed-b7fd-f3774a515754" dir="ltr"><td id="cgEl" class=""><code>array_key_exists()</code></td><td id="kHAR" class="">Se uma chave existe</td></tr><tr id="3fbf6ce8-497f-80a6-afae-e110bf0fd0de" dir="ltr"><td id="cgEl" class=""><code>isset()</code></td><td id="kHAR" class="">Se existe e não é <code>null</code></td></tr></tbody></table><hr id="3fbf6ce8-497f-800c-adcc-f9580b05d46d" dir="auto"/><h1 id="3fbf6ce8-497f-808c-8219-c0229b140fa5" class="" dir="auto">10. Pesquisando em Array Associativo</h1><p id="3fbf6ce8-497f-8020-b96c-ccba315477e9" class="" dir="auto">Imagine uma lista de usuários:</p><pre id="3fbf6ce8-497f-80dd-9547-c754d1ffc5fc" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">$usuarios = [
+    [
+        &quot;id&quot; =&gt; 1,
+        &quot;nome&quot; =&gt; &quot;João&quot;
+    ],
+    [
+        &quot;id&quot; =&gt; 2,
+        &quot;nome&quot; =&gt; &quot;Maria&quot;
+    ],
+    [
+        &quot;id&quot; =&gt; 3,
+        &quot;nome&quot; =&gt; &quot;Pedro&quot;
+    ]
+];</code></pre><p id="3fbf6ce8-497f-80e4-bc08-fef804a393f1" class="" dir="auto">Aqui temos um <strong>array multidimensional associativo</strong>.</p><p id="3fbf6ce8-497f-80a9-80bf-d172d9395bf2" class="" dir="auto">O <code>in_array()</code> não é adequado para perguntar diretamente:</p><blockquote id="3fbf6ce8-497f-806d-9dea-ef8614b7a3f6" class="" dir="auto">Existe algum usuário chamado Maria?</blockquote><p id="3fbf6ce8-497f-80c3-97c8-f320754c3637" class="" dir="auto">Podemos fazer isso percorrendo o array:</p><pre id="3fbf6ce8-497f-80d1-9dad-f3cb91c128a4" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">foreach ($usuarios as $usuario) {
+    if ($usuario[&quot;nome&quot;] === &quot;Maria&quot;) {
+        echo &quot;Usuário encontrado!&quot;;
+    }
+}</code></pre><p id="3fbf6ce8-497f-80dd-aef6-d4faaca3bfc8" class="" dir="auto">Resultado:</p><pre id="3fbf6ce8-497f-8050-ba5b-ee432449e3d8" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Usuário encontrado!</code></pre><p id="3fbf6ce8-497f-80ab-9dca-e984d8442df5" class="" dir="auto">Esse conceito será muito importante quando você começar a trabalhar com <strong>bancos de dados e registros</strong>.</p><hr id="3fbf6ce8-497f-8096-b171-ee98b06231d7" dir="auto"/><h1 id="3fbf6ce8-497f-8086-a03a-de8960a52185" class="" dir="auto">11. Exemplo prático: verificar produto</h1><p id="3fbf6ce8-497f-80ad-8d2c-c6f6355b128d" class="" dir="auto">Imagine um sistema de estoque:</p><pre id="3fbf6ce8-497f-80a7-a51a-eb83751c0e8b" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">$produtos = [
+    &quot;Notebook&quot;,
+    &quot;Mouse&quot;,
+    &quot;Teclado&quot;,
+    &quot;Monitor&quot;
+];
+
+$produto = &quot;Mouse&quot;;
+
+if (in_array($produto, $produtos, true)) {
+    echo &quot;Produto encontrado no estoque.&quot;;
+} else {
+    echo &quot;Produto não encontrado.&quot;;
+}</code></pre><p id="3fbf6ce8-497f-80fd-bb91-d827e2746c8c" class="" dir="auto">Resultado:</p><pre id="3fbf6ce8-497f-806c-8b66-f4cfd2d596f8" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Produto encontrado no estoque.</code></pre><hr id="3fbf6ce8-497f-80b1-ad60-ef8bc4090ce6" dir="auto"/><h1 id="3fbf6ce8-497f-808c-8eb1-e747640d2e5b" class="" dir="auto">12. Exemplo prático: encontrar posição</h1><p id="3fbf6ce8-497f-80db-8d13-c22a28b4d3c4" class="" dir="auto">Podemos descobrir onde um produto está:</p><pre id="3fbf6ce8-497f-801c-9e29-d951088ac000" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">$produtos = [
+    &quot;Notebook&quot;,
+    &quot;Mouse&quot;,
+    &quot;Teclado&quot;,
+    &quot;Monitor&quot;
+];
+
+$produto = &quot;Teclado&quot;;
+
+$posicao = array_search($produto, $produtos, true);
+
+if ($posicao !== false) {
+    echo &quot;Produto encontrado na posição: &quot; . $posicao;
+}</code></pre><p id="3fbf6ce8-497f-800b-9d82-fe93ae826c73" class="" dir="auto">Resultado:</p><pre id="3fbf6ce8-497f-80f2-bc1c-d9c6422f9e92" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Produto encontrado na posição: 2</code></pre><hr id="3fbf6ce8-497f-809e-8fc9-e7dc00d0ef0a" dir="auto"/><h1 id="3fbf6ce8-497f-8002-8d2a-f2e372aade9c" class="" dir="auto">13. Pesquisa em Arrays Associativos</h1><p id="3fbf6ce8-497f-800a-869d-e0aac0c3ad48" class="" dir="auto">Também podemos usar <code>array_search()</code> em arrays associativos.</p><pre id="3fbf6ce8-497f-8030-bc52-e8a88d994122" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">$idades = [
+    &quot;João&quot; =&gt; 20,
+    &quot;Maria&quot; =&gt; 25,
+    &quot;Pedro&quot; =&gt; 30
+];
+
+$chave = array_search(25, $idades, true);
+
+echo $chave;</code></pre><p id="3fbf6ce8-497f-8013-a56c-ee1d7484f380" class="" dir="auto">Resultado:</p><pre id="3fbf6ce8-497f-80a0-b64c-d9c73c34dd03" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Maria</code></pre><p id="3fbf6ce8-497f-8075-ac55-f8b36910bbcf" class="" dir="auto">Aqui:</p><pre id="3fbf6ce8-497f-8035-af93-c1a0231ace6e" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">array_search(25, $idades, true);</code></pre><p id="3fbf6ce8-497f-805b-8c0a-f8f58a4ea3ce" class="" dir="auto">procura o valor <code>25</code> e retorna a chave correspondente:</p><pre id="3fbf6ce8-497f-8044-9cde-c212f7260613" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Maria</code></pre><hr id="3fbf6ce8-497f-803a-9c8a-d32540a0c50a" dir="auto"/><h1 id="3fbf6ce8-497f-80b8-8922-d7111afea6bf" class="" dir="auto">14. Resumo dos métodos</h1><h3 id="3fbf6ce8-497f-8068-8cb1-e19f6d089751" class="" dir="auto"><code>in_array()</code></h3><p id="3fbf6ce8-497f-8073-87e2-c180865e3eac" class="" dir="auto">Procura um <strong>valor</strong>:</p><pre id="3fbf6ce8-497f-807b-9e6a-e08edf67f7a0" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">in_array(&quot;Maria&quot;, $nomes);</code></pre><p id="3fbf6ce8-497f-8015-82a8-c2337bb5eda5" class="" dir="auto">Retorna:</p><pre id="3fbf6ce8-497f-8003-9ab9-f26b63fc3ce4" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">true / false</code></pre><hr id="3fbf6ce8-497f-80f1-b8e0-f7e97d4eaeb6" dir="auto"/><h3 id="3fbf6ce8-497f-8080-906d-cf54cf86b4b0" class="" dir="auto"><code>array_search()</code></h3><p id="3fbf6ce8-497f-8015-8b6c-cbfa7d8c12ef" class="" dir="auto">Procura um <strong>valor</strong> e retorna sua <strong>chave/índice</strong>:</p><pre id="3fbf6ce8-497f-80c9-88c1-ddc0ce70fc44" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">array_search(&quot;Maria&quot;, $nomes);</code></pre><p id="3fbf6ce8-497f-80af-9d89-d06987826274" class="" dir="auto">Retorna, por exemplo:</p><pre id="3fbf6ce8-497f-801f-b7e7-d23ec6aa2b90" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">1</code></pre><p id="3fbf6ce8-497f-80b7-a17a-ce9a5ae8ad55" class="" dir="auto">ou:</p><pre id="3fbf6ce8-497f-80ac-ac57-d903dc4c9ec4" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">false</code></pre><p id="3fbf6ce8-497f-8023-92f7-ebf29c97a1ca" class="" dir="auto">se não encontrar.</p><hr id="3fbf6ce8-497f-806e-888f-ca7b811e2114" dir="auto"/><h3 id="3fbf6ce8-497f-8021-a2d7-da2d57b900db" class="" dir="auto"><code>array_key_exists()</code></h3><p id="3fbf6ce8-497f-8036-804e-e1b6578fadfd" class="" dir="auto">Procura uma <strong>chave</strong>:</p><pre id="3fbf6ce8-497f-803a-8ab0-f44469d7ba47" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">array_key_exists(&quot;email&quot;, $usuario);</code></pre><p id="3fbf6ce8-497f-8045-a596-dce3a1f667ec" class="" dir="auto">Retorna:</p><pre id="3fbf6ce8-497f-801c-aa0f-e11361ffee33" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">true / false</code></pre><hr id="3fbf6ce8-497f-80b2-85e9-ef561b3bcc5f" dir="auto"/><h3 id="3fbf6ce8-497f-80ad-b18e-f20c0131ee44" class="" dir="auto"><code>isset()</code></h3><p id="3fbf6ce8-497f-80d3-a663-f6f6132a5878" class="" dir="auto">Verifica se uma chave/variável existe e <strong>não é </strong><code><strong>null</strong></code>:</p><pre id="3fbf6ce8-497f-8095-9268-ee98d84d346c" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">isset($usuario[&quot;email&quot;]);</code></pre><p id="3fbf6ce8-497f-803d-97a2-d88eec0df7f8" class="" dir="auto">Retorna:</p><pre id="3fbf6ce8-497f-8092-b235-d6f2b1f342b4" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">true / false</code></pre><hr id="3fbf6ce8-497f-80c7-80eb-fae847d4d632" dir="auto"/><h2 id="3fbf6ce8-497f-8017-9e89-f0805fd7160c" class="" dir="auto">🧠 O mais importante para memorizar</h2><p id="3fbf6ce8-497f-8013-a919-cea9552b64c7" class="" dir="auto">Pense nas perguntas que você quer fazer ao array:</p><pre id="3fbf6ce8-497f-805e-bad7-c783282bdc10" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">&quot;Esse VALOR existe?&quot;
+        ↓
+    in_array()
+
+
+&quot;Esse VALOR existe e onde está?&quot;
+        ↓
+    array_search()
+
+
+&quot;Essa CHAVE existe?&quot;
+        ↓
+    array_key_exists()
+
+
+&quot;Essa CHAVE existe e não é null?&quot;
+        ↓
+       isset()</code></pre><p id="3fbf6ce8-497f-8098-b092-d652bbacdf0b" class="" dir="auto">Essas funções formam a base da <strong>pesquisa de dados em arrays no PHP</strong>. Conforme você avançar, elas serão muito úteis em conjunto com <code>foreach</code>, arrays associativos, formulários, banco de dados e APIs.</p></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>
