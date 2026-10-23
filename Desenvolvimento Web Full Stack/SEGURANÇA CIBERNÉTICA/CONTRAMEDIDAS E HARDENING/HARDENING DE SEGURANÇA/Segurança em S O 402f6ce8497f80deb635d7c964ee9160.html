@@ -1,0 +1,845 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Segurança em S.O.</title><meta name="data-notion-page-icon" content="/icons/lock_blue.svg"/><link rel="icon" href="https://app.notion.com/icons/lock_blue.svg"/><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+	/* Paint a complete callout box on every PDF page fragment. */
+	-webkit-box-decoration-break: clone;
+	box-decoration-break: clone;
+}
+
+/* For default-background callouts, render the border outline. */
+.callout.block-color-default_background {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+/*
+ * Toggles and callouts hold arbitrary content, so they can easily be taller
+ * than a page. They must stay breakable: avoiding breaks inside them makes
+ * Chromium push the whole block onto the next page, which leaves the previous
+ * page mostly empty before every long toggle.
+ */
+details,
+aside {
+	margin: 1.25em 0;
+}
+
+/* Keep a toggle's title on the same page as the start of its content. */
+summary {
+	page-break-after: avoid;
+	break-after: avoid;
+}
+
+/*
+ * Toggle headings render as <h1/h2/h3 style="display:inline-block"> inside
+ * <summary>. Without this reset, the heading's margin-top pushes it below the
+ * ::marker (▼), so the triangle and the title appear on separate lines.
+ */
+summary h1,
+summary h2,
+summary h3,
+summary h4 {
+	margin-top: 0;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding-inline: 0.125rem;
+	padding-block: 0.375rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+/*
+ * Render emoji icons using a ::before pseudo-element to keep the glyph
+ * out of the DOM textContent traversal. This avoids double-rendering icons
+ * in callouts and page titles.
+ * NOTE(slim/html-export-pseudo-icons): I can't tagref this because it will
+ * flag as a duplicate tag after codegen.
+ */
+.icon[data-emoji]::before {
+	content: attr(data-emoji);
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	margin-right: 0.4em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.tab {
+	margin: 1.25em 0;
+	padding-inline: 1rem;
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style><style>@import url('https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex-swap.min.css')</style></head><body><article id="402f6ce8-497f-80de-b635-d7c964ee9160" class="page sans" data-notion-page-icon="/icons/lock_blue.svg"><header><div class="page-header-icon undefined"><img class="icon notion-static-icon" src="https://app.notion.com/icons/lock_blue.svg"/></div><h1 class="page-title" dir="auto">Segurança em S.O.</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><h1 id="402f6ce8-497f-807d-89bb-e61b8f62b4ad" class="" dir="auto">Segurança em Sistemas Operacionais</h1><p id="402f6ce8-497f-802a-a631-ef9380b7407d" class="" dir="auto">A segurança em sistemas operacionais é o conjunto de mecanismos, configurações e práticas utilizados para proteger um sistema operacional contra acessos não autorizados, malwares, exploração de vulnerabilidades, roubo de informações e outras ameaças.</p><p id="402f6ce8-497f-800a-b921-c96ce2325815" class="" dir="auto">O sistema operacional é responsável por administrar os recursos de um computador, incluindo processador, memória, arquivos, dispositivos e aplicações. Por isso, sua segurança é fundamental para proteger todo o ambiente computacional.</p><p id="402f6ce8-497f-8088-a3c4-f290b4cae102" class="" dir="auto">Entre os principais sistemas operacionais estão:</p><ul id="402f6ce8-497f-8080-a6d8-d509a9eac8c1" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Windows: muito utilizado em computadores pessoais e ambientes corporativos.</li></ul><ul id="402f6ce8-497f-80ef-aaff-d99b6d5c431c" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Linux: utilizado em servidores, computadores, dispositivos embarcados e infraestrutura de nuvem.</li></ul><ul id="402f6ce8-497f-805c-90bc-e34face5acf0" class="bulleted-list" dir="auto"><li style="list-style-type:disc">macOS: sistema operacional dos computadores Apple.</li></ul><ul id="402f6ce8-497f-80a8-8661-d831a0021a40" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Android e iOS: sistemas operacionais para dispositivos móveis.</li></ul><p id="402f6ce8-497f-80e9-8e6d-e0b6f3d70604" class="" dir="auto">Todos possuem mecanismos de segurança, mas precisam ser configurados, atualizados e utilizados corretamente.</p><h2 id="402f6ce8-497f-8057-8ba8-f59a09066c7b" class="" dir="auto">1. Por que a segurança do sistema operacional é importante?</h2><p id="402f6ce8-497f-80a1-bb00-e3787c1dea79" class="" dir="auto">O sistema operacional funciona como uma camada intermediária entre o hardware, as aplicações e o usuário.</p><p id="402f6ce8-497f-80a5-bcf5-f0b3bc079cf8" class="" dir="auto">Usuários e aplicações</p><p id="402f6ce8-497f-808b-af37-e382595fa0c2" class="" dir="auto">Sistema operacional</p><p id="402f6ce8-497f-80af-ac05-f2052446b88e" class="" dir="auto">Permissões, processos, memória e arquivos</p><p id="402f6ce8-497f-805b-828f-ef7226cfef55" class="" dir="auto">Hardware</p><p id="402f6ce8-497f-804d-9fce-ffc629ede597" class="" dir="auto">CPU, RAM, armazenamento e dispositivos</p><p id="402f6ce8-497f-807e-a1f7-f6a474f9d14c" class="" dir="auto">Se um invasor conseguir comprometer o sistema operacional, poderá tentar obter acesso a arquivos, credenciais, aplicações e recursos da máquina.</p><p id="402f6ce8-497f-800f-ab48-c5643cbc9bc0" class="" dir="auto">Por isso, a segurança do sistema operacional busca garantir três objetivos principais:</p><ul id="402f6ce8-497f-8072-80a4-daf81d38840f" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Confidencialidade: impedir que pessoas não autorizadas acessem informações.</li></ul><ul id="402f6ce8-497f-8032-81eb-c84f388b1d53" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Integridade: evitar alterações indevidas em arquivos, configurações e dados.</li></ul><ul id="402f6ce8-497f-8075-842f-f5068a64e5bb" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Disponibilidade: garantir que o sistema e seus recursos estejam acessíveis quando necessário.</li></ul><p id="402f6ce8-497f-8090-8a33-d16d7f652e4b" class="" dir="auto">Esses três objetivos formam a conhecida tríade CID — Confidencialidade, Integridade e Disponibilidade.</p><h2 id="402f6ce8-497f-80c6-b627-e6066923ed9b" class="" dir="auto">2. Principais ameaças aos sistemas operacionais</h2><p id="402f6ce8-497f-80ac-810a-e75946b53c24" class="" dir="auto">Os sistemas operacionais podem ser afetados por diferentes tipos de ameaças.</p><table id="402f6ce8-497f-80dd-a9fe-d8d840257b72" class="simple-table" dir="ltr"><thead class="simple-table-header"><tr id="402f6ce8-497f-80b1-81e7-ca827491c05c" dir="ltr"><th id="~ykS" class="simple-table-header-color simple-table-header">Ameaça</th><th id="N]zr" class="simple-table-header-color simple-table-header">Descrição</th></tr></thead><tbody><tr id="402f6ce8-497f-808d-b4f8-dde9cea16145" dir="ltr"><td id="~ykS" class="">Malware</td><td id="N]zr" class="">Software malicioso, como vírus, ransomware e spyware.</td></tr><tr id="402f6ce8-497f-807f-a8cf-e7f77c65a37f" dir="ltr"><td id="~ykS" class="">Acesso não autorizado</td><td id="N]zr" class="">Entrada no sistema sem permissão legítima.</td></tr><tr id="402f6ce8-497f-8022-8081-d041392cd028" dir="ltr"><td id="~ykS" class="">Exploração de vulnerabilidades</td><td id="N]zr" class="">Abuso de falhas existentes no sistema ou em seus componentes.</td></tr><tr id="402f6ce8-497f-804a-8bfc-da2971fe60d1" dir="ltr"><td id="~ykS" class="">Escalada de privilégios</td><td id="N]zr" class="">Obtenção de permissões superiores às autorizadas.</td></tr><tr id="402f6ce8-497f-8017-a5d2-e9439cfd35da" dir="ltr"><td id="~ykS" class="">Roubo de credenciais</td><td id="N]zr" class="">Obtenção de senhas, tokens ou outras informações de autenticação.</td></tr><tr id="402f6ce8-497f-80d7-aa54-c30d33a387e4" dir="ltr"><td id="~ykS" class="">Ataques de força bruta</td><td id="N]zr" class="">Tentativas repetidas de descobrir credenciais.</td></tr><tr id="402f6ce8-497f-80ef-a39d-f17cd23a9832" dir="ltr"><td id="~ykS" class="">Negação de serviço</td><td id="N]zr" class="">Consumo de recursos que prejudica a disponibilidade do sistema.</td></tr><tr id="402f6ce8-497f-80af-a2c3-e302317d485a" dir="ltr"><td id="~ykS" class="">Configuração insegura</td><td id="N]zr" class="">Configurações que deixam o sistema mais exposto a ataques.</td></tr></tbody></table><h3 id="402f6ce8-497f-80f3-b4f0-dc5e85fd17f0" class="" dir="auto">Exemplo de ameaça</h3><p id="402f6ce8-497f-802c-b7e4-fce16f55f866" class="" dir="auto">Imagine que um computador esteja utilizando uma versão desatualizada do sistema operacional.</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="402f6ce8-497f-8050-bd1e-c8eca61e9fe2" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Sistema desatualizado
+        ↓
+Vulnerabilidade conhecida
+        ↓
+Possível exploração
+        ↓
+Acesso indevido ou comprometimento</code></pre><p id="402f6ce8-497f-8079-8fc3-ec8d3d0a7f9b" class="" dir="auto">A atualização do sistema pode corrigir a vulnerabilidade e reduzir o risco de exploração.</p><h2 id="402f6ce8-497f-8082-a1fa-f9a03622df68" class="" dir="auto">3. Controle de acesso e permissões</h2><p id="402f6ce8-497f-808f-8a57-e39557b684fd" class="" dir="auto">Um dos mecanismos mais importantes de segurança é o controle de acesso.</p><p id="402f6ce8-497f-80bf-b4ac-e45c0ad67f8f" class="" dir="auto">Ele determina quem pode acessar determinado recurso e quais operações pode realizar.</p><p id="402f6ce8-497f-8040-9de3-d2eac42667d3" class="" dir="auto">Por exemplo, um usuário pode ter permissão para ler um documento, mas não para modificá-lo ou excluí-lo.</p><p id="402f6ce8-497f-807e-af54-fe0638d17332" class="" dir="auto">As permissões normalmente envolvem operações como:</p><ul id="402f6ce8-497f-80e7-a125-fabc01513ad3" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Leitura;</li></ul><ul id="402f6ce8-497f-8084-8860-ee9f0fc165a5" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Escrita;</li></ul><ul id="402f6ce8-497f-8021-aed8-f57d126e4772" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Execução;</li></ul><ul id="402f6ce8-497f-807a-a08c-e7fec935e799" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Criação;</li></ul><ul id="402f6ce8-497f-8067-af56-e08d7fe9301d" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Exclusão;</li></ul><ul id="402f6ce8-497f-8073-9212-d8bc3c33cf3b" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Alteração de configurações administrativas.</li></ul><h3 id="402f6ce8-497f-80e8-ad70-c57f87164c13" class="" dir="auto">Usuário comum e administrador</h3><p id="402f6ce8-497f-80ae-a874-ee4651e71119" class="" dir="auto">Em sistemas como Windows e Linux, existem diferentes níveis de privilégio.</p><p id="402f6ce8-497f-8014-b131-dff561260686" class="" dir="auto">Usuário comum: possui permissões limitadas e normalmente não pode modificar configurações críticas do sistema.</p><p id="402f6ce8-497f-8028-8e9d-d1f47ef8e26c" class="" dir="auto">Administrador: pode realizar operações que afetam todo o sistema, como instalar determinados programas, alterar configurações e administrar usuários.</p><p id="402f6ce8-497f-80b5-89e3-d1d67040d963" class="" dir="auto">No Linux, a conta administrativa tradicional é <code>root</code>. O comando <code>sudo</code> permite executar operações específicas com privilégios elevados, conforme as permissões configuradas.</p><p id="402f6ce8-497f-809f-b408-d09009b0716d" class="" dir="auto">Exemplo:</p><pre id="402f6ce8-497f-80f5-b887-ef3b1c91faf4" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">sudo apt update</code></pre><p id="402f6ce8-497f-80d6-b8f9-ea3116e659eb" class="" dir="auto">Esse comando solicita a atualização da lista de pacotes em sistemas baseados em Debian, utilizando privilégios administrativos.</p><p id="402f6ce8-497f-80a7-becc-c2a0fbc6253b" class="" dir="auto">Boa prática: utilizar uma conta comum nas atividades diárias e elevar os privilégios somente quando necessário.</p><h2 id="402f6ce8-497f-8085-8e64-daee5b69bcc0" class="" dir="auto">4. Autenticação e gerenciamento de senhas</h2><p id="402f6ce8-497f-8009-b3a8-e2cba644b82d" class="" dir="auto">A autenticação é o processo utilizado para verificar a identidade de um usuário ou dispositivo.</p><p id="402f6ce8-497f-800a-a7b5-e8ecc8faaf05" class="" dir="auto">Os mecanismos mais comuns incluem:</p><ul id="402f6ce8-497f-8066-a6a5-f7231b4d622b" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Senhas;</li></ul><ul id="402f6ce8-497f-80e3-a5b7-ca976c7d78a5" class="bulleted-list" dir="auto"><li style="list-style-type:disc">PINs;</li></ul><ul id="402f6ce8-497f-80b1-a996-fe6fa4afb50e" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Biometria;</li></ul><ul id="402f6ce8-497f-806c-964b-d18f8bc19528" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Chaves de segurança;</li></ul><ul id="402f6ce8-497f-8067-9757-e04d220d72ee" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Certificados digitais;</li></ul><ul id="402f6ce8-497f-80f8-b58a-cdaa2b95fd50" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Autenticação multifator (MFA).</li></ul><h3 id="402f6ce8-497f-80f7-a036-c7155ebc22cd" class="" dir="auto">Boas práticas para senhas</h3><p id="402f6ce8-497f-8019-8bc7-e7ffb2c9eb0f" class="" dir="auto">Uma senha segura deve ser difícil de adivinhar e não deve ser reutilizada em diversos serviços.</p><p id="402f6ce8-497f-80be-9079-cdb2b68e4ba1" class="" dir="auto">Recomenda-se:</p><ul id="402f6ce8-497f-80ae-8eb4-d6b724acff70" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Utilizar senhas longas e exclusivas.</li></ul><ul id="402f6ce8-497f-80b6-8773-fd9b956b145f" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Evitar informações pessoais previsíveis.</li></ul><ul id="402f6ce8-497f-803c-94fa-ff248fb3cfe6" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Utilizar um gerenciador de senhas confiável.</li></ul><ul id="402f6ce8-497f-8093-bb90-f022af88b313" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Ativar MFA quando disponível.</li></ul><ul id="402f6ce8-497f-8001-9d67-f95ff299c92b" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Bloquear ou proteger o dispositivo quando estiver sem supervisão.</li></ul><p id="402f6ce8-497f-8010-a74b-e6556a5d2c37" class="" dir="auto">A autenticação multifator adiciona uma camada de proteção, pois exige mais de uma evidência de identidade.</p><p id="402f6ce8-497f-80e3-9fff-f2309566efc5" class="" dir="auto">Por exemplo:</p><pre id="402f6ce8-497f-807a-ba52-e2ee3cc6d714" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Senha correta
+     +
+Segundo fator de autenticação
+     ↓
+Acesso autorizado</code></pre><p id="402f6ce8-497f-80a7-ae0e-f960fa590278" class="" dir="auto">A MFA não elimina todos os riscos, mas dificulta diversos ataques baseados exclusivamente no roubo de senhas.</p><h2 id="402f6ce8-497f-808a-8e1c-eda460fb5002" class="" dir="auto">5. Atualizações e gerenciamento de vulnerabilidades</h2><p id="402f6ce8-497f-803b-aaaa-ef2cc5940f07" class="" dir="auto">Manter o sistema operacional atualizado é uma das medidas de segurança mais importantes.</p><p id="402f6ce8-497f-8006-8d91-c2754c0736eb" class="" dir="auto">Fabricantes publicam atualizações que podem corrigir:</p><ul id="402f6ce8-497f-8063-a7bc-d3b895597c68" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Falhas de segurança;</li></ul><ul id="402f6ce8-497f-8048-a460-e3f4087e2d49" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Erros de funcionamento;</li></ul><ul id="402f6ce8-497f-805b-b485-f0dddd180892" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Vulnerabilidades em componentes;</li></ul><ul id="402f6ce8-497f-805e-a8ad-ff624079423f" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Problemas de estabilidade;</li></ul><ul id="402f6ce8-497f-8087-b924-f5c31fe7ceee" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Falhas em drivers e serviços.</li></ul><p id="402f6ce8-497f-801b-a41c-e6d3871a85f6" class="" dir="auto">Um sistema sem atualizações pode continuar vulnerável a falhas já conhecidas publicamente.</p><h3 id="402f6ce8-497f-80e5-b79c-fe5c2b0fc981" class="" dir="auto">Exemplo</h3><pre id="402f6ce8-497f-809f-849d-d0913b1cbd60" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Sistema antigo
+      ↓
+Falha de segurança conhecida
+      ↓
+Atualização disponibilizada
+      ↓
+Correção instalada
+      ↓
+Redução do risco</code></pre><p id="402f6ce8-497f-803f-bccf-d2e7b9c32047" class="" dir="auto">Além do sistema operacional, é necessário atualizar aplicações, navegadores, drivers, ferramentas de segurança e outros componentes.</p><p id="402f6ce8-497f-80f0-ab40-de1f10c90ae4" class="" dir="auto">Também é importante observar o fim do suporte de uma versão. Um sistema que não recebe mais atualizações de segurança pode exigir migração para uma versão suportada.</p><h2 id="402f6ce8-497f-8004-a9e6-cf69853acf9f" class="" dir="auto">6. Firewall e proteção de rede</h2><p id="402f6ce8-497f-8021-82b9-fa421e3c7715" class="" dir="auto">O firewall é um mecanismo que controla o tráfego de rede com base em regras.</p><p id="402f6ce8-497f-80fc-8bbb-ef5ba20d158c" class="" dir="auto">Ele pode permitir ou bloquear comunicações de acordo com fatores como endereço IP, porta, protocolo, direção do tráfego e estado da conexão.</p><p id="402f6ce8-497f-80cc-a888-e3d85e160901" class="" dir="auto">Por exemplo:</p><pre id="402f6ce8-497f-80cc-9cc7-f548be16fa6c" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Conexão de rede
+       ↓
+    Firewall
+       ↓
+Avaliação das regras
+       ↓
+Permitir ou bloquear</code></pre><p id="402f6ce8-497f-80ff-926d-e93f9934585a" class="" dir="auto">O firewall pode ajudar a reduzir a exposição de serviços e conexões indesejadas.</p><p id="402f6ce8-497f-8006-b98b-f26d1be0b2ca" class="" dir="auto">Nos sistemas operacionais, existem soluções como:</p><ul id="402f6ce8-497f-80cf-8602-c9cd25a29206" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Windows Defender Firewall;</li></ul><ul id="402f6ce8-497f-8060-8d9c-ea934f2b14b0" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><code>nftables</code> e <code>iptables</code> em ambientes Linux;</li></ul><ul id="402f6ce8-497f-80b6-99dc-ffbb281c445e" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Firewalls integrados a outros sistemas operacionais e plataformas.</li></ul><p id="402f6ce8-497f-8071-a28a-db48daf6684e" class="" dir="auto">Entretanto, um firewall não substitui as atualizações, o controle de acesso ou a proteção contra malware.</p><h2 id="402f6ce8-497f-808d-a6a9-d175f3726543" class="" dir="auto">7. Antivírus e proteção contra malware</h2><p id="402f6ce8-497f-80a0-af1b-cbfa107cb3c5" class="" dir="auto">Malwares são programas desenvolvidos para realizar atividades maliciosas, como roubar informações, espionar usuários, destruir dados ou permitir acesso remoto indevido.</p><p id="402f6ce8-497f-806f-a3fb-d985813199eb" class="" dir="auto">Entre os principais tipos estão:</p><ul id="402f6ce8-497f-80aa-8dd3-f1b4a0427cd0" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Vírus: infecta arquivos ou programas e pode se propagar quando eles são executados.</li></ul><ul id="402f6ce8-497f-80a2-b082-c74f886d9bba" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Worm: pode se propagar entre sistemas ou redes.</li></ul><ul id="402f6ce8-497f-8033-a141-fb39a432f3ef" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Trojan: disfarça-se de software legítimo para enganar o usuário.</li></ul><ul id="402f6ce8-497f-80ff-82bc-ce6eeb1400ae" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Ransomware: pode criptografar arquivos e exigir pagamento para tentar liberá-los.</li></ul><ul id="402f6ce8-497f-80cf-a1a1-c1f99fdf6b6f" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Spyware: coleta informações sem autorização.</li></ul><ul id="402f6ce8-497f-802c-a0e6-d0a0e3691899" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Rootkit: tenta ocultar atividades maliciosas e manter privilégios elevados ou persistência.</li></ul><p id="402f6ce8-497f-80a6-8e1e-ec707f9aaaff" class="" dir="auto">Ferramentas antimalware ajudam a detectar, bloquear e remover ameaças.</p><p id="402f6ce8-497f-80c7-810c-c254e8c84aa2" class="" dir="auto">No Windows, por exemplo, existe o Microsoft Defender Antivirus. Em ambientes corporativos, soluções EDR também podem monitorar atividades suspeitas e auxiliar na investigação e resposta a incidentes.</p><p id="402f6ce8-497f-80c8-b0b5-c3247341c28a" class="" dir="auto">Nenhuma ferramenta oferece proteção absoluta. Por isso, ela deve ser combinada com atualizações, backups, permissões adequadas e comportamento seguro do usuário.</p><h2 id="402f6ce8-497f-8019-8fc9-efd853ca4f72" class="" dir="auto">8. Proteção de arquivos e diretórios</h2><p id="402f6ce8-497f-80f8-9697-c204ef71ad9a" class="" dir="auto">O sistema operacional controla quem pode acessar arquivos e pastas.</p><p id="402f6ce8-497f-800d-b564-c49f09b421fa" class="" dir="auto">No Linux, por exemplo, as permissões tradicionais são:</p><ul id="402f6ce8-497f-8014-86a2-d6da4f99b276" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><code>r</code> — leitura (read);</li></ul><ul id="402f6ce8-497f-8049-936b-e71384561161" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><code>w</code> — escrita (write);</li></ul><ul id="402f6ce8-497f-80f6-989d-e099f5d6eb92" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><code>x</code> — execução (execute).</li></ul><p id="402f6ce8-497f-80de-aaef-e64e8b804b56" class="" dir="auto">Um exemplo:</p><pre id="402f6ce8-497f-809d-bb0b-d6fd6ba1d19a" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">ls -l arquivo.txt</code></pre><p id="402f6ce8-497f-8004-a899-c01818fe9ccc" class="" dir="auto">A saída pode apresentar algo como:</p><pre id="402f6ce8-497f-802b-b59a-cc1fc632f929" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">-rw-r----- 1 usuario grupo 1200 arquivo.txt</code></pre><p id="402f6ce8-497f-801c-90a3-ef25024461ce" class="" dir="auto">Nesse exemplo, as permissões indicam:</p><ul id="402f6ce8-497f-80c4-bbb2-d07e6690e387" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Proprietário: leitura e escrita.</li></ul><ul id="402f6ce8-497f-80e2-b3f9-f038ecc41afa" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Grupo: leitura.</li></ul><ul id="402f6ce8-497f-8041-9f89-cb4f6670d97e" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Outros usuários: nenhuma permissão.</li></ul><p id="402f6ce8-497f-80d2-83c4-def382661d30" class="" dir="auto">O comando <code>chmod</code> pode modificar permissões, enquanto <code>chown</code> pode alterar o proprietário e o grupo de um arquivo, conforme as permissões do sistema.</p><h3 id="402f6ce8-497f-80c5-becc-d379e224ab5c" class="" dir="auto">Princípio do menor privilégio</h3><p id="402f6ce8-497f-80de-acf1-d4000f2af02c" class="" dir="auto">Cada usuário ou aplicação deve receber somente as permissões necessárias para executar suas funções.</p><p id="402f6ce8-497f-804a-955e-e7911b5702b8" class="" dir="auto">Por exemplo, uma aplicação que apenas consulta determinados arquivos não deveria ter permissão irrestrita para alterar todo o sistema.</p><p id="402f6ce8-497f-80d3-9395-d2a55c7f3f9e" class="" dir="auto">Isso reduz os danos que podem ocorrer caso a conta ou a aplicação seja comprometida.</p><h2 id="402f6ce8-497f-80e2-b266-e6846ec986dd" class="" dir="auto">9. Criptografia e proteção dos dados</h2><p id="402f6ce8-497f-80e3-afcc-dc39d79518d5" class="" dir="auto">A criptografia ajuda a proteger informações contra acesso não autorizado.</p><p id="402f6ce8-497f-8071-9ffa-d139e7e85054" class="" dir="auto">Nos sistemas operacionais, ela pode ser aplicada a arquivos, discos inteiros, dispositivos removíveis e comunicações.</p><p id="402f6ce8-497f-80ad-820e-f3f966032a4b" class="" dir="auto">Exemplos:</p><ul id="402f6ce8-497f-80b8-9117-db675ded4509" class="bulleted-list" dir="auto"><li style="list-style-type:disc">BitLocker, em edições compatíveis do Windows;</li></ul><ul id="402f6ce8-497f-80c7-ad93-f28e12e40c05" class="bulleted-list" dir="auto"><li style="list-style-type:disc">FileVault, no macOS;</li></ul><ul id="402f6ce8-497f-8095-b7a4-dd3a5591da21" class="bulleted-list" dir="auto"><li style="list-style-type:disc">LUKS, em sistemas Linux;</li></ul><ul id="402f6ce8-497f-8040-9b8f-d38a864ab191" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Criptografia de dispositivos móveis.</li></ul><h3 id="402f6ce8-497f-80ae-b6ed-d809726b20b4" class="" dir="auto">Criptografia de disco</h3><p id="402f6ce8-497f-80e0-84c3-f2967e076504" class="" dir="auto">Sem criptografia, uma pessoa com acesso físico ao dispositivo pode, dependendo das condições e das proteções existentes, tentar acessar os dados armazenados.</p><p id="402f6ce8-497f-8044-855a-d79d59806326" class="" dir="auto">Com a criptografia de disco, os dados permanecem protegidos quando o dispositivo está desligado ou bloqueado, desde que as chaves estejam adequadamente protegidas.</p><pre id="402f6ce8-497f-8030-b5db-f182de2d6d5c" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Dados originais
+      ↓
+Criptografia + chave
+      ↓
+Dados protegidos
+      ↓
+Desbloqueio autorizado
+      ↓
+Dados acessíveis</code></pre><p id="402f6ce8-497f-80ab-94f1-efc6da10d9e9" class="" dir="auto">A criptografia não substitui senhas fortes, proteção contra malware ou backups. Além disso, se o dispositivo estiver desbloqueado e comprometido, os dados ainda poderão estar acessíveis a um invasor.</p><h2 id="402f6ce8-497f-80ee-ba3f-e15b9decff06" class="" dir="auto">10. Inicialização segura (Secure Boot)</h2><p id="402f6ce8-497f-8021-97a2-c44fbac2a452" class="" dir="auto">O Secure Boot é um mecanismo de segurança presente em plataformas compatíveis com UEFI.</p><p id="402f6ce8-497f-8015-9cb6-f2dddb643e72" class="" dir="auto">Seu objetivo é ajudar a verificar se os componentes executados durante a inicialização correspondem a componentes confiáveis, de acordo com as políticas e chaves configuradas.</p><p id="402f6ce8-497f-80fd-b098-feb270d90ec6" class="" dir="auto">O processo pode ser representado assim:</p><pre id="402f6ce8-497f-80cb-9f17-cf6abecbc624" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Computador ligado
+       ↓
+Firmware UEFI
+       ↓
+Verificação dos componentes
+       ↓
+Inicialização autorizada
+       ↓
+Sistema operacional</code></pre><p id="402f6ce8-497f-80bf-bfc2-faec2ba95d91" class="" dir="auto">Esse mecanismo ajuda a dificultar determinadas formas de adulteração do processo de inicialização.</p><p id="402f6ce8-497f-809a-93e8-cf1423842d91" class="" dir="auto">O Secure Boot não impede todos os ataques. Ele deve ser combinado com atualizações de firmware, proteção de credenciais e outros controles de segurança.</p><h2 id="402f6ce8-497f-80e8-b216-f2945df1f8cd" class="" dir="auto">11. Isolamento de processos e memória</h2><p id="402f6ce8-497f-8035-a7ce-c7c412ed3cac" class="" dir="auto">O sistema operacional também protege o funcionamento interno do computador.</p><p id="402f6ce8-497f-80c1-9007-d186828cddd6" class="" dir="auto">Cada processo em execução utiliza recursos, como memória e tempo de processamento. O sistema operacional aplica mecanismos para evitar que um processo acesse livremente a memória privada de outro.</p><p id="402f6ce8-497f-80b1-a566-ef38bd703d2b" class="" dir="auto">Por exemplo:</p><pre id="402f6ce8-497f-80b6-ab97-ea66e0b241e0" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">┌──────────────────────┐
+│ Processo A           │
+│ Memória isolada      │
+└──────────────────────┘
+
+┌──────────────────────┐
+│ Processo B           │
+│ Memória isolada      │
+└──────────────────────┘</code></pre><p id="402f6ce8-497f-80f1-8d12-d9f59167290d" class="" dir="auto">Esse isolamento reduz a possibilidade de um programa interferir diretamente em outro.</p><p id="402f6ce8-497f-80ce-b67a-d4b6afa16493" class="" dir="auto">Outros mecanismos incluem:</p><ul id="402f6ce8-497f-8039-9000-d2af16d4abd6" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Proteção de memória;</li></ul><ul id="402f6ce8-497f-8054-9439-c7b2e67c957d" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Separação entre modo usuário e modo kernel;</li></ul><ul id="402f6ce8-497f-80db-8729-df928d327fa2" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Restrições de acesso ao hardware;</li></ul><ul id="402f6ce8-497f-80f7-90a1-edb65d9e4770" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Sandboxing;</li></ul><ul id="402f6ce8-497f-8022-ac52-eb261b171cd1" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Controle de privilégios de processos.</li></ul><p id="402f6ce8-497f-8048-865d-c23c8b10c620" class="" dir="auto">O kernel é o núcleo do sistema operacional e possui privilégios elevados. Uma vulnerabilidade nesse componente pode ter consequências graves, pois pode comprometer mecanismos fundamentais de proteção.</p><h2 id="402f6ce8-497f-80eb-bbe7-f6e4f6730961" class="" dir="auto">12. Logs e monitoramento</h2><p id="402f6ce8-497f-8017-a5be-da35d441db30" class="" dir="auto">Os logs registram eventos que acontecem no sistema.</p><p id="402f6ce8-497f-8078-b352-ed9e92e9da96" class="" dir="auto">Eles podem incluir:</p><ul id="402f6ce8-497f-8068-843c-e823ddfb17bf" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Tentativas de login;</li></ul><ul id="402f6ce8-497f-80cd-8128-f564006e1424" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Falhas de autenticação;</li></ul><ul id="402f6ce8-497f-80cd-b4ad-d1462b14762f" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Instalação de programas;</li></ul><ul id="402f6ce8-497f-80d9-8dfb-c378750d8f34" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Alterações de permissões;</li></ul><ul id="402f6ce8-497f-803f-8c21-dfbd24b5a102" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Erros do sistema;</li></ul><ul id="402f6ce8-497f-8092-a192-c33090763cf6" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Eventos de segurança;</li></ul><ul id="402f6ce8-497f-80c0-8d64-eba3c3c4d14d" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Atividades de determinados serviços.</li></ul><p id="402f6ce8-497f-80ef-a209-fea6b8b167cd" class="" dir="auto">Esses registros ajudam a identificar comportamentos suspeitos e investigar incidentes.</p><p id="402f6ce8-497f-806b-9143-ee81490da032" class="" dir="auto">Exemplos de ferramentas e recursos:</p><table id="402f6ce8-497f-8041-a8f9-f4213b6efc91" class="simple-table" dir="ltr"><thead class="simple-table-header"><tr id="402f6ce8-497f-8007-9b12-cc58b367f38a" dir="ltr"><th id="LaXv" class="simple-table-header-color simple-table-header">Sistema</th><th id="oX&gt;C" class="simple-table-header-color simple-table-header">Recursos</th></tr></thead><tbody><tr id="402f6ce8-497f-8017-81f0-df1bece8fb92" dir="ltr"><td id="LaXv" class="">Windows</td><td id="oX&gt;C" class="">Visualizador de Eventos e logs de segurança</td></tr><tr id="402f6ce8-497f-8015-ad19-c79b719a10bc" dir="ltr"><td id="LaXv" class="">Linux</td><td id="oX&gt;C" class=""><code>journalctl</code>, <code>systemd-journald</code> e logs em <code>/var/log</code></td></tr><tr id="402f6ce8-497f-80da-a877-d4fd5db1391b" dir="ltr"><td id="LaXv" class="">Ambientes corporativos</td><td id="oX&gt;C" class="">SIEM, EDR e plataformas centralizadas de monitoramento</td></tr></tbody></table><p id="402f6ce8-497f-80ac-88d0-df01daadecdf" class="" dir="auto">Em ambientes corporativos, os logs podem ser enviados para um SIEM, que correlaciona eventos de diferentes máquinas e serviços.</p><p id="402f6ce8-497f-8078-ab81-febfff727722" class="" dir="auto">É importante proteger os registros contra alterações indevidas e evitar armazenar senhas, tokens ou outras informações sensíveis sem necessidade.</p><h2 id="402f6ce8-497f-80b6-8378-f3be9112f4fe" class="" dir="auto">13. Backup e recuperação</h2><p id="402f6ce8-497f-8009-a3b9-cf2afd5148fb" class="" dir="auto">A segurança também envolve a capacidade de recuperar dados e serviços após falhas, ataques ou acidentes.</p><p id="402f6ce8-497f-802a-9d41-fe06c268269c" class="" dir="auto">Um backup é uma cópia de segurança de informações importantes.</p><p id="402f6ce8-497f-80bb-b710-c60e0ccb1f76" class="" dir="auto">Ele pode ajudar em situações como:</p><ul id="402f6ce8-497f-805c-8c92-f8e14ba00a78" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Exclusão acidental de arquivos;</li></ul><ul id="402f6ce8-497f-80e4-b442-ffe149e06d77" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Falhas de hardware;</li></ul><ul id="402f6ce8-497f-80a7-87e8-eda050a5f1c8" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Corrupção de dados;</li></ul><ul id="402f6ce8-497f-809b-87fc-c42ad933ae70" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Infecção por ransomware;</li></ul><ul id="402f6ce8-497f-8083-900f-ee8af107dbdf" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Erros de configuração;</li></ul><ul id="402f6ce8-497f-805a-9b2b-e6ed65e7abac" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Perda ou roubo de dispositivos.</li></ul><p id="402f6ce8-497f-80ce-9f1e-d8a73b455557" class="" dir="auto">Uma estratégia conhecida é a regra 3-2-1:</p><ul id="402f6ce8-497f-8074-93ae-db748f8897da" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Manter três cópias dos dados;</li></ul><ul id="402f6ce8-497f-808f-8bfa-fa6170931a3e" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Utilizar dois tipos de mídia ou armazenamento;</li></ul><ul id="402f6ce8-497f-8026-89a7-f927154f966c" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Manter uma cópia fora do ambiente principal.</li></ul><p id="402f6ce8-497f-8090-be18-cbe4d78298a6" class="" dir="auto">Para aumentar a proteção, é importante manter cópias offline ou imutáveis quando possível e testar periodicamente a restauração dos arquivos.</p><p id="402f6ce8-497f-8015-8333-f6a1f6ecdcab" class="" dir="auto">Ter um backup não é suficiente: é necessário confirmar que ele pode ser restaurado.</p><h2 id="402f6ce8-497f-8015-991d-c454030a6b82" class="" dir="auto">14. Segurança em Windows e Linux</h2><p id="402f6ce8-497f-803a-b750-ed4dc0fa0be1" class="" dir="auto">Embora os princípios sejam semelhantes, cada sistema possui recursos e formas de administração específicos.</p><figure id="402f6ce8-497f-809d-9740-d60965dbc4a8" class="image" data-notion-image="https://images.openai.com/static-rsc-4/T9ICMSZaAxbWC6rNXnBL0p-U5pZc95s2-TAWvvyoKPnnEL-Z_xSa40Y2DVJQC46Cdpw6AXT9KCOEusRYHS8rGDX7c6ZaF2WbrguuFBvTmKk7POzESeZAT9WWe8Xp88Zn8QDhFoR16qir806uarnj1ziheFB-G5sAG6rt6S3csq8?purpose=inline" dir="ltr"><a href="https://images.openai.com/static-rsc-4/T9ICMSZaAxbWC6rNXnBL0p-U5pZc95s2-TAWvvyoKPnnEL-Z_xSa40Y2DVJQC46Cdpw6AXT9KCOEusRYHS8rGDX7c6ZaF2WbrguuFBvTmKk7POzESeZAT9WWe8Xp88Zn8QDhFoR16qir806uarnj1ziheFB-G5sAG6rt6S3csq8?purpose=inline"><img src="https://images.openai.com/static-rsc-4/T9ICMSZaAxbWC6rNXnBL0p-U5pZc95s2-TAWvvyoKPnnEL-Z_xSa40Y2DVJQC46Cdpw6AXT9KCOEusRYHS8rGDX7c6ZaF2WbrguuFBvTmKk7POzESeZAT9WWe8Xp88Zn8QDhFoR16qir806uarnj1ziheFB-G5sAG6rt6S3csq8?purpose=inline"/></a></figure><p id="402f6ce8-497f-80e1-a1df-d2693cd7a66b" class="" dir="auto">Windows</p><ul id="402f6ce8-497f-807d-8e96-c8147abb94ad" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Atualizações pelo Windows Update.</li></ul><ul id="402f6ce8-497f-8006-a9be-c686b27743c6" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Microsoft Defender e firewall.</li></ul><ul id="402f6ce8-497f-8065-9df7-e0359779ace5" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Controle de Conta de Usuário (UAC).</li></ul><ul id="402f6ce8-497f-80c9-ad89-dfafb1f6a686" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Permissões de arquivos e pastas.</li></ul><ul id="402f6ce8-497f-8025-83cd-f07f136f8f81" class="bulleted-list" dir="auto"><li style="list-style-type:disc">BitLocker em edições compatíveis.</li></ul><ul id="402f6ce8-497f-80c3-8c69-e5ec23f9ee9d" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Logs pelo Visualizador de Eventos.</li></ul><figure id="402f6ce8-497f-8024-afe1-c58d97b34722" class="image" data-notion-image="https://images.openai.com/static-rsc-4/CVNhAzxyLXkQp7kEd2V091JS60bdVxc0tCnP-fbeDWu3wCOA4S1_zONIsu6MVjTgPERdKdu48NwoKw5dDv27GJxw2YMY-7Y05d8PV8P3OrkhRwvufre_CNCFZkGho9D3HHMWsFirOhVbHbUCa4KYp3O0pQDBFoT18ozaIPZ5So4?purpose=inline" dir="ltr"><a href="https://images.openai.com/static-rsc-4/CVNhAzxyLXkQp7kEd2V091JS60bdVxc0tCnP-fbeDWu3wCOA4S1_zONIsu6MVjTgPERdKdu48NwoKw5dDv27GJxw2YMY-7Y05d8PV8P3OrkhRwvufre_CNCFZkGho9D3HHMWsFirOhVbHbUCa4KYp3O0pQDBFoT18ozaIPZ5So4?purpose=inline"><img src="https://images.openai.com/static-rsc-4/CVNhAzxyLXkQp7kEd2V091JS60bdVxc0tCnP-fbeDWu3wCOA4S1_zONIsu6MVjTgPERdKdu48NwoKw5dDv27GJxw2YMY-7Y05d8PV8P3OrkhRwvufre_CNCFZkGho9D3HHMWsFirOhVbHbUCa4KYp3O0pQDBFoT18ozaIPZ5So4?purpose=inline"/></a></figure><p id="402f6ce8-497f-8066-9aa1-e83cf37bce95" class="" dir="auto">Linux</p><ul id="402f6ce8-497f-8060-94e5-dd5f88f14a2e" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Gerenciamento de usuários e grupos.</li></ul><ul id="402f6ce8-497f-804e-a21c-fb622c069596" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Permissões com <code>r</code>, <code>w</code> e <code>x</code>.</li></ul><ul id="402f6ce8-497f-801e-a889-e8adf69af099" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Administração com <code>sudo</code>.</li></ul><ul id="402f6ce8-497f-8036-a40b-dd35e4ebacca" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Atualizações por gerenciadores de pacotes.</li></ul><ul id="402f6ce8-497f-8049-9f89-e4632ffd37b5" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Firewall com <code>nftables</code> ou ferramentas associadas.</li></ul><ul id="402f6ce8-497f-8086-9e45-cc6549afc5d7" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Mecanismos como SELinux e AppArmor, quando disponíveis e configurados.</li></ul><p id="402f6ce8-497f-8048-ab78-d81f72c8cd84" class="" dir="auto">Nenhum desses sistemas é automaticamente seguro em todas as situações. A proteção depende da versão utilizada, das configurações, das aplicações instaladas e das práticas de administração.</p><h2 id="402f6ce8-497f-80b7-8e6f-cbe359916302" class="" dir="auto">15. Boas práticas de segurança</h2><p id="402f6ce8-497f-80e7-9584-fa3b197d4726" class="" dir="auto">Para manter um sistema operacional mais seguro, recomenda-se:</p><ul id="402f6ce8-497f-8085-ab1c-fb8fb8479a1b" class="to-do-list" dir="auto"><li><input type="checkbox" class="checkbox checkbox-off" disabled=""/> <span class="to-do-children-unchecked">Manter o sistema operacional e os aplicativos atualizados.</span><div class="indented"></div></li></ul><ul id="402f6ce8-497f-80a7-8508-e50ab7ffcf61" class="to-do-list" dir="auto"><li><input type="checkbox" class="checkbox checkbox-off" disabled=""/> <span class="to-do-children-unchecked">Utilizar senhas fortes e exclusivas.</span><div class="indented"></div></li></ul><ul id="402f6ce8-497f-8045-9433-f2afaa0819b6" class="to-do-list" dir="auto"><li><input type="checkbox" class="checkbox checkbox-off" disabled=""/> <span class="to-do-children-unchecked">Ativar autenticação multifator quando disponível.</span><div class="indented"></div></li></ul><ul id="402f6ce8-497f-805f-a30d-f39d64676391" class="to-do-list" dir="auto"><li><input type="checkbox" class="checkbox checkbox-off" disabled=""/> <span class="to-do-children-unchecked">Evitar utilizar contas administrativas no dia a dia.</span><div class="indented"></div></li></ul><ul id="402f6ce8-497f-8087-ab36-d15ba0195888" class="to-do-list" dir="auto"><li><input type="checkbox" class="checkbox checkbox-off" disabled=""/> <span class="to-do-children-unchecked">Manter firewall e proteção antimalware ativos.</span><div class="indented"></div></li></ul><ul id="402f6ce8-497f-804e-9f1e-c590feced26b" class="to-do-list" dir="auto"><li><input type="checkbox" class="checkbox checkbox-off" disabled=""/> <span class="to-do-children-unchecked">Instalar programas somente de fontes confiáveis.</span><div class="indented"></div></li></ul><ul id="402f6ce8-497f-805e-88c0-ea3fb0017fb2" class="to-do-list" dir="auto"><li><input type="checkbox" class="checkbox checkbox-off" disabled=""/> <span class="to-do-children-unchecked">Revisar permissões de arquivos, pastas e aplicações.</span><div class="indented"></div></li></ul><ul id="402f6ce8-497f-80e9-96b5-e6b6fa294cef" class="to-do-list" dir="auto"><li><input type="checkbox" class="checkbox checkbox-off" disabled=""/> <span class="to-do-children-unchecked">Ativar a criptografia de disco quando apropriado.</span><div class="indented"></div></li></ul><ul id="402f6ce8-497f-8058-8fb7-cb173d9dc75d" class="to-do-list" dir="auto"><li><input type="checkbox" class="checkbox checkbox-off" disabled=""/> <span class="to-do-children-unchecked">Realizar backups regulares e testar a restauração.</span><div class="indented"></div></li></ul><ul id="402f6ce8-497f-80a7-933c-cabc52a39d4b" class="to-do-list" dir="auto"><li><input type="checkbox" class="checkbox checkbox-off" disabled=""/> <span class="to-do-children-unchecked">Bloquear a tela ao se afastar do computador.</span><div class="indented"></div></li></ul><ul id="402f6ce8-497f-802b-b54e-dd64166d9616" class="to-do-list" dir="auto"><li><input type="checkbox" class="checkbox checkbox-off" disabled=""/> <span class="to-do-children-unchecked">Desativar serviços desnecessários.</span><div class="indented"></div></li></ul><ul id="402f6ce8-497f-80ee-af79-f258fc7519d3" class="to-do-list" dir="auto"><li><input type="checkbox" class="checkbox checkbox-off" disabled=""/> <span class="to-do-children-unchecked">Monitorar logs e alertas de segurança.</span><div class="indented"></div></li></ul><ul id="402f6ce8-497f-80eb-b223-ca75a1997030" class="to-do-list" dir="auto"><li><input type="checkbox" class="checkbox checkbox-off" disabled=""/> <span class="to-do-children-unchecked">Proteger a inicialização e manter o firmware atualizado.</span><div class="indented"></div></li></ul><ul id="402f6ce8-497f-80b1-9405-dd63eb7a73a3" class="to-do-list" dir="auto"><li><input type="checkbox" class="checkbox checkbox-off" disabled=""/> <span class="to-do-children-unchecked">Evitar conectar dispositivos USB desconhecidos.</span><div class="indented"></div></li></ul><h2 id="402f6ce8-497f-80d0-810e-fdbb25ddab8d" class="" dir="auto">16. Relação com a Cibersegurança</h2><p id="402f6ce8-497f-805b-87fe-e3f03193140e" class="" dir="auto">A segurança de sistemas operacionais é uma parte importante da defesa de computadores, servidores e redes.</p><p id="402f6ce8-497f-8002-ad36-c03cd30f4a3b" class="" dir="auto">Ela se relaciona diretamente com vários assuntos que você está estudando:</p><table id="402f6ce8-497f-80bc-9069-dff5b7a68d2f" class="simple-table" dir="ltr"><thead class="simple-table-header"><tr id="402f6ce8-497f-80fe-a444-ed3ad3a056b1" dir="ltr"><th id="}h@_" class="simple-table-header-color simple-table-header">Área</th><th id="R&gt;f{" class="simple-table-header-color simple-table-header">Relação com o sistema operacional</th></tr></thead><tbody><tr id="402f6ce8-497f-80d6-b4e3-f6e5d0b918e9" dir="ltr"><td id="}h@_" class="">Malware</td><td id="R&gt;f{" class="">Detectar e impedir a execução de códigos maliciosos.</td></tr><tr id="402f6ce8-497f-80a7-9a03-e997bd17bfa8" dir="ltr"><td id="}h@_" class="">Vulnerabilidades</td><td id="R&gt;f{" class="">Corrigir falhas no kernel, serviços e componentes.</td></tr><tr id="402f6ce8-497f-80d2-87cf-cab1bad34ef2" dir="ltr"><td id="}h@_" class="">Engenharia social</td><td id="R&gt;f{" class="">Evitar que usuários executem arquivos ou concedam permissões indevidas.</td></tr><tr id="402f6ce8-497f-80e8-87fa-cb3ce05abe50" dir="ltr"><td id="}h@_" class="">Controle de acesso</td><td id="R&gt;f{" class="">Limitar o que usuários e processos podem fazer.</td></tr><tr id="402f6ce8-497f-8089-a3c5-d0992db3b83d" dir="ltr"><td id="}h@_" class="">Criptografia</td><td id="R&gt;f{" class="">Proteger dados armazenados e credenciais.</td></tr><tr id="402f6ce8-497f-806e-bd6d-f1fe8e8a244b" dir="ltr"><td id="}h@_" class="">Firewall</td><td id="R&gt;f{" class="">Controlar comunicações de rede.</td></tr><tr id="402f6ce8-497f-807f-8bd9-e2ab8c9a2c9d" dir="ltr"><td id="}h@_" class="">Monitoramento</td><td id="R&gt;f{" class="">Identificar eventos e comportamentos suspeitos.</td></tr><tr id="402f6ce8-497f-80b7-abec-ea403e366f99" dir="ltr"><td id="}h@_" class="">Resposta a incidentes</td><td id="R&gt;f{" class="">Investigar comprometimentos e recuperar o sistema.</td></tr></tbody></table><p id="402f6ce8-497f-804e-8c5a-da48b0601264" class="" dir="auto">Por exemplo, se um malware for executado com privilégios administrativos, poderá causar danos muito maiores do que se estiver restrito a uma conta com permissões limitadas.</p><p id="402f6ce8-497f-8019-ab25-f37e6cc75a9e" class="" dir="auto">Isso demonstra como os diferentes mecanismos de segurança precisam funcionar em conjunto.</p><h2 id="402f6ce8-497f-80f4-b5e5-cb7487b96627" class="" dir="auto">Resumo para estudar</h2><p id="402f6ce8-497f-80ad-9c8f-f1fe1f9c825f" class="" dir="auto">A segurança em sistemas operacionais busca proteger o sistema, os usuários, as aplicações e os dados contra acessos não autorizados, vulnerabilidades e ataques.</p><p id="402f6ce8-497f-8046-aa94-feea796375fd" class="" dir="auto">Seus principais mecanismos são:</p><ol type="1" id="402f6ce8-497f-803d-a5c2-cf8c61c80f0a" class="numbered-list" start="1" dir="auto"><li>Controle de acesso e permissões.</li></ol><ol type="1" id="402f6ce8-497f-8095-8184-c4b65608a805" class="numbered-list" start="2" dir="auto"><li>Autenticação e gerenciamento de senhas.</li></ol><ol type="1" id="402f6ce8-497f-80a3-9e74-cb0fc5c5fb51" class="numbered-list" start="3" dir="auto"><li>Atualizações e correção de vulnerabilidades.</li></ol><ol type="1" id="402f6ce8-497f-80e8-8a40-dc8fb7edd6de" class="numbered-list" start="4" dir="auto"><li>Firewall e proteção de rede.</li></ol><ol type="1" id="402f6ce8-497f-8032-a00d-c4bc94bfff36" class="numbered-list" start="5" dir="auto"><li>Antivírus e ferramentas EDR.</li></ol><ol type="1" id="402f6ce8-497f-80cc-8386-e100cafbc227" class="numbered-list" start="6" dir="auto"><li>Criptografia de dados.</li></ol><ol type="1" id="402f6ce8-497f-80d1-81d7-fd13a02748a2" class="numbered-list" start="7" dir="auto"><li>Inicialização segura.</li></ol><ol type="1" id="402f6ce8-497f-800e-adf2-ce449fb4cb17" class="numbered-list" start="8" dir="auto"><li>Isolamento de processos e memória.</li></ol><ol type="1" id="402f6ce8-497f-8071-bdba-ea6a249e4bc7" class="numbered-list" start="9" dir="auto"><li>Logs e monitoramento.</li></ol><ol type="1" id="402f6ce8-497f-807a-9e31-c94310af29a1" class="numbered-list numbered-list-digits-2" start="10" dir="auto"><li>Backup e recuperação.</li></ol><p id="402f6ce8-497f-8048-85cb-dcf09ce2a008" class="" dir="auto">Conceito fundamental: a segurança de um sistema operacional não depende de uma única ferramenta. Ela resulta da combinação de configurações corretas, atualizações, controle de privilégios, proteção dos dados, monitoramento e boas práticas de utilização.</p></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

@@ -1,0 +1,1097 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Protocolo HTTP</title><meta name="data-notion-page-icon" content="/icons/lock_blue.svg"/><link rel="icon" href="https://app.notion.com/icons/lock_blue.svg"/><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+	/* Paint a complete callout box on every PDF page fragment. */
+	-webkit-box-decoration-break: clone;
+	box-decoration-break: clone;
+}
+
+/* For default-background callouts, render the border outline. */
+.callout.block-color-default_background {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+/*
+ * Toggles and callouts hold arbitrary content, so they can easily be taller
+ * than a page. They must stay breakable: avoiding breaks inside them makes
+ * Chromium push the whole block onto the next page, which leaves the previous
+ * page mostly empty before every long toggle.
+ */
+details,
+aside {
+	margin: 1.25em 0;
+}
+
+/* Keep a toggle's title on the same page as the start of its content. */
+summary {
+	page-break-after: avoid;
+	break-after: avoid;
+}
+
+/*
+ * Toggle headings render as <h1/h2/h3 style="display:inline-block"> inside
+ * <summary>. Without this reset, the heading's margin-top pushes it below the
+ * ::marker (▼), so the triangle and the title appear on separate lines.
+ */
+summary h1,
+summary h2,
+summary h3,
+summary h4 {
+	margin-top: 0;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding-inline: 0.125rem;
+	padding-block: 0.375rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+/*
+ * Render emoji icons using a ::before pseudo-element to keep the glyph
+ * out of the DOM textContent traversal. This avoids double-rendering icons
+ * in callouts and page titles.
+ * NOTE(slim/html-export-pseudo-icons): I can't tagref this because it will
+ * flag as a duplicate tag after codegen.
+ */
+.icon[data-emoji]::before {
+	content: attr(data-emoji);
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	margin-right: 0.4em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.tab {
+	margin: 1.25em 0;
+	padding-inline: 1rem;
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style><style>@import url('https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex-swap.min.css')</style></head><body><article id="402f6ce8-497f-8000-87ee-f7c9da88f43e" class="page sans" data-notion-page-icon="/icons/lock_blue.svg"><header><div class="page-header-icon undefined"><img class="icon notion-static-icon" src="https://app.notion.com/icons/lock_blue.svg"/></div><h1 class="page-title" dir="auto">Protocolo HTTP</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><h1 id="402f6ce8-497f-806c-9663-f2c2b3e2fd88" class="" dir="auto">Protocolo HTTP</h1><p id="402f6ce8-497f-80e2-96f9-c3f7271dbc35" class="" dir="auto">O <strong>HTTP (Hypertext Transfer Protocol)</strong>, ou <strong>Protocolo de Transferência de Hipertexto</strong>, é um dos protocolos mais importantes da Internet e da Web.</p><p id="402f6ce8-497f-8028-abad-d03eb9defb60" class="" dir="auto">Ele define <strong>como clientes e servidores web trocam informações</strong>.</p><p id="402f6ce8-497f-8058-a995-d70c86bc417d" class="" dir="auto">Quando você acessa:</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="402f6ce8-497f-804a-8712-f410e52d9501" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">https://www.exemplo.com</code></pre><p id="402f6ce8-497f-8027-a0ff-d3f9f8f0f46d" class="" dir="auto">o navegador utiliza protocolos da família HTTP para solicitar recursos ao servidor, como:</p><ul id="402f6ce8-497f-80ba-83c4-e389789ab927" class="bulleted-list" dir="auto"><li style="list-style-type:disc">páginas HTML;</li></ul><ul id="402f6ce8-497f-803b-9ea7-e8b4c9a8a3bb" class="bulleted-list" dir="auto"><li style="list-style-type:disc">arquivos CSS;</li></ul><ul id="402f6ce8-497f-80ee-981c-f700a9b5820c" class="bulleted-list" dir="auto"><li style="list-style-type:disc">JavaScript;</li></ul><ul id="402f6ce8-497f-80dc-87b8-e206f9ddc9dc" class="bulleted-list" dir="auto"><li style="list-style-type:disc">imagens;</li></ul><ul id="402f6ce8-497f-804c-a1e7-e403e43ad18f" class="bulleted-list" dir="auto"><li style="list-style-type:disc">vídeos;</li></ul><ul id="402f6ce8-497f-80f6-9443-d08b23960f99" class="bulleted-list" dir="auto"><li style="list-style-type:disc">dados de APIs;</li></ul><ul id="402f6ce8-497f-806d-b695-e6bab11d1d8c" class="bulleted-list" dir="auto"><li style="list-style-type:disc">arquivos;</li></ul><ul id="402f6ce8-497f-80c9-8745-cd96dc871e42" class="bulleted-list" dir="auto"><li style="list-style-type:disc">informações em formato JSON.</li></ul><p id="402f6ce8-497f-80dd-a070-dc9d71c9b90c" class="" dir="auto">De forma simplificada:</p><pre id="402f6ce8-497f-808f-b372-fc9b5ec83bb2" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Navegador
+    │
+    │ Requisição HTTP
+    ↓
+Servidor Web
+    │
+    │ Resposta HTTP
+    ↓
+Navegador</code></pre><hr id="402f6ce8-497f-800c-86a3-ebb40d9b16d5" dir="auto"/><h1 id="402f6ce8-497f-80e8-a695-ecc2588ce382" class="" dir="auto">1. O que significa HTTP?</h1><p id="402f6ce8-497f-805b-8f04-fb4c694e69e6" class="" dir="auto"><strong>HTTP = Hypertext Transfer Protocol</strong></p><p id="402f6ce8-497f-8019-b3e2-f3af33fa3e98" class="" dir="auto">Em português:</p><p id="402f6ce8-497f-80f7-9d9b-e86df1d79b87" class="" dir="auto"><strong>Protocolo de Transferência de Hipertexto.</strong></p><p id="402f6ce8-497f-8071-94f6-e962cad55667" class="" dir="auto">Ele foi criado para permitir a comunicação entre clientes e servidores na Web.</p><p id="402f6ce8-497f-8047-b281-eba6a53142e9" class="" dir="auto">O funcionamento básico é baseado no modelo:</p><pre id="402f6ce8-497f-80dd-9c1a-dc8e4b2f64e8" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">CLIENTE
+   │
+   │ Request
+   ↓
+SERVIDOR
+   │
+   │ Response
+   ↓
+CLIENTE</code></pre><p id="402f6ce8-497f-80cb-83e9-fbfc622d0d22" class="" dir="auto">O cliente normalmente é um navegador ou uma aplicação.</p><p id="402f6ce8-497f-8034-a5f7-ee06afa959b2" class="" dir="auto">O servidor pode ser:</p><ul id="402f6ce8-497f-80f4-8fcd-f101d198deaf" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Apache;</li></ul><ul id="402f6ce8-497f-805e-b2d5-cae73edee35c" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Nginx;</li></ul><ul id="402f6ce8-497f-80ee-923d-fe5a19d475aa" class="bulleted-list" dir="auto"><li style="list-style-type:disc">IIS;</li></ul><ul id="402f6ce8-497f-806b-831d-d7c3eef99afe" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Node.js;</li></ul><ul id="402f6ce8-497f-808e-a0bb-e962117013bf" class="bulleted-list" dir="auto"><li style="list-style-type:disc">servidores Java;</li></ul><ul id="402f6ce8-497f-8043-a533-c0bd7f7ec0d4" class="bulleted-list" dir="auto"><li style="list-style-type:disc">servidores PHP;</li></ul><ul id="402f6ce8-497f-8041-b94f-e9deb1ed806e" class="bulleted-list" dir="auto"><li style="list-style-type:disc">aplicações Python;</li></ul><ul id="402f6ce8-497f-8085-8c1c-cc8a4410ef35" class="bulleted-list" dir="auto"><li style="list-style-type:disc">entre outros.</li></ul><hr id="402f6ce8-497f-80a9-8187-ce9e0d0a8662" dir="auto"/><h1 id="402f6ce8-497f-8034-a0be-e1fb969b535b" class="" dir="auto">2. HTTP pertence a qual camada?</h1><p id="402f6ce8-497f-80f3-883f-fa74e96de4c2" class="" dir="auto">O HTTP pertence à <strong>camada de aplicação</strong> do modelo TCP/IP.</p><p id="402f6ce8-497f-8001-b9e3-c2ebfae99413" class="" dir="auto">Uma comunicação web tradicional pode ser representada assim:</p><pre id="402f6ce8-497f-8033-9e94-e1f95591d6ef" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">┌─────────────────────────┐
+│ HTTP                    │ ← Aplicação
+├─────────────────────────┤
+│ TCP                     │ ← Transporte
+├─────────────────────────┤
+│ IP                      │ ← Rede
+├─────────────────────────┤
+│ Ethernet / Wi-Fi        │ ← Acesso à rede
+└─────────────────────────┘</code></pre><p id="402f6ce8-497f-8041-9c21-ccf075db908c" class="" dir="auto">No caso de HTTPS:</p><pre id="402f6ce8-497f-8068-98da-c6c0f637eaf6" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">HTTP
+ ↓
+TLS
+ ↓
+TCP
+ ↓
+IP
+ ↓
+Rede</code></pre><p id="402f6ce8-497f-801c-b103-fed923069ccb" class="" dir="auto">E com HTTP/3:</p><pre id="402f6ce8-497f-80f5-a562-cabfe706f803" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">HTTP/3
+   ↓
+ QUIC
+   ↓
+ UDP
+   ↓
+ IP</code></pre><hr id="402f6ce8-497f-8064-a12c-f14b54c08cde" dir="auto"/><h1 id="402f6ce8-497f-8051-916a-d61fd5cd8fe1" class="" dir="auto">3. HTTP funciona com cliente e servidor</h1><p id="402f6ce8-497f-80d7-bf2e-c06367158a80" class="" dir="auto">O modelo tradicional do HTTP é baseado em <strong>requisição e resposta</strong>.</p><p id="402f6ce8-497f-8089-b31a-edbc2fb446a9" class="" dir="auto">Por exemplo, quando você acessa uma página:</p><pre id="402f6ce8-497f-8053-b4aa-ed8abc0ca718" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Navegador
+    │
+    │ GET /index.html
+    ↓
+Servidor
+    │
+    │ 200 OK
+    │ HTML
+    ↓
+Navegador</code></pre><p id="402f6ce8-497f-801a-b92f-c5cb57da4ce3" class="" dir="auto">O navegador faz uma <strong>requisição</strong>.</p><p id="402f6ce8-497f-809d-83ae-c216b290b6fa" class="" dir="auto">O servidor processa essa requisição e retorna uma <strong>resposta</strong>.</p><hr id="402f6ce8-497f-801b-945f-df7ad22857c1" dir="auto"/><h1 id="402f6ce8-497f-8085-b418-e2ef62fa9f65" class="" dir="auto">4. O que é uma requisição HTTP?</h1><p id="402f6ce8-497f-8002-8c58-d4dc0f529fb2" class="" dir="auto">Uma requisição HTTP contém informações que dizem ao servidor:</p><blockquote id="402f6ce8-497f-8034-8a51-c2b6930d7fe7" class="" dir="auto">&quot;O que eu quero e como estou fazendo essa solicitação?&quot;</blockquote><p id="402f6ce8-497f-808b-95b7-c68c81cabebc" class="" dir="auto">Um exemplo simplificado:</p><pre id="402f6ce8-497f-806c-bac6-f3796fc2685e" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">GET /index.html HTTP/1.1
+Host: exemplo.com
+Accept: text/html</code></pre><p id="402f6ce8-497f-80fc-af66-c9abdc78ec60" class="" dir="auto">Podemos dividir isso em partes.</p><hr id="402f6ce8-497f-8059-aaf7-e305428cb0ad" dir="auto"/><h1 id="402f6ce8-497f-800b-b0c1-f2f96bc4caba" class="" dir="auto">5. Método HTTP</h1><p id="402f6ce8-497f-8001-9db8-d27908eb36d2" class="" dir="auto">A primeira parte é o <strong>método HTTP</strong>.</p><p id="402f6ce8-497f-800a-8592-dffbce8b9ee3" class="" dir="auto">No exemplo:</p><pre id="402f6ce8-497f-803d-862c-ea04e4770ac0" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">GET /index.html HTTP/1.1</code></pre><p id="402f6ce8-497f-8053-8961-cdc81fefda65" class="" dir="auto">O método é:</p><pre id="402f6ce8-497f-805f-8320-ced720c3ab4c" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">GET</code></pre><p id="402f6ce8-497f-8006-81c7-f297097c1688" class="" dir="auto">Ele indica a intenção da requisição.</p><p id="402f6ce8-497f-80d8-8613-ec215a708360" class="" dir="auto">Os principais métodos são:</p><table id="402f6ce8-497f-80b1-95ad-df3954acf4fb" class="simple-table" dir="ltr"><thead class="simple-table-header"><tr id="402f6ce8-497f-8064-bdfe-fe41b00ca90b" dir="ltr"><th id="zW[\" class="simple-table-header-color simple-table-header">Método</th><th id="Fzjy" class="simple-table-header-color simple-table-header">Uso</th></tr></thead><tbody><tr id="402f6ce8-497f-80f4-a5cf-d1dea14ac0a2" dir="ltr"><td id="zW[\" class="">GET</td><td id="Fzjy" class="">Buscar dados</td></tr><tr id="402f6ce8-497f-805c-b215-c79f4854982b" dir="ltr"><td id="zW[\" class="">POST</td><td id="Fzjy" class="">Enviar/criar dados</td></tr><tr id="402f6ce8-497f-809b-abc1-ebc6396e0770" dir="ltr"><td id="zW[\" class="">PUT</td><td id="Fzjy" class="">Substituir/atualizar recurso</td></tr><tr id="402f6ce8-497f-80db-9a02-cc17df046256" dir="ltr"><td id="zW[\" class="">PATCH</td><td id="Fzjy" class="">Atualizar parcialmente</td></tr><tr id="402f6ce8-497f-8010-b553-c7e62736a3b3" dir="ltr"><td id="zW[\" class="">DELETE</td><td id="Fzjy" class="">Remover recurso</td></tr><tr id="402f6ce8-497f-80d5-aadc-f59b7e5b3d29" dir="ltr"><td id="zW[\" class="">HEAD</td><td id="Fzjy" class="">Obter apenas informações dos headers</td></tr><tr id="402f6ce8-497f-80b5-b34e-f8fd33b77d97" dir="ltr"><td id="zW[\" class="">OPTIONS</td><td id="Fzjy" class="">Consultar opções/capacidades</td></tr></tbody></table><hr id="402f6ce8-497f-8090-9165-eabd4e91f205" dir="auto"/><h1 id="402f6ce8-497f-8026-a5af-cdc688532afb" class="" dir="auto">6. GET</h1><p id="402f6ce8-497f-801a-ade7-e8e206c216f1" class="" dir="auto">O <strong>GET</strong> é utilizado principalmente para <strong>obter recursos</strong>.</p><p id="402f6ce8-497f-805e-a463-da5bf5de3ae7" class="" dir="auto">Por exemplo:</p><pre id="402f6ce8-497f-809c-ac41-e46e0920715c" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">GET /usuarios</code></pre><p id="402f6ce8-497f-8024-a217-f809ff9133a5" class="" dir="auto">Pode significar:</p><blockquote id="402f6ce8-497f-80a3-906c-c428e538668d" class="" dir="auto">&quot;Quero obter a lista de usuários.&quot;</blockquote><p id="402f6ce8-497f-805e-892e-f9ffa73dd9bd" class="" dir="auto">Outro exemplo:</p><pre id="402f6ce8-497f-80f0-ba54-c4ba10c1dcae" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">GET /produtos/15</code></pre><p id="402f6ce8-497f-803e-aa54-d79712051ecc" class="" dir="auto">Pode significar:</p><blockquote id="402f6ce8-497f-80c1-a9d2-ee0544692fe9" class="" dir="auto">&quot;Quero obter o produto 15.&quot;</blockquote><p id="402f6ce8-497f-8075-b0ce-cdf4083055eb" class="" dir="auto">No desenvolvimento web:</p><pre id="402f6ce8-497f-807e-bd7b-efcc2da270f2" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">fetch(&#x27;/api/produtos&#x27;);</code></pre><p id="402f6ce8-497f-8071-82d1-e6f5f8a39c5b" class="" dir="auto">pode gerar uma requisição GET.</p><hr id="402f6ce8-497f-8050-a953-e8830dcc368e" dir="auto"/><h1 id="402f6ce8-497f-8019-a9f5-eb728b803c6d" class="" dir="auto">7. POST</h1><p id="402f6ce8-497f-8071-9f48-f4e4471c78ee" class="" dir="auto">O <strong>POST</strong> é utilizado para enviar dados ao servidor.</p><p id="402f6ce8-497f-80aa-915f-c1c429bd9376" class="" dir="auto">Por exemplo, criar um usuário:</p><pre id="402f6ce8-497f-80c3-aa5b-d23093805e33" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">POST /usuarios</code></pre><p id="402f6ce8-497f-80a7-bec9-eeca29681f97" class="" dir="auto">Com dados:</p><pre id="402f6ce8-497f-8072-a9ec-c2bfada203d3" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">{
+  &quot;nome&quot;: &quot;Gusta&quot;,
+  &quot;email&quot;: &quot;gusta@example.com&quot;
+}</code></pre><p id="402f6ce8-497f-80cd-9156-ee8f311cb624" class="" dir="auto">O servidor recebe os dados e pode criar o recurso.</p><p id="402f6ce8-497f-804a-83c7-ec465cedf9d1" class="" dir="auto">Por exemplo:</p><pre id="402f6ce8-497f-80b0-bd95-e6a2f8240a69" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">POST /usuarios
+       ↓
+Servidor
+       ↓
+Cria usuário
+       ↓
+201 Created</code></pre><hr id="402f6ce8-497f-801f-a522-ffcb19666c96" dir="auto"/><h1 id="402f6ce8-497f-80dc-8870-d3af2b57185c" class="" dir="auto">8. PUT</h1><p id="402f6ce8-497f-8014-bd91-d4609fe7822c" class="" dir="auto">O <strong>PUT</strong> normalmente é utilizado para substituir ou atualizar um recurso.</p><p id="402f6ce8-497f-8071-a33e-c7e57768a987" class="" dir="auto">Por exemplo:</p><pre id="402f6ce8-497f-804d-9921-cf28744b4920" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">PUT /usuarios/10</code></pre><p id="402f6ce8-497f-806c-b93d-ee65b125d228" class="" dir="auto">Com:</p><pre id="402f6ce8-497f-8076-916a-d9cc02277a00" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">{
+  &quot;nome&quot;: &quot;Gusta&quot;,
+  &quot;email&quot;: &quot;novo@example.com&quot;
+}</code></pre><p id="402f6ce8-497f-8011-90bd-ca54f0549dcc" class="" dir="auto">A ideia é:</p><pre id="402f6ce8-497f-8049-95f2-e692945e1a0e" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Recurso antigo
+      ↓
+    PUT
+      ↓
+Recurso atualizado/substituído</code></pre><hr id="402f6ce8-497f-8020-bc61-cc2e17d3d883" dir="auto"/><h1 id="402f6ce8-497f-801c-a055-e4bd6a7d0feb" class="" dir="auto">9. PATCH</h1><p id="402f6ce8-497f-8040-ab84-c875cc2538f4" class="" dir="auto">O <strong>PATCH</strong> é utilizado para uma atualização parcial.</p><p id="402f6ce8-497f-80d8-b2f7-cc45ed4b0ed6" class="" dir="auto">Por exemplo:</p><pre id="402f6ce8-497f-8006-bcd6-ff5fdb7c4bfd" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">PATCH /usuarios/10</code></pre><p id="402f6ce8-497f-80f3-86f2-c583965ea2c0" class="" dir="auto">Enviando:</p><pre id="402f6ce8-497f-803e-9104-de793710264e" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">{
+  &quot;nome&quot;: &quot;Gustavo&quot;
+}</code></pre><p id="402f6ce8-497f-80c9-827c-e18b87532f45" class="" dir="auto">Nesse caso, você pode alterar apenas o nome sem precisar enviar todos os dados do usuário.</p><hr id="402f6ce8-497f-8096-ac0f-dbd2c64f7bd3" dir="auto"/><h1 id="402f6ce8-497f-8053-82ad-d6b2365b317d" class="" dir="auto">10. DELETE</h1><p id="402f6ce8-497f-804b-9734-cac9eec368b5" class="" dir="auto">O <strong>DELETE</strong> é utilizado para solicitar a remoção de um recurso.</p><p id="402f6ce8-497f-80b6-a826-e3ed31c54fc3" class="" dir="auto">Por exemplo:</p><pre id="402f6ce8-497f-80a1-85d7-e3471a238ec9" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">DELETE /usuarios/10</code></pre><p id="402f6ce8-497f-805e-9224-f1adede634c2" class="" dir="auto">Conceitualmente:</p><pre id="402f6ce8-497f-805a-b039-d11057469b4f" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Usuário 10
+    ↓
+DELETE
+    ↓
+Usuário removido</code></pre><hr id="402f6ce8-497f-800d-908a-d8a0881f3843" dir="auto"/><h1 id="402f6ce8-497f-806f-bb07-cb7725c0855e" class="" dir="auto">11. URL</h1><p id="402f6ce8-497f-80ae-9dde-d38fed768dc5" class="" dir="auto">Uma requisição HTTP geralmente possui uma URL.</p><p id="402f6ce8-497f-80f3-9fc3-f95337774247" class="" dir="auto">Por exemplo:</p><pre id="402f6ce8-497f-8017-b3a4-f62b8d9a8065" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">https://www.exemplo.com/produtos/10?categoria=games</code></pre><p id="402f6ce8-497f-8085-a41c-c0f53f217cda" class="" dir="auto">Podemos dividir:</p><pre id="402f6ce8-497f-805d-ad60-d4088abc55ca" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">https://
+   ↓
+protocolo
+
+www.exemplo.com
+   ↓
+domínio
+
+/produtos/10
+   ↓
+caminho
+
+?categoria=games
+   ↓
+query string</code></pre><hr id="402f6ce8-497f-802a-b0f6-e4a3203d8c1b" dir="auto"/><h1 id="402f6ce8-497f-8052-aa3b-ea9696540137" class="" dir="auto">12. HTTP e DNS</h1><p id="402f6ce8-497f-8059-8b08-e38ccf7553a4" class="" dir="auto">O HTTP trabalha junto com o DNS.</p><p id="402f6ce8-497f-8018-a59f-daba2d672a78" class="" dir="auto">Quando você acessa:</p><pre id="402f6ce8-497f-8078-9c9c-e7d3c601651c" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">https://www.exemplo.com</code></pre><p id="402f6ce8-497f-8012-b659-c1c70044fa9a" class="" dir="auto">primeiro é necessário descobrir onde está o servidor.</p><p id="402f6ce8-497f-8012-b770-f9f5c9be606a" class="" dir="auto">O DNS pode realizar:</p><pre id="402f6ce8-497f-80a2-97e1-c122205ad76d" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">www.exemplo.com
+       ↓
+      DNS
+       ↓
+      IP</code></pre><p id="402f6ce8-497f-808c-8915-f13a060674a9" class="" dir="auto">Depois o navegador consegue estabelecer a comunicação com o servidor.</p><p id="402f6ce8-497f-8091-8422-f9425bd04c82" class="" dir="auto">Simplificando:</p><pre id="402f6ce8-497f-8057-92f0-f3fc58320d40" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">DOMÍNIO
+   ↓
+DNS
+   ↓
+IP
+   ↓
+HTTP/HTTPS
+   ↓
+SERVIDOR</code></pre><hr id="402f6ce8-497f-80bd-8e01-de199ad5a76a" dir="auto"/><h1 id="402f6ce8-497f-806e-aaab-d7d1865ab685" class="" dir="auto">13. Headers</h1><p id="402f6ce8-497f-80ca-8015-f0f07322f313" class="" dir="auto">Os <strong>headers (cabeçalhos)</strong> carregam informações adicionais sobre a requisição ou resposta.</p><p id="402f6ce8-497f-804c-88fb-ddca3dd6b128" class="" dir="auto">Exemplo:</p><pre id="402f6ce8-497f-808a-b278-fe1c4d83ca24" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">GET /produtos HTTP/1.1
+Host: exemplo.com
+Accept: application/json
+Authorization: Bearer token</code></pre><p id="402f6ce8-497f-8065-8b33-c364d4c82b3f" class="" dir="auto">Alguns headers importantes:</p><h3 id="402f6ce8-497f-80b6-9e64-e7d5f9ee02cd" class="" dir="auto">Host</h3><p id="402f6ce8-497f-809b-8049-ffbd3ceedf25" class="" dir="auto">Indica o domínio/host solicitado.</p><pre id="402f6ce8-497f-80ee-8d78-d6156ac097dc" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Host: exemplo.com</code></pre><hr id="402f6ce8-497f-806a-a397-d87399cfb3c8" dir="auto"/><h3 id="402f6ce8-497f-80ba-845f-fbaa4f2429e0" class="" dir="auto">Content-Type</h3><p id="402f6ce8-497f-8006-a00e-f963f8f604db" class="" dir="auto">Indica o tipo do conteúdo enviado.</p><pre id="402f6ce8-497f-80f5-99ff-d145d6175aa4" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Content-Type: application/json</code></pre><p id="402f6ce8-497f-808d-9d4b-edc869df502b" class="" dir="auto">Isso significa que o corpo contém JSON.</p><hr id="402f6ce8-497f-8025-8054-f40cb31c3764" dir="auto"/><h3 id="402f6ce8-497f-80f4-836e-fd48dbd8e37f" class="" dir="auto">Content-Length</h3><p id="402f6ce8-497f-80b8-aafd-c2b514da6f8f" class="" dir="auto">Indica o tamanho do conteúdo.</p><pre id="402f6ce8-497f-802d-9cac-f5aa580acf88" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Content-Length: 125</code></pre><hr id="402f6ce8-497f-80d4-bb95-d15924a5c6cf" dir="auto"/><h3 id="402f6ce8-497f-80d3-b74f-c7b293c2bab2" class="" dir="auto">Authorization</h3><p id="402f6ce8-497f-805b-8f33-c9e8d87cc718" class="" dir="auto">Pode transportar credenciais ou tokens de autenticação.</p><pre id="402f6ce8-497f-8087-b3d6-f8906da6107d" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Authorization: Bearer &lt;token&gt;</code></pre><hr id="402f6ce8-497f-80d6-b717-e95608435625" dir="auto"/><h3 id="402f6ce8-497f-8055-9163-e9cef3af22f5" class="" dir="auto">User-Agent</h3><p id="402f6ce8-497f-8095-8865-e77cf989815f" class="" dir="auto">Identifica informações sobre o cliente.</p><pre id="402f6ce8-497f-80f1-a238-c3ff7848a5f1" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">User-Agent: Mozilla/5.0 ...</code></pre><hr id="402f6ce8-497f-800c-9ddd-f3a254010000" dir="auto"/><h3 id="402f6ce8-497f-804c-9087-f13c541bcb3b" class="" dir="auto">Accept</h3><p id="402f6ce8-497f-801e-b531-dc5f10196c08" class="" dir="auto">Indica quais tipos de conteúdo o cliente aceita.</p><pre id="402f6ce8-497f-80cb-b703-da86a6acf3c9" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Accept: application/json</code></pre><hr id="402f6ce8-497f-80f1-9955-fe742c5c2be8" dir="auto"/><h1 id="402f6ce8-497f-80e8-a649-d612e37db7c4" class="" dir="auto">14. Corpo da requisição</h1><p id="402f6ce8-497f-80da-83ce-c8ca8225de1e" class="" dir="auto">Nem toda requisição precisa possuir um corpo.</p><p id="402f6ce8-497f-8033-9549-d8f9a2d2e4d0" class="" dir="auto">GET normalmente não precisa.</p><p id="402f6ce8-497f-8041-8061-c1621c710cdd" class="" dir="auto">Já POST, PUT e PATCH frequentemente possuem.</p><p id="402f6ce8-497f-80b6-8ae0-e66d95cd612f" class="" dir="auto">Por exemplo:</p><pre id="402f6ce8-497f-8046-a4e8-fa8c2ae1d9b4" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">POST /usuarios HTTP/1.1
+Content-Type: application/json
+
+{
+  &quot;nome&quot;: &quot;Gusta&quot;,
+  &quot;idade&quot;: 20
+}</code></pre><p id="402f6ce8-497f-8048-acef-d27cbe384f90" class="" dir="auto">Temos:</p><pre id="402f6ce8-497f-80aa-b066-d7c3dd027e5c" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Cabeçalho
+   ↓
+Content-Type: application/json
+
+Corpo
+   ↓
+{
+   &quot;nome&quot;: &quot;Gusta&quot;,
+   &quot;idade&quot;: 20
+}</code></pre><hr id="402f6ce8-497f-809d-9d2f-df805ad3fbe4" dir="auto"/><h1 id="402f6ce8-497f-80e0-9e24-ca0f8967dbe3" class="" dir="auto">15. Resposta HTTP</h1><p id="402f6ce8-497f-80b4-bf7b-c0e2463fdb65" class="" dir="auto">Depois da requisição, o servidor envia uma resposta.</p><p id="402f6ce8-497f-80bf-80ae-c559c2c03980" class="" dir="auto">Exemplo:</p><pre id="402f6ce8-497f-80f3-aec8-cac66d1e895c" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">HTTP/1.1 200 OK
+Content-Type: application/json
+
+{
+  &quot;nome&quot;: &quot;Gusta&quot;,
+  &quot;idade&quot;: 20
+}</code></pre><p id="402f6ce8-497f-8063-9deb-df469c98bcfd" class="" dir="auto">Ela também possui:</p><ul id="402f6ce8-497f-80bb-866d-c619b845bdf9" class="bulleted-list" dir="auto"><li style="list-style-type:disc">status code;</li></ul><ul id="402f6ce8-497f-804f-88da-d6ef9148a416" class="bulleted-list" dir="auto"><li style="list-style-type:disc">headers;</li></ul><ul id="402f6ce8-497f-805b-9edc-d79c4abba97a" class="bulleted-list" dir="auto"><li style="list-style-type:disc">corpo.</li></ul><hr id="402f6ce8-497f-800a-a6f8-d794a4fc9114" dir="auto"/><h1 id="402f6ce8-497f-8094-ac08-e704a32ce49b" class="" dir="auto">16. Status Codes</h1><p id="402f6ce8-497f-808f-b6b9-eb4ac33904e6" class="" dir="auto">Os <strong>status codes</strong> indicam o resultado da requisição.</p><p id="402f6ce8-497f-8081-9858-dbfb99a3946c" class="" dir="auto">Eles são divididos em cinco categorias.</p><table id="402f6ce8-497f-8016-ba06-c8a99c80c422" class="simple-table" dir="ltr"><thead class="simple-table-header"><tr id="402f6ce8-497f-800f-a757-f658956c2d79" dir="ltr"><th id="q]?a" class="simple-table-header-color simple-table-header">Faixa</th><th id="O{mq" class="simple-table-header-color simple-table-header">Significado</th></tr></thead><tbody><tr id="402f6ce8-497f-80d8-b36b-f13a180d6e48" dir="ltr"><td id="q]?a" class="">1xx</td><td id="O{mq" class="">Informações</td></tr><tr id="402f6ce8-497f-8098-aee1-c8a3d9563e9b" dir="ltr"><td id="q]?a" class="">2xx</td><td id="O{mq" class="">Sucesso</td></tr><tr id="402f6ce8-497f-8039-a293-ceeeba629634" dir="ltr"><td id="q]?a" class="">3xx</td><td id="O{mq" class="">Redirecionamento</td></tr><tr id="402f6ce8-497f-80c0-b107-d0fbe00896d8" dir="ltr"><td id="q]?a" class="">4xx</td><td id="O{mq" class="">Erro do cliente</td></tr><tr id="402f6ce8-497f-8092-a024-f4e5133e3fa6" dir="ltr"><td id="q]?a" class="">5xx</td><td id="O{mq" class="">Erro do servidor</td></tr></tbody></table><hr id="402f6ce8-497f-8085-9c80-f87385b30222" dir="auto"/><h1 id="402f6ce8-497f-808d-8e21-efe9ac477309" class="" dir="auto">17. Principais códigos 2xx</h1><h3 id="402f6ce8-497f-80f7-8f0b-e00b93b540fe" class="" dir="auto">200 OK</h3><p id="402f6ce8-497f-80e4-b83e-f737a1be1ded" class="" dir="auto">A requisição foi processada com sucesso.</p><pre id="402f6ce8-497f-80a9-9d30-dd7e3f8176c1" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">200 OK</code></pre><p id="402f6ce8-497f-80ae-9d55-f7e9e97cee62" class="" dir="auto">É um dos códigos mais comuns.</p><hr id="402f6ce8-497f-802c-a26f-f2daad064f37" dir="auto"/><h3 id="402f6ce8-497f-80de-80bd-cea980fcf5af" class="" dir="auto">201 Created</h3><p id="402f6ce8-497f-80f2-9410-d83801a2ae45" class="" dir="auto">Um recurso foi criado.</p><p id="402f6ce8-497f-80bd-81d0-d178b20e7c12" class="" dir="auto">Muito comum depois de:</p><pre id="402f6ce8-497f-8069-8e12-f8be59e25465" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">POST /usuarios</code></pre><p id="402f6ce8-497f-80a1-9baf-d7ee56fa9ce2" class="" dir="auto">Resposta:</p><pre id="402f6ce8-497f-808b-906f-e7269f455a75" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">201 Created</code></pre><hr id="402f6ce8-497f-80cb-a3aa-d08b455ff13e" dir="auto"/><h3 id="402f6ce8-497f-8047-a98c-ea62268b05f8" class="" dir="auto">204 No Content</h3><p id="402f6ce8-497f-80f8-812f-f4f6f7d8f9e8" class="" dir="auto">A operação foi realizada com sucesso, mas não há conteúdo para retornar.</p><p id="402f6ce8-497f-800e-ba06-eaa44ac7cb7c" class="" dir="auto">Por exemplo:</p><pre id="402f6ce8-497f-8017-8370-d6c3be981a47" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">DELETE /usuarios/10</code></pre><p id="402f6ce8-497f-80de-a29c-c3926c6ff1aa" class="" dir="auto">Pode retornar:</p><pre id="402f6ce8-497f-8012-97e7-e44107e90abe" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">204 No Content</code></pre><hr id="402f6ce8-497f-8098-be08-cce230d9c746" dir="auto"/><h1 id="402f6ce8-497f-800d-bed7-d90acfa79f19" class="" dir="auto">18. Principais códigos 3xx</h1><h3 id="402f6ce8-497f-80a8-a8d4-e476e3c57de0" class="" dir="auto">301 Moved Permanently</h3><p id="402f6ce8-497f-8003-8b9c-cf39353e749e" class="" dir="auto">Indica que o recurso foi movido permanentemente.</p><hr id="402f6ce8-497f-804e-b723-e493b2d46fad" dir="auto"/><h3 id="402f6ce8-497f-80e7-a3ba-e164703f908e" class="" dir="auto">302 Found</h3><p id="402f6ce8-497f-8098-a048-e8b6a71e91b8" class="" dir="auto">Indica um redirecionamento.</p><hr id="402f6ce8-497f-804d-9745-d07fba4f5634" dir="auto"/><h3 id="402f6ce8-497f-808c-887d-e22cd45c0f20" class="" dir="auto">304 Not Modified</h3><p id="402f6ce8-497f-80d8-8848-d6200f6bebcb" class="" dir="auto">Indica que o recurso não foi alterado desde a versão que o cliente possui em cache.</p><p id="402f6ce8-497f-8060-b686-f977a937fb46" class="" dir="auto">Isso ajuda a economizar tráfego.</p><hr id="402f6ce8-497f-80dc-9d90-f4306289fd48" dir="auto"/><h1 id="402f6ce8-497f-8019-b8d7-e1086964b349" class="" dir="auto">19. Principais códigos 4xx</h1><p id="402f6ce8-497f-80ba-8df2-c2df213aafc6" class="" dir="auto">São erros geralmente relacionados à requisição do cliente.</p><h3 id="402f6ce8-497f-8093-855a-e77e5b1e11ef" class="" dir="auto">400 Bad Request</h3><p id="402f6ce8-497f-809e-b5c4-f520ffe9b240" class="" dir="auto">A requisição possui algum problema.</p><pre id="402f6ce8-497f-80e2-9f06-ff4ccf07f650" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">400 Bad Request</code></pre><hr id="402f6ce8-497f-8073-9dde-c2aded6dc59d" dir="auto"/><h3 id="402f6ce8-497f-801c-bf85-c51de8d3e004" class="" dir="auto">401 Unauthorized</h3><p id="402f6ce8-497f-80b1-833e-f883d4ec4630" class="" dir="auto">A autenticação é necessária ou não foi fornecida corretamente.</p><pre id="402f6ce8-497f-804b-a368-cab0be14a4d8" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">401 Unauthorized</code></pre><hr id="402f6ce8-497f-801a-adaa-c22baf2b1a70" dir="auto"/><h3 id="402f6ce8-497f-80bb-81b1-e612080681e5" class="" dir="auto">403 Forbidden</h3><p id="402f6ce8-497f-805d-9afd-dbe31b6317f2" class="" dir="auto">O servidor entendeu a requisição, mas não permite o acesso.</p><pre id="402f6ce8-497f-8065-89c6-f363a722f294" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">403 Forbidden</code></pre><p id="402f6ce8-497f-80fb-a2b5-c4fec493fc72" class="" dir="auto">Uma diferença importante:</p><pre id="402f6ce8-497f-800a-9e33-c37fedcc3d55" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">401 → falta/erro de autenticação
+403 → acesso não permitido</code></pre><hr id="402f6ce8-497f-8093-bcec-e0440485164e" dir="auto"/><h3 id="402f6ce8-497f-80d1-b874-c4942b1b5b00" class="" dir="auto">404 Not Found</h3><p id="402f6ce8-497f-80b4-a2db-f12ea8dada24" class="" dir="auto">O recurso não foi encontrado.</p><pre id="402f6ce8-497f-80c3-a647-d4f3d28d3ec9" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">404 Not Found</code></pre><p id="402f6ce8-497f-80cc-9d48-e5cc92eb7fdf" class="" dir="auto">Exemplo:</p><pre id="402f6ce8-497f-8094-9c4b-c77dd4886f16" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">GET /produto/999999</code></pre><p id="402f6ce8-497f-80d9-9430-fa229619d5e2" class="" dir="auto">se esse produto não existir.</p><hr id="402f6ce8-497f-804a-92b9-de6dade6886a" dir="auto"/><h3 id="402f6ce8-497f-808e-9d0b-f66a98f6b846" class="" dir="auto">405 Method Not Allowed</h3><p id="402f6ce8-497f-808a-bbf8-f886619c9b99" class="" dir="auto">O método HTTP utilizado não é permitido naquele endpoint.</p><p id="402f6ce8-497f-8059-87a7-f1e7db3e5dce" class="" dir="auto">Por exemplo:</p><pre id="402f6ce8-497f-80e5-be39-c149e2b15b27" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">POST /usuarios</code></pre><p id="402f6ce8-497f-80a8-8d38-ec317e3d77cc" class="" dir="auto">quando determinado endpoint aceita apenas GET.</p><hr id="402f6ce8-497f-805e-b33c-e6bcfd59e14f" dir="auto"/><h1 id="402f6ce8-497f-8003-9e38-ec6885e3d97a" class="" dir="auto">20. Principais códigos 5xx</h1><p id="402f6ce8-497f-80ac-bc39-e1ffa1068bfb" class="" dir="auto">São erros relacionados ao processamento no servidor.</p><h3 id="402f6ce8-497f-8006-88be-c9acbc09d880" class="" dir="auto">500 Internal Server Error</h3><p id="402f6ce8-497f-8051-bea4-ef3adbf39943" class="" dir="auto">Erro interno genérico.</p><pre id="402f6ce8-497f-8083-8ff8-fb72acf340b5" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">500 Internal Server Error</code></pre><hr id="402f6ce8-497f-8064-97aa-efc95cdd7e2f" dir="auto"/><h3 id="402f6ce8-497f-80dc-b606-d463da7d4ed0" class="" dir="auto">502 Bad Gateway</h3><p id="402f6ce8-497f-8047-bc20-d7217351740e" class="" dir="auto">Um servidor intermediário recebeu uma resposta inválida de outro servidor.</p><hr id="402f6ce8-497f-8098-941a-ec064c4a7a47" dir="auto"/><h3 id="402f6ce8-497f-80de-8572-dab04f6938e6" class="" dir="auto">503 Service Unavailable</h3><p id="402f6ce8-497f-804c-bc2b-d19783be13aa" class="" dir="auto">O serviço está temporariamente indisponível.</p><hr id="402f6ce8-497f-80a3-9481-f92935fc488b" dir="auto"/><h1 id="402f6ce8-497f-8041-84eb-e021bed09308" class="" dir="auto">21. Exemplo completo</h1><p id="402f6ce8-497f-8012-a3b2-f0c5ae95f968" class="" dir="auto">Imagine uma API:</p><pre id="402f6ce8-497f-80b1-ae23-d8b75bde507d" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">https://api.ghostware.com/usuarios</code></pre><p id="402f6ce8-497f-80e3-8810-d7d798388a8d" class="" dir="auto">O cliente faz:</p><pre id="402f6ce8-497f-809c-974f-d4d075d301de" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">GET /usuarios HTTP/1.1
+Host: api.ghostware.com
+Accept: application/json</code></pre><p id="402f6ce8-497f-80c3-9f0d-e4034f71ea70" class="" dir="auto">O servidor responde:</p><pre id="402f6ce8-497f-8003-8c33-c20345a7197d" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">HTTP/1.1 200 OK
+Content-Type: application/json
+
+[
+  {
+    &quot;id&quot;: 1,
+    &quot;nome&quot;: &quot;Gusta&quot;
+  },
+  {
+    &quot;id&quot;: 2,
+    &quot;nome&quot;: &quot;João&quot;
+  }
+]</code></pre><p id="402f6ce8-497f-8083-b7c5-e0f540bebe18" class="" dir="auto">Fluxo:</p><pre id="402f6ce8-497f-80d6-b4e2-dfc6d1c99b07" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Cliente
+   │
+   │ GET /usuarios
+   ↓
+API
+   │
+   │ consulta banco
+   ↓
+Banco de Dados
+   │
+   │ resultados
+   ↓
+API
+   │
+   │ JSON
+   ↓
+Cliente</code></pre><p id="402f6ce8-497f-8022-910b-fc0b8c22ca84" class="" dir="auto">Esse é um padrão muito comum em aplicações Full Stack.</p><hr id="402f6ce8-497f-80e1-8537-cd12ed6ad51b" dir="auto"/><h1 id="402f6ce8-497f-80c3-aba7-d46d1d5aab02" class="" dir="auto">22. HTTP é stateless</h1><p id="402f6ce8-497f-80e1-8356-e602dc88676d" class="" dir="auto">Uma característica importante do HTTP tradicional é ser <strong>stateless</strong>, ou seja, cada requisição é tratada independentemente por padrão.</p><p id="402f6ce8-497f-8012-a601-f3c514673b7e" class="" dir="auto">Por exemplo:</p><pre id="402f6ce8-497f-8002-ba34-eb0e5617b989" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Requisição 1
+GET /produtos
+
+Requisição 2
+GET /usuarios
+
+Requisição 3
+GET /pedidos</code></pre><p id="402f6ce8-497f-807b-b6ab-c697c1e82ae1" class="" dir="auto">O protocolo não exige que o servidor mantenha automaticamente todo o contexto das requisições anteriores.</p><p id="402f6ce8-497f-80d6-864b-d730f50e5b2c" class="" dir="auto">Para criar estado de sessão, aplicações utilizam mecanismos como:</p><ul id="402f6ce8-497f-8036-bc28-deb8520745b4" class="bulleted-list" dir="auto"><li style="list-style-type:disc">cookies;</li></ul><ul id="402f6ce8-497f-80c1-a0e1-d506cb7f456f" class="bulleted-list" dir="auto"><li style="list-style-type:disc">sessões;</li></ul><ul id="402f6ce8-497f-808b-92a5-fc8ca991d1f6" class="bulleted-list" dir="auto"><li style="list-style-type:disc">tokens;</li></ul><ul id="402f6ce8-497f-8059-984c-f73dd5fcec45" class="bulleted-list" dir="auto"><li style="list-style-type:disc">JWT;</li></ul><ul id="402f6ce8-497f-80b0-ad61-c312d6dbfe74" class="bulleted-list" dir="auto"><li style="list-style-type:disc">bancos de dados;</li></ul><ul id="402f6ce8-497f-8044-87b3-e61568bf0200" class="bulleted-list" dir="auto"><li style="list-style-type:disc">caches.</li></ul><hr id="402f6ce8-497f-801e-bc38-e97578f53a5f" dir="auto"/><h1 id="402f6ce8-497f-806c-be23-f09d58dbf215" class="" dir="auto">23. Cookies</h1><p id="402f6ce8-497f-8064-ae29-f0970179fea4" class="" dir="auto">Os <strong>cookies</strong> permitem que o servidor armazene pequenos dados associados ao navegador.</p><p id="402f6ce8-497f-80c4-9e0f-f21560632ad3" class="" dir="auto">Por exemplo:</p><pre id="402f6ce8-497f-8098-bec1-fec5685d4ba5" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Set-Cookie: session_id=abc123</code></pre><p id="402f6ce8-497f-80f0-838f-e4a15a2d4fac" class="" dir="auto">O navegador posteriormente pode enviar:</p><pre id="402f6ce8-497f-80f6-9b6a-fb26349b485f" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Cookie: session_id=abc123</code></pre><p id="402f6ce8-497f-800a-8ac9-c63ab49effa2" class="" dir="auto">Isso permite implementar funcionalidades como:</p><ul id="402f6ce8-497f-8046-bce7-e9515347c421" class="bulleted-list" dir="auto"><li style="list-style-type:disc">sessões de login;</li></ul><ul id="402f6ce8-497f-80e4-a17c-e6444ee29be7" class="bulleted-list" dir="auto"><li style="list-style-type:disc">preferências;</li></ul><ul id="402f6ce8-497f-8066-8532-cdc87a3424a0" class="bulleted-list" dir="auto"><li style="list-style-type:disc">carrinhos;</li></ul><ul id="402f6ce8-497f-8024-ab00-fd6121dd9a7a" class="bulleted-list" dir="auto"><li style="list-style-type:disc">identificação de sessão.</li></ul><hr id="402f6ce8-497f-8010-a8e8-d7c672be9328" dir="auto"/><h1 id="402f6ce8-497f-80c2-a9d4-e6f88b3d3334" class="" dir="auto">24. HTTP e APIs</h1><p id="402f6ce8-497f-800f-bb61-f04617282561" class="" dir="auto">HTTP é extremamente importante para <strong>APIs</strong>.</p><p id="402f6ce8-497f-802e-996f-fa9a73cc7117" class="" dir="auto">Uma API REST, por exemplo, pode utilizar:</p><pre id="402f6ce8-497f-8037-b13a-e55886a0b869" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">GET     /usuarios
+POST    /usuarios
+GET     /usuarios/10
+PUT     /usuarios/10
+PATCH   /usuarios/10
+DELETE  /usuarios/10</code></pre><p id="402f6ce8-497f-800a-a5d9-fe6a5e7c4bef" class="" dir="auto">Isso cria uma interface organizada para o frontend conversar com o backend.</p><p id="402f6ce8-497f-802a-9ae6-e593efe2f391" class="" dir="auto">Por exemplo:</p><pre id="402f6ce8-497f-800c-860c-e5c03fdb397c" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Frontend
+   │
+   │ HTTP
+   ↓
+Backend / API
+   │
+   ↓
+Banco de Dados</code></pre><hr id="402f6ce8-497f-808e-a3ff-efc1546d4bad" dir="auto"/><h1 id="402f6ce8-497f-80f7-b0ae-c9d3988cb052" class="" dir="auto">25. HTTP e JSON</h1><p id="402f6ce8-497f-8010-b6e9-ca592eb66222" class="" dir="auto">Atualmente, APIs web utilizam muito o <strong>JSON</strong> para transportar dados.</p><p id="402f6ce8-497f-8032-88de-d19aa36340c6" class="" dir="auto">Exemplo:</p><pre id="402f6ce8-497f-8035-b53c-d84a4d6fed19" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">{
+  &quot;id&quot;: 10,
+  &quot;nome&quot;: &quot;Gusta&quot;,
+  &quot;email&quot;: &quot;gusta@example.com&quot;
+}</code></pre><p id="402f6ce8-497f-8035-9dce-c720da9764b9" class="" dir="auto">O HTTP transporta esse conteúdo.</p><pre id="402f6ce8-497f-8030-83e4-e8f139eb0696" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">HTTP
+ ├── Método
+ ├── URL
+ ├── Headers
+ └── Body
+       ↓
+      JSON</code></pre><p id="402f6ce8-497f-805a-9c3f-e9ae357839f4" class="" dir="auto">É importante entender:</p><blockquote id="402f6ce8-497f-80e5-ae9b-e952fd8f3fe0" class="" dir="auto"><strong>JSON não é um protocolo de comunicação.</strong></blockquote><p id="402f6ce8-497f-8032-b07f-e4d59e7ea1b5" class="" dir="auto">JSON é um <strong>formato de dados</strong>.</p><p id="402f6ce8-497f-8056-a635-db988f95a344" class="" dir="auto">HTTP é o protocolo que pode transportar esses dados.</p><hr id="402f6ce8-497f-8027-bc79-cfd4dd585225" dir="auto"/><h1 id="402f6ce8-497f-8054-aba0-d5dbf35d6027" class="" dir="auto">26. HTTP/1.0</h1><p id="402f6ce8-497f-802c-b538-e603b8218582" class="" dir="auto">Uma das primeiras versões amplamente utilizadas foi o <strong>HTTP/1.0</strong>.</p><p id="402f6ce8-497f-80e2-b6e8-c4f79865a4ec" class="" dir="auto">Cada requisição normalmente utilizava uma conexão separada.</p><p id="402f6ce8-497f-809e-b731-d4c15a90d80d" class="" dir="auto">Conceitualmente:</p><pre id="402f6ce8-497f-800a-8b0a-c90bef196a38" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Conexão
+ ↓
+Requisição
+ ↓
+Resposta
+ ↓
+Conexão encerrada</code></pre><p id="402f6ce8-497f-803f-8a09-dd9ca92fcac2" class="" dir="auto">Isso gerava overhead.</p><hr id="402f6ce8-497f-806a-860e-d7b5f04f3ae4" dir="auto"/><h1 id="402f6ce8-497f-8014-a713-fa7bc35a8850" class="" dir="auto">27. HTTP/1.1</h1><p id="402f6ce8-497f-8054-84b4-d78c65cbc2c6" class="" dir="auto">O <strong>HTTP/1.1</strong> trouxe várias melhorias importantes.</p><p id="402f6ce8-497f-80da-8daa-c332dd0751fd" class="" dir="auto">Uma delas foi o suporte a <strong>conexões persistentes</strong>.</p><p id="402f6ce8-497f-80cb-8c69-c957c641ff7b" class="" dir="auto">Em vez de criar uma nova conexão para cada requisição:</p><pre id="402f6ce8-497f-800d-ad14-ccbdbdc96307" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Conexão 1 → requisição 1
+Conexão 2 → requisição 2
+Conexão 3 → requisição 3</code></pre><p id="402f6ce8-497f-800b-b600-d8c3af70b98c" class="" dir="auto">podemos reutilizar uma conexão:</p><pre id="402f6ce8-497f-8029-b7ca-c45d928cdcbb" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Conexão
+ ├── requisição 1
+ ├── requisição 2
+ ├── requisição 3
+ └── requisição 4</code></pre><p id="402f6ce8-497f-8092-95cb-f3d6ceb346f5" class="" dir="auto">O HTTP/1.1 também popularizou o uso do header:</p><pre id="402f6ce8-497f-80cf-aa7b-f8084e42c74f" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Host:</code></pre><hr id="402f6ce8-497f-800c-be90-fb4229ef5580" dir="auto"/><h1 id="402f6ce8-497f-8092-9b02-e4433e14e8d4" class="" dir="auto">28. HTTP/2</h1><p id="402f6ce8-497f-80c6-a35e-c0511903ea37" class="" dir="auto">O <strong>HTTP/2</strong> trouxe melhorias importantes de desempenho.</p><p id="402f6ce8-497f-8025-b94b-fe54b722cea9" class="" dir="auto">Entre elas está o conceito de <strong>multiplexação</strong>.</p><p id="402f6ce8-497f-8054-b702-c45bcdc36fc7" class="" dir="auto">Em vez de tratar várias requisições como fluxos completamente independentes em conexões separadas, várias delas podem ser transportadas simultaneamente através de uma mesma conexão TCP.</p><p id="402f6ce8-497f-8075-96ee-e5ee160065c7" class="" dir="auto">Conceitualmente:</p><pre id="402f6ce8-497f-8045-950e-ee5450c6b432" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Uma conexão TCP
+      │
+      ├── Requisição A
+      ├── Requisição B
+      ├── Requisição C
+      └── Requisição D</code></pre><p id="402f6ce8-497f-80ad-86ac-f7c6fe6a8b55" class="" dir="auto">Isso pode reduzir overhead e melhorar o desempenho.</p><p id="402f6ce8-497f-80a2-b46b-e8a5dfedb9a7" class="" dir="auto">HTTP/2 também utiliza uma representação binária das mensagens, em vez do formato textual característico do HTTP/1.x.</p><hr id="402f6ce8-497f-80d9-8e0b-e8ba49c4401d" dir="auto"/><h1 id="402f6ce8-497f-80ab-84c6-c5c6ca772ddb" class="" dir="auto">29. HTTP/3</h1><p id="402f6ce8-497f-8077-b7cf-d10e9d44a2ca" class="" dir="auto">O <strong>HTTP/3</strong> é uma evolução importante.</p><p id="402f6ce8-497f-800b-b5ae-ca9ceff6b670" class="" dir="auto">Em vez de utilizar TCP diretamente, ele utiliza <strong>QUIC</strong>, que funciona sobre UDP.</p><pre id="402f6ce8-497f-80e1-8a10-dd147c147684" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">HTTP/3
+   ↓
+ QUIC
+   ↓
+ UDP
+   ↓
+ IP</code></pre><p id="402f6ce8-497f-80d1-a200-eac51c60113d" class="" dir="auto">O QUIC fornece mecanismos modernos de transporte, incluindo confiabilidade e controle de fluxo, enquanto aproveita UDP como base.</p><p id="402f6ce8-497f-8030-a7d0-e2501db2f563" class="" dir="auto">Portanto, não significa que:</p><blockquote id="402f6ce8-497f-80f2-8bba-cfc8dbf5b354" class="" dir="auto">&quot;HTTP/3 não é confiável porque usa UDP.&quot;</blockquote><p id="402f6ce8-497f-8009-8e4b-e063611b9f46" class="" dir="auto">A confiabilidade é fornecida pelo <strong>QUIC</strong>, não pelo UDP.</p><hr id="402f6ce8-497f-8021-a58a-fb356b948576" dir="auto"/><h1 id="402f6ce8-497f-809c-a43b-c92fddc4629c" class="" dir="auto">30. HTTP x HTTPS</h1><p id="402f6ce8-497f-8045-8f44-e8b21e4e2d4a" class="" dir="auto">Essa é uma diferença fundamental.</p><h3 id="402f6ce8-497f-800a-b288-c594679c900e" class="" dir="auto">HTTP</h3><pre id="402f6ce8-497f-806e-a912-ce00ccb1c041" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">HTTP
+ ↓
+TCP
+ ↓
+IP</code></pre><h3 id="402f6ce8-497f-8063-9273-fb134ba7530e" class="" dir="auto">HTTPS</h3><p id="402f6ce8-497f-800f-9578-cae1afe15443" class="" dir="auto">HTTPS significa, essencialmente, <strong>HTTP protegido por TLS</strong>.</p><pre id="402f6ce8-497f-80f3-9dfa-d1b680ab8c01" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">HTTP
+ ↓
+TLS
+ ↓
+TCP
+ ↓
+IP</code></pre><p id="402f6ce8-497f-800f-bdb2-ef266b4dd19b" class="" dir="auto">O TLS fornece mecanismos de:</p><ul id="402f6ce8-497f-806a-8b72-d92e5a429004" class="bulleted-list" dir="auto"><li style="list-style-type:disc">criptografia;</li></ul><ul id="402f6ce8-497f-8034-b7e8-edcab7d410a7" class="bulleted-list" dir="auto"><li style="list-style-type:disc">autenticação do servidor;</li></ul><ul id="402f6ce8-497f-8061-806f-e112d22e8d05" class="bulleted-list" dir="auto"><li style="list-style-type:disc">integridade dos dados.</li></ul><p id="402f6ce8-497f-8000-adb2-e4d6dc208e2e" class="" dir="auto">Por isso, em aplicações modernas, o HTTPS é essencial.</p><hr id="402f6ce8-497f-803d-a5bc-d939cb81b26e" dir="auto"/><h1 id="402f6ce8-497f-80d8-a7a4-f45276175943" class="" dir="auto">31. HTTP não é criptografado</h1><p id="402f6ce8-497f-8053-a529-facdf6a045af" class="" dir="auto">O HTTP tradicional não fornece criptografia.</p><p id="402f6ce8-497f-8042-ad95-d78bbd60e412" class="" dir="auto">Imagine:</p><pre id="402f6ce8-497f-80c6-a0b6-c3f212e89664" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Cliente
+   │
+   │ HTTP
+   ↓
+Rede
+   ↓
+Servidor</code></pre><p id="402f6ce8-497f-8069-b55f-d22eef652fa2" class="" dir="auto">Os dados podem ser observáveis ou manipuláveis por um atacante que consiga interceptar o tráfego em determinadas condições.</p><p id="402f6ce8-497f-8008-85d4-c4f76068af0d" class="" dir="auto">Com HTTPS:</p><pre id="402f6ce8-497f-809b-a4d5-f58c9f11162a" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Cliente
+   │
+   │ HTTPS
+   ↓
+  TLS
+   ↓
+Rede
+   ↓
+Servidor</code></pre><p id="402f6ce8-497f-8084-a605-d4adb0f15504" class="" dir="auto">Os dados da aplicação são protegidos pelo TLS durante o transporte.</p><hr id="402f6ce8-497f-802f-a9eb-fdf6f9a27040" dir="auto"/><h1 id="402f6ce8-497f-802d-8e47-dc7a13567605" class="" dir="auto">32. HTTP e segurança</h1><p id="402f6ce8-497f-807f-b0d7-c5ebf5bd0224" class="" dir="auto">Como HTTP é fundamental para aplicações web, ele está diretamente relacionado à <strong>Cibersegurança</strong>.</p><p id="402f6ce8-497f-8027-a3bc-f74f4f6b603e" class="" dir="auto">Alguns problemas de segurança podem envolver:</p><ul id="402f6ce8-497f-807d-8ab7-fd4d9162f341" class="bulleted-list" dir="auto"><li style="list-style-type:disc">autenticação inadequada;</li></ul><ul id="402f6ce8-497f-8015-ad68-d6a6f49687f1" class="bulleted-list" dir="auto"><li style="list-style-type:disc">autorização incorreta;</li></ul><ul id="402f6ce8-497f-8091-b300-d79e6a0af6c1" class="bulleted-list" dir="auto"><li style="list-style-type:disc">exposição de informações;</li></ul><ul id="402f6ce8-497f-80a3-bac7-f911231c1463" class="bulleted-list" dir="auto"><li style="list-style-type:disc">ausência de HTTPS;</li></ul><ul id="402f6ce8-497f-8069-a4d8-e45aa3660ef1" class="bulleted-list" dir="auto"><li style="list-style-type:disc">configuração incorreta de headers;</li></ul><ul id="402f6ce8-497f-807c-be7e-c8d889c88801" class="bulleted-list" dir="auto"><li style="list-style-type:disc">injeção;</li></ul><ul id="402f6ce8-497f-80d0-8a18-e229329b72f0" class="bulleted-list" dir="auto"><li style="list-style-type:disc">XSS;</li></ul><ul id="402f6ce8-497f-80e7-8263-d6bd85711c38" class="bulleted-list" dir="auto"><li style="list-style-type:disc">CSRF;</li></ul><ul id="402f6ce8-497f-8082-b349-d667e9aa4702" class="bulleted-list" dir="auto"><li style="list-style-type:disc">controle de acesso;</li></ul><ul id="402f6ce8-497f-80f3-8bb2-ed57eb33c6af" class="bulleted-list" dir="auto"><li style="list-style-type:disc">gerenciamento inadequado de sessão;</li></ul><ul id="402f6ce8-497f-8019-bcb8-dec82a07b9bf" class="bulleted-list" dir="auto"><li style="list-style-type:disc">validação insuficiente de entrada.</li></ul><p id="402f6ce8-497f-8053-8bbf-cb9205faae5e" class="" dir="auto">Por isso, compreender HTTP é fundamental para entender segurança web.</p><hr id="402f6ce8-497f-802f-ad6a-ebb50aadbaa8" dir="auto"/><h1 id="402f6ce8-497f-808f-930b-c3f6ba738562" class="" dir="auto">33. Headers de segurança</h1><p id="402f6ce8-497f-80e0-924a-dadedbd3cb98" class="" dir="auto">Existem headers HTTP utilizados para melhorar a segurança.</p><p id="402f6ce8-497f-8040-a62f-d0a1342f3b70" class="" dir="auto">Por exemplo:</p><h3 id="402f6ce8-497f-8022-97a4-e93d1bd95f05" class="" dir="auto">Content-Security-Policy</h3><pre id="402f6ce8-497f-8054-9597-d321332ba0b7" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Content-Security-Policy: ...</code></pre><p id="402f6ce8-497f-809c-be3a-fdfbbba6210c" class="" dir="auto">Ajuda a controlar quais recursos podem ser carregados pela página.</p><hr id="402f6ce8-497f-8064-8148-c71e033cfc1a" dir="auto"/><h3 id="402f6ce8-497f-800d-afcf-dc316a5cf6d6" class="" dir="auto">Strict-Transport-Security</h3><pre id="402f6ce8-497f-8030-9f9f-ff79de89787e" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Strict-Transport-Security: max-age=...</code></pre><p id="402f6ce8-497f-80f9-b8c7-edcddb65d30d" class="" dir="auto">É utilizado para instruir o navegador a preferir HTTPS para determinado domínio.</p><hr id="402f6ce8-497f-8063-96e7-e88598e51bd5" dir="auto"/><h3 id="402f6ce8-497f-80bb-a3b4-ff905bc7abe1" class="" dir="auto">X-Content-Type-Options</h3><pre id="402f6ce8-497f-80b8-93cc-e9a1e217c9dd" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">X-Content-Type-Options: nosniff</code></pre><p id="402f6ce8-497f-80a8-8da0-ea77ccabafe4" class="" dir="auto">Ajuda a reduzir determinados comportamentos de interpretação indevida de tipos de conteúdo.</p><hr id="402f6ce8-497f-8098-94fe-eb3a61570a0b" dir="auto"/><h1 id="402f6ce8-497f-80c8-9cf0-f81494d9a42a" class="" dir="auto">34. HTTP e portas</h1><p id="402f6ce8-497f-80d3-a273-c68daee8889a" class="" dir="auto">O HTTP tradicional utiliza:</p><pre id="402f6ce8-497f-80a6-8154-dcc956e0b822" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">TCP 80</code></pre><p id="402f6ce8-497f-8040-a83e-d19b6e734804" class="" dir="auto">O HTTPS tradicionalmente utiliza:</p><pre id="402f6ce8-497f-80f5-851c-fac66782620d" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">TCP 443</code></pre><p id="402f6ce8-497f-80f0-a346-fd37dc5a552f" class="" dir="auto">Já HTTP/3 utiliza:</p><pre id="402f6ce8-497f-804d-b29e-c831e7bab703" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">UDP 443</code></pre><p id="402f6ce8-497f-80d7-b26f-cd4579234ce0" class="" dir="auto">através do QUIC.</p><p id="402f6ce8-497f-80be-a1e4-fbb815760cdf" class="" dir="auto">Podemos resumir:</p><pre id="402f6ce8-497f-80ad-9280-c26af73eb252" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">HTTP/1.1 → TCP 80
+HTTPS    → TCP 443
+HTTP/2   → normalmente TCP 443 + TLS
+HTTP/3   → UDP 443 + QUIC</code></pre><hr id="402f6ce8-497f-80aa-9989-c9625dc05b8f" dir="auto"/><h1 id="402f6ce8-497f-8053-9899-d7de42d52242" class="" dir="auto">35. O que acontece quando você acessa um site?</h1><p id="402f6ce8-497f-80d9-bfe4-d67ecbb4a3f4" class="" dir="auto">Vamos juntar tudo que você estudou até agora.</p><p id="402f6ce8-497f-805d-ab5e-e66c28c56b23" class="" dir="auto">Imagine:</p><pre id="402f6ce8-497f-804d-980a-f477a675dd45" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">https://www.ghostware.com</code></pre><h3 id="402f6ce8-497f-80d6-85b8-c86a3efaaa9e" class="" dir="auto">1. DNS</h3><p id="402f6ce8-497f-80fd-bc9b-ca01d970cecd" class="" dir="auto">O computador precisa descobrir o IP:</p><pre id="402f6ce8-497f-80e3-8bcb-e8dbc1a5d5ce" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">www.ghostware.com
+        ↓
+       DNS
+        ↓
+       IP</code></pre><h3 id="402f6ce8-497f-8070-9feb-cb7c6037f2d2" class="" dir="auto">2. Transporte</h3><p id="402f6ce8-497f-807f-8bac-cbcf91cc0612" class="" dir="auto">Dependendo da versão:</p><pre id="402f6ce8-497f-8012-91ce-d307cb1adcbd" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">HTTPS → TCP</code></pre><p id="402f6ce8-497f-8078-9689-e23f86299e30" class="" dir="auto">ou:</p><pre id="402f6ce8-497f-80df-8de2-efd029eb0222" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">HTTP/3 → QUIC → UDP</code></pre><h3 id="402f6ce8-497f-8053-a5ed-eaf875f9f367" class="" dir="auto">3. TLS</h3><p id="402f6ce8-497f-8031-aef7-fa98798d7ac4" class="" dir="auto">No HTTPS tradicional:</p><pre id="402f6ce8-497f-8052-84d8-d9f54e338b28" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">TCP
+ ↓
+TLS</code></pre><p id="402f6ce8-497f-80ef-8209-fdbaa29e7f31" class="" dir="auto">O cliente e o servidor estabelecem uma comunicação protegida.</p><h3 id="402f6ce8-497f-8038-82be-c55f8ade00e4" class="" dir="auto">4. HTTP</h3><p id="402f6ce8-497f-80eb-a056-c8d7614914f5" class="" dir="auto">O navegador envia:</p><pre id="402f6ce8-497f-8082-aed0-d14f8ec226cc" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">GET / HTTP/1.1
+Host: www.ghostware.com</code></pre><h3 id="402f6ce8-497f-809c-9492-e49f88ea8920" class="" dir="auto">5. Servidor</h3><p id="402f6ce8-497f-80f3-b2bb-d24ebfbac2dc" class="" dir="auto">O servidor processa a requisição.</p><h3 id="402f6ce8-497f-80e1-b84b-e35d16b4628b" class="" dir="auto">6. Resposta</h3><p id="402f6ce8-497f-8061-be4c-c2a471a5e442" class="" dir="auto">Pode retornar:</p><pre id="402f6ce8-497f-80c7-9f53-ff269884294d" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">HTTP/1.1 200 OK
+Content-Type: text/html</code></pre><p id="402f6ce8-497f-80c7-88f6-eb1650eeaded" class="" dir="auto">seguido pelo HTML.</p><h3 id="402f6ce8-497f-803c-a4b7-df7ac58e5435" class="" dir="auto">7. Navegador</h3><p id="402f6ce8-497f-80d9-af19-fe1cb469a198" class="" dir="auto">O navegador interpreta o HTML e pode fazer novas requisições:</p><pre id="402f6ce8-497f-80d2-a15e-f24518afe60c" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">HTML
+ ↓
+CSS
+ ↓
+JavaScript
+ ↓
+Imagens
+ ↓
+APIs</code></pre><hr id="402f6ce8-497f-8042-b2d6-e51ad87794ac" dir="auto"/><h1 id="402f6ce8-497f-8069-9a62-e0786fa163c2" class="" dir="auto">36. Visão completa da Web</h1><p id="402f6ce8-497f-8069-8373-f6255e8de17d" class="" dir="auto">Podemos juntar <strong>DNS + HTTP + TCP + IP</strong>:</p><pre id="402f6ce8-497f-80f7-8277-edfbe4c4260b" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">                    USUÁRIO
+                       │
+                       │
+                  www.site.com
+                       │
+                       ▼
+                      DNS
+                       │
+                       │ IP
+                       ▼
+                 ┌───────────┐
+                 │    IP     │
+                 └─────┬─────┘
+                       │
+                 TCP / QUIC
+                       │
+                 HTTP / HTTPS
+                       │
+                       ▼
+                  SERVIDOR WEB
+                       │
+              ┌────────┴────────┐
+              │                 │
+           Backend           Arquivos
+              │
+              ▼
+        Banco de Dados</code></pre><p id="402f6ce8-497f-8047-8559-f071ba745ee7" class="" dir="auto">Essa visão é extremamente importante para Full Stack e Cibersegurança.</p><hr id="402f6ce8-497f-8064-9296-e61e65ccb48a" dir="auto"/><h1 id="402f6ce8-497f-8044-a8d8-e82b3e6ffdf3" class="" dir="auto">37. Resumo dos principais conceitos</h1><table id="402f6ce8-497f-804e-ba66-e0389b2a8ce1" class="simple-table" dir="ltr"><thead class="simple-table-header"><tr id="402f6ce8-497f-80f0-9d98-e0cab82ca590" dir="ltr"><th id="Jtja" class="simple-table-header-color simple-table-header">Conceito</th><th id="}gZ@" class="simple-table-header-color simple-table-header">Função</th></tr></thead><tbody><tr id="402f6ce8-497f-80a9-8369-c7cc33e19b28" dir="ltr"><td id="Jtja" class="">HTTP</td><td id="}gZ@" class="">Protocolo de comunicação da Web</td></tr><tr id="402f6ce8-497f-8036-895f-fc45268425ef" dir="ltr"><td id="Jtja" class="">Request</td><td id="}gZ@" class="">Requisição do cliente</td></tr><tr id="402f6ce8-497f-8066-b511-f3ce0a5d7df2" dir="ltr"><td id="Jtja" class="">Response</td><td id="}gZ@" class="">Resposta do servidor</td></tr><tr id="402f6ce8-497f-8030-ac0a-f341a186aa26" dir="ltr"><td id="Jtja" class="">GET</td><td id="}gZ@" class="">Buscar dados</td></tr><tr id="402f6ce8-497f-8000-9cd7-d192901015a9" dir="ltr"><td id="Jtja" class="">POST</td><td id="}gZ@" class="">Enviar/criar dados</td></tr><tr id="402f6ce8-497f-807a-8ccc-de8799f16c03" dir="ltr"><td id="Jtja" class="">PUT</td><td id="}gZ@" class="">Substituir/atualizar</td></tr><tr id="402f6ce8-497f-8087-b01f-efdaf2a4a21c" dir="ltr"><td id="Jtja" class="">PATCH</td><td id="}gZ@" class="">Atualizar parcialmente</td></tr><tr id="402f6ce8-497f-80a3-b33e-e89cb50e2084" dir="ltr"><td id="Jtja" class="">DELETE</td><td id="}gZ@" class="">Remover</td></tr><tr id="402f6ce8-497f-809d-8d27-dda6bbb35efe" dir="ltr"><td id="Jtja" class="">Header</td><td id="}gZ@" class="">Metadados da comunicação</td></tr><tr id="402f6ce8-497f-8054-931c-c51b7bc7ff87" dir="ltr"><td id="Jtja" class="">Body</td><td id="}gZ@" class="">Conteúdo da mensagem</td></tr><tr id="402f6ce8-497f-80ed-bab1-c622604d807c" dir="ltr"><td id="Jtja" class="">Status Code</td><td id="}gZ@" class="">Resultado da requisição</td></tr><tr id="402f6ce8-497f-809f-89e9-c7a00ddfe5d6" dir="ltr"><td id="Jtja" class="">Cookie</td><td id="}gZ@" class="">Armazenamento de dados de sessão/cliente</td></tr><tr id="402f6ce8-497f-80e2-af49-f5bbe688477b" dir="ltr"><td id="Jtja" class="">HTTP/1.1</td><td id="}gZ@" class="">HTTP tradicional com conexões persistentes</td></tr><tr id="402f6ce8-497f-80d0-a0d5-ef8d561ac998" dir="ltr"><td id="Jtja" class="">HTTP/2</td><td id="}gZ@" class="">Multiplexação e melhorias de desempenho</td></tr><tr id="402f6ce8-497f-80b5-a4ce-fbe88697d4df" dir="ltr"><td id="Jtja" class="">HTTP/3</td><td id="}gZ@" class="">HTTP sobre QUIC/UDP</td></tr><tr id="402f6ce8-497f-8070-8280-ce8fa0d43a07" dir="ltr"><td id="Jtja" class="">HTTPS</td><td id="}gZ@" class="">HTTP protegido por TLS</td></tr></tbody></table><hr id="402f6ce8-497f-802a-bbc5-eb92deddb7dc" dir="auto"/><h2 id="402f6ce8-497f-8072-b9a1-f0bca1df9581" class="" dir="auto">🧠 Para memorizar</h2><p id="402f6ce8-497f-8070-abaf-f3f69d07d086" class="" dir="auto">A estrutura fundamental é:</p><pre id="402f6ce8-497f-805c-a60d-cd722ae56cab" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">CLIENTE
+   │
+   │ HTTP REQUEST
+   │
+   ├── Método
+   ├── URL
+   ├── Headers
+   └── Body
+   │
+   ▼
+SERVIDOR
+   │
+   │ HTTP RESPONSE
+   │
+   ├── Status Code
+   ├── Headers
+   └── Body
+   │
+   ▼
+CLIENTE</code></pre><p id="402f6ce8-497f-806f-bc36-d66ba48bb66e" class="" dir="auto">E a pilha que conecta isso aos assuntos anteriores:</p><pre id="402f6ce8-497f-8031-b7db-d399567936ac" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Aplicação
+   │
+ HTTP / HTTPS
+   │
+TCP / QUIC
+   │
+IP
+   │
+Wi-Fi / Ethernet</code></pre><p id="402f6ce8-497f-80ab-aa50-ffbe894121c7" class="" dir="auto"><strong>Em uma frase:</strong></p><blockquote id="402f6ce8-497f-80df-ac61-ea5dd75422c9" class="" dir="auto"><strong>HTTP é o protocolo que define como clientes e servidores Web fazem requisições e respostas para trocar recursos e dados pela Internet.</strong></blockquote></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

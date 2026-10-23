@@ -1,0 +1,1105 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Protocolo TCP</title><meta name="data-notion-page-icon" content="/icons/lock_blue.svg"/><link rel="icon" href="https://app.notion.com/icons/lock_blue.svg"/><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+	/* Paint a complete callout box on every PDF page fragment. */
+	-webkit-box-decoration-break: clone;
+	box-decoration-break: clone;
+}
+
+/* For default-background callouts, render the border outline. */
+.callout.block-color-default_background {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+/*
+ * Toggles and callouts hold arbitrary content, so they can easily be taller
+ * than a page. They must stay breakable: avoiding breaks inside them makes
+ * Chromium push the whole block onto the next page, which leaves the previous
+ * page mostly empty before every long toggle.
+ */
+details,
+aside {
+	margin: 1.25em 0;
+}
+
+/* Keep a toggle's title on the same page as the start of its content. */
+summary {
+	page-break-after: avoid;
+	break-after: avoid;
+}
+
+/*
+ * Toggle headings render as <h1/h2/h3 style="display:inline-block"> inside
+ * <summary>. Without this reset, the heading's margin-top pushes it below the
+ * ::marker (▼), so the triangle and the title appear on separate lines.
+ */
+summary h1,
+summary h2,
+summary h3,
+summary h4 {
+	margin-top: 0;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding-inline: 0.125rem;
+	padding-block: 0.375rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+/*
+ * Render emoji icons using a ::before pseudo-element to keep the glyph
+ * out of the DOM textContent traversal. This avoids double-rendering icons
+ * in callouts and page titles.
+ * NOTE(slim/html-export-pseudo-icons): I can't tagref this because it will
+ * flag as a duplicate tag after codegen.
+ */
+.icon[data-emoji]::before {
+	content: attr(data-emoji);
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	margin-right: 0.4em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.tab {
+	margin: 1.25em 0;
+	padding-inline: 1rem;
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style><style>@import url('https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex-swap.min.css')</style></head><body><article id="402f6ce8-497f-80d5-8d8d-ff001a43df21" class="page sans" data-notion-page-icon="/icons/lock_blue.svg"><header><div class="page-header-icon undefined"><img class="icon notion-static-icon" src="https://app.notion.com/icons/lock_blue.svg"/></div><h1 class="page-title" dir="auto">Protocolo TCP</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><h1 id="402f6ce8-497f-808c-b486-e4ed4c41e02b" class="" dir="auto">🌐 Protocolo TCP</h1><p id="402f6ce8-497f-801e-b55a-e8f7c0ce831a" class="" dir="auto">O <strong>TCP (Transmission Control Protocol)</strong> é um dos principais protocolos utilizados nas redes de computadores. Ele trabalha junto com o <strong>IP</strong> para permitir a comunicação entre dispositivos de forma <strong>confiável, ordenada e orientada à conexão</strong>.</p><p id="402f6ce8-497f-80ec-bdb1-e11b0662a93d" class="" dir="auto">Enquanto o <strong>IP</strong> se preocupa principalmente com <strong>endereçamento e encaminhamento dos pacotes</strong>, o TCP adiciona mecanismos para garantir que os dados sejam entregues de maneira adequada.</p><p id="402f6ce8-497f-808c-a768-e315f2f181e1" class="" dir="auto">Uma forma simples de visualizar:</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="402f6ce8-497f-8075-8f1d-ce74043c7b69" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Aplicação
+    ↓
+   TCP
+    ↓
+    IP
+    ↓
+Ethernet / Wi-Fi
+    ↓
+   Rede</code></pre><hr id="402f6ce8-497f-80b6-b528-cc7eb52beacb" dir="auto"/><h1 id="402f6ce8-497f-80e8-8ed6-cec14545b1b5" class="" dir="auto">1. O que significa TCP?</h1><p id="402f6ce8-497f-80e1-a4d7-f17cd025311c" class="" dir="auto">TCP significa:</p><blockquote id="402f6ce8-497f-80c7-9080-e5b2ccb3045b" class="" dir="auto"><strong>Transmission Control Protocol — Protocolo de Controle de Transmissão</strong></blockquote><p id="402f6ce8-497f-808c-a8c6-cf1b9053e71a" class="" dir="auto">Ele pertence à <strong>camada de transporte</strong>.</p><p id="402f6ce8-497f-80cd-84c6-c7e303ea1461" class="" dir="auto">No modelo OSI, está associado à:</p><blockquote id="402f6ce8-497f-8031-9f59-f3852d0b0e65" class="" dir="auto"><strong>Camada 4 — Transporte</strong></blockquote><p id="402f6ce8-497f-803f-9269-f1f7d1251a09" class="" dir="auto">No modelo TCP/IP:</p><pre id="402f6ce8-497f-8009-a978-edcb0b650f1b" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">┌──────────────────────────┐
+│ Aplicação                │
+│ HTTP, HTTPS, DNS, etc.   │
+├──────────────────────────┤
+│ Transporte               │
+│ TCP / UDP                │ ← TCP
+├──────────────────────────┤
+│ Internet                 │
+│ IP                       │
+├──────────────────────────┤
+│ Acesso à rede            │
+│ Ethernet / Wi-Fi         │
+└──────────────────────────┘</code></pre><hr id="402f6ce8-497f-80bb-b281-f8cb24ef0fa7" dir="auto"/><h1 id="402f6ce8-497f-8056-bb03-cff69dea2b89" class="" dir="auto">2. Para que serve o TCP?</h1><p id="402f6ce8-497f-8078-8519-e3933eff293e" class="" dir="auto">O TCP foi projetado para fornecer uma comunicação confiável entre dois pontos.</p><p id="402f6ce8-497f-807a-abd1-f659e91c987f" class="" dir="auto">Ele oferece mecanismos como:</p><ul id="402f6ce8-497f-80f4-be27-e4556ba62700" class="bulleted-list" dir="auto"><li style="list-style-type:disc">estabelecimento de conexão;</li></ul><ul id="402f6ce8-497f-8057-b552-dc4fc7886848" class="bulleted-list" dir="auto"><li style="list-style-type:disc">entrega ordenada;</li></ul><ul id="402f6ce8-497f-80c2-a8cb-c7b08a9baca7" class="bulleted-list" dir="auto"><li style="list-style-type:disc">confirmação de recebimento;</li></ul><ul id="402f6ce8-497f-802e-bc3c-e6105d6f1020" class="bulleted-list" dir="auto"><li style="list-style-type:disc">retransmissão de dados perdidos;</li></ul><ul id="402f6ce8-497f-8067-8caf-cdaa5f78a088" class="bulleted-list" dir="auto"><li style="list-style-type:disc">controle de fluxo;</li></ul><ul id="402f6ce8-497f-8049-881d-c54c288841e0" class="bulleted-list" dir="auto"><li style="list-style-type:disc">controle de congestionamento;</li></ul><ul id="402f6ce8-497f-802b-b013-d16305fc2d8b" class="bulleted-list" dir="auto"><li style="list-style-type:disc">detecção de determinados erros;</li></ul><ul id="402f6ce8-497f-808a-b4a5-c39a3be6ce89" class="bulleted-list" dir="auto"><li style="list-style-type:disc">encerramento organizado da conexão.</li></ul><p id="402f6ce8-497f-80c2-9763-eba45ad02213" class="" dir="auto">Podemos resumir:</p><blockquote id="402f6ce8-497f-80ad-a7f4-d6891ebdd45d" class="" dir="auto"><strong>TCP transforma a comunicação IP, que é &quot;best effort&quot;, em uma comunicação de transporte mais confiável.</strong></blockquote><hr id="402f6ce8-497f-8015-ae9e-d39972a394ad" dir="auto"/><h1 id="402f6ce8-497f-8033-afca-e2b764bf489c" class="" dir="auto">3. TCP × IP</h1><p id="402f6ce8-497f-809c-a9d8-d72b257ce88c" class="" dir="auto">Essa é uma das diferenças mais importantes para memorizar.</p><h3 id="402f6ce8-497f-80ba-a0d1-fe392d437762" class="" dir="auto">IP</h3><p id="402f6ce8-497f-80b2-8213-dd3f20ed34fa" class="" dir="auto">Pergunta:</p><blockquote id="402f6ce8-497f-80c4-9cc9-c5e693e32541" class="" dir="auto"><strong>Para onde esse pacote deve ir?</strong></blockquote><h3 id="402f6ce8-497f-805b-9a15-fd6c49589747" class="" dir="auto">TCP</h3><p id="402f6ce8-497f-80da-9bb0-c4f19ec710e4" class="" dir="auto">Pergunta:</p><blockquote id="402f6ce8-497f-80d8-9bd3-c0c52a087e98" class="" dir="auto"><strong>Como podemos transportar os dados de maneira confiável entre os dois pontos?</strong></blockquote><p id="402f6ce8-497f-8078-b7e4-e6aa07eab80a" class="" dir="auto">Visualmente:</p><pre id="402f6ce8-497f-806e-887c-e08739bcb6f7" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Aplicação
+    │
+    ▼
+   TCP
+    │
+    ▼
+   IP
+    │
+    ▼
+  Rede</code></pre><p id="402f6ce8-497f-8013-ac86-eb26c5394e6a" class="" dir="auto">O TCP utiliza o IP para transportar seus segmentos.</p><hr id="402f6ce8-497f-8068-bf1b-cf532ba363b1" dir="auto"/><h1 id="402f6ce8-497f-8005-b53a-c6bbd4616309" class="" dir="auto">4. TCP é orientado à conexão</h1><p id="402f6ce8-497f-8013-a749-fbf584329792" class="" dir="auto">Antes de transmitir dados normalmente, o TCP estabelece uma conexão lógica entre os dois lados.</p><p id="402f6ce8-497f-80d7-b73d-f8de7771ba22" class="" dir="auto">Imagine:</p><pre id="402f6ce8-497f-802e-9c08-dec97ab213b5" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Cliente
+   │
+   │ &quot;Podemos estabelecer uma conexão?&quot;
+   ▼
+Servidor
+   │
+   │ &quot;Sim.&quot;
+   ▼
+Cliente
+   │
+   │ &quot;Confirmado.&quot;
+   ▼
+Conexão estabelecida</code></pre><p id="402f6ce8-497f-807b-a325-cee0f62687bd" class="" dir="auto">Esse processo é conhecido como:</p><blockquote id="402f6ce8-497f-80fa-9fac-d92277115a78" class="" dir="auto"><strong>Three-Way Handshake</strong></blockquote><p id="402f6ce8-497f-804c-b23d-d18ec2d23490" class="" dir="auto">ou <strong>handshake de três vias</strong>.</p><hr id="402f6ce8-497f-8091-b89e-d988dafbc87e" dir="auto"/><h1 id="402f6ce8-497f-80ec-99ca-e639154084f9" class="" dir="auto">5. Three-Way Handshake</h1><p id="402f6ce8-497f-80c0-8dff-c1162f2be9be" class="" dir="auto">O estabelecimento de uma conexão TCP normalmente envolve três mensagens principais:</p><pre id="402f6ce8-497f-804a-8a71-fa734c2e0d74" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Cliente                         Servidor
+   │                               │
+   │ -------- SYN --------------&gt; │
+   │                               │
+   │ &lt;------ SYN + ACK ----------- │
+   │                               │
+   │ -------- ACK --------------&gt; │
+   │                               │
+   │       CONEXÃO ESTABELECIDA    │</code></pre><p id="402f6ce8-497f-8094-a3ed-de2d20883d2b" class="" dir="auto">Vamos entender cada uma.</p><hr id="402f6ce8-497f-8036-9e66-fe20e84132cf" dir="auto"/><h2 id="402f6ce8-497f-80c3-889a-cd5c188a120f" class="" dir="auto">5.1 SYN</h2><p id="402f6ce8-497f-80c3-a77c-ca7b6cde8b57" class="" dir="auto">O cliente envia um segmento com a flag:</p><pre id="402f6ce8-497f-80aa-9d24-f4206bc04415" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">SYN</code></pre><p id="402f6ce8-497f-80b7-96ce-fcd5ec1c354b" class="" dir="auto">Indicando que deseja iniciar uma conexão.</p><pre id="402f6ce8-497f-8074-868c-edb7f124a2b8" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Cliente → Servidor
+SYN</code></pre><hr id="402f6ce8-497f-804f-9b8c-d8038b896dd0" dir="auto"/><h2 id="402f6ce8-497f-80d6-8bda-ca191a58713e" class="" dir="auto">5.2 SYN + ACK</h2><p id="402f6ce8-497f-8036-a4a2-fe1c79b6c204" class="" dir="auto">O servidor responde:</p><pre id="402f6ce8-497f-80fd-97e9-ed55053fd534" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">SYN + ACK</code></pre><p id="402f6ce8-497f-801d-ab7b-dd147da704ef" class="" dir="auto">Isso indica, de maneira simplificada:</p><blockquote id="402f6ce8-497f-8080-97d3-c52a25a3a6bc" class="" dir="auto">&quot;Recebi sua solicitação e também estou pronto para estabelecer a conexão.&quot;</blockquote><pre id="402f6ce8-497f-8025-a78e-c7245b26fe3b" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Servidor → Cliente
+SYN + ACK</code></pre><hr id="402f6ce8-497f-8043-83b4-e35f065cc29e" dir="auto"/><h2 id="402f6ce8-497f-80ad-9832-e684b3ab8e8f" class="" dir="auto">5.3 ACK</h2><p id="402f6ce8-497f-806a-bd34-cf31442f0640" class="" dir="auto">Finalmente, o cliente responde:</p><pre id="402f6ce8-497f-8087-95c1-f08e58bdce55" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">ACK</code></pre><p id="402f6ce8-497f-80c3-ae54-e70f6d802ba6" class="" dir="auto">Confirmando o recebimento.</p><pre id="402f6ce8-497f-8064-a760-d3f48896b642" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Cliente → Servidor
+ACK</code></pre><p id="402f6ce8-497f-8067-aec3-e52ca0f7c53d" class="" dir="auto">Agora a conexão está estabelecida.</p><hr id="402f6ce8-497f-8046-bb45-c37ee0fccccb" dir="auto"/><h1 id="402f6ce8-497f-8005-b2dd-ccc26f81f0e3" class="" dir="auto">6. Por que três etapas?</h1><p id="402f6ce8-497f-80c4-91f5-ec1996861970" class="" dir="auto">O processo permite que os dois lados sincronizem informações necessárias para a comunicação, incluindo os números de sequência utilizados pelo TCP.</p><p id="402f6ce8-497f-80f8-ad4a-c34ccd5a8373" class="" dir="auto">Simplificando:</p><pre id="402f6ce8-497f-80d7-94f6-d03e1a44634a" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">1. Cliente → &quot;Quero conectar.&quot;
+2. Servidor → &quot;Recebi e também quero conectar.&quot;
+3. Cliente → &quot;Recebi sua confirmação.&quot;</code></pre><p id="402f6ce8-497f-807a-811a-c1b002a804b4" class="" dir="auto">Depois disso:</p><pre id="402f6ce8-497f-8092-873b-c2b5f7391015" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Cliente ←──────────→ Servidor
+       conexão TCP</code></pre><hr id="402f6ce8-497f-80e7-9df7-c09cad0cdbbd" dir="auto"/><h1 id="402f6ce8-497f-8081-a159-e6b3a8cdb6ec" class="" dir="auto">7. Dados são divididos em segmentos</h1><p id="402f6ce8-497f-807a-b38c-d7607a9c9057" class="" dir="auto">Imagine que você queira enviar:</p><pre id="402f6ce8-497f-8052-a693-d5277cb65238" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">&quot;Olá, tudo bem?&quot;</code></pre><p id="402f6ce8-497f-8067-ab82-d66c313318ca" class="" dir="auto">O TCP pode dividir o fluxo de dados em unidades chamadas <strong>segmentos TCP</strong>.</p><p id="402f6ce8-497f-8047-83e5-d071141d23ea" class="" dir="auto">Conceitualmente:</p><pre id="402f6ce8-497f-8017-9621-f85e77b2080e" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Dados
+ ↓
+TCP
+ ↓
+┌────────┐
+│Seg. 1  │
+├────────┤
+│Seg. 2  │
+├────────┤
+│Seg. 3  │
+└────────┘
+ ↓
+IP
+ ↓
+Rede</code></pre><p id="402f6ce8-497f-8069-a0b1-eb9d7f62640f" class="" dir="auto">O IP então encapsula esses segmentos em pacotes IP.</p><hr id="402f6ce8-497f-806a-99e7-f668908b898f" dir="auto"/><h1 id="402f6ce8-497f-80c8-8135-ed840556fdb9" class="" dir="auto">8. Números de sequência</h1><p id="402f6ce8-497f-80b7-9b36-e457c8e6accc" class="" dir="auto">Um dos mecanismos fundamentais do TCP são os <strong>números de sequência</strong>.</p><p id="402f6ce8-497f-8062-9b33-ed3f7ad05f3b" class="" dir="auto">Eles permitem que o receptor saiba como os dados se relacionam e mantenha a ordem correta do fluxo.</p><p id="402f6ce8-497f-80c6-aa95-d773aaddcb56" class="" dir="auto">Imagine que os dados sejam divididos:</p><pre id="402f6ce8-497f-806e-8891-fb3eec050346" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">A → B → C → D</code></pre><p id="402f6ce8-497f-801a-97c3-e2f85f860b87" class="" dir="auto">Os segmentos podem chegar fora de ordem:</p><pre id="402f6ce8-497f-80ef-89f6-f1ba15d20aba" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">B
+D
+A
+C</code></pre><p id="402f6ce8-497f-8070-bb30-ce6c571ec9a0" class="" dir="auto">O TCP utiliza informações de sequência para reorganizar o fluxo.</p><pre id="402f6ce8-497f-809d-a206-e7a32874e470" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">A → B → C → D</code></pre><p id="402f6ce8-497f-8037-b6a0-c88680c59770" class="" dir="auto">Assim, a aplicação recebe os dados na ordem esperada.</p><hr id="402f6ce8-497f-8094-9a35-fa1781054505" dir="auto"/><h1 id="402f6ce8-497f-809f-a197-dbdace6c51ff" class="" dir="auto">9. ACK — confirmação de recebimento</h1><p id="402f6ce8-497f-8006-96ad-cba5f593508a" class="" dir="auto">TCP utiliza <strong>ACK (Acknowledgment)</strong> para confirmar o recebimento de dados.</p><p id="402f6ce8-497f-8049-b28f-f894e4c167bb" class="" dir="auto">Simplificando:</p><pre id="402f6ce8-497f-802d-952a-fa505c3a4b9f" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Cliente
+   │
+   │ Dados
+   ▼
+Servidor
+   │
+   │ ACK
+   ▼
+Cliente</code></pre><p id="402f6ce8-497f-8038-b959-e0b3e257867e" class="" dir="auto">O ACK informa ao remetente que determinados dados foram recebidos.</p><hr id="402f6ce8-497f-80e1-9769-ef5a5d707231" dir="auto"/><h1 id="402f6ce8-497f-80b3-ba31-dfd507089a8f" class="" dir="auto">10. Retransmissão</h1><p id="402f6ce8-497f-80eb-b3f8-e6cef8b8216a" class="" dir="auto">Imagine que um segmento seja perdido:</p><pre id="402f6ce8-497f-80e3-8e2e-f9ac39e7e11e" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Cliente                     Servidor
+
+Segmento 1 ────────────────→ ✓
+Segmento 2 ────────X         perdido
+Segmento 3 ────────────────→ ✓</code></pre><p id="402f6ce8-497f-808f-bd12-fa3ee5fd55d1" class="" dir="auto">O TCP possui mecanismos para detectar que algo não foi recebido corretamente e pode retransmitir os dados.</p><p id="402f6ce8-497f-801c-8407-f3760cd66217" class="" dir="auto">Conceitualmente:</p><pre id="402f6ce8-497f-8034-8634-dc7fca35155c" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Segmento perdido
+      ↓
+Detecção
+      ↓
+Retransmissão
+      ↓
+Recebimento</code></pre><p id="402f6ce8-497f-8045-a0ae-d765008b6875" class="" dir="auto">É uma das características que tornam o TCP confiável.</p><hr id="402f6ce8-497f-8007-a712-d04900dd8a2c" dir="auto"/><h1 id="402f6ce8-497f-8026-812e-d217bf706cbc" class="" dir="auto">11. TCP não garante que a rede nunca perderá pacotes</h1><p id="402f6ce8-497f-8007-9b8c-d3250f42267b" class="" dir="auto">Essa distinção é importante.</p><p id="402f6ce8-497f-80ff-a1ba-d36fd515f8ce" class="" dir="auto">O TCP não impede fisicamente a perda de pacotes.</p><p id="402f6ce8-497f-80fd-a952-fa092ec06863" class="" dir="auto">A rede ainda pode apresentar:</p><ul id="402f6ce8-497f-80a5-b079-c23ba39af1fd" class="bulleted-list" dir="auto"><li style="list-style-type:disc">congestionamento;</li></ul><ul id="402f6ce8-497f-80e5-9875-e3993630a66b" class="bulleted-list" dir="auto"><li style="list-style-type:disc">falhas;</li></ul><ul id="402f6ce8-497f-8064-8b42-c797b0919dab" class="bulleted-list" dir="auto"><li style="list-style-type:disc">perda;</li></ul><ul id="402f6ce8-497f-80bb-b270-fcda5bef7b8a" class="bulleted-list" dir="auto"><li style="list-style-type:disc">atrasos;</li></ul><ul id="402f6ce8-497f-801b-8ab1-eab8f0f98fbc" class="bulleted-list" dir="auto"><li style="list-style-type:disc">problemas de roteamento.</li></ul><p id="402f6ce8-497f-8008-84f6-d2a886190e25" class="" dir="auto">O que o TCP faz é implementar mecanismos para <strong>detectar determinadas situações e reagir a elas</strong>, como retransmitindo dados.</p><hr id="402f6ce8-497f-80a0-9467-c664403a2ce8" dir="auto"/><h1 id="402f6ce8-497f-801f-96f4-fe04deb6cc34" class="" dir="auto">12. Controle de fluxo</h1><p id="402f6ce8-497f-80d8-9ae5-d9c5c5a3b040" class="" dir="auto">Imagine que o remetente seja muito rápido:</p><pre id="402f6ce8-497f-8076-9c5f-f3b3f4a73910" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Remetente
+████████████████████
+        ↓
+    Receptor
+       ██</code></pre><p id="402f6ce8-497f-80b0-ad7b-e606d70712f9" class="" dir="auto">O receptor pode não conseguir processar tudo nessa velocidade.</p><p id="402f6ce8-497f-806d-91c2-d4631617f414" class="" dir="auto">O TCP possui mecanismos de <strong>controle de fluxo</strong> para evitar que o remetente envie mais dados do que o receptor consegue lidar naquele momento.</p><p id="402f6ce8-497f-8039-a304-f3d280aff152" class="" dir="auto">Um conceito fundamental aqui é a:</p><blockquote id="402f6ce8-497f-8099-8a22-ededbc09b750" class="" dir="auto"><strong>janela de recepção (receive window)</strong></blockquote><p id="402f6ce8-497f-8075-ae9f-dd07eff90c7a" class="" dir="auto">Simplificando:</p><pre id="402f6ce8-497f-800b-9e3b-dbc87f83994e" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Receptor:
+&quot;Consigo receber até determinada quantidade de dados agora.&quot;</code></pre><p id="402f6ce8-497f-8008-b8da-dbd14ab60d25" class="" dir="auto">O remetente ajusta seu envio de acordo com essas informações.</p><hr id="402f6ce8-497f-808e-839a-d18ef68c0c9d" dir="auto"/><h1 id="402f6ce8-497f-808a-b2f1-d21ca9918dfe" class="" dir="auto">13. Controle de congestionamento</h1><p id="402f6ce8-497f-8086-b430-dda99829a9af" class="" dir="auto">Controle de fluxo não é a mesma coisa que controle de congestionamento.</p><h3 id="402f6ce8-497f-8097-84c4-c667597f1cbb" class="" dir="auto">Controle de fluxo</h3><p id="402f6ce8-497f-8037-92d3-f80384e2f2b0" class="" dir="auto">Protege o <strong>receptor</strong>.</p><pre id="402f6ce8-497f-8086-b377-e4f893a4160c" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">&quot;Não envie mais do que consigo receber.&quot;</code></pre><h3 id="402f6ce8-497f-8018-9711-c8376e988eab" class="" dir="auto">Controle de congestionamento</h3><p id="402f6ce8-497f-800b-8503-c5e80dbe93ca" class="" dir="auto">Considera a <strong>rede</strong>.</p><pre id="402f6ce8-497f-80de-98b5-fb715fe6b7af" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">&quot;Não envie dados em uma velocidade que contribua para congestionar o caminho.&quot;</code></pre><p id="402f6ce8-497f-80f2-928b-fdcb1008d732" class="" dir="auto">Portanto:</p><pre id="402f6ce8-497f-8049-951b-fe2c348b120f" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">TCP
+├── Controle de fluxo
+│   └── protege o receptor
+│
+└── Controle de congestionamento
+    └── considera a rede</code></pre><hr id="402f6ce8-497f-8022-a140-c7bff708525e" dir="auto"/><h1 id="402f6ce8-497f-8000-af36-fb97becc9aa0" class="" dir="auto">14. Portas TCP</h1><p id="402f6ce8-497f-8007-a145-c858f68e4a6d" class="" dir="auto">O endereço IP identifica o host, mas isso não é suficiente para identificar qual aplicação deve receber os dados.</p><p id="402f6ce8-497f-80f4-8035-e2e18d4b7a3d" class="" dir="auto">É aí que entram as <strong>portas</strong>.</p><p id="402f6ce8-497f-80d1-81cc-e451ddcb5b1b" class="" dir="auto">Imagine:</p><pre id="402f6ce8-497f-8095-abb0-d1813aabee67" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">IP:
+192.168.1.10
+
+Porta:
+443</code></pre><p id="402f6ce8-497f-801a-8efc-fad11ff762b6" class="" dir="auto">Podemos pensar:</p><pre id="402f6ce8-497f-8095-a046-ef201fd76bed" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">IP → qual dispositivo?
+Porta → qual serviço/aplicação?</code></pre><p id="402f6ce8-497f-80d5-98b4-c38300abba17" class="" dir="auto">Por isso uma comunicação TCP é normalmente identificada por:</p><pre id="402f6ce8-497f-806a-9721-d12a57ec28fd" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">IP de origem
+IP de destino
+Porta de origem
+Porta de destino</code></pre><hr id="402f6ce8-497f-8066-a6fb-dc59316b5d29" dir="auto"/><h1 id="402f6ce8-497f-80d1-b0e1-d19a0214653e" class="" dir="auto">15. Exemplo com HTTPS</h1><p id="402f6ce8-497f-80ca-b7ce-e40b212e5665" class="" dir="auto">Quando você acessa um site HTTPS:</p><pre id="402f6ce8-497f-8055-b42d-c5417dcc82a7" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Cliente
+192.168.1.10
+porta temporária
+      │
+      │ TCP
+      ▼
+Servidor
+IP público
+porta 443</code></pre><p id="402f6ce8-497f-80a1-a1eb-ce169a67e951" class="" dir="auto">A porta:</p><pre id="402f6ce8-497f-8064-ab10-e45b3682c436" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">443</code></pre><p id="402f6ce8-497f-8031-9cca-c2946f471bb0" class="" dir="auto">é tradicionalmente associada ao <strong>HTTPS</strong>.</p><p id="402f6ce8-497f-8018-92f2-e8e0b9e212ab" class="" dir="auto">O TCP permite que os dados sejam transportados até o serviço correspondente.</p><hr id="402f6ce8-497f-802f-aaec-f60d12c5c6a0" dir="auto"/><h1 id="402f6ce8-497f-8064-b496-ff83af9556f7" class="" dir="auto">16. Algumas portas conhecidas</h1><table id="402f6ce8-497f-80e3-ac96-d86e7bf8a516" class="simple-table" dir="ltr"><thead class="simple-table-header"><tr id="402f6ce8-497f-80cd-a48b-d219967a96c6" dir="ltr"><th id="NHCI" class="simple-table-header-color simple-table-header">Porta</th><th id="nUYI" class="simple-table-header-color simple-table-header">Serviço/protocolo comum</th></tr></thead><tbody><tr id="402f6ce8-497f-801a-9597-dd7a6e4d6b1d" dir="ltr"><td id="NHCI" class="">20/21</td><td id="nUYI" class="">FTP</td></tr><tr id="402f6ce8-497f-80b1-ae77-f81a25e51544" dir="ltr"><td id="NHCI" class="">22</td><td id="nUYI" class="">SSH</td></tr><tr id="402f6ce8-497f-805f-b4ac-ee284f177e0d" dir="ltr"><td id="NHCI" class="">23</td><td id="nUYI" class="">Telnet</td></tr><tr id="402f6ce8-497f-8060-be84-d381b9912521" dir="ltr"><td id="NHCI" class="">25</td><td id="nUYI" class="">SMTP</td></tr><tr id="402f6ce8-497f-8003-89f2-c251d2655d5e" dir="ltr"><td id="NHCI" class="">53</td><td id="nUYI" class="">DNS pode usar TCP e UDP</td></tr><tr id="402f6ce8-497f-80f0-9ee4-eda8357f7964" dir="ltr"><td id="NHCI" class="">80</td><td id="nUYI" class="">HTTP</td></tr><tr id="402f6ce8-497f-8093-9f7e-cc9fa57d8ec1" dir="ltr"><td id="NHCI" class="">443</td><td id="nUYI" class="">HTTPS</td></tr><tr id="402f6ce8-497f-80c5-a954-d957e269a90f" dir="ltr"><td id="NHCI" class="">3306</td><td id="nUYI" class="">MySQL</td></tr><tr id="402f6ce8-497f-8006-a996-da47622f9f26" dir="ltr"><td id="NHCI" class="">5432</td><td id="nUYI" class="">PostgreSQL</td></tr></tbody></table><p id="402f6ce8-497f-80e2-8ec0-d0fc0b9480fb" class="" dir="auto">Essas associações são convenções e não significam que um serviço obrigatoriamente precisa utilizar determinada porta.</p><hr id="402f6ce8-497f-8019-806e-cb3bb479d11b" dir="auto"/><h1 id="402f6ce8-497f-8071-ba16-f4e84188ecee" class="" dir="auto">17. Socket</h1><p id="402f6ce8-497f-8006-b9eb-f981a3576076" class="" dir="auto">No desenvolvimento de redes, você também encontrará o conceito de <strong>socket</strong>.</p><p id="402f6ce8-497f-80ab-a858-c3d086af96ad" class="" dir="auto">Simplificando:</p><pre id="402f6ce8-497f-80ce-9dde-e9939945caf7" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">IP + Porta</code></pre><p id="402f6ce8-497f-80bf-bbba-ee225bb4a06b" class="" dir="auto">identifica um endpoint de comunicação.</p><p id="402f6ce8-497f-80d1-b7a6-d8de92b3d765" class="" dir="auto">Por exemplo:</p><pre id="402f6ce8-497f-806c-879c-c47a42051750" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">192.168.1.10:5000</code></pre><p id="402f6ce8-497f-8037-9968-c4de63dc0880" class="" dir="auto">significa:</p><pre id="402f6ce8-497f-800b-b750-dcf077ee0b28" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">IP   → 192.168.1.10
+Porta → 5000</code></pre><p id="402f6ce8-497f-801a-8de4-d67913d03952" class="" dir="auto">Uma conexão TCP pode ser entendida considerando os endpoints de origem e destino.</p><hr id="402f6ce8-497f-80e9-95ae-fe39f8d45cb5" dir="auto"/><h1 id="402f6ce8-497f-80ff-b9a1-cbbcaeb0a935" class="" dir="auto">18. Flags TCP</h1><p id="402f6ce8-497f-805a-bed6-d38ac6ea0b32" class="" dir="auto">O cabeçalho TCP possui várias flags importantes.</p><p id="402f6ce8-497f-8021-9b6a-cf7442fdb6b9" class="" dir="auto">As principais que você deve conhecer são:</p><ul id="402f6ce8-497f-8051-960f-f74383d29ac9" class="bulleted-list" dir="auto"><li style="list-style-type:disc">SYN;</li></ul><ul id="402f6ce8-497f-80b7-9bf1-edb03f1f86c5" class="bulleted-list" dir="auto"><li style="list-style-type:disc">ACK;</li></ul><ul id="402f6ce8-497f-809c-8c0a-d42384244df8" class="bulleted-list" dir="auto"><li style="list-style-type:disc">FIN;</li></ul><ul id="402f6ce8-497f-8004-a5cf-dda927525a3c" class="bulleted-list" dir="auto"><li style="list-style-type:disc">RST;</li></ul><ul id="402f6ce8-497f-8078-9fb7-f12e40e1d11d" class="bulleted-list" dir="auto"><li style="list-style-type:disc">PSH;</li></ul><ul id="402f6ce8-497f-8042-b98d-c820091bb3cb" class="bulleted-list" dir="auto"><li style="list-style-type:disc">URG.</li></ul><p id="402f6ce8-497f-80e0-a4e3-cdc22fe5f018" class="" dir="auto">As mais importantes para começar são:</p><h3 id="402f6ce8-497f-8001-b6ee-d7f8dcf9062a" class="" dir="auto">SYN</h3><p id="402f6ce8-497f-8061-82f1-d3bb505946d1" class="" dir="auto">Utilizada para estabelecer uma conexão.</p><h3 id="402f6ce8-497f-80fe-9dee-fa03cae6b93b" class="" dir="auto">ACK</h3><p id="402f6ce8-497f-80b7-b11d-c1ff20366a10" class="" dir="auto">Indica confirmação.</p><h3 id="402f6ce8-497f-8053-9b19-e98fded54f98" class="" dir="auto">FIN</h3><p id="402f6ce8-497f-804b-b949-ed71682581f8" class="" dir="auto">Utilizada no encerramento normal da conexão.</p><h3 id="402f6ce8-497f-8046-91d9-f059a204a8d1" class="" dir="auto">RST</h3><p id="402f6ce8-497f-8009-bf79-ef9fa5f8c1fc" class="" dir="auto">Indica uma reinicialização/aborto da conexão.</p><hr id="402f6ce8-497f-803d-a67e-dcd912f106ab" dir="auto"/><h1 id="402f6ce8-497f-806f-8c51-ccddbf66b7af" class="" dir="auto">19. Encerramento da conexão</h1><p id="402f6ce8-497f-8099-9904-ebd06dd2228e" class="" dir="auto">O TCP também possui um processo para encerrar uma conexão.</p><p id="402f6ce8-497f-8084-8ef5-ce86f48f11a7" class="" dir="auto">Conceitualmente:</p><pre id="402f6ce8-497f-80e8-a222-cd514acb41d9" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Cliente                         Servidor
+   │                               │
+   │ -------- FIN --------------&gt; │
+   │                               │
+   │ &lt;-------- ACK -------------- │
+   │                               │
+   │ &lt;-------- FIN -------------- │
+   │                               │
+   │ -------- ACK --------------&gt; │
+   │                               │
+   │       CONEXÃO ENCERRADA       │</code></pre><p id="402f6ce8-497f-8034-9c36-dbd4c54bdf0d" class="" dir="auto">É comum falar em <strong>four-way termination</strong>, porque o encerramento normal pode envolver quatro segmentos.</p><hr id="402f6ce8-497f-8090-884e-e82549d0ef3f" dir="auto"/><h1 id="402f6ce8-497f-80b5-92b6-c4fe19d1534a" class="" dir="auto">20. FIN × RST</h1><p id="402f6ce8-497f-80c2-9762-f7771080868f" class="" dir="auto">Essa diferença é importante.</p><h3 id="402f6ce8-497f-80cc-9ca4-cfde6c678b0b" class="" dir="auto">FIN</h3><p id="402f6ce8-497f-80db-a826-d77ce58c5204" class="" dir="auto">Representa um encerramento normal.</p><pre id="402f6ce8-497f-806b-aad7-eaa2a0e99008" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">&quot;Terminei de enviar.&quot;</code></pre><h3 id="402f6ce8-497f-80e3-b43c-d908f995b886" class="" dir="auto">RST</h3><p id="402f6ce8-497f-809b-a3de-ff7fa2873cdb" class="" dir="auto">Indica uma interrupção/reset da conexão.</p><pre id="402f6ce8-497f-8034-95f5-d8bd8eaaf35d" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">&quot;Essa conexão precisa ser interrompida.&quot;</code></pre><p id="402f6ce8-497f-8059-a378-f50301bb19b2" class="" dir="auto">Um RST pode aparecer, por exemplo, quando uma conexão não pode ser estabelecida ou quando ocorre uma situação que exige seu encerramento imediato.</p><hr id="402f6ce8-497f-8084-b0c8-c0c846d9246a" dir="auto"/><h1 id="402f6ce8-497f-8020-bf42-c1ea5366596d" class="" dir="auto">21. TCP é orientado a fluxo</h1><p id="402f6ce8-497f-808d-8828-e4429eaf038a" class="" dir="auto">O TCP trabalha como um <strong>fluxo de bytes</strong>.</p><p id="402f6ce8-497f-809e-b860-c1e4c86c0f47" class="" dir="auto">A aplicação não precisa necessariamente pensar:</p><pre id="402f6ce8-497f-808c-a16f-d3173afd56b9" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">&quot;Estou enviando exatamente este pacote.&quot;</code></pre><p id="402f6ce8-497f-801d-b172-e87a789a4524" class="" dir="auto">Ela normalmente trabalha com um fluxo de dados.</p><p id="402f6ce8-497f-8006-a2a0-d72b534a3178" class="" dir="auto">Por exemplo:</p><pre id="402f6ce8-497f-8098-9ab5-d5f48fde4848" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Aplicação
+&quot;Olá, esta é uma mensagem...&quot;
+       ↓
+      TCP
+       ↓
+Segmentos
+       ↓
+      IP
+       ↓
+Rede</code></pre><p id="402f6ce8-497f-8042-87b0-c6d3bc017d0b" class="" dir="auto">O TCP cuida de diversos detalhes do transporte.</p><hr id="402f6ce8-497f-8072-92a7-cdf7002a29de" dir="auto"/><h1 id="402f6ce8-497f-8084-8ca7-fbd4bb845db4" class="" dir="auto">22. TCP × UDP</h1><p id="402f6ce8-497f-800a-96d0-fa3f305fe994" class="" dir="auto">Essa é uma comparação fundamental.</p><table id="402f6ce8-497f-80a0-b672-de339461b51f" class="simple-table" dir="ltr"><thead class="simple-table-header"><tr id="402f6ce8-497f-8044-b71f-d6fa0c9f7938" dir="ltr"><th id="t;OC" class="simple-table-header-color simple-table-header">Característica</th><th id="quuU" class="simple-table-header-color simple-table-header">TCP</th><th id="DnNe" class="simple-table-header-color simple-table-header">UDP</th></tr></thead><tbody><tr id="402f6ce8-497f-80b1-a1f1-ceb80218d1f7" dir="ltr"><td id="t;OC" class="">Orientado à conexão</td><td id="quuU" class="">Sim</td><td id="DnNe" class="">Não da mesma forma</td></tr><tr id="402f6ce8-497f-80ec-9039-d082df100515" dir="ltr"><td id="t;OC" class="">Entrega confiável</td><td id="quuU" class="">Sim, com mecanismos próprios</td><td id="DnNe" class="">Não</td></tr><tr id="402f6ce8-497f-803e-bd88-f61e19261694" dir="ltr"><td id="t;OC" class="">Ordem dos dados</td><td id="quuU" class="">Mantida pelo TCP</td><td id="DnNe" class="">Não garantida pelo UDP</td></tr><tr id="402f6ce8-497f-8050-a1f6-f4b2a173d4e0" dir="ltr"><td id="t;OC" class="">Retransmissão</td><td id="quuU" class="">Sim</td><td id="DnNe" class="">Não por padrão</td></tr><tr id="402f6ce8-497f-80ed-bff5-d5d12e491206" dir="ltr"><td id="t;OC" class="">Controle de fluxo</td><td id="quuU" class="">Sim</td><td id="DnNe" class="">Não da mesma forma</td></tr><tr id="402f6ce8-497f-8043-8a25-fa42b40b3f9a" dir="ltr"><td id="t;OC" class="">Controle de congestionamento</td><td id="quuU" class="">Sim</td><td id="DnNe" class="">Não da mesma forma</td></tr><tr id="402f6ce8-497f-8058-812b-c196f0e4194e" dir="ltr"><td id="t;OC" class="">Overhead</td><td id="quuU" class="">Maior</td><td id="DnNe" class="">Menor</td></tr><tr id="402f6ce8-497f-8083-a9c8-e9bef03c74a4" dir="ltr"><td id="t;OC" class="">Latência potencial</td><td id="quuU" class="">Maior</td><td id="DnNe" class="">Geralmente menor</td></tr><tr id="402f6ce8-497f-8003-81f6-f4c03378364b" dir="ltr"><td id="t;OC" class="">Uso</td><td id="quuU" class="">Web, SSH, muitos serviços</td><td id="DnNe" class="">DNS, streaming, jogos, VoIP etc.</td></tr></tbody></table><hr id="402f6ce8-497f-8030-b8da-dfcc00a7c8df" dir="auto"/><h1 id="402f6ce8-497f-802a-9e44-ed422c254d12" class="" dir="auto">23. Quando usar TCP?</h1><p id="402f6ce8-497f-8088-b1a6-e7a38d5fcc0d" class="" dir="auto">O TCP é adequado quando a <strong>confiabilidade dos dados é importante</strong>.</p><p id="402f6ce8-497f-800d-af17-c7abb49a47eb" class="" dir="auto">Exemplos:</p><h3 id="402f6ce8-497f-80c7-b720-d2668cbc63b4" class="" dir="auto">🌐 Web</h3><pre id="402f6ce8-497f-80a7-bdd1-deff96f33dc5" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">HTTP/HTTPS
+   ↓
+TCP</code></pre><p id="402f6ce8-497f-80dc-bd11-f95d7aeb5320" class="" dir="auto">Embora HTTP/3 utilize QUIC sobre UDP, HTTP/1.1 e HTTP/2 tradicionalmente utilizam TCP.</p><h3 id="402f6ce8-497f-8011-9046-c552b4bceada" class="" dir="auto">🔐 SSH</h3><pre id="402f6ce8-497f-8002-9546-c217923caea8" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">SSH
+ ↓
+TCP</code></pre><h3 id="402f6ce8-497f-8040-aa5b-eb88643529d2" class="" dir="auto">📧 E-mail</h3><p id="402f6ce8-497f-804d-a9c7-d818cfa42e1e" class="" dir="auto">Protocolos como SMTP, IMAP e POP3 tradicionalmente utilizam TCP.</p><h3 id="402f6ce8-497f-80f7-8ee3-cda707951677" class="" dir="auto">🗄️ Banco de dados</h3><p id="402f6ce8-497f-802c-bebb-cbdb6b113f15" class="" dir="auto">Muitos sistemas de banco de dados utilizam TCP para comunicação cliente-servidor.</p><hr id="402f6ce8-497f-80aa-91fc-e044abb67643" dir="auto"/><h1 id="402f6ce8-497f-80e5-9d30-e578f7c2e115" class="" dir="auto">24. Quando UDP pode ser mais adequado?</h1><p id="402f6ce8-497f-80e3-bec9-c67114eb169a" class="" dir="auto">Existem situações nas quais esperar retransmissões pode ser menos desejável do que simplesmente continuar recebendo dados.</p><p id="402f6ce8-497f-80ce-8898-d1aa2ac309f3" class="" dir="auto">Exemplos:</p><ul id="402f6ce8-497f-80a6-aabc-de816ed6ee83" class="bulleted-list" dir="auto"><li style="list-style-type:disc">jogos online;</li></ul><ul id="402f6ce8-497f-8055-9032-eacbb9e0a0a3" class="bulleted-list" dir="auto"><li style="list-style-type:disc">comunicação em tempo real;</li></ul><ul id="402f6ce8-497f-804a-ba72-f4477a6420e1" class="bulleted-list" dir="auto"><li style="list-style-type:disc">VoIP;</li></ul><ul id="402f6ce8-497f-8017-8b03-d216121a0db2" class="bulleted-list" dir="auto"><li style="list-style-type:disc">streaming;</li></ul><ul id="402f6ce8-497f-8041-bbae-ef06dd1c36a7" class="bulleted-list" dir="auto"><li style="list-style-type:disc">DNS;</li></ul><ul id="402f6ce8-497f-8017-99a6-c9aeb306c0d9" class="bulleted-list" dir="auto"><li style="list-style-type:disc">protocolos modernos como QUIC.</li></ul><p id="402f6ce8-497f-804f-af53-da256b47328a" class="" dir="auto">Por exemplo, em uma chamada de voz:</p><pre id="402f6ce8-497f-8064-8611-eb342f68b033" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Pacote atrasado
+      ↓
+Chega depois
+      ↓
+Pode ser menos útil</code></pre><p id="402f6ce8-497f-80cf-b73b-ef5de6687bc0" class="" dir="auto">Às vezes é melhor continuar transmitindo os dados mais recentes.</p><hr id="402f6ce8-497f-80f7-9079-f553eaf0f8d7" dir="auto"/><h1 id="402f6ce8-497f-8016-9e1b-d8756ac164da" class="" dir="auto">25. TCP no desenvolvimento web</h1><p id="402f6ce8-497f-8019-aeb6-e8c517934f5b" class="" dir="auto">Como você está estudando Full Stack, pense na seguinte arquitetura:</p><pre id="402f6ce8-497f-80fc-be42-dbf7a75a5216" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">                 INTERNET
+                    │
+                    ▼
+              ┌──────────┐
+              │ Servidor │
+              └──────────┘
+                    ▲
+                    │ TCP
+                    │
+              ┌──────────┐
+              │   HTTP   │
+              └──────────┘
+                    ▲
+                    │
+              ┌──────────┐
+              │ Browser  │
+              └──────────┘</code></pre><p id="402f6ce8-497f-8055-a30b-de2d04c03121" class="" dir="auto">Quando uma aplicação web utiliza protocolos tradicionais como HTTP/1.1 ou HTTP/2, o TCP fica responsável pelo transporte.</p><hr id="402f6ce8-497f-804f-83b4-f84acc942595" dir="auto"/><h1 id="402f6ce8-497f-8016-8afa-c92375464333" class="" dir="auto">26. TCP e HTTPS</h1><p id="402f6ce8-497f-8009-922e-ca990b0f8c09" class="" dir="auto">Uma visão simplificada de uma conexão web tradicional é:</p><pre id="402f6ce8-497f-80a6-b1c6-cefcdb7d04ac" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">HTTPS
+  ↓
+TLS
+  ↓
+TCP
+  ↓
+IP
+  ↓
+Wi-Fi/Ethernet</code></pre><p id="402f6ce8-497f-80fe-901c-cfad2aed3817" class="" dir="auto">Cada camada possui uma responsabilidade.</p><pre id="402f6ce8-497f-8037-8692-dcdfa32d3beb" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">HTTPS → comunicação web segura
+TLS   → segurança criptográfica
+TCP   → transporte confiável
+IP    → endereçamento/roteamento
+Wi-Fi → acesso à rede</code></pre><p id="402f6ce8-497f-80e8-b1d5-c36e1f2a45f6" class="" dir="auto">Essa separação é muito importante para entender redes.</p><hr id="402f6ce8-497f-8073-8707-d67fde373df1" dir="auto"/><h1 id="402f6ce8-497f-80a4-9a10-f9d373e08751" class="" dir="auto">27. TCP e segurança</h1><p id="402f6ce8-497f-8032-b8d5-fc9a08d57d85" class="" dir="auto">O TCP também é muito importante em <strong>Cibersegurança</strong>.</p><p id="402f6ce8-497f-809d-a923-ed3b4ad760c5" class="" dir="auto">Ferramentas como:</p><ul id="402f6ce8-497f-8085-af84-e6ac9263e970" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Nmap;</li></ul><ul id="402f6ce8-497f-80f9-8798-dfe47948bf71" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Wireshark;</li></ul><ul id="402f6ce8-497f-80ab-b201-e6a0059c1d29" class="bulleted-list" dir="auto"><li style="list-style-type:disc">IDS/IPS;</li></ul><ul id="402f6ce8-497f-800b-b158-c38965c8e0cb" class="bulleted-list" dir="auto"><li style="list-style-type:disc">firewalls;</li></ul><ul id="402f6ce8-497f-80c3-a28c-f3473a4760a0" class="bulleted-list" dir="auto"><li style="list-style-type:disc">SIEM;</li></ul><p id="402f6ce8-497f-801d-8c7c-f812fb1dcd5d" class="" dir="auto">analisam frequentemente informações relacionadas a TCP.</p><p id="402f6ce8-497f-8015-a8bf-c2ab67cb9cb5" class="" dir="auto">Por exemplo:</p><pre id="402f6ce8-497f-8033-9021-dbfdd3d38358" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">IP origem
+     ↓
+IP destino
+     ↓
+Porta destino
+     ↓
+TCP
+     ↓
+Flags
+     ↓
+Comportamento</code></pre><hr id="402f6ce8-497f-80f2-9f4a-c683cbba78eb" dir="auto"/><h1 id="402f6ce8-497f-80d0-bcb7-ceddddeb8e39" class="" dir="auto">28. SYN Scan</h1><p id="402f6ce8-497f-8024-a97c-e29d8a60436c" class="" dir="auto">Em segurança de redes, você também pode encontrar o conceito de <strong>SYN scan</strong>.</p><p id="402f6ce8-497f-8090-a95d-ed70e97b562f" class="" dir="auto">Ele utiliza o comportamento do handshake TCP para ajudar a identificar o estado de uma porta.</p><p id="402f6ce8-497f-8024-8965-e44f076a8a56" class="" dir="auto">Conceitualmente:</p><pre id="402f6ce8-497f-80b2-aa2d-f948951a4f14" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Scanner
+   │
+   │ SYN
+   ▼
+Servidor
+   │
+   ├── SYN/ACK → porta possivelmente disponível
+   │
+   └── RST/sem resposta → análise adicional</code></pre><p id="402f6ce8-497f-8056-9e74-fbef12595311" class="" dir="auto">O <strong>Nmap</strong> possui técnicas baseadas nesse conceito.</p><p id="402f6ce8-497f-8092-87be-e3986c9c715b" class="" dir="auto">Em ambientes de estudo, isso é útil para entender como ferramentas de segurança conseguem descobrir serviços.</p><blockquote id="402f6ce8-497f-80cd-846a-de48e0ea23d2" class="" dir="auto">Sempre realize testes de rede somente em sistemas para os quais você possui autorização.</blockquote><hr id="402f6ce8-497f-80e5-8856-caca0f14c3ae" dir="auto"/><h1 id="402f6ce8-497f-80c4-ba8d-f3705e968e1d" class="" dir="auto">29. SYN Flood</h1><p id="402f6ce8-497f-80d3-80e5-ded4602142f0" class="" dir="auto">O funcionamento do handshake também ajuda a entender um tipo de ataque de negação de serviço chamado <strong>SYN Flood</strong>.</p><p id="402f6ce8-497f-80d0-9406-c7ed144c9945" class="" dir="auto">Conceitualmente:</p><pre id="402f6ce8-497f-8023-95dd-e00e17dc8a59" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Atacante
+  │
+  ├── SYN ──→
+  ├── SYN ──→
+  ├── SYN ──→
+  ├── SYN ──→
+  └── SYN ──→
+          Servidor</code></pre><p id="402f6ce8-497f-80e3-bddd-eefdaa3f3e10" class="" dir="auto">O servidor pode precisar manter recursos associados às conexões que ainda não foram concluídas.</p><p id="402f6ce8-497f-8095-9106-e1da6e3daf6d" class="" dir="auto">Uma grande quantidade de solicitações pode contribuir para o esgotamento desses recursos.</p><p id="402f6ce8-497f-80fc-a105-ccab85313c81" class="" dir="auto">Defesas podem envolver:</p><ul id="402f6ce8-497f-80c0-9e23-ced97ee7b5a6" class="bulleted-list" dir="auto"><li style="list-style-type:disc">SYN cookies;</li></ul><ul id="402f6ce8-497f-8025-9035-c16d484cdb1b" class="bulleted-list" dir="auto"><li style="list-style-type:disc">firewalls;</li></ul><ul id="402f6ce8-497f-80e0-8ca8-f5fea84d9152" class="bulleted-list" dir="auto"><li style="list-style-type:disc">rate limiting;</li></ul><ul id="402f6ce8-497f-8026-a865-c0807e7c4700" class="bulleted-list" dir="auto"><li style="list-style-type:disc">balanceamento;</li></ul><ul id="402f6ce8-497f-800d-8711-f8c58047b656" class="bulleted-list" dir="auto"><li style="list-style-type:disc">proteção anti-DDoS;</li></ul><ul id="402f6ce8-497f-8096-a73b-fae486da583a" class="bulleted-list" dir="auto"><li style="list-style-type:disc">monitoramento.</li></ul><hr id="402f6ce8-497f-80d0-a2dc-dfebe0ab37d9" dir="auto"/><h1 id="402f6ce8-497f-80f4-8f45-cb2b8fb968df" class="" dir="auto">30. TCP e firewall</h1><p id="402f6ce8-497f-80d7-a171-cd4ccb9df638" class="" dir="auto">Firewalls podem analisar informações do TCP.</p><p id="402f6ce8-497f-805f-bca2-f79ede6a8a7d" class="" dir="auto">Por exemplo:</p><pre id="402f6ce8-497f-80ed-a3a1-f17f20e807b1" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">IP origem
+IP destino
+Porta origem
+Porta destino
+Protocolo
+Flags
+Estado da conexão</code></pre><p id="402f6ce8-497f-8069-8a49-e346c050a096" class="" dir="auto">Isso permite criar regras como:</p><pre id="402f6ce8-497f-8004-9157-cc19d6217c27" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Internet → Servidor Web → TCP/443 → PERMITIR
+Internet → Banco de Dados → TCP/3306 → BLOQUEAR</code></pre><p id="402f6ce8-497f-80bd-a049-d491e05828df" class="" dir="auto">Assim, o firewall ajuda a limitar a superfície de ataque.</p><hr id="402f6ce8-497f-8029-be11-c992ac679171" dir="auto"/><h1 id="402f6ce8-497f-8039-8d35-c102c8eef8a5" class="" dir="auto">31. Cabeçalho TCP</h1><p id="402f6ce8-497f-80db-bfaa-d12d4284ec72" class="" dir="auto">Um segmento TCP possui um cabeçalho com diversas informações.</p><p id="402f6ce8-497f-8062-ac60-d3cf28588843" class="" dir="auto">Simplificando:</p><pre id="402f6ce8-497f-80ad-8539-c9da1c4282a2" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">┌─────────────────────────────┐
+│ Porta de origem             │
+│ Porta de destino            │
+├─────────────────────────────┤
+│ Número de sequência         │
+├─────────────────────────────┤
+│ Número de confirmação       │
+├─────────────────────────────┤
+│ Flags                       │
+│ Janela                      │
+│ Checksum                    │
+│ Outros campos               │
+├─────────────────────────────┤
+│ Dados                       │
+└─────────────────────────────┘</code></pre><p id="402f6ce8-497f-809e-8588-fc0976eabf82" class="" dir="auto">Os campos mais importantes para começar são:</p><ul id="402f6ce8-497f-805b-b689-c28a55ce8ac0" class="bulleted-list" dir="auto"><li style="list-style-type:disc">portas;</li></ul><ul id="402f6ce8-497f-80eb-b7e6-e8ff0af0f6f4" class="bulleted-list" dir="auto"><li style="list-style-type:disc">sequência;</li></ul><ul id="402f6ce8-497f-801a-b31e-cbb63bc769bf" class="bulleted-list" dir="auto"><li style="list-style-type:disc">confirmação;</li></ul><ul id="402f6ce8-497f-80d5-9d17-f8eebbfc159a" class="bulleted-list" dir="auto"><li style="list-style-type:disc">flags;</li></ul><ul id="402f6ce8-497f-8031-b095-f8f395bc8faa" class="bulleted-list" dir="auto"><li style="list-style-type:disc">janela;</li></ul><ul id="402f6ce8-497f-8049-8d52-fb247e8014f0" class="bulleted-list" dir="auto"><li style="list-style-type:disc">checksum.</li></ul><hr id="402f6ce8-497f-80e0-adb3-ec269e6f8ea2" dir="auto"/><h1 id="402f6ce8-497f-8001-be1d-c9adf4d57355" class="" dir="auto">32. Checksum</h1><p id="402f6ce8-497f-80c9-8d5b-d69ea6938a8f" class="" dir="auto">O TCP utiliza um <strong>checksum</strong> para ajudar a detectar corrupção dos dados durante o transporte.</p><p id="402f6ce8-497f-8059-8684-df3871b31a18" class="" dir="auto">Conceitualmente:</p><pre id="402f6ce8-497f-80f0-97b0-e3dc1f4c7803" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Dados
+ ↓
+Checksum
+ ↓
+Transmissão
+ ↓
+Recepção
+ ↓
+Verificação</code></pre><p id="402f6ce8-497f-802d-918f-e8c8e15281ad" class="" dir="auto">Se houver inconsistência, o segmento pode ser considerado inválido.</p><p id="402f6ce8-497f-80d2-b1ac-c45f212d8383" class="" dir="auto">Isso está relacionado à <strong>detecção de erros</strong>, não à criptografia.</p><hr id="402f6ce8-497f-80fd-a1b8-e32ee620ba3c" dir="auto"/><h1 id="402f6ce8-497f-80b5-8b9e-e5fa3c1fad04" class="" dir="auto">33. TCP não é criptografia</h1><p id="402f6ce8-497f-80a3-97a1-e60b6814ee2a" class="" dir="auto">Outro ponto importante:</p><blockquote id="402f6ce8-497f-8048-9890-df2c4a430960" class="" dir="auto"><strong>TCP não criptografa os dados.</strong></blockquote><p id="402f6ce8-497f-805a-88bd-d0a72ae41188" class="" dir="auto">Por exemplo:</p><pre id="402f6ce8-497f-8061-aadc-d25e47772e4b" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">HTTP
+ ↓
+TCP
+ ↓
+IP</code></pre><p id="402f6ce8-497f-8077-b221-e6adb65f881a" class="" dir="auto">O TCP fornece mecanismos de transporte, mas não torna automaticamente os dados secretos.</p><p id="402f6ce8-497f-80be-a523-e7f6c6d3ba18" class="" dir="auto">Para comunicação web segura:</p><pre id="402f6ce8-497f-8033-996d-f64e417d35ca" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">HTTPS
+ ↓
+TLS
+ ↓
+TCP
+ ↓
+IP</code></pre><p id="402f6ce8-497f-80a9-97d1-ed0e64a513f3" class="" dir="auto">O <strong>TLS</strong> é responsável pela proteção criptográfica.</p><hr id="402f6ce8-497f-807c-b873-d9dbaf0ed5d9" dir="auto"/><h1 id="402f6ce8-497f-8069-b916-ff7e602ee050" class="" dir="auto">34. TCP não é responsável pelo conteúdo da aplicação</h1><p id="402f6ce8-497f-80b8-84c0-eed087d39e4c" class="" dir="auto">O TCP não sabe necessariamente se os dados são:</p><pre id="402f6ce8-497f-8006-aff9-d41d306650f6" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">HTML
+JSON
+imagem
+arquivo
+mensagem</code></pre><p id="402f6ce8-497f-809b-a390-c1adcd3d9dd5" class="" dir="auto">Para ele, existe essencialmente um fluxo de bytes que precisa ser transportado.</p><p id="402f6ce8-497f-8081-b701-d712e220cb4a" class="" dir="auto">Quem interpreta o conteúdo é a camada de aplicação.</p><pre id="402f6ce8-497f-800c-bede-e5bc23afc143" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">HTTP → interpreta HTTP
+TCP  → transporta o fluxo
+IP   → encaminha pacotes</code></pre><hr id="402f6ce8-497f-809c-93c4-d82c92675564" dir="auto"/><h1 id="402f6ce8-497f-802f-a150-e78104135823" class="" dir="auto">35. Exemplo completo</h1><p id="402f6ce8-497f-803a-8f6f-d172c3c2ef15" class="" dir="auto">Imagine que você faça login em um site.</p><pre id="402f6ce8-497f-80cf-bec2-e3bac824c298" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Usuário
+   │
+   ▼
+Navegador
+   │
+   │ HTTPS
+   ▼
+   TLS
+   │
+   │ TCP
+   ▼
+   IP
+   │
+   ▼
+Internet
+   │
+   ▼
+Servidor</code></pre><p id="402f6ce8-497f-804b-b641-ea17374e62b5" class="" dir="auto">O TCP participa do transporte da comunicação, garantindo mecanismos como:</p><pre id="402f6ce8-497f-80e2-9009-d341584535a7" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">✔ conexão
+✔ sequência
+✔ confirmação
+✔ retransmissão
+✔ controle de fluxo
+✔ controle de congestionamento</code></pre><p id="402f6ce8-497f-80ef-b289-e05c7cb58d50" class="" dir="auto">Já:</p><pre id="402f6ce8-497f-80c0-9e00-c38b8368bdd4" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">TLS → criptografia
+IP  → endereçamento
+HTTP → comunicação web</code></pre><hr id="402f6ce8-497f-8037-b2b4-f12fdcd5b8d5" dir="auto"/><h1 id="402f6ce8-497f-80cb-bde8-ef3082469680" class="" dir="auto">36. TCP no modelo de camadas</h1><p id="402f6ce8-497f-800f-b187-e0a305d43dd6" class="" dir="auto">Uma forma excelente de memorizar:</p><pre id="402f6ce8-497f-807f-b112-fc3e33105614" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">┌───────────────────────────┐
+│ Aplicação                 │
+│ HTTP / HTTPS / SSH        │
+├───────────────────────────┤
+│ Transporte                │
+│ TCP / UDP                 │
+│                           │
+│       ← TCP              │
+├───────────────────────────┤
+│ Internet                  │
+│ IP / ICMP                 │
+├───────────────────────────┤
+│ Acesso à rede             │
+│ Ethernet / Wi-Fi          │
+└───────────────────────────┘</code></pre><hr id="402f6ce8-497f-80fe-82c7-ca5bbec24bcc" dir="auto"/><h1 id="402f6ce8-497f-8000-8320-f7e967c55792" class="" dir="auto">37. Principais características do TCP</h1><p id="402f6ce8-497f-8082-90b3-c800240050bf" class="" dir="auto">Você pode memorizar o TCP através destas características:</p><pre id="402f6ce8-497f-8090-96f9-d0e424a74e78" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">TCP
+│
+├── Orientado à conexão
+│
+├── Confiável
+│
+├── Ordenado
+│
+├── Usa ACK
+│
+├── Usa números de sequência
+│
+├── Retransmite determinados dados perdidos
+│
+├── Controle de fluxo
+│
+├── Controle de congestionamento
+│
+├── Utiliza portas
+│
+├── Possui flags
+│
+└── Trabalha junto com IP</code></pre><hr id="402f6ce8-497f-8086-be28-e81b4f9e3bdf" dir="auto"/><h1 id="402f6ce8-497f-80bf-94a5-db955f70b934" class="" dir="auto">🧠 Resumo final</h1><p id="402f6ce8-497f-8000-a3e5-f473c8827efa" class="" dir="auto">O <strong>TCP é o protocolo de transporte responsável por fornecer uma comunicação confiável e ordenada entre aplicações através de uma rede IP</strong>.</p><p id="402f6ce8-497f-807f-b833-fa8579b566af" class="" dir="auto">A relação mais importante para você memorizar é:</p><pre id="402f6ce8-497f-8048-85d5-dc1706add9af" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">APLICAÇÃO
+    ↓
+  TCP
+    ↓
+   IP
+    ↓
+REDE</code></pre><p id="402f6ce8-497f-80c3-a8b9-dd1c5c71f23a" class="" dir="auto">E as responsabilidades:</p><table id="402f6ce8-497f-806d-a030-da29025d7f40" class="simple-table" dir="ltr"><thead class="simple-table-header"><tr id="402f6ce8-497f-8044-b3cb-d77d932346d9" dir="ltr"><th id="K{Hq" class="simple-table-header-color simple-table-header">Protocolo</th><th id="xMP{" class="simple-table-header-color simple-table-header">Principal responsabilidade</th></tr></thead><tbody><tr id="402f6ce8-497f-805e-a0bf-e1d29a42d2d6" dir="ltr"><td id="K{Hq" class="">HTTP/HTTPS</td><td id="xMP{" class="">Comunicação web</td></tr><tr id="402f6ce8-497f-802a-ad18-e97cdae00a43" dir="ltr"><td id="K{Hq" class=""><strong>TCP</strong></td><td id="xMP{" class="">Transporte confiável</td></tr><tr id="402f6ce8-497f-8049-a3e1-f69662793520" dir="ltr"><td id="K{Hq" class="">UDP</td><td id="xMP{" class="">Transporte simples e de baixa sobrecarga</td></tr><tr id="402f6ce8-497f-80d9-b822-d71df2f3c183" dir="ltr"><td id="K{Hq" class="">IP</td><td id="xMP{" class="">Endereçamento e roteamento</td></tr><tr id="402f6ce8-497f-8012-8779-d3efdc05a1d8" dir="ltr"><td id="K{Hq" class="">DNS</td><td id="xMP{" class="">Resolução de nomes</td></tr><tr id="402f6ce8-497f-80dd-a8c5-c7773396fda1" dir="ltr"><td id="K{Hq" class="">Ethernet/Wi-Fi</td><td id="xMP{" class="">Comunicação na rede local</td></tr></tbody></table><p id="402f6ce8-497f-808b-b8ea-ccdd406119f3" class="" dir="auto">E o TCP possui mecanismos fundamentais como:</p><p id="402f6ce8-497f-80cb-8615-ec9397f689d2" class="" dir="auto"><strong>Three-Way Handshake → Sequenciamento → ACK → Retransmissão → Controle de fluxo → Controle de congestionamento → Encerramento da conexão.</strong></p><p id="402f6ce8-497f-8029-9939-e075316edf1e" class="" dir="auto">Para Cibersegurança, entender TCP é especialmente importante porque ele está diretamente relacionado a <strong>portas, firewalls, Nmap, Wireshark, IDS/IPS, análise de tráfego, SYN Flood e monitoramento de redes</strong>.</p></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

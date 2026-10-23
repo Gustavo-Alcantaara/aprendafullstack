@@ -1,0 +1,797 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Segurança em redes sem fio(802.11)</title><meta name="data-notion-page-icon" content="/icons/lock_blue.svg"/><link rel="icon" href="https://app.notion.com/icons/lock_blue.svg"/><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+	/* Paint a complete callout box on every PDF page fragment. */
+	-webkit-box-decoration-break: clone;
+	box-decoration-break: clone;
+}
+
+/* For default-background callouts, render the border outline. */
+.callout.block-color-default_background {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+/*
+ * Toggles and callouts hold arbitrary content, so they can easily be taller
+ * than a page. They must stay breakable: avoiding breaks inside them makes
+ * Chromium push the whole block onto the next page, which leaves the previous
+ * page mostly empty before every long toggle.
+ */
+details,
+aside {
+	margin: 1.25em 0;
+}
+
+/* Keep a toggle's title on the same page as the start of its content. */
+summary {
+	page-break-after: avoid;
+	break-after: avoid;
+}
+
+/*
+ * Toggle headings render as <h1/h2/h3 style="display:inline-block"> inside
+ * <summary>. Without this reset, the heading's margin-top pushes it below the
+ * ::marker (▼), so the triangle and the title appear on separate lines.
+ */
+summary h1,
+summary h2,
+summary h3,
+summary h4 {
+	margin-top: 0;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding-inline: 0.125rem;
+	padding-block: 0.375rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+/*
+ * Render emoji icons using a ::before pseudo-element to keep the glyph
+ * out of the DOM textContent traversal. This avoids double-rendering icons
+ * in callouts and page titles.
+ * NOTE(slim/html-export-pseudo-icons): I can't tagref this because it will
+ * flag as a duplicate tag after codegen.
+ */
+.icon[data-emoji]::before {
+	content: attr(data-emoji);
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	margin-right: 0.4em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.tab {
+	margin: 1.25em 0;
+	padding-inline: 1rem;
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style><style>@import url('https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex-swap.min.css')</style></head><body><article id="402f6ce8-497f-80c2-879a-c2d6ac5fecdb" class="page sans" data-notion-page-icon="/icons/lock_blue.svg"><header><div class="page-header-icon undefined"><img class="icon notion-static-icon" src="https://app.notion.com/icons/lock_blue.svg"/></div><h1 class="page-title" dir="auto"><strong>Segurança em redes sem fio(802.11)</strong></h1><p class="page-description" dir="auto"></p></header><div class="page-body"><h1 id="402f6ce8-497f-8085-bf6c-f48249d957bd" class="" dir="auto">Segurança em redes sem fio (802.11)</h1><h2 id="402f6ce8-497f-80b5-b5ed-f5c3c5c10af2" class="" dir="auto">1. O que é segurança em redes sem fio?</h2><p id="402f6ce8-497f-8061-9ea3-fd754c8c4fb7" class="" dir="auto">A segurança em redes sem fio consiste no conjunto de protocolos, mecanismos e práticas utilizados para proteger a comunicação entre dispositivos conectados por tecnologias sem fio, principalmente redes Wi-Fi.</p><p id="402f6ce8-497f-804f-a03f-eb4819a83e60" class="" dir="auto">O padrão IEEE 802.11 define as especificações técnicas utilizadas pelas redes Wi-Fi, incluindo aspectos como comunicação por rádio, acesso ao meio e funcionamento da rede.</p><p id="402f6ce8-497f-8002-8c72-e81dc787774f" class="" dir="auto">Como os dados são transmitidos por ondas de rádio, eles podem alcançar áreas além do espaço físico onde o roteador está instalado. Isso significa que uma pessoa próxima pode tentar detectar a rede, capturar transmissões ou explorar configurações inadequadas.</p><p id="402f6ce8-497f-80a9-9eab-e3d805153122" class="" dir="auto">Por isso, a segurança de redes 802.11 busca garantir:</p><ul id="402f6ce8-497f-8085-8f25-ff63c1f40844" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Confidencialidade: impedir que pessoas não autorizadas leiam os dados transmitidos.</li></ul><ul id="402f6ce8-497f-80f6-a156-f5b1a3044342" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Integridade: impedir ou detectar alterações indevidas nas informações.</li></ul><ul id="402f6ce8-497f-8033-8fe5-fd5b7454dacb" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Autenticidade: verificar se o dispositivo ou usuário está autorizado a se conectar.</li></ul><ul id="402f6ce8-497f-803e-8f2b-d3a687d0b1b3" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Controle de acesso: limitar quais dispositivos podem utilizar a rede.</li></ul><ul id="402f6ce8-497f-80a1-99de-f8ec93bc9c6e" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Disponibilidade: manter a rede funcionando apesar de falhas e tentativas de interrupção.</li></ul><p id="402f6ce8-497f-80fc-b324-f2cae41dbe01" class="" dir="auto">Exemplo: em uma rede Wi-Fi doméstica protegida corretamente, uma pessoa que esteja na rua não deveria conseguir simplesmente se conectar ao roteador e acessar os dispositivos da residência.</p><h2 id="402f6ce8-497f-80db-a735-c026e4778763" class="" dir="auto">2. Como funciona uma rede Wi-Fi?</h2><p id="402f6ce8-497f-8089-a1d1-d4a24e9b51fe" class="" dir="auto">Uma rede Wi-Fi normalmente utiliza um ponto de acesso (Access Point ou AP), que permite que dispositivos como notebooks, celulares e computadores se comuniquem por rádio.</p><p id="402f6ce8-497f-8035-8137-fd33e322734c" class="" dir="auto">Roteador / Access Point</p><p id="402f6ce8-497f-807c-93ae-e4ffe6b05b81" class="" dir="auto">Autenticação, criptografia e encaminhamento</p><p id="402f6ce8-497f-80ed-96c8-dd083e89dd10" class="" dir="auto">Comunicação por ondas de rádio — IEEE 802.11</p><p id="402f6ce8-497f-80f6-b1f3-d2d602472589" class="" dir="auto">Notebook</p><p id="402f6ce8-497f-80dc-a7bf-fdbe9a78df34" class="" dir="auto">Celular</p><p id="402f6ce8-497f-80ff-87ef-fe69a6762e65" class="" dir="auto">Tablet</p><p id="402f6ce8-497f-8085-95fc-ced742764477" class="" dir="auto">Em uma conexão protegida, o dispositivo e a rede realizam os procedimentos de autenticação e estabelecimento das chaves criptográficas previstos pelo protocolo de segurança utilizado.</p><p id="402f6ce8-497f-8075-9395-ea5e997242a1" class="" dir="auto">É importante entender que conectar-se a uma rede Wi-Fi e proteger os dados transmitidos são coisas relacionadas, mas diferentes. Uma rede pode exigir uma senha e ainda apresentar riscos se utilizar um protocolo antigo ou uma configuração inadequada.</p><h2 id="402f6ce8-497f-807d-b566-fe584c29051d" class="" dir="auto">3. Principais padrões de segurança Wi-Fi</h2><p id="402f6ce8-497f-80f2-917d-d95552a97fc1" class="" dir="auto">Ao longo do tempo, diferentes protocolos foram desenvolvidos para corrigir limitações e melhorar a segurança das redes sem fio.</p><table id="402f6ce8-497f-8085-86bd-df95938d6032" class="simple-table" dir="ltr"><thead class="simple-table-header"><tr id="402f6ce8-497f-805b-b747-ed3fd37e6127" dir="ltr"><th id="=e\D" class="simple-table-header-color simple-table-header">Protocolo</th><th id="PrdQ" class="simple-table-header-color simple-table-header">Características</th><th id="OQSN" class="simple-table-header-color simple-table-header">Situação de segurança</th></tr></thead><tbody><tr id="402f6ce8-497f-8069-8a68-f4e56cfaba14" dir="ltr"><td id="=e\D" class="">WEP</td><td id="PrdQ" class="">Utiliza mecanismos criptográficos antigos e apresenta falhas graves.</td><td id="OQSN" class="">Inseguro; deve ser evitado.</td></tr><tr id="402f6ce8-497f-8022-9cb2-c5fcab2ad890" dir="ltr"><td id="=e\D" class="">WPA</td><td id="PrdQ" class="">Foi criado como uma transição em relação ao WEP, utilizando o TKIP em sua implementação tradicional.</td><td id="OQSN" class="">Obsoleto para novas configurações.</td></tr><tr id="402f6ce8-497f-80d9-9851-ecbb429b1a5a" dir="ltr"><td id="=e\D" class="">WPA2</td><td id="PrdQ" class="">Introduziu o uso de AES-CCMP como mecanismo de proteção amplamente adotado.</td><td id="OQSN" class="">Ainda pode ser seguro com configuração adequada.</td></tr><tr id="402f6ce8-497f-80aa-adfb-ff4ba195b0fc" dir="ltr"><td id="=e\D" class="">WPA3</td><td id="PrdQ" class="">Aprimora a autenticação e a proteção de redes Wi-Fi modernas.</td><td id="OQSN" class="">Preferível quando todos os dispositivos são compatíveis.</td></tr></tbody></table><h3 id="402f6ce8-497f-8062-9919-ed815353f7c3" class="" dir="auto">WEP — Wired Equivalent Privacy</h3><p id="402f6ce8-497f-8087-805a-c610d7e12a56" class="" dir="auto">O WEP foi um dos primeiros mecanismos de segurança utilizados no Wi-Fi.</p><p id="402f6ce8-497f-8054-a5a7-ee8e35e9d254" class="" dir="auto">Seu objetivo era oferecer uma proteção comparável à de uma rede cabeada, mas seu projeto possui falhas criptográficas graves.</p><p id="402f6ce8-497f-8027-bebe-d55c765bd03a" class="" dir="auto">Com ferramentas e condições adequadas, um atacante pode explorar essas falhas para recuperar informações utilizadas na proteção da rede.</p><p id="402f6ce8-497f-80de-a95f-d72e11476422" class="" dir="auto">Conclusão: não se deve utilizar WEP em redes atuais.</p><h3 id="402f6ce8-497f-80d6-a68f-dd0d8c4acdb9" class="" dir="auto">WPA — Wi-Fi Protected Access</h3><p id="402f6ce8-497f-8052-9e99-e37948c588a1" class="" dir="auto">O WPA foi introduzido para substituir o WEP enquanto uma solução mais robusta era adotada.</p><p id="402f6ce8-497f-8041-9461-f4c80e8b931e" class="" dir="auto">Sua implementação tradicional utiliza o TKIP, que possui limitações e não é recomendado para novas configurações.</p><p id="402f6ce8-497f-80fd-b7d8-fda3a619d64a" class="" dir="auto">Embora tenha representado uma melhoria histórica em relação ao WEP, o WPA também é considerado legado.</p><h3 id="402f6ce8-497f-80c9-b32d-c94e76447241" class="" dir="auto">WPA2</h3><p id="402f6ce8-497f-807e-9333-e3cd3b9cefc8" class="" dir="auto">O WPA2 utiliza mecanismos de segurança mais robustos, especialmente o AES com CCMP, em configurações convencionais.</p><p id="402f6ce8-497f-808d-8d8f-ea5bd26899d4" class="" dir="auto">É encontrado em redes domésticas e empresariais, tanto no modo pessoal quanto no modo corporativo.</p><p id="402f6ce8-497f-805b-abc7-ecf56f791876" class="" dir="auto">Entretanto, sua segurança depende de fatores como:</p><ul id="402f6ce8-497f-80ce-b9a1-c0f5115e30bc" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Uso de uma senha forte no modo pessoal.</li></ul><ul id="402f6ce8-497f-807e-ac85-f40a18af0e5d" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Configuração correta do ponto de acesso.</li></ul><ul id="402f6ce8-497f-809c-9e8e-eda246f949e6" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Atualização do firmware do roteador.</li></ul><ul id="402f6ce8-497f-8067-a597-ef3406e62cf5" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Ausência de mecanismos de autenticação legados ou vulneráveis.</li></ul><h3 id="402f6ce8-497f-8007-96bb-fcfd6becbd3f" class="" dir="auto">WPA3</h3><p id="402f6ce8-497f-8002-bbd5-c89f7a167eb3" class="" dir="auto">O WPA3 foi desenvolvido para melhorar a segurança das redes Wi-Fi.</p><p id="402f6ce8-497f-801e-a245-d5eaabf3afe1" class="" dir="auto">Entre suas características estão:</p><ul id="402f6ce8-497f-8073-a5c0-e7d7e90f6190" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Uso do SAE (Simultaneous Authentication of Equals) no modo pessoal.</li></ul><ul id="402f6ce8-497f-80f4-9991-dd8a08d32414" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Maior resistência a determinadas tentativas de adivinhação de senhas capturando trocas de autenticação.</li></ul><ul id="402f6ce8-497f-808c-bdcf-f2bf4b55d35f" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Requisitos de segurança aprimorados.</li></ul><ul id="402f6ce8-497f-8097-be2c-dd214e431cec" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Melhorias para ambientes corporativos em suas modalidades apropriadas.</li></ul><p id="402f6ce8-497f-80e4-a220-cd5f1488ca16" class="" dir="auto">Quando disponível, o WPA3 é uma opção recomendada, desde que os dispositivos envolvidos sejam compatíveis e a configuração esteja correta.</p><h2 id="402f6ce8-497f-8007-ace0-f26407db6b3d" class="" dir="auto">4. Modos de autenticação: pessoal e corporativo</h2><p id="402f6ce8-497f-80fd-bdef-cdff23586e7c" class="" dir="auto">Além de escolher um protocolo, é necessário definir como os dispositivos serão autenticados na rede.</p><p id="402f6ce8-497f-80a9-a848-f7d77ebb9632" class="" dir="auto">Existem dois modos bastante comuns.</p><h3 id="402f6ce8-497f-80a0-8c68-fcef706f5eac" class="" dir="auto">WPA2/WPA3-Personal (PSK/SAE)</h3><p id="402f6ce8-497f-80a9-aad4-ce3858541ccf" class="" dir="auto">É o modelo mais comum em residências e pequenas redes.</p><p id="402f6ce8-497f-806f-aaca-fc624e72fb32" class="" dir="auto">No WPA2-Personal, os dispositivos utilizam uma senha compartilhada para autenticar-se na rede. No WPA3-Personal, o SAE substitui o mecanismo tradicional de autenticação por senha.</p><p id="402f6ce8-497f-809e-ab3e-f458fd4cc049" class="" dir="auto">Vantagens:</p><ul id="402f6ce8-497f-80b3-baef-d32383edf690" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Configuração relativamente simples.</li></ul><ul id="402f6ce8-497f-80d2-b553-e2bda46d0997" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Fácil utilização em residências.</li></ul><ul id="402f6ce8-497f-803d-be49-e78dc4e73ffa" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Não exige necessariamente um servidor de autenticação separado.</li></ul><p id="402f6ce8-497f-80c9-8d51-ed1709ad1bad" class="" dir="auto">Limitação: quando várias pessoas compartilham a mesma senha, torna-se mais difícil controlar individualmente o acesso de cada uma.</p><h3 id="402f6ce8-497f-80de-a0b2-fc1d65f91c39" class="" dir="auto">WPA2/WPA3-Enterprise</h3><p id="402f6ce8-497f-8045-b6f8-d1073b294cca" class="" dir="auto">É utilizado principalmente em empresas, universidades e organizações que precisam administrar muitos usuários.</p><p id="402f6ce8-497f-8084-bbe8-df696cae7288" class="" dir="auto">Geralmente utiliza o padrão IEEE 802.1X com EAP e um servidor de autenticação, frequentemente baseado em RADIUS.</p><p id="402f6ce8-497f-802c-bd25-f44b2d3759cc" class="" dir="auto">Cada usuário ou dispositivo pode possuir credenciais próprias.</p><p id="402f6ce8-497f-8050-929e-c0b57c0aad19" class="" dir="auto">Vantagens:</p><ul id="402f6ce8-497f-80b2-b0cc-d6cfb1b56bc6" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Controle individual de acesso.</li></ul><ul id="402f6ce8-497f-808a-9a31-c18d3cfe30d5" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Possibilidade de revogar o acesso de um usuário sem alterar a credencial de todos.</li></ul><ul id="402f6ce8-497f-8092-8838-f376154d565a" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Melhor integração com políticas corporativas e registros de autenticação.</li></ul><p id="402f6ce8-497f-80cc-a7ed-c81c07df9e4a" class="" dir="auto">Esse modelo exige planejamento e configuração mais cuidadosos.</p><h2 id="402f6ce8-497f-809e-a849-f41a16b41b31" class="" dir="auto">5. Principais ameaças às redes sem fio</h2><p id="402f6ce8-497f-8077-8590-c1b9ffc76aa1" class="" dir="auto">As redes Wi-Fi estão sujeitas a diferentes tipos de ataques. Conhecer essas ameaças ajuda a entender por que cada mecanismo de proteção é importante.</p><figure id="402f6ce8-497f-80b7-ad39-da5afde770d1" class="image" data-notion-image="https://images.openai.com/static-rsc-4/yktROb1seOXtWDq2tPzljJWcTfyS38LuDCglmWKB7PE42feQL0IeKxS-9rwg8A5c4d1OB26WkpfWR7bd08M5yEIqHdpj_Nc_iCmDLC5PVJKDxIISm2O3Spt5PO53gQuKEP9GYG4_KyGSmfwyVLe5fbGCQMYbh8thp49Uw5DvxSE?purpose=inline" dir="ltr"><a href="https://images.openai.com/static-rsc-4/yktROb1seOXtWDq2tPzljJWcTfyS38LuDCglmWKB7PE42feQL0IeKxS-9rwg8A5c4d1OB26WkpfWR7bd08M5yEIqHdpj_Nc_iCmDLC5PVJKDxIISm2O3Spt5PO53gQuKEP9GYG4_KyGSmfwyVLe5fbGCQMYbh8thp49Uw5DvxSE?purpose=inline"><img src="https://images.openai.com/static-rsc-4/yktROb1seOXtWDq2tPzljJWcTfyS38LuDCglmWKB7PE42feQL0IeKxS-9rwg8A5c4d1OB26WkpfWR7bd08M5yEIqHdpj_Nc_iCmDLC5PVJKDxIISm2O3Spt5PO53gQuKEP9GYG4_KyGSmfwyVLe5fbGCQMYbh8thp49Uw5DvxSE?purpose=inline"/></a></figure><p id="402f6ce8-497f-80e3-aadc-e70fb7905f88" class="" dir="auto">5.1. Captura de tráfego (Packet Sniffing)</p><p id="402f6ce8-497f-80dc-9462-fbd686ba5678" class="" dir="auto">Consiste em observar e analisar os pacotes transmitidos por uma rede.</p><p id="402f6ce8-497f-80ad-8425-c71e36486fd8" class="" dir="auto">Em redes sem fio, um dispositivo dentro do alcance do sinal pode conseguir capturar determinadas transmissões. A criptografia adequada ajuda a impedir que o conteúdo protegido seja lido.</p><figure id="402f6ce8-497f-8059-865e-fd4c79c64148" class="image" data-notion-image="https://images.openai.com/static-rsc-4/D3e6r8EXM2yEgvR9vxSi-PR_5tJ9xdXK9lfku6cT2D8N329PhcPco8eLVkw2EmGZoquedJi7zAwmaFj8zofdfX8BEc1AIaz0D2G12LY3rbhfOycZ6q6I1uKMJSVNdgAE1bzY7O-hjByBZxcYY3iUbFCKfAYygZVi82RspAJGQq4?purpose=inline" dir="ltr"><a href="https://images.openai.com/static-rsc-4/D3e6r8EXM2yEgvR9vxSi-PR_5tJ9xdXK9lfku6cT2D8N329PhcPco8eLVkw2EmGZoquedJi7zAwmaFj8zofdfX8BEc1AIaz0D2G12LY3rbhfOycZ6q6I1uKMJSVNdgAE1bzY7O-hjByBZxcYY3iUbFCKfAYygZVi82RspAJGQq4?purpose=inline"><img src="https://images.openai.com/static-rsc-4/D3e6r8EXM2yEgvR9vxSi-PR_5tJ9xdXK9lfku6cT2D8N329PhcPco8eLVkw2EmGZoquedJi7zAwmaFj8zofdfX8BEc1AIaz0D2G12LY3rbhfOycZ6q6I1uKMJSVNdgAE1bzY7O-hjByBZxcYY3iUbFCKfAYygZVi82RspAJGQq4?purpose=inline"/></a></figure><p id="402f6ce8-497f-8054-891a-f1c244592373" class="" dir="auto">5.2. Ponto de acesso falso (Evil Twin)</p><p id="402f6ce8-497f-8007-a3b1-f22dfa88a688" class="" dir="auto">O atacante cria um ponto de acesso que imita o nome de uma rede legítima, tentando induzir as pessoas a se conectarem a ele.</p><p id="402f6ce8-497f-80a7-a39e-e70cb4d91b20" class="" dir="auto">Se a vítima utilizar esse ponto de acesso, poderá ficar exposta a tentativas de interceptação, páginas falsas e roubo de credenciais.</p><figure id="402f6ce8-497f-8049-93b6-c4e83ede16be" class="image" data-notion-image="https://images.openai.com/static-rsc-4/-4D7dCGiMZDqPcfa4p7DVWYrTBJx7PCySwhJMcygSwmhm49cogcT0XewNt4zaqB3J756e03mnmdwVF7B_HZcwaiA493ynYeM0Op919RQQ2F_U52kwcGV0Gqi0JPBPcRxLEhKvQsGyxpc_Aof7ke-KOftH5Bku9T7j-Y1KlLeEko?purpose=inline" dir="ltr"><a href="https://images.openai.com/static-rsc-4/-4D7dCGiMZDqPcfa4p7DVWYrTBJx7PCySwhJMcygSwmhm49cogcT0XewNt4zaqB3J756e03mnmdwVF7B_HZcwaiA493ynYeM0Op919RQQ2F_U52kwcGV0Gqi0JPBPcRxLEhKvQsGyxpc_Aof7ke-KOftH5Bku9T7j-Y1KlLeEko?purpose=inline"><img src="https://images.openai.com/static-rsc-4/-4D7dCGiMZDqPcfa4p7DVWYrTBJx7PCySwhJMcygSwmhm49cogcT0XewNt4zaqB3J756e03mnmdwVF7B_HZcwaiA493ynYeM0Op919RQQ2F_U52kwcGV0Gqi0JPBPcRxLEhKvQsGyxpc_Aof7ke-KOftH5Bku9T7j-Y1KlLeEko?purpose=inline"/></a></figure><p id="402f6ce8-497f-8037-9460-d20d04510422" class="" dir="auto">5.3. Negação de serviço (DoS)</p><p id="402f6ce8-497f-8062-b8a1-fb770e88b65e" class="" dir="auto">Busca prejudicar a disponibilidade da rede, impedindo ou dificultando a conexão dos dispositivos.</p><p id="402f6ce8-497f-80c4-ad46-c2cbba19113d" class="" dir="auto">Pode envolver interferência de rádio, sobrecarga de recursos ou abuso de determinados mecanismos de gerenciamento.</p><figure id="402f6ce8-497f-8010-92c6-f687fe43c61c" class="image" data-notion-image="https://images.openai.com/static-rsc-4/FwuzNod6QH_yb7wNER415Y0u-pEfwSTMWIo8K0YONf-LDUUZQ_tf3p1cQSOsNZ19l4llFICa57YVLG2em7kbf7es_FtSb7MLyO6M_8y9mCyG-jphpm0LwUj6RM9ZQ7atghVWSP9487M4c5t0A4OYz-njuUHjYjiVVb4G8dXFx5d_hCIw1xFPDMzDGR-zVkct?purpose=inline" dir="ltr"><a href="https://images.openai.com/static-rsc-4/FwuzNod6QH_yb7wNER415Y0u-pEfwSTMWIo8K0YONf-LDUUZQ_tf3p1cQSOsNZ19l4llFICa57YVLG2em7kbf7es_FtSb7MLyO6M_8y9mCyG-jphpm0LwUj6RM9ZQ7atghVWSP9487M4c5t0A4OYz-njuUHjYjiVVb4G8dXFx5d_hCIw1xFPDMzDGR-zVkct?purpose=inline"><img src="https://images.openai.com/static-rsc-4/FwuzNod6QH_yb7wNER415Y0u-pEfwSTMWIo8K0YONf-LDUUZQ_tf3p1cQSOsNZ19l4llFICa57YVLG2em7kbf7es_FtSb7MLyO6M_8y9mCyG-jphpm0LwUj6RM9ZQ7atghVWSP9487M4c5t0A4OYz-njuUHjYjiVVb4G8dXFx5d_hCIw1xFPDMzDGR-zVkct?purpose=inline"/></a></figure><p id="402f6ce8-497f-803a-9701-f1e4b23f2784" class="" dir="auto">5.4. Ataques contra senhas</p><p id="402f6ce8-497f-805d-969a-c9321d21c382" class="" dir="auto">Senhas curtas, previsíveis ou reutilizadas podem facilitar tentativas de adivinhação e ataques de dicionário.</p><p id="402f6ce8-497f-80bc-a949-f324311be848" class="" dir="auto">Uma senha longa, exclusiva e aleatória dificulta esses ataques. O WPA3-Personal também oferece melhorias relevantes na autenticação.</p><figure id="402f6ce8-497f-809a-ae51-c6a2a1b99712" class="image" data-notion-image="https://images.openai.com/static-rsc-4/7P5Wsds_quTu7ROTiExnOf0oYhidkSktLA9mM-IaoLILMGUOUCFAkgsTw-wL1AshQNLRtBfBatzaWGKIB4fa3Xc5s9eqBmXoALsSq6wPCMMv3GXVev3BgDlCgiElfVFPs4XMcsebbSdKdkykymxGT_wwVUda9Yq15Ax-TeUlHQo?purpose=inline" dir="ltr"><a href="https://images.openai.com/static-rsc-4/7P5Wsds_quTu7ROTiExnOf0oYhidkSktLA9mM-IaoLILMGUOUCFAkgsTw-wL1AshQNLRtBfBatzaWGKIB4fa3Xc5s9eqBmXoALsSq6wPCMMv3GXVev3BgDlCgiElfVFPs4XMcsebbSdKdkykymxGT_wwVUda9Yq15Ax-TeUlHQo?purpose=inline"><img src="https://images.openai.com/static-rsc-4/7P5Wsds_quTu7ROTiExnOf0oYhidkSktLA9mM-IaoLILMGUOUCFAkgsTw-wL1AshQNLRtBfBatzaWGKIB4fa3Xc5s9eqBmXoALsSq6wPCMMv3GXVev3BgDlCgiElfVFPs4XMcsebbSdKdkykymxGT_wwVUda9Yq15Ax-TeUlHQo?purpose=inline"/></a></figure><p id="402f6ce8-497f-800f-afbe-ccede1ffd8f2" class="" dir="auto">5.5. Acesso não autorizado</p><p id="402f6ce8-497f-800b-b4a7-f70333c3c0fa" class="" dir="auto">Ocorre quando alguém consegue utilizar a rede sem permissão, por exemplo, explorando uma senha comprometida, um mecanismo vulnerável ou uma configuração inadequada.</p><h2 id="402f6ce8-497f-8040-9676-c4b884c8ef29" class="" dir="auto">6. Ataques de desautenticação (Deauthentication)</h2><p id="402f6ce8-497f-80b7-a206-fd2ea912f7e7" class="" dir="auto">O padrão 802.11 possui quadros de gerenciamento responsáveis por determinadas operações de conexão e desconexão.</p><p id="402f6ce8-497f-80af-af4a-fb8de4ea9e59" class="" dir="auto">Em configurações vulneráveis, um atacante pode enviar quadros de desautenticação falsificados para tentar desconectar dispositivos de uma rede.</p><p id="402f6ce8-497f-8028-89bb-c201a9a42570" class="" dir="auto">Esse tipo de ataque pode ser utilizado para interromper a conectividade ou como parte de uma tentativa de induzir a vítima a se reconectar a um ponto de acesso falso.</p><p id="402f6ce8-497f-803d-852f-ffec9e092cbc" class="" dir="auto">Uma proteção importante é o Protected Management Frames (PMF), especificado pelo IEEE 802.11w e incorporado aos requisitos de segurança de gerações posteriores de Wi-Fi.</p><p id="402f6ce8-497f-80db-a1aa-f4e5a8244a4a" class="" dir="auto">O PMF ajuda a proteger determinados quadros de gerenciamento contra falsificação. Entretanto, não impede todos os tipos de interferência ou ataques de negação de serviço.</p><h2 id="402f6ce8-497f-8020-9aa0-c31c72cdc1cf" class="" dir="auto">7. WPS: Wi-Fi Protected Setup</h2><p id="402f6ce8-497f-8010-98a7-d4c2aa72a42c" class="" dir="auto">O WPS é um recurso criado para facilitar a conexão de dispositivos à rede Wi-Fi, por exemplo, utilizando um PIN ou um botão físico.</p><p id="402f6ce8-497f-80d6-96e3-cd9d6e2fb227" class="" dir="auto">Apesar da praticidade, determinadas implementações de WPS por PIN apresentam riscos de segurança, especialmente quando utilizam mecanismos vulneráveis ou proteções insuficientes contra tentativas repetidas.</p><p id="402f6ce8-497f-80c6-95f4-ce2a7b0066f6" class="" dir="auto">Por isso, uma boa prática é:</p><ul id="402f6ce8-497f-8030-9ea6-d35222ff2803" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Desativar o WPS por PIN quando não for necessário.</li></ul><ul id="402f6ce8-497f-80c0-8c93-f3b9b194240e" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Manter o firmware do roteador atualizado.</li></ul><ul id="402f6ce8-497f-80c2-a547-ef1183bf93f3" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Utilizar WPA2 ou WPA3 com configuração adequada.</li></ul><ul id="402f6ce8-497f-8064-bc51-cbb7a568626e" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Evitar senhas previsíveis.</li></ul><p id="402f6ce8-497f-804f-9ce1-c87b6339edf2" class="" dir="auto">O botão físico de conexão e o mecanismo de PIN não são exatamente a mesma coisa; os riscos dependem da implementação específica.</p><h2 id="402f6ce8-497f-806e-9c78-e3f2a007c96a" class="" dir="auto">8. Redes Wi-Fi públicas</h2><p id="402f6ce8-497f-8039-88f3-c87b71caa9a2" class="" dir="auto">Redes públicas estão presentes em aeroportos, hotéis, restaurantes, bibliotecas e outros locais.</p><p id="402f6ce8-497f-8043-8ad5-e0ea0407151c" class="" dir="auto">Elas podem ser legítimas, mas o usuário nem sempre sabe quem administra a infraestrutura ou quais dispositivos estão conectados à mesma rede.</p><p id="402f6ce8-497f-80d2-8b49-d355770f3d88" class="" dir="auto">Algumas medidas importantes incluem:</p><ul id="402f6ce8-497f-8020-8142-f5e6bfdf8dbc" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Confirmar o nome da rede com o estabelecimento.</li></ul><ul id="402f6ce8-497f-8009-aec8-dffec0482297" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Evitar redes desconhecidas com nomes semelhantes aos de redes legítimas.</li></ul><ul id="402f6ce8-497f-8046-bb97-c5b5dece5fa4" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Utilizar sites e serviços com HTTPS.</li></ul><ul id="402f6ce8-497f-809b-b103-dabd5b9eff81" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Manter o sistema operacional e os aplicativos atualizados.</li></ul><ul id="402f6ce8-497f-8087-93cc-df1c2e00a7d2" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Desativar o compartilhamento de arquivos quando não for necessário.</li></ul><ul id="402f6ce8-497f-801c-8619-fce0618d3d59" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Evitar ignorar avisos de certificados digitais.</li></ul><ul id="402f6ce8-497f-804f-9616-ff9adc1b85a7" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Utilizar uma VPN confiável quando ela fizer sentido para o cenário.</li></ul><p id="402f6ce8-497f-8082-967c-d83b76440589" class="" dir="auto">Atenção: HTTPS protege a comunicação entre o navegador e o serviço correspondente, mas não torna automaticamente confiável uma rede Wi-Fi falsa nem impede todos os tipos de fraude.</p><p id="402f6ce8-497f-80b4-868b-ee39fc819c2f" class="" dir="auto">Uma VPN também não protege contra qualquer ameaça: ela não substitui a autenticação forte, as atualizações ou os cuidados contra phishing.</p><h2 id="402f6ce8-497f-8052-ab13-d7324247b537" class="" dir="auto">9. Configuração segura de um roteador Wi-Fi</h2><p id="402f6ce8-497f-8016-b446-e7e043dacaf2" class="" dir="auto">Um roteador mal configurado pode comprometer a segurança de todos os dispositivos conectados à rede.</p><p id="402f6ce8-497f-8031-8ce2-c2c89bc091fe" class="" dir="auto">As recomendações principais são:</p><table id="402f6ce8-497f-8009-888b-c1ef9b61cbb5" class="simple-table" dir="ltr"><thead class="simple-table-header"><tr id="402f6ce8-497f-807a-9965-d8853d679635" dir="ltr"><th id="Wp\q" class="simple-table-header-color simple-table-header">Medida</th><th id="BkLj" class="simple-table-header-color simple-table-header">Objetivo</th></tr></thead><tbody><tr id="402f6ce8-497f-8094-a306-fb37f7fd343b" dir="ltr"><td id="Wp\q" class="">Utilizar WPA3 ou WPA2-AES/CCMP</td><td id="BkLj" class="">Proteger a comunicação sem fio.</td></tr><tr id="402f6ce8-497f-8030-806a-c2b0b72c88a6" dir="ltr"><td id="Wp\q" class="">Definir uma senha forte para o Wi-Fi</td><td id="BkLj" class="">Dificultar acessos não autorizados.</td></tr><tr id="402f6ce8-497f-80e1-8e41-e3b9a122a234" dir="ltr"><td id="Wp\q" class="">Alterar a senha administrativa padrão</td><td id="BkLj" class="">Evitar que credenciais conhecidas sejam utilizadas para administrar o roteador.</td></tr><tr id="402f6ce8-497f-8056-9030-fd7bb49653d5" dir="ltr"><td id="Wp\q" class="">Atualizar o firmware</td><td id="BkLj" class="">Corrigir vulnerabilidades do equipamento.</td></tr><tr id="402f6ce8-497f-807b-985b-f493b2367b09" dir="ltr"><td id="Wp\q" class="">Desativar WPS desnecessário</td><td id="BkLj" class="">Reduzir a exposição a riscos associados à implementação.</td></tr><tr id="402f6ce8-497f-8045-9351-f4b93f6d258c" dir="ltr"><td id="Wp\q" class="">Desativar a administração remota quando dispensável</td><td id="BkLj" class="">Diminuir os pontos de entrada acessíveis externamente.</td></tr><tr id="402f6ce8-497f-801a-b87b-e7867648c312" dir="ltr"><td id="Wp\q" class="">Criar uma rede para convidados</td><td id="BkLj" class="">Separar visitantes da rede principal, conforme os recursos do equipamento.</td></tr><tr id="402f6ce8-497f-8085-bf23-df5924f6bf25" dir="ltr"><td id="Wp\q" class="">Ativar o isolamento entre clientes quando apropriado</td><td id="BkLj" class="">Restringir a comunicação direta entre dispositivos na mesma rede Wi-Fi.</td></tr></tbody></table><h3 id="402f6ce8-497f-806d-b758-e1d80a3009bd" class="" dir="auto">Esconder o SSID é suficiente?</h3><p id="402f6ce8-497f-8039-a209-c24c309850fc" class="" dir="auto">Não. O SSID é o nome da rede sem fio. Ocultá-lo não constitui um mecanismo de segurança robusto, pois a rede ainda pode ser identificada por meio de determinadas transmissões e procedimentos de análise.</p><p id="402f6ce8-497f-8036-818a-c3559fed4174" class="" dir="auto">O que realmente importa é utilizar autenticação forte, criptografia adequada, firmware atualizado e regras de acesso bem definidas.</p><h2 id="402f6ce8-497f-8098-92f4-e99476f48efc" class="" dir="auto">10. Ferramentas utilizadas na análise de redes sem fio</h2><p id="402f6ce8-497f-80c9-9798-ce6b4f3857ce" class="" dir="auto">Profissionais de segurança utilizam ferramentas para verificar a configuração de redes, analisar tráfego e investigar problemas.</p><table id="402f6ce8-497f-80ba-8ea9-caf7a26a4c7f" class="simple-table" dir="ltr"><thead class="simple-table-header"><tr id="402f6ce8-497f-800f-ad2a-ee39bc216287" dir="ltr"><th id="&lt;lWW" class="simple-table-header-color simple-table-header">Ferramenta</th><th id="wXM=" class="simple-table-header-color simple-table-header">Finalidade</th></tr></thead><tbody><tr id="402f6ce8-497f-80f5-b6b7-d885d2ad3111" dir="ltr"><td id="&lt;lWW" class="">Wireshark</td><td id="wXM=" class="">Capturar e analisar pacotes de rede.</td></tr><tr id="402f6ce8-497f-8043-83b0-e618690c9d07" dir="ltr"><td id="&lt;lWW" class="">Kismet</td><td id="wXM=" class="">Detectar e monitorar redes e dispositivos sem fio compatíveis.</td></tr><tr id="402f6ce8-497f-80b7-ae73-f3b4b3e4a200" dir="ltr"><td id="&lt;lWW" class="">Aircrack-ng</td><td id="wXM=" class="">Conjunto de ferramentas para auditoria de segurança Wi-Fi.</td></tr><tr id="402f6ce8-497f-804f-b730-d69eb56b7182" dir="ltr"><td id="&lt;lWW" class="">Nmap</td><td id="wXM=" class="">Identificar hosts e serviços de rede acessíveis; não é, por si só, um analisador específico de Wi-Fi.</td></tr><tr id="402f6ce8-497f-80b8-849a-dd17ff990ab2" dir="ltr"><td id="&lt;lWW" class="">Interface administrativa do roteador</td><td id="wXM=" class="">Consultar clientes conectados, configurações e eventos disponíveis.</td></tr></tbody></table><p id="402f6ce8-497f-8089-b254-f25a3357be1f" class="" dir="auto">A captura de tráfego 802.11 em modo monitor depende da placa de rede, do driver e do sistema operacional. Além disso, capturar quadros não significa conseguir descriptografar o conteúdo das comunicações.</p><p id="402f6ce8-497f-80f6-aff9-e1586c8b59c3" class="" dir="auto">Essas ferramentas devem ser utilizadas em redes próprias ou em ambientes nos quais exista autorização explícita para realizar testes.</p><h2 id="402f6ce8-497f-8098-a665-ffa15f9f03e7" class="" dir="auto">11. Exemplo prático: protegendo uma rede doméstica</h2><p id="402f6ce8-497f-8074-8dda-edccae55748a" class="" dir="auto">Imagine que você tenha um roteador Wi-Fi em casa e conecte a ele seu notebook, celular e outros dispositivos.</p><p id="402f6ce8-497f-80c5-8e74-eb11b4e23a7a" class="" dir="auto">Uma configuração adequada incluiria:</p><ol type="1" id="402f6ce8-497f-809a-b249-c3521a76fa56" class="numbered-list" start="1" dir="auto"><li>Utilizar WPA3-Personal, se houver compatibilidade; caso contrário, WPA2-AES/CCMP.</li></ol><ol type="1" id="402f6ce8-497f-80f1-8ed3-fa68368b16f3" class="numbered-list" start="2" dir="auto"><li>Definir uma senha longa, aleatória e exclusiva para a rede.</li></ol><ol type="1" id="402f6ce8-497f-80da-aec4-d1327472d328" class="numbered-list" start="3" dir="auto"><li>Alterar as credenciais administrativas padrão do roteador.</li></ol><ol type="1" id="402f6ce8-497f-8096-9b88-fec7414a9467" class="numbered-list" start="4" dir="auto"><li>Instalar atualizações de firmware disponibilizadas pelo fabricante.</li></ol><ol type="1" id="402f6ce8-497f-807b-a2e1-c669082a3e98" class="numbered-list" start="5" dir="auto"><li>Desativar o WPS por PIN se não for necessário.</li></ol><ol type="1" id="402f6ce8-497f-8088-89f6-ea3d05e83d16" class="numbered-list" start="6" dir="auto"><li>Criar uma rede para convidados, isolada da rede principal quando possível.</li></ol><ol type="1" id="402f6ce8-497f-8084-aa1b-daa84d3d5694" class="numbered-list" start="7" dir="auto"><li>Verificar periodicamente os dispositivos conectados.</li></ol><ol type="1" id="402f6ce8-497f-8006-b700-c99243904a20" class="numbered-list" start="8" dir="auto"><li>Substituir equipamentos que não recebem mais atualizações de segurança.</li></ol><p id="402f6ce8-497f-80f4-9a0e-e5d98d1f61e8" class="" dir="auto">Essas medidas reduzem os riscos de acesso indevido, mas não eliminam todas as ameaças possíveis.</p><h2 id="402f6ce8-497f-8009-840d-fd9d086fbe86" class="" dir="auto">12. Resumo para anotações</h2><p id="402f6ce8-497f-800e-b437-c104b711ee5c" class="" dir="auto">A segurança em redes sem fio IEEE 802.11 envolve a proteção das comunicações Wi-Fi contra interceptação, acessos não autorizados, falsificação de pontos de acesso e ataques que prejudicam a disponibilidade.</p><p id="402f6ce8-497f-805f-b421-ca550714776b" class="" dir="auto">Os principais mecanismos são WPA2, WPA3, autenticação pessoal ou corporativa, criptografia, PMF e configurações seguras do roteador.</p><p id="402f6ce8-497f-80a7-a172-f369d9af157f" class="" dir="auto">As ameaças incluem captura de tráfego, ataques contra senhas, pontos de acesso falsos e desautenticação. Para reduzir os riscos, é importante utilizar protocolos modernos, senhas fortes, firmware atualizado, controle de acesso e ferramentas de monitoramento.</p><p id="402f6ce8-497f-8095-8e7f-ce59fd342423" class="" dir="auto">Ideia central: a segurança de uma rede Wi-Fi não depende apenas da senha. Ela exige a combinação de criptografia, autenticação, atualização dos equipamentos, segmentação da rede e monitoramento contínuo.</p></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

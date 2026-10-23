@@ -1,0 +1,797 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Segurança de IOT</title><meta name="data-notion-page-icon" content="/icons/lock_blue.svg"/><link rel="icon" href="https://app.notion.com/icons/lock_blue.svg"/><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+	/* Paint a complete callout box on every PDF page fragment. */
+	-webkit-box-decoration-break: clone;
+	box-decoration-break: clone;
+}
+
+/* For default-background callouts, render the border outline. */
+.callout.block-color-default_background {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+/*
+ * Toggles and callouts hold arbitrary content, so they can easily be taller
+ * than a page. They must stay breakable: avoiding breaks inside them makes
+ * Chromium push the whole block onto the next page, which leaves the previous
+ * page mostly empty before every long toggle.
+ */
+details,
+aside {
+	margin: 1.25em 0;
+}
+
+/* Keep a toggle's title on the same page as the start of its content. */
+summary {
+	page-break-after: avoid;
+	break-after: avoid;
+}
+
+/*
+ * Toggle headings render as <h1/h2/h3 style="display:inline-block"> inside
+ * <summary>. Without this reset, the heading's margin-top pushes it below the
+ * ::marker (▼), so the triangle and the title appear on separate lines.
+ */
+summary h1,
+summary h2,
+summary h3,
+summary h4 {
+	margin-top: 0;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding-inline: 0.125rem;
+	padding-block: 0.375rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+/*
+ * Render emoji icons using a ::before pseudo-element to keep the glyph
+ * out of the DOM textContent traversal. This avoids double-rendering icons
+ * in callouts and page titles.
+ * NOTE(slim/html-export-pseudo-icons): I can't tagref this because it will
+ * flag as a duplicate tag after codegen.
+ */
+.icon[data-emoji]::before {
+	content: attr(data-emoji);
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	margin-right: 0.4em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.tab {
+	margin: 1.25em 0;
+	padding-inline: 1rem;
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style><style>@import url('https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex-swap.min.css')</style></head><body><article id="402f6ce8-497f-809b-96d2-d4764a09a4e5" class="page sans" data-notion-page-icon="/icons/lock_blue.svg"><header><div class="page-header-icon undefined"><img class="icon notion-static-icon" src="https://app.notion.com/icons/lock_blue.svg"/></div><h1 class="page-title" dir="auto">Segurança de IOT</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><h1 id="402f6ce8-497f-8037-b2fc-fbb7e675bb02" class="" dir="auto">Segurança de dispositivos Internet of Things (IoT)</h1><h2 id="402f6ce8-497f-80ce-899f-da81dd271b81" class="" dir="auto">1. O que é Internet of Things (IoT)?</h2><p id="402f6ce8-497f-80a1-a917-caa204bf6198" class="" dir="auto">A Internet das Coisas (IoT — Internet of Things) é um conceito que envolve objetos físicos conectados à internet ou a outras redes, capazes de coletar dados, trocar informações e executar ações de forma automatizada.</p><p id="402f6ce8-497f-8080-bc4a-fe8b8219a0f3" class="" dir="auto">Esses dispositivos geralmente possuem sensores, software, componentes eletrônicos e algum mecanismo de comunicação.</p><p id="402f6ce8-497f-80f3-ba51-f02894a7d56d" class="" dir="auto">Exemplos de dispositivos IoT incluem:</p><ul id="402f6ce8-497f-80d4-80d3-f661de89ebfa" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Câmeras de segurança inteligentes.</li></ul><ul id="402f6ce8-497f-80ff-b5eb-f916bd05a707" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Lâmpadas e tomadas conectadas.</li></ul><ul id="402f6ce8-497f-8036-8b26-c432ae4bbc1a" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Relógios inteligentes.</li></ul><ul id="402f6ce8-497f-80ca-934f-f639e1afaa6c" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Fechaduras eletrônicas.</li></ul><ul id="402f6ce8-497f-80fd-abd1-fb387444baeb" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Sensores industriais.</li></ul><ul id="402f6ce8-497f-8024-979e-c831fdb9bc49" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Termostatos inteligentes.</li></ul><ul id="402f6ce8-497f-800a-b905-e8395ac07409" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Assistentes virtuais.</li></ul><ul id="402f6ce8-497f-80cc-b33e-c0959fa4ae0c" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Equipamentos médicos conectados.</li></ul><ul id="402f6ce8-497f-807f-b55f-cffe910cd429" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Sistemas de monitoramento agrícola.</li></ul><figure id="402f6ce8-497f-8048-8496-e75e248564c4" class="image" data-notion-image="https://images.openai.com/static-rsc-4/BbkOvs5mAorAyGRwYjCIm1wMrT6RF3_SMEbZKBbvP1pE9g-BAGnABMpdoN0qOC23D9ci2ZP0MBFnzdsl1wy72XsWwuWTFulfOsXUv2nfcV7ylvHGqO_1c8aTXZxvrsABx78Zb-hodjleCVjNhn7XzLDFZKCPgHz8cWPEqYcTX3w?purpose=inline" dir="ltr"><a href="https://images.openai.com/static-rsc-4/BbkOvs5mAorAyGRwYjCIm1wMrT6RF3_SMEbZKBbvP1pE9g-BAGnABMpdoN0qOC23D9ci2ZP0MBFnzdsl1wy72XsWwuWTFulfOsXUv2nfcV7ylvHGqO_1c8aTXZxvrsABx78Zb-hodjleCVjNhn7XzLDFZKCPgHz8cWPEqYcTX3w?purpose=inline"><img src="https://images.openai.com/static-rsc-4/BbkOvs5mAorAyGRwYjCIm1wMrT6RF3_SMEbZKBbvP1pE9g-BAGnABMpdoN0qOC23D9ci2ZP0MBFnzdsl1wy72XsWwuWTFulfOsXUv2nfcV7ylvHGqO_1c8aTXZxvrsABx78Zb-hodjleCVjNhn7XzLDFZKCPgHz8cWPEqYcTX3w?purpose=inline"/></a></figure><p id="402f6ce8-497f-8040-9dd9-dbe0d38285ba" class="" dir="auto">Casa inteligente</p><p id="402f6ce8-497f-80bb-a0f8-fa262f6ff65e" class="" dir="auto">Lâmpadas, câmeras, sensores e fechaduras.</p><figure id="402f6ce8-497f-80df-82db-e9f7bd98f44c" class="image" data-notion-image="https://images.openai.com/static-rsc-4/gmq7j0-79VCOXWEilRdQw_dT2V88FBmf3ii-o5mvF14OYLxIgKX2a0fsLbwxx7TM5vmKotNV-ZvCasviG29bLGrbeWU5uhjLpvAS7SEGtkP9vEzaolIB9iYPbAtSfDUXG9a9u4YakW88nizcmVc1r4CtWKFO4ynyTM8U-kgTHqo?purpose=inline" dir="ltr"><a href="https://images.openai.com/static-rsc-4/gmq7j0-79VCOXWEilRdQw_dT2V88FBmf3ii-o5mvF14OYLxIgKX2a0fsLbwxx7TM5vmKotNV-ZvCasviG29bLGrbeWU5uhjLpvAS7SEGtkP9vEzaolIB9iYPbAtSfDUXG9a9u4YakW88nizcmVc1r4CtWKFO4ynyTM8U-kgTHqo?purpose=inline"><img src="https://images.openai.com/static-rsc-4/gmq7j0-79VCOXWEilRdQw_dT2V88FBmf3ii-o5mvF14OYLxIgKX2a0fsLbwxx7TM5vmKotNV-ZvCasviG29bLGrbeWU5uhjLpvAS7SEGtkP9vEzaolIB9iYPbAtSfDUXG9a9u4YakW88nizcmVc1r4CtWKFO4ynyTM8U-kgTHqo?purpose=inline"/></a></figure><p id="402f6ce8-497f-80d1-b672-dac49850f513" class="" dir="auto">Indústria inteligente</p><p id="402f6ce8-497f-80c0-925c-d5e73dd5a673" class="" dir="auto">Sensores de máquinas, temperatura e pressão.</p><figure id="402f6ce8-497f-80b0-8d19-fb3a324b49ed" class="image" data-notion-image="https://images.openai.com/static-rsc-4/CGieGd8ivZgwXbnCTP5UqlAFX4xAv5jWc0PUAcNSfRyGogZRUYObehfTryS6RCK3VhgrnJUQH_QuuXSHUbhQ4mnkX8Rjso1AzC6OA-C1uvXfGexJWQDjR43fRk5dQeh5N3f0mVEsjaeiIJCQDAqvOyO2NHytlWSOlyFd47kmXag?purpose=inline" dir="ltr"><a href="https://images.openai.com/static-rsc-4/CGieGd8ivZgwXbnCTP5UqlAFX4xAv5jWc0PUAcNSfRyGogZRUYObehfTryS6RCK3VhgrnJUQH_QuuXSHUbhQ4mnkX8Rjso1AzC6OA-C1uvXfGexJWQDjR43fRk5dQeh5N3f0mVEsjaeiIJCQDAqvOyO2NHytlWSOlyFd47kmXag?purpose=inline"><img src="https://images.openai.com/static-rsc-4/CGieGd8ivZgwXbnCTP5UqlAFX4xAv5jWc0PUAcNSfRyGogZRUYObehfTryS6RCK3VhgrnJUQH_QuuXSHUbhQ4mnkX8Rjso1AzC6OA-C1uvXfGexJWQDjR43fRk5dQeh5N3f0mVEsjaeiIJCQDAqvOyO2NHytlWSOlyFd47kmXag?purpose=inline"/></a></figure><p id="402f6ce8-497f-8060-94fd-fd3d36c9d70b" class="" dir="auto">Dispositivos vestíveis</p><p id="402f6ce8-497f-8099-a524-ead6d9f600bf" class="" dir="auto">Relógios, pulseiras e outros dispositivos conectados.</p><figure id="402f6ce8-497f-80aa-aa79-eba14b6a937c" class="image" data-notion-image="https://images.openai.com/static-rsc-4/ZXML3zZZLi-rwfYG51K2WU7Odt8pIqfry41oEWj6Nho8Yty_aMdyewszPzkamAxF3w-PwFnJ1kmDOpy-3EbvlOozHtUYh3gtAPaHRxbbCguoxmDrWs4H_nGcBatcmrO0jjan1Q-gOM7eZiTFkuEBD3SY4YQ7AxqEYVhLucfYNlY?purpose=inline" dir="ltr"><a href="https://images.openai.com/static-rsc-4/ZXML3zZZLi-rwfYG51K2WU7Odt8pIqfry41oEWj6Nho8Yty_aMdyewszPzkamAxF3w-PwFnJ1kmDOpy-3EbvlOozHtUYh3gtAPaHRxbbCguoxmDrWs4H_nGcBatcmrO0jjan1Q-gOM7eZiTFkuEBD3SY4YQ7AxqEYVhLucfYNlY?purpose=inline"><img src="https://images.openai.com/static-rsc-4/ZXML3zZZLi-rwfYG51K2WU7Odt8pIqfry41oEWj6Nho8Yty_aMdyewszPzkamAxF3w-PwFnJ1kmDOpy-3EbvlOozHtUYh3gtAPaHRxbbCguoxmDrWs4H_nGcBatcmrO0jjan1Q-gOM7eZiTFkuEBD3SY4YQ7AxqEYVhLucfYNlY?purpose=inline"/></a></figure><p id="402f6ce8-497f-807d-aae4-eb03adff0cbe" class="" dir="auto">Segurança residencial</p><p id="402f6ce8-497f-8075-aeb9-fb3f47ee0034" class="" dir="auto">Câmeras, alarmes e fechaduras eletrônicas.</p><p id="402f6ce8-497f-8095-bbd4-d200f9930f10" class="" dir="auto">A conectividade oferece praticidade, mas também cria novas possibilidades de ataque. Um dispositivo vulnerável pode ser utilizado para espionar usuários, invadir uma rede, roubar informações ou comprometer outros equipamentos.</p><p id="402f6ce8-497f-8055-ad83-f8379e292b8e" class="" dir="auto">Por isso, a segurança de IoT busca proteger tanto o próprio dispositivo quanto os dados, as comunicações e os sistemas aos quais ele está conectado.</p><h2 id="402f6ce8-497f-80bc-b051-ca39dcdca4ee" class="" dir="auto">2. O que é segurança em dispositivos IoT?</h2><p id="402f6ce8-497f-8008-a282-ed8d9ce12d81" class="" dir="auto">A segurança de IoT é o conjunto de medidas técnicas e administrativas destinadas a proteger dispositivos conectados contra acessos não autorizados, exploração de vulnerabilidades, alterações indevidas e uso malicioso.</p><p id="402f6ce8-497f-80f6-af5c-f0bd2fb20869" class="" dir="auto">Diferentemente de computadores convencionais, muitos dispositivos IoT possuem limitações de processamento, memória, armazenamento e energia. Alguns também permanecem ligados continuamente e recebem poucas atualizações ao longo de sua vida útil.</p><p id="402f6ce8-497f-8061-9593-cf904f93ca0f" class="" dir="auto">Essas características podem dificultar a aplicação de mecanismos tradicionais de segurança.</p><p id="402f6ce8-497f-80cf-8090-c8daede45944" class="" dir="auto">A proteção de IoT envolve:</p><ul id="402f6ce8-497f-8008-ac93-c38fb539ecca" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Autenticação de dispositivos e usuários.</li></ul><ul id="402f6ce8-497f-8030-b234-dd7bbb97e372" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Criptografia das comunicações.</li></ul><ul id="402f6ce8-497f-80dd-962b-f522a5310428" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Atualizações seguras de firmware.</li></ul><ul id="402f6ce8-497f-802f-9a08-dd0fb3665e2d" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Controle de acesso.</li></ul><ul id="402f6ce8-497f-8031-a1aa-cd8cc0bc309d" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Proteção de credenciais.</li></ul><ul id="402f6ce8-497f-800f-b8d0-ef354ecdb3c1" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Segmentação de redes.</li></ul><ul id="402f6ce8-497f-80de-b2eb-db67df398777" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Monitoramento de atividades.</li></ul><ul id="402f6ce8-497f-8075-9508-f8f0947ff8df" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Segurança física.</li></ul><ul id="402f6ce8-497f-80e3-89c1-f87637f406e5" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Proteção de dados pessoais.</li></ul><ul id="402f6ce8-497f-804b-a5f7-e160973b983a" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Gestão do ciclo de vida do dispositivo.</li></ul><p id="402f6ce8-497f-8084-9b05-c9396d050e4b" class="" dir="auto">Exemplo: uma câmera inteligente com senha padrão e firmware desatualizado pode permitir que um invasor obtenha acesso às imagens ou utilize a câmera como ponto de entrada para atacar outros dispositivos da rede doméstica.</p><h2 id="402f6ce8-497f-8034-95e5-e45f9ae84c86" class="" dir="auto">3. Principais ameaças aos dispositivos IoT</h2><figure id="402f6ce8-497f-80d6-a9a5-d97c3e6eb412" class="image" data-notion-image="https://images.openai.com/static-rsc-4/naaG_xW0J_mBr3cZeAfbDhQkdzoQzFvrrrp6wItn660tc900jgoDlW7Mn7hPEXoY7u3tpe6umha4ZTJJv9xR2ibNw6iv463h5bXj--UkiqsHL8761S2Uiio-Xft7bEuuK6w15hHxpYJIsUU-nckCffSO3WXDBwCpPhjkjgR-rdU?purpose=inline" dir="ltr"><a href="https://images.openai.com/static-rsc-4/naaG_xW0J_mBr3cZeAfbDhQkdzoQzFvrrrp6wItn660tc900jgoDlW7Mn7hPEXoY7u3tpe6umha4ZTJJv9xR2ibNw6iv463h5bXj--UkiqsHL8761S2Uiio-Xft7bEuuK6w15hHxpYJIsUU-nckCffSO3WXDBwCpPhjkjgR-rdU?purpose=inline"><img src="https://images.openai.com/static-rsc-4/naaG_xW0J_mBr3cZeAfbDhQkdzoQzFvrrrp6wItn660tc900jgoDlW7Mn7hPEXoY7u3tpe6umha4ZTJJv9xR2ibNw6iv463h5bXj--UkiqsHL8761S2Uiio-Xft7bEuuK6w15hHxpYJIsUU-nckCffSO3WXDBwCpPhjkjgR-rdU?purpose=inline"/></a></figure><p id="402f6ce8-497f-80b4-b798-ec8c7eff8185" class="" dir="auto">3.1. Senhas padrão ou fracas</p><p id="402f6ce8-497f-8099-8153-f64207f96109" class="" dir="auto">Muitos dispositivos são instalados com credenciais iniciais conhecidas ou fáceis de adivinhar.</p><p id="402f6ce8-497f-80c4-a7e8-ce19f43d8712" class="" dir="auto">Se essas credenciais não forem alteradas, pessoas não autorizadas podem conseguir acesso ao painel administrativo ou aos serviços do equipamento.</p><figure id="402f6ce8-497f-80ac-a1ec-d88ffa9ef559" class="image" data-notion-image="https://images.openai.com/static-rsc-4/XEVb6U3cMJ4LLO2iklSEd66sz8AYXCMDZH9-y-27BuCD0iVEohrTVKhQ0aH8GD_h7bKN2hF2XZT81h-wEIrW4Tj14aH-7YO0Ws-G6G1vEHpwIcu_mMP2IwnuCsjQ4WIUUKKBAHjMhAysngpjGBRLfkMv56xqA12XDEDifyO49Pg?purpose=inline" dir="ltr"><a href="https://images.openai.com/static-rsc-4/XEVb6U3cMJ4LLO2iklSEd66sz8AYXCMDZH9-y-27BuCD0iVEohrTVKhQ0aH8GD_h7bKN2hF2XZT81h-wEIrW4Tj14aH-7YO0Ws-G6G1vEHpwIcu_mMP2IwnuCsjQ4WIUUKKBAHjMhAysngpjGBRLfkMv56xqA12XDEDifyO49Pg?purpose=inline"><img src="https://images.openai.com/static-rsc-4/XEVb6U3cMJ4LLO2iklSEd66sz8AYXCMDZH9-y-27BuCD0iVEohrTVKhQ0aH8GD_h7bKN2hF2XZT81h-wEIrW4Tj14aH-7YO0Ws-G6G1vEHpwIcu_mMP2IwnuCsjQ4WIUUKKBAHjMhAysngpjGBRLfkMv56xqA12XDEDifyO49Pg?purpose=inline"/></a></figure><p id="402f6ce8-497f-806c-9e34-fb068dd4bff4" class="" dir="auto">3.2. Botnets</p><p id="402f6ce8-497f-80ae-9214-e6ae27d0fcc6" class="" dir="auto">Uma botnet é uma rede de dispositivos comprometidos que pode ser controlada remotamente por um atacante.</p><p id="402f6ce8-497f-801a-bfd1-c4b3fe6efbf8" class="" dir="auto">Dispositivos IoT vulneráveis podem ser recrutados para enviar tráfego malicioso, realizar ataques de negação de serviço ou executar outras atividades coordenadas.</p><figure id="402f6ce8-497f-809a-8d94-fd5d3f84a720" class="image" data-notion-image="https://images.openai.com/static-rsc-4/9kZpwwB2-33CpGc-AaRWiuM9xus6AymNNf826B71x1xNXSrFhVcn2Aen4YktX26GQ8hOOeRdQApHLer13ZFIzGl4PfT47MImiVfO0vyZpdrN0J7BW1yzcUDAGLajsC0xTdThPx737cTrspRm55up8uJ-N2LMtdMElupGYY3R1x8?purpose=inline" dir="ltr"><a href="https://images.openai.com/static-rsc-4/9kZpwwB2-33CpGc-AaRWiuM9xus6AymNNf826B71x1xNXSrFhVcn2Aen4YktX26GQ8hOOeRdQApHLer13ZFIzGl4PfT47MImiVfO0vyZpdrN0J7BW1yzcUDAGLajsC0xTdThPx737cTrspRm55up8uJ-N2LMtdMElupGYY3R1x8?purpose=inline"><img src="https://images.openai.com/static-rsc-4/9kZpwwB2-33CpGc-AaRWiuM9xus6AymNNf826B71x1xNXSrFhVcn2Aen4YktX26GQ8hOOeRdQApHLer13ZFIzGl4PfT47MImiVfO0vyZpdrN0J7BW1yzcUDAGLajsC0xTdThPx737cTrspRm55up8uJ-N2LMtdMElupGYY3R1x8?purpose=inline"/></a></figure><p id="402f6ce8-497f-80e0-88bc-d2c609e2d309" class="" dir="auto">3.3. Firmware desatualizado</p><p id="402f6ce8-497f-808b-80ac-d13a2a9070b4" class="" dir="auto">O firmware é o software de baixo nível que controla o funcionamento do dispositivo.</p><p id="402f6ce8-497f-80a0-b612-c0c3f4b4e848" class="" dir="auto">Quando existem falhas conhecidas e não são disponibilizadas ou instaladas correções, o equipamento pode continuar vulnerável durante anos.</p><figure id="402f6ce8-497f-80fe-bbc6-c2cb7d87fb38" class="image" data-notion-image="https://images.openai.com/static-rsc-4/2fE-8SzukyHVyG1TfhQz_pA9BmfgG21u8oWxv0IHQ1jEC-5a7jei8lOygEp9mdYJ7ejlxn3ffU6VVE6Z-Y-Pv7xweg8YqKlA61JyJpCNUgbM5_XeBEolm5NCBSnKIu9RjjDxuytySTqTquTG0EHLPii-jXOvs4qXr1utQcUHL9k?purpose=inline" dir="ltr"><a href="https://images.openai.com/static-rsc-4/2fE-8SzukyHVyG1TfhQz_pA9BmfgG21u8oWxv0IHQ1jEC-5a7jei8lOygEp9mdYJ7ejlxn3ffU6VVE6Z-Y-Pv7xweg8YqKlA61JyJpCNUgbM5_XeBEolm5NCBSnKIu9RjjDxuytySTqTquTG0EHLPii-jXOvs4qXr1utQcUHL9k?purpose=inline"><img src="https://images.openai.com/static-rsc-4/2fE-8SzukyHVyG1TfhQz_pA9BmfgG21u8oWxv0IHQ1jEC-5a7jei8lOygEp9mdYJ7ejlxn3ffU6VVE6Z-Y-Pv7xweg8YqKlA61JyJpCNUgbM5_XeBEolm5NCBSnKIu9RjjDxuytySTqTquTG0EHLPii-jXOvs4qXr1utQcUHL9k?purpose=inline"/></a></figure><p id="402f6ce8-497f-80bc-8ca0-c06570034f12" class="" dir="auto">3.4. Vazamento de dados e invasão de privacidade</p><p id="402f6ce8-497f-80d4-8ec4-cd1befa4cbbc" class="" dir="auto">Câmeras, microfones, sensores e dispositivos vestíveis podem coletar informações sensíveis.</p><p id="402f6ce8-497f-806e-be2b-e1a15f28605c" class="" dir="auto">Uma falha de segurança pode expor imagens, conversas, localização, hábitos de uso ou outros dados pessoais.</p><figure id="402f6ce8-497f-8092-ac57-cfa5e84bd1e0" class="image" data-notion-image="https://images.openai.com/static-rsc-4/QDl-yBTun-G9oDHvhEuJweuD8I7uWw3b_dcZ2a5yCbkGF6ockhCQhJ9kpBy-q6HT9IBxsSpEbCWMOluCXH2YzAld2xa5Lx2aaZZLUFsC3TzdCRFJAIZil3x7tpVpPGCV2-YcGLuVb2ne9THZeqOIKlgceLiR_tETcqz67jcje3U?purpose=inline" dir="ltr"><a href="https://images.openai.com/static-rsc-4/QDl-yBTun-G9oDHvhEuJweuD8I7uWw3b_dcZ2a5yCbkGF6ockhCQhJ9kpBy-q6HT9IBxsSpEbCWMOluCXH2YzAld2xa5Lx2aaZZLUFsC3TzdCRFJAIZil3x7tpVpPGCV2-YcGLuVb2ne9THZeqOIKlgceLiR_tETcqz67jcje3U?purpose=inline"><img src="https://images.openai.com/static-rsc-4/QDl-yBTun-G9oDHvhEuJweuD8I7uWw3b_dcZ2a5yCbkGF6ockhCQhJ9kpBy-q6HT9IBxsSpEbCWMOluCXH2YzAld2xa5Lx2aaZZLUFsC3TzdCRFJAIZil3x7tpVpPGCV2-YcGLuVb2ne9THZeqOIKlgceLiR_tETcqz67jcje3U?purpose=inline"/></a></figure><p id="402f6ce8-497f-8041-a94e-cf90ddeccf94" class="" dir="auto">3.5. Comprometimento da rede</p><p id="402f6ce8-497f-80a5-b08b-c12ea75f8761" class="" dir="auto">Um invasor pode utilizar um dispositivo IoT comprometido para tentar alcançar outros equipamentos, como computadores, servidores e dispositivos de armazenamento conectados à mesma rede.</p><h2 id="402f6ce8-497f-80f5-82ee-e471c3632a07" class="" dir="auto">4. Principais tipos de ataques contra IoT</h2><p id="402f6ce8-497f-8064-b137-fb81cdca78d5" class="" dir="auto">Além das ameaças gerais, existem ataques que exploram características específicas dos dispositivos conectados.</p><table id="402f6ce8-497f-80e6-89fe-fe4c8b9687fa" class="simple-table" dir="ltr"><thead class="simple-table-header"><tr id="402f6ce8-497f-8066-a5c6-f495855b6192" dir="ltr"><th id="tg_E" class="simple-table-header-color simple-table-header">Ataque</th><th id="&gt;c~`" class="simple-table-header-color simple-table-header">Como funciona</th></tr></thead><tbody><tr id="402f6ce8-497f-802c-8b69-d3f612013e6a" dir="ltr"><td id="tg_E" class="">Força bruta</td><td id="&gt;c~`" class="">Tenta descobrir credenciais por meio de muitas combinações.</td></tr><tr id="402f6ce8-497f-8067-86a6-dbf243e266fa" dir="ltr"><td id="tg_E" class="">Exploração de vulnerabilidades</td><td id="&gt;c~`" class="">Aproveita falhas no firmware, nos serviços ou nas interfaces de administração.</td></tr><tr id="402f6ce8-497f-80f7-a39b-fad49e2e96ee" dir="ltr"><td id="tg_E" class="">Man-in-the-Middle (MitM)</td><td id="&gt;c~`" class="">Tenta interceptar ou alterar a comunicação entre dispositivos e serviços.</td></tr><tr id="402f6ce8-497f-80fb-9ae9-d37fc7325705" dir="ltr"><td id="tg_E" class="">Negação de serviço (DoS/DDoS)</td><td id="&gt;c~`" class="">Busca interromper ou degradar a disponibilidade de um serviço.</td></tr><tr id="402f6ce8-497f-80e3-bd53-e16726bd417a" dir="ltr"><td id="tg_E" class="">Sequestro de sessão</td><td id="&gt;c~`" class="">Tenta assumir uma sessão autenticada para agir como um usuário legítimo.</td></tr><tr id="402f6ce8-497f-808c-9031-e801da338944" dir="ltr"><td id="tg_E" class="">Ataque à cadeia de suprimentos</td><td id="&gt;c~`" class="">Explora falhas ou componentes comprometidos introduzidos durante o desenvolvimento, a fabricação ou a distribuição.</td></tr><tr id="402f6ce8-497f-8098-847b-e6d69f9936f6" dir="ltr"><td id="tg_E" class="">Ataque físico</td><td id="&gt;c~`" class="">Explora o acesso direto ao dispositivo para tentar extrair dados, manipular componentes ou alterar seu funcionamento.</td></tr></tbody></table><p id="402f6ce8-497f-8018-b4b2-ce75f9b93561" class="" dir="auto">Um ataque pode combinar várias dessas técnicas. Por exemplo, uma senha fraca pode permitir a invasão de uma câmera, que depois pode ser utilizada para tentar explorar outros equipamentos da rede.</p><h2 id="402f6ce8-497f-8026-87c2-eff66192150b" class="" dir="auto">5. Firmware e atualizações seguras</h2><p id="402f6ce8-497f-80bd-9ae4-ff2ab72a37ca" class="" dir="auto">O firmware é um componente essencial para a segurança de IoT, pois controla o funcionamento básico do equipamento e pode incluir serviços de rede, autenticação e criptografia.</p><p id="402f6ce8-497f-801d-ae3a-f5fdff6d63a5" class="" dir="auto">Um firmware vulnerável pode permitir que um atacante execute comandos indevidos, obtenha privilégios ou comprometa o dispositivo.</p><p id="402f6ce8-497f-80e8-a516-f1a24aca607c" class="" dir="auto">As boas práticas incluem:</p><ul id="402f6ce8-497f-8019-92d7-efee4ac2663b" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Instalar atualizações fornecidas pelo fabricante.</li></ul><ul id="402f6ce8-497f-8089-bafa-fdb79938f2fd" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Preferir dispositivos que tenham uma política clara de suporte.</li></ul><ul id="402f6ce8-497f-802e-add7-ff00fa3cd904" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Verificar a autenticidade das atualizações.</li></ul><ul id="402f6ce8-497f-8027-8bdf-fa5f34f1d6b5" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Utilizar mecanismos de inicialização segura quando disponíveis.</li></ul><ul id="402f6ce8-497f-80f5-8edf-cce846c4db10" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Evitar instalar firmware de fontes desconhecidas.</li></ul><ul id="402f6ce8-497f-809c-8a78-dc1aa8dd1e09" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Substituir dispositivos que não recebem mais correções de segurança quando o risco for significativo.</li></ul><h3 id="402f6ce8-497f-80a6-8662-f6845710e570" class="" dir="auto">Atualizações assinadas digitalmente</h3><p id="402f6ce8-497f-8024-98ac-f55dba1ff908" class="" dir="auto">Um mecanismo importante é a assinatura digital do firmware.</p><p id="402f6ce8-497f-80e5-bb51-eaaa144987b8" class="" dir="auto">O dispositivo verifica se a atualização foi assinada por uma entidade confiável antes de instalá-la. Isso ajuda a detectar alterações indevidas no arquivo de atualização.</p><p id="402f6ce8-497f-8016-a095-ce15bc860f32" class="" dir="auto">Em projetos mais avançados, também pode existir proteção contra rollback, que impede ou limita a instalação de versões antigas e vulneráveis.</p><p id="402f6ce8-497f-8050-bc36-fa97f241954a" class="" dir="auto">Importante: uma assinatura válida ajuda a confirmar a origem e a integridade do firmware, mas não garante que o software esteja livre de vulnerabilidades.</p><h2 id="402f6ce8-497f-80f2-832a-cc29507d68a7" class="" dir="auto">6. Autenticação e controle de acesso</h2><p id="402f6ce8-497f-8033-80d0-d3eeb0585420" class="" dir="auto">A autenticação verifica a identidade de quem tenta acessar um dispositivo ou serviço. O controle de acesso determina quais ações essa identidade pode realizar.</p><p id="402f6ce8-497f-803b-94a7-cf0ed46a9a8a" class="" dir="auto">Em IoT, esses mecanismos devem proteger tanto o acesso humano quanto a comunicação entre máquinas.</p><h3 id="402f6ce8-497f-80b8-b510-ea1a62306c1a" class="" dir="auto">Boas práticas</h3><ul id="402f6ce8-497f-8020-86a9-ff1d3299ec4a" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Alterar as credenciais padrão.</li></ul><ul id="402f6ce8-497f-8071-af75-c274cda9c213" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Utilizar senhas exclusivas e fortes.</li></ul><ul id="402f6ce8-497f-8065-87e9-ebdbedcadc7c" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Ativar autenticação multifator nos painéis e serviços que ofereçam suporte.</li></ul><ul id="402f6ce8-497f-801b-90bc-eb13739c69a1" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Desativar contas e serviços desnecessários.</li></ul><ul id="402f6ce8-497f-80c4-8b21-d3ac753154e7" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Restringir o acesso administrativo à rede local ou a sistemas autorizados.</li></ul><ul id="402f6ce8-497f-80ec-8d9d-f5935f421a20" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Evitar expor interfaces administrativas diretamente à internet.</li></ul><ul id="402f6ce8-497f-8094-b4fc-c5688f587e11" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Utilizar identidades individuais para dispositivos quando possível.</li></ul><p id="402f6ce8-497f-80d1-b37e-f87a408b3e84" class="" dir="auto">Em ambientes industriais ou corporativos, é importante evitar que todos os dispositivos compartilhem a mesma credencial. Se uma credencial for comprometida, o uso de identidades individuais facilita a revogação do acesso e a investigação do incidente.</p><h2 id="402f6ce8-497f-806d-85f6-c152ef96fcc9" class="" dir="auto">7. Criptografia e comunicação segura</h2><p id="402f6ce8-497f-80db-ba37-fc093fe31936" class="" dir="auto">Os dispositivos IoT trocam informações por Wi-Fi, Bluetooth, Ethernet, redes celulares, Zigbee, Thread e outros meios.</p><p id="402f6ce8-497f-80c2-a0f9-d4e01f1ec713" class="" dir="auto">A comunicação precisa ser protegida para evitar que terceiros leiam ou alterem informações sensíveis.</p><p id="402f6ce8-497f-8076-8ff3-ceadc2c2bb2b" class="" dir="auto">Entre os mecanismos utilizados estão:</p><ul id="402f6ce8-497f-80e5-8231-cf8a9173cb94" class="bulleted-list" dir="auto"><li style="list-style-type:disc">TLS: protege comunicações entre aplicações, como conexões HTTPS.</li></ul><ul id="402f6ce8-497f-80cf-8421-e7dc11d4d2a4" class="bulleted-list" dir="auto"><li style="list-style-type:disc">DTLS: oferece mecanismos de proteção criptográfica para protocolos que utilizam datagramas.</li></ul><ul id="402f6ce8-497f-806a-b80f-e197c42d0094" class="bulleted-list" dir="auto"><li style="list-style-type:disc">WPA2/WPA3: protegem a conexão Wi-Fi conforme o protocolo e a configuração.</li></ul><ul id="402f6ce8-497f-80a4-a9dc-f1f35c04dba0" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Criptografia de ponta a ponta: pode proteger dados de modo que somente os participantes autorizados consigam acessar seu conteúdo, quando a arquitetura oferece esse recurso.</li></ul><h3 id="402f6ce8-497f-80d1-8e63-e12668f456ae" class="" dir="auto">Exemplo</h3><p id="402f6ce8-497f-807f-a4b1-dd7763710659" class="" dir="auto">Imagine um sensor de temperatura que envia informações para um servidor.</p><p id="402f6ce8-497f-80d6-8cb5-d04987a925d8" class="" dir="auto">Sem proteção adequada, um invasor pode tentar observar ou manipular as mensagens. Com autenticação e criptografia corretamente implementadas, torna-se muito mais difícil ler ou modificar os dados sem ser detectado.</p><p id="402f6ce8-497f-806c-892d-d9eb95172c67" class="" dir="auto">A criptografia não resolve tudo sozinha: também é necessário validar certificados, proteger chaves, autenticar os dispositivos e manter o software atualizado.</p><h2 id="402f6ce8-497f-8099-92e7-dd91d7d1edcc" class="" dir="auto">8. Segmentação de rede</h2><p id="402f6ce8-497f-8047-8b39-c27c1c7f89de" class="" dir="auto">A segmentação consiste em dividir uma rede em partes com regras de comunicação específicas.</p><p id="402f6ce8-497f-80e5-9625-fbb6ba95ebd3" class="" dir="auto">Essa estratégia é especialmente útil para IoT porque muitos dispositivos possuem recursos limitados e podem não oferecer controles avançados de segurança.</p><p id="402f6ce8-497f-8026-94a3-f7c5e92e1b2b" class="" dir="auto">Por exemplo, uma residência pode utilizar:</p><ul id="402f6ce8-497f-80e3-a9d5-e837f8125c20" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Uma rede principal para computadores e celulares.</li></ul><ul id="402f6ce8-497f-8090-ab1a-f9bd4338e933" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Uma rede separada para dispositivos IoT.</li></ul><ul id="402f6ce8-497f-80b2-8c38-c54c4071b471" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Uma rede para convidados.</li></ul><p id="402f6ce8-497f-8010-aee4-d73e3d89a245" class="" dir="auto">Roteador / Firewall</p><p id="402f6ce8-497f-800f-a44f-d37dd2c2cd16" class="" dir="auto">Regras de comunicação entre redes</p><p id="402f6ce8-497f-80c4-a6d6-ebaa17d93e65" class="" dir="auto">Rede principal</p><p id="402f6ce8-497f-8034-aedf-e5b77d1656cc" class="" dir="auto">Computadores e celulares</p><p id="402f6ce8-497f-801e-a64b-f246b04342ab" class="" dir="auto">Rede IoT</p><p id="402f6ce8-497f-805f-9472-e042730e0cb5" class="" dir="auto">Câmeras e sensores</p><p id="402f6ce8-497f-8070-a233-dedad6a0e1df" class="" dir="auto">Convidados</p><p id="402f6ce8-497f-80ec-8154-c3259e956483" class="" dir="auto">Acesso à internet</p><p id="402f6ce8-497f-80f8-85ee-e07de9992a7c" class="" dir="auto">A separação só oferece proteção efetiva quando as regras impedem comunicações desnecessárias entre as redes.</p><p id="402f6ce8-497f-8071-b52a-f18bd9c91c4c" class="" dir="auto">Se uma câmera for comprometida, a segmentação pode impedir que ela acesse livremente os computadores pessoais.</p><p id="402f6ce8-497f-80b2-a093-e9c8ab162a96" class="" dir="auto">Essa estratégia é conhecida como defesa em profundidade: em vez de depender de uma única barreira, utilizam-se várias camadas de proteção.</p><h2 id="402f6ce8-497f-8048-a5f7-e355bc108270" class="" dir="auto">9. Segurança física dos dispositivos IoT</h2><p id="402f6ce8-497f-80e1-b72b-c65b7b81d824" class="" dir="auto">A segurança não se limita à internet ou ao software. O acesso físico também pode representar riscos.</p><p id="402f6ce8-497f-80bf-b9d0-dff6afc9a792" class="" dir="auto">Dependendo do modelo, alguém com acesso direto ao equipamento pode tentar:</p><ul id="402f6ce8-497f-8085-906a-dbd128cef264" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Conectar-se a portas de depuração.</li></ul><ul id="402f6ce8-497f-80b2-919d-db6c22a59ab3" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Extrair informações armazenadas.</li></ul><ul id="402f6ce8-497f-80a8-94a0-f1fc759818b7" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Recuperar credenciais ou chaves criptográficas.</li></ul><ul id="402f6ce8-497f-80a9-82cc-d7045fea0d63" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Modificar o firmware.</li></ul><ul id="402f6ce8-497f-80d1-9bb8-de77b65f0916" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Substituir componentes.</li></ul><ul id="402f6ce8-497f-8092-a017-f39d9f8276a8" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Restaurar o dispositivo para uma configuração vulnerável.</li></ul><p id="402f6ce8-497f-80c1-a06e-f16fc2a8f065" class="" dir="auto">Medidas de proteção incluem bloquear portas de depuração desnecessárias, proteger o armazenamento, utilizar inicialização segura e impedir que o dispositivo aceite firmware não autorizado.</p><p id="402f6ce8-497f-80ae-9559-e48baacd7bbe" class="" dir="auto">Em equipamentos industriais, também é importante controlar o acesso físico aos painéis, sensores e controladores.</p><h2 id="402f6ce8-497f-806d-8747-eff92f85896e" class="" dir="auto">10. Privacidade e proteção de dados</h2><p id="402f6ce8-497f-802e-a788-fc131a176285" class="" dir="auto">Muitos dispositivos IoT coletam dados sobre o ambiente e o comportamento das pessoas.</p><p id="402f6ce8-497f-8005-804f-fc7e9fbef557" class="" dir="auto">Uma câmera pode registrar imagens; um relógio pode coletar dados de atividade; um assistente de voz pode processar comandos falados; e um sensor doméstico pode revelar padrões de ocupação.</p><p id="402f6ce8-497f-800b-a054-f81429f44fb5" class="" dir="auto">Por isso, a segurança precisa considerar também a privacidade.</p><p id="402f6ce8-497f-8020-95bc-ee0c93d1ba66" class="" dir="auto">As boas práticas incluem:</p><ul id="402f6ce8-497f-80c4-81fc-f149e696b8ee" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Coletar somente os dados necessários.</li></ul><ul id="402f6ce8-497f-802d-9ffe-d5aa88e8f280" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Informar quais informações são coletadas.</li></ul><ul id="402f6ce8-497f-8029-b3d2-e84edd3433dd" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Restringir o compartilhamento com terceiros.</li></ul><ul id="402f6ce8-497f-806d-afaa-d63e0f0bd821" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Proteger dados armazenados e transmitidos.</li></ul><ul id="402f6ce8-497f-8056-85d0-e426348b1768" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Excluir dados quando não forem mais necessários, conforme as obrigações aplicáveis.</li></ul><ul id="402f6ce8-497f-8023-b505-e77bdd394fd7" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Revisar permissões de aplicativos e integrações.</li></ul><ul id="402f6ce8-497f-8005-a5df-d38289d38e5c" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Desativar microfones, câmeras ou sensores quando não forem necessários e houver essa opção.</li></ul><p id="402f6ce8-497f-80a7-b24c-e82b7e1b23d2" class="" dir="auto">No Brasil, o tratamento de dados pessoais também deve considerar a Lei Geral de Proteção de Dados (LGPD) quando aplicável.</p><h2 id="402f6ce8-497f-801b-8aa2-d867d74f34a0" class="" dir="auto">11. Protocolos e padrões relacionados à segurança de IoT</h2><p id="402f6ce8-497f-8021-a1c0-dc1d7547dff9" class="" dir="auto">Além do IEEE 802.11, que define aspectos das redes Wi-Fi, outros protocolos e padrões são importantes para a comunicação e a segurança de dispositivos IoT.</p><table id="402f6ce8-497f-80ee-909c-c4f7a1adcfbf" class="simple-table" dir="ltr"><thead class="simple-table-header"><tr id="402f6ce8-497f-8051-997c-f30e1ea68cf5" dir="ltr"><th id="|O}`" class="simple-table-header-color simple-table-header">Tecnologia ou padrão</th><th id="LH`A" class="simple-table-header-color simple-table-header">Utilização</th></tr></thead><tbody><tr id="402f6ce8-497f-8055-8980-eb1581f109f4" dir="ltr"><td id="|O}`" class="">MQTT</td><td id="LH`A" class="">Mensagens leves entre dispositivos e serviços, geralmente com suporte a autenticação e TLS conforme a implementação.</td></tr><tr id="402f6ce8-497f-80e2-8f62-c4aa00f23bc9" dir="ltr"><td id="|O}`" class="">CoAP</td><td id="LH`A" class="">Protocolo de aplicação para dispositivos restritos, frequentemente utilizado com mecanismos como DTLS ou OSCORE.</td></tr><tr id="402f6ce8-497f-8063-b7eb-c05f330bc96a" dir="ltr"><td id="|O}`" class="">Bluetooth Low Energy (BLE)</td><td id="LH`A" class="">Comunicação de baixo consumo entre dispositivos próximos.</td></tr><tr id="402f6ce8-497f-80d2-ae3b-c4b4c55b9aa1" dir="ltr"><td id="|O}`" class="">Zigbee</td><td id="LH`A" class="">Comunicação de baixo consumo em redes de dispositivos conectados.</td></tr><tr id="402f6ce8-497f-802d-9d0f-c60c09b62b6a" dir="ltr"><td id="|O}`" class="">Thread</td><td id="LH`A" class="">Rede baseada em IPv6, utilizada em aplicações de automação e casa inteligente.</td></tr><tr id="402f6ce8-497f-800d-885c-cd836b2accae" dir="ltr"><td id="|O}`" class="">TLS/DTLS</td><td id="LH`A" class="">Proteção criptográfica das comunicações.</td></tr><tr id="402f6ce8-497f-803a-b764-c5d0b47866af" dir="ltr"><td id="|O}`" class="">IEEE 802.1X</td><td id="LH`A" class="">Controle de acesso à rede em ambientes compatíveis.</td></tr><tr id="402f6ce8-497f-80cf-9f22-cc27c2fe012e" dir="ltr"><td id="|O}`" class="">IEC 62443</td><td id="LH`A" class="">Série de padrões de cibersegurança voltados para sistemas de automação e controle industrial.</td></tr></tbody></table><p id="402f6ce8-497f-80b0-b00c-e785f57588e5" class="" dir="auto">A escolha dos mecanismos de segurança depende do dispositivo, da capacidade de processamento, do protocolo de comunicação e dos riscos envolvidos.</p><h2 id="402f6ce8-497f-8001-8c11-e176e0e42d54" class="" dir="auto">12. Ciclo de vida seguro de um dispositivo IoT</h2><p id="402f6ce8-497f-801e-95b7-f2a379e0f5da" class="" dir="auto">A segurança deve ser considerada desde o projeto até o encerramento do suporte do equipamento.</p><p id="402f6ce8-497f-8009-9bca-d6939007fba7" class="" dir="auto">1. Projeto seguro</p><p id="402f6ce8-497f-80be-898e-faa2b0bd5539" class="" dir="auto">Definir requisitos de autenticação, criptografia, privacidade e controle de acesso desde o início.</p><p id="402f6ce8-497f-8049-833d-e9651a62d319" class="" dir="auto">2. Fabricação e provisionamento</p><p id="402f6ce8-497f-8038-82f7-d5affa7ccfdd" class="" dir="auto">Gerar identidades e chaves individuais, evitando credenciais universais compartilhadas entre equipamentos.</p><p id="402f6ce8-497f-80eb-a59f-ecdbe9440fd8" class="" dir="auto">3. Instalação segura</p><p id="402f6ce8-497f-80bc-81ea-c5ac9e166032" class="" dir="auto">Alterar credenciais padrão, configurar a rede e desativar funções desnecessárias.</p><p id="402f6ce8-497f-80b0-a0bd-c6f01dab4ea0" class="" dir="auto">4. Manutenção</p><p id="402f6ce8-497f-803e-ae34-cc876f9e6096" class="" dir="auto">Aplicar atualizações, monitorar eventos e corrigir vulnerabilidades.</p><p id="402f6ce8-497f-8001-aa2b-c84bf050a5d1" class="" dir="auto">5. Desativação segura</p><p id="402f6ce8-497f-80ff-b703-d0f556aa73e8" class="" dir="auto">Revogar credenciais, remover integrações e apagar dados de maneira apropriada antes de descartar ou transferir o equipamento.</p><p id="402f6ce8-497f-80fe-b29c-c3f85c9feb37" class="" dir="auto">Um dispositivo que deixa de receber atualizações pode continuar funcionando, mas sua exposição a vulnerabilidades conhecidas aumenta. Nessa situação, pode ser necessário isolá-lo, restringir seu uso ou substituí-lo.</p><h2 id="402f6ce8-497f-8062-8b0c-f4a22d03245d" class="" dir="auto">13. Exemplo prático: protegendo uma casa inteligente</h2><p id="402f6ce8-497f-8028-9f2d-f878c9b45482" class="" dir="auto">Imagine uma residência com câmeras Wi-Fi, lâmpadas inteligentes, uma fechadura eletrônica e um assistente de voz.</p><p id="402f6ce8-497f-8069-83dd-f03af29c8fa3" class="" dir="auto">Uma estratégia de segurança poderia incluir:</p><ol type="1" id="402f6ce8-497f-808c-9113-c7ae5130eb82" class="numbered-list" start="1" dir="auto"><li>Criar uma rede separada para os dispositivos IoT.</li></ol><ol type="1" id="402f6ce8-497f-803d-b740-f48ce9976c02" class="numbered-list" start="2" dir="auto"><li>Utilizar WPA3 ou WPA2 com criptografia adequada no Wi-Fi.</li></ol><ol type="1" id="402f6ce8-497f-800a-b870-d7edf79689fc" class="numbered-list" start="3" dir="auto"><li>Alterar as senhas padrão dos equipamentos.</li></ol><ol type="1" id="402f6ce8-497f-804c-8e47-c1d156851440" class="numbered-list" start="4" dir="auto"><li>Atualizar regularmente o firmware.</li></ol><ol type="1" id="402f6ce8-497f-8077-bed9-d28b9dafa8eb" class="numbered-list" start="5" dir="auto"><li>Desativar serviços remotos que não sejam necessários.</li></ol><ol type="1" id="402f6ce8-497f-8063-83f4-e4009e3439b4" class="numbered-list" start="6" dir="auto"><li>Utilizar autenticação multifator nas contas de nuvem compatíveis.</li></ol><ol type="1" id="402f6ce8-497f-802d-b956-f84f4b7ee2e6" class="numbered-list" start="7" dir="auto"><li>Limitar as permissões concedidas aos aplicativos.</li></ol><ol type="1" id="402f6ce8-497f-80b2-b48a-fda9b6ef2328" class="numbered-list" start="8" dir="auto"><li>Verificar quais dispositivos estão conectados à rede.</li></ol><ol type="1" id="402f6ce8-497f-807d-bc22-f0ee1642f172" class="numbered-list" start="9" dir="auto"><li>Escolher produtos com suporte de segurança claramente definido.</li></ol><ol type="1" id="402f6ce8-497f-806f-a292-de389516e9b9" class="numbered-list numbered-list-digits-2" start="10" dir="auto"><li>Remover as credenciais e os dados pessoais antes de vender ou descartar os equipamentos.</li></ol><p id="402f6ce8-497f-80b4-a40d-fd7ad47aa312" class="" dir="auto">Se uma câmera tiver uma vulnerabilidade, a combinação de atualizações, autenticação e segmentação de rede pode reduzir a probabilidade de que o incidente se transforme em um comprometimento de toda a residência.</p><h2 id="402f6ce8-497f-80b7-9dda-f998327f7d7f" class="" dir="auto">14. Resumo para anotações</h2><p id="402f6ce8-497f-8057-89a6-f748e0da0774" class="" dir="auto">A segurança de dispositivos IoT é o conjunto de medidas que protege equipamentos conectados, suas comunicações, os dados que coletam e as redes às quais pertencem.</p><p id="402f6ce8-497f-8074-921c-ce212eb6a7fb" class="" dir="auto">As principais ameaças incluem senhas fracas, firmware desatualizado, botnets, exploração de vulnerabilidades, ataques de interceptação e comprometimento de redes. Para reduzir esses riscos, são utilizadas autenticação forte, criptografia, atualizações assinadas, segmentação de rede, controle de acesso, proteção física e monitoramento.</p><p id="402f6ce8-497f-80fa-98cd-fc0871d82ea6" class="" dir="auto">A segurança também deve acompanhar todo o ciclo de vida do dispositivo, desde o projeto até sua desativação.</p><p id="402f6ce8-497f-8080-8844-d49a3c624a77" class="" dir="auto">Ideia central: um dispositivo IoT não deve ser considerado seguro apenas porque é pequeno, moderno ou está conectado a uma rede doméstica. Sua segurança depende do projeto, da configuração, da manutenção e da proteção de todo o ecossistema conectado.</p></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

@@ -1,0 +1,990 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Protocolo UDP</title><meta name="data-notion-page-icon" content="/icons/lock_blue.svg"/><link rel="icon" href="https://app.notion.com/icons/lock_blue.svg"/><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+	/* Paint a complete callout box on every PDF page fragment. */
+	-webkit-box-decoration-break: clone;
+	box-decoration-break: clone;
+}
+
+/* For default-background callouts, render the border outline. */
+.callout.block-color-default_background {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+/*
+ * Toggles and callouts hold arbitrary content, so they can easily be taller
+ * than a page. They must stay breakable: avoiding breaks inside them makes
+ * Chromium push the whole block onto the next page, which leaves the previous
+ * page mostly empty before every long toggle.
+ */
+details,
+aside {
+	margin: 1.25em 0;
+}
+
+/* Keep a toggle's title on the same page as the start of its content. */
+summary {
+	page-break-after: avoid;
+	break-after: avoid;
+}
+
+/*
+ * Toggle headings render as <h1/h2/h3 style="display:inline-block"> inside
+ * <summary>. Without this reset, the heading's margin-top pushes it below the
+ * ::marker (▼), so the triangle and the title appear on separate lines.
+ */
+summary h1,
+summary h2,
+summary h3,
+summary h4 {
+	margin-top: 0;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding-inline: 0.125rem;
+	padding-block: 0.375rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+/*
+ * Render emoji icons using a ::before pseudo-element to keep the glyph
+ * out of the DOM textContent traversal. This avoids double-rendering icons
+ * in callouts and page titles.
+ * NOTE(slim/html-export-pseudo-icons): I can't tagref this because it will
+ * flag as a duplicate tag after codegen.
+ */
+.icon[data-emoji]::before {
+	content: attr(data-emoji);
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	margin-right: 0.4em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.tab {
+	margin: 1.25em 0;
+	padding-inline: 1rem;
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style><style>@import url('https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex-swap.min.css')</style></head><body><article id="402f6ce8-497f-80fc-a463-c48280d945dd" class="page sans" data-notion-page-icon="/icons/lock_blue.svg"><header><div class="page-header-icon undefined"><img class="icon notion-static-icon" src="https://app.notion.com/icons/lock_blue.svg"/></div><h1 class="page-title" dir="auto">Protocolo UDP</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><h1 id="402f6ce8-497f-805a-b237-ea7fceb1702f" class="" dir="auto">Protocolo UDP</h1><p id="402f6ce8-497f-8063-bdc2-e96d210b8ba2" class="" dir="auto">O <strong>UDP (User Datagram Protocol)</strong> é um protocolo da <strong>camada de transporte (Camada 4)</strong> do modelo TCP/IP. Ele é usado para transportar dados entre aplicações através de uma rede, assim como o TCP.</p><p id="402f6ce8-497f-8086-bf1e-cf111c90d6cd" class="" dir="auto">A principal diferença é que o UDP prioriza <strong>velocidade e baixa sobrecarga</strong>, enquanto o TCP prioriza <strong>confiabilidade e controle da comunicação</strong>.</p><hr id="402f6ce8-497f-80b7-80b9-f57fb884f18e" dir="auto"/><h2 id="402f6ce8-497f-80d1-b16d-d6575600f1ce" class="" dir="auto">1. O que é UDP?</h2><p id="402f6ce8-497f-8021-acf4-e6f98dc92cd2" class="" dir="auto"><strong>UDP = User Datagram Protocol</strong>, ou <strong>Protocolo de Datagrama do Usuário</strong>.</p><p id="402f6ce8-497f-8058-9d5a-c22426c1daad" class="" dir="auto">Ele permite que uma aplicação envie dados para outra aplicação sem estabelecer previamente uma conexão formal.</p><p id="402f6ce8-497f-8057-8abf-fd743edd0132" class="" dir="auto">Por exemplo:</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="402f6ce8-497f-808e-a8e3-f74401c5b302" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Aplicação A
+     ↓
+    UDP
+     ↓
+    IP
+     ↓
+   Rede
+     ↓
+    IP
+     ↓
+    UDP
+     ↓
+Aplicação B</code></pre><p id="402f6ce8-497f-8095-85d7-c17149404846" class="" dir="auto">O UDP recebe os dados da aplicação, coloca informações de controle em um cabeçalho e entrega o <strong>datagrama</strong> para o IP transmitir.</p><hr id="402f6ce8-497f-8030-8b04-c08d1d01f4f7" dir="auto"/><h1 id="402f6ce8-497f-801b-b65a-f22b11d06073" class="" dir="auto">2. UDP é um protocolo de transporte</h1><p id="402f6ce8-497f-806e-98a2-fabb4317cdb5" class="" dir="auto">Assim como o TCP, o UDP fica acima do IP:</p><pre id="402f6ce8-497f-807d-96e6-cf4825202dc7" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">┌─────────────────────────────┐
+│       Aplicação             │
+│ HTTP, DNS, jogos, VoIP...   │
+├─────────────────────────────┤
+│       UDP / TCP             │ ← Camada de Transporte
+├─────────────────────────────┤
+│            IP               │ ← Camada de Rede
+├─────────────────────────────┤
+│       Ethernet/Wi-Fi        │
+└─────────────────────────────┘</code></pre><p id="402f6ce8-497f-80be-b331-e98fbf00bac8" class="" dir="auto">O <strong>IP</strong> é responsável principalmente por endereçar e encaminhar os pacotes.</p><p id="402f6ce8-497f-8016-a437-c7753de41d5b" class="" dir="auto">O <strong>UDP</strong> ajuda a identificar <strong>qual aplicação</strong> deve receber os dados usando <strong>portas</strong>.</p><hr id="402f6ce8-497f-80da-be3d-c1339a3824fb" dir="auto"/><h1 id="402f6ce8-497f-8068-a53f-c47754c16d0e" class="" dir="auto">3. Como o UDP funciona?</h1><p id="402f6ce8-497f-808f-bda0-c0d242e90dda" class="" dir="auto">Diferentemente do TCP, o UDP não precisa estabelecer uma conexão.</p><p id="402f6ce8-497f-8000-9691-dc55ff178a40" class="" dir="auto">Imagine um computador enviando uma mensagem:</p><pre id="402f6ce8-497f-803b-9724-f89f01196acd" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Computador A
+192.168.1.10
+     │
+     │ UDP
+     ↓
+Computador B
+192.168.1.20</code></pre><p id="402f6ce8-497f-8077-aeff-d769bba26f59" class="" dir="auto">O computador A simplesmente cria um datagrama UDP e o envia.</p><p id="402f6ce8-497f-80b7-b7eb-e6a571b6f733" class="" dir="auto">Não existe o famoso:</p><pre id="402f6ce8-497f-80c1-8603-c7844892aba2" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">SYN
+SYN/ACK
+ACK</code></pre><p id="402f6ce8-497f-8082-b0d1-e1ecdcb2b0cb" class="" dir="auto">do TCP.</p><p id="402f6ce8-497f-8076-beb4-d2723a1c1b46" class="" dir="auto">Portanto, o UDP é considerado <strong>connectionless</strong>, ou seja, <strong>sem conexão</strong>.</p><hr id="402f6ce8-497f-80b3-961e-cd3e78f5e8cc" dir="auto"/><h1 id="402f6ce8-497f-80f1-b0a8-ea596739642e" class="" dir="auto">4. Datagrama UDP</h1><p id="402f6ce8-497f-8009-a95f-f4b7fb813f56" class="" dir="auto">No UDP, os dados são transportados em unidades chamadas <strong>datagramas</strong>.</p><p id="402f6ce8-497f-801c-8e64-f8529daa658c" class="" dir="auto">Um datagrama possui:</p><pre id="402f6ce8-497f-807a-9225-e5608e139253" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">┌──────────────────────────┐
+│ Cabeçalho UDP            │
+├──────────────────────────┤
+│ Dados da aplicação       │
+└──────────────────────────┘</code></pre><p id="402f6ce8-497f-80d7-94fa-cb152939b3c2" class="" dir="auto">O cabeçalho UDP é extremamente simples.</p><p id="402f6ce8-497f-8094-a38c-d4187c1251d2" class="" dir="auto">Ele possui apenas <strong>8 bytes</strong>.</p><hr id="402f6ce8-497f-800d-8f37-cc0306f51bf9" dir="auto"/><h1 id="402f6ce8-497f-8088-9327-eabc3e1ac92f" class="" dir="auto">5. Cabeçalho UDP</h1><p id="402f6ce8-497f-80f6-80c3-fda023f7d715" class="" dir="auto">O cabeçalho possui quatro campos principais:</p><pre id="402f6ce8-497f-8086-bbfa-e85335a9c6b9" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">┌───────────────────────┬───────────────────────┐
+│ Porta de origem       │ Porta de destino      │
+├───────────────────────┼───────────────────────┤
+│ Comprimento           │ Checksum              │
+├───────────────────────┴───────────────────────┤
+│ Dados                                           │
+└────────────────────────────────────────────────┘</code></pre><h3 id="402f6ce8-497f-80ef-8f8d-e13ba77221c1" class="" dir="auto">Porta de origem</h3><p id="402f6ce8-497f-8002-8244-cc5c5e6a3a6b" class="" dir="auto">Identifica a aplicação que está enviando os dados.</p><h3 id="402f6ce8-497f-807e-916e-d24ee03878f4" class="" dir="auto">Porta de destino</h3><p id="402f6ce8-497f-80bd-a7b2-e1e211fa822a" class="" dir="auto">Indica para qual aplicação os dados devem ser entregues.</p><h3 id="402f6ce8-497f-8084-b907-d738b59e84ea" class="" dir="auto">Comprimento</h3><p id="402f6ce8-497f-80bc-9e17-f9417b63b4d5" class="" dir="auto">Indica o tamanho do datagrama UDP.</p><h3 id="402f6ce8-497f-801b-b643-cc630168df66" class="" dir="auto">Checksum</h3><p id="402f6ce8-497f-8002-9129-dca326a8de61" class="" dir="auto">É utilizado para ajudar a detectar corrupção dos dados durante a transmissão.</p><hr id="402f6ce8-497f-80a3-865e-f10d49ae5648" dir="auto"/><h1 id="402f6ce8-497f-8032-8f32-ca21722c2b6e" class="" dir="auto">6. Portas UDP</h1><p id="402f6ce8-497f-8028-a058-f5beb11d6cca" class="" dir="auto">Assim como no TCP, o UDP utiliza <strong>portas</strong>.</p><p id="402f6ce8-497f-8094-8807-c71f768ab85f" class="" dir="auto">Por exemplo:</p><pre id="402f6ce8-497f-807a-9028-e713418f43c6" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">IP: 192.168.1.20
+Porta: 53</code></pre><p id="402f6ce8-497f-80a5-a2f8-eecf3232dc61" class="" dir="auto">A porta 53 é tradicionalmente utilizada pelo <strong>DNS</strong>.</p><p id="402f6ce8-497f-8059-86f4-e185f633b0dc" class="" dir="auto">Outro exemplo:</p><pre id="402f6ce8-497f-8006-937c-c8ac2d2c6b20" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">IP: 192.168.1.20
+Porta: 5000</code></pre><p id="402f6ce8-497f-8097-8ecf-f1890d8ee332" class="" dir="auto">Uma aplicação própria poderia estar utilizando essa porta.</p><p id="402f6ce8-497f-8079-9c44-f1543f88d201" class="" dir="auto">Podemos pensar assim:</p><pre id="402f6ce8-497f-80ed-9353-e7451975fa33" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">IP → identifica o computador/interface
+Porta → identifica a aplicação/serviço</code></pre><p id="402f6ce8-497f-801b-98d9-fa87f0c2ae0e" class="" dir="auto">Por isso, uma comunicação pode ser representada por:</p><pre id="402f6ce8-497f-80b5-963c-dfdce5c2f88b" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">192.168.1.10:50000
+        ↓
+192.168.1.20:53</code></pre><hr id="402f6ce8-497f-801d-a134-c70102764b1d" dir="auto"/><h1 id="402f6ce8-497f-80f6-ade3-c393b04f2e11" class="" dir="auto">7. UDP não garante entrega</h1><p id="402f6ce8-497f-80ff-92d9-ea759d6f1b97" class="" dir="auto">Essa é uma das características mais importantes do UDP.</p><p id="402f6ce8-497f-802a-989c-d41fe910479e" class="" dir="auto">O UDP <strong>não garante que o datagrama chegará ao destino</strong>.</p><p id="402f6ce8-497f-803c-a153-c046df4f716a" class="" dir="auto">Por exemplo:</p><pre id="402f6ce8-497f-80cd-98ac-f2065a7512b1" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Computador A
+     │
+     │ Datagrama 1
+     ↓
+    Rede
+     X  ← perdido
+     │
+Computador B</code></pre><p id="402f6ce8-497f-8045-9b7e-f87961e39f0c" class="" dir="auto">O UDP não possui, por si só, um mecanismo equivalente ao TCP para retransmitir automaticamente o dado perdido.</p><hr id="402f6ce8-497f-80ce-b2ad-d6a49434285e" dir="auto"/><h1 id="402f6ce8-497f-8075-94a0-deaa33195dee" class="" dir="auto">8. UDP não garante ordem</h1><p id="402f6ce8-497f-8021-9021-e79b1392d16e" class="" dir="auto">Imagine que uma aplicação envie:</p><pre id="402f6ce8-497f-8028-9ccf-fd17752a1c22" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">A → B
+B → B
+C → B
+D → B</code></pre><p id="402f6ce8-497f-806f-8848-fe8cd4daaad6" class="" dir="auto">Os dados podem chegar em uma ordem diferente:</p><pre id="402f6ce8-497f-80a0-aae9-ea3aeb447a58" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">A
+C
+B
+D</code></pre><p id="402f6ce8-497f-8051-a809-de55f312fe6e" class="" dir="auto">O UDP não possui um mecanismo interno para reorganizar os datagramas como o TCP faz.</p><p id="402f6ce8-497f-8015-8198-c3a6785e670d" class="" dir="auto">Se a aplicação precisar de ordenação, ela própria pode implementar mecanismos para isso.</p><hr id="402f6ce8-497f-8029-ba2c-dd3ef58863a9" dir="auto"/><h1 id="402f6ce8-497f-80d8-a9f7-ef6c68a6d818" class="" dir="auto">9. UDP não possui controle de conexão</h1><p id="402f6ce8-497f-80d1-af20-f25286e338a8" class="" dir="auto">No TCP temos:</p><pre id="402f6ce8-497f-807a-88da-de082cce50dd" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Cliente                  Servidor
+
+   SYN ────────────────────→
+       ←──────────────── SYN/ACK
+   ACK ────────────────────→
+
+       CONEXÃO ESTABELECIDA</code></pre><p id="402f6ce8-497f-8028-8ac2-cefa6d97708d" class="" dir="auto">No UDP não existe esse processo.</p><p id="402f6ce8-497f-8033-aa00-fe9b9d8ce3ab" class="" dir="auto">A aplicação pode simplesmente enviar:</p><pre id="402f6ce8-497f-80f3-8840-d8fd2f44091f" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Cliente                  Servidor
+
+   UDP ────────────────────→
+   UDP ────────────────────→
+   UDP ────────────────────→</code></pre><p id="402f6ce8-497f-80e8-90d3-cc68027e4852" class="" dir="auto">Isso reduz a quantidade de comunicação necessária antes da transmissão.</p><hr id="402f6ce8-497f-8065-b5f3-ee99e1a062a9" dir="auto"/><h1 id="402f6ce8-497f-8090-8ece-dad94774f021" class="" dir="auto">10. UDP é mais rápido?</h1><p id="402f6ce8-497f-8067-b3d3-ec5e19c04b47" class="" dir="auto">É comum dizer que &quot;UDP é mais rápido que TCP&quot;, mas é melhor entender o motivo.</p><p id="402f6ce8-497f-804d-91e2-c15da3d2e201" class="" dir="auto">O UDP possui <strong>menos mecanismos de controle</strong>.</p><p id="402f6ce8-497f-8045-87c0-f50504d6f1e2" class="" dir="auto">Ele não precisa lidar, por padrão, com:</p><ul id="402f6ce8-497f-8010-9d52-f2438b0b91c6" class="bulleted-list" dir="auto"><li style="list-style-type:disc">estabelecimento de conexão;</li></ul><ul id="402f6ce8-497f-8029-85ce-f145e586b54d" class="bulleted-list" dir="auto"><li style="list-style-type:disc">confirmação de recebimento;</li></ul><ul id="402f6ce8-497f-8063-9a6e-fddf98a46c11" class="bulleted-list" dir="auto"><li style="list-style-type:disc">retransmissão;</li></ul><ul id="402f6ce8-497f-8045-a0c6-d8cc56369cee" class="bulleted-list" dir="auto"><li style="list-style-type:disc">ordenação;</li></ul><ul id="402f6ce8-497f-8014-92d9-f018ae2ec026" class="bulleted-list" dir="auto"><li style="list-style-type:disc">controle de fluxo da mesma maneira que TCP;</li></ul><ul id="402f6ce8-497f-8086-b93e-f5d792933027" class="bulleted-list" dir="auto"><li style="list-style-type:disc">controle de congestionamento da mesma maneira que TCP.</li></ul><p id="402f6ce8-497f-8000-863f-ef71e7a575fd" class="" dir="auto">Consequentemente, existe menos sobrecarga.</p><pre id="402f6ce8-497f-80ab-872e-d58f931fe0f3" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">TCP
+Dados
+ ↓
+Controle de conexão
+Controle de sequência
+ACK
+Retransmissão
+Controle de fluxo
+Controle de congestionamento
+ ↓
+Transmissão
+
+UDP
+Dados
+ ↓
+Datagrama
+ ↓
+Transmissão</code></pre><p id="402f6ce8-497f-80c5-b44b-e4daed11a5fc" class="" dir="auto">Isso pode proporcionar <strong>menor latência e menor overhead</strong>, dependendo da aplicação e da rede.</p><hr id="402f6ce8-497f-80f2-9df0-fe913da6b7e1" dir="auto"/><h1 id="402f6ce8-497f-80dc-8a3f-f5fb04b655c8" class="" dir="auto">11. UDP não significa &quot;sem confiabilidade&quot;</h1><p id="402f6ce8-497f-802b-86c7-f1fc3d763eaa" class="" dir="auto">Aqui existe uma diferença importante.</p><p id="402f6ce8-497f-80fc-931b-c1d091d564be" class="" dir="auto">O UDP <strong>não fornece confiabilidade na camada de transporte</strong>, mas uma aplicação pode implementar seus próprios mecanismos.</p><p id="402f6ce8-497f-8023-9b19-d4da1ead5134" class="" dir="auto">Por exemplo:</p><pre id="402f6ce8-497f-80de-8c2d-ca3e7a10d232" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Aplicação
+ ├── UDP
+ ├── número de sequência
+ ├── confirmação
+ ├── retransmissão
+ └── controle próprio</code></pre><p id="402f6ce8-497f-80ed-9d84-d43685f73877" class="" dir="auto">Ou seja, uma aplicação pode usar UDP e construir mecanismos adicionais sobre ele.</p><hr id="402f6ce8-497f-805b-840b-cfca42a87fbb" dir="auto"/><h1 id="402f6ce8-497f-80e5-88b5-f5580614d5a7" class="" dir="auto">12. Onde o UDP é utilizado?</h1><p id="402f6ce8-497f-8010-9ee6-e0c566a48fb0" class="" dir="auto">O UDP é muito utilizado quando <strong>velocidade, baixa latência ou simplicidade</strong> são importantes.</p><p id="402f6ce8-497f-8057-9ccc-d8f2a3f8d009" class="" dir="auto">Alguns exemplos:</p><h3 id="402f6ce8-497f-80fa-9dcd-c76541015e2f" class="" dir="auto">DNS</h3><p id="402f6ce8-497f-802a-ae9c-f21b81c43590" class="" dir="auto">O DNS frequentemente utiliza UDP para consultas.</p><pre id="402f6ce8-497f-80eb-9c82-e2eab70eff52" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Cliente
+   │
+   │ UDP
+   ↓
+Servidor DNS</code></pre><p id="402f6ce8-497f-801b-9187-e8e73e388a06" class="" dir="auto">Tradicionalmente, consultas DNS comuns utilizam a porta:</p><pre id="402f6ce8-497f-804d-9b07-f1f82d5a3851" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">UDP 53</code></pre><p id="402f6ce8-497f-8061-8df7-e6a1476e4e29" class="" dir="auto">Mas DNS também pode utilizar TCP e, atualmente, existem outras formas de transporte, como DNS sobre HTTPS e DNS sobre TLS.</p><hr id="402f6ce8-497f-809e-861e-e6f8e7767ee1" dir="auto"/><h3 id="402f6ce8-497f-80b7-a486-d16c75ea7d7a" class="" dir="auto">Jogos online</h3><p id="402f6ce8-497f-80a6-b556-f9353312438f" class="" dir="auto">Jogos multiplayer podem utilizar UDP porque perder ocasionalmente uma atualização pode ser menos problemático do que esperar por uma retransmissão.</p><p id="402f6ce8-497f-804e-8732-fdd32fc45f62" class="" dir="auto">Imagine um jogo enviando a posição de um jogador:</p><pre id="402f6ce8-497f-8057-a405-fa5defb80162" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Posição 1
+Posição 2
+Posição 3
+Posição 4
+Posição 5</code></pre><p id="402f6ce8-497f-8081-93d2-dfa41b3f6848" class="" dir="auto">Se a posição 3 for perdida, talvez seja melhor simplesmente receber a posição 4.</p><p id="402f6ce8-497f-803a-85f9-ff0baa3e80cd" class="" dir="auto">Em um jogo em tempo real:</p><pre id="402f6ce8-497f-8082-b484-d970e9af6f0a" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Posição 1 → chegou
+Posição 2 → chegou
+Posição 3 → perdida
+Posição 4 → chegou
+Posição 5 → chegou</code></pre><p id="402f6ce8-497f-8093-870e-eabacb466817" class="" dir="auto">A posição atual pode tornar a informação perdida irrelevante.</p><hr id="402f6ce8-497f-80a0-abb3-e91f364e466e" dir="auto"/><h3 id="402f6ce8-497f-80ae-94d6-c2e0d7e34716" class="" dir="auto">VoIP</h3><p id="402f6ce8-497f-80b9-8a41-e97be919462b" class="" dir="auto">Em chamadas de voz pela internet, a latência é extremamente importante.</p><p id="402f6ce8-497f-80ce-b84d-d764e333323b" class="" dir="auto">Imagine perder alguns milissegundos de áudio.</p><p id="402f6ce8-497f-8059-8401-cd321ca0807f" class="" dir="auto">É possível que seja melhor continuar a conversa do que esperar uma retransmissão.</p><pre id="402f6ce8-497f-80a9-8063-fbcd25e7f46e" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Áudio
+ ↓
+UDP
+ ↓
+Rede
+ ↓
+UDP
+ ↓
+Áudio</code></pre><p id="402f6ce8-497f-804e-8a51-c69bfc34e3fa" class="" dir="auto">Isso também pode ser usado em aplicações de vídeo em tempo real.</p><hr id="402f6ce8-497f-806a-931b-daf59351d1c1" dir="auto"/><h3 id="402f6ce8-497f-80f0-9ec4-d991ca764a3c" class="" dir="auto">Streaming e comunicação em tempo real</h3><p id="402f6ce8-497f-80f5-a1cd-f7602a5cb070" class="" dir="auto">Aplicações que precisam transmitir informações continuamente podem utilizar UDP ou protocolos construídos sobre UDP.</p><p id="402f6ce8-497f-8000-b362-e00853312a69" class="" dir="auto">Um exemplo moderno importante é o <strong>QUIC</strong>, utilizado pelo HTTP/3.</p><pre id="402f6ce8-497f-802b-bb20-ed8eb8238d52" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">HTTP/3
+   ↓
+ QUIC
+   ↓
+ UDP
+   ↓
+ IP</code></pre><p id="402f6ce8-497f-8069-8498-f32d7c194cf5" class="" dir="auto">O QUIC implementa vários mecanismos modernos que ficam acima do UDP.</p><hr id="402f6ce8-497f-8047-8368-e54f141fbd33" dir="auto"/><h1 id="402f6ce8-497f-8004-bc59-cce25e113e7a" class="" dir="auto">13. UDP x TCP</h1><p id="402f6ce8-497f-80c3-af24-ccbd1da3809b" class="" dir="auto">Essa é uma das comparações mais importantes para entender redes.</p><table id="402f6ce8-497f-805d-9ab3-efd6bb1a03ad" class="simple-table" dir="ltr"><thead class="simple-table-header"><tr id="402f6ce8-497f-8049-89f4-d0feb2b4b6e1" dir="ltr"><th id="dT_]" class="simple-table-header-color simple-table-header">Característica</th><th id="V[pT" class="simple-table-header-color simple-table-header">TCP</th><th id="SQ;?" class="simple-table-header-color simple-table-header">UDP</th></tr></thead><tbody><tr id="402f6ce8-497f-80c9-bd52-f0059a02c00b" dir="ltr"><td id="dT_]" class="">Conexão</td><td id="V[pT" class="">Orientado à conexão</td><td id="SQ;?" class="">Sem conexão</td></tr><tr id="402f6ce8-497f-80ca-ad05-ff063b18c271" dir="ltr"><td id="dT_]" class="">Confiabilidade</td><td id="V[pT" class="">Sim</td><td id="SQ;?" class="">Não por padrão</td></tr><tr id="402f6ce8-497f-8058-af96-cd932e2642d3" dir="ltr"><td id="dT_]" class="">Ordem dos dados</td><td id="V[pT" class="">Garantida</td><td id="SQ;?" class="">Não garantida</td></tr><tr id="402f6ce8-497f-8055-ba11-e635a415d832" dir="ltr"><td id="dT_]" class="">Retransmissão</td><td id="V[pT" class="">Sim</td><td id="SQ;?" class="">Não por padrão</td></tr><tr id="402f6ce8-497f-80b0-9360-d4bed90b6d5e" dir="ltr"><td id="dT_]" class="">ACK</td><td id="V[pT" class="">Sim</td><td id="SQ;?" class="">Não</td></tr><tr id="402f6ce8-497f-808a-a8a3-f3b242526c96" dir="ltr"><td id="dT_]" class="">Controle de fluxo</td><td id="V[pT" class="">Sim</td><td id="SQ;?" class="">Não da mesma forma</td></tr><tr id="402f6ce8-497f-8038-a6c2-fdc2f405141d" dir="ltr"><td id="dT_]" class="">Controle de congestionamento</td><td id="V[pT" class="">Sim</td><td id="SQ;?" class="">Não da mesma forma</td></tr><tr id="402f6ce8-497f-80f1-a165-d53802c0f997" dir="ltr"><td id="dT_]" class="">Overhead</td><td id="V[pT" class="">Maior</td><td id="SQ;?" class="">Menor</td></tr><tr id="402f6ce8-497f-80a7-8af1-e4a07ed95b90" dir="ltr"><td id="dT_]" class="">Latência</td><td id="V[pT" class="">Pode ser maior</td><td id="SQ;?" class="">Geralmente menor</td></tr><tr id="402f6ce8-497f-809d-8933-da2b9d56f972" dir="ltr"><td id="dT_]" class="">Cabeçalho</td><td id="V[pT" class="">Maior</td><td id="SQ;?" class="">8 bytes</td></tr><tr id="402f6ce8-497f-8084-9323-df2a5d73ef85" dir="ltr"><td id="dT_]" class="">Uso</td><td id="V[pT" class="">Web, arquivos, SSH etc.</td><td id="SQ;?" class="">DNS, jogos, tempo real etc.</td></tr></tbody></table><hr id="402f6ce8-497f-8074-a6b6-c3e977a6f73f" dir="auto"/><h1 id="402f6ce8-497f-8094-83c9-f6f3c55a11b2" class="" dir="auto">14. Exemplo prático</h1><p id="402f6ce8-497f-8008-a435-df47595dacb4" class="" dir="auto">Imagine que você está baixando um arquivo de 100 MB.</p><p id="402f6ce8-497f-802b-8fe4-ceade24c7d92" class="" dir="auto">Você precisa que <strong>todos os dados cheguem corretamente</strong>.</p><p id="402f6ce8-497f-80ac-a34a-f17579db185b" class="" dir="auto">Nesse caso, TCP é muito apropriado:</p><pre id="402f6ce8-497f-80c1-b5fe-f1850a455e90" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Pacote 1 ✓
+Pacote 2 ✓
+Pacote 3 ✗
+Pacote 4 ✓
+
+TCP:
+&quot;Pacote 3 não chegou.
+Preciso retransmiti-lo.&quot;</code></pre><p id="402f6ce8-497f-80f9-8139-c51b3da01b7a" class="" dir="auto">Agora imagine um jogo online:</p><pre id="402f6ce8-497f-8070-ac2c-f1826e053772" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Jogador está em:
+
+X = 100
+Y = 200
+
+Depois:
+
+X = 102
+Y = 201</code></pre><p id="402f6ce8-497f-8053-985e-c2c15ec43cd9" class="" dir="auto">Se uma atualização intermediária for perdida, talvez não seja necessário retransmiti-la.</p><p id="402f6ce8-497f-8003-abf9-c469cf8ab60c" class="" dir="auto">A próxima atualização já pode informar a posição atual.</p><p id="402f6ce8-497f-80cd-82bc-d047a8a25f7d" class="" dir="auto">Por isso, UDP pode ser adequado:</p><pre id="402f6ce8-497f-80c6-87dd-f3b13da5e6b8" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Atualização 1 ✓
+Atualização 2 ✓
+Atualização 3 ✗
+Atualização 4 ✓
+Atualização 5 ✓</code></pre><hr id="402f6ce8-497f-800d-97bc-c09440571898" dir="auto"/><h1 id="402f6ce8-497f-80d7-a1c6-ee9a32c63bc2" class="" dir="auto">15. UDP e segurança</h1><p id="402f6ce8-497f-8059-acd7-d66e11cc0607" class="" dir="auto">O UDP também é importante em <strong>Cibersegurança</strong>.</p><p id="402f6ce8-497f-804e-a2db-c6d0d178d323" class="" dir="auto">Ferramentas de análise de rede podem identificar serviços UDP disponíveis em uma máquina.</p><p id="402f6ce8-497f-8016-8be5-ca2982428ddb" class="" dir="auto">Por exemplo:</p><pre id="402f6ce8-497f-80c5-8c7d-c501494aae7f" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">IP
+ ↓
+Portas
+ ↓
+Serviços UDP
+ ↓
+Análise de segurança</code></pre><p id="402f6ce8-497f-801c-8057-ef56d065d7b4" class="" dir="auto">Ferramentas como <strong>Nmap</strong> e <strong>Wireshark</strong> podem ser utilizadas em ambientes autorizados para analisar esse tipo de tráfego.</p><p id="402f6ce8-497f-8041-8155-debb25ed9d6c" class="" dir="auto">Um administrador pode, por exemplo, descobrir que determinado servidor possui um serviço UDP que não deveria estar exposto.</p><hr id="402f6ce8-497f-8082-9924-f6493eb96aa3" dir="auto"/><h1 id="402f6ce8-497f-809b-8534-d70f58f4151d" class="" dir="auto">16. UDP e ataques</h1><p id="402f6ce8-497f-80b5-b9ad-d49a1f36e3a6" class="" dir="auto">O UDP também aparece em alguns tipos de ataques de rede.</p><p id="402f6ce8-497f-8008-8926-ca693f5e143e" class="" dir="auto">Um exemplo é o <strong>UDP flood</strong>, no qual uma grande quantidade de tráfego UDP pode ser enviada contra um alvo, consumindo recursos ou largura de banda.</p><p id="402f6ce8-497f-80cf-bc14-e05bc7bf0a9d" class="" dir="auto">Conceitualmente:</p><pre id="402f6ce8-497f-804f-84a4-f569634ffafa" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Atacantes
+   │
+   ├──── UDP ────┐
+   ├──── UDP ────┤
+   ├──── UDP ────┤
+   └──── UDP ────┘
+                  ↓
+              Servidor
+                  ↓
+          Recursos consumidos</code></pre><p id="402f6ce8-497f-80b7-a0d5-e6fe00dd7fb9" class="" dir="auto">Por isso, firewalls, filtros de tráfego, rate limiting, monitoramento e proteção contra DDoS são importantes.</p><hr id="402f6ce8-497f-806f-9211-e38cd92b8b2f" dir="auto"/><h1 id="402f6ce8-497f-8049-b75e-d85f97eca0b0" class="" dir="auto">17. UDP não é criptografado</h1><p id="402f6ce8-497f-807a-90c3-d31400943c25" class="" dir="auto">Outro ponto muito importante:</p><p id="402f6ce8-497f-8019-8bed-cf4debfc08b0" class="" dir="auto"><strong>UDP não fornece criptografia.</strong></p><p id="402f6ce8-497f-8021-9f4c-dc3aac022b05" class="" dir="auto">Assim como TCP, ele é apenas um protocolo de transporte.</p><p id="402f6ce8-497f-80cb-bc28-c287a1ceea04" class="" dir="auto">Por exemplo:</p><pre id="402f6ce8-497f-80e8-b726-f5b02b713237" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Aplicação
+   ↓
+Criptografia (quando aplicável)
+   ↓
+UDP
+   ↓
+IP</code></pre><p id="402f6ce8-497f-80ea-9ecb-d5d3e96885a9" class="" dir="auto">Um protocolo construído sobre UDP pode fornecer segurança.</p><p id="402f6ce8-497f-8001-9bf1-d6d39792bf62" class="" dir="auto">Um exemplo importante é:</p><pre id="402f6ce8-497f-8032-bd60-df1f0cc2c68c" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">HTTP/3
+   ↓
+QUIC
+   ↓
+UDP</code></pre><p id="402f6ce8-497f-8036-9786-f2888913700a" class="" dir="auto">O QUIC utiliza <strong>TLS</strong> para fornecer proteção criptográfica.</p><hr id="402f6ce8-497f-8031-a8f3-d7189182721c" dir="auto"/><h1 id="402f6ce8-497f-8006-8429-e7747acbfb9d" class="" dir="auto">18. TCP/IP e UDP</h1><p id="402f6ce8-497f-806f-9f37-ec2e358957c2" class="" dir="auto">Podemos visualizar a relação entre os principais protocolos assim:</p><pre id="402f6ce8-497f-8055-be61-f79e9df88fde" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">                 APLICAÇÕES
+                     │
+        ┌────────────┴────────────┐
+        │                         │
+       TCP                       UDP
+        │                         │
+        └────────────┬────────────┘
+                     │
+                    IP
+                     │
+             Ethernet / Wi-Fi</code></pre><p id="402f6ce8-497f-8020-b9da-c0db32fd9ec7" class="" dir="auto">Exemplos:</p><pre id="402f6ce8-497f-80cc-b98c-dc145f1f404a" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">HTTP ── TCP ── IP
+HTTPS ─ TCP ── IP
+SSH ─── TCP ── IP
+
+DNS ─── UDP ── IP
+QUIC ── UDP ── IP</code></pre><p id="402f6ce8-497f-80bb-8342-de5a3983e8bd" class="" dir="auto">É importante lembrar que isso é uma simplificação: alguns protocolos e aplicações podem utilizar TCP, UDP ou outros transportes dependendo do caso.</p><hr id="402f6ce8-497f-80fb-9f7d-c7e8cde74bd9" dir="auto"/><h1 id="402f6ce8-497f-80ce-969a-eb25bb798cd9" class="" dir="auto">19. TCP x UDP: uma analogia</h1><p id="402f6ce8-497f-805e-8d39-d57f4c8aba31" class="" dir="auto">Imagine duas formas de enviar informações.</p><h3 id="402f6ce8-497f-8035-9f27-d8d615051f58" class="" dir="auto">TCP — entrega controlada</h3><p id="402f6ce8-497f-805a-bd99-c2a2ac7067f2" class="" dir="auto">Você envia:</p><blockquote id="402f6ce8-497f-8059-be13-fc21cd2dcaea" class="" dir="auto">&quot;Preciso que você receba exatamente todos esses documentos.&quot;</blockquote><p id="402f6ce8-497f-80da-8b8d-ede5363b269d" class="" dir="auto">O sistema verifica:</p><pre id="402f6ce8-497f-8052-a2bd-cbc115c6677e" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Documento 1 ✓
+Documento 2 ✓
+Documento 3 ✗
+→ Reenviar documento 3
+Documento 4 ✓</code></pre><h3 id="402f6ce8-497f-8071-a3ef-ccab4e2a2e19" class="" dir="auto">UDP — envio rápido</h3><p id="402f6ce8-497f-8016-b919-e7d19b26fd3a" class="" dir="auto">Você envia:</p><blockquote id="402f6ce8-497f-803a-a3b2-c0880d05ec63" class="" dir="auto">&quot;Aqui estão as informações mais recentes.&quot;</blockquote><p id="402f6ce8-497f-8052-bce8-c0b00b3956bc" class="" dir="auto">Não existe, no próprio UDP, a mesma preocupação em confirmar cada informação.</p><p id="402f6ce8-497f-809b-96c5-f8c0fda0492b" class="" dir="auto">Isso é útil quando <strong>a informação mais recente é mais importante do que garantir cada pacote individual</strong>.</p><hr id="402f6ce8-497f-80d9-a3eb-d3805d57ca82" dir="auto"/><h1 id="402f6ce8-497f-809b-b4dc-d46fc85c066f" class="" dir="auto">20. Resumindo</h1><p id="402f6ce8-497f-80a2-8bb9-f2312da824aa" class="" dir="auto">O <strong>UDP</strong> é um protocolo da camada de transporte que foi projetado para ser <strong>simples, rápido e com baixa sobrecarga</strong>.</p><p id="402f6ce8-497f-8078-880b-ffc81e09e6bb" class="" dir="auto">Suas principais características são:</p><ul id="402f6ce8-497f-80bb-859a-c4f56165aae1" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>não orientado à conexão</strong>;</li></ul><ul id="402f6ce8-497f-80f1-92db-d2061a513cd0" class="bulleted-list" dir="auto"><li style="list-style-type:disc">utiliza <strong>portas</strong>;</li></ul><ul id="402f6ce8-497f-80b7-8ae7-c52d8056bbab" class="bulleted-list" dir="auto"><li style="list-style-type:disc">transmite <strong>datagramas</strong>;</li></ul><ul id="402f6ce8-497f-801d-8a1d-ca7d16c0d739" class="bulleted-list" dir="auto"><li style="list-style-type:disc">possui cabeçalho de apenas <strong>8 bytes</strong>;</li></ul><ul id="402f6ce8-497f-804c-b880-f1afd67ce32e" class="bulleted-list" dir="auto"><li style="list-style-type:disc">não garante entrega;</li></ul><ul id="402f6ce8-497f-80bf-91c6-c9d7ea0ecb1f" class="bulleted-list" dir="auto"><li style="list-style-type:disc">não garante ordenação;</li></ul><ul id="402f6ce8-497f-8069-b7b7-d48afc1254b8" class="bulleted-list" dir="auto"><li style="list-style-type:disc">não faz retransmissão por padrão;</li></ul><ul id="402f6ce8-497f-80df-a689-fc6649cb5403" class="bulleted-list" dir="auto"><li style="list-style-type:disc">não fornece criptografia;</li></ul><ul id="402f6ce8-497f-8037-9164-d33b945e498f" class="bulleted-list" dir="auto"><li style="list-style-type:disc">possui menor overhead que o TCP;</li></ul><ul id="402f6ce8-497f-8048-81fc-f1676ee4ba9e" class="bulleted-list" dir="auto"><li style="list-style-type:disc">é muito utilizado em aplicações de tempo real;</li></ul><ul id="402f6ce8-497f-8088-8bdb-e70fd66ad848" class="bulleted-list" dir="auto"><li style="list-style-type:disc">aparece em DNS, jogos, VoIP, streaming e protocolos modernos como QUIC.</li></ul><h3 id="402f6ce8-497f-80d5-8034-d0308d4a5d5e" class="" dir="auto">Para memorizar:</h3><pre id="402f6ce8-497f-8030-ab5a-dbdc1cce71e3" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">TCP
+↓
+Confiabilidade
+Ordem
+ACK
+Retransmissão
+Controle
+Maior overhead
+
+UDP
+↓
+Velocidade
+Baixa latência
+Simplicidade
+Menor overhead
+Sem garantia de entrega</code></pre><p id="402f6ce8-497f-808e-baac-edce6f8b9cd7" class="" dir="auto"><strong>Uma frase para guardar:</strong></p><blockquote id="402f6ce8-497f-807c-a68b-c7fbf1d1a773" class="" dir="auto"><strong>TCP prioriza a entrega confiável dos dados; UDP prioriza uma transmissão simples e rápida, deixando mecanismos adicionais de confiabilidade para a aplicação quando necessário.</strong></blockquote></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

@@ -1,0 +1,1134 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Protocolo IP</title><meta name="data-notion-page-icon" content="/icons/lock_blue.svg"/><link rel="icon" href="https://app.notion.com/icons/lock_blue.svg"/><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+	/* Paint a complete callout box on every PDF page fragment. */
+	-webkit-box-decoration-break: clone;
+	box-decoration-break: clone;
+}
+
+/* For default-background callouts, render the border outline. */
+.callout.block-color-default_background {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+/*
+ * Toggles and callouts hold arbitrary content, so they can easily be taller
+ * than a page. They must stay breakable: avoiding breaks inside them makes
+ * Chromium push the whole block onto the next page, which leaves the previous
+ * page mostly empty before every long toggle.
+ */
+details,
+aside {
+	margin: 1.25em 0;
+}
+
+/* Keep a toggle's title on the same page as the start of its content. */
+summary {
+	page-break-after: avoid;
+	break-after: avoid;
+}
+
+/*
+ * Toggle headings render as <h1/h2/h3 style="display:inline-block"> inside
+ * <summary>. Without this reset, the heading's margin-top pushes it below the
+ * ::marker (▼), so the triangle and the title appear on separate lines.
+ */
+summary h1,
+summary h2,
+summary h3,
+summary h4 {
+	margin-top: 0;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding-inline: 0.125rem;
+	padding-block: 0.375rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+/*
+ * Render emoji icons using a ::before pseudo-element to keep the glyph
+ * out of the DOM textContent traversal. This avoids double-rendering icons
+ * in callouts and page titles.
+ * NOTE(slim/html-export-pseudo-icons): I can't tagref this because it will
+ * flag as a duplicate tag after codegen.
+ */
+.icon[data-emoji]::before {
+	content: attr(data-emoji);
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	margin-right: 0.4em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.tab {
+	margin: 1.25em 0;
+	padding-inline: 1rem;
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style><style>@import url('https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex-swap.min.css')</style></head><body><article id="402f6ce8-497f-80eb-9f5d-c85e3703eb9c" class="page sans" data-notion-page-icon="/icons/lock_blue.svg"><header><div class="page-header-icon undefined"><img class="icon notion-static-icon" src="https://app.notion.com/icons/lock_blue.svg"/></div><h1 class="page-title" dir="auto">Protocolo IP</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><h1 id="402f6ce8-497f-80f5-8288-f2ebd9041847" class="" dir="auto">🌐 Protocolo IP</h1><p id="402f6ce8-497f-80ae-9074-f3f963295a7e" class="" dir="auto">O <strong>IP (Internet Protocol)</strong> é um dos principais protocolos utilizados nas redes de computadores. Ele é responsável por <strong>identificar dispositivos e encaminhar pacotes de dados de uma origem até um destino através de uma rede</strong>.</p><p id="402f6ce8-497f-800d-bef8-d87d2b52d56a" class="" dir="auto">Quando você acessa um site, envia uma mensagem ou utiliza um aplicativo conectado à internet, o IP está envolvido na comunicação.</p><p id="402f6ce8-497f-80a4-9dc5-ccaddefa3096" class="" dir="auto">De forma simplificada:</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="402f6ce8-497f-8038-bf17-edfba51fdc48" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Seu computador
+      │
+      │ Pacote IP
+      ▼
+   Roteador
+      │
+      ▼
+   Internet
+      │
+      ▼
+Servidor</code></pre><p id="402f6ce8-497f-80f4-a3f4-cf4e1432e5de" class="" dir="auto">O IP pertence à <strong>camada de rede (camada 3)</strong> do modelo OSI.</p><hr id="402f6ce8-497f-80df-9281-deb0b6d3184c" dir="auto"/><h1 id="402f6ce8-497f-80ef-85f2-c721f6327686" class="" dir="auto">1. O que significa IP?</h1><p id="402f6ce8-497f-80a1-81a0-c0a7e5cb5772" class="" dir="auto">IP significa:</p><blockquote id="402f6ce8-497f-808a-9f15-c8fa3e5881c5" class="" dir="auto"><strong>Internet Protocol — Protocolo de Internet</strong></blockquote><p id="402f6ce8-497f-800a-a3af-e5490b17cc21" class="" dir="auto">Sua função principal é permitir que diferentes dispositivos e redes consigam <strong>endereçar e encaminhar pacotes de dados</strong>.</p><p id="402f6ce8-497f-8063-b2f7-f28b5ad76521" class="" dir="auto">Imagine que você queira enviar uma carta:</p><pre id="402f6ce8-497f-809d-9b2e-e7263a364f1c" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Remetente
+    ↓
+Endereço
+    ↓
+Rede de transporte
+    ↓
+Destino</code></pre><p id="402f6ce8-497f-8076-bfc3-ee35a19f0fdf" class="" dir="auto">Na rede:</p><pre id="402f6ce8-497f-808c-8f54-ec03ddc4e42a" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Origem
+  ↓
+Endereço IP
+  ↓
+Roteadores
+  ↓
+Destino</code></pre><p id="402f6ce8-497f-808d-b6ed-ed3f15da593d" class="" dir="auto">O endereço IP funciona, de forma simplificada, como um <strong>endereço lógico de rede</strong>.</p><hr id="402f6ce8-497f-8009-b832-e9cefc103f2b" dir="auto"/><h1 id="402f6ce8-497f-8022-b05f-e2ca0576a2f7" class="" dir="auto">2. O que é um endereço IP?</h1><p id="402f6ce8-497f-80c9-ab2d-c75c31822ae6" class="" dir="auto">Um endereço IP identifica uma interface de rede dentro de determinado contexto de rede.</p><p id="402f6ce8-497f-8046-8649-f678c8f0d51d" class="" dir="auto">Por exemplo, em uma rede local podemos encontrar:</p><pre id="402f6ce8-497f-8073-918e-cb00898f1588" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">192.168.1.10</code></pre><p id="402f6ce8-497f-80d5-b5f4-f0453a4bf17a" class="" dir="auto">Outro dispositivo:</p><pre id="402f6ce8-497f-80e4-83a8-dae7114464b0" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">192.168.1.20</code></pre><p id="402f6ce8-497f-80cd-a432-cdbe8f9dc3af" class="" dir="auto">E outro:</p><pre id="402f6ce8-497f-80a1-92c1-d377447cb952" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">192.168.1.30</code></pre><p id="402f6ce8-497f-80ea-b8cd-d2ff4bb60647" class="" dir="auto">Assim:</p><pre id="402f6ce8-497f-802f-b9b3-d32e091ddb59" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Computador A → 192.168.1.10
+Computador B → 192.168.1.20
+Computador C → 192.168.1.30</code></pre><p id="402f6ce8-497f-808c-9823-c18f2a2ea26c" class="" dir="auto">Isso permite que os dispositivos sejam endereçados dentro da rede.</p><hr id="402f6ce8-497f-804f-a879-cc8ffa6bcd2f" dir="auto"/><h1 id="402f6ce8-497f-8026-8d5b-e5b573d7d291" class="" dir="auto">3. IPv4</h1><p id="402f6ce8-497f-8010-8fbb-c1db76cb650b" class="" dir="auto">O <strong>IPv4 (Internet Protocol version 4)</strong> é uma das versões mais conhecidas do protocolo IP.</p><p id="402f6ce8-497f-8096-bcd4-def53795f5ad" class="" dir="auto">Ele utiliza endereços de <strong>32 bits</strong>.</p><p id="402f6ce8-497f-800a-92a0-e10d1c8afe9a" class="" dir="auto">Normalmente eles são representados em quatro números decimais:</p><pre id="402f6ce8-497f-8071-bcd1-e38d81c80e38" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">192.168.1.10</code></pre><p id="402f6ce8-497f-80c1-8cf6-da1d5d92bb65" class="" dir="auto">Cada parte é chamada de <strong>octeto</strong> e possui 8 bits.</p><pre id="402f6ce8-497f-8039-9cd6-c9eeb8d4fd16" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">192 . 168 . 1 . 10
+ ↓     ↓    ↓    ↓
+8 bits cada</code></pre><p id="402f6ce8-497f-80b0-80ce-f0824a34bf70" class="" dir="auto">Como são 4 octetos:</p><pre id="402f6ce8-497f-8032-a7a8-d627e2ec17d4" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">8 + 8 + 8 + 8 = 32 bits</code></pre><hr id="402f6ce8-497f-80c7-a4c8-deae0472d90f" dir="auto"/><h1 id="402f6ce8-497f-80c4-b804-c9d0f7d1fcb4" class="" dir="auto">4. Quantos endereços IPv4 existem?</h1><p id="402f6ce8-497f-80ff-8edc-c4709b015231" class="" dir="auto">Com 32 bits temos:</p><pre id="402f6ce8-497f-80b5-82cd-ec9ddbc48d7a" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">2³²</code></pre><p id="402f6ce8-497f-80bf-afca-ed67d53d10fa" class="" dir="auto">aproximadamente:</p><p id="402f6ce8-497f-805f-928b-f97fba356fa1" class="" dir="auto"><strong>4,29 bilhões de endereços possíveis.</strong></p><p id="402f6ce8-497f-80a9-92f9-e0cdb78ba121" class="" dir="auto">Parece muito, mas a quantidade de dispositivos conectados à internet cresceu enormemente.</p><p id="402f6ce8-497f-80e3-a81f-d03fe20debb7" class="" dir="auto">Por isso o IPv4 começou a apresentar um problema:</p><blockquote id="402f6ce8-497f-804e-ad39-e059adbaac45" class="" dir="auto"><strong>esgotamento de endereços.</strong></blockquote><p id="402f6ce8-497f-8008-9485-e28a586ee638" class="" dir="auto">Isso ajudou a impulsionar a adoção do IPv6.</p><hr id="402f6ce8-497f-8008-b4c2-d77bfa43cf14" dir="auto"/><h1 id="402f6ce8-497f-802b-a094-df23645c651e" class="" dir="auto">5. IPv6</h1><p id="402f6ce8-497f-8015-8323-d4d5762b5298" class="" dir="auto">O <strong>IPv6 (Internet Protocol version 6)</strong> utiliza endereços de <strong>128 bits</strong>.</p><p id="402f6ce8-497f-8039-93a8-e2da4eabd152" class="" dir="auto">Um endereço IPv6 pode ser representado assim:</p><pre id="402f6ce8-497f-8012-8943-da29df0004f9" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">2001:db8:85a3::8a2e:370:7334</code></pre><p id="402f6ce8-497f-800c-b62d-c462c25d2387" class="" dir="auto">São grupos representados em hexadecimal.</p><p id="402f6ce8-497f-809f-9d9a-feddaf7f0385" class="" dir="auto">A quantidade de endereços possíveis é:</p><pre id="402f6ce8-497f-803a-87b5-cf73d24612a4" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">2¹²⁸</code></pre><p id="402f6ce8-497f-8087-958c-d77221160a2a" class="" dir="auto">É uma quantidade gigantesca.</p><p id="402f6ce8-497f-80c9-8273-db90e3e91367" class="" dir="auto">Isso fornece um espaço de endereçamento muito maior que o IPv4.</p><hr id="402f6ce8-497f-80ed-94a5-cb45d14b43bd" dir="auto"/><h1 id="402f6ce8-497f-80b9-b1c2-cc6329b6b4bc" class="" dir="auto">6. IPv4 × IPv6</h1><table id="402f6ce8-497f-8066-a24a-c662eb39d4be" class="simple-table" dir="ltr"><thead class="simple-table-header"><tr id="402f6ce8-497f-80cf-9d10-e97c1009c226" dir="ltr"><th id="lLP_" class="simple-table-header-color simple-table-header">Característica</th><th id="\y@O" class="simple-table-header-color simple-table-header">IPv4</th><th id="v`F&lt;" class="simple-table-header-color simple-table-header">IPv6</th></tr></thead><tbody><tr id="402f6ce8-497f-8019-b4c1-fc780479308a" dir="ltr"><td id="lLP_" class="">Tamanho</td><td id="\y@O" class="">32 bits</td><td id="v`F&lt;" class="">128 bits</td></tr><tr id="402f6ce8-497f-8058-9b52-f828cdf0fed4" dir="ltr"><td id="lLP_" class="">Representação</td><td id="\y@O" class="">Decimal</td><td id="v`F&lt;" class="">Hexadecimal</td></tr><tr id="402f6ce8-497f-8013-bcbb-f55c77b7c3dd" dir="ltr"><td id="lLP_" class="">Exemplo</td><td id="\y@O" class="">192.168.1.10</td><td id="v`F&lt;" class="">2001:db8::1</td></tr><tr id="402f6ce8-497f-8028-9fcf-d33b11594403" dir="ltr"><td id="lLP_" class="">Quantidade de endereços</td><td id="\y@O" class="">~4,3 bilhões</td><td id="v`F&lt;" class="">2¹²⁸</td></tr><tr id="402f6ce8-497f-807e-abc3-d337b7f13c3c" dir="ltr"><td id="lLP_" class="">NAT</td><td id="\y@O" class="">Muito utilizado</td><td id="v`F&lt;" class="">Menos necessário</td></tr><tr id="402f6ce8-497f-80e7-b3a6-c04690deb490" dir="ltr"><td id="lLP_" class="">Espaço de endereçamento</td><td id="\y@O" class="">Limitado</td><td id="v`F&lt;" class="">Extremamente amplo</td></tr></tbody></table><hr id="402f6ce8-497f-8028-889a-c1f0963604dd" dir="auto"/><h1 id="402f6ce8-497f-8022-9baf-d527254c1c2a" class="" dir="auto">7. Como funciona o envio de um pacote IP?</h1><p id="402f6ce8-497f-8056-ad93-fd61ee92775c" class="" dir="auto">Imagine que seu computador queira acessar um servidor.</p><pre id="402f6ce8-497f-8086-8df3-fe88704f859f" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">PC
+│
+│ Pacote
+▼
+Roteador
+│
+▼
+Outro roteador
+│
+▼
+Outro roteador
+│
+▼
+Servidor</code></pre><p id="402f6ce8-497f-80fa-a879-c118edc4ae65" class="" dir="auto">O pacote contém informações relacionadas à origem e ao destino.</p><p id="402f6ce8-497f-80ee-909c-d453fe122318" class="" dir="auto">De maneira simplificada:</p><pre id="402f6ce8-497f-807a-9337-e709965f653c" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">┌─────────────────────────┐
+│ Cabeçalho IP            │
+├─────────────────────────┤
+│ IP de origem            │
+│ IP de destino           │
+│ Informações de controle │
+├─────────────────────────┤
+│ Dados                    │
+└─────────────────────────┘</code></pre><p id="402f6ce8-497f-80a2-8999-db5682ee3a19" class="" dir="auto">Os roteadores analisam principalmente as informações necessárias para decidir <strong>para onde encaminhar o pacote</strong>.</p><hr id="402f6ce8-497f-8079-b16d-e532a7d36b3d" dir="auto"/><h1 id="402f6ce8-497f-80db-b4df-f206771bd573" class="" dir="auto">8. Roteamento</h1><p id="402f6ce8-497f-8067-8cf2-cdd87d5ca24e" class="" dir="auto">O <strong>roteamento</strong> é o processo de determinar por qual caminho os pacotes devem seguir.</p><p id="402f6ce8-497f-8099-9957-f86a32e836f2" class="" dir="auto">Imagine:</p><pre id="402f6ce8-497f-803c-af55-d7857074f110" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Computador
+    │
+    ▼
+Roteador A
+   /   \
+  /     \
+ ▼       ▼
+Roteador B  Roteador C
+  \         /
+   \       /
+      ▼
+   Servidor</code></pre><p id="402f6ce8-497f-8092-8936-f0878375c65d" class="" dir="auto">Os roteadores utilizam <strong>tabelas de roteamento</strong> para tomar decisões.</p><p id="402f6ce8-497f-8061-a8c9-de9a96e1fa83" class="" dir="auto">Uma tabela pode conter informações como:</p><pre id="402f6ce8-497f-80f0-a9dc-dba79a0afb51" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Destino       Próximo salto
+192.168.1.0   interface local
+10.0.0.0      roteador X
+0.0.0.0       gateway padrão</code></pre><hr id="402f6ce8-497f-8010-9f1e-e1e8d92fc60c" dir="auto"/><h1 id="402f6ce8-497f-80b5-a9ed-dbfb5bfecabc" class="" dir="auto">9. Gateway padrão</h1><p id="402f6ce8-497f-80e9-9345-e2444bd6ff7a" class="" dir="auto">O <strong>gateway padrão (default gateway)</strong> é normalmente o dispositivo utilizado para encaminhar tráfego destinado a outras redes.</p><p id="402f6ce8-497f-8004-a5a8-d69d1ba6b626" class="" dir="auto">Em uma rede doméstica:</p><pre id="402f6ce8-497f-80f3-84d3-c3cb71d74863" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Computador
+192.168.1.10
+      │
+      ▼
+Roteador
+192.168.1.1
+      │
+      ▼
+Internet</code></pre><p id="402f6ce8-497f-80fd-bc4a-c83bc4339b23" class="" dir="auto">Nesse exemplo, o roteador pode ser o gateway padrão.</p><p id="402f6ce8-497f-8071-aa1d-d7e7f3471858" class="" dir="auto">Se o computador precisa acessar algo fora da sua rede local, ele geralmente envia o tráfego para o gateway.</p><hr id="402f6ce8-497f-8068-bc43-e60470678b19" dir="auto"/><h1 id="402f6ce8-497f-80f7-8696-cebdf03cf926" class="" dir="auto">10. Rede local e rede externa</h1><p id="402f6ce8-497f-80cb-b13a-eb64da1e9279" class="" dir="auto">Imagine:</p><pre id="402f6ce8-497f-80b5-b9db-edfa34acf380" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Rede local:
+
+192.168.1.0/24</code></pre><p id="402f6ce8-497f-80a5-951d-c9cd69acb7ae" class="" dir="auto">Dispositivos:</p><pre id="402f6ce8-497f-80c1-b983-e8d13a09eb34" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">192.168.1.10
+192.168.1.20
+192.168.1.30</code></pre><p id="402f6ce8-497f-805a-84d0-fffa211705fd" class="" dir="auto">Eles pertencem à mesma rede local.</p><p id="402f6ce8-497f-8047-add3-e9f5f448888b" class="" dir="auto">Se o computador quiser acessar:</p><pre id="402f6ce8-497f-8070-a0c9-c5f655c31873" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">8.8.8.8</code></pre><p id="402f6ce8-497f-80e4-ba1e-e82bd3e53f9c" class="" dir="auto">esse endereço está fora da rede local.</p><p id="402f6ce8-497f-80d3-b63f-eb4ddb328c80" class="" dir="auto">Então:</p><pre id="402f6ce8-497f-8092-981a-c14f30dcfdd5" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">PC
+ ↓
+Gateway
+ ↓
+Internet
+ ↓
+8.8.8.8</code></pre><hr id="402f6ce8-497f-80ee-9ef0-e6118e74c571" dir="auto"/><h1 id="402f6ce8-497f-80ce-b4f9-db1fae625df0" class="" dir="auto">11. Máscara de sub-rede</h1><p id="402f6ce8-497f-80ac-9dcf-cf6c71dd5135" class="" dir="auto">No IPv4, a <strong>máscara de sub-rede</strong> ajuda a determinar qual parte do endereço representa a rede e qual parte pode representar hosts.</p><p id="402f6ce8-497f-80e8-a33f-ebbf5b9faddd" class="" dir="auto">Por exemplo:</p><pre id="402f6ce8-497f-8088-9332-fcdb05c218ef" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">IP:
+192.168.1.10
+
+Máscara:
+255.255.255.0</code></pre><p id="402f6ce8-497f-80e2-a94e-cfcb599010b0" class="" dir="auto">Também podemos escrever:</p><pre id="402f6ce8-497f-80ff-8671-c650894c37aa" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">192.168.1.10/24</code></pre><p id="402f6ce8-497f-80d0-964d-d545df040e52" class="" dir="auto">O <code>/24</code> significa que os primeiros 24 bits correspondem ao prefixo da rede.</p><pre id="402f6ce8-497f-80e8-a038-d8c344786436" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">192.168.1
+──────────
+   rede
+
+10
+──
+host</code></pre><hr id="402f6ce8-497f-807e-8b15-d406c000f5e4" dir="auto"/><h1 id="402f6ce8-497f-8080-ac41-c4939aad0c94" class="" dir="auto">12. CIDR</h1><p id="402f6ce8-497f-80a3-921f-fac77ebe5964" class="" dir="auto">O <strong>CIDR (Classless Inter-Domain Routing)</strong> é uma forma de representar prefixos de rede.</p><p id="402f6ce8-497f-8097-8dc4-cbebd44f64f8" class="" dir="auto">Exemplo:</p><pre id="402f6ce8-497f-80d7-84dd-e40d57a9dc9d" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">192.168.1.0/24</code></pre><p id="402f6ce8-497f-80fb-8862-c3b3ffc7921a" class="" dir="auto">Outro:</p><pre id="402f6ce8-497f-809e-a6b6-d19d69ec0915" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">10.0.0.0/8</code></pre><p id="402f6ce8-497f-807e-bb40-cea23ef44704" class="" dir="auto">Outro:</p><pre id="402f6ce8-497f-8026-aafb-e2d161e69bc7" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">172.16.0.0/16</code></pre><p id="402f6ce8-497f-800f-9917-c65489fd6192" class="" dir="auto">O número depois da barra representa o tamanho do prefixo.</p><pre id="402f6ce8-497f-80da-8cc4-ecea8f57fcec" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">/8
+/16
+/24
+/32</code></pre><p id="402f6ce8-497f-80f5-8299-f19771f79859" class="" dir="auto">Isso é muito importante para entender redes e roteamento.</p><hr id="402f6ce8-497f-8030-b31f-d0250a9d0b68" dir="auto"/><h1 id="402f6ce8-497f-806e-a62a-f27b5da8c4aa" class="" dir="auto">13. Endereços IP privados</h1><p id="402f6ce8-497f-808a-99fa-e4459f15e1e0" class="" dir="auto">Alguns intervalos IPv4 são reservados para uso em <strong>redes privadas</strong>.</p><p id="402f6ce8-497f-80cf-a305-d63c30b78bb0" class="" dir="auto">Os principais são:</p><pre id="402f6ce8-497f-80ce-bca0-d99aa10f3ba3" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">10.0.0.0/8
+
+172.16.0.0/12
+
+192.168.0.0/16</code></pre><p id="402f6ce8-497f-80fc-b119-c33b8211f424" class="" dir="auto">Exemplos:</p><pre id="402f6ce8-497f-8084-bda5-c5138da1252d" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">10.0.0.15
+172.16.5.20
+192.168.1.100</code></pre><p id="402f6ce8-497f-8045-bcec-ca8e6c5b8a02" class="" dir="auto">Esses endereços são muito comuns em:</p><ul id="402f6ce8-497f-8066-9a32-db62d02e784a" class="bulleted-list" dir="auto"><li style="list-style-type:disc">redes domésticas;</li></ul><ul id="402f6ce8-497f-80ea-83c9-e540ec11ef77" class="bulleted-list" dir="auto"><li style="list-style-type:disc">empresas;</li></ul><ul id="402f6ce8-497f-807c-bbc5-ef5a0960b907" class="bulleted-list" dir="auto"><li style="list-style-type:disc">laboratórios;</li></ul><ul id="402f6ce8-497f-80ab-9562-c71c4a905514" class="bulleted-list" dir="auto"><li style="list-style-type:disc">servidores internos.</li></ul><hr id="402f6ce8-497f-8069-a098-ed8254ae5698" dir="auto"/><h1 id="402f6ce8-497f-80ca-9460-cc69e0137cfc" class="" dir="auto">14. IP público</h1><p id="402f6ce8-497f-8083-a94f-c85967cda58b" class="" dir="auto">Um <strong>IP público</strong> é utilizado para endereçamento em redes públicas, como a internet.</p><p id="402f6ce8-497f-80dd-989b-d70943e48b2a" class="" dir="auto">Por exemplo, seu roteador pode possuir:</p><pre id="402f6ce8-497f-80d6-b8eb-c2e7017ed244" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">IP privado:
+192.168.1.1</code></pre><p id="402f6ce8-497f-80b6-8584-f8a3f1548ddc" class="" dir="auto">e possuir também um endereço público fornecido pelo provedor.</p><p id="402f6ce8-497f-80c5-be1b-fb227072f0bb" class="" dir="auto">Conceitualmente:</p><pre id="402f6ce8-497f-80f1-86cf-d0bc5467bd33" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Rede doméstica
+      │
+      ▼
+Roteador
+ ├── IP privado
+ └── IP público
+      │
+      ▼
+  Internet</code></pre><hr id="402f6ce8-497f-8078-bb47-d760efcdad63" dir="auto"/><h1 id="402f6ce8-497f-8075-bca3-e750e20a03ee" class="" dir="auto">15. NAT</h1><p id="402f6ce8-497f-80ce-884e-cadaaa67ed8b" class="" dir="auto">O <strong>NAT (Network Address Translation)</strong> permite traduzir endereços privados para endereços públicos e vice-versa em determinados cenários.</p><p id="402f6ce8-497f-8030-b066-c3507e5f2c12" class="" dir="auto">Exemplo:</p><pre id="402f6ce8-497f-80e2-a157-c94dcd7739e5" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">PC
+192.168.1.10
+    │
+    ▼
+Roteador
+    │
+    │ NAT
+    ▼
+IP público
+    │
+    ▼
+Internet</code></pre><p id="402f6ce8-497f-8072-bd10-f26325820ebc" class="" dir="auto">Isso permite que vários dispositivos de uma rede privada compartilhem um endereço público, especialmente usando <strong>PAT/NAT overload</strong>.</p><hr id="402f6ce8-497f-80f2-81ba-c71640fbef08" dir="auto"/><h1 id="402f6ce8-497f-8001-b738-ec834c36834f" class="" dir="auto">16. IP não é a mesma coisa que MAC</h1><p id="402f6ce8-497f-808b-b6ca-cc989a85a856" class="" dir="auto">Essa diferença é muito importante.</p><h3 id="402f6ce8-497f-8087-9ba3-dcc56e8366c9" class="" dir="auto">IP</h3><p id="402f6ce8-497f-801b-89b8-e714ddc40ed1" class="" dir="auto">É um endereço <strong>lógico</strong> utilizado na camada de rede.</p><p id="402f6ce8-497f-801f-b027-f150a36f9513" class="" dir="auto">Exemplo:</p><pre id="402f6ce8-497f-802b-bfe7-cbdd4fac9e10" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">192.168.1.10</code></pre><h3 id="402f6ce8-497f-8023-b626-ee2b2ec7230c" class="" dir="auto">MAC</h3><p id="402f6ce8-497f-8083-8ab8-ed8488b6f340" class="" dir="auto">É um endereço associado à interface de rede na camada de enlace.</p><p id="402f6ce8-497f-80a7-b743-fe3889c64477" class="" dir="auto">Exemplo:</p><pre id="402f6ce8-497f-80a7-9aa3-c62ecd8dcf31" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">00:1A:2B:3C:4D:5E</code></pre><p id="402f6ce8-497f-80d2-92c4-c7debc495361" class="" dir="auto">Podemos visualizar:</p><pre id="402f6ce8-497f-8030-8d21-da9668a6813a" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Aplicação
+    ↓
+TCP/UDP
+    ↓
+IP
+    ↓
+Ethernet/Wi-Fi
+    ↓
+MAC</code></pre><p id="402f6ce8-497f-80a7-8835-c2c1dc4496b1" class="" dir="auto">O IP e o MAC possuem funções diferentes.</p><hr id="402f6ce8-497f-80ef-8a91-deb7e2072b32" dir="auto"/><h1 id="402f6ce8-497f-8096-952b-dbf4b9dee028" class="" dir="auto">17. IP e TCP</h1><p id="402f6ce8-497f-800d-80a9-c5e74c61e794" class="" dir="auto">O IP é responsável principalmente por <strong>endereçamento e encaminhamento de pacotes</strong>.</p><p id="402f6ce8-497f-801e-90ae-d1206830ff0e" class="" dir="auto">O TCP adiciona mecanismos de comunicação confiável.</p><p id="402f6ce8-497f-8088-bd45-f5ce7f029cfa" class="" dir="auto">Podemos pensar:</p><pre id="402f6ce8-497f-80e9-a330-f6d125349635" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Aplicação
+    ↓
+TCP
+    ↓
+IP
+    ↓
+Rede</code></pre><h3 id="402f6ce8-497f-8029-bb21-f82267d402e0" class="" dir="auto">IP</h3><p id="402f6ce8-497f-8093-9f07-e3fa7a8ffa88" class="" dir="auto">Cuida de:</p><blockquote id="402f6ce8-497f-8091-a1e7-d18f85d692cd" class="" dir="auto">&quot;Para qual endereço esse pacote deve ir?&quot;</blockquote><h3 id="402f6ce8-497f-80cd-aaa8-c9d8473a53f4" class="" dir="auto">TCP</h3><p id="402f6ce8-497f-803a-a33f-faa963043968" class="" dir="auto">Cuida de aspectos como:</p><blockquote id="402f6ce8-497f-8003-b712-e7b28caa59f1" class="" dir="auto">&quot;Os dados chegaram corretamente e na ordem esperada?&quot;</blockquote><hr id="402f6ce8-497f-8011-b1ec-c7fcd207a139" dir="auto"/><h1 id="402f6ce8-497f-8097-a233-d7179940378b" class="" dir="auto">18. IP e UDP</h1><p id="402f6ce8-497f-8062-985e-f4c433635f6d" class="" dir="auto">O UDP também funciona acima do IP.</p><pre id="402f6ce8-497f-8072-bb63-edd65d382382" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Aplicação
+    ↓
+UDP
+    ↓
+IP
+    ↓
+Rede</code></pre><p id="402f6ce8-497f-8051-be0a-e359279f1485" class="" dir="auto">Diferentemente do TCP, o UDP não estabelece uma conexão da mesma forma e não fornece os mesmos mecanismos de confiabilidade.</p><p id="402f6ce8-497f-80ea-b155-d9da03e1dd04" class="" dir="auto">É utilizado em cenários em que baixa latência ou simplicidade são importantes.</p><p id="402f6ce8-497f-809c-b7d5-e4aea95248a1" class="" dir="auto">Exemplos:</p><ul id="402f6ce8-497f-80b1-b3da-c09a71f44fd6" class="bulleted-list" dir="auto"><li style="list-style-type:disc">DNS;</li></ul><ul id="402f6ce8-497f-807f-b94d-d4eb6c974b04" class="bulleted-list" dir="auto"><li style="list-style-type:disc">streaming;</li></ul><ul id="402f6ce8-497f-807c-9517-d1ffa9708337" class="bulleted-list" dir="auto"><li style="list-style-type:disc">jogos online;</li></ul><ul id="402f6ce8-497f-808e-91ee-e005e0721f53" class="bulleted-list" dir="auto"><li style="list-style-type:disc">VoIP;</li></ul><ul id="402f6ce8-497f-8072-9245-e35df211fc4d" class="bulleted-list" dir="auto"><li style="list-style-type:disc">alguns protocolos de comunicação em tempo real.</li></ul><hr id="402f6ce8-497f-809a-890d-d4c8ec8a1328" dir="auto"/><h1 id="402f6ce8-497f-807f-b459-cab50de5ea97" class="" dir="auto">19. Estrutura simplificada de um pacote IP</h1><p id="402f6ce8-497f-8097-bc5d-e26ff41c1dab" class="" dir="auto">Um pacote IP possui um <strong>cabeçalho</strong> e uma carga útil.</p><pre id="402f6ce8-497f-803a-98c2-f582905db3b1" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">┌──────────────────────────────┐
+│       Cabeçalho IP           │
+│                              │
+│ IP de origem                 │
+│ IP de destino                │
+│ TTL / Hop Limit              │
+│ Protocolo                    │
+│ Outros campos                │
+├──────────────────────────────┤
+│                              │
+│          Dados               │
+│                              │
+└──────────────────────────────┘</code></pre><p id="402f6ce8-497f-8090-86c2-fb15ee0e1f7c" class="" dir="auto">Os campos variam entre IPv4 e IPv6.</p><hr id="402f6ce8-497f-8082-b868-cfd2f31b2663" dir="auto"/><h1 id="402f6ce8-497f-800c-95be-db9b676e9d0e" class="" dir="auto">20. TTL</h1><p id="402f6ce8-497f-807e-85da-ff64d4a45c94" class="" dir="auto">No IPv4 existe o campo <strong>TTL (Time To Live)</strong>.</p><p id="402f6ce8-497f-8007-8bd3-fa0e8c631805" class="" dir="auto">Apesar do nome, ele funciona essencialmente como um contador de saltos.</p><p id="402f6ce8-497f-80e2-8eac-d6c91502d88d" class="" dir="auto">Quando um pacote passa por um roteador, o TTL é decrementado.</p><pre id="402f6ce8-497f-80ed-bee6-cbc5b5637e55" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">TTL = 5
+
+Roteador 1 → 4
+Roteador 2 → 3
+Roteador 3 → 2
+Roteador 4 → 1
+Roteador 5 → 0</code></pre><p id="402f6ce8-497f-8083-8527-f2cfdf1987c4" class="" dir="auto">Quando chega a zero, o pacote é descartado.</p><p id="402f6ce8-497f-803f-87df-c54c95a18a4a" class="" dir="auto">Isso evita que um pacote fique circulando indefinidamente devido a problemas de roteamento.</p><p id="402f6ce8-497f-806a-90eb-d908b24faca0" class="" dir="auto">No IPv6 existe um campo equivalente chamado <strong>Hop Limit</strong>.</p><hr id="402f6ce8-497f-8079-b9b6-e73f64f7b925" dir="auto"/><h1 id="402f6ce8-497f-80c4-867e-f0f94f9d791c" class="" dir="auto">21. Fragmentação</h1><p id="402f6ce8-497f-8004-9dae-e184f28df12c" class="" dir="auto">Um pacote pode encontrar redes com diferentes limites de tamanho para os pacotes.</p><p id="402f6ce8-497f-8059-a95c-f3078e72e405" class="" dir="auto">Esse limite é relacionado ao <strong>MTU (Maximum Transmission Unit)</strong>.</p><p id="402f6ce8-497f-80c2-84c4-d1702e8efaa8" class="" dir="auto">Conceitualmente:</p><pre id="402f6ce8-497f-80a4-9ec9-e9b8eadaa274" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Pacote grande
+     ↓
+Limitação de MTU
+     ↓
+Fragmentação/ajuste conforme o protocolo e caminho</code></pre><p id="402f6ce8-497f-80c1-948a-f5890f2fb29b" class="" dir="auto">Fragmentação possui diferenças importantes entre IPv4 e IPv6.</p><p id="402f6ce8-497f-8093-b715-e98308e8ca89" class="" dir="auto">Em IPv6, roteadores não fragmentam pacotes da mesma forma que no IPv4; mecanismos de descoberta de MTU e fragmentação no host são utilizados.</p><hr id="402f6ce8-497f-8072-9e41-eea3dbdcbbe6" dir="auto"/><h1 id="402f6ce8-497f-804e-ba43-cadbc5e94af7" class="" dir="auto">22. ICMP</h1><p id="402f6ce8-497f-80e3-88f7-d478c3df12de" class="" dir="auto">O <strong>ICMP (Internet Control Message Protocol)</strong> trabalha junto ao IP e é utilizado para mensagens de controle, diagnóstico e comunicação de erros.</p><p id="402f6ce8-497f-8040-a1a9-c97a01cc6244" class="" dir="auto">Uma ferramenta que você provavelmente já conhece utiliza ICMP:</p><pre id="402f6ce8-497f-8000-a7f7-fbe383a9d058" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">ping</code></pre><p id="402f6ce8-497f-802f-b83c-deb8ec20bca5" class="" dir="auto">O <code>ping</code> pode enviar mensagens ICMP para verificar se determinado destino responde.</p><p id="402f6ce8-497f-80b8-a02b-e158757c2704" class="" dir="auto">Conceitualmente:</p><pre id="402f6ce8-497f-805c-906c-e9faf3391353" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Computador
+    │
+    │ ICMP Echo Request
+    ▼
+Servidor
+    │
+    │ ICMP Echo Reply
+    ▼
+Computador</code></pre><hr id="402f6ce8-497f-80b3-979b-fa1f86130331" dir="auto"/><h1 id="402f6ce8-497f-8024-ab17-e21fc8ce66f8" class="" dir="auto">23. Traceroute</h1><p id="402f6ce8-497f-8045-ab3c-e92f954440eb" class="" dir="auto">Outra ferramenta importante para estudar IP é:</p><pre id="402f6ce8-497f-80a6-9311-ef05e02471f7" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">traceroute</code></pre><p id="402f6ce8-497f-80be-97a4-d24e5958446c" class="" dir="auto">No Windows, normalmente:</p><pre id="402f6ce8-497f-80e3-a949-e4dc5d8f4e25" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">tracert</code></pre><p id="402f6ce8-497f-8087-8184-c0a109cd8fc9" class="" dir="auto">Ela ajuda a visualizar os <strong>saltos</strong> percorridos por um pacote até determinado destino.</p><p id="402f6ce8-497f-80f1-ac31-ef7a329cf872" class="" dir="auto">Por exemplo:</p><pre id="402f6ce8-497f-805e-b36b-c14dda071336" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Seu PC
+  ↓
+Roteador doméstico
+  ↓
+Provedor
+  ↓
+Roteador intermediário
+  ↓
+Outro roteador
+  ↓
+Servidor</code></pre><p id="402f6ce8-497f-8066-82fa-fd58b4df696c" class="" dir="auto">Isso é muito útil para diagnóstico de redes.</p><hr id="402f6ce8-497f-80f5-adc8-fe2208cf5986" dir="auto"/><h1 id="402f6ce8-497f-80dd-b233-e5f0464cd7bb" class="" dir="auto">24. DNS e IP</h1><p id="402f6ce8-497f-8075-b7c8-e781327a077d" class="" dir="auto">O usuário normalmente não quer decorar endereços IP.</p><p id="402f6ce8-497f-8046-9115-d5aa5c263385" class="" dir="auto">Por isso existe o <strong>DNS (Domain Name System)</strong>.</p><p id="402f6ce8-497f-8018-a813-c1dc5be3e04c" class="" dir="auto">Você digita:</p><pre id="402f6ce8-497f-8086-b925-c581f11d4892" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">www.exemplo.com</code></pre><p id="402f6ce8-497f-80a0-8eca-f5ad8816b7ae" class="" dir="auto">O DNS ajuda a descobrir o endereço IP associado ao domínio.</p><p id="402f6ce8-497f-806f-8cfa-c078193cfa9a" class="" dir="auto">Conceitualmente:</p><pre id="402f6ce8-497f-8039-b2d2-f916e86750b8" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">www.exemplo.com
+       ↓
+      DNS
+       ↓
+IP do servidor
+       ↓
+Conexão</code></pre><p id="402f6ce8-497f-8078-8b15-ec2141e570fc" class="" dir="auto">Portanto:</p><blockquote id="402f6ce8-497f-8022-9224-e4a7541beb74" class="" dir="auto"><strong>DNS resolve nomes; IP fornece o endereçamento utilizado na comunicação.</strong></blockquote><hr id="402f6ce8-497f-80a4-a4d4-d1bc406af943" dir="auto"/><h1 id="402f6ce8-497f-80e3-a63b-cd94dce8f221" class="" dir="auto">25. O IP garante que o pacote chegará?</h1><p id="402f6ce8-497f-80ca-8f22-d25d881868d6" class="" dir="auto">Não necessariamente.</p><p id="402f6ce8-497f-809d-a333-d41101f589e8" class="" dir="auto">Essa é uma característica importante.</p><p id="402f6ce8-497f-803e-9c62-d252a7852b7a" class="" dir="auto">O IP é um protocolo <strong>best effort</strong>.</p><p id="402f6ce8-497f-8069-8144-c6c05af38975" class="" dir="auto">Isso significa que o IP não garante, por si só:</p><ul id="402f6ce8-497f-80b7-8b6e-d66675ba830c" class="bulleted-list" dir="auto"><li style="list-style-type:disc">entrega;</li></ul><ul id="402f6ce8-497f-80f8-9a00-fa4081937ee7" class="bulleted-list" dir="auto"><li style="list-style-type:disc">ordem dos pacotes;</li></ul><ul id="402f6ce8-497f-8077-97a0-ee9569f9521a" class="bulleted-list" dir="auto"><li style="list-style-type:disc">retransmissão;</li></ul><ul id="402f6ce8-497f-8038-b373-ec24079d62bc" class="bulleted-list" dir="auto"><li style="list-style-type:disc">ausência de duplicação.</li></ul><p id="402f6ce8-497f-8032-9f44-fac51d8cab1d" class="" dir="auto">Por isso protocolos como TCP fornecem mecanismos adicionais quando a aplicação precisa de confiabilidade.</p><pre id="402f6ce8-497f-802b-922e-dd28093691c1" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">IP
+↓
+&quot;Vou tentar entregar.&quot;
+
+TCP
+↓
+&quot;Vou fornecer mecanismos para comunicação confiável.&quot;</code></pre><hr id="402f6ce8-497f-80f3-b5cd-ddc56c2bfb0a" dir="auto"/><h1 id="402f6ce8-497f-80a6-a0af-d956986e9601" class="" dir="auto">26. IPv4 e classes de endereço</h1><p id="402f6ce8-497f-8015-a821-d43cc41260c8" class="" dir="auto">Historicamente, o IPv4 utilizava um sistema de classes:</p><ul id="402f6ce8-497f-8092-8b41-ce6db8aa765e" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Classe A;</li></ul><ul id="402f6ce8-497f-80eb-933d-d948fa1ae7e2" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Classe B;</li></ul><ul id="402f6ce8-497f-80dc-b38a-fa2978e9dff1" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Classe C;</li></ul><ul id="402f6ce8-497f-8030-a76b-dbed8a2b4e04" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Classe D;</li></ul><ul id="402f6ce8-497f-80ce-a50d-eadeb51d0700" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Classe E.</li></ul><p id="402f6ce8-497f-800d-b326-d04833783cd9" class="" dir="auto">Por exemplo:</p><pre id="402f6ce8-497f-8023-862c-eee86a35f481" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Classe A → grandes redes
+Classe B → redes médias
+Classe C → redes menores</code></pre><p id="402f6ce8-497f-8040-8d90-e7e21f7693e6" class="" dir="auto">Porém, atualmente, o modelo baseado em <strong>CIDR</strong> é muito mais importante para entender redes modernas.</p><p id="402f6ce8-497f-8099-b8e7-d7ff3103ae00" class="" dir="auto">Portanto, para estudar hoje, priorize:</p><pre id="402f6ce8-497f-8014-af31-fe1e9ac3b822" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">CIDR
+subnetting
+prefixos
+roteamento</code></pre><p id="402f6ce8-497f-805e-b634-d05c5d3a3f3b" class="" dir="auto">em vez de decorar apenas as antigas classes.</p><hr id="402f6ce8-497f-805d-a7cd-d9e1c457c161" dir="auto"/><h1 id="402f6ce8-497f-8056-a906-cbbba549370d" class="" dir="auto">27. Loopback</h1><p id="402f6ce8-497f-805b-aeaa-deff77048988" class="" dir="auto">Existe um endereço especial utilizado para comunicação com o próprio dispositivo.</p><p id="402f6ce8-497f-80a5-b835-d53a59acf20c" class="" dir="auto">No IPv4:</p><pre id="402f6ce8-497f-801e-92d0-c01cdaddcbea" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">127.0.0.1</code></pre><p id="402f6ce8-497f-8099-b951-c583f35d48e6" class="" dir="auto">É conhecido como <strong>localhost</strong>.</p><p id="402f6ce8-497f-80cd-b8f2-ff79deb2916b" class="" dir="auto">Exemplo:</p><pre id="402f6ce8-497f-807c-af6a-d6143bdd081a" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Seu computador
+     │
+     ▼
+127.0.0.1
+     │
+     ▼
+Seu próprio computador</code></pre><p id="402f6ce8-497f-8037-875e-ff4c691f99b2" class="" dir="auto">Isso é muito utilizado durante o desenvolvimento.</p><p id="402f6ce8-497f-8097-9f78-f2cf517c8e8d" class="" dir="auto">Por exemplo:</p><pre id="402f6ce8-497f-8045-9f0f-eaade16c0e7e" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">http://localhost:3000</code></pre><p id="402f6ce8-497f-803c-b1b2-c37d6cdf4a3b" class="" dir="auto">pode representar uma aplicação Node.js executando localmente.</p><hr id="402f6ce8-497f-8090-baf0-c531fca48e97" dir="auto"/><h1 id="402f6ce8-497f-80ee-be32-f2a9cffebe44" class="" dir="auto">28. APIPA</h1><p id="402f6ce8-497f-8003-9675-dc05f03a7805" class="" dir="auto">No Windows, se uma máquina não conseguir obter corretamente um endereço IPv4 via DHCP, ela pode configurar automaticamente um endereço da faixa:</p><pre id="402f6ce8-497f-80ca-b19e-c1631df17f63" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">169.254.0.0/16</code></pre><p id="402f6ce8-497f-8074-b1ff-ee537a1c1eff" class="" dir="auto">Esse mecanismo é conhecido como <strong>APIPA (Automatic Private IP Addressing)</strong>.</p><p id="402f6ce8-497f-8046-9f70-ffdef37e86d4" class="" dir="auto">É um detalhe interessante para diagnóstico de redes.</p><hr id="402f6ce8-497f-8045-bbcf-d18ff2df1dda" dir="auto"/><h1 id="402f6ce8-497f-80f1-8982-f02d51706c10" class="" dir="auto">29. DHCP e IP</h1><p id="402f6ce8-497f-8016-ab8c-d48a9e2ae30b" class="" dir="auto">O <strong>DHCP</strong> é responsável por fornecer configurações de rede automaticamente.</p><p id="402f6ce8-497f-8098-a006-c31fdef3566a" class="" dir="auto">Por exemplo:</p><pre id="402f6ce8-497f-8098-8f92-ea86e266aa2d" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Computador
+     ↓
+DHCP
+     ↓
+IP
+Máscara
+Gateway
+DNS</code></pre><p id="402f6ce8-497f-8056-b400-c8eaad678262" class="" dir="auto">Assim, você não precisa configurar manualmente cada computador.</p><p id="402f6ce8-497f-8085-a854-e70a17a70ce1" class="" dir="auto">Um fluxo simplificado é conhecido pela sequência:</p><pre id="402f6ce8-497f-8093-8123-e5f8433d7123" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">DHCP Discover
+      ↓
+DHCP Offer
+      ↓
+DHCP Request
+      ↓
+DHCP Acknowledgment</code></pre><hr id="402f6ce8-497f-80e8-8146-dd8e6593f57d" dir="auto"/><h1 id="402f6ce8-497f-80ba-9e6f-de788230b462" class="" dir="auto">30. IP e segurança cibernética</h1><p id="402f6ce8-497f-80e6-8cbb-c94c3e7c9020" class="" dir="auto">O protocolo IP é extremamente importante para Cibersegurança.</p><p id="402f6ce8-497f-80ec-a788-ffc40505b6da" class="" dir="auto">Você pode analisar:</p><pre id="402f6ce8-497f-802e-a95c-c32ffc263e2c" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">IP de origem
+IP de destino
+Porta
+Protocolo
+Horário
+Quantidade de tráfego</code></pre><p id="402f6ce8-497f-803a-bf3c-d0d327d96c61" class="" dir="auto">Essas informações aparecem em:</p><ul id="402f6ce8-497f-8057-b414-d494c9a4586e" class="bulleted-list" dir="auto"><li style="list-style-type:disc">firewalls;</li></ul><ul id="402f6ce8-497f-80a6-a34f-f462df769c44" class="bulleted-list" dir="auto"><li style="list-style-type:disc">IDS/IPS;</li></ul><ul id="402f6ce8-497f-805a-9298-cf322279e74c" class="bulleted-list" dir="auto"><li style="list-style-type:disc">SIEM;</li></ul><ul id="402f6ce8-497f-80b8-abae-c30abd38cb15" class="bulleted-list" dir="auto"><li style="list-style-type:disc">logs;</li></ul><ul id="402f6ce8-497f-805e-b968-c136b4a8b95d" class="bulleted-list" dir="auto"><li style="list-style-type:disc">ferramentas de monitoramento;</li></ul><ul id="402f6ce8-497f-80bc-a568-eefcdcdce390" class="bulleted-list" dir="auto"><li style="list-style-type:disc">análise forense.</li></ul><p id="402f6ce8-497f-80f4-8e6c-cfa28004a01d" class="" dir="auto">Por exemplo:</p><pre id="402f6ce8-497f-80b3-8ef9-c9960dd5bd65" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">IP interno
+   ↓
+Conexões incomuns
+   ↓
+Firewall
+   ↓
+SIEM
+   ↓
+Alerta</code></pre><hr id="402f6ce8-497f-8095-872e-da54d2cd314e" dir="auto"/><h1 id="402f6ce8-497f-80a9-9388-c69eaf9f5a74" class="" dir="auto">31. IP spoofing</h1><p id="402f6ce8-497f-8020-ba9d-f4005be2583a" class="" dir="auto"><strong>IP spoofing</strong> ocorre quando um pacote apresenta um endereço IP de origem falsificado.</p><p id="402f6ce8-497f-80d7-9293-d77fa8a94f6e" class="" dir="auto">Conceitualmente:</p><pre id="402f6ce8-497f-8090-8d02-df2ee7e10109" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Origem real
+     │
+     ▼
+Pacote com IP de origem falsificado
+     │
+     ▼
+Destino</code></pre><p id="402f6ce8-497f-805f-b2ac-dfa3fa07c59b" class="" dir="auto">Isso pode ser utilizado em diferentes tipos de ataques ou para dificultar a identificação da origem real.</p><p id="402f6ce8-497f-80d7-a5f3-d0b43926ce08" class="" dir="auto">Por isso, sistemas de segurança não devem confiar cegamente apenas no endereço IP de origem.</p><hr id="402f6ce8-497f-8091-842b-c330e28be724" dir="auto"/><h1 id="402f6ce8-497f-805a-b50d-f71bdb78021b" class="" dir="auto">32. DDoS e IP</h1><p id="402f6ce8-497f-8007-a2f5-f8d943af31fe" class="" dir="auto">O conhecimento de IP também é importante para compreender <strong>DoS/DDoS</strong>.</p><p id="402f6ce8-497f-804f-8018-f02125142fab" class="" dir="auto">Em um DDoS:</p><pre id="402f6ce8-497f-8013-b5ae-c3e4ef304824" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Máquina A ─┐
+Máquina B ─┤
+Máquina C ─┤
+Máquina D ─┼──→ Servidor
+Máquina E ─┤
+Máquina F ─┘</code></pre><p id="402f6ce8-497f-80b4-b51a-ddbc6f40b0eb" class="" dir="auto">O servidor recebe grande quantidade de tráfego.</p><p id="402f6ce8-497f-8043-ba01-e0b94098ea25" class="" dir="auto">Ferramentas de segurança podem analisar:</p><ul id="402f6ce8-497f-804f-9bfb-dac7131b9553" class="bulleted-list" dir="auto"><li style="list-style-type:disc">IPs de origem;</li></ul><ul id="402f6ce8-497f-8053-a992-e6661900d8c4" class="bulleted-list" dir="auto"><li style="list-style-type:disc">volume;</li></ul><ul id="402f6ce8-497f-8022-b9ce-cff4642ab073" class="bulleted-list" dir="auto"><li style="list-style-type:disc">padrões;</li></ul><ul id="402f6ce8-497f-80b2-9216-daeea52678b3" class="bulleted-list" dir="auto"><li style="list-style-type:disc">distribuição geográfica;</li></ul><ul id="402f6ce8-497f-806d-8871-d4c2eb8ec55d" class="bulleted-list" dir="auto"><li style="list-style-type:disc">portas;</li></ul><ul id="402f6ce8-497f-80ee-9bd9-eb2595739d64" class="bulleted-list" dir="auto"><li style="list-style-type:disc">protocolos.</li></ul><p id="402f6ce8-497f-8021-a597-fa5682dba813" class="" dir="auto">Isso permite criar mecanismos de mitigação.</p><hr id="402f6ce8-497f-807e-bfda-c0cc4661dcfa" dir="auto"/><h1 id="402f6ce8-497f-8005-ad39-dc890d34239d" class="" dir="auto">33. IP sozinho não identifica uma pessoa</h1><p id="402f6ce8-497f-8024-9868-da43bdc41ca9" class="" dir="auto">Esse é um ponto importante.</p><p id="402f6ce8-497f-804c-972a-f4f6eb7aa69c" class="" dir="auto">Um endereço IP não significa necessariamente:</p><blockquote id="402f6ce8-497f-805b-a9a1-c1d61d6e9a5e" class="" dir="auto">&quot;Esta pessoa específica está usando o computador X.&quot;</blockquote><p id="402f6ce8-497f-800b-a94f-d288d918e040" class="" dir="auto">Um IP pode representar:</p><ul id="402f6ce8-497f-8043-a7b4-df42601c775b" class="bulleted-list" dir="auto"><li style="list-style-type:disc">uma residência;</li></ul><ul id="402f6ce8-497f-80ec-84b0-c42c213547b4" class="bulleted-list" dir="auto"><li style="list-style-type:disc">uma empresa;</li></ul><ul id="402f6ce8-497f-80af-816e-cd1267585184" class="bulleted-list" dir="auto"><li style="list-style-type:disc">uma rede inteira;</li></ul><ul id="402f6ce8-497f-80d8-b21f-ffc7cde85545" class="bulleted-list" dir="auto"><li style="list-style-type:disc">um servidor;</li></ul><ul id="402f6ce8-497f-80cb-aeb9-caf53a29c8db" class="bulleted-list" dir="auto"><li style="list-style-type:disc">um dispositivo atrás de NAT;</li></ul><ul id="402f6ce8-497f-8001-8ef9-d0971ba43b20" class="bulleted-list" dir="auto"><li style="list-style-type:disc">um endereço temporário.</li></ul><p id="402f6ce8-497f-8093-8452-d5e8481583d5" class="" dir="auto">Além disso, endereços podem ser:</p><ul id="402f6ce8-497f-80d0-bb4e-df1420970d24" class="bulleted-list" dir="auto"><li style="list-style-type:disc">dinâmicos;</li></ul><ul id="402f6ce8-497f-80a9-a995-e31ff3db2dd3" class="bulleted-list" dir="auto"><li style="list-style-type:disc">compartilhados;</li></ul><ul id="402f6ce8-497f-804c-ad06-c035e0fe7cda" class="bulleted-list" dir="auto"><li style="list-style-type:disc">alterados ao longo do tempo.</li></ul><p id="402f6ce8-497f-807b-ac7d-cb004eae2f90" class="" dir="auto">Portanto:</p><blockquote id="402f6ce8-497f-8041-8976-ef99c1eb4c26" class="" dir="auto"><strong>IP é uma informação de rede, não uma identidade pessoal absoluta.</strong></blockquote><hr id="402f6ce8-497f-80c4-b7db-cda5ba113c51" dir="auto"/><h1 id="402f6ce8-497f-80e2-8bd6-f798101570ca" class="" dir="auto">34. IPv4 privado + NAT</h1><p id="402f6ce8-497f-805d-8407-d1f5286e13b6" class="" dir="auto">Uma situação muito comum é:</p><pre id="402f6ce8-497f-805c-a783-c3a2fa3351e6" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">                 INTERNET
+                    │
+             IP público
+                    │
+                ROTEADOR
+                    │
+        ┌───────────┼───────────┐
+        │           │           │
+        ▼           ▼           ▼
+   192.168.1.10  .20         .30
+        PC       Celular     Notebook</code></pre><p id="402f6ce8-497f-8031-bf0b-d20dcfd443c3" class="" dir="auto">Os dispositivos utilizam IPs privados.</p><p id="402f6ce8-497f-80ff-a9eb-de13cf4c3d52" class="" dir="auto">O roteador faz a tradução necessária para comunicação externa.</p><hr id="402f6ce8-497f-808e-b674-dfa1a9d99100" dir="auto"/><h1 id="402f6ce8-497f-8017-a73d-db02efdeff4f" class="" dir="auto">35. Exemplo completo</h1><p id="402f6ce8-497f-8059-ba2e-e0acb6c04f8a" class="" dir="auto">Imagine que você abre um site:</p><pre id="402f6ce8-497f-80b7-ac20-eca30810673f" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">https://exemplo.com</code></pre><p id="402f6ce8-497f-80b5-8183-d258274b3f13" class="" dir="auto">O processo simplificado é:</p><pre id="402f6ce8-497f-80c2-9469-d944e5012113" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">1. Você digita o domínio
+          ↓
+2. DNS encontra o IP
+          ↓
+3. Seu computador prepara a comunicação
+          ↓
+4. TCP/TLS são utilizados conforme o protocolo
+          ↓
+5. IP coloca origem e destino
+          ↓
+6. Roteador encaminha os pacotes
+          ↓
+7. Outros roteadores encaminham
+          ↓
+8. Servidor recebe
+          ↓
+9. Servidor responde
+          ↓
+10. Pacotes retornam
+          ↓
+11. Navegador apresenta a página</code></pre><p id="402f6ce8-497f-802e-bea4-e5629d4934a8" class="" dir="auto">Observe como vários protocolos trabalham juntos:</p><pre id="402f6ce8-497f-8078-a9dc-dddfb99c0ea9" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">┌────────────────────┐
+│ HTTP / HTTPS       │
+├────────────────────┤
+│ TCP / UDP          │
+├────────────────────┤
+│ IP                 │
+├────────────────────┤
+│ Ethernet / Wi-Fi   │
+└────────────────────┘</code></pre><hr id="402f6ce8-497f-80db-9a0c-e8152d2f9773" dir="auto"/><h1 id="402f6ce8-497f-8068-93fb-e89f710bb9ce" class="" dir="auto">36. Onde o IP fica no modelo TCP/IP?</h1><p id="402f6ce8-497f-807b-9972-e795a009640f" class="" dir="auto">O modelo TCP/IP pode ser simplificado assim:</p><pre id="402f6ce8-497f-80e9-b6b8-de3d96c7908e" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">┌─────────────────────────────┐
+│ Aplicação                   │
+│ HTTP, DNS, SSH, SMTP...     │
+├─────────────────────────────┤
+│ Transporte                  │
+│ TCP, UDP                    │
+├─────────────────────────────┤
+│ Internet                    │
+│ IP, ICMP                    │
+├─────────────────────────────┤
+│ Acesso à rede               │
+│ Ethernet, Wi-Fi...          │
+└─────────────────────────────┘</code></pre><p id="402f6ce8-497f-8018-84c1-cebda219b9fc" class="" dir="auto">O <strong>IP pertence à camada Internet</strong> do modelo TCP/IP.</p><p id="402f6ce8-497f-80f4-bd1e-c1b6367d904c" class="" dir="auto">No modelo OSI, ele está principalmente relacionado à:</p><blockquote id="402f6ce8-497f-804e-b54a-c02103925400" class="" dir="auto"><strong>Camada 3 — Rede.</strong></blockquote><hr id="402f6ce8-497f-80a1-aaea-c4479cb98db6" dir="auto"/><h1 id="402f6ce8-497f-8055-86b4-d3690e380f1f" class="" dir="auto">37. Principais conceitos para memorizar</h1><p id="402f6ce8-497f-8061-a863-ea1d5ce2a7f6" class="" dir="auto">Se você está estudando Cibersegurança, recomendo guardar principalmente:</p><pre id="402f6ce8-497f-8097-b863-fa72c5f69ce3" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">IP
+│
+├── IPv4
+│   └── 32 bits
+│
+├── IPv6
+│   └── 128 bits
+│
+├── Endereço IP
+│
+├── Rede / Host
+│
+├── Máscara
+│
+├── CIDR
+│
+├── Roteamento
+│
+├── Gateway
+│
+├── IP público
+│
+├── IP privado
+│
+├── NAT
+│
+├── TTL / Hop Limit
+│
+├── ICMP
+│
+├── Loopback
+│
+└── Segurança
+    ├── Firewall
+    ├── IDS/IPS
+    ├── Logs
+    ├── SIEM
+    └── Spoofing</code></pre><h3 id="402f6ce8-497f-80b8-a3cc-d59d589e31b1" class="" dir="auto">🧠 Resumindo</h3><p id="402f6ce8-497f-80b7-9f06-cf7e552c21ac" class="" dir="auto">O <strong>Protocolo IP</strong> é responsável principalmente por <strong>endereçar e encaminhar pacotes entre redes</strong>.</p><p id="402f6ce8-497f-801e-852b-c6bc148e1077" class="" dir="auto">A ideia fundamental é:</p><pre id="402f6ce8-497f-807a-bd03-cccee46e4d50" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">       IP DE ORIGEM
+            │
+            ▼
+       ┌─────────┐
+       │ PACOTE  │
+       │   IP    │
+       └─────────┘
+            │
+            ▼
+     ROTEADORES
+            │
+            ▼
+      IP DE DESTINO</code></pre><p id="402f6ce8-497f-80c0-abad-fa854084e9d6" class="" dir="auto">E é importante não confundir suas responsabilidades:</p><p id="402f6ce8-497f-8087-ac74-fdb74807a411" class="" dir="auto"><strong>IP → endereçamento e encaminhamento</strong></p><p id="402f6ce8-497f-8055-96c7-e36b1797a533" class="" dir="auto"><strong>TCP/UDP → transporte</strong></p><p id="402f6ce8-497f-8052-b63d-d23b9c03ebb2" class="" dir="auto"><strong>DNS → resolução de nomes</strong></p><p id="402f6ce8-497f-80c0-904a-e46bdee4fa65" class="" dir="auto"><strong>HTTP/HTTPS → comunicação da aplicação</strong></p><p id="402f6ce8-497f-8036-a9f7-e3feb083b036" class="" dir="auto"><strong>Ethernet/Wi-Fi → acesso à rede</strong></p><p id="402f6ce8-497f-8059-9787-d9271f8b9820" class="" dir="auto">Essa separação é fundamental para entender <strong>redes, segurança cibernética e posteriormente firewall, Nmap, Wireshark, IDS/IPS e análise de tráfego</strong>.</p></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

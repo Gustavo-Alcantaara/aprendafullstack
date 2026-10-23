@@ -1,0 +1,797 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Segurança Windows</title><meta name="data-notion-page-icon" content="/icons/lock_blue.svg"/><link rel="icon" href="https://app.notion.com/icons/lock_blue.svg"/><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+	/* Paint a complete callout box on every PDF page fragment. */
+	-webkit-box-decoration-break: clone;
+	box-decoration-break: clone;
+}
+
+/* For default-background callouts, render the border outline. */
+.callout.block-color-default_background {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+/*
+ * Toggles and callouts hold arbitrary content, so they can easily be taller
+ * than a page. They must stay breakable: avoiding breaks inside them makes
+ * Chromium push the whole block onto the next page, which leaves the previous
+ * page mostly empty before every long toggle.
+ */
+details,
+aside {
+	margin: 1.25em 0;
+}
+
+/* Keep a toggle's title on the same page as the start of its content. */
+summary {
+	page-break-after: avoid;
+	break-after: avoid;
+}
+
+/*
+ * Toggle headings render as <h1/h2/h3 style="display:inline-block"> inside
+ * <summary>. Without this reset, the heading's margin-top pushes it below the
+ * ::marker (▼), so the triangle and the title appear on separate lines.
+ */
+summary h1,
+summary h2,
+summary h3,
+summary h4 {
+	margin-top: 0;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding-inline: 0.125rem;
+	padding-block: 0.375rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+/*
+ * Render emoji icons using a ::before pseudo-element to keep the glyph
+ * out of the DOM textContent traversal. This avoids double-rendering icons
+ * in callouts and page titles.
+ * NOTE(slim/html-export-pseudo-icons): I can't tagref this because it will
+ * flag as a duplicate tag after codegen.
+ */
+.icon[data-emoji]::before {
+	content: attr(data-emoji);
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	margin-right: 0.4em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.tab {
+	margin: 1.25em 0;
+	padding-inline: 1rem;
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style><style>@import url('https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex-swap.min.css')</style></head><body><article id="402f6ce8-497f-80d3-aeb5-f66784296b94" class="page sans" data-notion-page-icon="/icons/lock_blue.svg"><header><div class="page-header-icon undefined"><img class="icon notion-static-icon" src="https://app.notion.com/icons/lock_blue.svg"/></div><h1 class="page-title" dir="auto">Segurança Windows</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><h1 id="402f6ce8-497f-807f-831b-cf5013c56eda" class="" dir="auto">Segurança em ambiente Windows</h1><h2 id="402f6ce8-497f-8044-94c1-e6badc2f6aea" class="" dir="auto">1. O que é segurança em ambiente Windows?</h2><p id="402f6ce8-497f-80da-85ed-cabc5baa45f4" class="" dir="auto">A segurança em ambiente Windows consiste no conjunto de recursos, configurações e práticas utilizados para proteger computadores com o sistema operacional Windows contra ameaças digitais, acessos não autorizados, malwares, roubo de informações e exploração de vulnerabilidades.</p><p id="402f6ce8-497f-803e-ad76-ee14c33fc652" class="" dir="auto">O Windows é amplamente utilizado em computadores pessoais, empresas, escolas e servidores. Por isso, é um alvo frequente de ataques cibernéticos.</p><p id="402f6ce8-497f-80ab-94d5-e59f8c4aae15" class="" dir="auto">A segurança do Windows envolve diferentes camadas de proteção, como:</p><ul id="402f6ce8-497f-80c0-a31a-e6b0780a5a3b" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Controle de usuários e permissões.</li></ul><ul id="402f6ce8-497f-80e4-9707-cd3a17442795" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Autenticação e proteção de contas.</li></ul><ul id="402f6ce8-497f-808c-9517-d8d7103082af" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Firewall e proteção de rede.</li></ul><ul id="402f6ce8-497f-805f-8c68-fa5fe9bbdbd2" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Antivírus e ferramentas de detecção de ameaças.</li></ul><ul id="402f6ce8-497f-802d-a20a-f14a56673d1d" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Atualizações de segurança.</li></ul><ul id="402f6ce8-497f-80fa-8250-c6fcdff65f87" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Criptografia de dados.</li></ul><ul id="402f6ce8-497f-808d-bf07-e04de77be771" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Monitoramento de eventos e atividades suspeitas.</li></ul><ul id="402f6ce8-497f-8039-a9b5-ca47fc0bf09f" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Backup e recuperação de arquivos.</li></ul><p id="402f6ce8-497f-80f8-8523-f950f11e211e" class="" dir="auto">Exemplo: se um usuário executar um arquivo malicioso recebido por e-mail, os mecanismos de segurança do Windows podem ajudar a identificar, bloquear ou limitar os danos causados por esse arquivo.</p><h2 id="402f6ce8-497f-80b3-befe-d8d0f8b471f6" class="" dir="auto">2. Principais recursos de segurança do Windows</h2><figure id="402f6ce8-497f-8037-8494-e05626273612" class="image" data-notion-image="https://images.openai.com/static-rsc-4/xg-aGp7LGC4oG3IoG9aq7WZt00ut4qTzb3DlshBJPqiG1UEj6XbqpelFyO8FWwQzEF7sEd1TWrnK1K0TL0wXdm02IsZNvNdCNIq3uWc_wjIsQdAYNdqj4WAjhfVw8vUQyIYAKcMPed0tEzlJ2mxFt95Ps33J15IDaC1C7-PKZsI?purpose=inline" dir="ltr"><a href="https://images.openai.com/static-rsc-4/xg-aGp7LGC4oG3IoG9aq7WZt00ut4qTzb3DlshBJPqiG1UEj6XbqpelFyO8FWwQzEF7sEd1TWrnK1K0TL0wXdm02IsZNvNdCNIq3uWc_wjIsQdAYNdqj4WAjhfVw8vUQyIYAKcMPed0tEzlJ2mxFt95Ps33J15IDaC1C7-PKZsI?purpose=inline"><img src="https://images.openai.com/static-rsc-4/xg-aGp7LGC4oG3IoG9aq7WZt00ut4qTzb3DlshBJPqiG1UEj6XbqpelFyO8FWwQzEF7sEd1TWrnK1K0TL0wXdm02IsZNvNdCNIq3uWc_wjIsQdAYNdqj4WAjhfVw8vUQyIYAKcMPed0tEzlJ2mxFt95Ps33J15IDaC1C7-PKZsI?purpose=inline"/></a></figure><p id="402f6ce8-497f-80a4-8f3c-f29872450d1b" class="" dir="auto">2.1. Segurança do Windows (Windows Security)</p><p id="402f6ce8-497f-8090-87a9-f44e637b2a56" class="" dir="auto">É o aplicativo que reúne diversos recursos de proteção do sistema, permitindo consultar o estado da segurança do dispositivo.</p><p id="402f6ce8-497f-80d4-86f5-c63074c48e29" class="" dir="auto">Entre suas áreas estão a proteção contra vírus e ameaças, o firewall, o controle de aplicativos e a segurança do dispositivo.</p><figure id="402f6ce8-497f-802f-b403-c25faeface3e" class="image" data-notion-image="https://images.openai.com/static-rsc-4/zXG7TeOLx1u9KNDb4_247JNHjtWHYBM9FXoVTWYTNJ0iJEXbImVfFPJ5SEIr_z9yq2vYlldbyO61NGuIek1e-HJYAVIyWdEs4DuYPZYjLLAJhMCr05C3lxwGPXLJmGrRZ18ro5VsXoz6fnRiIUZoLgupu1ZejCoTiOQBVTzUjSA?purpose=inline" dir="ltr"><a href="https://images.openai.com/static-rsc-4/zXG7TeOLx1u9KNDb4_247JNHjtWHYBM9FXoVTWYTNJ0iJEXbImVfFPJ5SEIr_z9yq2vYlldbyO61NGuIek1e-HJYAVIyWdEs4DuYPZYjLLAJhMCr05C3lxwGPXLJmGrRZ18ro5VsXoz6fnRiIUZoLgupu1ZejCoTiOQBVTzUjSA?purpose=inline"><img src="https://images.openai.com/static-rsc-4/zXG7TeOLx1u9KNDb4_247JNHjtWHYBM9FXoVTWYTNJ0iJEXbImVfFPJ5SEIr_z9yq2vYlldbyO61NGuIek1e-HJYAVIyWdEs4DuYPZYjLLAJhMCr05C3lxwGPXLJmGrRZ18ro5VsXoz6fnRiIUZoLgupu1ZejCoTiOQBVTzUjSA?purpose=inline"/></a></figure><p id="402f6ce8-497f-8067-9176-f07cab259e6b" class="" dir="auto">2.2. Microsoft Defender Antivirus</p><p id="402f6ce8-497f-80ce-8117-da2f1ee6cc9f" class="" dir="auto">É a solução antimalware integrada ao Windows. Ela identifica e ajuda a bloquear ameaças como vírus, trojans, spyware e ransomware.</p><p id="402f6ce8-497f-80f9-bd3e-cb1efc5e3e79" class="" dir="auto">Pode utilizar assinaturas de ameaças conhecidas, análise comportamental e proteção em tempo real para detectar atividades suspeitas.</p><figure id="402f6ce8-497f-80ce-933a-d2a454791d82" class="image" data-notion-image="https://images.openai.com/static-rsc-4/BNPA9gJM0I38_6nsI5b7zCjIjAxbX6XXuQflUzBBr78XovEq6Mg4DFFav2Z0kDxt01uEo1IPjik3PR5UB96YV7AFLRPIrX7iGVr5CnSGaCg1MbN1NkVtPdS2dFY_En0mEdf52lLCaJLc79vezUAhaD0XfVW9Q-bMiGErjCEmtNA?purpose=inline" dir="ltr"><a href="https://images.openai.com/static-rsc-4/BNPA9gJM0I38_6nsI5b7zCjIjAxbX6XXuQflUzBBr78XovEq6Mg4DFFav2Z0kDxt01uEo1IPjik3PR5UB96YV7AFLRPIrX7iGVr5CnSGaCg1MbN1NkVtPdS2dFY_En0mEdf52lLCaJLc79vezUAhaD0XfVW9Q-bMiGErjCEmtNA?purpose=inline"><img src="https://images.openai.com/static-rsc-4/BNPA9gJM0I38_6nsI5b7zCjIjAxbX6XXuQflUzBBr78XovEq6Mg4DFFav2Z0kDxt01uEo1IPjik3PR5UB96YV7AFLRPIrX7iGVr5CnSGaCg1MbN1NkVtPdS2dFY_En0mEdf52lLCaJLc79vezUAhaD0XfVW9Q-bMiGErjCEmtNA?purpose=inline"/></a></figure><p id="402f6ce8-497f-8098-8f77-d3e45fc5fe89" class="" dir="auto">2.3. Microsoft Defender Firewall</p><p id="402f6ce8-497f-80c6-8d47-cfbe91ed053b" class="" dir="auto">Controla o tráfego de rede que entra e sai do computador conforme as regras configuradas.</p><p id="402f6ce8-497f-802c-83b0-e6517807e2cf" class="" dir="auto">Por exemplo, pode bloquear conexões de entrada não autorizadas e limitar a comunicação de determinados aplicativos.</p><figure id="402f6ce8-497f-8092-8d32-c8ff4e026059" class="image" data-notion-image="https://images.openai.com/static-rsc-4/LYcyAVDmwSc-PFzmeKpkcIt_2EB0OmHJkMpTCC-QOq0hs2mb14NsTlyasYVuPSo2mSJcHoiRofTAKVqE1Dfqa1V5roecrKQgd7_RuOLCcojT644MqYuZ5il_bIL3ga3wk1v-c9QYnIKtSKzeUz0k9hXE7ld4zJunhflt4fil39w?purpose=inline" dir="ltr"><a href="https://images.openai.com/static-rsc-4/LYcyAVDmwSc-PFzmeKpkcIt_2EB0OmHJkMpTCC-QOq0hs2mb14NsTlyasYVuPSo2mSJcHoiRofTAKVqE1Dfqa1V5roecrKQgd7_RuOLCcojT644MqYuZ5il_bIL3ga3wk1v-c9QYnIKtSKzeUz0k9hXE7ld4zJunhflt4fil39w?purpose=inline"><img src="https://images.openai.com/static-rsc-4/LYcyAVDmwSc-PFzmeKpkcIt_2EB0OmHJkMpTCC-QOq0hs2mb14NsTlyasYVuPSo2mSJcHoiRofTAKVqE1Dfqa1V5roecrKQgd7_RuOLCcojT644MqYuZ5il_bIL3ga3wk1v-c9QYnIKtSKzeUz0k9hXE7ld4zJunhflt4fil39w?purpose=inline"/></a></figure><p id="402f6ce8-497f-80be-bb7a-c8908ab193c8" class="" dir="auto">2.4. BitLocker</p><p id="402f6ce8-497f-80bf-b1ea-f52ea1999b93" class="" dir="auto">É uma tecnologia de criptografia de unidades disponível em edições compatíveis do Windows.</p><p id="402f6ce8-497f-80be-84bc-d927dbd8a828" class="" dir="auto">Ela ajuda a impedir que alguém leia os arquivos de um disco simplesmente removendo-o do computador e conectando-o a outro dispositivo. A proteção depende da configuração correta e da gestão das chaves de recuperação.</p><h2 id="402f6ce8-497f-808f-b680-e5da4b8f57d2" class="" dir="auto">3. Controle de usuários e permissões</h2><p id="402f6ce8-497f-80cd-a5c5-d8ad25a612d8" class="" dir="auto">O Windows permite criar contas com diferentes níveis de privilégio, limitando as ações que cada usuário pode realizar.</p><p id="402f6ce8-497f-8055-8c0c-db58200f2da3" class="" dir="auto">Os dois tipos mais conhecidos são:</p><table id="402f6ce8-497f-8005-b9c1-f2fde49fa557" class="simple-table" dir="ltr"><thead class="simple-table-header"><tr id="402f6ce8-497f-805b-a3b9-ed61b0ed1665" dir="ltr"><th id="CWPl" class="simple-table-header-color simple-table-header">Tipo de conta</th><th id="w}^|" class="simple-table-header-color simple-table-header">Características</th></tr></thead><tbody><tr id="402f6ce8-497f-8047-a914-de3b0c2aab88" dir="ltr"><td id="CWPl" class="">Usuário padrão</td><td id="w}^|" class="">Pode executar tarefas comuns, mas tem restrições para alterar configurações críticas.</td></tr><tr id="402f6ce8-497f-8016-aeed-fcc9f2efd7e0" dir="ltr"><td id="CWPl" class="">Administrador</td><td id="w}^|" class="">Pode instalar programas, alterar configurações do sistema e realizar tarefas privilegiadas.</td></tr></tbody></table><h3 id="402f6ce8-497f-80ce-81fa-cf6fe851e62f" class="" dir="auto">Princípio do menor privilégio</h3><p id="402f6ce8-497f-8022-8bc9-edee69f78f0f" class="" dir="auto">Esse princípio determina que cada usuário ou aplicativo deve receber somente as permissões necessárias para realizar suas funções.</p><p id="402f6ce8-497f-8078-a8fc-e810aea59829" class="" dir="auto">Por exemplo, uma pessoa que utiliza o computador para estudar e navegar na internet geralmente não precisa executar todas as atividades com privilégios administrativos.</p><p id="402f6ce8-497f-804b-870f-f58d70e6df61" class="" dir="auto">O Windows também utiliza o UAC (User Account Control), ou Controle de Conta de Usuário, que pode solicitar confirmação ou credenciais antes de determinadas operações administrativas.</p><p id="402f6ce8-497f-802f-a087-f8dbd63dfd41" class="" dir="auto">Isso ajuda a reduzir o risco de alterações indevidas, embora não substitua outras medidas de segurança.</p><h2 id="402f6ce8-497f-804e-a587-e1186601eece" class="" dir="auto">4. Autenticação e proteção de contas</h2><p id="402f6ce8-497f-808b-80b0-d3b375558e3c" class="" dir="auto">A autenticação é o processo utilizado para verificar se uma pessoa realmente é quem afirma ser.</p><p id="402f6ce8-497f-8051-b779-c356872b59cc" class="" dir="auto">No Windows, isso pode envolver:</p><ul id="402f6ce8-497f-80e5-bfdf-ec39349cf348" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Senha: segredo utilizado para acessar uma conta.</li></ul><ul id="402f6ce8-497f-8058-9595-f1af12384f31" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Windows Hello: permite autenticação por métodos compatíveis, como reconhecimento facial, impressão digital ou PIN.</li></ul><ul id="402f6ce8-497f-80d3-b612-d8cfa387d7d6" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Autenticação multifator (MFA): utiliza mais de um fator de verificação quando o serviço e a configuração oferecem suporte.</li></ul><ul id="402f6ce8-497f-8055-8326-fa1ebae14473" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Bloqueio de tela: impede que outra pessoa utilize livremente uma sessão deixada aberta.</li></ul><p id="402f6ce8-497f-8081-a360-d3d4d819b329" class="" dir="auto">Uma senha forte deve ser difícil de adivinhar e não deve ser reutilizada em diversos serviços.</p><p id="402f6ce8-497f-80e0-9158-e5c8269e6d0f" class="" dir="auto">Exemplo de risco: se uma senha utilizada no Windows também for utilizada em um site que sofreu vazamento de dados, um invasor poderá tentar usar essa mesma senha para acessar a conta.</p><p id="402f6ce8-497f-804c-8481-f983318a2ea5" class="" dir="auto">Por isso, é importante utilizar senhas exclusivas, proteger os métodos de recuperação e ativar a autenticação multifator quando disponível.</p><h2 id="402f6ce8-497f-8082-873a-e174a3fa5fde" class="" dir="auto">5. Atualizações e gerenciamento de vulnerabilidades</h2><p id="402f6ce8-497f-80e1-8f0c-dbbd69074a97" class="" dir="auto">As atualizações do Windows corrigem falhas de segurança, resolvem problemas e melhoram a estabilidade do sistema.</p><p id="402f6ce8-497f-807f-bed7-cf5149e03f8f" class="" dir="auto">Uma vulnerabilidade pode permitir que um invasor execute código, obtenha privilégios indevidos ou acesse informações protegidas.</p><p id="402f6ce8-497f-80ba-af40-ee7159dc6419" class="" dir="auto">O gerenciamento de vulnerabilidades envolve:</p><ol type="1" id="402f6ce8-497f-80c8-b762-e2d0fd9455b1" class="numbered-list" start="1" dir="auto"><li>Identificar o sistema operacional e os programas instalados.</li></ol><ol type="1" id="402f6ce8-497f-802d-8b2e-d197e06757a8" class="numbered-list" start="2" dir="auto"><li>Verificar atualizações e avisos de segurança.</li></ol><ol type="1" id="402f6ce8-497f-8072-8493-d3cdc961d490" class="numbered-list" start="3" dir="auto"><li>Aplicar correções.</li></ol><ol type="1" id="402f6ce8-497f-80d3-b076-c9ec63c4af2f" class="numbered-list" start="4" dir="auto"><li>Reiniciar o computador quando necessário.</li></ol><ol type="1" id="402f6ce8-497f-8014-8ae3-ea5d953da931" class="numbered-list" start="5" dir="auto"><li>Confirmar se a atualização foi aplicada corretamente.</li></ol><ol type="1" id="402f6ce8-497f-80b1-ae23-d9f21bec2a6c" class="numbered-list" start="6" dir="auto"><li>Substituir sistemas que não recebem mais suporte, quando possível.</li></ol><p id="402f6ce8-497f-80fa-a01e-d512bc56d546" class="" dir="auto">Também é necessário atualizar navegadores, leitores de PDF, ferramentas de desenvolvimento e outros aplicativos, pois as vulnerabilidades não estão restritas ao próprio Windows.</p><h2 id="402f6ce8-497f-800f-9ad9-d58169c5e2ff" class="" dir="auto">6. Firewall e segurança de rede</h2><p id="402f6ce8-497f-80f9-afc9-ff9a973647f2" class="" dir="auto">O firewall ajuda a controlar as comunicações entre o computador e outras redes.</p><p id="402f6ce8-497f-80ab-90c2-f409265a0a71" class="" dir="auto">O Microsoft Defender Firewall permite trabalhar com diferentes perfis de rede:</p><ul id="402f6ce8-497f-8056-a7f7-ce6d6a4c8072" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Domínio: utilizado em redes corporativas gerenciadas por domínio.</li></ul><ul id="402f6ce8-497f-80cd-8f2b-fc7dba94fdf5" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Privada: destinada a redes consideradas confiáveis, como uma rede doméstica devidamente configurada.</li></ul><ul id="402f6ce8-497f-80b6-887f-f3cb5e2d75c0" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Pública: indicada para redes não confiáveis, como as de aeroportos, hotéis e cafeterias.</li></ul><p id="402f6ce8-497f-8000-9a80-c8bea2673cd2" class="" dir="auto">Em redes públicas, é importante manter as proteções adequadas e evitar compartilhar arquivos ou serviços desnecessariamente.</p><h3 id="402f6ce8-497f-8061-8a9d-da02b8c995d9" class="" dir="auto">Portas e conexões</h3><p id="402f6ce8-497f-8006-8f5c-d5567fc49837" class="" dir="auto">Uma porta de rede identifica um ponto lógico de comunicação utilizado por serviços e aplicativos.</p><p id="402f6ce8-497f-8031-94cb-ffeae25d036b" class="" dir="auto">Por exemplo, os serviços web podem utilizar as portas TCP 80 e 443 para HTTP e HTTPS, respectivamente.</p><p id="402f6ce8-497f-8009-810f-f8f22f9b94aa" class="" dir="auto">Se um computador tiver serviços desnecessários acessíveis pela rede, sua superfície de ataque aumenta.</p><p id="402f6ce8-497f-80fc-b321-c9ed1c0444b1" class="" dir="auto">Para investigar conexões no Windows, é possível utilizar comandos como:</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="402f6ce8-497f-8075-9a06-c443894954ab" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">netstat -ano</code></pre><p id="402f6ce8-497f-80f8-a5d7-c40c8805a8eb" class="" dir="auto">Esse comando lista conexões de rede e portas em uso, incluindo o identificador do processo associado.</p><p id="402f6ce8-497f-8057-89d5-d935b05b1d6e" class="" dir="auto">Para consultar regras de firewall pelo PowerShell, em um terminal apropriado:</p><pre id="402f6ce8-497f-8085-819d-d3e564e28b57" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">Get-NetFirewallProfile</code></pre><p id="402f6ce8-497f-8032-bc88-ff877d39e96f" class="" dir="auto">Esses comandos ajudam na análise, mas a presença de uma conexão ou porta aberta não significa, por si só, que exista um ataque.</p><h2 id="402f6ce8-497f-80ae-8eef-fef005201f3c" class="" dir="auto">7. Proteção contra malwares</h2><p id="402f6ce8-497f-8073-827d-e2b19dd3e20e" class="" dir="auto">Malware é qualquer software desenvolvido para executar atividades maliciosas, como roubar dados, espionar usuários, danificar arquivos ou permitir controle remoto indevido.</p><p id="402f6ce8-497f-80c9-be94-fe94d990d846" class="" dir="auto">Os principais tipos incluem:</p><table id="402f6ce8-497f-801e-8efb-d64b0694a8d7" class="simple-table" dir="ltr"><thead class="simple-table-header"><tr id="402f6ce8-497f-8012-8b50-eedd47366033" dir="ltr"><th id="gixP" class="simple-table-header-color simple-table-header">Malware</th><th id="`eD}" class="simple-table-header-color simple-table-header">Funcionamento</th></tr></thead><tbody><tr id="402f6ce8-497f-80a6-95a3-c161c3d81c03" dir="ltr"><td id="gixP" class="">Vírus</td><td id="`eD}" class="">Pode infectar arquivos e se espalhar quando eles são executados ou compartilhados.</td></tr><tr id="402f6ce8-497f-80a4-afae-c587857e7b1a" dir="ltr"><td id="gixP" class="">Worm</td><td id="`eD}" class="">Pode se propagar automaticamente entre sistemas ou dispositivos.</td></tr><tr id="402f6ce8-497f-8001-afad-f43155257e29" dir="ltr"><td id="gixP" class="">Trojan</td><td id="`eD}" class="">Disfarça-se de programa legítimo para enganar o usuário.</td></tr><tr id="402f6ce8-497f-809a-bc84-cb2a42b0c9f5" dir="ltr"><td id="gixP" class="">Ransomware</td><td id="`eD}" class="">Criptografa arquivos ou bloqueia o acesso a dados, geralmente para exigir resgate.</td></tr><tr id="402f6ce8-497f-80ea-ad45-dcfcb4640ede" dir="ltr"><td id="gixP" class="">Spyware</td><td id="`eD}" class="">Coleta informações sobre o usuário sem autorização.</td></tr><tr id="402f6ce8-497f-8095-ac7c-e7efcfcfe390" dir="ltr"><td id="gixP" class="">Rootkit</td><td id="`eD}" class="">Busca ocultar componentes maliciosos e manter acesso privilegiado.</td></tr></tbody></table><h3 id="402f6ce8-497f-804c-a55a-cc003a2cc004" class="" dir="auto">Como o Windows ajuda a combater essas ameaças?</h3><p id="402f6ce8-497f-809f-b677-cee13af6ac26" class="" dir="auto">O sistema oferece recursos como:</p><ul id="402f6ce8-497f-80b0-8749-f87c766711f9" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Proteção em tempo real do Microsoft Defender Antivirus.</li></ul><ul id="402f6ce8-497f-8086-a0be-c67e6de952db" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Verificação de arquivos e aplicativos.</li></ul><ul id="402f6ce8-497f-80a4-9e09-d1814cbaed0e" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Proteção baseada em reputação e recursos do SmartScreen.</li></ul><ul id="402f6ce8-497f-80e5-8f20-e325778e7935" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Controle de aplicativos potencialmente indesejados, conforme a configuração.</li></ul><ul id="402f6ce8-497f-8064-8e8e-d8f87a38141f" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Proteções adicionais contra técnicas de exploração, dependendo da versão e das políticas aplicadas.</li></ul><p id="402f6ce8-497f-8002-af6f-cd7a10751d07" class="" dir="auto">Mesmo com esses recursos, o usuário deve evitar executar arquivos suspeitos, instalar programas de fontes desconhecidas e abrir anexos inesperados.</p><h2 id="402f6ce8-497f-8006-99f2-c68ae4ae97aa" class="" dir="auto">8. Windows Defender SmartScreen</h2><p id="402f6ce8-497f-8040-a125-fd6a40738da0" class="" dir="auto">O Microsoft Defender SmartScreen ajuda a avaliar a reputação de sites, downloads e aplicativos, alertando sobre conteúdos conhecidos como suspeitos ou potencialmente perigosos.</p><p id="402f6ce8-497f-80d3-81b9-e8980cbdedb8" class="" dir="auto">Por exemplo, ao baixar um instalador desconhecido, o SmartScreen pode exibir um aviso para que o usuário avalie o risco antes de continuar.</p><p id="402f6ce8-497f-8056-9a6b-f39423848adc" class="" dir="auto">É importante compreender que:</p><ul id="402f6ce8-497f-805b-a36b-f25c166fec36" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Um alerta não significa necessariamente que o arquivo é malicioso.</li></ul><ul id="402f6ce8-497f-80cf-abc5-d25bf370d6c6" class="bulleted-list" dir="auto"><li style="list-style-type:disc">A ausência de alerta não garante que o arquivo seja seguro.</li></ul><ul id="402f6ce8-497f-80f2-89e8-ee6e53786ee3" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Assinaturas digitais e reputação ajudam na avaliação, mas não garantem, isoladamente, a legitimidade de um programa.</li></ul><p id="402f6ce8-497f-80fd-aecf-c64b71fdbfc3" class="" dir="auto">A prática recomendada é baixar programas dos sites oficiais ou de fontes confiáveis.</p><h2 id="402f6ce8-497f-8041-9d56-c8978140d8f5" class="" dir="auto">9. Criptografia e proteção de dados</h2><p id="402f6ce8-497f-80d8-9caa-cdd88539faeb" class="" dir="auto">A criptografia transforma informações legíveis em dados que só podem ser recuperados com os meios criptográficos apropriados.</p><p id="402f6ce8-497f-80c9-b29e-f049002f749b" class="" dir="auto">No Windows, a proteção dos dados pode envolver:</p><ul id="402f6ce8-497f-8091-abf7-f4648cdacf62" class="bulleted-list" dir="auto"><li style="list-style-type:disc">BitLocker: criptografia de unidades inteiras em edições compatíveis.</li></ul><ul id="402f6ce8-497f-8054-ae1b-d0fc5ca0eb2d" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Criptografia de dispositivo: recurso disponível em determinados dispositivos e configurações.</li></ul><ul id="402f6ce8-497f-8078-b3aa-f4577c839c74" class="bulleted-list" dir="auto"><li style="list-style-type:disc">EFS (Encrypting File System): criptografia de arquivos em sistemas de arquivos e edições compatíveis.</li></ul><ul id="402f6ce8-497f-8012-a677-fb03eea1f0af" class="bulleted-list" dir="auto"><li style="list-style-type:disc">TLS: proteção das comunicações de rede quando os aplicativos e serviços o utilizam corretamente.</li></ul><p id="402f6ce8-497f-80af-88be-f8a2c5f14404" class="" dir="auto">É importante diferenciar a criptografia do disco da proteção da conta. Uma senha de login forte não substitui necessariamente a criptografia do armazenamento.</p><p id="402f6ce8-497f-80d8-a8e8-dbf32f3e4af2" class="" dir="auto">Também é fundamental manter a chave de recuperação do BitLocker em local seguro. Perdê-la pode dificultar ou impedir o acesso aos dados protegidos.</p><h2 id="402f6ce8-497f-8087-be8e-d3b21a3e0aa8" class="" dir="auto">10. Segurança de inicialização e integridade do sistema</h2><p id="402f6ce8-497f-80f6-bc12-ef3fad31152b" class="" dir="auto">O Windows conta com tecnologias destinadas a proteger o processo de inicialização e dificultar a execução de componentes não confiáveis.</p><p id="402f6ce8-497f-8040-9c21-e2160aee89b6" class="" dir="auto">Entre elas estão:</p><ul id="402f6ce8-497f-8006-a757-c17b9dee7272" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Secure Boot: ajuda a impedir a execução de componentes de inicialização não confiáveis.</li></ul><ul id="402f6ce8-497f-8096-86d7-ed6db5032dca" class="bulleted-list" dir="auto"><li style="list-style-type:disc">TPM (Trusted Platform Module): componente de segurança que pode armazenar ou proteger material criptográfico.</li></ul><ul id="402f6ce8-497f-8002-9576-fbb2ecaeda6b" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Virtualization-Based Security (VBS): utiliza recursos de virtualização para isolar determinadas funções de segurança.</li></ul><ul id="402f6ce8-497f-80ed-930a-cf9ef17e0456" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Memory Integrity: recurso que ajuda a proteger a integridade do código executado em áreas sensíveis do sistema, em dispositivos compatíveis.</li></ul><p id="402f6ce8-497f-8040-ad57-f7e94a5ccab5" class="" dir="auto">Essas tecnologias são especialmente importantes porque alguns ataques tentam comprometer o computador antes mesmo de o sistema operacional terminar de iniciar.</p><p id="402f6ce8-497f-8045-8eb4-ff5f493b0460" class="" dir="auto">A disponibilidade depende do hardware, da edição do Windows e da configuração do dispositivo.</p><h2 id="402f6ce8-497f-807a-9ff7-d1a2e26073dd" class="" dir="auto">11. Logs e monitoramento de eventos</h2><p id="402f6ce8-497f-808c-9027-ff0c5086d302" class="" dir="auto">Os logs são registros de atividades realizadas pelo sistema, por aplicativos e por serviços.</p><p id="402f6ce8-497f-806f-9a67-f189f8e5b5d7" class="" dir="auto">No Windows, o Visualizador de Eventos (Event Viewer) permite consultar registros relacionados a:</p><ul id="402f6ce8-497f-8000-9629-c7050ea8fde2" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Logins bem-sucedidos e falhos.</li></ul><ul id="402f6ce8-497f-806d-9b4e-fe28781e7734" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Erros do sistema.</li></ul><ul id="402f6ce8-497f-8031-9a0d-e9d0dcaeedae" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Instalação e funcionamento de serviços.</li></ul><ul id="402f6ce8-497f-803e-8320-fb220b0faf18" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Alterações em determinados componentes.</li></ul><ul id="402f6ce8-497f-80c5-a69c-dd140cc80573" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Eventos de segurança registrados conforme a auditoria configurada.</li></ul><p id="402f6ce8-497f-8053-8443-dcbd04e01331" class="" dir="auto">É possível abrir o Visualizador de Eventos procurando por <code>Visualizador de Eventos</code> no menu Iniciar ou executando:</p><pre id="402f6ce8-497f-80a8-b1bc-deb4e5c4d794" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">eventvwr.msc</code></pre><p id="402f6ce8-497f-8041-add9-fcc218d07e73" class="" dir="auto">O monitoramento ajuda a identificar comportamentos anormais, mas exige análise. Um login falho isolado, por exemplo, pode ser apenas um erro de digitação; várias tentativas repetidas podem justificar uma investigação.</p><p id="402f6ce8-497f-8020-85a8-d7e1afa30480" class="" dir="auto">Em ambientes corporativos, esses registros podem ser encaminhados a soluções centralizadas de monitoramento, como um SIEM.</p><h2 id="402f6ce8-497f-805b-b04f-f98e8e264a0d" class="" dir="auto">12. Segurança de arquivos e pastas</h2><p id="402f6ce8-497f-801e-a60b-c5b80e69f593" class="" dir="auto">O Windows utiliza permissões para controlar quem pode ler, modificar, executar ou excluir arquivos.</p><p id="402f6ce8-497f-8068-a088-cb1c7f94f6d7" class="" dir="auto">Em volumes compatíveis com NTFS, as permissões podem ser configuradas por usuário ou grupo.</p><p id="402f6ce8-497f-8014-939e-e6ece646a9d5" class="" dir="auto">As permissões comuns incluem:</p><ul id="402f6ce8-497f-8081-9d20-fcd5cce09834" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Leitura: permite consultar o conteúdo.</li></ul><ul id="402f6ce8-497f-8051-836f-f7d1631f7662" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Gravação: permite criar ou modificar dados.</li></ul><ul id="402f6ce8-497f-808d-b679-cedb7fd8d762" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Execução: permite executar determinados arquivos ou acessar pastas conforme as permissões aplicáveis.</li></ul><ul id="402f6ce8-497f-8004-93ee-e193f372a978" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Modificação: permite realizar alterações mais amplas.</li></ul><ul id="402f6ce8-497f-80f4-8f45-e8608e841953" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Controle total: inclui permissões administrativas sobre o objeto, conforme a configuração.</li></ul><p id="402f6ce8-497f-8004-b4e5-e08d99674b12" class="" dir="auto">Uma boa prática é evitar conceder acesso amplo a pastas que contenham dados pessoais ou corporativos.</p><p id="402f6ce8-497f-8037-b562-f3a0498aa22e" class="" dir="auto">Além disso, as permissões devem ser revisadas periodicamente, especialmente em computadores compartilhados e ambientes empresariais.</p><h2 id="402f6ce8-497f-80ca-be66-f666be60b1f2" class="" dir="auto">13. Backup e recuperação</h2><p id="402f6ce8-497f-808d-9ffc-e41ab99fa6d9" class="" dir="auto">O backup é uma cópia dos dados que permite recuperá-los em caso de exclusão acidental, falha de hardware, corrupção ou ataque de ransomware.</p><p id="402f6ce8-497f-80dc-83c6-dcf2624b7c48" class="" dir="auto">Uma estratégia bastante utilizada é a regra 3-2-1:</p><ul id="402f6ce8-497f-8068-98dc-cf448d3aa278" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Manter três cópias dos dados.</li></ul><ul id="402f6ce8-497f-8088-8a2b-c2d44f308f59" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Utilizar dois tipos diferentes de armazenamento.</li></ul><ul id="402f6ce8-497f-80cd-9d3e-f644fe011a39" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Manter uma cópia fora do ambiente principal.</li></ul><p id="402f6ce8-497f-80db-9345-f0e7605ae5ad" class="" dir="auto">Uma cópia desconectada ou protegida contra alterações é particularmente importante, pois alguns ransomwares tentam atingir também os backups acessíveis.</p><p id="402f6ce8-497f-8025-a65c-f6c6aee668b3" class="" dir="auto">O backup só é realmente confiável quando sua restauração é testada regularmente.</p><h2 id="402f6ce8-497f-80bc-8147-c5124edf645e" class="" dir="auto">14. Ferramentas úteis para segurança no Windows</h2><p id="402f6ce8-497f-80fb-8358-f1c43b384e4d" class="" dir="auto">Estas ferramentas podem auxiliar no diagnóstico e na investigação de problemas.</p><table id="402f6ce8-497f-80db-9c90-eea8e5141067" class="simple-table" dir="ltr"><thead class="simple-table-header"><tr id="402f6ce8-497f-8040-af08-e5e20609d278" dir="ltr"><th id="?~AP" class="simple-table-header-color simple-table-header">Ferramenta</th><th id="V^SP" class="simple-table-header-color simple-table-header">Finalidade</th></tr></thead><tbody><tr id="402f6ce8-497f-8000-a6ee-dd0efd1441e3" dir="ltr"><td id="?~AP" class="">Segurança do Windows</td><td id="V^SP" class="">Consultar e gerenciar proteções integradas.</td></tr><tr id="402f6ce8-497f-80f2-99f5-f7b25b9bc474" dir="ltr"><td id="?~AP" class="">Gerenciador de Tarefas</td><td id="V^SP" class="">Ver processos, consumo de recursos e aplicativos em execução.</td></tr><tr id="402f6ce8-497f-808b-a153-dfd19d22bac0" dir="ltr"><td id="?~AP" class="">Visualizador de Eventos</td><td id="V^SP" class="">Analisar registros do sistema e de segurança.</td></tr><tr id="402f6ce8-497f-8022-beef-c179cc6b3886" dir="ltr"><td id="?~AP" class="">Gerenciador de Dispositivos</td><td id="V^SP" class="">Verificar dispositivos e seus drivers.</td></tr><tr id="402f6ce8-497f-80fb-a2f1-d25614cbb238" dir="ltr"><td id="?~AP" class=""><code>Windows Update</code></td><td id="V^SP" class="">Consultar e instalar atualizações.</td></tr><tr id="402f6ce8-497f-8088-b8db-feab4859a1f2" dir="ltr"><td id="?~AP" class=""><code>netstat -ano</code></td><td id="V^SP" class="">Consultar conexões e portas de rede.</td></tr><tr id="402f6ce8-497f-80ea-9cc1-c4abda1816ca" dir="ltr"><td id="?~AP" class=""><code>Get-NetFirewallProfile</code></td><td id="V^SP" class="">Consultar o estado dos perfis de firewall.</td></tr><tr id="402f6ce8-497f-80f9-b100-fe3b8b72cc71" dir="ltr"><td id="?~AP" class=""><code>sfc /scannow</code></td><td id="V^SP" class="">Verificar e tentar reparar arquivos protegidos do sistema.</td></tr><tr id="402f6ce8-497f-8038-9b09-f8c5c63f214a" dir="ltr"><td id="?~AP" class=""><code>DISM</code></td><td id="V^SP" class="">Verificar ou reparar a imagem do Windows, conforme os parâmetros utilizados.</td></tr></tbody></table><p id="402f6ce8-497f-802e-9f22-f90932a8e257" class="" dir="auto">Exemplo de verificação dos arquivos protegidos do sistema, executada em um terminal com privilégios administrativos quando necessário:</p><pre id="402f6ce8-497f-80b1-87db-e141a315db8b" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">sfc /scannow</code></pre><p id="402f6ce8-497f-80ee-a1f9-eb9b32ee56c9" class="" dir="auto">Esse comando procura problemas de integridade em arquivos protegidos do Windows. Ele não é um antivírus e não substitui uma investigação de incidentes.</p><h2 id="402f6ce8-497f-8014-a964-ddf4fd8efd59" class="" dir="auto">15. Boas práticas de segurança no Windows</h2><p id="402f6ce8-497f-808c-97ac-ee9cc28af75a" class="" dir="auto">Para manter um computador mais protegido, recomenda-se:</p><ol type="1" id="402f6ce8-497f-80b6-81e5-e50297328fab" class="numbered-list" start="1" dir="auto"><li>Manter o Windows e os aplicativos atualizados.</li></ol><ol type="1" id="402f6ce8-497f-8040-9efb-d0425d7bd128" class="numbered-list" start="2" dir="auto"><li>Deixar o antivírus e o firewall ativos, salvo em configurações administradas de forma segura.</li></ol><ol type="1" id="402f6ce8-497f-806e-96ae-ee56e96d78a9" class="numbered-list" start="3" dir="auto"><li>Utilizar uma conta padrão para atividades cotidianas quando viável.</li></ol><ol type="1" id="402f6ce8-497f-8067-8bc5-fd7d9788e461" class="numbered-list" start="4" dir="auto"><li>Usar senhas exclusivas e autenticação multifator.</li></ol><ol type="1" id="402f6ce8-497f-80e1-9ec3-def1fd7e8553" class="numbered-list" start="5" dir="auto"><li>Baixar programas de fontes confiáveis.</li></ol><ol type="1" id="402f6ce8-497f-805e-b508-e2ae0c7b619c" class="numbered-list" start="6" dir="auto"><li>Evitar executar anexos e arquivos inesperados.</li></ol><ol type="1" id="402f6ce8-497f-8072-b953-efbd9bc571bd" class="numbered-list" start="7" dir="auto"><li>Bloquear a tela ao se afastar do computador.</li></ol><ol type="1" id="402f6ce8-497f-80fd-a5de-d45e55cf0290" class="numbered-list" start="8" dir="auto"><li>Criptografar o armazenamento quando houver suporte e necessidade.</li></ol><ol type="1" id="402f6ce8-497f-8091-9341-ee20119429bd" class="numbered-list" start="9" dir="auto"><li>Realizar backups e testar a restauração.</li></ol><ol type="1" id="402f6ce8-497f-805b-bf66-c152eb420600" class="numbered-list numbered-list-digits-2" start="10" dir="auto"><li>Investigar alertas de segurança e atividades incomuns.</li></ol><ol type="1" id="402f6ce8-497f-803c-afa0-d7c8598de9b7" class="numbered-list numbered-list-digits-2" start="11" dir="auto"><li>Desinstalar aplicativos desnecessários.</li></ol><ol type="1" id="402f6ce8-497f-8043-9151-d3a4f0e58bfb" class="numbered-list numbered-list-digits-2" start="12" dir="auto"><li>Substituir versões do Windows que já não recebem atualizações de segurança.</li></ol><h2 id="402f6ce8-497f-8055-9f9d-d5d7393dffe3" class="" dir="auto">16. Exemplo prático: protegendo um computador Windows</h2><p id="402f6ce8-497f-8007-8962-f06f40f27ee6" class="" dir="auto">Imagine que você utiliza o computador para estudar programação, navegar na internet e desenvolver projetos.</p><p id="402f6ce8-497f-80c0-90a3-c2bfbc26a8e2" class="" dir="auto">Uma configuração básica de segurança pode seguir esta sequência:</p><p id="402f6ce8-497f-807b-8822-cd34c5f37dd9" class="" dir="auto">1. Verificar as proteções</p><p id="402f6ce8-497f-80ca-a530-e9feec45cb08" class="" dir="auto">Abra o aplicativo Segurança do Windows e confira o antivírus, o firewall e os alertas disponíveis.</p><p id="402f6ce8-497f-80e5-a759-c05522951322" class="" dir="auto">2. Atualizar o sistema</p><p id="402f6ce8-497f-805c-8ca4-e469f79650bc" class="" dir="auto">Entre no Windows Update e instale as atualizações disponíveis.</p><p id="402f6ce8-497f-806e-b8d5-e959904ad833" class="" dir="auto">3. Revisar os aplicativos</p><p id="402f6ce8-497f-80ec-b42e-f1041111de7e" class="" dir="auto">Remova programas desnecessários e investigue aplicativos desconhecidos que iniciam com o sistema.</p><p id="402f6ce8-497f-80ed-8076-dc05766fcdab" class="" dir="auto">4. Proteger os arquivos</p><p id="402f6ce8-497f-801b-9e97-ef23a1c5b81b" class="" dir="auto">Configure backups e avalie a criptografia do disco, mantendo a chave de recuperação em segurança.</p><p id="402f6ce8-497f-8061-8111-c73d6982f0ae" class="" dir="auto">5. Investigar comportamentos suspeitos</p><p id="402f6ce8-497f-80af-b25a-c359ae86f5f1" class="" dir="auto">Consulte os registros de eventos e as conexões de rede quando houver sinais de atividade incomum.</p><h2 id="402f6ce8-497f-8046-a08b-cee9b0d9c7d7" class="" dir="auto">17. Relação com a cibersegurança</h2><p id="402f6ce8-497f-80d0-8e9c-c6a7308599a0" class="" dir="auto">A segurança em ambiente Windows se conecta diretamente a diversos conceitos da cibersegurança:</p><ul id="402f6ce8-497f-8081-8101-e203f52eb8e9" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Gestão de vulnerabilidades: identificar e corrigir falhas do sistema.</li></ul><ul id="402f6ce8-497f-80e3-b819-ecbd797753cb" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Controle de acesso: limitar as ações de usuários e aplicativos.</li></ul><ul id="402f6ce8-497f-8032-becc-fe157ded71a3" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Segurança de redes: controlar conexões e portas.</li></ul><ul id="402f6ce8-497f-8054-ac59-fcac08861097" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Análise de malware: identificar e compreender programas maliciosos.</li></ul><ul id="402f6ce8-497f-8008-a7b7-ef635533f2ec" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Resposta a incidentes: detectar, conter e investigar atividades suspeitas.</li></ul><ul id="402f6ce8-497f-80c1-9aa8-e27ff5086502" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Criptografia: proteger dados armazenados e transmitidos.</li></ul><ul id="402f6ce8-497f-805d-8c40-d00707e14749" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Monitoramento: utilizar logs para identificar possíveis ataques.</li></ul><p id="402f6ce8-497f-8056-b130-fcd04735bd2e" class="" dir="auto">Esses mecanismos contribuem para os três pilares da segurança da informação: confidencialidade, integridade e disponibilidade.</p><h2 id="402f6ce8-497f-8093-b3c0-eff6ef7fd4a1" class="" dir="auto">Resumo para anotações</h2><p id="402f6ce8-497f-80d2-bdf8-dfb901d0dd02" class="" dir="auto">A segurança em ambiente Windows é o conjunto de recursos e práticas destinados a proteger o sistema operacional, seus usuários, aplicativos e dados contra ameaças digitais. Entre os principais mecanismos estão o Microsoft Defender Antivirus, o firewall, o UAC, as permissões de arquivos, as atualizações de segurança, a criptografia com BitLocker, o Secure Boot, o monitoramento de eventos e os backups.</p><p id="402f6ce8-497f-80c0-a67b-ee2cfa115921" class="" dir="auto">A proteção eficaz depende da combinação entre recursos técnicos, configurações corretas e comportamento seguro do usuário. Nenhuma ferramenta isolada garante proteção total; por isso, o ideal é utilizar várias camadas de segurança e mantê-las atualizadas.</p></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

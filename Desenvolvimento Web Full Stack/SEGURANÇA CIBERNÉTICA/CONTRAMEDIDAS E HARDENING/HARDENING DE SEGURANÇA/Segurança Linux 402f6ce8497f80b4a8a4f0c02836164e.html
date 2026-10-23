@@ -1,0 +1,797 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Segurança Linux</title><meta name="data-notion-page-icon" content="/icons/lock_blue.svg"/><link rel="icon" href="https://app.notion.com/icons/lock_blue.svg"/><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+	/* Paint a complete callout box on every PDF page fragment. */
+	-webkit-box-decoration-break: clone;
+	box-decoration-break: clone;
+}
+
+/* For default-background callouts, render the border outline. */
+.callout.block-color-default_background {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+/*
+ * Toggles and callouts hold arbitrary content, so they can easily be taller
+ * than a page. They must stay breakable: avoiding breaks inside them makes
+ * Chromium push the whole block onto the next page, which leaves the previous
+ * page mostly empty before every long toggle.
+ */
+details,
+aside {
+	margin: 1.25em 0;
+}
+
+/* Keep a toggle's title on the same page as the start of its content. */
+summary {
+	page-break-after: avoid;
+	break-after: avoid;
+}
+
+/*
+ * Toggle headings render as <h1/h2/h3 style="display:inline-block"> inside
+ * <summary>. Without this reset, the heading's margin-top pushes it below the
+ * ::marker (▼), so the triangle and the title appear on separate lines.
+ */
+summary h1,
+summary h2,
+summary h3,
+summary h4 {
+	margin-top: 0;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding-inline: 0.125rem;
+	padding-block: 0.375rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+/*
+ * Render emoji icons using a ::before pseudo-element to keep the glyph
+ * out of the DOM textContent traversal. This avoids double-rendering icons
+ * in callouts and page titles.
+ * NOTE(slim/html-export-pseudo-icons): I can't tagref this because it will
+ * flag as a duplicate tag after codegen.
+ */
+.icon[data-emoji]::before {
+	content: attr(data-emoji);
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	margin-right: 0.4em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.tab {
+	margin: 1.25em 0;
+	padding-inline: 1rem;
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style><style>@import url('https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex-swap.min.css')</style></head><body><article id="402f6ce8-497f-80b4-a8a4-f0c02836164e" class="page sans" data-notion-page-icon="/icons/lock_blue.svg"><header><div class="page-header-icon undefined"><img class="icon notion-static-icon" src="https://app.notion.com/icons/lock_blue.svg"/></div><h1 class="page-title" dir="auto">Segurança Linux</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><h1 id="402f6ce8-497f-806c-8101-e86cb5a054d5" class="" dir="auto">Segurança em ambiente Linux</h1><h2 id="402f6ce8-497f-80a1-a46a-d2c6d658fe8b" class="" dir="auto">1. O que é segurança em ambiente Linux?</h2><p id="402f6ce8-497f-8006-b209-cbec37385d5a" class="" dir="auto">A segurança em ambiente Linux consiste no conjunto de mecanismos, ferramentas e práticas utilizados para proteger sistemas operacionais baseados em Linux contra acessos não autorizados, malwares, exploração de vulnerabilidades, roubo de informações e outros ataques cibernéticos.</p><p id="402f6ce8-497f-80f0-824d-db7fb9114a26" class="" dir="auto">O Linux é amplamente utilizado em servidores, computadores pessoais, dispositivos embarcados, serviços em nuvem e infraestrutura de redes. Por isso, sua segurança é importante tanto para usuários domésticos quanto para empresas e profissionais de cibersegurança.</p><p id="402f6ce8-497f-80ec-ad24-e091cb8febd4" class="" dir="auto">Algumas distribuições Linux conhecidas são Ubuntu, Debian, Fedora, Linux Mint, Red Hat Enterprise Linux e Kali Linux.</p><p id="402f6ce8-497f-803c-b8f1-ec50b40af704" class="" dir="auto">A segurança no Linux envolve diferentes camadas:</p><ul id="402f6ce8-497f-8017-8fe6-d419fab61a1f" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Gerenciamento de usuários e permissões.</li></ul><ul id="402f6ce8-497f-80fb-84b9-fa6d19e76ef6" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Autenticação e controle de privilégios.</li></ul><ul id="402f6ce8-497f-807a-a10e-e294c64bd0f8" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Atualizações e correções de vulnerabilidades.</li></ul><ul id="402f6ce8-497f-801e-aacb-c0664094763c" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Firewall e proteção de rede.</li></ul><ul id="402f6ce8-497f-8038-b53a-e603cb410afe" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Monitoramento de logs.</li></ul><ul id="402f6ce8-497f-80af-b6d8-d46effd8e205" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Criptografia de arquivos e discos.</li></ul><ul id="402f6ce8-497f-8051-928a-f70e9cb2680e" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Controle de serviços e processos.</li></ul><ul id="402f6ce8-497f-80ef-8732-d772b6ad1e48" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Detecção de atividades maliciosas.</li></ul><ul id="402f6ce8-497f-806f-8030-f12de293aeae" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Backup e recuperação de dados.</li></ul><p id="402f6ce8-497f-80e6-8c26-e553dbcca26c" class="" dir="auto">Exemplo: imagine que um servidor Linux hospede um site. Se um invasor explorar uma vulnerabilidade em um serviço web, as permissões corretamente configuradas podem limitar o acesso do invasor e impedir que ele comprometa todo o sistema.</p><h2 id="402f6ce8-497f-80ae-9adb-cfcaa22be457" class="" dir="auto">2. Usuários, grupos e privilégios</h2><p id="402f6ce8-497f-80ca-9d0a-c9072094427f" class="" dir="auto">Um dos principais mecanismos de segurança do Linux é o sistema de usuários, grupos e permissões.</p><p id="402f6ce8-497f-80d3-9425-e28823d4ee2c" class="" dir="auto">Cada usuário possui uma identidade própria, e suas permissões determinam quais arquivos, diretórios e recursos pode acessar.</p><p id="402f6ce8-497f-801c-a5e3-c01c1cd2698a" class="" dir="auto">Existem três conceitos importantes:</p><table id="402f6ce8-497f-80ed-8416-c0543402001a" class="simple-table" dir="ltr"><thead class="simple-table-header"><tr id="402f6ce8-497f-8061-afe9-ecccc9d7d5a1" dir="ltr"><th id="UVFX" class="simple-table-header-color simple-table-header">Conceito</th><th id="@YDw" class="simple-table-header-color simple-table-header">Descrição</th></tr></thead><tbody><tr id="402f6ce8-497f-80a7-b07d-da4c2bcde0a9" dir="ltr"><td id="UVFX" class="">Usuário comum</td><td id="@YDw" class="">Executa tarefas cotidianas com privilégios limitados.</td></tr><tr id="402f6ce8-497f-80df-b8cd-fead3e7df19a" dir="ltr"><td id="UVFX" class=""><code>root</code></td><td id="@YDw" class="">Conta administrativa com amplos privilégios sobre o sistema.</td></tr><tr id="402f6ce8-497f-8057-bb5d-e9804089dd79" dir="ltr"><td id="UVFX" class=""><code>sudo</code></td><td id="@YDw" class="">Permite executar comandos com privilégios elevados, conforme as permissões configuradas.</td></tr></tbody></table><p id="402f6ce8-497f-8071-99ed-e5fa02bddef1" class="" dir="auto">O usuário <code>root</code> tem capacidade para realizar operações críticas, como alterar arquivos do sistema, gerenciar usuários e instalar programas.</p><p id="402f6ce8-497f-8042-824f-cb965ac120f3" class="" dir="auto">Por esse motivo, não é recomendável executar todas as tarefas como <code>root</code>.</p><h3 id="402f6ce8-497f-80c2-a137-ff99b48fec30" class="" dir="auto">Exemplo de uso do sudo</h3><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="402f6ce8-497f-806a-92ff-e725bb6b6122" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">sudo apt update</code></pre><p id="402f6ce8-497f-8065-b03f-daa7c989cd95" class="" dir="auto">Em distribuições baseadas em Debian ou Ubuntu, esse comando atualiza a lista de pacotes disponíveis utilizando privilégios administrativos.</p><p id="402f6ce8-497f-8031-8767-fed68e9fb245" class="" dir="auto">O <code>sudo</code> permite elevar privilégios para uma operação específica sem exigir que o usuário trabalhe permanentemente como administrador.</p><p id="402f6ce8-497f-8075-bbdf-efe4b655711e" class="" dir="auto">Princípio do menor privilégio: cada usuário ou processo deve possuir somente as permissões necessárias para realizar sua função.</p><h2 id="402f6ce8-497f-80d3-925c-f4813594ff64" class="" dir="auto">3. Sistema de permissões de arquivos</h2><p id="402f6ce8-497f-8060-b923-ed7947927fe6" class="" dir="auto">O Linux utiliza permissões para controlar o acesso a arquivos e diretórios.</p><p id="402f6ce8-497f-80d5-89c1-cee88f34912a" class="" dir="auto">As três permissões básicas são:</p><table id="402f6ce8-497f-8082-930e-c2fc2017c177" class="simple-table" dir="ltr"><thead class="simple-table-header"><tr id="402f6ce8-497f-802e-afd4-e2983cb8de80" dir="ltr"><th id=";ECk" class="simple-table-header-color simple-table-header">Permissão</th><th id="ATMa" class="simple-table-header-color simple-table-header">Significado</th><th id="t}W:" class="simple-table-header-color simple-table-header">Arquivo</th><th id="HqSu" class="simple-table-header-color simple-table-header">Diretório</th></tr></thead><tbody><tr id="402f6ce8-497f-808d-9e74-e1b8305d0b02" dir="ltr"><td id=";ECk" class=""><code>r</code></td><td id="ATMa" class="">Read (leitura)</td><td id="t}W:" class="">Ler o conteúdo.</td><td id="HqSu" class="">Listar os nomes dos itens, sujeito a outras permissões.</td></tr><tr id="402f6ce8-497f-8010-8185-fbc38192b729" dir="ltr"><td id=";ECk" class=""><code>w</code></td><td id="ATMa" class="">Write (escrita)</td><td id="t}W:" class="">Modificar o conteúdo.</td><td id="HqSu" class="">Criar, excluir ou renomear itens, conforme as demais permissões.</td></tr><tr id="402f6ce8-497f-800a-aa9a-f7f62fb0ebfb" dir="ltr"><td id=";ECk" class=""><code>x</code></td><td id="ATMa" class="">Execute (execução)</td><td id="t}W:" class="">Executar o arquivo, se aplicável.</td><td id="HqSu" class="">Acessar ou atravessar o diretório.</td></tr></tbody></table><p id="402f6ce8-497f-8087-8df3-f40a2e40258f" class="" dir="auto">Essas permissões são definidas para três categorias:</p><ul id="402f6ce8-497f-802c-b071-eda7750b40b2" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Usuário (<code>u</code>): proprietário do arquivo.</li></ul><ul id="402f6ce8-497f-80ae-afb9-df057b9d7e67" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Grupo (<code>g</code>): grupo associado ao arquivo.</li></ul><ul id="402f6ce8-497f-8030-96a6-df92af7ccbcc" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Outros (<code>o</code>): demais usuários.</li></ul><h3 id="402f6ce8-497f-802e-bc8e-ef686978dbcc" class="" dir="auto">Exemplo</h3><p id="402f6ce8-497f-8034-994f-c8055d5ddd33" class="" dir="auto">Ao executar:</p><pre id="402f6ce8-497f-8025-a287-cb3f053905df" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">ls -l documento.txt</code></pre><p id="402f6ce8-497f-8014-8d23-f759f04979cc" class="" dir="auto">Você poderá encontrar uma saída semelhante a:</p><pre id="402f6ce8-497f-80bf-9546-daa6363aef9c" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">-rw-r--r-- 1 gustavo usuarios 1200 documento.txt</code></pre><p id="402f6ce8-497f-80aa-811b-d2ef66c0538b" class="" dir="auto">Nesse exemplo:</p><ul id="402f6ce8-497f-8033-b5b9-def6546167ea" class="bulleted-list" dir="auto"><li style="list-style-type:disc">O proprietário pode ler e modificar o arquivo.</li></ul><ul id="402f6ce8-497f-8022-81cc-d32694d5c061" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Os integrantes do grupo podem apenas ler.</li></ul><ul id="402f6ce8-497f-80da-b529-eacb9c335fdf" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Os demais usuários também podem apenas ler.</li></ul><h3 id="402f6ce8-497f-8043-a33d-f155679256e8" class="" dir="auto">Alterando permissões com chmod</h3><p id="402f6ce8-497f-80b6-b4fa-e4eb85c3b163" class="" dir="auto">O comando <code>chmod</code> modifica as permissões de arquivos e diretórios.</p><pre id="402f6ce8-497f-80a2-9cbc-cfcb51ac9304" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">chmod 600 documento.txt</code></pre><p id="402f6ce8-497f-80a4-9ed2-e995dd99a7a8" class="" dir="auto">Nesse caso, somente o proprietário recebe permissões de leitura e escrita, enquanto grupo e outros não recebem permissões.</p><p id="402f6ce8-497f-80cc-8b79-c1a3c84e43b8" class="" dir="auto">Outro exemplo:</p><pre id="402f6ce8-497f-8051-9a49-dd9f4da2e6df" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">chmod 700 script.sh</code></pre><p id="402f6ce8-497f-8032-a7fc-e4bc01d146b8" class="" dir="auto">O proprietário pode ler, modificar e executar o arquivo, enquanto os demais não recebem essas permissões.</p><p id="402f6ce8-497f-807c-8248-e1d1a9a7fabe" class="" dir="auto">Também é possível alterar o proprietário usando <code>chown</code>:</p><pre id="402f6ce8-497f-804f-8aa0-ff37febc50c6" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">sudo chown usuario:grupo documento.txt</code></pre><p id="402f6ce8-497f-800f-97b9-c1cc44536c6b" class="" dir="auto">É importante evitar permissões excessivamente abertas, como <code>777</code>, em arquivos e diretórios sensíveis.</p><h2 id="402f6ce8-497f-802f-ba17-e6dea39e7c87" class="" dir="auto">4. Autenticação e segurança de contas</h2><p id="402f6ce8-497f-8085-9c56-ce638a847bd9" class="" dir="auto">A autenticação é o processo de verificar a identidade de um usuário antes de permitir o acesso ao sistema.</p><p id="402f6ce8-497f-80f3-9177-cd490de82415" class="" dir="auto">No Linux, ela pode envolver:</p><ul id="402f6ce8-497f-8075-9e0c-e73d1f5ac634" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Senhas.</li></ul><ul id="402f6ce8-497f-80f4-9ea4-cb09b041ad23" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Chaves criptográficas SSH.</li></ul><ul id="402f6ce8-497f-809e-8842-ffdcfaefa9b2" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Autenticação multifator, quando configurada.</li></ul><ul id="402f6ce8-497f-809d-9b0c-f5b8b1fc588d" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Políticas de bloqueio e controle de tentativas.</li></ul><ul id="402f6ce8-497f-80c1-bb7b-fdadb07523ed" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Restrições de acesso a contas privilegiadas.</li></ul><p id="402f6ce8-497f-803e-a79f-cb31e178a965" class="" dir="auto">As senhas locais normalmente são armazenadas como hashes protegidos, e não como texto simples, em arquivos como <code>/etc/shadow</code>, cujo acesso é restrito.</p><h3 id="402f6ce8-497f-8009-b99f-d50b599316dd" class="" dir="auto">Protegendo o acesso remoto com SSH</h3><p id="402f6ce8-497f-8095-9702-e26604ce1917" class="" dir="auto">O SSH (Secure Shell) permite administrar máquinas remotamente por meio de uma conexão criptografada.</p><p id="402f6ce8-497f-803e-b496-d74bb6f9ffeb" class="" dir="auto">Exemplo de conexão:</p><pre id="402f6ce8-497f-80e1-b76f-e6999844e95a" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">ssh usuario@192.168.1.100</code></pre><p id="402f6ce8-497f-80cf-ad4e-fee3e83173ca" class="" dir="auto">Em servidores, a autenticação por chaves SSH pode ser preferível a depender exclusivamente de senhas, desde que as chaves privadas sejam protegidas adequadamente.</p><p id="402f6ce8-497f-805c-a204-cec51239579d" class="" dir="auto">Boas práticas incluem:</p><ul id="402f6ce8-497f-8050-a425-fd14dce3968b" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Utilizar senhas fortes e exclusivas.</li></ul><ul id="402f6ce8-497f-809f-b96e-f839e6476ebd" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Proteger as chaves privadas com permissões adequadas.</li></ul><ul id="402f6ce8-497f-80d7-99c7-ef165b1976f9" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Restringir quais usuários podem acessar o SSH.</li></ul><ul id="402f6ce8-497f-80d8-a62f-d098c79775a0" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Desativar o login remoto direto de <code>root</code> quando não for necessário.</li></ul><ul id="402f6ce8-497f-80e2-a3ec-f189fed786ae" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Considerar autenticação multifator em ambientes que a suportem.</li></ul><p id="402f6ce8-497f-80f8-aa51-d3d33b563318" class="" dir="auto">A porta padrão do SSH é a TCP 22, mas mudar a porta, isoladamente, não torna um servidor seguro.</p><h2 id="402f6ce8-497f-8059-9e75-fa803dcf4795" class="" dir="auto">5. Atualizações e gerenciamento de vulnerabilidades</h2><p id="402f6ce8-497f-8003-9c4f-cbe3cd22c9ce" class="" dir="auto">Manter o sistema atualizado é uma das práticas mais importantes de segurança.</p><p id="402f6ce8-497f-808d-a9ab-d679bd53da2a" class="" dir="auto">Uma vulnerabilidade pode permitir que um invasor execute código, obtenha privilégios, acesse informações ou interrompa serviços.</p><p id="402f6ce8-497f-8011-a53f-eb5ab0add2b2" class="" dir="auto">As distribuições Linux disponibilizam atualizações por meio de seus gerenciadores de pacotes.</p><p id="402f6ce8-497f-801d-a391-cf2f6c9e137e" class="" dir="auto">Exemplos:</p><table id="402f6ce8-497f-80c2-9f7e-f17234b83a5a" class="simple-table" dir="ltr"><thead class="simple-table-header"><tr id="402f6ce8-497f-80e8-94c9-da4eccdb9f8d" dir="ltr"><th id="LBGa" class="simple-table-header-color simple-table-header">Distribuição</th><th id="X{:O" class="simple-table-header-color simple-table-header">Gerenciador</th><th id="]^g?" class="simple-table-header-color simple-table-header">Comandos comuns</th></tr></thead><tbody><tr id="402f6ce8-497f-8051-b02c-e37d7a1493a3" dir="ltr"><td id="LBGa" class="">Ubuntu e Debian</td><td id="X{:O" class="">APT</td><td id="]^g?" class=""><code>sudo apt update</code> e <code>sudo apt upgrade</code></td></tr><tr id="402f6ce8-497f-80ea-9634-eaa6b4670eb2" dir="ltr"><td id="LBGa" class="">Fedora</td><td id="X{:O" class="">DNF</td><td id="]^g?" class=""><code>sudo dnf upgrade</code></td></tr><tr id="402f6ce8-497f-8038-b8a8-cc06f20a0bfc" dir="ltr"><td id="LBGa" class="">Arch Linux</td><td id="X{:O" class="">Pacman</td><td id="]^g?" class=""><code>sudo pacman -Syu</code></td></tr></tbody></table><p id="402f6ce8-497f-8014-a150-c8a1fbcc30dc" class="" dir="auto">O primeiro comando do exemplo APT atualiza a lista de pacotes disponíveis; o segundo instala as atualizações aplicáveis.</p><p id="402f6ce8-497f-80bd-b696-cd1c668dcee7" class="" dir="auto">O gerenciamento de vulnerabilidades também envolve:</p><ol type="1" id="402f6ce8-497f-8031-9bfa-eee35f4fcd11" class="numbered-list" start="1" dir="auto"><li>Identificar a distribuição e sua versão.</li></ol><ol type="1" id="402f6ce8-497f-8026-97e9-d317c9f304d6" class="numbered-list" start="2" dir="auto"><li>Verificar avisos de segurança.</li></ol><ol type="1" id="402f6ce8-497f-80bf-ae89-d5859da04a6a" class="numbered-list" start="3" dir="auto"><li>Atualizar o sistema e os aplicativos.</li></ol><ol type="1" id="402f6ce8-497f-8012-9458-c90fdad2dc80" class="numbered-list" start="4" dir="auto"><li>Reiniciar serviços ou o computador quando necessário.</li></ol><ol type="1" id="402f6ce8-497f-8064-99bb-f6eb787d2be0" class="numbered-list" start="5" dir="auto"><li>Confirmar se as correções foram aplicadas.</li></ol><ol type="1" id="402f6ce8-497f-8075-9b13-c3db4f06c4a5" class="numbered-list" start="6" dir="auto"><li>Substituir versões que não recebem mais suporte.</li></ol><p id="402f6ce8-497f-8072-9f0e-e5a70d24b7d3" class="" dir="auto">Em servidores, as atualizações devem considerar a disponibilidade dos serviços, os testes necessários e a possibilidade de recuperação caso ocorra algum problema.</p><h2 id="402f6ce8-497f-8054-9fa1-e6f8304aa6f1" class="" dir="auto">6. Firewall e segurança de rede</h2><p id="402f6ce8-497f-80f7-9022-c0463a80dfa3" class="" dir="auto">O firewall controla o tráfego de rede com base em regras. Ele pode permitir ou bloquear conexões de acordo com endereços, portas, protocolos e outros critérios.</p><p id="402f6ce8-497f-8064-a417-e92ee21f410d" class="" dir="auto">No Linux, ferramentas comuns incluem:</p><ul id="402f6ce8-497f-80bf-88d1-fb5caaf0b75b" class="bulleted-list" dir="auto"><li style="list-style-type:disc">nftables: estrutura moderna para filtragem de pacotes no kernel Linux.</li></ul><ul id="402f6ce8-497f-801e-b6ca-f722361e28ab" class="bulleted-list" dir="auto"><li style="list-style-type:disc">iptables: ferramenta tradicional ainda encontrada em diversos ambientes.</li></ul><ul id="402f6ce8-497f-809d-a2d3-fa11b34815d6" class="bulleted-list" dir="auto"><li style="list-style-type:disc">UFW: interface simplificada de gerenciamento de firewall, comum no Ubuntu.</li></ul><ul id="402f6ce8-497f-80e6-8437-c496c45fd302" class="bulleted-list" dir="auto"><li style="list-style-type:disc">firewalld: gerenciador de firewall utilizado em distribuições como Fedora e Red Hat Enterprise Linux.</li></ul><h3 id="402f6ce8-497f-8088-8cc7-e00495967b47" class="" dir="auto">Exemplo com UFW</h3><p id="402f6ce8-497f-8098-aad8-ff7f66cc2c9e" class="" dir="auto">Para verificar o estado do firewall:</p><pre id="402f6ce8-497f-8000-8553-c440571297de" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">sudo ufw status</code></pre><p id="402f6ce8-497f-80d8-82f3-d2c76b273c7a" class="" dir="auto">Para permitir conexões SSH:</p><pre id="402f6ce8-497f-80ef-8079-eba43a2d6ac3" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">sudo ufw allow 22/tcp</code></pre><p id="402f6ce8-497f-8004-b5f8-daeba8d67ba4" class="" dir="auto">Para habilitar o UFW:</p><pre id="402f6ce8-497f-8077-821e-f6953b6c380a" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">sudo ufw enable</code></pre><p id="402f6ce8-497f-80c6-a928-d4dbdb2bbf05" class="" dir="auto">Atenção: em um servidor remoto, habilitar o firewall sem configurar corretamente o acesso SSH pode bloquear sua própria conexão administrativa. Antes de aplicar regras, verifique os serviços necessários e tenha um meio de recuperação.</p><h3 id="402f6ce8-497f-80b0-b410-ef5c6ed18a3c" class="" dir="auto">Portas abertas</h3><p id="402f6ce8-497f-80c1-80d8-e85e0d537d8c" class="" dir="auto">Uma porta aberta pode indicar que existe um serviço aguardando conexões. Isso não significa necessariamente que exista uma vulnerabilidade, mas serviços desnecessários aumentam a superfície de ataque.</p><p id="402f6ce8-497f-8010-aa2a-e4778e656e87" class="" dir="auto">Para listar portas em escuta:</p><pre id="402f6ce8-497f-8098-85ac-d860a4b26aef" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">sudo ss -tulpen</code></pre><p id="402f6ce8-497f-806a-a951-ea4f9f747af6" class="" dir="auto">Esse comando ajuda a identificar serviços que estão aguardando conexões TCP ou UDP, além de apresentar informações adicionais conforme as permissões disponíveis.</p><h2 id="402f6ce8-497f-806e-af5e-debbe8e7c345" class="" dir="auto">7. Malware e ferramentas de proteção</h2><p id="402f6ce8-497f-8026-b6cc-fa76404ea3ea" class="" dir="auto">Embora o Linux tenha um modelo de permissões robusto, ele não é imune a malwares.</p><p id="402f6ce8-497f-8090-a365-febd1745297a" class="" dir="auto">Entre as ameaças possíveis estão:</p><ul id="402f6ce8-497f-80e1-a69a-d0e10953bd87" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Trojans: programas que aparentam ser legítimos, mas executam ações maliciosas.</li></ul><ul id="402f6ce8-497f-805d-8349-ef1cf0c40188" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Ransomware: malware que criptografa dados ou impede o acesso a eles para exigir resgate.</li></ul><ul id="402f6ce8-497f-8077-a9f3-e816f4a3d570" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Rootkits: ferramentas maliciosas que tentam ocultar sua presença e manter privilégios.</li></ul><ul id="402f6ce8-497f-8041-add3-eaead9789ddd" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Cryptojacking: uso não autorizado dos recursos do computador para mineração de criptomoedas.</li></ul><ul id="402f6ce8-497f-8067-a519-f93ed8b8f162" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Worms: programas capazes de se propagar automaticamente em determinadas condições.</li></ul><ul id="402f6ce8-497f-8077-8422-e1f3e3c3ccb9" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Backdoors: mecanismos que permitem acesso não autorizado ao sistema.</li></ul><p id="402f6ce8-497f-8047-98f2-ea666ccc9ce4" class="" dir="auto">Algumas ferramentas que podem ajudar na proteção ou investigação incluem:</p><table id="402f6ce8-497f-8077-bed6-dcc52b6b5c9a" class="simple-table" dir="ltr"><thead class="simple-table-header"><tr id="402f6ce8-497f-80a3-b5fa-f4181155a6f4" dir="ltr"><th id="yB\j" class="simple-table-header-color simple-table-header">Ferramenta</th><th id="YN^r" class="simple-table-header-color simple-table-header">Finalidade</th></tr></thead><tbody><tr id="402f6ce8-497f-80cf-b461-fb76e88dbf0f" dir="ltr"><td id="yB\j" class="">ClamAV</td><td id="YN^r" class="">Antivírus que pode detectar diversos tipos de arquivos maliciosos.</td></tr><tr id="402f6ce8-497f-80db-bc7e-d1c17ce97555" dir="ltr"><td id="yB\j" class="">AIDE</td><td id="YN^r" class="">Verifica alterações em arquivos e diretórios comparando-os com uma referência.</td></tr><tr id="402f6ce8-497f-8046-9a2f-dba288a5dbe9" dir="ltr"><td id="yB\j" class="">rkhunter</td><td id="YN^r" class="">Procura indicadores associados a determinados rootkits e configurações suspeitas.</td></tr><tr id="402f6ce8-497f-8039-acb9-de09c74bd4c1" dir="ltr"><td id="yB\j" class="">auditd</td><td id="YN^r" class="">Registra eventos de auditoria conforme as regras configuradas.</td></tr><tr id="402f6ce8-497f-8008-91e3-fee373f4ad0c" dir="ltr"><td id="yB\j" class="">Fail2ban</td><td id="YN^r" class="">Pode bloquear temporariamente origens associadas a repetidas tentativas de acesso malsucedidas.</td></tr></tbody></table><p id="402f6ce8-497f-8091-bc3c-ceee84c6b64f" class="" dir="auto">Essas ferramentas têm limitações e podem gerar falsos positivos. Nenhuma delas, isoladamente, garante que um sistema esteja livre de ameaças.</p><h2 id="402f6ce8-497f-8085-aeca-fa70e7c905f6" class="" dir="auto">8. SELinux e AppArmor</h2><p id="402f6ce8-497f-80fe-bbdb-dda318f111a5" class="" dir="auto">Além das permissões tradicionais, o Linux pode utilizar mecanismos de controle de acesso obrigatório, conhecidos como Mandatory Access Control (MAC).</p><p id="402f6ce8-497f-80fe-99e4-f24264dae396" class="" dir="auto">Eles permitem restringir as ações de processos mesmo quando as permissões tradicionais não seriam suficientes para impor determinada política.</p><h3 id="402f6ce8-497f-8099-a0ca-c7bba2d66431" class="" dir="auto">SELinux</h3><p id="402f6ce8-497f-80e6-8832-d8e85620fdfe" class="" dir="auto">O SELinux (Security-Enhanced Linux) utiliza políticas de segurança para controlar o acesso de processos a arquivos, portas e outros recursos.</p><p id="402f6ce8-497f-8019-a706-d21274db8a39" class="" dir="auto">É comum em ambientes baseados em Red Hat, como Fedora e Red Hat Enterprise Linux.</p><p id="402f6ce8-497f-8019-992b-de280423d89f" class="" dir="auto">O SELinux pode, por exemplo, impedir que um servidor web acesse arquivos que não fazem parte dos recursos autorizados para sua função.</p><h3 id="402f6ce8-497f-80b7-9fdb-e5429879d814" class="" dir="auto">AppArmor</h3><p id="402f6ce8-497f-802c-ac50-f3f82b93af35" class="" dir="auto">O AppArmor também restringe o comportamento de programas por meio de perfis de segurança.</p><p id="402f6ce8-497f-803f-bdc2-f467fceda52b" class="" dir="auto">É encontrado, por exemplo, em sistemas Ubuntu e em outras distribuições compatíveis.</p><p id="402f6ce8-497f-8050-88cb-caf5a41fbdda" class="" dir="auto">Esses perfis podem limitar os arquivos que um aplicativo pode acessar e as operações que pode executar.</p><p id="402f6ce8-497f-8079-bcd1-d1d700d7aa62" class="" dir="auto">A diferença prática é que o SELinux utiliza um modelo baseado em rótulos e políticas, enquanto o AppArmor utiliza principalmente perfis associados a programas e caminhos.</p><h2 id="402f6ce8-497f-8098-a71e-deca642fa842" class="" dir="auto">9. Logs e monitoramento</h2><p id="402f6ce8-497f-80e4-9978-dd88b742aa71" class="" dir="auto">Os logs registram atividades realizadas pelo sistema operacional, serviços e aplicativos. Eles são essenciais para identificar erros, investigar incidentes e compreender comportamentos suspeitos.</p><p id="402f6ce8-497f-8059-8144-cbbe166bd76a" class="" dir="auto">Em sistemas Linux, registros comuns ficam em:</p><pre id="402f6ce8-497f-80ec-a0c4-ee25551a5fa8" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">/var/log/</code></pre><p id="402f6ce8-497f-80aa-b09c-ca477adca2b5" class="" dir="auto">Alguns arquivos e serviços relevantes incluem:</p><ul id="402f6ce8-497f-805e-8922-c38eb4fef70f" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><code>auth.log</code>: registros de autenticação em distribuições Debian/Ubuntu que utilizam esse arquivo.</li></ul><ul id="402f6ce8-497f-8027-84d5-c7c1b2c6736e" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><code>secure</code>: registros de autenticação em algumas distribuições baseadas em Red Hat.</li></ul><ul id="402f6ce8-497f-8088-b628-cc5c396daef1" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><code>journalctl</code>: consulta registros mantidos pelo systemd-journald.</li></ul><ul id="402f6ce8-497f-8014-8b1d-dcbdde973f82" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><code>auditd</code>: registra eventos de auditoria quando configurado.</li></ul><p id="402f6ce8-497f-8040-8070-df902d11316b" class="" dir="auto">Os nomes e a localização dos registros variam conforme a distribuição.</p><h3 id="402f6ce8-497f-808b-8f17-d67e93ca66a3" class="" dir="auto">Exemplos de comandos</h3><p id="402f6ce8-497f-806a-83d0-f5dda8b77d5b" class="" dir="auto">Consultar registros do sistema:</p><pre id="402f6ce8-497f-8060-be7f-ec341fc43b5e" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">journalctl</code></pre><p id="402f6ce8-497f-80fc-b906-f0052b425223" class="" dir="auto">Consultar mensagens recentes do kernel:</p><pre id="402f6ce8-497f-8026-abdc-c3e5f12cba69" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">dmesg</code></pre><p id="402f6ce8-497f-8069-b9f7-e72319459d84" class="" dir="auto">Consultar os registros de autenticação no Ubuntu, quando esse arquivo estiver disponível:</p><pre id="402f6ce8-497f-803f-83df-c2bffb9714e0" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">sudo tail -n 50 /var/log/auth.log</code></pre><p id="402f6ce8-497f-806c-b287-fed1f15f2044" class="" dir="auto">Essas consultas podem ajudar a investigar falhas de login, erros de serviços e alterações inesperadas.</p><p id="402f6ce8-497f-8036-a94b-ef8a5becc64c" class="" dir="auto">Em ambientes corporativos, os registros podem ser centralizados em uma solução SIEM para correlacionar eventos de várias máquinas.</p><h2 id="402f6ce8-497f-807c-8c9d-ee9ef58481f4" class="" dir="auto">10. Criptografia e proteção de dados</h2><p id="402f6ce8-497f-8039-920b-e2a7e8a27cbb" class="" dir="auto">A criptografia protege informações contra leitura não autorizada.</p><p id="402f6ce8-497f-80a9-8fcd-c8269bc1e15c" class="" dir="auto">No Linux, ela pode ser aplicada tanto aos dados armazenados quanto às comunicações.</p><p id="402f6ce8-497f-80ef-9f0b-f98778859c53" class="" dir="auto">Alguns mecanismos importantes são:</p><ul id="402f6ce8-497f-80c8-bb24-dbecfa77a299" class="bulleted-list" dir="auto"><li style="list-style-type:disc">LUKS: utilizado para criptografia de volumes ou partições, normalmente integrado ao <code>dm-crypt</code>.</li></ul><ul id="402f6ce8-497f-80a6-926c-d9e3533169dd" class="bulleted-list" dir="auto"><li style="list-style-type:disc">GPG: permite criptografar e assinar arquivos ou mensagens.</li></ul><ul id="402f6ce8-497f-80f3-9b06-c29de43ab309" class="bulleted-list" dir="auto"><li style="list-style-type:disc">SSH: protege sessões administrativas remotas.</li></ul><ul id="402f6ce8-497f-80dc-97e1-c9012236adf8" class="bulleted-list" dir="auto"><li style="list-style-type:disc">TLS: protege comunicações entre aplicações quando configurado corretamente.</li></ul><h3 id="402f6ce8-497f-805b-94f9-dba3d51ad0b5" class="" dir="auto">Exemplo de criptografia de disco</h3><p id="402f6ce8-497f-8058-8ba7-f284f663c1de" class="" dir="auto">O LUKS pode ser utilizado para proteger uma partição ou unidade. Dessa forma, o acesso aos dados depende do mecanismo de desbloqueio configurado.</p><p id="402f6ce8-497f-80fa-ab60-e25a85ebefc5" class="" dir="auto">A criptografia de disco é especialmente útil em notebooks, computadores portáteis e servidores que armazenam informações confidenciais.</p><p id="402f6ce8-497f-8037-bc48-eb6c7b157cbf" class="" dir="auto">É necessário proteger as senhas e chaves de recuperação: perder o material necessário para desbloquear um volume pode resultar na perda do acesso aos dados.</p><h2 id="402f6ce8-497f-80e2-831a-c5f38dd9044b" class="" dir="auto">11. Segurança de serviços e processos</h2><p id="402f6ce8-497f-8070-b081-fb5976edf330" class="" dir="auto">Um sistema Linux frequentemente executa serviços em segundo plano, como servidores web, bancos de dados, serviços SSH e aplicações empresariais.</p><p id="402f6ce8-497f-8016-9575-d7abb29484e0" class="" dir="auto">Cada serviço em execução pode representar uma possível superfície de ataque.</p><p id="402f6ce8-497f-802b-b9e4-c2cf2850b453" class="" dir="auto">Por isso, recomenda-se:</p><ul id="402f6ce8-497f-8031-83be-cedf0847962b" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Desativar serviços desnecessários.</li></ul><ul id="402f6ce8-497f-80d7-bc4c-d086d9c5a0e0" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Executar cada aplicação com uma conta de privilégios limitados.</li></ul><ul id="402f6ce8-497f-8084-95c3-e4590d5c345a" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Restringir as interfaces e portas nas quais os serviços escutam.</li></ul><ul id="402f6ce8-497f-808b-82a1-fd209861a535" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Remover ou desabilitar softwares que não são utilizados.</li></ul><ul id="402f6ce8-497f-80a7-abc9-c5d492855870" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Monitorar processos e consumo de recursos.</li></ul><ul id="402f6ce8-497f-805a-8d9e-da66c5c43ced" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Isolar aplicações quando possível, usando mecanismos como contêineres e políticas de segurança.</li></ul><h3 id="402f6ce8-497f-80db-a73a-d3dde680f2b5" class="" dir="auto">Comandos úteis</h3><p id="402f6ce8-497f-80d2-a7f8-db3306c479f3" class="" dir="auto">Listar serviços em execução com systemd:</p><pre id="402f6ce8-497f-8012-9e76-feccfee86a88" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">systemctl --type=service --state=running</code></pre><p id="402f6ce8-497f-80c5-88b0-fda419ab43d7" class="" dir="auto">Listar processos:</p><pre id="402f6ce8-497f-8032-9906-f272434fca91" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">ps aux</code></pre><p id="402f6ce8-497f-8096-9222-fed60ac93337" class="" dir="auto">Consultar recursos em tempo real:</p><pre id="402f6ce8-497f-8067-aa3f-c8d425b66d41" class="code code-wrap"><code style="white-space:pre-wrap;word-break:break-all">top</code></pre><p id="402f6ce8-497f-80a0-aadc-de1a63b0f840" class="" dir="auto">Esses comandos ajudam a entender o que está ativo no sistema. Um processo desconhecido não é automaticamente malicioso, mas pode merecer investigação quando apresenta comportamento incomum.</p><h2 id="402f6ce8-497f-808d-b7ea-d4c70243e89f" class="" dir="auto">12. Backup e recuperação</h2><p id="402f6ce8-497f-803a-a765-ce2e8a158436" class="" dir="auto">O backup é fundamental para recuperar dados após falhas de hardware, exclusões acidentais, corrupção ou ataques cibernéticos.</p><p id="402f6ce8-497f-806e-96c7-c94e9d04149e" class="" dir="auto">Uma estratégia bastante conhecida é a regra 3-2-1:</p><ol type="1" id="402f6ce8-497f-80fd-af87-cc3deae2e33d" class="numbered-list" start="1" dir="auto"><li>Manter três cópias dos dados.</li></ol><ol type="1" id="402f6ce8-497f-805f-9b72-fe492769bb32" class="numbered-list" start="2" dir="auto"><li>Utilizar dois tipos diferentes de armazenamento.</li></ol><ol type="1" id="402f6ce8-497f-803b-aa5d-fc789d2a7634" class="numbered-list" start="3" dir="auto"><li>Manter uma cópia fora do ambiente principal.</li></ol><p id="402f6ce8-497f-80a2-b7c2-e6fa2e54883a" class="" dir="auto">Uma cópia desconectada ou protegida contra alterações ajuda a reduzir o risco de que um ransomware comprometa também os backups.</p><p id="402f6ce8-497f-8086-b5f4-e3d8c74e218a" class="" dir="auto">Além disso, é importante testar a restauração periodicamente. Um backup que nunca foi testado pode não funcionar como esperado no momento de uma emergência.</p><h2 id="402f6ce8-497f-8043-afc7-d18c37695ebc" class="" dir="auto">13. Hardening: fortalecimento da segurança do Linux</h2><p id="402f6ce8-497f-80df-905f-d660b0e82378" class="" dir="auto">O hardening é o processo de reduzir a superfície de ataque de um sistema por meio de configurações e medidas preventivas.</p><p id="402f6ce8-497f-80c0-91ee-e464b8778467" class="" dir="auto">Entre as práticas mais importantes estão:</p><ul id="402f6ce8-497f-80bd-82a3-d978a9c368f4" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Atualizar o sistema operacional.</li></ul><ul id="402f6ce8-497f-8097-b439-c89310af1630" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Desabilitar serviços desnecessários.</li></ul><ul id="402f6ce8-497f-80a3-9a68-f2fa600a1fc4" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Aplicar o princípio do menor privilégio.</li></ul><ul id="402f6ce8-497f-8017-859e-d00f2be7273d" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Configurar corretamente o firewall.</li></ul><ul id="402f6ce8-497f-80c1-8ae4-dcb69e3e5923" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Proteger o SSH e as contas administrativas.</li></ul><ul id="402f6ce8-497f-805c-88e2-cf938cf58f4f" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Aplicar políticas SELinux ou AppArmor quando apropriado.</li></ul><ul id="402f6ce8-497f-809d-bb08-dc43eb111842" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Monitorar logs e eventos.</li></ul><ul id="402f6ce8-497f-80aa-83d3-ee5002d9d5d7" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Utilizar criptografia e backups.</li></ul><ul id="402f6ce8-497f-8091-a2d3-eb7cf16a4685" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Remover pacotes e componentes desnecessários.</li></ul><ul id="402f6ce8-497f-804f-984e-f3630fead995" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Revisar permissões de arquivos e diretórios.</li></ul><p id="402f6ce8-497f-8060-b9c1-c0b528f9fd99" class="" dir="auto">O hardening deve considerar a finalidade da máquina. Um servidor web, por exemplo, precisa de configurações diferentes das de um notebook utilizado para estudos.</p><h2 id="402f6ce8-497f-8038-ade2-da80d4bb9e5d" class="" dir="auto">14. Exemplo prático: checklist de segurança em Linux</h2><p id="402f6ce8-497f-8072-8ae7-df2e4806b597" class="" dir="auto">Imagine que você esteja preparando um computador Linux para estudar programação ou hospedar um pequeno projeto.</p><h2 id="402f6ce8-497f-8039-8625-c96f5e79bdf4" class="" dir="auto">Checklist de segurança</h2><p id="402f6ce8-497f-8038-82fd-dd41c6e253d2" class="" dir="auto">0 de 8</p><ul id="402f6ce8-497f-80f4-b5f9-cae29eed0290" class="to-do-list" dir="auto"><li><input type="checkbox" class="checkbox checkbox-off" disabled=""/> <span class="to-do-children-unchecked"></span><div class="indented"><p id="402f6ce8-497f-80d5-9899-f521b765c736" class="" dir="auto">Atualizar o sistema<br/>Instalar as correções disponíveis para a distribuição.</p></div></li></ul><ul id="402f6ce8-497f-80a3-8383-efadc3d99f49" class="to-do-list" dir="auto"><li><input type="checkbox" class="checkbox checkbox-off" disabled=""/> <span class="to-do-children-unchecked"></span><div class="indented"><p id="402f6ce8-497f-80e9-9e51-ee1782c3b23f" class="" dir="auto">Verificar usuários e privilégios<br/>Revisar contas existentes e evitar uso desnecessário de root.</p></div></li></ul><ul id="402f6ce8-497f-80a4-919e-cf62c8bd738a" class="to-do-list" dir="auto"><li><input type="checkbox" class="checkbox checkbox-off" disabled=""/> <span class="to-do-children-unchecked"></span><div class="indented"><p id="402f6ce8-497f-8008-9524-f6b89b74b764" class="" dir="auto">Conferir permissões<br/>Restringir o acesso a arquivos e diretórios sensíveis.</p></div></li></ul><ul id="402f6ce8-497f-8088-87f2-f9bc723c738c" class="to-do-list" dir="auto"><li><input type="checkbox" class="checkbox checkbox-off" disabled=""/> <span class="to-do-children-unchecked"></span><div class="indented"><p id="402f6ce8-497f-8036-b2b1-e4f792f54d5a" class="" dir="auto">Configurar o firewall<br/>Permitir somente os serviços de rede necessários.</p></div></li></ul><ul id="402f6ce8-497f-804e-903b-f6810e86f0aa" class="to-do-list" dir="auto"><li><input type="checkbox" class="checkbox checkbox-off" disabled=""/> <span class="to-do-children-unchecked"></span><div class="indented"><p id="402f6ce8-497f-80eb-bf1b-d456e1af2d33" class="" dir="auto">Revisar serviços ativos<br/>Identificar processos e serviços que não precisam estar em execução.</p></div></li></ul><ul id="402f6ce8-497f-8051-8250-fb3398d38505" class="to-do-list" dir="auto"><li><input type="checkbox" class="checkbox checkbox-off" disabled=""/> <span class="to-do-children-unchecked"></span><div class="indented"><p id="402f6ce8-497f-80a7-ae67-e3391c05a9c2" class="" dir="auto">Proteger o acesso SSH<br/>Usar autenticação forte e restringir o acesso remoto.</p></div></li></ul><ul id="402f6ce8-497f-805b-baa7-d1a3b85a77eb" class="to-do-list" dir="auto"><li><input type="checkbox" class="checkbox checkbox-off" disabled=""/> <span class="to-do-children-unchecked"></span><div class="indented"><p id="402f6ce8-497f-80d1-8afa-efe669c61577" class="" dir="auto">Ativar registros relevantes<br/>Verificar logs de autenticação e de serviços.</p></div></li></ul><ul id="402f6ce8-497f-8061-81a2-c3ac75e4d942" class="to-do-list" dir="auto"><li><input type="checkbox" class="checkbox checkbox-off" disabled=""/> <span class="to-do-children-unchecked"></span><div class="indented"><p id="402f6ce8-497f-80f8-9b84-cbfc4ea5be4e" class="" dir="auto">Configurar backup<br/>Manter cópias protegidas e testar a recuperação dos dados.</p></div></li></ul><p id="402f6ce8-497f-804f-b3a1-ddc4bb97e70a" class="" dir="auto">Limpar checklistCopiar checklist</p><h2 id="402f6ce8-497f-803b-91fd-f14fdc147243" class="" dir="auto">15. Linux e Windows: diferenças de segurança</h2><p id="402f6ce8-497f-8073-93c2-fdddc72381d7" class="" dir="auto">Os dois sistemas possuem mecanismos de segurança robustos, mas apresentam diferenças na administração e nas ferramentas utilizadas.</p><table id="402f6ce8-497f-807e-8cf5-d53f43e06d55" class="simple-table" dir="ltr"><thead class="simple-table-header"><tr id="402f6ce8-497f-807f-916b-e9fc87cf8bde" dir="ltr"><th id="m{}p" class="simple-table-header-color simple-table-header">Aspecto</th><th id="Pp\w" class="simple-table-header-color simple-table-header">Linux</th><th id="PZm[" class="simple-table-header-color simple-table-header">Windows</th></tr></thead><tbody><tr id="402f6ce8-497f-80a1-9b72-e30d5c36a0ef" dir="ltr"><td id="m{}p" class="">Privilégios administrativos</td><td id="Pp\w" class=""><code>root</code> e <code>sudo</code></td><td id="PZm[" class="">Contas administrativas e UAC</td></tr><tr id="402f6ce8-497f-8013-b716-f908e167bea2" dir="ltr"><td id="m{}p" class="">Permissões de arquivos</td><td id="Pp\w" class="">Proprietário, grupo e outros; ACLs também são possíveis</td><td id="PZm[" class="">ACLs detalhadas, principalmente em volumes NTFS</td></tr><tr id="402f6ce8-497f-80d8-9c0c-f8b1846b281b" dir="ltr"><td id="m{}p" class="">Firewall</td><td id="Pp\w" class="">nftables, UFW, firewalld</td><td id="PZm[" class="">Microsoft Defender Firewall</td></tr><tr id="402f6ce8-497f-804e-bd33-f2eee8822b5e" dir="ltr"><td id="m{}p" class="">Proteção antimalware</td><td id="Pp\w" class="">Ferramentas variadas, conforme a distribuição e o ambiente</td><td id="PZm[" class="">Microsoft Defender Antivirus integrado</td></tr><tr id="402f6ce8-497f-801c-9f03-c1a2d99917ca" dir="ltr"><td id="m{}p" class="">Controle de acesso adicional</td><td id="Pp\w" class="">SELinux e AppArmor, entre outros</td><td id="PZm[" class="">Controles de integridade, políticas e mecanismos de isolamento</td></tr><tr id="402f6ce8-497f-8085-bc07-cd03a8fc8043" dir="ltr"><td id="m{}p" class="">Logs</td><td id="Pp\w" class="">journald e arquivos em <code>/var/log/</code>, entre outros</td><td id="PZm[" class="">Visualizador de Eventos e outros registros do sistema</td></tr><tr id="402f6ce8-497f-80f4-a236-da4417227a09" dir="ltr"><td id="m{}p" class="">Criptografia de disco</td><td id="Pp\w" class="">LUKS e outras soluções</td><td id="PZm[" class="">BitLocker e criptografia de dispositivo em edições compatíveis</td></tr></tbody></table><p id="402f6ce8-497f-80dd-9786-cbae5ff0ba3e" class="" dir="auto">Não é correto afirmar que um sistema é sempre mais seguro que o outro. A segurança real depende da configuração, das atualizações, dos aplicativos instalados, das permissões e dos hábitos dos usuários.</p><h2 id="402f6ce8-497f-80e4-8f08-c69dbfecf60c" class="" dir="auto">Resumo para anotações</h2><p id="402f6ce8-497f-80fb-832a-e502b79b26fb" class="" dir="auto">A segurança em ambiente Linux reúne mecanismos destinados a proteger o sistema operacional, os dados e os serviços contra ameaças digitais. Seus principais recursos incluem usuários e permissões, <code>sudo</code>, atualizações, firewall, SSH, criptografia, logs, ferramentas antimalware e mecanismos de controle de acesso como SELinux e AppArmor.</p><p id="402f6ce8-497f-8082-ab9b-e44e87730923" class="" dir="auto">O fortalecimento do sistema, ou hardening, reduz a superfície de ataque por meio da remoção de serviços desnecessários, da aplicação do menor privilégio, da configuração correta de controles de rede e do monitoramento contínuo.</p><p id="402f6ce8-497f-80e2-9b02-cf5e10076694" class="" dir="auto">Ideia central: o Linux oferece recursos importantes de segurança, mas sua proteção depende da configuração adequada, da manutenção contínua e da combinação de várias camadas de defesa.</p></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>
